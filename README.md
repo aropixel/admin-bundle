@@ -36,7 +36,9 @@
 
 - Create your symfony 4 project
 - Require Aropixel Admin Bundle : `composer require aropixel/admin-bundle`
+- Apply migrations
 - Include the routes
+- Create your first admin access : `php bin/console aropixel:admin:setup`
 
 
 ## License
