@@ -428,6 +428,58 @@ $(function() {
 
 
 
+    function resizePreview(spanPreview) {
+
+        var width = spanPreview.outerWidth();
+        var height = width * 9 / 16;
+        spanPreview.height(height);
+
+    }
+
+    var $videos = $('.video-type');
+    if ($videos.length) {
+
+        // Enable Select2 select for the length option
+        $videos.each(function() {
+
+            $(this).find('.preview').fitVids();
+            $(this).on('keyup', 'textarea', function() {
+
+                var srcArea = $(this).val().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
+                var $preview = $(this).closest('.video-type').find('.preview');
+                var $iframe = $preview.find('iframe');
+
+                if (srcArea) {
+                    if ($iframe) {
+                        var srcPreview = $preview.html().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
+                        if (!srcPreview || srcPreview[1] != srcArea[1]) {
+                            $preview.html($(this).val());
+                            $preview.fitVids();
+                        }
+                    }
+                }
+                else {
+                    $preview.empty().append('<span></span>');
+                    resizePreview($preview.find('span'));
+                }
+
+            });
+            $(this).find('textarea').trigger('keyup');
+
+        });
+
+
+        $( window ).resize(function() {
+            $('.video-type .preview span').each(function() {
+                resizePreview($(this));
+            });
+        });
+
+    }
+
+
+
+
     var $submitForm = $('#submitForm');
     if ($submitForm.length) {
 

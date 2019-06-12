@@ -11,3 +11,7 @@ in 0.1 minor versions.
 * 0.1.1 (2019-06-12)
 
  * Bugfix composer pour packagist
+
+* 0.1.2 (2019-06-12)
+
+ * Javascript pour champs formulaire de type vidéo
