@@ -1,0 +1,45 @@
+{
+  "name" : "aropixel/admin-bundle",
+  "description" : "Admin Aropixel",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "Joël Gomez Caballe",
+    "email" : "joel.gomez@aropixel.com"
+  }],
+  "keywords" : [
+    "aropixel admin bundle"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "autoload" : {
+    "psr-4" : {
+      "Aropixel\\AdminBundle\\" : ""
+    }
+  },
+  "require" : {
+    "friendsofsymfony/jsrouting-bundle": "^2.3",
+    "knplabs/knp-menu-bundle": "^2.2",
+    "knplabs/knp-paginator-bundle": "^3.0",
+    "liip/imagine-bundle": "^2.1",
+    "stof/doctrine-extensions-bundle": "^1.3",
+    "twig/extensions": "^1.5"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "aropixel:admin:setup": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "extra" : {
+    "private-dir": "private",
+    "branch-alias" : {
+      "dev-master" : "0.1"
+    }
+  }
+}

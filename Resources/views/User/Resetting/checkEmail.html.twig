@@ -1,0 +1,25 @@
+{% extends 'AropixelAdminBundle:Limitless/User:layout.html.twig' %}
+
+{% block fos_user_content %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+	<div class="row">
+	<div class="panel panel-body col-md-4 col-md-offset-4">
+        <div class="text-center">
+            <div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
+            <h5 class="content-group">Mot de passe oublié <small class="display-block">Réinitialiser votre mot de passe</small></h5>
+        </div>
+        <br />
+        <div class="alert bg-info alert-styled-left">
+			<button type="button" class="close" data-dismiss="alert"></button>
+			Un email vous a été envoyé à l'adresse <a href="#" class="alert-link">{{ email }}</a>.
+	    </div>
+
+    </div>
+    </div>
+
+</form>
+
+{% endblock %}
