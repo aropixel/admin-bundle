@@ -16,8 +16,7 @@
     <li>store and send incoming <a href="https://github.com/aropixel/menu-bundle">contacts</a> of your website</li>
   </ul>  
 </p>
-<br>
-<span align="center">
+
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/aropixel/admin-bundle.svg)
 [![GitHub issues](https://img.shields.io/github/issues/aropixel/admin-bundle.svg)](https://github.com/stisla/stisla/issues)
