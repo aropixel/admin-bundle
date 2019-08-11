@@ -1,5 +1,5 @@
 
-{% use "bootstrap_3_layout.html.twig" %}
+{% use "bootstrap_4_layout.html.twig" %}
 
 {% set modalLibrary = false %}
 
@@ -497,7 +497,7 @@
 
 {% block entity_collection_hidden_widget -%}
     {% set select2_multiple = multiple %}
-    <select {{ block('widget_attributes') }} class="hidden" {{multiple ? ' multiple' : ''}}>
+    <select {{ block('widget_attributes') }} class="hidden d-none" {{multiple ? ' multiple' : ''}}>
         {% for choice in choices %}
             <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
         {% endfor %}
