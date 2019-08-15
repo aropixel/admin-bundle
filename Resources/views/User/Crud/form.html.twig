@@ -1,0 +1,69 @@
+{% extends '@AropixelAdmin/Form/base.html.twig' %}
+
+{% block header_title %}Utilisateurs{% endblock %}
+{% block header_breadcrumb %}
+    <ul class="breadcrumb breadcrumb-caret position-right">
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('user_index') }}">Utilisateurs</a></li>
+        {% if user and user.id %}
+            <li class="breadcrumb-item active">Modifier</li>
+        {% else %}
+            <li class="breadcrumb-item active">Création</li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block formtitle %}{% if user and user.id %}Modifier un utilisateur{% else %}Ajouter un utilisateur{% endif %}{% endblock %}
+
+{% block formbody %}
+
+
+    <fieldset class="content-group">
+
+        <div class="section-title mt-0">Utilisateur</div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.lastName) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.firstName) }}
+            </div>
+        </div>
+
+        {% if is_granted('ROLE_SUPER_ADMIN') %}{{ form_row(form.superAdmin) }}{% endif %}
+
+    </fieldset>
+
+    <fieldset class="content-group">
+
+        <div class="section-title m-t-10">Identifiant / Mot de passe</div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_widget(form.plainPassword.second) }}
+            </div>
+        </div>
+
+
+    </fieldset>
+
+
+
+{% endblock %}
+
+{% block publishStatus %}
+
+    <div class="row form-group">
+        <div class="col-md-5">Actif</div>
+        <div class="col-md-7">
+            {{ form_widget(form.enabled, {'value': 'offline', 'label_attr': {'class' : 'radio-inline'}}) }}
+        </div>
+    </div>
+
+
+{% endblock %}

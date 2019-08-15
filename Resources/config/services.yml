@@ -1,0 +1,77 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+        bind:
+            $admin_client: '%aropixel_admin.client%'
+            $admin_copyright: '%aropixel_admin.copyright%'
+            $admin_theme: '%aropixel_admin.theme%'
+
+    Aropixel\AdminBundle\Command\AdminAccessCommand:
+        tags:
+            - { name: 'console.command', command: 'aropixel:admin:setup' }
+
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Aropixel\AdminBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+
+    Aropixel\AdminBundle\Menu\AbstractMenuListener:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Repository\UserRepository:
+        tags: ['doctrine.repository_service']
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\PasswordUpdater:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\UserManager:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\LoginFormAuthenticator:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Services\:
+        resource: '../../Services'
+
+    # Autowire des formulaires
+    Aropixel\AdminBundle\Form\Type\:
+        resource: '../../Form/Type'
+
+    # Autowire des extensions twig
+    Aropixel\AdminBundle\Twig\:
+        resource: '../../Twig'
+
+
+    Aropixel\AdminBundle\EventListener\DoFileCropListener:
+        arguments: ['@liip_imagine.data.manager','@liip_imagine.filter.manager','@liip_imagine.cache.manager']
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    Aropixel\AdminBundle\Imagine\Filter\ThumbnailFilter:
+        tags:
+            - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
+
+    Liip\ImagineBundle\Service\FilterService:
+        alias: 'liip_imagine.service.filter'

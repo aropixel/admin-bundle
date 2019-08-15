@@ -1,0 +1,213 @@
+{% extends '@AropixelAdmin/base.html.twig' %}
+
+{% if form is defined %}
+{% form_theme form '@AropixelAdmin/Form/layout.html.twig' %}
+{% endif %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/aropixeladmin/modules/cropper/cropper.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/aropixeladmin/modules/pickadate/themes/default.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/aropixeladmin/modules/pickadate/themes/default.date.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/aropixeladmin/modules/pickadate/themes/default.time.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/aropixeladmin/modules/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css">
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/jqueryui-interactions.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/jqueryui.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/pickadate/picker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/pickadate/legacy.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/pickadate/picker.date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/pickadate/picker.time.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/wysihtml5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/toolbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/parsers.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/locales/bootstrap-wysihtml5.ua-UA.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/cropper/cropper.min.js') }}"></script>
+{% endblock %}
+
+{% block header_elements %}
+    {% set baseroute = get_baseroute() %}
+    <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Liste">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-list fa-stack-1x fa-inverse"></i>
+    </a>
+    {% if app.request.get('_route') != baseroute ~ '_new' %}
+    <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+    </a>
+    {% endif %}
+    {% if delete_form is defined and delete_form %}
+    {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
+    <button type="button" id="delete_button" class="fa-stack danger" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+    </button>
+    {{ form_widget(delete_form._token) }}
+    {{ form_end(delete_form) }}
+    {% endif %}
+{% endblock %}
+
+{% block body -%}
+
+    {% for flash_message in app.session.flashbag.get('notice') %}
+    <div class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+        {{ flash_message|raw }}
+    </div>
+    {% endfor %}
+
+    {% for flash_message in app.session.flashbag.get('error') %}
+    <div class="alert alert-warning alert-styled-left alert-arrow-left alert-bordered">
+        <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+        {{ flash_message|raw }}
+    </div>
+    {% endfor %}
+
+
+    {% if block('navtabs') is defined %}
+    {% set _navtabs = block('navtabs') %}
+    <ul class="nav nav-tabs" id="myTab">
+            {{ _navtabs|raw }}
+    </ul>
+    {% endif %}
+
+
+    {% block panels %}
+
+    {{ form_start(form, {'attr': {'class': 'form-validate-jquery'}}) }}
+
+        {{ form_errors(form) }}
+
+        <div class="row">
+
+            <div class="form-content tab-content col-sm-12 col-md-7 col-lg-9">
+
+
+                {% block mainPanel %}
+                    <!-- Form horizontal -->
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h4 class="card-title">{% block formtitle %}{% endblock %}</h4>
+                        </div>
+
+                        <div class="card-body">
+
+                            {% block formbody %}{% endblock %}
+
+                        </div>
+
+                    </div>
+                {% endblock %}
+
+            </div>
+
+
+            <div class="form-sidebar col-sm-12 col-md-5 col-lg-3">
+
+                {% block sidebar %}
+
+                    {% if form.publishAt is defined or form.publishAt is defined %}
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs nav-tabs-bottom bottom-divided nav-tabs-icon" style="margin-bottom: 0">
+                            <li class="nav-item"><a href="#sidepanel-tab1" data-toggle="tab" class="nav-link active"><i class="fas fa-paper-plane position-left"></i><span> Publier</span></a></li>
+                            <li class="nav-item"><a href="#sidepanel-tab2" data-toggle="tab" class="nav-link"><i class="fas fa-bell position-left"></i><span> Programmer</span></a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="card border-left-xlg border-left-info">
+
+                        {% if form.publishAt is defined or form.publishAt is defined %}
+                        {% else %}
+                            <div class="card-heading">
+                                <h6 class="card-header no-margin"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Publier</h6>
+                            </div>
+                        {% endif %}
+
+                        <div class="card-body">
+
+                            <div class="panel-tab-content tab-content">
+                                <div class="tab-pane active has-padding" id="sidepanel-tab1">
+
+                                    {% block publishSlug %}
+                                        {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+                                    {% endblock %}
+
+                                    {% block publishStatus %}
+                                        {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                                    {% endblock %}
+
+                                    {% block publishCreated %}
+                                        {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+                                    {% endblock %}
+
+                                </div>
+
+                                {% if form.publishAt is defined or form.publishAt is defined %}
+                                    <div class="tab-pane has-padding" id="sidepanel-tab2">
+
+                                        {% block publishDates %}
+                                            {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
+                                        {% endblock %}
+
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                        <div class="card-footer text-right">
+
+                            {% block publishAction %}
+
+                                {% if preview is defined and preview %}
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-primary" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{preview}}" target="_blank">Aperçu</a></li>
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <button type="submit" class="btn btn-primary heading-btn pull-right" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                                {% endif %}
+
+
+                            {% endblock %}
+
+
+                        </div>
+                    </div>
+
+
+                    {% block sidebarImage %}
+
+                        {% if form.image is defined %}
+                            {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
+                        {% endif %}
+
+                        {% if form.files is defined %}
+                            {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
+                        {% endif %}
+
+                    {% endblock %}
+
+                {% endblock %}
+
+            </div>
+
+        </div>
+
+    {{ form_end(form) }}
+
+    {% endblock %}
+
+
+{% endblock %}
