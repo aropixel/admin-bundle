@@ -5,13 +5,11 @@ namespace Aropixel\AdminBundle\Controller;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\Crop;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
 
 
@@ -20,7 +18,7 @@ use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
  *
  * @Route("/image")
  */
-class ImageController extends Controller
+class ImageController extends AbstractController
 {
 
     private $datatableFieds = array();
@@ -51,7 +49,10 @@ class ImageController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //
-        $datatabler->setRepository('AropixelAdminBundle:Image', $this->datatableFieds);
+        $entities = $this->getParameter('aropixel_admin.entities');
+        $datatabler->setRepository($entities['image'], $this->datatableFieds);
+
+        //
         if ($datatabler->isCalled()) {
 
             //
@@ -141,25 +142,6 @@ class ImageController extends Controller
             $this->renderView('@AropixelAdmin/Image/Datatabler/button.html.twig', array('image' => $image))
         );
 
-    }
-
-    /**
-     * Lists all Image entities.
-     *
-     * @Route("/", name="image_list", options={"expose"=true}, methods={"GET"})
-     * @Template("AropixelAdminBundle:Image\Modal:thumbnail-list.html.twig")
-     */
-    public function listAction(Request $request)
-    {
-        //
-        $category = $request->get('category');
-
-        //
-        $repository = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image');
-        $images = $repository->findByCategory($category);
-
-        //
-        return array('images' => $images);
     }
 
 
@@ -380,47 +362,6 @@ class ImageController extends Controller
     }
 
 
-    /**
-     * Attach an Image.
-     *
-     * @Route("/detach", name="image_detach", options={"expose"=true}, methods={"POST"})
-     * @Template("AropixelAdminBundle:Main/Image:thumbnail.html.twig")
-     */
-    public function detachAction(Request $request)
-    {
-        //
-        $entity_id = $request->get('entity_id');
-        $image_id = $request->get('image_id');
-        $t_entity = explode('\\', $request->get('category'));
-
-        //
-        $entity_name = array_pop($t_entity);    array_pop($t_entity);
-        $short_namespace = implode('', $t_entity);
-
-        //
-        $em = $this->getDoctrine()->getManager();
-
-        //
-        if ($entity_id) {
-
-            $entity = $this->getDoctrine()->getRepository($short_namespace.':'.$entity_name)->find($entity_id);
-            $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
-
-            if ($entity && $image) {
-
-                $entity->setImage(null);
-                $em->flush();
-
-            }
-
-        }
-
-        return array(
-            'id' => $entity_id,
-            'image' => false,
-            'category' => $request->get('category'),
-        );
-    }
 
 
     /**
@@ -472,41 +413,12 @@ class ImageController extends Controller
 
 
 
-
-    /**
-     * Attach an Image.
-     *
-     * @Route("/settings", name="image_settings", options={"expose"=true}, methods={"GET"})
-     * @Template("AropixelAdminBundle:Image\Modal:settings.html.twig")
-     */
-    public function settingsAction(Request $request)
-    {
-
-        //
-        $image = false;
-        $image_id = $request->get('image_id', false);
-
-        //
-        if ($image_id) {
-
-            $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
-
-        }
-
-        //
-        return array('image' => $image);
-    }
-
-
-
-
     /**
      * Crop an Image.
      *
      * @Route("/crop", name="image_crop", options={"expose"=true}, methods={"GET"})
-     * @Template("AropixelAdminBundle:Main/Image/Modals:crop.html.twig")
      */
-    public function cropAction(Request $request, ImageManager $imageManager)
+    public function crop(Request $request, ImageManager $imageManager)
     {
         //
         $route_name = $request->get('route');
@@ -519,7 +431,7 @@ class ImageController extends Controller
         $filters = $imageManager->getCropFilters($route_name, $image);
 
         //
-        return array('filters' => $filters, 'image' => $image);
+        return $this->render('@AropixelAdmin/Image/Modals/crop.html.twig', array('filters' => $filters, 'image' => $image));
     }
 
 
@@ -528,7 +440,7 @@ class ImageController extends Controller
      *
      * @Route("/save_infos", name="image_crop_save", options={"expose"=true}, methods={"POST"})
      */
-    public function cropSaveAction(Request $request, ImageManager $imageManager)
+    public function cropSave(Request $request, ImageManager $imageManager)
     {
 
         //
