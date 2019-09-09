@@ -32,15 +32,17 @@
 
 {% block header_elements %}
     {% set baseroute = get_baseroute() %}
-    <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Liste">
-        <i class="fas fa-circle fa-stack-2x"></i>
-        <i class="fas fa-list fa-stack-1x fa-inverse"></i>
-    </a>
-    {% if app.request.get('_route') != baseroute ~ '_new' %}
-    <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
-        <i class="fas fa-circle fa-stack-2x"></i>
-        <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
-    </a>
+    {% if route_exists(baseroute ~ '_index')  %}
+        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Liste">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-list fa-stack-1x fa-inverse"></i>
+        </a>
+    {% endif %}
+    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        </a>
     {% endif %}
     {% if delete_form is defined and delete_form %}
     {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
