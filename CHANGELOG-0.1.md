@@ -25,3 +25,9 @@ in 0.1 minor versions.
  * Passage au bootstrap_4_layout
  * Mise en forme: bootstrap-select, input groups, wysihtml5 editor, ...
  * Bugfix & ajout getters sur Datatabler
+
+* 0.1.4 (20xx-xx-xx)
+
+ * Passe l'entité image en MappedSuperClass
+ * Utilisation de la police Roboto pour le corps de texte
+ * Verification de routes sur header elements de formulaire
