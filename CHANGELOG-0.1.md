@@ -26,8 +26,11 @@ in 0.1 minor versions.
  * Mise en forme: bootstrap-select, input groups, wysihtml5 editor, ...
  * Bugfix & ajout getters sur Datatabler
 
-* 0.1.4 (20xx-xx-xx)
+* 0.1.4 (2019-09-09)
 
  * Passe l'entité image en MappedSuperClass
  * Utilisation de la police Roboto pour le corps de texte
  * Verification de routes sur header elements de formulaire
+ * Fix createdOn fields in entities and datatable template
+
+* 0.1.5 (20xx-xx-xx)
