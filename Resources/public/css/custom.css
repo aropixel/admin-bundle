@@ -6,6 +6,79 @@
  */
 
 /*# sourceMappingURL=custom.css.map */
+/* roboto-300 - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/roboto-v20-latin-300.eot'); /* IE9 Compat Modes */
+    src: local('Roboto Light'), local('Roboto-Light'),
+    url('../fonts/roboto-v20-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/roboto-v20-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/roboto-v20-latin-300.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/roboto-v20-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/roboto-v20-latin-300.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-regular - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/roboto-v20-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local('Roboto'), local('Roboto-Regular'),
+    url('../fonts/roboto-v20-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/roboto-v20-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/roboto-v20-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/roboto-v20-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/roboto-v20-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-500 - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/roboto-v20-latin-500.eot'); /* IE9 Compat Modes */
+    src: local('Roboto Medium'), local('Roboto-Medium'),
+    url('../fonts/roboto-v20-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/roboto-v20-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/roboto-v20-latin-500.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/roboto-v20-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/roboto-v20-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-700 - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/roboto-v20-latin-700.eot'); /* IE9 Compat Modes */
+    src: local('Roboto Bold'), local('Roboto-Bold'),
+    url('../fonts/roboto-v20-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/roboto-v20-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/roboto-v20-latin-700.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/roboto-v20-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/roboto-v20-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-900 - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 900;
+    src: url('../fonts/roboto-v20-latin-900.eot'); /* IE9 Compat Modes */
+    src: local('Roboto Black'), local('Roboto-Black'),
+    url('../fonts/roboto-v20-latin-900.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/roboto-v20-latin-900.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/roboto-v20-latin-900.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/roboto-v20-latin-900.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/roboto-v20-latin-900.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+
+body {
+    font-family: "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.54;
+    color: #333333;
+}
+
 
 @media (min-width: 992px) and (max-width: 1169px) {
 
@@ -54,6 +127,14 @@
     }
 
 }
+
+.main-sidebar .sidebar-menu li.menu-header {
+    font-family: 'Nunito', 'Segoe UI', arial;
+}
+.main-sidebar .sidebar-menu li.nav-item a {
+    font-weight: 500;
+}
+
 
 body {
     background-color: #f1f5f2;
@@ -567,7 +648,19 @@ table.dataTable td, table.dataTable th {
 
 
 
-.card { border: 1px solid transparent; }
+.card { border: 1px solid transparent; color: #333333; }
+.card .card-title { font-family: 'Nunito', 'Segoe UI', arial; }
+.card .card-title.decorated:before {
+    content: ' ';
+    border-radius: 5px;
+    height: 8px;
+    width: 30px;
+    background-color: #6777ef;
+    display: inline-block;
+    float: left;
+    margin-top: 11px;
+    margin-right: 15px;
+}
 .card .card-body:first-child {
     padding-top: 25px;
 }
@@ -579,6 +672,66 @@ table.dataTable td, table.dataTable th {
     padding-right: 10px;
     margin-bottom: 0;
 }
+
+
+
+
+.badge {
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    font-size: 10px;
+    letter-spacing: 0.1px;
+    line-height: 1.55;
+    font-weight: 500;
+}
+
+.badge-flat {
+    background-color: transparent;
+    border-width: 2px;
+    border-radius: 0;
+    padding: 1px 4px 0 4px;
+}
+.badge-icon {
+    padding: 8px;
+    border-radius: 2px;
+    line-height: 1;
+}
+.badge-rounded {
+    border-radius: 100px;
+}
+.badge-default {
+    color: #fff;
+    background-color: #999999;
+    border-color: #999999;
+}
+
+
+.btn.btn-icon.btn-sm {
+    padding: 0 .4rem;
+    font-size: 12px;
+}
+.btn-flat {
+    border-width: 2px;
+    background-color: transparent;
+}
+.btn-rounded {
+    border-radius: 100px;
+}
+.btn.btn-icon.btn-sm .ion, .btn.btn-icon.btn-sm .fas, .btn.btn-icon.btn-sm .far, .btn.btn-icon.btn-sm .fab, .btn.btn-icon.btn-sm .fal {
+    font-size: 10px;
+}
+.btn-outline-lg {
+    border-width: 2px;
+}
+
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 12px 20px;
+    line-height: 1.54;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
 
 
 /* ------------------------------------------------------------------------------
