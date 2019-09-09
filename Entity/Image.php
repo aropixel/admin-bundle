@@ -10,9 +10,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Image
  *
- * @ORM\Table(name="image")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Aropixel\AdminBundle\Repository\ImageRepository")
+ * @ORM\MappedSuperclass(repositoryClass="Aropixel\AdminBundle\Repository\ImageRepository")
  */
 class Image
 {
