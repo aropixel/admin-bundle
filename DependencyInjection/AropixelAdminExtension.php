@@ -49,8 +49,8 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.entities', $config['entities']);
 
         if (isset($config['form_translations'])) {
-            $container->setParameter('aropixel_admin.form_translations.locales', $config['form_translations']['locales']);
-            $container->setParameter('aropixel_admin.form_translations.default_locale', $config['form_translations']['default_locale'] ?: $container->getParameter('kernel.default_locale', 'fr'));
+//            $container->setParameter('aropixel_admin.form_translations.locales', $config['form_translations']['locales']);
+//            $container->setParameter('aropixel_admin.form_translations.default_locale', $config['form_translations']['default_locale'] ?: $container->getParameter('kernel.default_locale', 'fr'));
         }
         else {
             $container->setParameter('aropixel_admin.form_translations.locales', array());
