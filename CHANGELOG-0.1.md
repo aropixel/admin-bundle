@@ -1,0 +1,42 @@
+CHANGELOG for 0.1.x
+===================
+
+This changelog references the relevant changes (bug and security fixes) done
+in 0.1 minor versions.
+
+* 0.1.6 (20xx-xx-xx)
+
+
+* 0.1.5 (2019-09-09)
+
+ * Remove translation initializations, as i18n is not yet supported
+ * Remove SensioFrameworkExtraBundle dependency
+
+* 0.1.4 (2019-09-09)
+
+ * Turn Image entity to MappedSuperClass
+ * Use Roboto as default form & list font
+ * Check routes in base form "header elements"
+ * Fix createdOn fields in entities and datatable template
+
+* 0.1.3 (2019-08-09)
+
+ * Add plugin fitvids for video form fields display
+ * Add plugin passy for password form fields
+ * Add plugin blockui
+ * Check "new" route exists in datatable form view
+ * Migration to bootstrap_4_layout
+ * CSS: bootstrap-select, input groups, wysihtml5 editor, ...
+ * Bugfix & add getters in Datatabler service
+
+* 0.1.2 (2019-06-12)
+
+ * Add javascript for VideoType form field
+
+* 0.1.1 (2019-06-12)
+
+ * Bugfix composer for packagist
+
+* 0.1.0 (2019-06-12)
+
+ * Import application

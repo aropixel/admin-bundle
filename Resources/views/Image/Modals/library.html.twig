@@ -1,0 +1,108 @@
+
+    <!-- Full width modal -->
+	<div id="modalLibrary" class="modal fade">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Choisir une image</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+
+					<div class="row">
+
+						<div id="library_container" class="col-md-8">
+							<table id="libraryDataTable" class="table" data-src="{{ path('image_ajax') }}">
+								<thead>
+									<tr>
+										<th width="30" class="no-sort"><input type="checkbox"></th>
+		                                <th width="90" class="no-sort">Aperçu</th>
+		                                <th>Titre</th>
+		                                <th>Date</th>
+		                                <th>Fichier</th>
+		                                <th width="60" class="text-center no-sort" align="center"></th>
+						            </tr>
+								</thead>
+							</table>
+						</div>
+
+						<div id="image_options" class="col-md-4">
+
+							<div class="m-l-30">
+
+								<div class="size-option m-t-15">
+
+									<h5 class="no-margin">Régler la taille de votre image</h5>
+									<p class="m-t-20">
+										Sélectionnez une taille pour les images à insérer dans l'éditeur.<br />
+										<strong>Attention à ne pas sélectionner une taille d'image supérieure à la taille originale.</strong> L'image insérée pourrait être de mauvaise qualité.
+									</p>
+
+									{% set myfilters = orphan_filters() %}
+									<div class="m-t-15">
+										<label>Largeur de l'image</label>
+										<select class="bootstrap-select" data-width="100%" name="img_size" id="img_size">
+											<option value="auto">Largeur auto</option>
+											<option value="100">Largeur 100px</option>
+											<option value="200">Largeur 200px</option>
+											<option value="300" selected>Largeur 300px</option>
+											<option value="400">Largeur 400px</option>
+											<option value="600">Largeur 600px</option>
+											<option value="800">Largeur 800px</option>
+											<option value="100pc">Largeur 100%</option>
+											{% if myfilters|length %}<option value="customfilter">Découpe prédéfinie</option>{% endif %}
+										</select>
+									</div>
+
+									<div class="m-t-15 size-filter-option" style="display: none">
+										<label><strong>Choisissez votre découpe</strong></label>
+										<select class="bootstrap-select" data-width="100%" name="img_filter" id="img_filter">
+											{% for filterSlug,filterDescription in myfilters %}
+											<option value="{{ filterSlug }}">{{ filterDescription }}</option>
+											{% endfor %}
+										</select>
+									</div>
+
+									<hr class="m-t-50 m-b-35" />
+
+								</div>
+
+								<div class="seo-option m-t-15">
+
+									<h5 class="no-margin">Référencement</h5>
+									<p class="m-t-20">
+										<strong>Renseignez l'attribut alt de votre balise image.</strong><br />
+										L'attribut <em>alt</em> est utilisée pour le référencement du site et de vos images.<br />
+										Elle permet d’associer des mots clés ou une expression à votre image.<br />
+									</p>
+
+									<div class="m-t-15">
+										<label>Attribut <em>alt</em> de votre balise image</label>
+										<input type="text" name="img_alt" id="img_alt" value="" class="form-control">
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="alert bg-info" style="border-radius: 0px; display: none" id="alertNoImg">
+					<span class="text-semibold">Attention!</span> Veuillez sélectionner une image.
+				</div>
+				<div class="modal-footer">
+					<div class="mr-auto">
+						<button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">Uploader une image <i class="icon-upload position-right"></i></button>
+						<ul class="progress-upload display-inline-block"></ul>
+					</div>
+					<button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+					<button type="button" class="btn btn-primary attach-images">Ajouter l'image</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /full width modal -->

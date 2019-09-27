@@ -1,0 +1,34 @@
+
+{{ form_widget(form.image) }}
+
+{# note: disabled template because we no longer use this
+{% set type = type is defined ? type : 'image' %}
+{% set entityField = field is defined ? field : 'image' %}
+{% set attachedImage = attribute(form.vars.value, entityField) %}
+
+{% if type=='image' and attachedImage is defined %}
+
+    {% set entityId = form.vars.value.id %}
+    {% set entityClass = get_class(form.vars.value) %}
+
+    <div class="panel-list im-manager"
+            data-im-type="{{ type }}"
+            data-im-entity-id="{{ entityId }}"
+            data-im-entity-class="{{ entityClass }}"
+            data-im-entity-field="{{ entityField }}"
+            data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
+
+        {{ include('@AropixelAdmin/Image:thumbnail.html.twig', { 'attachedImage' : attachedImage ? attachedImage.first : false }) }}
+
+    </div>
+
+    {% if loadLibrary is not defined or loadLibrary %}
+    {{ include('@AropixelAdmin/Image/Modals:library.html.twig', { 'attachedImage' : attachedImage, 'category' : entityClass }) }}
+    {% endif %}
+
+    {% if image is defined and image and image|crop_filters|length > 1 %}
+        {{ include('@AropixelAdmin/Image/Modals:crop.html.twig', { 'image' : attachedImage }) }}
+    {% endif %}
+
+{% endif %}
+ #}

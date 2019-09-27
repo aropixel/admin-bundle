@@ -1,0 +1,3 @@
+<a href="{{ image.getWebPath() | imagine_filter('admin_preview') }}" data-popup="lightbox">
+    <img src="{{ image.getWebPath() | imagine_filter('admin_thumbnail') }}" data-crop-path="{{ image.getWebPath() | imagine_filter('admin_crop') }}" alt="" class="img-rounded img-preview">
+</a>
