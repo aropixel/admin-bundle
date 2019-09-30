@@ -214,13 +214,19 @@ class ImageController extends AbstractController
 
         //
         $t_entity = explode('\\', $attachClass);
+
+        //not used anymore
+        //$entity_name = array_pop($t_entity);    array_pop($t_entity);
+
+        //not used anymore
+        //$short_namespace = implode('', $t_entity);
         $entity_name = array_pop($t_entity);    array_pop($t_entity);
         $short_namespace = implode('', $t_entity);
         $attachRepositoryName = $short_namespace.':'.$entity_name;
 
         //
         if ($attachId) {
-            $attachImage = $this->getDoctrine()->getRepository($attachRepositoryName)->find($attachId);
+            $attachImage = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
         }
         else {
             $attachImage = new $attachClass();
