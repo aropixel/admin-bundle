@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+	<title>{% block meta_title %}{{ app_client.name }} - Administration{% endblock %}</title>
+
+	{% block stylesheets %}
+
+		<!-- General CSS Files -->
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+
+		<!-- CSS Libraries -->
+
+		<!-- Template CSS -->
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
+
+
+		<!-- Awesome Font -->
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
+
+	{% endblock %}
+
+</head>
+<body>
+
+	{% set hour = "now"|date("H") %}
+
+	<div id="app">
+		<section class="section">
+			<div class="container mt-5">
+				<div class="row">
+					<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+						<div class="login-brand">
+							<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ app_client.name }}" width="100" class="shadow-light rounded-circle">
+						</div>
+
+						<div class="card card-primary">
+							<div class="card-header"><h4>{% if hour >= 5 and hour < 19 %}
+										Bonjour !
+									{% elseif hour >= 19 and hour <=23  %}
+										Bonsoir !
+									{% else %}
+										Bonne nuit !
+									{% endif %}</h4></div>
+
+							<div class="card-body">
+								<form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
+									<div class="form-group">
+										<label for="email">Identifiant</label>
+										<input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+										<div class="invalid-feedback">
+											Veuillez saisir votre identifiant
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="d-block">
+											<label for="password" class="control-label">Mot de passe</label>
+											<div class="float-right">
+												<a href="#" class="text-small">
+													Mot de passe oublié ?
+												</a>
+											</div>
+										</div>
+										<input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+										<div class="invalid-feedback">
+											Veuillez saisir votre mot de passe
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" name="remember_me" class="custom-control-input" tabindex="3" id="remember-me">
+											<label class="custom-control-label" for="remember-me">Se souvenir de moi</label>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+											Se connecter
+										</button>
+									</div>
+
+									<input type="hidden" name="_csrf_token"
+										   value="{{ csrf_token('authenticate') }}" />
+
+								</form>
+
+							</div>
+						</div>
+						<div class="simple-footer">
+							Copyright &copy; {{ app_client.name }} {{ "now"|date('Y') }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+
+</body>
+</html>

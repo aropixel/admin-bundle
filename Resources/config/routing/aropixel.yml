@@ -1,0 +1,19 @@
+# SECURITY
+sf_web_app_back_office_security:
+    resource: "@AropixelAdminBundle/Resources/config/routing/security.yml"
+
+aropixel_admin:
+    resource: "@AropixelAdminBundle/Controller/DefaultController.php"
+    type:     annotation
+
+aropixel_admin_users:
+    resource: "@AropixelAdminBundle/Controller/UserController.php"
+    type:     annotation
+
+aropixel_admin_images:
+    resource: "@AropixelAdminBundle/Controller/ImageController.php"
+    type:     annotation
+
+aropixel_admin_files:
+    resource: "@AropixelAdminBundle/Controller/FileController.php"
+    type:     annotation

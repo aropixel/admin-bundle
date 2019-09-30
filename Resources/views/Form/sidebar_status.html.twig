@@ -1,0 +1,12 @@
+
+    {% if form.status is defined  %}
+
+        {% set _status = (form.vars.value.status=='online' ? 'online' : 'offline') %}
+
+    <div class="row form-group">
+        <div class="col-md-4"><span class="semi-bold">Publier</span></div>
+        <div class="col-md-8">
+            {{ form_widget(form.status, {'value': 'offline', 'label_attr': {'class' : 'radio-inline'}}) }}
+        </div>
+    </div>
+    {% endif %}

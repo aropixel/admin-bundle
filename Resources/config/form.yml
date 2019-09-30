@@ -1,0 +1,6 @@
+services:
+    admin.form.type.user:
+        class: Aropixel\AdminBundle\Form\UserType
+        arguments: ['@security.authorization_checker']
+        tags:
+            - { name: form.type }

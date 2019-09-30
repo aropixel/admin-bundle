@@ -1,0 +1,541 @@
+
+{% use "bootstrap_4_layout.html.twig" %}
+
+{% set modalLibrary = false %}
+
+
+{% block form_start -%}
+    {% set attr = attr|merge({class: (attr.class|default('form-horizontal'))|trim}) %}
+    {{- parent() -}}
+{%- endblock form_start %}
+
+
+{% block form_end -%}
+    {% if load_library() %}
+        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
+    {% endif %}
+    {% if load_files_library() %}
+        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock form_end %}
+
+
+{% block form_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) }} {# -#}
+        {{ form_widget(form, widget_attr) }} {# -#}
+        {{ form_help(form) }} {# -#}
+        {{ form_errors(form) }} {# -#}
+    </div> {# -#}
+{%- endblock form_row %}
+
+
+{% block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('text-semibold') ~ ' form-label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label %}
+
+
+{% block a2lix_translations_widget %}
+
+    {{ form_errors(form) }}
+    <!-- Form horizontal -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h6 class="panel-title">{{ form.vars.label is defined and form.vars.label ? form.vars.label : 'Traductions' }}</h6>
+            <div class="heading-elements panel-tabs">
+                <ul class="nav nav-tabs nav-tabs-bottom">
+                    {% for translationsFields in form %}
+                        {% set locale = translationsFields.vars.name %}
+
+                        <li {% if app.request.locale == locale %}class="active"{% endif %}>
+                            <a href="#" data-toggle="tab" data-target=".{{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }}">
+                                <img src="{{ asset('bundles/aropixeladmin/images/flags/' ~ locale ~ '.png') }}">
+                                {% if translationsFields.vars.required %}*{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-tab-content tab-content">
+
+            {% for translationsFields in form %}
+                {% set locale = translationsFields.vars.name %}
+
+                <div class="tab-pane has-padding {{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }} tab-pane {% if app.request.locale == locale %}active{% endif %} {% if not form.vars.valid %}sonata-ba-field-error{% endif %}">
+                    {{ form_errors(translationsFields) }}
+                    {{ form_widget(translationsFields) }}
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block a2lix_translationsForms_row %}
+    {{- form_widget(form) -}}
+{% endblock a2lix_translationsForms_row %}
+
+{% block a2lix_translationsForms_widget %}
+    {{ block('a2lix_translations_widget') }}
+{% endblock %}
+
+{# Labels #}
+
+
+
+{% block video_row -%}
+
+    <div class="row video-type">
+        <div class="col-sm-5">
+            <div class="form-group">
+                {{ form_label(form) }}
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="form-group">
+                <label class="control-label">Aperçu de votre vidéo</label>
+                <div class="preview">{{ form.vars.value|length ? form.vars.value|raw : "<span></span>"|raw }}</div>
+            </div>
+        </div>
+    </div>
+
+
+{%- endblock video_row %}
+
+
+
+
+{% block textarea_widget -%}
+    {% if 'ckeditor' in attr.class|default('') %}
+        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim}) %}
+    {% endif %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+
+
+{% block gallery_widget -%}
+    <div class="text-right m-b-15">
+        <button data-toggle="modal" data-target="#modalLibrary" type="button" class="btn btn-primary btn-labeled iconUpload"><b><i class="icon-images2"></i></b> Ajouter une image</button>
+    </div>
+    <div class="row galleryContent">
+        {{- form_widget(form) -}}
+
+    </div>
+{%- endblock gallery_widget %}
+
+
+
+
+{% block gallery_row -%}
+
+    {% set type = type is defined ? type : 'gallery' %}
+    {% set entityField = field is defined ? field : 'gallery' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+    {{ load_library(true) }}
+
+    <div class="panel-list im-manager"
+         data-im-type="{{ type }}"
+         data-im-entity-class="{{ entityClass }}"
+         data-im-attach-class="{{ imageLongClass }}"
+         data-im-attach-short-class="{{ imageShortClass }}"
+         data-im-crop-active="{{ false|crop_filters(imageLongClass)|length > 1 }}">
+
+
+        {{- form_widget(form) -}}
+
+    </div>
+
+    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : false, 'imageClass': imageShortClass }) }}
+
+{%- endblock gallery_row %}
+
+
+
+
+{% block gallery_image_row -%}
+
+    <div class="{{ grid_column }}">
+        {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
+    </div>
+
+{%- endblock gallery_image_row %}
+
+
+
+
+
+
+
+{% block gallery_files_row -%}
+
+    {% set type = type is defined ? type : 'files' %}
+    {% set entityField = field is defined ? field : 'files' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+    {% set multiple = multiple is defined and not multiple ? 0 : 1 %}
+    {{ load_files_library(true) }}
+
+    <div class="panel-list fl-manager"
+         data-fl-type="{{ type }}"
+         data-fl-entity-class="{{ entityClass }}"
+         data-fl-attach-class="{{ imageLongClass }}"
+         data-fl-attach-short-class="{{ imageShortClass }}"
+         data-fl-multiple="{{ multiple }}">
+
+        {{- form_widget(form) -}}
+
+    </div>
+
+
+{%- endblock gallery_files_row %}
+
+
+
+
+{% block gallery_files_widget -%}
+
+    {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+        {%- set attr = attr|merge({'class': 'table table-responsive table-striped tableFiles'}) -%}
+    {% endif %}
+
+    <div class="panel panel-default border-left-xlg border-left-info">
+        <div class="panel-heading">
+            <h6 class="panel-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+        </div>
+
+        <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
+            {%- if form.parent is empty -%}
+                {{ form_errors(form) }}
+            {%- endif -%}
+
+            {%- if data|length -%}
+                {{- block('form_rows') -}}
+            {%- else -%}
+                {{ prototype_new|raw }}
+            {%- endif -%}
+
+            {{- form_rest(form) -}}
+        </table>
+
+
+        <div class="panel-footer">
+            <div class="m-t-10 m-b-10 text-right">
+                <div>
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#modalFilesLibrary">
+                        <i class="icon-files-empty2 position-left"></i>
+                        {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{%- endblock gallery_files_widget %}
+
+
+
+{% block gallery_file_row -%}
+
+    {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
+
+{%- endblock gallery_file_row %}
+
+
+
+
+{% block file_row -%}
+
+    {% set type = type is defined ? type : 'files' %}
+    {% set entityField = field is defined ? field : 'files' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+    {% set multiple = 0 %}
+    {{ load_files_library(true) }}
+
+    <div class="panel-list fl-manager"
+         data-fl-type="{{ type }}"
+         data-fl-attach-id="{{ form.vars.attachedFile is defined and form.vars.attachedFile ? form.vars.attachedFile.id : '' }}"
+         data-fl-attach-class="{{ attach_class }}"
+         data-fl-entity-class="{{ entityClass }}"
+         data-fl-multiple="{{ multiple }}">
+
+
+        {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
+        {%- set attr = attr|merge({'class': 'table table-responsive table-striped tableFiles'}) -%}
+
+        <div class="panel panel-default border-left-xlg border-left-info">
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+            </div>
+
+            <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
+                <tbody>
+                {%- if form.parent is empty -%}
+                    {{ form_errors(form) }}
+                {%- endif -%}
+
+                {%- if data|length -%}
+                    {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
+                {%- else -%}
+                    {{ prototype_new|raw }}
+                {%- endif -%}
+
+                {{- form_rest(form) -}}
+                </tbody>
+            </table>
+
+
+            <div class="panel-footer">
+                <div class="heading-elements">
+                    <div>
+                        <a class="btn btn-primary heading-btn pull-right" data-toggle="modal" data-target="#modalFilesLibrary">
+                            <i class="icon-files-empty2 position-left"></i>
+                            {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{%- endblock file_row %}
+
+
+
+
+{% block image_widget -%}
+
+    {% set type = type is defined ? type : 'image' %}
+    {% set entityField = field is defined ? field : 'image' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+    {{ load_library(true) }}
+
+    <div class="panel-list im-manager"
+         data-im-type="{{ type }}"
+         data-im-entity-class="{{ entityClass }}"
+         data-im-attach-class="{{ form.vars.attach_class }}"
+         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
+
+
+        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form }) }}
+
+    </div>
+
+{%- endblock image_widget %}
+
+
+
+{% block gallery_crops_row -%}
+    {{- form_widget(form) -}}
+{%- endblock gallery_crops_row %}
+
+
+
+{% block crops_row -%}
+    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : attachedImage, 'imageClass': imageShortClass }) }}
+    {{- form_widget(form) -}}
+{%- endblock crops_row %}
+
+
+
+{% block crop_row -%}
+    {{- form_widget(form) -}}
+{%- endblock crop_row %}
+
+
+
+
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    {% if multiple %}
+        {% set attr = attr|merge({'class': 'select-multiple'}) %}
+        {% set attr = attr|merge({'style': 'width: 100%;'}) %}
+    {% elseif attr.class is not defined or 'select2' not in attr.class|join('') %}
+        {% set attr = attr|merge({'class': 'bootstrap-select form-control'}) %}
+    {% endif %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed -%}
+
+
+
+{% block choice_widget_expanded -%}
+    {% if '-inline' in label_attr.class|default('') -%}
+        <div {{ block('widget_container_attributes') }} style="height: 36px">
+            {%- for child in form %}
+                {{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+            {% endfor -%}
+        </div>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {%- for child in form %}
+                {{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+            {% endfor -%}
+        </div>
+    {%- endif %}
+{%- endblock choice_widget_expanded %}
+
+
+
+
+{% block date_widget -%}
+    {% if widget == 'single_text' %}
+        <div class="input-group">
+            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+            <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="Entrer une date" {% if value is not empty %}value="{{ date(value)|date("d/m/Y", false) }}" {% endif %} />
+        </div>
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        {% if datetime is not defined or not datetime -%}
+            <div {{ block('widget_container_attributes') -}}>
+        {%- endif %}
+        {{- date_pattern|replace({
+            '{{ year }}': form_widget(form.year),
+            '{{ month }}': form_widget(form.month),
+            '{{ day }}': form_widget(form.day),
+        })|raw -}}
+        {% if datetime is not defined or not datetime -%}
+            </div>
+        {%- endif -%}
+    {% endif %}
+{%- endblock date_widget %}
+
+
+{% block time_widget -%}
+    {% if widget == 'single_text' %}
+        <div class="input-group">
+            <span class="input-group-addon"><i class="icon-alarm"></i></span>
+            <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="Entrer une heure&hellip;" {% if value is not empty %}value="{{ value }}" {% endif %} />
+        </div>
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        {% if datetime is not defined or false == datetime -%}
+            <div {{ block('widget_container_attributes') -}}>
+        {%- endif -%}
+        {{- form_widget(form.hour) }}{% if with_minutes %}:{{ form_widget(form.minute) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second) }}{% endif %}
+        {% if datetime is not defined or false == datetime -%}
+            </div>
+        {%- endif -%}
+    {% endif %}
+{%- endblock time_widget %}
+
+
+
+
+
+
+{% block select2_row -%}
+    <div class="form-group{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        <div class="controls">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{%- endblock select2_row %}
+
+
+
+{% block select2_widget -%}
+    {% set select2_multiple = multiple %}
+    <select {{ block('widget_attributes') }} class="select2-ajax form-control" data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
+        {% for choice in choices %}
+            <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
+        {% endfor %}
+    </select>
+{%- endblock select2_widget %}
+
+
+
+{% block entity_collection_hidden_row -%}
+
+    {{- form_widget(form) -}}
+    {{- form_errors(form) -}}
+
+{%- endblock entity_collection_hidden_row %}
+
+
+
+{% block entity_collection_hidden_widget -%}
+    {% set select2_multiple = multiple %}
+    <select {{ block('widget_attributes') }} class="hidden d-none" {{multiple ? ' multiple' : ''}}>
+        {% for choice in choices %}
+            <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
+        {% endfor %}
+    </select>
+{%- endblock entity_collection_hidden_widget %}
+
+
+
+
+
+{% block money_widget -%}
+    <div class="input-group transparent">
+        {% set prepend = '{{' == money_pattern[0:2] %}
+        {% if not prepend %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ 'numeric')|trim, 'data-a-sep': ' ', 'data-a-dec': ','}) %}
+        {{- block('form_widget_simple') -}}
+        {% if prepend %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+    </div>
+{%- endblock money_widget %}
+
+
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}{%- if select2_multiple is defined and select2_multiple %}[]{% endif -%}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}
