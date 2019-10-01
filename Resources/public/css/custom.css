@@ -649,8 +649,11 @@ table.dataTable td, table.dataTable th {
 
 
 .card { border: 1px solid transparent; color: #333333; }
+.card .card-header {
+    border-bottom-color: #ececec;
+}
 .card .card-title { font-family: 'Nunito', 'Segoe UI', arial; }
-.card .card-title.decorated:before {
+.card .card-title:before {
     content: ' ';
     border-radius: 5px;
     height: 8px;
@@ -684,12 +687,14 @@ table.dataTable td, table.dataTable th {
     line-height: 1.55;
     font-weight: 500;
 }
-
 .badge-flat {
     background-color: transparent;
     border-width: 2px;
     border-radius: 0;
     padding: 1px 4px 0 4px;
+}
+.badge-sm {
+    padding: 3px 8px;
 }
 .badge-icon {
     padding: 8px;
@@ -1016,4 +1021,49 @@ table.dataTable td, table.dataTable th {
 }
 .text-muted {
     color: #999999 !important;
+}
+
+.multiselect-container {
+    min-width: 180px;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid rgba(0,0,0,.15);
+}
+.multiselect-container>li.active {
+    background: #6777ef;
+}
+.multiselect-container>li.active>a {
+    color: #fff;
+}
+.multiselect-container>li>a .radio input[type="radio"],
+.multiselect-container>li>a .radio-inline input[type="radio"],
+.multiselect-container>li>a .checkbox input[type="checkbox"],
+.multiselect-container>li>a .checkbox-inline input[type="checkbox"] {
+    left: 15px;
+    margin: 7px 0 0;
+}
+
+.multiselect-container > li.multiselect-group > a,
+.multiselect-container > li.multiselect-group.active > a,
+.multiselect-container > li.multiselect-group label,
+.multiselect-container > li.multiselect-group.active label,
+.multiselect-container > li.multiselect-group b,
+.multiselect-container > li.multiselect-group.active b {
+    display: block;
+    padding: 0!important;
+}
+.multiselect-container > li.multiselect-group > a,
+.multiselect-container > li.multiselect-group.active > a {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: #191d21 !important;
+    padding: 10px 20px!important;
+    line-height: 20px;
+    background-color: transparent;
+    cursor: default;
+}
+.multiselect-container > li.multiselect-group > a i {
+    margin-top: 3px;
 }
