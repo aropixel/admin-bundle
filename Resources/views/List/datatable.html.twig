@@ -3,16 +3,16 @@
 {% block header_elements %}
     {% set baseroute = get_baseroute() %}
     {% if route_exists(baseroute ~ '_new') %}
-    <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
-        <i class="fas fa-circle fa-stack-2x"></i>
-        <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
-    </a>
+        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        </a>
     {% endif %}
     {% if route_exists(baseroute ~ '_order') %}
-    <a href="{{ path(baseroute ~ '_order') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Réorganiser">
-        <i class="fas fa-circle fa-stack-2x"></i>
-        <i class="fas fa-arrows-alt fa-stack-1x fa-inverse"></i>
-    </a>
+        <a href="{{ path(baseroute ~ '_order') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Réorganiser">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-arrows-alt fa-stack-1x fa-inverse"></i>
+        </a>
     {% endif %}
 {% endblock %}
 
@@ -21,10 +21,10 @@
 
     {% for flash_message in app.session.flashbag.get('notice') %}
 
-    <div class="alert alert-success no-border">
-      <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-      <p>{{ flash_message }}</p>
-    </div>
+        <div class="alert alert-success no-border">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+            <p>{{ flash_message }}</p>
+        </div>
 
     {% endfor %}
 
@@ -33,19 +33,17 @@
 
     {% block panels %}
 
-	<!-- Form horizontal -->
-	<div class="card">
+        <!-- Form horizontal -->
+        <div class="card">
 
-		<div class="card-header">
-			<h4 class="card-title">{% block paneltitle %}{% endblock %}</h4>
-		</div>
-        <div class="card-body">
+            <div class="card-header">
+                <h4 class="card-title">{% block paneltitle %}{% endblock %}</h4>
+            </div>
             <div class="table-responsive">
                 {% block paneldatatable %}{% endblock %}
             </div>
-        </div>
 
-    </div>
+        </div>
 
 
     {% endblock %}
