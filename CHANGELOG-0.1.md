@@ -4,8 +4,17 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.6 (20xx-xx-xx)
+* 0.1.7 (20xx-xx-xx)
 
+
+
+* 0.1.6 (2019-09-30)
+ * Bugfix attach image
+ * Bugfix bootstrap-select CSS inclusion
+ * Bugfix JS fitvids inclusion
+ * Add D3 JS plugin for stats vizualization
+ * Add Bootstrap multiselect JS plugin
+ * Remove CSS transitions on menu and links to avoid elements resize when loading page 
 
 * 0.1.5 (2019-09-09)
 
