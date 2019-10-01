@@ -512,12 +512,12 @@
     <div class="input-group transparent">
         {% set prepend = '{{' == money_pattern[0:2] %}
         {% if not prepend %}
-            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+            <div class="input-group-prepend"><div class="input-group-text">{{ money_pattern|replace({ '{{ widget }}':''}) }}</div></div>
         {% endif %}
         {% set attr = attr|merge({class: (attr.class|default('') ~ 'numeric')|trim, 'data-a-sep': ' ', 'data-a-dec': ','}) %}
         {{- block('form_widget_simple') -}}
         {% if prepend %}
-            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+            <div class="input-group-append"><div class="input-group-text">{{ money_pattern|replace({ '{{ widget }}':''}) }}</div></div>
         {% endif %}
     </div>
 {%- endblock money_widget %}
