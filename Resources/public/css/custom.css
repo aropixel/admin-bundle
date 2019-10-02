@@ -347,7 +347,13 @@ button.fa-stack.danger .fa-stack-1x {
 }
 
 
-
+.form-control:disabled.pickadate, .form-control[readonly].pickadate {
+    background-color: #fff;
+    border-radius: 3px;
+}
+.picker__frame {
+    transition: none!important;
+}
 .picker__wrap {
     font-family: 'Nunito', 'Segoe UI', arial;
 }
@@ -639,14 +645,28 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .dropdown.bootstrap-select.form-control .btn {
     line-height: 30px;
-    border-radius: 0;
-    border-color: #e4e6fc!important;
+    border-radius: 3px;
+    border: 1px solid #e4e6fc!important;
     font-size: 14px;
+    font-weight: 400;
     box-shadow: none!important;
 }
-.dropdown.bootstrap-select.form-control .btn.btn-light {
-    background-color: #e9ecef;
+.dropdown.bootstrap-select.form-control .btn.btn,
+.dropdown.bootstrap-select.form-control .btn.btn-light,
+.dropdown.bootstrap-select.form-control .btn:hover,
+.dropdown.bootstrap-select.form-control .btn.btn-light:hover {
+    background-color: #fff!important;
 }
+.dropdown.bootstrap-select.form-control.show .btn {
+    border-color: #95a0f4!important;
+}
+.bootstrap-select.form-control {
+    margin-bottom: 0;
+    padding: 0;
+    /*border: 1px solid #e4e6fc;*/
+}
+
+
 
 
 .input-group-prepend {
