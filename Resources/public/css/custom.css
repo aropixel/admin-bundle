@@ -726,7 +726,11 @@ div.dataTables_wrapper div.dataTables_paginate {
     padding-right: 10px;
     margin-bottom: 0;
 }
-
+.card .card-header h5 + .card-header-action,
+.card .card-header h5 + .card-header-form,
+.card .card-header h6 + .card-header-action,
+.card .card-header h6 + .card-header-form {
+    margin-left: auto; }
 
 
 
@@ -734,9 +738,11 @@ div.dataTables_wrapper div.dataTables_paginate {
     text-transform: uppercase;
     border: 1px solid transparent;
     font-size: 10px;
-    letter-spacing: 0.1px;
-    line-height: 1.55;
+    letter-spacing: 0.4px;
+    line-height: 1.7;
     font-weight: 500;
+    border-radius: 2px;
+    padding: 5px 12px;
 }
 .badge-flat {
     background-color: transparent;
@@ -761,10 +767,20 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-color: #999999;
 }
 
-
-.btn.btn-icon.btn-sm {
-    padding: 0 .4rem;
+.btn {
+    font-weight: 500;
+}
+.btn.btn-rounded.btn-sm {
+    padding: 0;
     font-size: 12px;
+    width: 28px;
+    height: 28px;
+}
+.btn.btn-rounded.btn-sm .fas,
+.btn.btn-rounded.btn-sm .far,
+.btn.btn-rounded.btn-sm .fal,
+.btn.btn-rounded.btn-sm .fab {
+    margin-right: 0;
 }
 .btn-flat {
     border-width: 2px;
@@ -779,16 +795,29 @@ div.dataTables_wrapper div.dataTables_paginate {
 .btn-outline-lg {
     border-width: 2px;
 }
+.btn > i { margin-right: 4px; }
+a.btn-primary:not([href]):not([tabindex]) {
+    color: #fff;
+}
+
+
 
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
     padding: 12px 20px;
-    line-height: 1.54;
+    line-height: 1.7;
     vertical-align: top;
     border-top: 1px solid #ddd;
 }
 
-
+.table:not(.table-sm):not(.table-md):not(.dataTable) td, .table:not(.table-sm):not(.table-md):not(.dataTable) th {
+    padding: 12px 20px;
+    line-height: 1.7;
+    height: auto;
+}
+p {
+    line-height: 1.7;
+}
 
 /* ------------------------------------------------------------------------------
 *
