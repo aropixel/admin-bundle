@@ -276,19 +276,32 @@ button.fa-stack.danger .fa-stack-1x {
 
 
 
+.input-group-text, select.form-control:not([size]):not([multiple]), .form-control:not(.form-control-sm):not(.form-control-lg) {
+    font-size: 13px;
+    padding: 10px 15px;
+    height: 38px;
+}
+
+
+
+
+
+.select2-container {
+    width: 100%!important;
+}
 .select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
-    min-height: 36px;
+    min-height: 38px;
 }
 .select2-container .select2-selection--single {
-    height: 36px;
+    height: 38px;
+}
+.select2-container .select2-search--inline .select2-search__field {
+    height: 22px;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
     display: block;
     margin: 2px;
     padding-left: 3px;
-}
-.select2-container .select2-selection--multiple {
-    min-height: auto;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice,
 .select2-container .select2-search--inline .select2-search__field {
@@ -296,9 +309,12 @@ button.fa-stack.danger .fa-stack-1x {
     padding: 0 0 0 3px;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    padding: 4px 12px 4px 10px;
+    padding: 1px 12px 1px 10px;
     border-radius: 2px;
-    margin: 1px 0 0;
+    margin: 1px 0 0 7px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice:first-child {
+    margin-left: 0;
 }
 .select2-results__option {
     padding: 10px 12px;
@@ -308,14 +324,14 @@ button.fa-stack.danger .fa-stack-1x {
     color: #fff;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    min-height: 36px;
-    line-height: 36px;
+    min-height: 38px;
+    line-height: 38px;
     padding-left: 12px;
     padding-right: 31px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     width: 30px;
-    min-height: 36px;
+    min-height: 38px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
     border-color: #585858 transparent transparent transparent;
@@ -647,9 +663,11 @@ div.dataTables_wrapper div.dataTables_paginate {
     line-height: 30px;
     border-radius: 3px;
     border: 1px solid #e4e6fc!important;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     box-shadow: none!important;
+    height: 38px;
+    padding: .2rem .8rem;
 }
 .dropdown.bootstrap-select.form-control .btn.btn,
 .dropdown.bootstrap-select.form-control .btn.btn-light,
@@ -827,8 +845,12 @@ div.dataTables_wrapper div.dataTables_paginate {
 .btn-outline-lg {
     border-width: 2px;
 }
-.btn > i { margin-right: 4px; }
-a.btn-primary:not([href]):not([tabindex]) {
+.btn-icon.icon-left > i { margin-right: 4px; }
+.btn-primary:not([href]):not([tabindex]),
+.btn-danger:not([href]):not([tabindex]),
+.btn-primary:not([href]):not([tabindex]):hover,
+.btn-danger:not([href]):not([tabindex]):hover
+{
     color: #fff;
 }
 
