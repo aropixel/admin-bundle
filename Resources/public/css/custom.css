@@ -128,6 +128,18 @@ body {
 
 }
 
+
+
+.form-group .control-label, .form-group > label, .form-group > legend {
+    font-weight: 500;
+    letter-spacing: .7px;
+}
+
+
+
+
+
+
 .main-sidebar .sidebar-menu li.menu-header {
     font-family: 'Nunito', 'Segoe UI', arial;
 }
@@ -1146,4 +1158,121 @@ p {
 }
 .multiselect-container > li.multiselect-group > a i {
     margin-top: 3px;
+}
+
+
+
+.sp-replacer {
+    margin: 0;
+    border: solid 1px #dbdbdb;
+    background: #f2f2f2;
+    border-radius: 2px;
+    padding: 5px;
+}
+.sp-replacer:hover, .sp-replacer.sp-active {
+    border-color: #c5c5c5;
+}
+.sp-container {
+    background-color: #fdfdfd;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    overflow: hidden;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.sp-picker-container {
+    width: 220px;
+}
+.sp-hue {
+    border: none;
+    left: 86%;
+}
+.sp-color {
+    border: 1px solid #c5c5c5;
+    right: 19%;
+}
+.sp-preview {
+    width: 25px;
+    height: 22px;
+    border: none;
+    margin-right: 5px;
+}
+.sp-dd {
+    font-size: 0;
+    margin-top: 1px;
+}
+.sp-dd:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f107';
+    font-size: 14px;
+    color: #b0b0b0;
+}
+.sp-slider {
+    height: 4px;
+    left: -2px;
+    right: -2px;
+    border: 1px solid #a7a7a7;
+    background-color: #fff;
+    border-radius: 3px;
+}
+.sp-cancel, .sp-choose, .sp-palette-toggle {
+    border: 0;
+    border-radius: .25rem;
+    padding: .3rem .8rem;
+    float: left;
+    width: 48%;
+    text-align: center;
+    outline: 0;
+}
+.sp-cancel, .sp-choose {
+    box-sizing: border-box;
+    font-size: 11px;
+    padding: 8px 6px;
+    line-height: 1.7;
+}
+.sp-input {
+    border: 1px solid #dedede;
+    padding: 6px 10px;
+    color: #333;
+    box-shadow: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+.sp-input:focus {
+    border: 1px solid #cecece;
+}
+.sp-button-container {
+    float: none;
+    clear: right;
+}
+.sp-container button {
+    background-color: #6777ef;
+    background-image: none;
+    border: 1px solid #6777ef;
+    border-radius: 3px;
+    color: #fff;
+    text-shadow: none;
+    font-size: 11px;
+    padding: 8px 6px;
+    line-height: 1.7;
+}
+.sp-container button:hover {
+    text-shadow: none;
+    background-image: none;
+    border: 1px solid #394eea;
+    background-color: #394eea !important;
+}
+
+.sp-cancel {
+    border: 1px solid #dedede;
+    color: #333 !important;
+    background-color: #ffffff;
+}
+
+.sp-cancel:hover {
+    border: 1px solid #dedede;
+    color: #333 !important;
+    background-color: #f4f4f4;
+    text-decoration: none;
 }
