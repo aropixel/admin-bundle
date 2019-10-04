@@ -464,7 +464,7 @@
 
 
 {% block select2_row -%}
-    <div class="form-group{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+    <div class="form-group form-group-select2{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
         <div class="controls">
             {{- form_widget(form) -}}

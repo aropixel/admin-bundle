@@ -286,7 +286,7 @@ button.fa-stack.danger .fa-stack-1x {
 
 
 
-.select2-container {
+.form-group-select2 .select2-container {
     width: 100%!important;
 }
 .select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
@@ -860,7 +860,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
     padding: 12px 20px;
     line-height: 1.7;
-    vertical-align: top;
+    vertical-align: middle;
     border-top: 1px solid #ddd;
 }
 
