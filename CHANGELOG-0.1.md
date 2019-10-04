@@ -4,9 +4,13 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.7 (20xx-xx-xx)
+* 0.1.8 (20xx-xx-xx)
 
 
+* 0.1.7 (2019-10-04)
+ * Add spectrum color picker plugin
+ * Bugfix & adjust form layouts 
+ * Adjust CSS: select2, selects, inputs, date pickers, card heading...
 
 * 0.1.6 (2019-09-30)
  * Bugfix attach image
