@@ -652,7 +652,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     text-decoration: none;
     cursor: pointer;
 }
-.dropdown-menu {
+.dropdown-toggle + .dropdown-menu {
     border: 1px solid #dedede;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
