@@ -149,7 +149,7 @@ $(function() {
                 targets: [ 'position' ]
             }
         ],
-        //dom: '<"datatable-header"flB><"datatable-scroll"t><"datatable-footer"ip>',
+        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
         language: {
             search: '<span>Filtrer:</span> _INPUT_',
             lengthMenu: '<span>Nombre par page:</span> _MENU_',
