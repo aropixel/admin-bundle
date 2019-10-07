@@ -4,8 +4,12 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.8 (20xx-xx-xx)
+* 0.1.9 (20xx-xx-xx)
 
+
+* 0.1.8 (2019-10-07)
+ * Adjust dropdown & datatable CSS
+ * Add table & order template
 
 * 0.1.7 (2019-10-04)
  * Add spectrum color picker plugin
