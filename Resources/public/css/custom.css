@@ -648,12 +648,26 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-top: 8px;
     top: 0;
 }
-
 .dropdown-menu > li > a {
     text-decoration: none;
     cursor: pointer;
 }
+.dropdown-menu {
+    border: 1px solid #dedede;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item a {
+    display: block;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
 
+.dropdown:focus, .dropdown-toggle:focus {
+    outline: none;
+}
 
 .dropdown.bootstrap-select.form-control {
     padding: 0;
