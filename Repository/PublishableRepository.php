@@ -27,7 +27,7 @@ abstract class PublishableRepository extends ServiceEntityRepository
     /**
      * {@inheritdoc}
      */
-    protected function qbPublished($letter, array $orderBy = null, $limit = null, $offset = null)
+    public function qbPublished($letter, array $orderBy = null, $limit = null, $offset = null)
     {
         //
         $qb = $this->createQueryBuilder($letter);

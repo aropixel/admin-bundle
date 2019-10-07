@@ -1,0 +1,26 @@
+{% extends '@AropixelAdmin/List/table.html.twig' %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <!-- General JS Scripts -->
+    <script src="{{ asset('bundles/aropixeladmin/modules/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- JS Libraies -->
+
+{% endblock %}
+
+{% block header_elements %}
+    {% set baseroute = get_baseroute() %}
+    {% if route_exists(baseroute ~ '_index')  %}
+        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Liste">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-list fa-stack-1x fa-inverse"></i>
+        </a>
+    {% endif %}
+    {% if route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        </a>
+    {% endif %}
+{% endblock %}
