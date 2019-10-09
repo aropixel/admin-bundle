@@ -67,8 +67,8 @@ class FileType extends AbstractType
     }
 
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'aropixel_file';
+        return 'aropixel_admin_file';
     }
 }
