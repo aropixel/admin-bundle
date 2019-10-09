@@ -90,6 +90,18 @@
     {{ block('a2lix_translations_widget') }}
 {% endblock %}
 
+
+
+
+{% block aropixel_admin_color_widget %}
+
+    {% set attr = attr|merge({class: ' color-picker', 'data-preferred-format': colorFormat}) %}
+    <div>
+        {{- block('form_widget_simple') -}}
+    </div>
+
+{% endblock %}
+
 {# Labels #}
 
 
