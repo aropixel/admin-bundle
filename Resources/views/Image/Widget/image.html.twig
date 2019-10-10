@@ -1,11 +1,14 @@
 
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}
 <div class="thumbnail card"
+        {% if data_type == 'entity' %}
          data-im-crop-path="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.getWebPath() | imagine_filter('admin_crop') : '' }}"
          data-im-attach-path="{{ path('image_attach') }}"
          data-im-attach-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage ? form.vars.attachedImage.id : '' }}"
+         data-im-image-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.image.id : '' }}"
+        {% endif %}
          data-im-attach-class="{{ form.vars.attach_class }}"
-         data-im-image-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.image.id : '' }}" {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %}>
+        {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %} >
     	<div class="thumb">
             <div class="preview" data-new="{{ prototype_new|e }}">
             {% block preview %}

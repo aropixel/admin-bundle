@@ -206,32 +206,28 @@ class ImageController extends AbstractController
      */
     public function attachImageAction(Request $request)
     {
-        //
+        // Selected images
         $images = $request->get('images');
-        $entityClass = $request->get('entity_class');
+
+        // Data type to store: entity or file_name
+        $dataType = $request->get('data_type');
+
+        // Class name to use if data type is entity
         $attachClass = $request->get('attach_class');
+
+        // Id
         $attachId = $request->get('attach_id');
 
-        //
-        $t_entity = explode('\\', $attachClass);
-
-        //not used anymore
-        //$entity_name = array_pop($t_entity);    array_pop($t_entity);
-
-        //not used anymore
-        //$short_namespace = implode('', $t_entity);
-        $entity_name = array_pop($t_entity);    array_pop($t_entity);
-        $short_namespace = implode('', $t_entity);
-        $attachRepositoryName = $short_namespace.':'.$entity_name;
 
         //
-        if ($attachId) {
-            $attachImage = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
-        }
-        else {
-            $attachImage = new $attachClass();
-        }
+        if ($dataType == 'relation') {
 
+            $data = new $attachClass();
+            if ($attachId) {
+                $data = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
+            }
+
+        }
 
 
         $html = '';
@@ -239,10 +235,17 @@ class ImageController extends AbstractController
 
             //
             $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
-            $attachImage->setImage($image);
 
             //
-            $form = $this->createForm(ImageType::class, $attachImage, array('data_class' => $attachClass));
+            if ($dataType == 'relation') {
+                $data->setImage($image);
+            }
+            else {
+                $data = $image->getFilename();
+            }
+
+            //
+            $form = $this->createForm(ImageType::class, $data, array('data_class' => $attachClass));
 
             //
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', array(

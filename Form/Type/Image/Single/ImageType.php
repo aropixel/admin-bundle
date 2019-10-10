@@ -10,8 +10,6 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -23,13 +21,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageType extends AbstractType
 {
+
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var EntityManagerInterface
      */
     private $em;
 
+
     /**
-     * @param ObjectManager $om
+     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
@@ -37,25 +37,38 @@ class ImageType extends AbstractType
     }
 
 
-
-
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('image', EntityHiddenType::class, array('class' => Image::class))
-            ->add('title', HiddenType::class)
-            ->add('alt', HiddenType::class)
-        ;
-
-        if ($options['crop_class']) {
+        if ($options['data_type']=='entity') {
 
             $builder
-                ->add('crops', CropsType::class, array(
-                    'entry_options'  => array(
-                        'image_class'  => $options['data_class'],
-                        'data_class'  => $options['crop_class'],
-                    )
-                ))
+                ->add('image', EntityHiddenType::class, array('class' => Image::class))
+                ->add('title', HiddenType::class)
+                ->add('alt', HiddenType::class)
+            ;
+
+            if ($options['crop_class']) {
+
+                $builder
+                    ->add('crops', CropsType::class, array(
+                        'entry_options'  => array(
+                            'image_class'  => $options['data_class'],
+                            'data_class'  => $options['crop_class'],
+                        )
+                    ))
+                ;
+
+            }
+
+        }
+        elseif ($options['data_type']=='file_name') {
+
+            $builder
+                ->add('file_name', HiddenType::class)
             ;
 
         }
@@ -73,16 +86,28 @@ class ImageType extends AbstractType
     {
         $data = $form->getData();
 
-        $imageUrl = null;
-        if (null !== $data) {
-            $imageUrl = $data->getWebPath();
+        if ($options['data_type']=='entity') {
+
+            $imageUrl = null;
+            if (null !== $data) {
+                $imageUrl = $data->getWebPath();
+            }
+
+            // set an "image_url" variable that will be available when rendering this field
+            $view->vars['image_url'] = $imageUrl;
+            $view->vars['attachedImage'] = $data;
+            $view->vars['imageLongClass'] = $options['data_class'];
+
+        }
+        elseif ($options['data_type']=='file_name') {
+
+            $view->vars['file_name'] = $data;
+
         }
 
-        // set an "image_url" variable that will be available when rendering this field
+        $view->vars['data_type'] = $options['data_type'];
         $view->vars['attach_class'] = $form->getConfig()->getDataClass();
-        $view->vars['image_url'] = $imageUrl;
-        $view->vars['attachedImage'] = $data;
-        $view->vars['imageLongClass'] = $options['data_class'];
+        $view->vars['card_footer'] = $options['card_footer'];
 
     }
 
@@ -90,14 +115,16 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'data_type' => 'entity',
             'data_class' => null,
             'crop_class' => null,
+            'card_footer' => true,
         ));
     }
 
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'aropixel_image';
+        return 'aropixel_admin_image';
     }
 }
