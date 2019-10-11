@@ -4,8 +4,11 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.10 (20xx-xx-xx)
+* 0.1.11 (20xx-xx-xx)
 
+
+* 0.1.10 (2019-10-11)
+ * Bugfix insert image in ckeditor 
 
 * 0.1.9 (2019-10-11)
  * Add Form ColorType 
