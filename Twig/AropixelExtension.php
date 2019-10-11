@@ -17,6 +17,9 @@ class AropixelExtension extends AbstractExtension
     /** @var RequestStack  */
     private $requestStack;
 
+    /** @var RouterInterface  */
+    private $router;
+
     /** @var ImageManager  */
     private $imageManager;
 
@@ -66,6 +69,7 @@ class AropixelExtension extends AbstractExtension
         return array(
             'route_exists' => new TwigFunction('route_exists', array($this, 'routeExists')),
             'get_baseroute' => new TwigFunction('get_baseroute', array($this, 'getBaseRoute')),
+            'get_image_editor_route' => new TwigFunction('get_image_editor_route', array($this, 'getImageEditorRoute')),
             'get_class' => new TwigFunction('get_class', array($this, 'getClass')),
             'load_library' => new TwigFunction('load_library', array($this, 'setLoadLibrary')),
             'load_files_library' => new TwigFunction('load_files_library', array($this, 'setLoadFilesLibrary')),
@@ -87,6 +91,13 @@ class AropixelExtension extends AbstractExtension
         $i = strrpos($routeName, '_');
         $baseRoute = substr($routeName, 0, $i);
         return $baseRoute;
+    }
+
+
+    function getImageEditorRoute()
+    {
+        $path = $this->router->generate('image_editor');
+        return $path;
     }
 
 

@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Image
 {
+
+    const UPLOAD_DIR = 'images';
+
     /**
      * @var integer
      *
@@ -328,6 +331,12 @@ class Image
         return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
     }
 
+
+    static function getFileNameWebPath($fileName)
+    {
+        return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
+    }
+
     /**
      * Get upload directory absolute path from root
      *
@@ -348,7 +357,7 @@ class Image
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-        return 'images';
+        return self::UPLOAD_DIR;
     }
 
     /**

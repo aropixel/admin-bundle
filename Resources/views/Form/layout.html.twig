@@ -131,7 +131,7 @@
 
 {% block textarea_widget -%}
     {% if 'ckeditor' in attr.class|default('') %}
-        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim}) %}
+        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim, 'data-attach-path': get_image_editor_route()}) %}
     {% endif %}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
     {{- parent() -}}
@@ -333,7 +333,7 @@
 
 
 
-{% block image_widget -%}
+{% block aropixel_admin_image_widget -%}
 
     {% set type = type is defined ? type : 'image' %}
     {% set entityField = field is defined ? field : 'image' %}
@@ -342,8 +342,10 @@
 
     <div class="panel-list im-manager"
          data-im-type="{{ type }}"
+         data-im-data-type="{{ form.vars.data_type }}"
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ form.vars.attach_class }}"
+         data-im-library="{{ form.vars.library }}"
          data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
 
 
@@ -351,7 +353,7 @@
 
     </div>
 
-{%- endblock image_widget %}
+{%- endblock aropixel_admin_image_widget %}
 
 
 

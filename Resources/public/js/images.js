@@ -86,7 +86,9 @@
         //
         if (typeof options === 'object' && ("editor" in options))
         {
+            this.element.data('imLibrary', options.category);
             this.element.data('imAttachClass', options.category);
+            this.element.data('imAttachEditor', options.attach_path);
             this.config = $.extend(defaults, options || {});
             this.config.imType = 'editor';
             this.editor = new IM_Editor(this, options.editor);
@@ -153,7 +155,7 @@
 
 
             //
-            $.post( Routing.generate('image_editor'),  _attach_params, function(result) {
+            $.post( launcher.element.data('imAttachEditor'),  _attach_params, function(result) {
 
                 //
                 editor.insertHtml( result );
@@ -228,6 +230,7 @@
             _attach_params['route']        = launcher.config.imRoute;
             _attach_params['multiple']     = '0';
             _attach_params['images']       = _attach;
+            _attach_params['data_type']    = launcher.config.imDataType;
             _attach_params['attach_id']    = _thumbData.imAttachId;
             _attach_params['attach_class'] = _thumbData.imAttachClass;
             _attach_params['entity_class'] = launcher.config.imEntityClass;
@@ -254,6 +257,7 @@
                     launcher.element.find(".no-img").replaceWith($(result).find('.preview img'));
                 }
                 launcher.element.find(".preview input[name$='[image]']").val($(result).find(".preview input[name$='[image]']").val());
+                launcher.element.find(".preview input[name$='[file_name]']").val($(result).find(".preview input[name$='[file_name]']").val());
                 launcher.element.find(".caption").html($(result).find('.caption').html());
                 launcher.element.find(".caption-overflow a:not(:first-child)").remove();
                 launcher.element.find(".caption-overflow a:first-child").after($(result).find('.caption-overflow a:not(:first-child)'));
@@ -304,8 +308,8 @@
                         {
                             var _preview = launcher.element.find(".preview");
                             _preview.html(_preview.attr('data-new'));
-                            launcher.element.find(".caption .iconUnlink").remove();
-                            launcher.element.find(".caption .iconCrop").remove();
+                            launcher.element.find(".caption-overflow .iconUnlink").remove();
+                            launcher.element.find(".caption-overflow .iconCrop").remove();
 
                         }
                         _button.closest('.modal').modal('hide');
@@ -910,13 +914,14 @@
         this.load_pictures = function(button) {
 
             var _class = obj.launcher.element.data('imAttachClass');
+            var _library = obj.launcher.element.data('imLibrary');
             var _src = $(selectors.modal.dataTable).attr('data-src')
             var _params = {
                 "processing": true,
                 "serverSide": true,
                 "order": [],
                 "ajax": $.fn.dataTable.pipeline( {
-                    url: encodeURI(_src + '/' + _class),
+                    url: encodeURI(_src + '/' + _library),
                     pages: 5 // number of pages to cache
                 } )
             };
@@ -943,7 +948,7 @@
                 } )
                 .dataTable(_params);
 
-            $(selectors.modal.id).data('imAttachClass', _class);
+            $(selectors.modal.id).data('imLibrary', _library);
 
         };
 
@@ -1259,7 +1264,7 @@
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imAttachClass'), 'plupload_image[titre]': file.name };
+                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imLibrary'), 'plupload_image[titre]': file.name };
 
                     },
 

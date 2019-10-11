@@ -50,6 +50,7 @@ CKEDITOR.dialog.add( 'videoDialog', function( editor ) {
 
             var p = new CKEDITOR.dom.element( 'div' );
             p.setAttribute("class", "videodetector");
+            p.setAttribute("uk-responsive", "");
 
             var iframe = new CKEDITOR.dom.element( 'iframe' );
             iframe.setAttribute("src", url);
