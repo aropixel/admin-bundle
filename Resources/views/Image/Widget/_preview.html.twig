@@ -1,0 +1,12 @@
+<div class="preview" data-new="{{ prototype_new|e }}">
+    {% block preview %}
+        {% if form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image %}
+            <img src="{{ form.vars.attachedImage.getWebPath() | imagine_filter('admin_thumbnail') }}" alt="" />
+        {% elseif form.vars.file_name is defined and form.vars.file_name|length %}
+            <img src="{{ form.vars.path_file | imagine_filter('admin_thumbnail') }}" alt="" />
+        {% else %}
+            {{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}
+        {% endif %}
+        {{ form_widget(form) }}
+    {% endblock %}
+</div>

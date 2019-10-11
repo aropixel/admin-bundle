@@ -1,50 +1,22 @@
 
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}
 <div class="thumbnail card"
-        {% if data_type == 'entity' %}
-         data-im-crop-path="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.getWebPath() | imagine_filter('admin_crop') : '' }}"
          data-im-attach-path="{{ path('image_attach') }}"
+        {% if form.vars.data_type == 'entity' %}
+         data-im-attach-class="{{ form.vars.attach_class }}"
          data-im-attach-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage ? form.vars.attachedImage.id : '' }}"
          data-im-image-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.image.id : '' }}"
+         data-im-crop-path="{{ form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image ? form.vars.attachedImage.getWebPath() | imagine_filter('admin_crop') : '' }}"
         {% endif %}
-         data-im-attach-class="{{ form.vars.attach_class }}"
         {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %} >
     	<div class="thumb">
-            <div class="preview" data-new="{{ prototype_new|e }}">
-            {% block preview %}
-            {% if form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image %}
-                <img src="{{ form.vars.attachedImage.getWebPath() | imagine_filter('admin_thumbnail') }}" alt="" />
-            {% else %}
-                {{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}
-            {% endif %}
-            {{ form_widget(form) }}
-            {% endblock %}
-            </div>
-            <div class="caption-overflow">
-    			<span>
-                    {% block captionOverflow %}
-                    {% if multiple is defined and multiple and image is defined and image %}
-                    {% else %}
-    				<a data-toggle="modal" data-target="#modalLibrary" class="btn border-white text-white btn-flat btn-icon btn-rounded iconUpload"><i class="fas fa-cloud-upload-alt"></i></a>
-                    {% endif %}
-                    {% if form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image %}
-                    {% if form.vars.attachedImage|crop_filters(get_class(form.vars.attachedImage))|length > 0 %}<a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconCrop" data-toggle="modal" data-target="#modalCrop{{ get_short_class(form.vars.attachedImage) }}"><i class="fas fa-crop-alt"></i></a>{% endif %}
-                    <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconUnlink"><i class="fas fa-unlink"></i></a>
-                    {% endif %}
-                    {% endblock %}
-    			</span>
-    		</div>
-    	</div>
 
-    	<div class="caption card-footer">
-            {% block caption %}
-            {% if image is defined and image %}
-    		<h6 class="no-margin-top text-semibold">{{ image.titre ? image.titre : 'Sans titre' }}</h6>
-    		<div>Choisissez une image</div>
-            {% else %}
-            <h6 class="no-margin-top text-semibold">{{ label is defined and label|length ? label : 'Image à la une' }}</h6>
-            <div>Choisissez une image</div>
-            {% endif %}
-            {% endblock %}
+            {{ include('@AropixelAdmin/Image/Widget/_preview.html.twig') }}
+            {{ include('@AropixelAdmin/Image/Widget/_caption.html.twig') }}
+
+
     	</div>
+        {% if form.vars.card_footer %}
+            {{ include('@AropixelAdmin/Image/Widget/_footer.html.twig') }}
+        {% endif %}
     </div>

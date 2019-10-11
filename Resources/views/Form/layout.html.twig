@@ -330,8 +330,10 @@
 
     <div class="panel-list im-manager"
          data-im-type="{{ type }}"
+         data-im-data-type="{{ form.vars.data_type }}"
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ form.vars.attach_class }}"
+         data-im-library="{{ form.vars.library }}"
          data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
 
 

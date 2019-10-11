@@ -12,6 +12,8 @@ use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\Exception;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -19,7 +21,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
-class ImageType extends AbstractType
+class ImageType extends AbstractType implements DataMapperInterface
 {
 
     /**
@@ -69,9 +71,39 @@ class ImageType extends AbstractType
 
             $builder
                 ->add('file_name', HiddenType::class)
+                ->setDataMapper($this)
             ;
 
         }
+    }
+
+
+    public function mapDataToForms($data, $forms)
+    {
+        // there is no data yet, so nothing to prepopulate
+        if (null === $data) {
+            return;
+        }
+
+        // invalid data type
+        if (!is_string($data)) {
+            throw new Exception\UnexpectedTypeException($data, 'string');
+        }
+
+        /** @var FormInterface[] $forms */
+        $forms = iterator_to_array($forms);
+        $forms['file_name']->setData($data);
+
+    }
+
+
+    public function mapFormsToData($forms, &$data)
+    {
+        /** @var FormInterface[] $forms */
+        $forms = iterator_to_array($forms);
+
+        $data = $forms['file_name']->getData();
+
     }
 
 
@@ -102,11 +134,13 @@ class ImageType extends AbstractType
         elseif ($options['data_type']=='file_name') {
 
             $view->vars['file_name'] = $data;
+            $view->vars['path_file'] = Image::getFileNameWebPath($data);
 
         }
 
         $view->vars['data_type'] = $options['data_type'];
         $view->vars['attach_class'] = $form->getConfig()->getDataClass();
+        $view->vars['library'] = $options['library'] ?: ($form->getConfig()->getDataClass() ? $form->getConfig()->getDataClass() : '');
         $view->vars['card_footer'] = $options['card_footer'];
 
     }
@@ -118,6 +152,7 @@ class ImageType extends AbstractType
             'data_type' => 'entity',
             'data_class' => null,
             'crop_class' => null,
+            'library' => null,
             'card_footer' => true,
         ));
     }

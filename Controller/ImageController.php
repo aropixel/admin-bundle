@@ -36,6 +36,12 @@ class ImageController extends AbstractController
 
     }
 
+    private function getImageClassName()
+    {
+        $entities = $this->getParameter('aropixel_admin.entities');
+        return $entities['image'];
+    }
+
     /**
      * Lists all Image entities.
      *
@@ -49,8 +55,7 @@ class ImageController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         //
-        $entities = $this->getParameter('aropixel_admin.entities');
-        $datatabler->setRepository($entities['image'], $this->datatableFieds);
+        $datatabler->setRepository($this->getImageClassName(), $this->datatableFieds);
 
         //
         if ($datatabler->isCalled()) {
@@ -87,7 +92,7 @@ class ImageController extends AbstractController
         $response = array();
 
         //
-        $datatabler->setRepository('AropixelAdminBundle:Image', $this->datatableFieds);
+        $datatabler->setRepository($this->getImageClassName(), $this->datatableFieds);
         $qb = $datatabler->getQueryBuilder();
         $qb
             ->andWhere('i.category = :category')
@@ -156,7 +161,7 @@ class ImageController extends AbstractController
         $category = $request->get('category');
 
         //
-        $repository = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image');
+        $repository = $this->getDoctrine()->getRepository($this->getImageClassName());
         $nbs = $repository->count($category);
 
         //
@@ -204,7 +209,7 @@ class ImageController extends AbstractController
      *
      * @Route("/attach/image", name="image_attach", options={"expose"=true}, methods={"POST"})
      */
-    public function attachImageAction(Request $request)
+    public function attachImage(Request $request)
     {
         // Selected images
         $images = $request->get('images');
@@ -220,7 +225,7 @@ class ImageController extends AbstractController
 
 
         //
-        if ($dataType == 'relation') {
+        if ($dataType == 'entity') {
 
             $data = new $attachClass();
             if ($attachId) {
@@ -234,10 +239,10 @@ class ImageController extends AbstractController
         foreach ($images as $image_id) {
 
             //
-            $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+            $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
             //
-            if ($dataType == 'relation') {
+            if ($dataType == 'entity') {
                 $data->setImage($image);
             }
             else {
@@ -245,7 +250,7 @@ class ImageController extends AbstractController
             }
 
             //
-            $form = $this->createForm(ImageType::class, $data, array('data_class' => $attachClass));
+            $form = $this->createForm(ImageType::class, $data, array('data_type' => $dataType, 'data_class' => $attachClass));
 
             //
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', array(
@@ -287,7 +292,7 @@ class ImageController extends AbstractController
         $html = '';
         foreach ($images as $image_id) {
 
-            $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+            $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
 
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/gallery.html.twig', array(
@@ -346,7 +351,7 @@ class ImageController extends AbstractController
 
 
                 //
-                $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+                $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
                 $url = $imageManager->editorResize($image, $width, $decoupe);
 
                 //
@@ -434,7 +439,7 @@ class ImageController extends AbstractController
 
         //
         $image_id = $request->get('image_id');
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
         //
         $filters = $imageManager->getCropFilters($route_name, $image);
@@ -458,7 +463,7 @@ class ImageController extends AbstractController
         $crop_infos = $request->get('crop_info');
 
         // Charge l'image à cropper
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
         // Pour chaque filtre passé, on recrope l'image chargée
         foreach ($crop_infos as $filter => $crop_info) {
@@ -490,7 +495,7 @@ class ImageController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         //
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
         $image->setTitre($title);
         $em->flush();
 

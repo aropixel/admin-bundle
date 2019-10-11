@@ -1,0 +1,11 @@
+<div class="caption card-footer">
+    {% block caption %}
+        {% if image is defined and image %}
+            <h6 class="no-margin-top text-semibold">{{ image.titre ? image.titre : 'Sans titre' }}</h6>
+            <div>Choisissez une image</div>
+        {% else %}
+            <h6 class="no-margin-top text-semibold">{{ label is defined and label|length ? label : 'Image à la une' }}</h6>
+            <div>Choisissez une image</div>
+        {% endif %}
+    {% endblock %}
+</div>
