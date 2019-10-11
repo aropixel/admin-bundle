@@ -155,7 +155,7 @@ class ImageManager
 
         // Si aucun filtre mais une largeur
         // on récupère le filtre de largeur préconstruit par le bundle
-        if (is_null($filter) && $width) {
+        if ((is_null($filter) || !strlen($filter)) && $width) {
             $filter = 'editor_'.$width;
         }
 
