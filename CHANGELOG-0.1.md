@@ -4,8 +4,15 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.9 (20xx-xx-xx)
+* 0.1.10 (20xx-xx-xx)
 
+
+* 0.1.9 (2019-10-11)
+ * Add Form ColorType 
+ * Change Aropiel FileType block prefix
+ * Add "file_name" text storage for ImageType
+ * Bugfix image insertion in Ckeditor
+ * Add uikit responsive attribute for video insertion in ckeditor 
 
 * 0.1.8 (2019-10-07)
  * Adjust dropdown & datatable CSS
