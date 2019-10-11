@@ -86,7 +86,9 @@
         //
         if (typeof options === 'object' && ("editor" in options))
         {
+            this.element.data('imLibrary', options.category);
             this.element.data('imAttachClass', options.category);
+            this.element.data('imAttachEditor', options.attach_path);
             this.config = $.extend(defaults, options || {});
             this.config.imType = 'editor';
             this.editor = new IM_Editor(this, options.editor);
@@ -153,7 +155,7 @@
 
 
             //
-            $.post( Routing.generate('image_editor'),  _attach_params, function(result) {
+            $.post( launcher.element.data('imAttachEditor'),  _attach_params, function(result) {
 
                 //
                 editor.insertHtml( result );

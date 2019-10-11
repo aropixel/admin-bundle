@@ -119,7 +119,7 @@
 
 {% block textarea_widget -%}
     {% if 'ckeditor' in attr.class|default('') %}
-        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim}) %}
+        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim, 'data-attach-path': get_image_editor_route()}) %}
     {% endif %}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
     {{- parent() -}}
