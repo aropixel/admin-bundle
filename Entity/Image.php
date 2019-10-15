@@ -396,6 +396,8 @@ class Image
      */
     public function preUpload()
     {
+        $this->createdAt = $this->updatedAt = new \DateTime();
+
         if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
