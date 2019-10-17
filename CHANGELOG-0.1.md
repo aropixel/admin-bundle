@@ -4,8 +4,11 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.12 (20xx-xx-xx)
+* 0.1.13 (20xx-xx-xx)
 
+
+* 0.1.12 (2019-10-17)
+ * Add sub_header and afterForm blocks
 
 * 0.1.11 (2019-10-15)
  * Bugfix datetime on image creation
