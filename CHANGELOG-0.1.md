@@ -7,6 +7,10 @@ in 0.1 minor versions.
 * 0.1.16 (20xx-xx-xx)
 
 
+* 0.1.16 (2019-10-23)
+ * Display general form error message only once
+ * Bugfix get class in aropixel twig extension
+
 * 0.1.15 (2019-10-23)
  * Bugfix control form when publish tabs are enabled
 
