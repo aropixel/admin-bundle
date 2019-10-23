@@ -525,8 +525,13 @@ $(function() {
 
                 if (hasError) {
 
-                    $form.before(messageBox);
+                    //
                     e.preventDefault();
+
+                    var $alert = $form.prev('.alert.alert-danger');
+                    if ($alert.length === 0) {
+                        $form.before(messageBox);
+                    }
 
                 }
 
