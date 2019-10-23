@@ -103,14 +103,13 @@ class AropixelExtension extends AbstractExtension
 
     public function getClass($object)
     {
-        return $object ? (new \ReflectionClass($object))->getName() : "";
-//        return (new \ReflectionClass($object))->getShortName();
+        return $object && is_object($object) ? (new \ReflectionClass($object))->getName() : "";
     }
 
 
     public function getShortClass($object)
     {
-        return $object ? (new \ReflectionClass($object))->getShortName() : "";
+        return $object && is_object($object) ? (new \ReflectionClass($object))->getShortName() : "";
     }
 
 
