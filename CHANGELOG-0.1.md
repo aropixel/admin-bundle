@@ -4,8 +4,11 @@ CHANGELOG for 0.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
-* 0.1.14 (20xx-xx-xx)
+* 0.1.15 (20xx-xx-xx)
 
+
+* 0.1.14 (2019-10-23)
+ * Bugfix accidentaly deleted color picker js
 
 * 0.1.13 (2019-10-23)
  * Add star after label required form 
