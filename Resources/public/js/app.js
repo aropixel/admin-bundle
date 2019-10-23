@@ -80,6 +80,16 @@ $(function() {
     }
 
 
+    var $colorPicker = $('.color-picker');
+    if ($colorPicker.length) {
+
+        $colorPicker.spectrum({
+            showInput: true
+        });
+
+    }
+
+
 
     // HTML5 editor
     $('.html5-editor').each(function() {
