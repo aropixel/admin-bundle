@@ -17,7 +17,7 @@
             dataTable: '#libraryDataTable',
             checkbox: 'input[type="checkbox"][name^="image"]',
             attach: '.attach-images',
-            delete: '.deleteImg',
+            delete: '[data-library="delete"]',
         },
 
         panel: {
@@ -732,7 +732,7 @@
 
                     //
                     var _img = $('<img>')
-                                .attr("src", ImgSrc);
+                        .attr("src", ImgSrc);
 
                     //
                     _modal.find(selectors.crop.imageContainer).html(_img);
@@ -1042,8 +1042,11 @@
         $(selectors.modal.dataTable).on('click', selectors.modal.delete, function() {
 
             //
+            var $deleteButton = $(this);
+
+            //
             var _detach_params = {};
-            _detach_params['category'] = obj.launcher.config.imAttachClass;
+            _detach_params['category'] = obj.launcher.config.imLibrary;
             _detach_params['entity_id'] = obj.launcher.config.imEntityId;
             _detach_params['image_id'] = $(this).data('id');
 
@@ -1060,7 +1063,7 @@
                     'callback' : function() {
 
                         //
-                        $.post(Routing.generate('image_delete'), _detach_params, function(answer) {
+                        $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
                             //
                             imcore.modal.load_pictures();

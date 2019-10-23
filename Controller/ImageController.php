@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
+use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
@@ -387,31 +388,31 @@ class ImageController extends AbstractController
     {
         //
         $image_id = $request->get('image_id');
-        $t_entity = explode('\\', $request->get('category'));
-
-        //
-        $entity_name = array_pop($t_entity);    array_pop($t_entity);
-        $short_namespace = implode('', $t_entity);
+        $libraryClass = $request->get('category');
 
         //
         $em = $this->getDoctrine()->getManager();
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
         //
         if ($image) {
 
             //
-            $attachedImages = $this->getDoctrine()->getRepository($short_namespace.':'.$entity_name)->findBy(array('image' => $image));
+            $libraryEntity = new \ReflectionClass($libraryClass);
+            if ($libraryEntity instanceof AttachImage) {
 
-            //
-            if (count($attachedImages)) {
+                //
+                $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
+                if (count($attachedImages)) {
 
-                foreach ($attachedImages as $attachedImage) {
-                    $em->remove($attachedImage);
+                    foreach ($attachedImages as $attachedImage) {
+                        $em->remove($attachedImage);
+                    }
+                    $em->flush();
+
                 }
-                $em->flush();
-
             }
+
 
             //
             $em->remove($image);
