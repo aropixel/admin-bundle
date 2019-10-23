@@ -135,10 +135,19 @@ body {
     letter-spacing: .7px;
 }
 
+.form-label.required:after {
+    content: " *";
+    color: red;
+}
 
-
-
-
+.alert.alert-form {
+    background-color: transparent;
+    color: #de461d;
+    border-bottom: 2px solid #de461d;
+    border-radius: 0;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
 
 .main-sidebar .sidebar-menu li.menu-header {
     font-family: 'Nunito', 'Segoe UI', arial;

@@ -81,17 +81,6 @@ $(function() {
 
 
 
-    var $colorPicker = $('.color-picker');
-    if ($colorPicker.length) {
-
-        $colorPicker.spectrum({
-            showInput: true
-        });
-
-    }
-
-
-
     // HTML5 editor
     $('.html5-editor').each(function() {
         $(this).wysihtml5({
@@ -491,50 +480,55 @@ $(function() {
 
 
 
-    var $submitForm = $('#submitForm');
-    if ($submitForm.length) {
+    var $form = $('form[data-form="main"]');
+    var $tabs = $form.find('.tabbable [data-toggle="tab"]');
+    var $submitForm = $form.find('[data-form="submit"]');
 
-        var $form = $submitForm.closest('form');
+    if ($tabs.length) {
 
-        $form.submit(function(e) {
+        $form.attr('novalidate', 'novalidate');
+        if ($submitForm.length) {
 
-            var $requiredFields = $form.find('[required="required"]');
+            $form.submit(function(e) {
 
-            var hasError = false;
-            var messageField = '<div class="alert bg-warning m-t-5"><button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Fermer</span></button><span class="text-semibold">Attention!</span> Ce champs est obligatoire.</div>';
-            var messageBox = '<div class="alert bg-warning"><button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Fermer</span></button><span class="text-semibold">Attention!</span> Un ou plusieurs champs obligatoires sont manquants.</div>';
+                var $requiredFields = $form.find('[required="required"]');
 
-            $requiredFields.each(function() {
+                var hasError = false;
+                var messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Ce champs est obligatoire.</div></div>';
+                var messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
 
-                var $formGroup = $(this).closest('.form-group');
+                $requiredFields.each(function() {
 
-                // if (!$(this).hasClass('picker__input') && !$(this).val().length) {
-                if (!$(this).val().length) {
+                    var $formGroup = $(this).closest('.form-group');
 
-                    hasError = true;
-                    if ($formGroup.find('.alert').length == 0) {
-                        $(this).closest('.form-group').append(messageField);
+                    // if (!$(this).hasClass('picker__input') && !$(this).val().length) {
+                    if (!$(this).val().length) {
+
+                        hasError = true;
+                        if ($formGroup.find('.alert').length == 0) {
+                            $(this).closest('.form-group').append(messageField);
+                        }
+
                     }
+
+                });
+
+                if (hasError) {
+
+                    $form.before(messageBox);
+                    e.preventDefault();
 
                 }
 
             });
 
-            if (hasError) {
-
-                var $panel = $submitForm.closest('.panel');
-                if ($panel.next('.alert').length == 0) {
-                    $panel.after(messageBox);
-                    e.preventDefault();
-                }
-
-            }
-
-        });
 
 
+        }
 
     }
+
+
 
     $('#delete_button').click(function() {
 
@@ -760,7 +754,8 @@ function modalDyn(title, message, buttons, options)
     var defaults = {
         modalClass: '',
         modalId: 'modalDyn',
-        headerClass: ''
+        headerClass: '',
+        zIndex: 5000
     };
 
     //
@@ -797,7 +792,7 @@ function modalDyn(title, message, buttons, options)
 
             buttonParams = $.isPlainObject( buttonParams ) ?
                 buttonParams :
-            { class: classBtn, icon: '', callback: buttonParams };
+                { class: classBtn, icon: '', callback: buttonParams };
 
             buttonParams.text = name;
             buttonParams = $.extend({}, defaultButton, buttonParams);
@@ -821,7 +816,7 @@ function modalDyn(title, message, buttons, options)
     _modal.find('.modal-content').append(_header);
     _modal.find('.modal-content').append(_body);
     _modal.find('.modal-content').append(_buttonset);
-    _modal.css('z-index', 5000);
+    _modal.css('z-index', 9997);
     _modal.hide();
     $("body").append(_modal);
 
