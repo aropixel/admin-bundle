@@ -85,7 +85,7 @@
 
     {% block panels %}
 
-    {{ form_start(form, {'attr': {'class': 'form-validate-jquery'}}) }}
+    {{ form_start(form, {'attr': {'data-form': 'form'}}) }}
 
         {{ form_errors(form) }}
 
@@ -119,7 +119,7 @@
                 {% block sidebar %}
 
                     {% if form.publishAt is defined or form.publishAt is defined %}
-                    <div class="tabbable">
+                    <div class="tabbable" data-form="publish-tabs">
                         <ul class="nav nav-tabs nav-tabs-bottom bottom-divided nav-tabs-icon" style="margin-bottom: 0">
                             <li class="nav-item"><a href="#sidepanel-tab1" data-toggle="tab" class="nav-link active"><i class="fas fa-paper-plane position-left"></i><span> Publier</span></a></li>
                             <li class="nav-item"><a href="#sidepanel-tab2" data-toggle="tab" class="nav-link"><i class="fas fa-bell position-left"></i><span> Programmer</span></a></li>
@@ -181,7 +181,7 @@
                                         </ul>
                                     </div>
                                 {% else %}
-                                    <button type="submit" class="btn btn-primary heading-btn pull-right" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                                    <button type="submit" class="btn btn-primary heading-btn pull-right" data-form="submit" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
                                 {% endif %}
 
 

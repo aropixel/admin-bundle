@@ -490,8 +490,8 @@ $(function() {
 
 
 
-    var $form = $('form[data-form="main"]');
-    var $tabs = $form.find('.tabbable [data-toggle="tab"]');
+    var $form = $('form[data-form="form"]');
+    var $tabs = $form.find('.tabbable:not([data-form="publish-tabs"]) [data-toggle="tab"]');
     var $submitForm = $form.find('[data-form="submit"]');
 
     if ($tabs.length) {
