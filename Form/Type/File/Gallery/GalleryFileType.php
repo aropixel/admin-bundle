@@ -8,10 +8,8 @@
 namespace Aropixel\AdminBundle\Form\Type\File\Gallery;
 
 
-use Aropixel\AdminBundle\Entity\Fichier;
-use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +25,7 @@ class GalleryFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', EntityHiddenType::class, array('class' => Fichier::class))
+            ->add('file', EntityHiddenType::class, array('class' => FileInterface::class))
             ->add('title', HiddenType::class)
             ->add('alt', HiddenType::class)
         ;

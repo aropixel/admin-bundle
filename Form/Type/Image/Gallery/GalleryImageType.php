@@ -9,6 +9,7 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
 
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -41,7 +42,7 @@ class GalleryImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('image', EntityHiddenType::class, array('class' => Image::class))
+            ->add('image', EntityHiddenType::class, array('class' => ImageInterface::class))
             ->add('title', HiddenType::class)
             ->add('alt', HiddenType::class)
             ->add('class', HiddenType::class)

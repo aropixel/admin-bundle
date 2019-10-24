@@ -12,6 +12,8 @@ interface FileInterface
 {
     public function getAbsolutePath();
 
+    public function getWebPath();
+
     public function preUpload();
 
     public function upload();

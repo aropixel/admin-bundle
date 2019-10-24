@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Controller;
 
 use Aropixel\AdminBundle\Entity\AttachImage;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
@@ -40,7 +41,7 @@ class ImageController extends AbstractController
     private function getImageClassName()
     {
         $entities = $this->getParameter('aropixel_admin.entities');
-        return $entities['image'];
+        return $entities[ImageInterface::class];
     }
 
     /**
@@ -179,7 +180,8 @@ class ImageController extends AbstractController
     public function uploadAction(Request $request)
     {
         //
-        $image = new Image();
+        $className = $this->getImageClassName();
+        $image = new $className();
         $form = $this->createForm(PluploadType::class, $image, array(
             'action' => $this->generateUrl('image_upload'),
             'method' => 'POST',

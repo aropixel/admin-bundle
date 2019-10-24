@@ -43,6 +43,11 @@ abstract class AttachImage
     protected $image;
 
     /**
+     * @var ImageInterface
+     */
+    protected $oldImage;
+
+    /**
      * @var \DateTime
      */
     protected $createdAt;
@@ -155,8 +160,17 @@ abstract class AttachImage
      *
      * @return $this
      */
-    public function setImage(Image $image = null)
+    public function setImage(ImageInterface $image = null)
     {
+        //
+        if (!is_null($this->image)) {
+            $this->oldImage = clone ($this->image);
+        }
+        else {
+            $this->oldImage = null;
+        }
+
+        //
         $this->image = $image;
 
         return $this;
@@ -165,11 +179,21 @@ abstract class AttachImage
     /**
      * Get image
      *
-     * @return Image
+     * @return ImageInterface
      */
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Check if image has changed
+     *
+     * @return boolean
+     */
+    public function hasImageChanged()
+    {
+        return ($this->oldImage != $this->image);
     }
 
     /**

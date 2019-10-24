@@ -9,6 +9,7 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -48,7 +49,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         if ($options['data_type']=='entity') {
 
             $builder
-                ->add('image', EntityHiddenType::class, array('class' => Image::class))
+                ->add('image', EntityHiddenType::class, array('class' => ImageInterface::class))
                 ->add('title', HiddenType::class)
                 ->add('alt', HiddenType::class)
             ;
