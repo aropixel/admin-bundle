@@ -7,44 +7,36 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * Image
- *
- * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
+ * Crop informations for an image
  */
 abstract class Crop
 {
 
+    /**
+     * @var integer
+     */
+//    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="filter", type="string", length=255)
+     * @var string  Which filter was applied
      */
     private $filter;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="crop", type="string", length=255, nullable=true)
+     * @var string  Coordonates of the crop
      */
     private $crop;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
 
 
     /**

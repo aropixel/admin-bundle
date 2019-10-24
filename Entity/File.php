@@ -8,92 +8,65 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Fichier
- *
- * @ORM\Table(name="fichier")
- * @ORM\HasLifecycleCallbacks
- * @ORM\Entity(repositoryClass="Aropixel\AdminBundle\Repository\FichierRepository")
+ * File
  */
-class Fichier
+class File implements FileInterface
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @var string  File title
      */
-    private $titre;
+    protected $titre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="category", type="string", length=255)
+     * @var string  Regroup files for displaying specific files libraries
      */
-    private $category;
-
+    protected $category;
 
     /**
-     * Path du fichier temporaire
+     * @var string  Temporary path (not mapped)
      */
-    private $temp;
-
+    protected $temp;
 
     /**
+     * @var UploadedFile    Uploaded File object
      * @Assert\File(maxSize="100M")
      */
     public $file;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="filename", type="string", length=255)
      */
-    private $filename;
+    protected $filename;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="extension", type="string", length=20)
      */
-    private $extension;
+    protected $extension;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="import", type="text", nullable=true)
      */
-    private $import;
+    protected $import;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * Constructor
@@ -116,7 +89,7 @@ class Fichier
      * Set titre
      *
      * @param string $titre
-     * @return Fichier
+     * @return self
      */
     public function setTitre($titre)
     {
@@ -139,7 +112,7 @@ class Fichier
      * Set attrDescription
      *
      * @param string $attrDescription
-     * @return Fichier
+     * @return self
      */
     public function setDescription($attrDescription)
     {
@@ -162,7 +135,7 @@ class Fichier
      * Set filename
      *
      * @param string $filename
-     * @return Fichier
+     * @return self
      */
     public function setFilename($filename)
     {
@@ -185,7 +158,7 @@ class Fichier
      * Set extension
      *
      * @param string $extension
-     * @return Fichier
+     * @return self
      */
     public function setExtension($extension)
     {
@@ -208,7 +181,7 @@ class Fichier
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return Fichier
+     * @return self
      */
     public function setCreatedAt($createdAt)
     {
@@ -231,7 +204,7 @@ class Fichier
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return Fichier
+     * @return self
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -384,7 +357,7 @@ class Fichier
      * Set category
      *
      * @param string $category
-     * @return Fichier
+     * @return self
      */
     public function setCategory($category)
     {
@@ -408,7 +381,7 @@ class Fichier
      * Set import
      *
      * @param string $import
-     * @return Fichier
+     * @return self
      */
     public function setImport($import)
     {

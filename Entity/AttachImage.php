@@ -12,63 +12,45 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * Posts
- *
- * @ORM\MappedSuperclass
- *
+ * Abstract class to handle image attachment
  */
 abstract class AttachImage
 {
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string  Title html attribute of the image
      */
-    private $title;
+    protected $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string  Attr html attribute of the image
      */
-    private $alt;
+    protected $alt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string  Specific class to give when rendering the image
      */
-    private $class;
+    protected $class;
 
     /**
-     * @var integer
-     *
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @var integer Position when the image is part of a set of images
      */
-    private $position;
+    protected $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Aropixel\AdminBundle\Entity\Image")
+     * @var ImageInterface  Image entity that represent image source
      */
     protected $image;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**

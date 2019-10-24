@@ -13,57 +13,40 @@ use Aropixel\AdminBundle\Entity\Fichier;
 
 
 /**
- * Posts
- *
- * @ORM\MappedSuperclass
- *
+ * Abstract class to handle file attachment
  */
 abstract class AttachFile
 {
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string  Html title attribute for the file link rendering
      */
-    private $title;
+    protected $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string  Html alt attribute for the file link rendering
      */
-    private $alt;
+    protected $alt;
 
     /**
-     * @var integer
-     *
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @var integer Position when the file is part of a set of files
      */
-    private $position;
+    protected $position;
 
     /**
-     * @var Fichier
-     * @ORM\ManyToOne(targetEntity="Aropixel\AdminBundle\Entity\Fichier")
+     * @var FileInterface  File entity that represent file source
      */
     protected $file;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**

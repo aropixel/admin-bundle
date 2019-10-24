@@ -2,7 +2,10 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
+use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -36,7 +39,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('entities')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('image')->defaultValue(Image::class)->end()
+                        ->scalarNode(ImageInterface::class)->defaultValue(Image::class)->end()
+                        ->scalarNode(FileInterface::class)->defaultValue(File::class)->end()
                     ->end()
                 ->end()
                 ->arrayNode('client')

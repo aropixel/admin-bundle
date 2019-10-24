@@ -4,118 +4,97 @@ namespace Aropixel\AdminBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Image
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\MappedSuperclass(repositoryClass="Aropixel\AdminBundle\Repository\ImageRepository")
  */
-class Image
+class Image implements ImageInterface
 {
 
     const UPLOAD_DIR = 'images';
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255)
+     * @var string  Image title
      */
-    private $titre;
+    protected $titre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="category", type="string", length=255)
+     * @var string  Regroup images for displaying specific library images
      */
-    private $category;
-
+    protected $category;
 
     /**
-     * Path du fichier temporaire
+     * @var string  Temporary path (not mapped)
      */
-    private $temp;
-
+    protected $temp;
 
     /**
+     * @var UploadedFile    File object of the image
      * @Assert\File(maxSize = "25M")
      */
     public $file;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="attr_title", type="string", length=255, nullable=true)
+     * @var string  Default title attribute (can be overrided by AttachImage)
      */
-    private $attrTitle;
+    protected $attrTitle;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="attr_alt", type="string", length=255, nullable=true)
+     * @var string  Default alt attribute (can be overrided by AttachImage)
      */
-    private $attrAlt;
+    protected $attrAlt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="attr_description", type="string", length=255, nullable=true)
+     * @var string  Description of the image
      */
-    private $attrDescription;
+    protected $attrDescription;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="filename", type="string", length=255)
+     * @var string  Image filename
      */
-    private $filename;
+    protected $filename;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="extension", type="string", length=20)
+     * @var string  Image type: filename extension
      */
-    private $extension;
+    protected $extension;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="import", type="text", nullable=true)
+     * @var string  URL used if the image was imported (not uploaded)
      */
-    private $import;
+    protected $import;
 
     /**
      * @var boolean
      */
-    private $isNew;
+    protected $isNew;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->crops = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -391,8 +370,6 @@ class Image
 
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
      */
     public function preUpload()
     {
@@ -413,8 +390,6 @@ class Image
     }
 
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
      */
     public function upload()
     {
@@ -438,7 +413,6 @@ class Image
     }
 
     /**
-     * @ORM\PostRemove()
      */
     public function removeUpload()
     {
@@ -470,13 +444,6 @@ class Image
     public function getCategory()
     {
         return $this->category;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->crops = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

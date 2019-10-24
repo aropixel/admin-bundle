@@ -8,8 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
- * @ORM\Table(name="admin_user")
- * @ORM\Entity(repositoryClass="Aropixel\AdminBundle\Repository\UserRepository")
+ * Admin user for AropixelAdminBundle
  */
 class User implements UserInterface
 {
@@ -19,54 +18,47 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var integer
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @var string
      */
     private $email;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var boolean
      */
     private $enabled;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="json")
+     * @var array
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * Plain password. Used for model validation. Must not be persisted.
-     * @var string
+     * @var string  Plain password. Used for model validation. Must not be persisted.
      */
     private $plainPassword;
 
     /**
      * @var \DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
