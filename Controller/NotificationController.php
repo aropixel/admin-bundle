@@ -2,11 +2,10 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Aropixel\AdminBundle\Entity\Notification;
 
 
@@ -15,7 +14,7 @@ use Aropixel\AdminBundle\Entity\Notification;
  *
  * @Route("/notification")
  */
-class NotificationController extends Controller
+class NotificationController extends AbstractController
 {
 
     /**

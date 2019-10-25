@@ -4,14 +4,12 @@ namespace Aropixel\AdminBundle\Controller;
 
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
-use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
 use Aropixel\AdminBundle\Services\Datatabler;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Aropixel\AdminBundle\Entity\Fichier;
+use Aropixel\AdminBundle\Entity\File;
 
 
 /**
@@ -19,7 +17,7 @@ use Aropixel\AdminBundle\Entity\Fichier;
  *
  * @Route("/file")
  */
-class FileController extends Controller
+class FileController extends AbstractController
 {
 
     private $datatableFieds = array();
@@ -50,7 +48,7 @@ class FileController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //
-        $datatabler = $datatabler->setRepository('AropixelAdminBundle:Fichier', $this->datatableFieds);
+        $datatabler = $datatabler->setRepository('AropixelAdminBundle:File', $this->datatableFieds);
         if ($datatabler->isCalled()) {
 
             //
@@ -86,7 +84,7 @@ class FileController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //
-        $datatabler = $datatabler->setRepository('AropixelAdminBundle:Fichier', $this->datatableFieds);
+        $datatabler = $datatabler->setRepository('AropixelAdminBundle:File', $this->datatableFieds);
         $qb = $datatabler->getQueryBuilder();
         $qb
             ->andWhere('f.category = :category')
@@ -163,7 +161,7 @@ class FileController extends Controller
 
         $entity_id = $request->request->get('id');
         $titre = $request->request->get('titre');
-        $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:Fichier')->find($entity_id);
+        $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($entity_id);
 
         if ($file) {
 
@@ -195,7 +193,7 @@ class FileController extends Controller
 
         //
         $em = $this->getDoctrine()->getManager();
-        $fichier = $this->getDoctrine()->getRepository('AropixelAdminBundle:Fichier')->find($fichier_id);
+        $fichier = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($fichier_id);
 
         //
         if ($fichier) {
@@ -233,7 +231,7 @@ class FileController extends Controller
     public function uploadAction(Request $request)
     {
         //
-        $file = new Fichier();
+        $file = new File();
         $form = $this->createForm(PluploadFileType::class, $file, array(
             'action' => $this->generateUrl('file_upload'),
             'method' => 'POST',
@@ -274,7 +272,7 @@ class FileController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Fichier')->find($file_id);
+        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($file_id);
         $image->setTitre($title);
         $em->flush();
 
@@ -289,7 +287,7 @@ class FileController extends Controller
      *
      * @Route("/attach/file", name="file_attach", options={"expose"=true}, methods={"POST"})
      */
-    public function attachImageAction(Request $request)
+    public function attachFileAction(Request $request)
     {
         //
         $files = $request->get('files');
@@ -316,7 +314,7 @@ class FileController extends Controller
         foreach ($files as $fileId) {
 
             //
-            $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:Fichier')->find($fileId);
+            $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($fileId);
             $attachFile->setFile($file);
             $attachFile->setTitle($file->getTitre());
             //
