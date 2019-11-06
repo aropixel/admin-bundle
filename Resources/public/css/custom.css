@@ -501,7 +501,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 
-
+.im-manager .card {
+    margin-bottom: 0;
+}
 
 .thumbnail .thumb-attach {
     height: 260px;

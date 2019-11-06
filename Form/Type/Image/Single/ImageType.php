@@ -48,8 +48,13 @@ class ImageType extends AbstractType implements DataMapperInterface
     {
         if ($options['data_type']=='entity') {
 
+            $imageOptions = array('class' => ImageInterface::class);
+            if ($options['required']) {
+                $imageOptions['required'] = true;
+            }
+
             $builder
-                ->add('image', EntityHiddenType::class, array('class' => ImageInterface::class))
+                ->add('image', EntityHiddenType::class, $imageOptions)
                 ->add('title', HiddenType::class)
                 ->add('alt', HiddenType::class)
             ;
@@ -70,8 +75,13 @@ class ImageType extends AbstractType implements DataMapperInterface
         }
         elseif ($options['data_type']=='file_name') {
 
+            $imageOptions = array();
+            if ($options['required']) {
+                $imageOptions['required'] = true;
+            }
+
             $builder
-                ->add('file_name', HiddenType::class)
+                ->add('file_name', HiddenType::class, $imageOptions)
                 ->setDataMapper($this)
             ;
 
