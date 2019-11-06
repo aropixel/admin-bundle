@@ -258,7 +258,7 @@
                 }
                 launcher.element.find(".preview input[name$='[image]']").val($(result).find(".preview input[name$='[image]']").val());
                 launcher.element.find(".preview input[name$='[file_name]']").val($(result).find(".preview input[name$='[file_name]']").val());
-                launcher.element.find(".caption").html($(result).find('.caption').html());
+                // launcher.element.find(".caption").html($(result).find('.caption').html());
                 launcher.element.find(".caption-overflow a:not(:first-child)").remove();
                 launcher.element.find(".caption-overflow a:first-child").after($(result).find('.caption-overflow a:not(:first-child)'));
 
