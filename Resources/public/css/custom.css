@@ -135,7 +135,8 @@ body {
     letter-spacing: .7px;
 }
 
-.form-label.required:after {
+.form-label.required:after,
+.form-image.required:after {
     content: " *";
     color: red;
 }
