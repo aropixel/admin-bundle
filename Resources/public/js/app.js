@@ -494,7 +494,7 @@ $(function() {
     var $tabs = $form.find('.tabbable:not([data-form="publish-tabs"]) [data-toggle="tab"]');
     var $submitForm = $form.find('[data-form="submit"]');
 
-    if ($tabs.length) {
+    if ($form.length) {
 
         $form.attr('novalidate', 'novalidate');
         if ($submitForm.length) {
@@ -516,7 +516,7 @@ $(function() {
 
                         hasError = true;
                         if ($formGroup.find('.alert').length == 0) {
-                            $(this).closest('.form-group').append(messageField);
+                            $formGroup.append(messageField);
                         }
 
                     }
@@ -525,13 +525,11 @@ $(function() {
 
                 if (hasError) {
 
-                    //
-                    e.preventDefault();
-
-                    var $alert = $form.prev('.alert.alert-danger');
-                    if ($alert.length === 0) {
+                    if ($form.prev('.alert').length == 0) {
                         $form.before(messageBox);
                     }
+
+                    e.preventDefault();
 
                 }
 
