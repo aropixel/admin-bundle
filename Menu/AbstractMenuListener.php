@@ -72,6 +72,11 @@ abstract class AbstractMenuListener
 
     protected function addCategory($name) {
 
+        if ($this->weight != 100) {
+            $rest = ($this->weight % 100);
+            $this->weight = $this->weight + (100 - $rest);
+        }
+
         /** @var ItemInterface $item */
         $item = $this->factory->createItem($name);
         $item->setAttribute('class', $this->catClass);
@@ -159,7 +164,7 @@ abstract class AbstractMenuListener
 
 
 
-    protected function createItem($name, $route="", $icon="", $validRoots=array()) {
+    protected function createItem($name, $route="", $icon="", $validRoots=array(), $weight=null) {
 
         //
         $options = array();
@@ -171,6 +176,11 @@ abstract class AbstractMenuListener
         $options = array_merge($options, $route);
         $options['label'] = $name;
 
+        //
+        if (!is_null($weight)) {
+            $this->weight = $weight;
+        }
+        dump($name, $this->weight);
 
         // Crée l'élément
         $item = $this->factory->createItem($name.'_'.$this->weight, $options);
@@ -209,9 +219,9 @@ abstract class AbstractMenuListener
     }
 
 
-    protected function addItem($name, $route="", $icon="", $validRoots=array()) {
+    protected function addItem($name, $route="", $icon="", $validRoots=array(), $weight=null) {
 
-        $item = $this->createItem($name, $route, $icon, $validRoots);
+        $item = $this->createItem($name, $route, $icon, $validRoots, $weight);
         $this->menu->addChild($item);
 
         return $item;
