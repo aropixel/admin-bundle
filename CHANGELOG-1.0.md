@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.3** *(20xx-xx-xx)*
+* **1.0.4** *(20xx-xx-xx)*
 
+
+* **1.0.3** *(2019-11-07)*
+    * Bugfix: ImageType was required by default
 
 * **1.0.2** *(2019-11-06)*
     * Bugfix: attachImage action remove card footer content
