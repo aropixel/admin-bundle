@@ -180,7 +180,6 @@ abstract class AbstractMenuListener
         if (!is_null($weight)) {
             $this->weight = $weight;
         }
-        dump($name, $this->weight);
 
         // Crée l'élément
         $item = $this->factory->createItem($name.'_'.$this->weight, $options);
