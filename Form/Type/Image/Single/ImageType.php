@@ -165,6 +165,7 @@ class ImageType extends AbstractType implements DataMapperInterface
             'crop_class' => null,
             'library' => null,
             'card_footer' => true,
+            'required' => false,
         ));
     }
 
