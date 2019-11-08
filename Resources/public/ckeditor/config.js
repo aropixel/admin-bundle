@@ -9,7 +9,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-    config.customConfig = '/admin/ckeditor/config.js';
+    config.customConfig = '/aropixeladmin/ckeditor/config.js';
 
 	// Extra config
 	// ------------------------------
