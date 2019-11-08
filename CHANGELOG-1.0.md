@@ -4,8 +4,12 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.4** *(20xx-xx-xx)*
+* **1.0.5** *(20xx-xx-xx)*
 
+
+* **1.0.4** *(2019-11-08)*
+    * Make menu more customizable (add weight parameter)
+    * Change path for ckeditor custom config
 
 * **1.0.3** *(2019-11-07)*
     * Bugfix: ImageType was required by default
