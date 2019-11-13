@@ -1,56 +1,56 @@
-    {% set myfilters = filters is defined ? filters : image|crop_filters(imageLongClass) %}
-    <!-- Full width modal -->
-	<div id="modalCrop{{ imageShortClass }}" class="modalCrop modal fade" style="text-align: left">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Recadrer une image</h5>
-				</div>
+{% set myfilters = filters is defined ? filters : image|crop_filters(imageLongClass) %}
+<!-- Full width modal -->
+<div id="modalCrop{{ imageShortClass }}" class="modalCrop modal fade" style="text-align: left">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Recadrer une image</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
 
-				<div class="modal-body">
+			<div class="modal-body">
 
-                    <div>
+				<div>
 
-                    	<div class="pull-left" id="crop_zone">
-							{% if image and image.id %}
-                    		<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.image.id }}" />
-							{% endif %}
-                    	</div>
+					<div class="float-left" id="crop_zone">
+						{% if image and image.id %}
+							<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.image.id }}" />
+						{% endif %}
+					</div>
 
-                    	<div class="pull-left full-with m-l-50" id="crop_options">
+					<div class="float-left full-with m-l-50" id="crop_options">
 
-                    		<h4><span class="semi-bold">Régler les découpes</span> de votre image</h4>
+						<h4><span class="semi-bold">Régler les découpes</span> de votre image</h4>
 
-                    		<p>
-                    			Optimisez l'affichage des images dans votre site, en réglant les différentes découpes de vos images.<br />
-                    			<strong>Attention, si vous réduisez beaucoup votre zone de sélection, la qualité pourrait être affectée.</strong>
-                    		</p>
+						<p>
+							Optimisez l'affichage des images dans votre site, en réglant les différentes découpes de vos images.<br />
+							<strong>Attention, si vous réduisez beaucoup votre zone de sélection, la qualité pourrait être affectée.</strong>
+						</p>
 
-                    		<div class="radio">
-                            {% set class = 'checked="checked"' %}
-                            {% for filter in myfilters %}
+						{% set class = 'checked="checked"' %}
+						{% for filter in myfilters %}
 
-                                <input id="ratio_{{ filter.slug }}" {{ class }} type="radio" name="ratio{{ imageShortClass }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.crop }}">
-                                <label for="ratio_{{ filter.slug }}">{{ filter.name }}</label><br />
+							<div class="form-check">
+								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ imageShortClass }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.crop }}">
+								<label for="ratio_{{ filter.slug }}" class="form-check-label">{{ filter.name }}</label><br />
+							</div>
 
-                                {% set class = '' %}
-                            {% endfor %}
+							{% set class = '' %}
+						{% endfor %}
 
-                            </div>
 
-                    	</div>
-                    	<div class="clearfix"></div>
-
-                    </div>
+					</div>
+					<div class="clearfix"></div>
 
 				</div>
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary crop-file">Recadrer l'image</button>
-				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+				<button type="button" class="btn btn-primary crop-file">Recadrer l'image</button>
 			</div>
 		</div>
 	</div>
-	<!-- /full width modal -->
+</div>
+<!-- /full width modal -->
