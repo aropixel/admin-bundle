@@ -4,8 +4,13 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.5** *(20xx-xx-xx)*
+* **1.0.6** *(20xx-xx-xx)*
 
+
+* **1.0.5** *(2019-11-13)*
+    * Bugfix rendering non required image in form
+    * Bugfix rendering crops modal
+    * Bugfix rendering image title x-editable form
 
 * **1.0.4** *(2019-11-08)*
     * Make menu more customizable (add weight parameter)
