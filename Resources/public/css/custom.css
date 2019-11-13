@@ -1344,3 +1344,13 @@ p {
     background-color: #f4f4f4;
     text-decoration: none;
 }
+
+
+/**  X-EDITABLE PLUGIN  **/
+
+.editable-container.popover {
+    z-index: 9999;
+}
+.editable-container.bs-popover-auto[x-placement^=right] .arrow::before, .editable-container.bs-popover-right .arrow::before {
+    border-right-color: #cccccc;
+}
