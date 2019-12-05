@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.6** *(20xx-xx-xx)*
+* **1.0.7** *(20xx-xx-xx)*
 
+
+* **1.0.6** *(2019-12-05)*
+    * Use ManagerRegistry instead RegistryInterface for repositories
 
 * **1.0.5** *(2019-11-13)*
     * Bugfix rendering non required image in form
