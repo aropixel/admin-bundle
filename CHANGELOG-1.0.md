@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.7** *(20xx-xx-xx)*
+* **1.0.8** *(20xx-xx-xx)*
 
+
+* **1.0.7** *(2019-12-18)*
+    * Bugfix insert files in ckeditor
 
 * **1.0.6** *(2019-12-05)*
     * Use ManagerRegistry instead RegistryInterface for repositories
