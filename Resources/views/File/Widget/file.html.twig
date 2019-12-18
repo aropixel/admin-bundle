@@ -1,0 +1,14 @@
+
+<tr class="itemFile">
+    <td>
+        {% if form.vars.attachedFile is defined and form.vars.attachedFile and form.vars.attachedFile.file %}
+            <span class="text-size-mini">{{ form.vars.attachedFile.title }}</span>
+        {% else %}
+            <span class="text-size-mini"></span>
+        {% endif %}
+        {{ form_widget(form) }}
+    </td>
+    <td>
+        <a class="text-right text-default text-size-mini ml-5 iconUnlinkFile"><i class="icon-unlink2"></i></a>
+    </td>
+</tr>

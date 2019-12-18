@@ -11,14 +11,10 @@
 
 
 {% block form_end -%}
-    {% if load_library() %}
-        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
-        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
-    {% endif %}
-    {% if load_files_library() %}
-        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
-    {% endif %}
     {{- parent() -}}
+    {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
+    {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
+    {{ include('@AropixelAdmin/File/Modals/library.html.twig', { 'category' : false }) }}
 {%- endblock form_end %}
 
 

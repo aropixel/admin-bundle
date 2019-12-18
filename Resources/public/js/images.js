@@ -13,7 +13,7 @@
 
         modal: {
             id: '#modalLibrary',
-            uploader: '.image-uploader',
+            uploader: '#modalLibrary .image-uploader',
             dataTable: '#libraryDataTable',
             checkbox: 'input[type="checkbox"][name^="image"]',
             attach: '.attach-images',
@@ -776,7 +776,7 @@
             else {
 
                 //
-                console.log("image existante");
+                // console.log("image existante");
 
             }
 
@@ -785,7 +785,7 @@
             if (!isInitialized) {
 
                 //
-                console.log("instanciate");
+                // console.log("instanciate");
 
                 //
                 _modal.on('click', selectors.crop.ratios, function() {

@@ -130,8 +130,8 @@ class FileController extends AbstractController
         $filesize = sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 
         $extension = $file->getExtension();
-        $iconExt = "theme_ll/images/files/".$extension.".png";
-        $iconDft = "theme_ll/images/files/file.png";
+        $iconExt = "img/files/".$extension.".png";
+        $iconDft = "img/files/file.png";
         $basePath = __DIR__.'/../../../../public/';
         if (file_exists($basePath.'/bundles/aropixeladmin/'.$iconExt)) {
             $icon = '/bundles/aropixeladmin/'.$iconExt;

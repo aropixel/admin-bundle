@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Form\Type\File;
 
 use Aropixel\AdminBundle\Entity\Fichier;
+use Aropixel\AdminBundle\Entity\File;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +30,7 @@ class PluploadFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Fichier::class,
+            'data_class' => File::class,
             'csrf_protection' => false,
         ));
     }

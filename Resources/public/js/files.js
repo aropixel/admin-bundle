@@ -13,7 +13,7 @@
 
         modal: {
             id: '#modalFilesLibrary',
-            uploader: '.file-uploader',
+            uploader: '#modalFilesLibrary .file-uploader',
             dataTable: '#filesLibraryDataTable',
             checkbox: 'input[type="checkbox"][name^="file"]',
             attach: '.attach-files',
@@ -695,7 +695,6 @@
             // Évènement de démarrage de l'upload (envoi des fichiers)
             var button_upload_id = (Math.random() + '').replace('0.', '');
             obj.element.attr("id", button_upload_id);
-
 
             //
             // Initialisation de l'uploader

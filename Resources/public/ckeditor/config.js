@@ -140,7 +140,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
                            //            });
                             $(srcTextarea).FileManager({
                                 editor : ev.editor,
-                                category : $(srcTextarea).data('category-file'),
+                                category : $(srcTextarea).attr('data-class'),
                             });
 
                             return (false);
