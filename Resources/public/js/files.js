@@ -60,6 +60,7 @@
         {
             this.element.data('flAttachClass', options.category);
             this.editor = new FL_Editor(this, options.editor);
+            this.editor.open_modal();
         }
         else
         {
@@ -79,9 +80,14 @@
         //
         // Ouvre la modal et charge les images
         flcore.modal.set_launcher(launcher);
-        $('.cke_dialog_background_cover').css('z-index', 960);
-        $('.cke_dialog').css('z-index', 980);
-        $(selectors.modal.id).modal('show');
+
+        //
+        this.open_modal = function()
+        {
+            $('.cke_dialog_background_cover').css('z-index', 960);
+            $('.cke_dialog').css('z-index', 980);
+            $(selectors.modal.id).modal('show');
+        }
 
         //
         this.insert_file = function()
@@ -473,6 +479,7 @@
 
         this.load_files = function(button) {
 
+            var _public = (typeof obj.launcher.editor != "undefined");
             var _class = obj.launcher.element.data('flAttachClass');
             var _src = $(selectors.modal.dataTable).attr('data-src')
             var _params = {
@@ -480,7 +487,7 @@
                 "serverSide": true,
                 "order": [],
                 "ajax": $.fn.dataTable.pipeline( {
-                    url: encodeURI(_src + '/' + _class),
+                    url: encodeURI(_src + '/' + _class + '?editor=' + _public),
                     pages: 5 // number of pages to cache
                 } )
             };
@@ -525,6 +532,9 @@
         $(selectors.modal.dataTable).on('click', selectors.modal.delete, function() {
 
             //
+            var $deleteButton = $(this);
+
+            //
             var _detach_params = {};
             _detach_params['category'] = obj.launcher.element.data('flAttachClass');
             _detach_params['entity_id'] = obj.launcher.config.flEntityId;
@@ -543,7 +553,7 @@
                     'callback' : function() {
 
                         //
-                        $.post(Routing.generate('file_delete'), _detach_params, function(answer) {
+                        $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
                             //
                             flcore.modal.load_files();
@@ -726,7 +736,7 @@
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'plupload_file[titre]': file.name };
+                        up.settings.multipart_params = { 'plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'plupload_file[titre]': file.name, 'plupload_file[public]': flcore.modal.launcher.editor ? true : false };
 
                     },
 

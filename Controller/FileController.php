@@ -2,10 +2,12 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
+use Aropixel\AdminBundle\Entity\AttachFile;
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,7 +50,17 @@ class FileController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         //
-        $datatabler = $datatabler->setRepository('AropixelAdminBundle:File', $this->datatableFieds);
+        $isPublic = (boolean)$request->get('editor');
+
+        //
+        $datatabler->setRepository(File::class, $this->datatableFieds);
+        $qb = $datatabler->getQueryBuilder();
+        $qb
+            ->andWhere('f.public = :public')
+            ->setParameter('public', $isPublic)
+        ;
+
+
         if ($datatabler->isCalled()) {
 
             //
@@ -84,11 +96,16 @@ class FileController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         //
+        $isPublic = (boolean)$request->get('editor');
+
+        //
         $datatabler = $datatabler->setRepository('AropixelAdminBundle:File', $this->datatableFieds);
         $qb = $datatabler->getQueryBuilder();
         $qb
             ->andWhere('f.category = :category')
+            ->andWhere('f.public = :public')
             ->setParameter('category', $category)
+            ->setParameter('public', $isPublic)
         ;
 
         //
@@ -185,29 +202,31 @@ class FileController extends AbstractController
     {
         //
         $fichier_id = $request->get('file_id');
-        $t_entity = explode('\\', $request->get('category'));
-
-        //
-        $entity_name = array_pop($t_entity);    array_pop($t_entity);
-        $short_namespace = implode('', $t_entity);
+        $libraryClass = $request->get('category');
 
         //
         $em = $this->getDoctrine()->getManager();
-        $fichier = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($fichier_id);
+        $fichier = $this->getDoctrine()->getRepository(File::class)->find($fichier_id);
 
         //
         if ($fichier) {
 
             //
-            $attachedFiles = $this->getDoctrine()->getRepository($short_namespace.':'.$entity_name)->findBy(array('file' => $fichier));
+            $libraryEntity = new \ReflectionClass($libraryClass);
+            if ($libraryEntity instanceof AttachFile) {
 
-            //
-            if (count($attachedFiles)) {
+                //
+                $attachedFiles = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('file' => $fichier));
 
-                foreach ($attachedFiles as $attachedFile) {
-                    $em->remove($attachedFile);
+                //
+                if (count($attachedFiles)) {
+
+                    foreach ($attachedFiles as $attachedFile) {
+                        $em->remove($attachedFile);
+                    }
+                    $em->flush();
+
                 }
-                $em->flush();
 
             }
 

@@ -21,6 +21,7 @@ class PluploadFileType extends AbstractType
             ->add('titre')
             ->add('file', FileType::class)
             ->add('category')
+            ->add('public')
         ;
     }
 

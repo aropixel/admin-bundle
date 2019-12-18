@@ -33,6 +33,11 @@ class File implements FileInterface
     protected $temp;
 
     /**
+     * @var boolean  Is the file public ?
+     */
+    protected $public;
+
+    /**
      * @var UploadedFile    Uploaded File object
      * @Assert\File(maxSize="100M")
      */
@@ -178,6 +183,24 @@ class File implements FileInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    /**
+     * @param bool $public
+     * @return File
+     */
+    public function setPublic(?bool $public): File
+    {
+        $this->public = $public;
+        return $this;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -255,6 +278,17 @@ class File implements FileInterface
     }
 
     /**
+     * Get upload directory absolute path from root
+     *
+     * @return string
+     */
+    public function getUploadRootPublicDir()
+    {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__.'/../../../../public/'.$this->getUploadDir();
+    }
+
+    /**
      * Get image absolute path
      *
      * @return string
@@ -326,15 +360,18 @@ class File implements FileInterface
             return;
         }
 
+        //
+        $dir = $this->isPublic() ? $this->getUploadRootPublicDir() : $this->getUploadRootDir();
+
         // if there is an error when moving the file, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->filename);
+        $this->getFile()->move($dir, $this->filename);
 
         // check if we have an old image
         if (isset($this->temp)) {
             // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
+            unlink($dir.'/'.$this->temp);
             // clear the temp image path
             $this->temp = null;
         }
