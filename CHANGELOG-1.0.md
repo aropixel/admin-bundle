@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.10** *(20xx-xx-xx)*
+* **1.0.11** *(20xx-xx-xx)*
 
+
+* **1.0.10** *(2020-01-17)*
+    * Fix v1.0.10 Changelog
 
 * **1.0.9** *(2020-01-17)*
     * Remove filter & crop getter & setters in AttachImage
