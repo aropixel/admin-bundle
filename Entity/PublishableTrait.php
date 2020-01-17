@@ -20,13 +20,14 @@ trait PublishableTrait
         //
         $now = new \DateTime();
 
+
         //
-        if (property_exists($this, 'publishAt') && ($this->publishAt > $now)) {
+        if (property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now)) {
             return false;
         }
 
         //
-        if (property_exists($this, 'publishUntil') && ($now > $this->publishUntil)) {
+        if (property_exists($this, 'publishUntil') && !is_null($this->publishUntil) && ($now > $this->publishUntil)) {
             return false;
         }
 
