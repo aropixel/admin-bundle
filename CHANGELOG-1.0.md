@@ -7,8 +7,9 @@ in 1.0 minor versions.
 * **1.0.10** *(20xx-xx-xx)*
 
 
-* **1.0.9** *(2019-12-xx)*
+* **1.0.9** *(2020-01-17)*
     * Remove filter & crop getter & setters in AttachImage
+    * Add PublishableTrait for publishable entities
 
 * **1.0.8** *(2019-12-18)*
     * Add public/private notion for files
