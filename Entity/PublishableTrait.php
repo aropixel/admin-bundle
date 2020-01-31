@@ -13,7 +13,7 @@ trait PublishableTrait
 
     function isPublished() {
 
-        if ($this->status == Publishable::STATUS_OFFLINE) {
+        if (property_exists($this, 'status') && $this->status == Publishable::STATUS_OFFLINE) {
             return false;
         }
 
