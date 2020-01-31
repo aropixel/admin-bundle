@@ -45,6 +45,8 @@ $(function() {
             weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
             today: 'aujourd\'hui',
             clear: 'effacer',
+            selectMonths: true,
+            selectYears: true,
             labelMonthNext: 'Mois suivant',
             labelMonthPrev: 'Mois précédent',
             format: 'dd/mm/yyyy',
