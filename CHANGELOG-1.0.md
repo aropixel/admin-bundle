@@ -7,6 +7,10 @@ in 1.0 minor versions.
 * **1.0.12** *(20xx-xx-xx)*
 
 
+* **1.0.12** *(2020-02-03)*
+    * Separate vendor & theme assets twig blocks
+    * Bugfix multiple pickadate instances
+
 * **1.0.11** *(2020-02-03)*
     * Active select for years & months in datepicker
     * Customize datepicker as material design datepicker
