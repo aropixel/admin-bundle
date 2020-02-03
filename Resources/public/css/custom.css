@@ -576,6 +576,14 @@ button.fa-stack.danger .fa-stack-1x {
     margin-top: 0!important;
     padding: 15px 0;
 }
+button.clockpicker-clear {
+    color: #444;
+    font-weight: 400;
+}
+button.clockpicker-done {
+    color: #525eb7;
+    font-weight: 500;
+}
 
 
 
