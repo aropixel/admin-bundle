@@ -4,8 +4,14 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.11** *(20xx-xx-xx)*
+* **1.0.12** *(20xx-xx-xx)*
 
+
+* **1.0.11** *(2020-02-03)*
+    * Active select for years & months in datepicker
+    * Customize datepicker as material design datepicker
+    * Use & customize jquery clockpicker for time picking
+    * Bugfix PublishableTrait if status property isn't defined
 
 * **1.0.10** *(2020-01-17)*
     * Fix v1.0.10 Changelog
