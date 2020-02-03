@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.12** *(20xx-xx-xx)*
+* **1.0.14** *(20xx-xx-xx)*
 
+
+* **1.0.13** *(2020-02-03)*
+    * Bugfix CSS awesomefont
 
 * **1.0.12** *(2020-02-03)*
     * Separate vendor & theme assets twig blocks
