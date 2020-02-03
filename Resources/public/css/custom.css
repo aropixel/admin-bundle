@@ -383,6 +383,10 @@ button.fa-stack.danger .fa-stack-1x {
 .picker__wrap {
     font-family: 'Nunito', 'Segoe UI', arial;
 }
+.picker__box {
+    border-radius: 0;
+    border-color: transparent;
+}
 .picker__day {
     padding: 0.8125em 0;
 }
@@ -408,13 +412,17 @@ button.fa-stack.danger .fa-stack-1x {
     width: auto;
     height: auto;
 }
+
 .picker__nav--prev:before {
     content: "\f3d2";
 }
 .picker__nav--next:before {
     content: "\f3d3";
 }
-.picker--focused .picker__day--highlighted, .picker__day--highlighted:hover, .picker__day--infocus:hover, .picker__day--outfocus:hover {
+.picker--focused .picker__day--highlighted {
+    background-color: transparent;
+}
+.picker__day--highlighted:hover, .picker__day--infocus:hover, .picker__day--outfocus:hover {
     background-color: #ededff;
     border-radius: 2px;
 }
@@ -432,7 +440,7 @@ button.fa-stack.danger .fa-stack-1x {
 .picker__nav--next:hover, .picker__nav--prev:hover {
     cursor: pointer;
     color: #000;
-    background: #ededff;
+    background: none;
 }
 @media (min-height: 40.125em) {
     .picker__box {
@@ -451,6 +459,126 @@ button.fa-stack.danger .fa-stack-1x {
 .picker--time .picker__box {
     font-size: .8em;
 }
+
+
+.picker__date-display {
+    text-align: center;
+    background-color: #6777ef;
+    color: #fff;
+    padding-bottom: 15px;
+    font-weight: 300
+}
+
+.picker__weekday-display {
+    background-color: #525eb7;
+    padding: 10px;
+    font-weight: 200;
+    letter-spacing: .5;
+    font-size: 1rem;
+    margin-bottom: 15px
+}
+
+.picker__month-display {
+    text-transform: uppercase;
+    font-size: 2rem
+}
+
+.picker__day-display {
+    font-size: 4.5rem;
+    font-weight: 400
+}
+
+.picker__year-display {
+    font-size: 1.8rem;
+    color: rgba(255,255,255,0.4)
+}
+
+.picker__day--infocus {
+    color: #595959;
+    letter-spacing: -.3;
+    padding: .75rem 0;
+    font-weight: 400;
+    border: 1px solid transparent
+}
+
+.picker__day--selected,.picker__day--selected:hover,.picker--focused .picker__day--selected {
+    border-radius: 50%;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    background-color: #6777ef;
+    color: #ffffff;
+    display: inline-block;
+    padding: .75rem;
+}
+
+.picker__day--selected.picker__day--outfocus,.picker__day--selected:hover.picker__day--outfocus,.picker--focused .picker__day--selected.picker__day--outfocus {
+    background-color: #aebcef
+}
+
+.picker__month,.picker__year {
+    display: inline-block;
+    margin-left: .25em;
+    margin-right: .25em
+}
+
+.picker__select--month,.picker__select--year {
+    height: 2em;
+    padding: 0;
+    margin-left: .25em;
+    margin-right: .25em;
+    font-size: .7em;
+    border: 1px solid #e9e9e9;
+}
+
+.picker__select--month.browser-default {
+    display: inline;
+    background-color: #FFFFFF;
+    width: 40%
+}
+
+.picker__select--year.browser-default {
+    display: inline;
+    background-color: #FFFFFF;
+    width: 26%
+}
+
+.picker__select--month:focus,.picker__select--year:focus {
+    border-color: rgba(0,0,0,0.05)
+}
+
+
+
+
+
+
+
+
+.clockpicker-popover .popover-title {
+    background-color: #6777ef;
+    padding: 30px 10px;
+    letter-spacing: .2;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+}
+.clockpicker-plate {
+    margin: 30px auto;
+}
+.clockpicker-popover .popover-title span.text-primary {
+    color: #fff!important;
+}
+.clockpicker-popover .popover-footer {
+    display: flex;
+}
+.clockpicker-popover .popover-footer button {
+    flex: auto;
+    text-transform: uppercase;
+    margin-top: 0!important;
+    padding: 15px 0;
+}
+
+
+
 
 
 
@@ -1354,3 +1482,5 @@ p {
 .editable-container.bs-popover-auto[x-placement^=right] .arrow::before, .editable-container.bs-popover-right .arrow::before {
     border-right-color: #cccccc;
 }
+
+
