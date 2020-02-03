@@ -96,35 +96,40 @@ $(function() {
     }
 
 
+    
     var $pickadate = $('.pickadate');
     if ($pickadate.length) {
 
-        var picker_date = $pickadate.pickadate({
-            monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-            today: 'aujourd\'hui',
-            clear: 'effacer',
-            close: 'fermer',
-            selectMonths: true,
-            selectYears: true,
-            labelMonthNext: 'Mois suivant',
-            labelMonthPrev: 'Mois précédent',
-            format: 'dd/mm/yyyy',
-            formatSubmit: 'yyyy-mm-dd',
-            onOpen: function() {
+        $pickadate.each(function() {
 
-                moment.locale('fr');
-                var selected = $(this)[0].get('select');
-                var dateMoment = selected ? moment(selected.obj) : moment();
-                var dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
+            $(this).pickadate({
+                monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                today: 'aujourd\'hui',
+                clear: 'effacer',
+                close: 'fermer',
+                selectMonths: true,
+                selectYears: true,
+                labelMonthNext: 'Mois suivant',
+                labelMonthPrev: 'Mois précédent',
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'yyyy-mm-dd',
+                onOpen: function() {
 
-                var displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
-                $(this)[0].$root.find( '.picker__wrap .picker__date-display' ).remove();
-                $(this)[0].$root.find( '.picker__wrap' ).prepend(displayDate);
-                $(this)[0].render();
+                    moment.locale('fr');
+                    var selected = $(this)[0].get('select');
+                    var dateMoment = selected ? moment(selected.obj) : moment();
+                    var dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
 
-            }
-        });
+                    var displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
+                    $(this)[0].$root.find( '.picker__wrap .picker__date-display' ).remove();
+                    $(this)[0].$root.find( '.picker__wrap' ).prepend(displayDate);
+                    $(this)[0].render();
+
+                }
+            });
+
+        })
 
     }
 
