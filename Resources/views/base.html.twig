@@ -15,18 +15,20 @@
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
-
     <!-- CSS Libraries -->
-
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/helpers.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
-
 
     <!-- Awesome Font -->
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
+
+    {% endblock %}
+
+    {% block theme_stylesheets %}
+
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/helpers.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
 
     {% endblock %}
 
@@ -159,11 +161,16 @@
 
 <!-- Page Specific JS File -->
 
+{% block theme_javascripts %}
+
 <!-- Template JS File -->
 <script src="{{ asset('bundles/aropixeladmin/js/scripts.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
+
+{% endblock %}
+
 </body>
 </html>
