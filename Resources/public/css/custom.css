@@ -1492,3 +1492,19 @@ p {
 }
 
 
+
+
+.progress-upload {
+    list-style: none;
+    margin-right: 15px;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+.progress-upload .progress {
+    height: 10px;
+    margin-left: 0;
+    margin-top: 4px;
+}
+.progress-upload .info {
+    font-size: 12px;
+}
