@@ -96,7 +96,7 @@ $(function() {
     }
 
 
-    
+
     var $pickadate = $('.pickadate');
     if ($pickadate.length) {
 
@@ -808,7 +808,7 @@ $(function() {
 
 
 
-    $(".content-wrapper").on('click', 'a.delete-out[data-confirm]', function() {
+    $(".main-content").on('click', 'a.delete-out[data-confirm]', function() {
 
         //
         var _button = $(this);
