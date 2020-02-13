@@ -841,6 +841,9 @@ $(function() {
 
         }
 
+        modalDyn("Confirmation", _button.attr('data-confirm'), _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+
+
     });
 
 });
