@@ -475,6 +475,10 @@ $(function() {
             params.width = width;
         }
 
+        if ($(this)[0].hasAttribute("data-placeholder")) {
+            params.allowClear = true;
+        }
+
         $(this).select2(params);
 
     });
@@ -483,12 +487,13 @@ $(function() {
 
     //
     $(".select2-ajax").each(function() {
+
         var _url = $(this).attr('data-url');
-        var _placeholder = $(this).attr('placeholder');
+        var _placeholder = $(this).attr('data-placeholder');
         var _multiple = $(this).attr('data-multiple') ? true : false;
-        $(this).select2({
+
+        var params = {
             multiple: _multiple,
-            placeholder: _placeholder,
             ajax: {
                 url: _url,
                 dataType: 'json',
@@ -517,7 +522,16 @@ $(function() {
             //   minimumInputLength: 1,
             templateResult: formatRepo, // omitted for brevity, see the source of this page
             templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-        });
+        };
+
+
+        if ($(this)[0].hasAttribute("data-placeholder")) {
+            params.placeholder = _placeholder;
+            params.allowClear = true;
+        }
+
+
+        $(this).select2(params);
 
     });
 

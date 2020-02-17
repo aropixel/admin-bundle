@@ -299,6 +299,9 @@ button.fa-stack.danger .fa-stack-1x {
 .form-group-select2 .select2-container {
     width: 100%!important;
 }
+span.select2-selection__clear {
+    padding: 0 5px;
+}
 .select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
     min-height: 38px;
 }

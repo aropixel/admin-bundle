@@ -385,7 +385,7 @@
         {% set attr = attr|merge({'class': 'bootstrap-select form-control'}) %}
     {% endif %}
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
-        {%- if placeholder is not none -%}
+        {%- if placeholder is not none and attr.class is not defined or 'select2' not in attr.class|join('') -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
         {%- endif -%}
         {%- if preferred_choices|length > 0 -%}
@@ -487,7 +487,7 @@
 
 {% block select2_widget -%}
     {% set select2_multiple = multiple %}
-    <select {{ block('widget_attributes') }} class="select2-ajax form-control" data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
+    <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
         {% for choice in choices %}
             <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
         {% endfor %}
