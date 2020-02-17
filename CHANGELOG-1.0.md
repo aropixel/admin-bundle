@@ -4,8 +4,13 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.14** *(20xx-xx-xx)*
+* **1.0.15** *(20xx-xx-xx)*
 
+
+* **1.0.14** *(2020-02-17)*
+    * Bugfix delete form out of the box
+    * Bugfix css progress bar for upload image modal
+    * Activate allowClear option on select2 
 
 * **1.0.13** *(2020-02-03)*
     * Bugfix CSS awesomefont
