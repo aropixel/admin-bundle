@@ -12,6 +12,7 @@ in 1.0 minor versions.
     * Increase year interval for datepicker
     * Make form alerts dismissable
     * Disable access for admin with enabled false
+    * Redirect admin to dashboard if already logged in
 
 * **1.0.14** *(2020-02-17)*
     * Bugfix delete form out of the box
