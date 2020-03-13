@@ -56,6 +56,7 @@ class Select2Type extends AbstractType
         // }
         $view->vars['url'] = $this->router->generate($options['route']);
         $view->vars['multiple'] = $options['multiple'] ? $options['multiple'] : false;
+        $view->vars['placeholder'] = $options['placeholder'] ?: false;
 
 
         $entity = $form->getData();
@@ -101,11 +102,6 @@ class Select2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
 
-        // for BC with the "empty_value" option
-        $placeholder = function (Options $options) {
-            return $options['empty_value'];
-        };
-
         $defaults = $this->configs;
 
         $resolver
@@ -113,7 +109,7 @@ class Select2Type extends AbstractType
                 'configs'      => $defaults,
                 'choice_label' => 'label',
                 'multiple'     => false,
-                'placeholder'  => $placeholder,
+                'placeholder'  => null,
             ))
             ->setRequired(array(
                 'repository',
