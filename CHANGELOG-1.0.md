@@ -8,6 +8,7 @@ in 1.0 minor versions.
 
 
 * **1.0.15** *(2020-02-25)*
+    * Add placeholder for Select2Type 
     * Visual bugfix for datepicker selected date
     * Increase year interval for datepicker
     * Make form alerts dismissable
