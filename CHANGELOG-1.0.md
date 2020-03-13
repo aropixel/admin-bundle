@@ -4,8 +4,11 @@ CHANGELOG for 1.0.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.0 minor versions.
 
-* **1.0.15** *(20xx-xx-xx)*
+* **1.0.16** *(20xx-xx-xx)*
 
+
+* **1.0.15** *(2020-03-13)*
+    * Add placeholder for Select2Type 
 
 * **1.0.14** *(2020-02-17)*
     * Bugfix delete form out of the box
