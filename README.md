@@ -113,6 +113,8 @@ aropixel_admin:
 ````
 - Create your first admin access : php bin/console aropixel:admin:setup
 
+- Add the ConfigureMenuListener class in App Folder and register it as service
+
 
 ## License
 Aropixel Admin Bundle is under the [MIT License](LICENSE)
