@@ -12,7 +12,7 @@
             <gedmo:sortable-position/>
         </field>
         <many-to-one field="image" target-entity="Aropixel\AdminBundle\Entity\ImageInterface" />
-        <field name="createdAt" column="created_at" type="datetime">
+        <field name="createdAt" column="created_at" type="datetime"  nullable="true">
             <gedmo:timestampable on="create"/>
         </field>
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true">

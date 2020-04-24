@@ -25,7 +25,7 @@
         <field name="lastName" type="string" length="255" nullable="true" />
         <field name="roles" type="json" />
         <field name="password" type="string" />
-        <field name="createdAt" column="created_at" type="datetime">
+        <field name="createdAt" column="created_at" type="datetime"  nullable="true">
             <gedmo:timestampable on="create"/>
         </field>
 
