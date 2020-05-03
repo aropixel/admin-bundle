@@ -36,6 +36,7 @@ class UserType extends AbstractType
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'required' => $options['new'],
+                'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre.',
                 'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
                 'second_options' => array('label' => 'Confirmer le mot de passe'),
             ))
