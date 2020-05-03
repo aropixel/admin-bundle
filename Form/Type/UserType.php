@@ -51,6 +51,7 @@ class UserType extends AbstractType
             ->add('lastName', null, array('label' => 'Nom'))
             ->add('firstName', null, array('label' => 'Prénom'))
             ->add('createdAt', DateTimeType::class, array(
+                'disabled' => true,
                 'required' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
