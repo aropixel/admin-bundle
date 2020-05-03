@@ -155,6 +155,14 @@ $(function() {
     }
 
 
+    var passWordUser = document.getElementById('user_plainPassword_first');
+    if (passWordUser) {
+
+        new GdprPassword(passWordUser);
+
+    }
+
+
 
     var $bsSelect = $('.bootstrap-select');
     if ($bsSelect.length) {
