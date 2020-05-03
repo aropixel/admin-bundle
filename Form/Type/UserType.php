@@ -37,7 +37,7 @@ class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'required' => $options['new'],
                 'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
-                'second_options' => array('label' => 'Confirmation'),
+                'second_options' => array('label' => 'Confirmer le mot de passe'),
             ))
             ->add('enabled', ChoiceType::class, array(
                 'choices'  => array(
