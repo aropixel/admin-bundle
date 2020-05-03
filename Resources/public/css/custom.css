@@ -634,12 +634,14 @@ table.dataTable td, table.dataTable th {
     padding: 8px 0;
     margin: 10px 0 15px 20px;
 }
+.dataTables_wrapper {
+    position: relative;
+}
 div.dataTables_wrapper div.dataTables_paginate {
     float: right;
     text-align: right;
     margin: 10px 10px 5px 20px;
 }
-
 
 .im-manager .card {
     margin-bottom: 0;

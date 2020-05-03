@@ -264,6 +264,7 @@ $(function() {
         },
         drawCallback: function () {
             //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+            $(this).closest('.dataTables_wrapper').unblock();
             $("[data-modal-xeditable]").editable();
         },
         preDrawCallback: function() {
@@ -347,6 +348,20 @@ $(function() {
                     // As an object, the data given extends the default
                     $.extend( request, conf.data );
                 }
+
+                $(this).closest('.dataTables_wrapper').block({
+                    message: '<i class="fas fa-spinner fa-spin"></i>',
+                    overlayCSS: {
+                        backgroundColor: '#fff',
+                        opacity: 0.9,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'none'
+                    }
+                });
 
                 settings.jqXHR = $.ajax( {
                     "type":     conf.method,
