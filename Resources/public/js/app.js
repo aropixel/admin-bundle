@@ -155,7 +155,7 @@ $(function() {
     }
 
 
-    var passWordUser = document.getElementById('user_plainPassword_first');
+    var passWordUser = document.querySelector('[data-gdpr]');
     if (passWordUser) {
 
         new GdprPassword(passWordUser);

@@ -48,6 +48,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('name')->defaultValue('Client')->end()
                         ->scalarNode('link')->defaultValue('')->end()
+                        ->scalarNode('email')->defaultValue('')->end()
                     ->end()
                 ->end()
                 ->arrayNode('copyright')

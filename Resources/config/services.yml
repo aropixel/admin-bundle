@@ -19,9 +19,20 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    # Autowire des services
+    Aropixel\AdminBundle\Email\ResetEmailSender:
+        autowire: true
 
     Aropixel\AdminBundle\Menu\AbstractMenuListener:
         autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Generator\RandomnessGenerator:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Generator\RandomnessGeneratorInterface:
+        alias: Aropixel\AdminBundle\Generator\RandomnessGenerator
 
     # Autowire des services
     Aropixel\AdminBundle\Repository\UserRepository:
@@ -29,6 +40,10 @@ services:
 
     # Autowire des services
     Aropixel\AdminBundle\Security\PasswordUpdater:
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\UniqueTokenGenerator:
         autowire: true
 
     # Autowire des services

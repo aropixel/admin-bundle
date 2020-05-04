@@ -13,11 +13,6 @@
     </ul>
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.min.js') }}"></script>
-{% endblock %}
-
 {% block formtitle %}{% if user and user.id %}Modifier un utilisateur{% else %}Ajouter un utilisateur{% endif %}{% endblock %}
 
 {% block formbody %}
@@ -49,7 +44,7 @@
                 {{ form_row(form.email) }}
             </div>
             <div class="col-md-6">
-                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
                 {{ form_row(form.plainPassword.second) }}
             </div>
         </div>

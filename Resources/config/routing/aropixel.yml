@@ -2,6 +2,9 @@
 sf_web_app_back_office_security:
     resource: "@AropixelAdminBundle/Resources/config/routing/security.yml"
 
+aropixel_reset:
+    resource: "@AropixelAdminBundle/Resources/config/routing/reset.yml"
+
 aropixel_admin:
     resource: "@AropixelAdminBundle/Controller/DefaultController.php"
     type:     annotation
