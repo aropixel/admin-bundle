@@ -4,8 +4,11 @@ CHANGELOG for 1.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.1 minor versions.
 
-* **1.1.2** *(20xx-xx-xx)*
+* **1.1.3** *(20xx-xx-xx)*
 
+
+* **1.1.2** *(2020-04-04)*
+    * Remove nullable on all other createdAt fields
 
 * **1.1.1** *(2020-04-04)*
     * Remove nullable on field createAt in AttachImage.orm.xml
