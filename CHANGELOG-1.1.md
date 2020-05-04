@@ -13,6 +13,7 @@ in 1.1 minor versions.
     * Add GDPR password strength control
     * Improve errors rendering
     * Fix deprecated use of TreeBuilder
-    * Upgrade knplabs/knp-menu-bundle dependency
     * Give command generated admin a SUPER_ADMIN role
+    * Upgrade knplabs/knp-menu-bundle dependency
+    * Add symfony & symfony/mailer dependency 
 
