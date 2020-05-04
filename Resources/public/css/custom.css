@@ -512,6 +512,8 @@ span.select2-selection__clear {
     color: #ffffff;
     display: inline-block;
     padding: .75rem;
+    width: 40px;
+    height: 39px;
 }
 
 .picker__day--selected.picker__day--outfocus,.picker__day--selected:hover.picker__day--outfocus,.picker--focused .picker__day--selected.picker__day--outfocus {

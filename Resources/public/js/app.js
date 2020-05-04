@@ -109,7 +109,7 @@ $(function() {
                 clear: 'effacer',
                 close: 'fermer',
                 selectMonths: true,
-                selectYears: true,
+                selectYears: 20,
                 labelMonthNext: 'Mois suivant',
                 labelMonthPrev: 'Mois précédent',
                 format: 'dd/mm/yyyy',

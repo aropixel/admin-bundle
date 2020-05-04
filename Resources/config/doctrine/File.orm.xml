@@ -23,7 +23,7 @@
         <field name="extension" type="string" length="20" />
         <field name="public" type="boolean" />
         <field name="import" type="text" nullable="true" />
-        <field name="createdAt" column="created_at" type="datetime">
+        <field name="createdAt" column="created_at" type="datetime"  nullable="true">
             <gedmo:timestampable on="create"/>
         </field>
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true">
