@@ -4,8 +4,13 @@ CHANGELOG for 1.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.1 minor versions.
 
-* **1.1.3** *(20xx-xx-xx)*
+* **1.1.4** *(20xx-xx-xx)*
 
+
+* **1.1.3** *(2020-06-19)*
+    * Update for symfony 5.1 compatibility
+    * Bugfix required property when remove image in existing entity 
+    * CSS for datepicker disabled
 
 * **1.1.2** *(2020-04-04)*
     * Remove nullable on all other createdAt fields
