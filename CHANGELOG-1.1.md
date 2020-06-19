@@ -4,8 +4,11 @@ CHANGELOG for 1.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.1 minor versions.
 
-* **1.1.4** *(20xx-xx-xx)*
+* **1.1.5** *(20xx-xx-xx)*
 
+
+* **1.1.4** *(2020-06-19)*
+    * Customize user entity and form
 
 * **1.1.3** *(2020-06-19)*
     * Update for symfony 5.1 compatibility
