@@ -23,7 +23,7 @@ class UserController extends AbstractController
      *
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function indexAction()
+    public function index()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -55,7 +55,7 @@ class UserController extends AbstractController
      *
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function newAction(Request $request, UserManager $userManager)
+    public function create(Request $request, UserManager $userManager)
     {
         $user = new User();
 
@@ -99,7 +99,7 @@ class UserController extends AbstractController
      *
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editAction(Request $request, User $user, UserManager $userManager)
+    public function edit(Request $request, User $user, UserManager $userManager)
     {
 
         $deleteForm = $this->createDeleteForm($user);
@@ -132,7 +132,7 @@ class UserController extends AbstractController
      *
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, User $user)
+    public function delete(Request $request, User $user)
     {
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
