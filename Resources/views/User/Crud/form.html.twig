@@ -44,8 +44,8 @@
                 {{ form_row(form.email) }}
             </div>
             <div class="col-md-6">
-                {{ form_row(form.plainPassword.first) }}
-                {{ form_widget(form.plainPassword.second) }}
+                {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+                {{ form_row(form.plainPassword.second) }}
             </div>
         </div>
 
@@ -58,6 +58,7 @@
 
 {% block publishStatus %}
 
+    {{ form_errors(form.enabled) }}
     <div class="row form-group">
         <div class="col-md-5">Actif</div>
         <div class="col-md-7">

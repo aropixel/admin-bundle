@@ -23,8 +23,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('aropixel_admin');
+        $treeBuilder = new TreeBuilder('aropixel_admin');
+        $rootNode = $treeBuilder->getRootNode();
         $rootNode
              ->children()
 
@@ -51,6 +51,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('name')->defaultValue('Client')->end()
                         ->scalarNode('link')->defaultValue('')->end()
+                        ->scalarNode('email')->defaultValue('')->end()
                     ->end()
                 ->end()
                 ->arrayNode('copyright')

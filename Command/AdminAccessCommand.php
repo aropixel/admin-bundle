@@ -81,6 +81,7 @@ EOT
                 return;
             }
 
+            $admin->setRoles(['ROLE_SUPER_ADMIN']);
             $admin->setEnabled(true);
             $this->userManager->updateUser($admin);
 

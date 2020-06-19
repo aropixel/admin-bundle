@@ -636,12 +636,14 @@ table.dataTable td, table.dataTable th {
     padding: 8px 0;
     margin: 10px 0 15px 20px;
 }
+.dataTables_wrapper {
+    position: relative;
+}
 div.dataTables_wrapper div.dataTables_paginate {
     float: right;
     text-align: right;
     margin: 10px 10px 5px 20px;
 }
-
 
 .im-manager .card {
     margin-bottom: 0;
@@ -914,7 +916,17 @@ div.dataTables_wrapper div.dataTables_paginate {
     right: 27px;
 }
 
-
+.invalid-feedback {
+    margin-bottom: 14px;
+    margin-top: 0;
+    border-bottom: 2px solid #fc544b;
+    padding-bottom: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.form-group.has-error .form-label {
+    margin-bottom: 8px;
+}
 
 .card { border: 1px solid transparent; color: #333333; }
 .card .card-header {

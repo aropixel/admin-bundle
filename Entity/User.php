@@ -58,6 +58,21 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
+     * @var string The token for password reset request
+     */
+    private $passwordResetToken;
+
+    /**
+     * @var \DateTime
+     */
+    private $passwordRequestedAt;
+
+    /**
+     * @var string The token for password reset request
+     */
+    private $emailVerificationToken;
+
+    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -119,6 +134,16 @@ class User implements UserInterface
         $this->lastName = $lastName;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getFullName(): string
+    {
+        return $this->firstName.' '.$this->lastName;
     }
 
     /**
@@ -231,6 +256,75 @@ class User implements UserInterface
     {
         $this->enabled = (bool) $boolean;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordResetToken()
+    {
+        return $this->passwordResetToken;
+    }
+
+    /**
+     * @param string $passwordResetToken
+     * @return User
+     */
+    public function setPasswordResetToken($passwordResetToken): self
+    {
+        $this->passwordResetToken = $passwordResetToken;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPasswordRequestNonExpired(\DateInterval $ttl): bool
+    {
+        if (null === $this->passwordRequestedAt) {
+            return false;
+        }
+
+        $threshold = new \DateTime();
+        $threshold->sub($ttl);
+
+        return $threshold <= $this->passwordRequestedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPasswordRequestedAt()
+    {
+        return $this->passwordRequestedAt;
+    }
+
+    /**
+     * @param \DateTime $passwordRequestedAt
+     * @return User
+     */
+    public function setPasswordRequestedAt($passwordRequestedAt): self
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailVerificationToken()
+    {
+        return $this->emailVerificationToken;
+    }
+
+    /**
+     * @param string $emailVerificationToken
+     * @return User
+     */
+    public function setEmailVerificationToken($emailVerificationToken): self
+    {
+        $this->emailVerificationToken = $emailVerificationToken;
         return $this;
     }
 

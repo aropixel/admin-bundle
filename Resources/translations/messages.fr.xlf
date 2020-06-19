@@ -10,6 +10,10 @@
                 <source>Next</source>
                 <target>Suivant</target>
             </trans-unit>
+            <trans-unit id="3">
+                <source>This value is not valid.</source>
+                <target>Ce champs contient une erreur.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
