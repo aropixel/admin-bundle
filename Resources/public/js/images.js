@@ -1264,6 +1264,7 @@
                     FilesAdded: function(up, files) {
 
                         // On démarre l'upload
+                        $('#alertUploadError').html('').hide();
                         obj.uploader.start();
                         up.refresh();
 
@@ -1298,6 +1299,13 @@
                     UploadComplete: function(up, file) {
 
                         obj.progress.html('');
+
+                    },
+
+                    Error: function(upload, error) {
+
+                        //
+                        $('#alertUploadError').html(error.response).fadeIn();
 
                     },
 

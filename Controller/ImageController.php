@@ -188,21 +188,34 @@ class ImageController extends AbstractController
         ));
 
         //
-        $response = array();
         $form->handleRequest($request);
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($image);
             $em->flush();
 
             $response = $this->_dataTableElements($image);
-        }
 
-        //
-        $http_response = new Response(json_encode($response));
-        $http_response->headers->set('Content-Type', 'application/json');
-        return $http_response;
+            //
+            $http_response = new Response(json_encode($response));
+            $http_response->headers->set('Content-Type', 'application/json');
+            return $http_response;
+
+        }
+        else {
+
+            //
+            $errors = [];
+            $formErrors = $form->getErrors(true);
+            foreach ($formErrors as $formError) {
+                $errors[] = $formError->getMessage();
+            }
+
+            //
+            $http_response = new Response(implode($errors, '<br />'), 500);
+            return $http_response;
+        }
 
     }
 

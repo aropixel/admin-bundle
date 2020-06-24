@@ -38,7 +38,7 @@ class Image implements ImageInterface
 
     /**
      * @var UploadedFile    File object of the image
-     * @Assert\File(maxSize = "25M")
+     * @Assert\File()
      */
     public $file;
 

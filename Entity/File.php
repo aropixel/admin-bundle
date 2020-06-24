@@ -39,7 +39,7 @@ class File implements FileInterface
 
     /**
      * @var UploadedFile    Uploaded File object
-     * @Assert\File(maxSize="100M")
+     * @Assert\File()
      */
     public $file;
 
