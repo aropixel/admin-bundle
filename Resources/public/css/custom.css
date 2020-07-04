@@ -377,7 +377,6 @@ span.select2-selection__clear {
 
 
 .form-control:disabled.pickadate, .form-control[readonly].pickadate {
-    background-color: #fff;
     border-radius: 3px;
 }
 .picker__frame {

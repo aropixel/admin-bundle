@@ -62,8 +62,8 @@ class MenuExtension extends AbstractExtension
         //
         $event = new ConfigureMenuEvent($factory, $menu, $this->em, $app_menu);
         $this->eventDispatcher->dispatch(
-            ConfigureMenuEvent::APPMENU,
-            $event
+            $event,
+            ConfigureMenuEvent::APPMENU
         );
 
 

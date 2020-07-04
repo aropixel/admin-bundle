@@ -149,6 +149,7 @@ class ImageType extends AbstractType implements DataMapperInterface
 
         }
 
+        $view->vars['description'] = $options['description'];
         $view->vars['data_type'] = $options['data_type'];
         $view->vars['attach_class'] = $form->getConfig()->getDataClass();
         $view->vars['library'] = $options['library'] ?: ($form->getConfig()->getDataClass() ? $form->getConfig()->getDataClass() : '');
@@ -165,6 +166,7 @@ class ImageType extends AbstractType implements DataMapperInterface
             'crop_class' => null,
             'library' => null,
             'card_footer' => true,
+            'description' => null,
             'required' => false,
         ));
     }

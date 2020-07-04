@@ -46,6 +46,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.copyright', $config['copyright']);
         $container->setParameter('aropixel_admin.client', $config['client']);
         $container->setParameter('aropixel_admin.theme', $config['theme']);
+        $container->setParameter('aropixel_admin.forms', $config['forms']);
         $container->setParameter('aropixel_admin.entities', $config['entities']);
 
         if (isset($config['form_translations'])) {

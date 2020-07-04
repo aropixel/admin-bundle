@@ -307,9 +307,13 @@
                         else
                         {
                             var _preview = launcher.element.find(".preview");
-                            _preview.html(_preview.attr('data-new'));
+                            launcher.element.find(".preview > img").replaceWith(_preview.attr('data-new'));
                             launcher.element.find(".caption-overflow .iconUnlink").remove();
                             launcher.element.find(".caption-overflow .iconCrop").remove();
+
+                            launcher.element.find(".preview input[name$='[image][image]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[image][title]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[image][alt]']").removeAttr('value');
 
                         }
                         _button.closest('.modal').modal('hide');

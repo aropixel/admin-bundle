@@ -2,9 +2,11 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Security\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,16 +20,42 @@ use Aropixel\AdminBundle\Entity\User;
 class UserController extends AbstractController
 {
 
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
+    /** @var string */
+    private $model = User::class;
+
+    /** @var string */
+    private $form = UserType::class;
+
+    /**
+     * UserController constructor.
+     * @param ParameterBagInterface $parameterBag
+     */
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+
+        $entities = $this->parameterBag->get('aropixel_admin.entities');
+        $forms = $this->parameterBag->get('aropixel_admin.forms');
+
+        $this->model = $entities[UserInterface::class];
+        $this->form = $forms[UserInterface::class];
+
+    }
+
+
     /**
      * Lists all User entities.
      *
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function indexAction()
+    public function index()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository(User::class)->findAll();
+        $entities = $em->getRepository($this->model)->findAll();
 
         $columns = array(
             array('label' => 'Email', 'style' => ''),
@@ -55,11 +83,11 @@ class UserController extends AbstractController
      *
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function newAction(Request $request, UserManager $userManager)
+    public function create(Request $request, UserManager $userManager)
     {
-        $user = new User();
+        $user = new $this->model();
 
-        $form = $this->createForm(UserType::class, $user, array(
+        $form = $this->createForm($this->form, $user, array(
             'security.authorization_checker' => $this->get('security.authorization_checker'),
             'new' => true,
         ));
@@ -99,11 +127,19 @@ class UserController extends AbstractController
      *
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editAction(Request $request, User $user, UserManager $userManager)
+    public function edit(Request $request, UserManager $userManager, $id)
     {
+        //
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository($this->model)->find($id);
+
+        //
+        if (is_null($user)) {
+            throw $this->createNotFoundException();
+        }
 
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm(UserType::class, $user, array(
+        $editForm = $this->createForm($this->form, $user, array(
             'security.authorization_checker' => $this->get('security.authorization_checker')
         ));
         $editForm->handleRequest($request);
@@ -132,8 +168,17 @@ class UserController extends AbstractController
      *
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, User $user)
+    public function delete(Request $request, $id)
     {
+        //
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository($this->model)->find($id);
+
+        //
+        if (is_null($user)) {
+            throw $this->createNotFoundException();
+        }
+
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
 
@@ -164,6 +209,6 @@ class UserController extends AbstractController
             ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }
