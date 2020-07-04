@@ -31,6 +31,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
     }
 
 
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param array                                                   $config
@@ -126,6 +127,37 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
 
 
         $container->prependExtensionConfig('liip_imagine', array('filter_sets' => $config));
+
+
+
+        if (isset($bundles['StofDoctrineExtensionsBundle'])) {
+
+            // prepend the acme_something settings with the entity_manager_name
+            $config = [
+                'orm' => [
+                    'default' => [
+                        'timestampable' => true,
+                        'sluggable' => true,
+                        'sortable' => true,
+                        'tree' => true,
+                    ]
+                ]
+            ];
+            $container->prependExtensionConfig('stof_doctrine_extensions', $config);
+
+        }
+
+        // process the configuration of AcmeHelloExtension
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $configs);
+
+
+        //
+        $twigConfig = [];
+        $twigConfig['globals']['admin_client'] = $config['client'];
+        $twigConfig['globals']['admin_copyright'] = $config['copyright'];
+        $twigConfig['globals']['admin_theme'] = $config['theme'];
+        $container->prependExtensionConfig('twig', $twigConfig);
 
     }
 
