@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-	<title>{% block meta_title %}{{ app_client.name }} - Administration{% endblock %}</title>
+	<title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
 
 	{% block stylesheets %}
 
@@ -36,7 +36,7 @@
 				<div class="row">
 					<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
 						<div class="login-brand">
-							<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ app_client.name }}" width="100" class="shadow-light rounded-circle">
+							<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
 						</div>
 
 						<div class="card card-primary">
@@ -99,7 +99,7 @@
 							</div>
 						</div>
 						<div class="simple-footer">
-							Copyright &copy; {{ app_client.name }} {{ "now"|date('Y') }}
+							Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
 						</div>
 					</div>
 				</div>
