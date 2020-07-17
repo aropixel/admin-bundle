@@ -217,24 +217,50 @@ class ImageController extends AbstractController
         // Selected images
         $images = $request->get('images');
 
-        // Data type to store: entity or file_name
-        $dataType = $request->get('data_type');
-
         // Class name to use if data type is entity
         $attachClass = $request->get('attach_class');
+
+        // The property to store file name if needed
+        $attachValue = $request->get('attach_value');
 
         // Id
         $attachId = $request->get('attach_id');
 
+        // Crops
+        $cropsSlugs = explode(';', $request->get('crops_slugs', ''));
+        $cropsLabels = explode(';', $request->get('crops_labels', ''));
 
         //
-        if ($dataType == 'entity') {
+        $options = [];
 
+        $i = 0;
+        $options['crops'] = [];
+        foreach ($cropsSlugs as $slug) {
+            $options['crops'][$slug] = $cropsLabels[$i++];
+        }
+
+        //
+        $data = null;
+        if ($attachValue) {
+
+            //
+            $options['filename_class'] = $attachClass;
+
+            if ($attachValue) {
+                $options['filename_value'] = $attachValue;
+            }
+
+        }
+
+        else {
+            //
+            $options['data_class'] = $attachClass;
+
+            //
             $data = new $attachClass();
             if ($attachId) {
                 $data = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
             }
-
         }
 
 
@@ -244,16 +270,17 @@ class ImageController extends AbstractController
             //
             $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
-            //
-            if ($dataType == 'entity') {
-                $data->setImage($image);
-            }
-            else {
+            // If attachValue is given, we just pass the filename
+            if ($attachValue) {
                 $data = $image->getFilename();
+            }
+            // Otherwise, datatype is entity, we give the image to the entity
+            else {
+                $data->setImage($image);
             }
 
             //
-            $form = $this->createForm(ImageType::class, $data, array('data_type' => $dataType, 'data_class' => $attachClass));
+            $form = $this->createForm(ImageType::class, $data, $options);
 
             //
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', array(

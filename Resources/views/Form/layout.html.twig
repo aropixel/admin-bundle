@@ -23,12 +23,12 @@
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-        {{ form_label(form) }} {# -#}
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+     {{ form_label(form) }} {# -#}
         {{ form_widget(form, widget_attr) }} {# -#}
         {{ form_help(form) }}
 {#        {{ form_errors(form) }} #}{# -#}
-    </div> {# -#}
+    </{{ element|default('div') }}> {# -#}
 {%- endblock form_row %}
 
 
@@ -175,20 +175,24 @@
 
 
 
-{% block gallery_widget -%}
-    <div class="text-right m-b-15">
-        <button data-toggle="modal" data-target="#modalLibrary" type="button" class="btn btn-primary btn-labeled iconUpload"><b><i class="icon-images2"></i></b> Ajouter une image</button>
-    </div>
-    <div class="row galleryContent">
-        {{- form_widget(form) -}}
+{% block aropixel_gallery_widget -%}
+{#    <div class="text-right m-b-15">#}
+{#        <button data-toggle="modal" data-target="#modalLibrary" type="button" class="btn btn-primary btn-labeled iconUpload"><b><i class="icon-images2"></i></b> Ajouter une image</button>#}
+{#    </div>#}
 
-    </div>
-{%- endblock gallery_widget %}
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {%- set attr = attr|merge({'class': 'row galleryContent'}) -%}
+
+    {{- block('form_widget') -}}
+
+{%- endblock aropixel_gallery_widget %}
 
 
 
 
-{% block gallery_row -%}
+{% block aropixel_gallery_row -%}
 
     {% set type = type is defined ? type : 'gallery' %}
     {% set entityField = field is defined ? field : 'gallery' %}
@@ -197,30 +201,37 @@
 
     <div class="panel-list im-manager"
          data-im-type="{{ type }}"
+         data-im-library="{{ image_library }}"
          data-im-entity-class="{{ entityClass }}"
-         data-im-attach-class="{{ imageLongClass }}"
-         data-im-attach-short-class="{{ imageShortClass }}"
-         data-im-crop-active="{{ false|crop_filters(imageLongClass)|length > 1 }}">
+         data-im-attach-class="{{ image_class }}"
+         data-im-attach-short-class="{{ image_class_short }}"
+         data-im-crop-active="{{ false|entity_crop_filters(image_class)|length > 1 }}">
 
 
         {{- form_widget(form) -}}
 
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {
+            'image' : false,
+            'image_class': image_class_short,
+            'image_value': form.vars.image_value,
+            'suffix': form.vars.crop_suffix,
+            'crops': form.vars.crops,
+        }) }}
+
     </div>
 
-    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : false, 'imageClass': imageShortClass }) }}
-
-{%- endblock gallery_row %}
+{%- endblock aropixel_gallery_row %}
 
 
 
 
-{% block gallery_image_row -%}
+{% block aropixel_gallery_image_row -%}
 
-    <div class="{{ grid_column }}">
+    <div class="{{ grid }}">
         {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
     </div>
 
-{%- endblock gallery_image_row %}
+{%- endblock aropixel_gallery_image_row %}
 
 
 
@@ -378,9 +389,9 @@
 
     <div class="panel-list im-manager form-group"
          data-im-type="{{ type }}"
-         data-im-data-type="{{ form.vars.data_type }}"
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ form.vars.attach_class }}"
+         {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
          data-im-library="{{ form.vars.library }}"
          data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
 
@@ -393,16 +404,34 @@
 
 
 
-{% block gallery_crops_row -%}
+{% block aropixel_admin_slideshow_widget -%}
+
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {%- set attr = attr|merge({'data-collection': 'container', 'class': 'row'}) -%}
+
+    {{- block('form_widget') -}}
+
+{%- endblock aropixel_admin_slideshow_widget %}
+
+
+
+{% block gallery_aropixel_admin_crops_row -%}
     {{- form_widget(form) -}}
-{%- endblock gallery_crops_row %}
+{%- endblock gallery_aropixel_admin_crops_row %}
 
 
 
-{% block crops_row -%}
-    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : attachedImage, 'imageClass': imageShortClass }) }}
+{% block aropixel_admin_crops_row -%}
+
+    {% if crops is defined and crops|length %}
+    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops }) }}
+    {% else %}
+    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'image_class': form.vars.image_class }) }}
+    {% endif %}
     {{- form_widget(form) -}}
-{%- endblock crops_row %}
+{%- endblock aropixel_admin_crops_row %}
 
 
 

@@ -883,6 +883,39 @@ $(function() {
 
     });
 
+
+
+    var $addToSlideshow = $('[data-slideshow="add"]');
+    var $ulSlideshow = $('[data-slideshow="container"]');
+    $addToSlideshow.click(function() {
+
+        // add a new tag form (see next code block)
+        addImageToSlideshow($ulSlideshow);
+
+    });
+
+
+    function addImageToSlideshow($collectionHolder) {
+
+        // Get the data-prototype explained earlier
+        var prototype = $ulSlideshow.data('prototype');
+        console.log($ulSlideshow);
+
+        // get the new index
+        var index = $ulSlideshow.find('> div').length;
+
+        var newForm = prototype;
+        newForm = newForm.replace(/__name__/g, index);
+        newForm = newForm.replace(/__name1__/g, (index + 1));
+
+        var $newForm = $(newForm);
+
+        $newForm.appendTo($ulSlideshow);
+        $newForm.find('.im-manager').ImageManager();
+
+
+    }
+
 });
 
 

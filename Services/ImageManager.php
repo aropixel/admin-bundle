@@ -56,12 +56,79 @@ class ImageManager
     /**
      * Récupère les filtres de crop pour une entité
      *
+     * @param mixed $data
+     * @param array $crops
+     *
+     * @return array
+     */
+    public function getCropFilters($data, $crops)
+    {
+//        if (is_null($data)) {
+//            return [];
+//        }
+
+        //
+        $existingCropsByName = array();
+        if ($data && method_exists($data, "getCrops")) {
+
+            $existingCrops = $data->getCrops();
+            if (!is_null($existingCrops)) {
+
+                foreach ($existingCrops as $crop) {
+                    $filterName = $crop['filter'];
+                    $cropinfo = $crop['crop'];
+                    $existingCropsByName[$filterName] = $cropinfo;
+                }
+
+            }
+
+        }
+
+
+        // Récupère les filtres existants et leurs labels (descriptions)
+        $liip_filters = $this->container->getParameter('liip_imagine.filter_sets');
+
+        // Tableau des filtres à retourner
+        $filters = array();
+
+        foreach ($liip_filters as $slug => $filter) {
+
+
+            // Si ce filtre ne contient pas de miniature (juste un resize par exemple)
+            // on ne le pred pas en compte
+            if (!array_key_exists($slug, $crops))        continue;
+
+
+            // Calcule le ratio du filtre
+            $ratio = $filter['filters']['thumbnail']['size'][0] / $filter['filters']['thumbnail']['size'][1];
+
+
+            // Construit les infos de retour
+            $filter['crop'] = array_key_exists($slug, $existingCropsByName) ? $existingCropsByName[$slug] : "";
+            $filter['ratio'] = $ratio;
+            $filter['slug'] = $slug;
+            $filter['name'] = $crops[$slug];
+
+            //
+            $filters[$crops[$slug]] = $filter;
+
+        }
+
+        return $filters;
+    }
+
+
+
+
+    /**
+     * Récupère les filtres de crop pour une entité
+     *
      * @param string $entity_name
      * @param AropixelAdminBundle:Image $image
      *
      * @return array
      */
-    public function getCropFilters($image, $imageClass)
+    public function getEntityCropFilters($image, $imageClass)
     {
         //
         $imageClass = str_replace('Proxies\__CG__\\', '', $imageClass);

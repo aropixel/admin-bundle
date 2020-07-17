@@ -28,6 +28,11 @@ class GalleryCropsType extends AbstractType
             'allow_add'    => true,
             'allow_delete'    => true,
             'by_reference' => false,
+            'image_class' => null,
+            'image_value' => null,
+            'image_crops' => null,
+            'crops' => [],
+            'suffix' => null,
         ));
     }
 
@@ -44,13 +49,13 @@ class GalleryCropsType extends AbstractType
         $data = $form->getParent()->getData();
 
         //
-        $entryOptions = $form->getConfig()->getOption('entry_options');
-        $shortClassItems = explode('\\', $entryOptions['image_class']);
+        $shortClassItems = explode('\\', $options['image_class']);
         $shortClass = array_pop($shortClassItems);
 
         // set an "image_url" variable that will be available when rendering this field
+        $view->vars['suffix'] = $options['suffix'];
         $view->vars['attachedImage'] = $data;
-        $view->vars['imageLongClass'] = $entryOptions['image_class'];
+        $view->vars['imageLongClass'] = $options['image_class'];
         $view->vars['imageShortClass'] = $shortClass;
 
     }
@@ -66,9 +71,9 @@ class GalleryCropsType extends AbstractType
     }
 
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'aropixel_crops';
+        return 'gallery_aropixel_admin_crops';
     }
 
 }

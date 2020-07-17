@@ -11,56 +11,195 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
+use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 //class GalleryImageType extends ImageType
-class GalleryImageType extends AbstractType
+class GalleryImageType extends AbstractType implements DataMapperInterface
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
-     * @param ObjectManager $om
+     * @var InstanceToData
      */
-    public function __construct(EntityManagerInterface $em)
+    private $instanceToData;
+
+
+    //
+    private $options;
+    private $cropSuffix;
+
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param InstanceToData $instanceToData
+     */
+    public function __construct(EntityManagerInterface $em, InstanceToData $instanceToData)
     {
         $this->em = $em;
+        $this->instanceToData = $instanceToData;
     }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Build a uniqid used to identify the crop modal
+        $this->options = $options;
+
+        //
         $builder
-            ->add('image', EntityHiddenType::class, array('class' => ImageInterface::class))
             ->add('title', HiddenType::class)
             ->add('alt', HiddenType::class)
             ->add('class', HiddenType::class)
         ;
 
-        if ($options['crop_class']) {
+        // If property was given, the image is store as a file_name in a custom entity
+        if ($options['data_value']) {
 
-            $builder
-                ->add('crops', GalleryCropsType::class, array(
-                    'entry_options'  => array(
+            //
+            $builder->add('file_name', HiddenType::class);
+
+            //
+            if ($options['crops']) {
+
+                $builder
+                    ->add('crops', GalleryCropsType::class, array(
+                        'image_class'  => $options['data_class'],
+                        'image_value'  => $options['data_value'],
+                        'image_crops'  => $options['data_crops'],
+                        'crops'  => $options['crops'],
+                    ))
+                ;
+
+            }
+
+            //
+            $builder->setDataMapper($this);
+        }
+
+        // Otherwise, the image is stored in an AttachImage
+        else {
+
+            //
+            $builder->add('image', EntityHiddenType::class, array('class' => ImageInterface::class));
+
+            //
+            if ($options['crop_class']) {
+
+                $builder
+                    ->add('crops', GalleryCropsType::class, array(
                         'image_class'  => $options['data_class'],
                         'data_class'  => $options['crop_class'],
-                    )
-                ))
-            ;
+                    ))
+                ;
+
+            }
+        }
+
+
+    }
+
+
+
+    /**
+     * @param mixed $data
+     * @param iterable|FormInterface[] $forms
+     */
+    public function mapDataToForms($data, $forms)
+    {
+        // there is no data yet, so nothing to prepopulate
+        if (null === $data) {
+            return;
+        }
+
+        //
+        $attributes = $this->instanceToData->getAttributes($data);
+
+        /** @var FormInterface[] $forms */
+        $forms = iterator_to_array($forms);
+        $forms['file_name']->setData($this->instanceToData->getFileName($data));
+
+        //
+        if (is_array($attributes) && array_key_exists('title', $attributes)) {
+            $forms['title']->setData($attributes['title']);
+        }
+
+        //
+        if (is_array($attributes) && array_key_exists('alt', $attributes)) {
+            $forms['alt']->setData($attributes['alt']);
+        }
+
+        //
+        if (is_array($attributes) && array_key_exists('class', $attributes)) {
+            $forms['class']->setData($attributes['class']);
+        }
+
+        //
+        if (array_key_exists('crops', $forms)) {
+
+            $crops = $this->instanceToData->getCrops($data);
+            if ($crops) {
+                $forms['crops']->setData($crops);
+            }
 
         }
+
     }
+
+
+    /**
+     * @param iterable|FormInterface[] $forms
+     * @param mixed $data
+     * @return mixed
+     */
+    public function mapFormsToData($forms, &$data)
+    {
+        /** @var FormInterface[] $forms */
+        $forms = iterator_to_array($forms);
+
+//        $data = $this->filenameInstance;
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $propertyAccessor->setValue($data, $this->options['data_value'], $forms['file_name']->getData());
+
+        if ($this->options['data_crops'] && array_key_exists($this->options['data_crops'], $forms) && !is_null($forms['crops']->getData())) {
+            $propertyAccessor->setValue($data, $this->options['data_crops'], $forms['crops']->getData());
+        }
+
+        if ($this->options['data_attributes']) {
+
+            $attributes = [];
+            if (!is_null($forms['title']->getData())) {
+                $attributes['title'] = $forms['title']->getData();
+            }
+
+            if (!is_null($forms['alt']->getData())) {
+                $attributes['alt'] = $forms['alt']->getData();
+            }
+
+            if (!is_null($forms['class']->getData())) {
+                $attributes['class'] = $forms['class']->getData();
+            }
+
+            $propertyAccessor->setValue($data, $this->options['data_attributes'], $attributes);
+        }
+
+        return $data;
+    }
+
 
 
     /**
@@ -72,18 +211,33 @@ class GalleryImageType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        //
         $data = $form->getData();
 
-        $imageUrl = null;
-        if (null !== $data) {
-            $imageUrl = $data->getWebPath();
+        //
+        if ($options['data_value']) {
+
+            $view->vars['image_path'] = Image::getFileNameWebPath($this->instanceToData->getFileName($data));
+
+        }
+        else {
+
+            $imageUrl = null;
+            if (null !== $data) {
+                $imageUrl = $data->getWebPath();
+            }
+
+            // set an "image_url" variable that will be available when rendering this field
+            $view->vars['image_path'] = $imageUrl;
+
         }
 
         // set an "image_url" variable that will be available when rendering this field
-        $view->vars['attach_class'] = $form->getConfig()->getDataClass();
-        $view->vars['image_url'] = $imageUrl;
-        $view->vars['attachedImage'] = $data;
-        $view->vars['grid_column'] = $options['grid_column'];
+        $view->vars['image_data'] = $data;
+        $view->vars['image_class'] = $options['data_class'];
+        $view->vars['image_value'] = $options['data_value'];
+        $view->vars['grid'] = $options['grid'];
+//        $view->vars['library'] = $form->getConfig()->getDataClass();
 
     }
 
@@ -91,14 +245,22 @@ class GalleryImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => null,
-            'crop_class' => null,
-            'grid_column' => 'col-md-4 col-lg-4',
+
+            'data_class' => null,           // The class name of the image entity (can be an AttachImage entity or a custom entity)
+            'data_value' => null,           // If image is stored as a file_name: the property where the file_name is stored in the custom entity
+            'data_crops' => null,           // If crops are stored as an array: the property where the crops info are stored in the custom entity
+            'data_attributes' => null,      // The property where the attributes (title, alt, css class) are stored in the custom entity
+
+            'crop_class' => null,           // The class if crops info are stored in a separate entity
+            'crops' => null,                // The crops to propose, defined directly in the form configuration
+
+            'grid' => 'col-md-6 col-lg-6',
         ));
+
     }
 
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'aropixel_gallery_image';
     }

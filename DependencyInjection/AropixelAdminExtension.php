@@ -125,8 +125,26 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             )
         );
 
+        $liipConfig = [
+//            'loaders' => [
+//                'default' => [
+//                    'filesystem' => [
+//                        'data_root' => '%kernel.project_dir%/private'
+//                    ]
+//                ]
+//            ],
+//            'resolvers' => [
+//                'default' => [
+//                    'web_path' => [
+//                        'web_root' => '%kernel.project_dir%/public',
+//                        'cache_prefix' => 'media/cache'
+//                    ]
+//                ]
+//            ],
+            'filter_sets' => $config
+        ];
 
-        $container->prependExtensionConfig('liip_imagine', array('filter_sets' => $config));
+        $container->prependExtensionConfig('liip_imagine', $liipConfig);
 
 
 
