@@ -76,6 +76,12 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
                     ),
                 )
             ),
+            'fallback_pixel' => array(
+                'quality' => 75,
+                'filters' => array(
+                    'strip' => array(),
+                )
+            ),
             'admin_preview' => array(
                 'quality' => 75,
                 'filters' => array(
@@ -93,6 +99,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
                 )
             )
         );
+
 
         $sizes = array(100, 200, 300, 400, 600, 800);
         foreach ($sizes as $width) {
