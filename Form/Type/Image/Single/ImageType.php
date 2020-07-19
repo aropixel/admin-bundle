@@ -158,20 +158,27 @@ class ImageType extends AbstractType implements DataMapperInterface
         $this->instanceToData->setCropsValue($options['crops_value']);
 
 
-        // Get requested crops
-        $crops = $options['crops'] && is_array($options['crops']) ? $options['crops'] : [];
 
         //
         $builder
             ->add('file_name', HiddenType::class, ['required' => $options['required']])
-            ->add('crops', CropsType::class, array(
-                'suffix'  => $this->cropSuffix,
-                'filename_value'  => $this->filenameValue,
-                'crops_value'  => $this->cropsValue,
-                'crops' => $crops,
-            ))
             ->setDataMapper($this)
         ;
+
+
+        // Get requested crops
+        $crops = $options['crops'] && is_array($options['crops']) ? $options['crops'] : [];
+        if (count($crops)) {
+            $builder
+                ->add('crops', CropsType::class, array(
+                    'suffix'  => $this->cropSuffix,
+                    'image_value'  => $this->filenameValue,
+                    'crops_value'  => $this->cropsValue,
+                    'crops' => $crops,
+                ))
+            ;
+        }
+
     }
 
 
@@ -209,7 +216,8 @@ class ImageType extends AbstractType implements DataMapperInterface
         //
         if ($options['data_value']) {
 
-            $view->vars['image_path'] = Image::getFileNameWebPath($this->normalizedData);
+            $normalizedData = $this->instanceToData->getFileName($data);
+            $view->vars['image_path'] = Image::getFileNameWebPath($normalizedData);
 
         }
         else {
@@ -252,8 +260,6 @@ class ImageType extends AbstractType implements DataMapperInterface
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
 
-
-
         //
         // Get the instance of the custom entity that store the file name and the crops info
         $this->filenameInstance = $data;
@@ -284,12 +290,17 @@ class ImageType extends AbstractType implements DataMapperInterface
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
 
-        $data = $this->filenameInstance;
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $propertyAccessor->setValue($data, $this->filenameValue, $forms['file_name']->getData());
+//        dump($data);
+//        $data = $this->filenameInstance;
+        if ($data) {
 
-        if (array_key_exists($this->cropsValue, $forms)) {
-            $propertyAccessor->setValue($data, $this->cropsValue, $forms['crops']->getData());
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+            $propertyAccessor->setValue($data, $this->filenameValue, $forms['file_name']->getData());
+
+            if (array_key_exists($this->cropsValue, $forms)) {
+                $propertyAccessor->setValue($data, $this->cropsValue, $forms['crops']->getData());
+            }
+
         }
 
         return $data;

@@ -10,6 +10,7 @@ use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
@@ -227,16 +228,22 @@ class ImageController extends AbstractController
         $attachId = $request->get('attach_id');
 
         // Crops
-        $cropsSlugs = explode(';', $request->get('crops_slugs', ''));
-        $cropsLabels = explode(';', $request->get('crops_labels', ''));
+        $cropsSlugs = $request->get('crops_slugs', '');
+        $cropsLabels = $request->get('crops_labels', '');
 
         //
-        $options = [];
+        $options = ['crops' => []];
 
-        $i = 0;
-        $options['crops'] = [];
-        foreach ($cropsSlugs as $slug) {
-            $options['crops'][$slug] = $cropsLabels[$i++];
+        //
+        if (strlen($cropsSlugs)) {
+
+            $i = 0;
+            $cropsSlugs = explode(';', $cropsSlugs);
+            $cropsLabels = explode(';', $cropsLabels);
+            foreach ($cropsSlugs as $slug) {
+                $options['crops'][$slug] = $cropsLabels[$i++];
+            }
+
         }
 
         //
@@ -244,10 +251,10 @@ class ImageController extends AbstractController
         if ($attachValue) {
 
             //
-            $options['filename_class'] = $attachClass;
+            $options['data_class'] = $attachClass;
 
             if ($attachValue) {
-                $options['filename_value'] = $attachValue;
+                $options['data_value'] = $attachValue;
             }
 
         }
@@ -272,7 +279,9 @@ class ImageController extends AbstractController
 
             // If attachValue is given, we just pass the filename
             if ($attachValue) {
-                $data = $image->getFilename();
+                $data = new $attachClass();
+                $propertyAccessor = PropertyAccess::createPropertyAccessor();
+                $propertyAccessor->setValue($data, $attachValue, $image->getFilename());
             }
             // Otherwise, datatype is entity, we give the image to the entity
             else {
