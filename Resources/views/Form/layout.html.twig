@@ -77,6 +77,53 @@
     {%- endif %}
 {%- endblock form_errors %}
 
+{% block collection_widget -%}
+    {% import _self as self %}
+    {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
+
+    {% apply spaceless %}
+        <div data-form-type="collection" {{ block('widget_container_attributes') }}
+                {% if prototype is defined and allow_add %}
+                    data-prototype='{{ self.collection_item(prototype, allow_delete, '__name__')|e }}'
+                {%- endif -%}
+        >
+
+            {% if prototypes|default is iterable %}
+                {% for key, subPrototype in prototypes %}
+                    <input type="hidden" data-form-prototype="{{ key }}" value="{{ self.collection_item(subPrototype, allow_delete, button_delete_label, '__name__')|e }}" />
+                {% endfor %}
+            {% endif %}
+
+            <div data-form-collection="list">
+                {% for child in form %}
+                    {{ self.collection_item(child, allow_delete, loop.index0) }}
+                {% endfor %}
+            </div>
+
+        </div>
+    {% endapply %}
+{%- endblock collection_widget %}
+
+{% macro collection_item(form, allow_delete, index) %}
+    {% apply spaceless %}
+        <div data-form-collection="item" data-form-collection-index="{{ index }}">
+            {% if allow_delete %}
+            <div class="float-left">
+                <a href="#" data-form-collection="delete" class="btn group btn-xs btn-danger" style="margin-bottom: 1em;">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+            {% endif %}
+            {% if allow_delete %}
+                <div style="margin-left: 50px">
+            {% endif %}
+            {{ form_widget(form) }}
+            {% if allow_delete %}
+                </div>
+            {% endif %}
+        </div>
+    {% endapply %}
+{% endmacro %}
 
 {% block a2lix_translations_widget %}
 
@@ -212,7 +259,7 @@
 
         {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {
             'image' : false,
-            'image_class': image_class_short,
+            'image_class': image_class,
             'image_value': form.vars.image_value,
             'suffix': form.vars.crop_suffix,
             'crops': form.vars.crops,

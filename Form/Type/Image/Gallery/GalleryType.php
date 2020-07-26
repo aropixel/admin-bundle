@@ -42,7 +42,26 @@ class GalleryType extends AbstractType
             'crops' => [],                          // The crops defined directly in the form configuration
         ));
 
+        $resolver->setNormalizer('image_library', static function (Options $options, $imageLibrary) {
+
+            if (is_null($imageLibrary)) {
+
+                $entryOptions = $options['entry_options'];
+
+                if (array_key_exists('data_class', $entryOptions)) {
+                    $imageLibrary = $entryOptions['data_class'];
+                }
+                elseif ($options['image_class']) {
+                    $imageLibrary = $options['image_class'];
+                }
+
+            }
+            return $imageLibrary;
+        });
+
         $resolver->setNormalizer('entry_options', static function (Options $options, $entryOptions) {
+
+
 
             // The class name of the image entity (can be an AttachImage entity or a custom entity)
             if ($options['image_class']) {
@@ -87,18 +106,17 @@ class GalleryType extends AbstractType
         $view->vars['crop_suffix'] = $this->cropSuffix;
 
         //
-        $shortClassItems = explode('\\', $options['image_class']);
+        $shortClassItems = explode('\\', $options['entry_options']['data_class']);
         $shortClass = array_pop($shortClassItems);
 
         // set an "image_url" variable that will be available when rendering this field
-        $view->vars['image_class'] = $options['image_class'];
+        $view->vars['image_class'] = $options['entry_options']['data_class'];
         $view->vars['image_class_short'] = $shortClass;
         $view->vars['image_library'] = $options['image_library'] ?: ($options['image_class'] ?: '');
 
         $view->vars['image_value'] = $options['image_value'];
         $view->vars['image_crops'] = $options['image_crops'];
         $view->vars['crops'] = $options['crops'];
-
     }
 
     /**

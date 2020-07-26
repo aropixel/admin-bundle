@@ -5,6 +5,7 @@
 
     <mapped-superclass name="Aropixel\AdminBundle\Entity\AttachImage">
 
+        <field name="link" type="string" nullable="true" />
         <field name="title" type="string" nullable="true" />
         <field name="alt" type="string" nullable="true" />
         <field name="class" type="string" nullable="true" />

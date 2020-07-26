@@ -20,6 +20,11 @@ abstract class AttachImage
     /**
      * @var string  Title html attribute of the image
      */
+    protected $link;
+
+    /**
+     * @var string  Title html attribute of the image
+     */
     protected $title;
 
     /**
@@ -56,6 +61,25 @@ abstract class AttachImage
      * @var \DateTime
      */
     protected $updatedAt;
+
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param string $link
+     * @return AttachImage
+     */
+    public function setLink(string $link)
+    {
+        $this->link = $link;
+        return $this;
+    }
 
 
     /**

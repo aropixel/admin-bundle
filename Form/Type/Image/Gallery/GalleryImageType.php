@@ -62,6 +62,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
 
         //
         $builder
+            ->add('link', HiddenType::class)
             ->add('title', HiddenType::class)
             ->add('alt', HiddenType::class)
             ->add('class', HiddenType::class)
@@ -103,7 +104,9 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
                 $builder
                     ->add('crops', GalleryCropsType::class, array(
                         'image_class'  => $options['data_class'],
-                        'data_class'  => $options['crop_class'],
+                        'entry_options' => array(
+                            'data_class'  => $options['crop_class'],
+                        )
                     ))
                 ;
 
@@ -132,6 +135,11 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
         $forms['file_name']->setData($this->instanceToData->getFileName($data));
+
+        //
+        if (is_array($attributes) && array_key_exists('link', $attributes)) {
+            $forms['link']->setData($attributes['link']);
+        }
 
         //
         if (is_array($attributes) && array_key_exists('title', $attributes)) {
@@ -182,6 +190,10 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         if ($this->options['data_attributes']) {
 
             $attributes = [];
+            if (!is_null($forms['link']->getData())) {
+                $attributes['link'] = $forms['link']->getData();
+            }
+
             if (!is_null($forms['title']->getData())) {
                 $attributes['title'] = $forms['title']->getData();
             }

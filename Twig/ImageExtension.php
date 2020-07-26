@@ -72,13 +72,13 @@ class ImageExtension extends AbstractExtension
             /** @var AttachImage $image */
             $path = $image->fileExists() ? $image->getWebPath() : null;
         }
-        elseif (is_string($image) && !file_exists($image)) {
+        else {
             $path = Image::getFileNameWebPath($image);
         }
-
-        if (!is_string($image) || !file_exists($image)) {
-            $path = null;
-        }
+//
+//        if (!is_string($image) || !file_exists($image)) {
+//            $path = null;
+//        }
 
         if (is_null($path)) {
 
