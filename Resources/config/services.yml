@@ -3,10 +3,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-        bind:
-            $admin_client: '%aropixel_admin.client%'
-            $admin_copyright: '%aropixel_admin.copyright%'
-            $admin_theme: '%aropixel_admin.theme%'
 
     Aropixel\AdminBundle\Command\AdminAccessCommand:
         tags:
@@ -81,16 +77,6 @@ services:
     Aropixel\AdminBundle\Imagine\Filter\ThumbnailFilter:
         tags:
             - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
-
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags:
-            - { name: twig.extension }
-
-    twig.extension.text:
-        class: Twig_Extensions_Extension_Text
-        tags:
-            - { name: twig.extension }
 
 
     Liip\ImagineBundle\Service\FilterService:

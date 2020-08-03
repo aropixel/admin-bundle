@@ -4,8 +4,11 @@ CHANGELOG for 1.1.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.1 minor versions.
 
-* **1.1.6** *(20xx-xx-xx)*
+* **1.1.7** *(20xx-xx-xx)*
 
+
+* **1.1.6** *(2020-07-04)*
+    * Upgrade knplabs/knp-paginator-bundle dependency version
 
 * **1.1.5** *(2020-06-23)*
     * Bugfix form layout with choicelist placeholder

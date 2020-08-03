@@ -34,6 +34,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
+        $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
