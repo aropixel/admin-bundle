@@ -5,7 +5,7 @@
  * Date: 04/07/2020 à 19:21
  */
 
-namespace App\Aropixel\AdminBundle\Form\Type\Page;
+namespace Aropixel\AdminBundle\Form\Type\Page;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
