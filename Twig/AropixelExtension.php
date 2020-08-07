@@ -58,7 +58,8 @@ class AropixelExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            'datetime' => new TwigFilter('datetime', array($this, 'datetime')),
+            'datetime' => new TwigFilter('datetime', array($this, 'intl_date')),
+            'intl_date' => new TwigFilter('intl_date', array($this, 'intl_date')),
             'crop_filters' => new TwigFilter('crop_filters', array($this, 'cropFilters')),
             'entity_crop_filters' => new TwigFilter('entity_crop_filters', array($this, 'entityCropFilters')),
             'class_name' => new TwigFilter('class_name', array($this, 'getClassFromCategory')),
@@ -238,14 +239,10 @@ class AropixelExtension extends AbstractExtension
         return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
 
-    public function datetime($d, $format = "%B %e", $lang="fr_FR")
+
+    public function intl_date($d, $format = "%B %e", $lang="fr_FR")
     {
-//        if ($d instanceof \DateTime) {
-//            $d = $d->getTimestamp();
-//        }
-//        setlocale(LC_ALL, 'fr_FR.UTF-8', 'French', 'French');
-//        return strftime($format, $d);
-        $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::LONG, \IntlDateFormatter::LONG);
+        $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);
         return $formatter->format($d);
     }
