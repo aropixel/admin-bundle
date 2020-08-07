@@ -6,6 +6,8 @@ use Aropixel\AdminBundle\Services\ImageManager;
 use Aropixel\AdminBundle\Services\Seo;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -173,35 +175,48 @@ class AropixelExtension extends AbstractExtension
             $defaultField = $seoField=='keywords' ? 'description' : $seoField;
         }
 
-        $seoMethod = "getMeta".ucfirst($seoField);
-        $dftMethod = "get".ucfirst($defaultField);
+        //
+        $accessor = PropertyAccess::createPropertyAccessor();
+
 
         // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
-        $seoText = "";
-        if (method_exists($entity, $seoMethod)) {
-            $seoText = $entity->{$seoMethod}();
+        try {
+            $seoText = $accessor->getValue($entity, $seoField);
         }
+        catch (NoSuchPropertyException $e) {
+            $seoText = "";
+        }
+
 
         // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS]
-        if (!strlen($seoText) && method_exists($entity, $dftMethod)) {
-            $seoText = $entity->{$dftMethod}();
+        if (!strlen($seoText)) {
+
+            // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
+            try {
+                $seoText = $accessor->getValue($entity, $defaultField);
+            }
+            catch (NoSuchPropertyException $e) {
+                $seoText = "";
+            }
+
             if (strlen($seoText)) {
                 $seoText.= $appendText;
             }
         }
 
-        // Si non trouvé, on cherche dans les champs getMeta[NOM DU CHAMPS] de la traduction
-        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $seoMethod)) {
-            $seoText = $entity->translate()->{$seoMethod}();
-        }
 
-        // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS] de la traduction
-        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $dftMethod)) {
-            $seoText = $entity->translate()->{$dftMethod}();
-            if (strlen($seoText)) {
-                $seoText.= $appendText;
-            }
-        }
+//        // Si non trouvé, on cherche dans les champs getMeta[NOM DU CHAMPS] de la traduction
+//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $seoMethod)) {
+//            $seoText = $entity->translate()->{$seoMethod}();
+//        }
+//
+//        // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS] de la traduction
+//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $dftMethod)) {
+//            $seoText = $entity->translate()->{$dftMethod}();
+//            if (strlen($seoText)) {
+//                $seoText.= $appendText;
+//            }
+//        }
 
 
         //
