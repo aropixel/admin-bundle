@@ -874,6 +874,8 @@ $(function() {
 
         //
         activateDatePicker($('[data-form-collection-index="'+count+'"] .pickadate'));
+        activateCkeditor($('[data-form-collection-index="'+count+'"] .ckeditor'));
+        activateImManager($('[data-form-collection-index="'+count+'"] .im-manager'));
 
     });
 
@@ -1013,4 +1015,23 @@ function activateDatePicker($element) {
 
         }
     });
+}
+
+
+function activateCkeditor($elements) {
+
+    $elements.each(function() {
+        console.log($(this));
+        CKEDITOR.replace( this.id );
+    })
+
+}
+
+
+function activateImManager($elements) {
+
+    $elements.each(function() {
+        $(this).ImageManager();
+    })
+
 }
