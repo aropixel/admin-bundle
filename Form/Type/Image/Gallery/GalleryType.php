@@ -32,6 +32,7 @@ class GalleryType extends AbstractType
             'allow_delete' => true,
             'by_reference' => false,
             'grid' => 'col-md-6 col-lg-6',
+            'fields' => [],
 
             // Filename mode
             'image_library' => null,                // Override the image_class as a category of images in the library
@@ -86,6 +87,37 @@ class GalleryType extends AbstractType
             //
             $entryOptions['crops'] = $options['crops'];
             $entryOptions['grid'] = $options['grid'];
+
+            //
+            $optionFields = [];
+            $availableFields = [
+                'title' => 'Titre de votre image',
+                'description' => 'Description de votre image',
+                'link' => 'Lien de votre image'
+            ];
+
+            foreach ($availableFields as $field => $label) {
+
+                $optionFields[$field] = ['label' => $label, 'enabled' => false];
+
+                if (array_key_exists($field, $options['fields'])) {
+
+                    // This field will be enabled
+                    $optionFields[$field]['enabled'] = true;
+
+                    // The value can be a boolean or an array
+                    // if it's an array, we override the label value
+                    if (is_array($options['fields'][$field])) {
+
+                        if (array_key_exists('label', $options['fields'][$field])) {
+                            $optionFields[$field]['label'] = $options['fields'][$field]['label'];
+                        }
+
+                    }
+                }
+            }
+
+            $entryOptions['fields'] = $optionFields;
 
             return $entryOptions;
         });

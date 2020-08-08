@@ -773,7 +773,9 @@
             var attributesButton = $(event.relatedTarget);
             _modal_attributes.data('related', attributesButton);
 
-            //
+
+            // Read values from widget hidden fields
+            // to populate the attributes modal fields
             var attributesInputs = $(selectors.attributes.inputs);
             var $widget = attributesButton.closest('.thumb');
             attributesInputs.each(function(index) {
@@ -783,6 +785,52 @@
 
                 _input.val(_val);
             });
+
+
+            //
+            var $attributesContainer = $widget.closest('[data-title-enabled]');
+            var isTitleEnabled = ($attributesContainer.attr('data-title-enabled') === '1');
+            var isDescriptionEnabled = ($attributesContainer.attr('data-description-enabled') === '1');
+            var isLinkEnabled = ($attributesContainer.attr('data-link-enabled') === '1');
+
+            //
+            if (!isTitleEnabled && !isDescriptionEnabled && !isLinkEnabled) {
+                _modal_attributes.find('.nav-tabs').hide();
+                _modal_attributes.find('#gallery-image-texts').hide();
+                _modal_attributes.find('#gallery-image-attributes').removeClass('show active').show();
+            }
+            else {
+                _modal_attributes.find('.nav-tabs').show();
+                _modal_attributes.find('.nav-tabs li:first a').addClass('active');
+                _modal_attributes.find('.nav-tabs li:not(:first) a').removeClass('active');
+                _modal_attributes.find('#gallery-image-texts').addClass('show active').removeAttr('style');
+                _modal_attributes.find('#gallery-image-attributes').removeClass('show active').removeAttr('style');
+            }
+
+            if (isTitleEnabled) {
+                _modal_attributes.find('#img_title').show();
+                _modal_attributes.find('#img_title label').html($attributesContainer.attr('data-title-label'))
+            }
+            else {
+                _modal_attributes.find('#img_title').hide();
+            }
+
+            if (isDescriptionEnabled) {
+                _modal_attributes.find('#img_description').show();
+                _modal_attributes.find('#img_description label').html($attributesContainer.attr('data-description-label'))
+            }
+            else {
+                _modal_attributes.find('#img_description').hide();
+            }
+
+            if (isLinkEnabled) {
+                _modal_attributes.find('#img_link').show();
+                _modal_attributes.find('#img_link label').html($attributesContainer.attr('data-link-label'))
+            }
+            else {
+                _modal_attributes.find('#img_link').hide();
+            }
+
 
         });
 

@@ -18,24 +18,34 @@ abstract class AttachImage
 {
 
     /**
-     * @var string  Title html attribute of the image
-     */
-    protected $link;
-
-    /**
-     * @var string  Title html attribute of the image
+     * @var  Title of the image
      */
     protected $title;
 
     /**
-     * @var string  Attr html attribute of the image
+     * @var  Link of the image
      */
-    protected $alt;
+    protected $link;
 
     /**
-     * @var string  Specific class to give when rendering the image
+     * @var  Description of the image
      */
-    protected $class;
+    protected $description;
+
+    /**
+     * @var  Html "title" attribute of the image
+     */
+    protected $attrTitle;
+
+    /**
+     * @var  Html "alt" attribute of the image
+     */
+    protected $attrAlt;
+
+    /**
+     * @var  Specific class to give when rendering the image
+     */
+    protected $attrClass;
 
     /**
      * @var integer Position when the image is part of a set of images
@@ -62,44 +72,8 @@ abstract class AttachImage
      */
     protected $updatedAt;
 
-
     /**
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->link;
-    }
-
-    /**
-     * @param string $link
-     * @return AttachImage
-     */
-    public function setLink(string $link)
-    {
-        $this->link = $link;
-        return $this;
-    }
-
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return AttachImage
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
+     * @return string|null
      */
     public function getTitle()
     {
@@ -107,51 +81,105 @@ abstract class AttachImage
     }
 
     /**
-     * Set alt
-     *
-     * @param string $alt
-     *
+     * @param string|null $title
      * @return AttachImage
      */
-    public function setAlt($alt)
+    public function setTitle($title)
     {
-        $this->alt = $alt;
-
+        $this->title = $title;
         return $this;
     }
 
     /**
-     * Get alt
-     *
-     * @return string
+     * @return string|null
      */
-    public function getAlt()
+    public function getLink()
     {
-        return $this->alt;
+        return $this->link;
     }
 
     /**
-     * Set class
-     *
-     * @param string $class
-     *
+     * @param string|null $link
      * @return AttachImage
      */
-    public function setClass($class)
+    public function setLink($link)
     {
-        $this->class = $class;
+        $this->link = $link;
         return $this;
     }
 
     /**
-     * Get class
-     *
-     * @return string
+     * @return string|null
      */
-    public function getClass()
+    public function getDescription()
     {
-        return $this->class;
+        return $this->description;
     }
+
+    /**
+     * @param string|null $description
+     * @return AttachImage
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrTitle()
+    {
+        return $this->attrTitle;
+    }
+
+    /**
+     * @param string|null $attrTitle
+     * @return AttachImage
+     */
+    public function setAttrTitle($attrTitle)
+    {
+        $this->attrTitle = $attrTitle;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrAlt()
+    {
+        return $this->attrAlt;
+    }
+
+    /**
+     * @param string|null $attrAlt
+     * @return AttachImage
+     */
+    public function setAttrAlt($attrAlt)
+    {
+        $this->attrAlt = $attrAlt;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrClass()
+    {
+        return $this->attrClass;
+    }
+
+    /**
+     * @param string|null $attrClass
+     * @return AttachImage
+     */
+    public function setAttrClass($attrClass)
+    {
+        $this->attrClass = $attrClass;
+        return $this;
+    }
+
 
     /**
      * Set position
