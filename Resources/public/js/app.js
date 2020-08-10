@@ -101,34 +101,7 @@ $(function() {
     if ($pickadate.length) {
 
         $pickadate.each(function() {
-
-            $(this).pickadate({
-                monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                today: 'aujourd\'hui',
-                clear: 'effacer',
-                close: 'fermer',
-                selectMonths: true,
-                selectYears: 20,
-                labelMonthNext: 'Mois suivant',
-                labelMonthPrev: 'Mois précédent',
-                format: 'dd/mm/yyyy',
-                formatSubmit: 'yyyy-mm-dd',
-                onOpen: function() {
-
-                    moment.locale('fr');
-                    var selected = $(this)[0].get('select');
-                    var dateMoment = selected ? moment(selected.obj) : moment();
-                    var dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
-
-                    var displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
-                    $(this)[0].$root.find( '.picker__wrap .picker__date-display' ).remove();
-                    $(this)[0].$root.find( '.picker__wrap' ).prepend(displayDate);
-                    $(this)[0].render();
-
-                }
-            });
-
+            activateDatePicker($(this));
         })
 
     }
@@ -883,6 +856,35 @@ $(function() {
 
     });
 
+
+    $('[data-form-collection-add]').click(function() {
+
+        //
+        let $collection = $('#'+$(this).attr('data-form-collection-add'));
+        let $list = $collection.find('[data-form-collection="list"]');
+        let $items = $list.find('> [data-form-collection="item"]');
+
+        //
+        let count = $items.length + 1;
+        let prototype = $collection.attr('data-prototype');
+        prototype = prototype.replace(/__name__/g, count);
+
+        //
+        $list.append(prototype);
+
+        //
+        activateDatePicker($('[data-form-collection-index="'+count+'"] .pickadate'));
+        activateCkeditor($('[data-form-collection-index="'+count+'"] .ckeditor'));
+        activateImManager($('[data-form-collection-index="'+count+'"] .im-manager'));
+
+    });
+
+    $('[data-form-collection="list"]').each(function() {
+        $(this).on('click', '[data-form-collection="delete"]', function() {
+            $(this).closest('[data-form-collection="item"]').remove();
+        });
+    });
+
 });
 
 
@@ -981,4 +983,55 @@ function formatRepoSelection (repo) {
 }
 
 
+function activateDatePicker($element) {
 
+    if (!$element.length) {
+        return false;
+    }
+
+    $element.pickadate({
+        monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        today: 'aujourd\'hui',
+        clear: 'effacer',
+        close: 'fermer',
+        selectMonths: true,
+        selectYears: 20,
+        labelMonthNext: 'Mois suivant',
+        labelMonthPrev: 'Mois précédent',
+        format: 'dd/mm/yyyy',
+        formatSubmit: 'yyyy-mm-dd',
+        onOpen: function() {
+
+            moment.locale('fr');
+            var selected = $(this)[0].get('select');
+            var dateMoment = selected ? moment(selected.obj) : moment();
+            var dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
+
+            var displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
+            $(this)[0].$root.find( '.picker__wrap .picker__date-display' ).remove();
+            $(this)[0].$root.find( '.picker__wrap' ).prepend(displayDate);
+            $(this)[0].render();
+
+        }
+    });
+}
+
+
+function activateCkeditor($elements) {
+
+    $elements.each(function() {
+        console.log($(this));
+        CKEDITOR.replace( this.id );
+    })
+
+}
+
+
+function activateImManager($elements) {
+
+    $elements.each(function() {
+        $(this).ImageManager();
+    })
+
+}

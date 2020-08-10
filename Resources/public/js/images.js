@@ -188,6 +188,10 @@
         var widget = launcher.element;
 
         //
+        var cropper = new IM_Cropper(launcher);
+        cropper.initCropper();
+
+        //
         widget.on('click', selectors.panel.unlink, function() {
 
             obj.detach();
@@ -233,8 +237,10 @@
             _attach_params['data_type']    = launcher.config.imDataType;
             _attach_params['attach_id']    = _thumbData.imAttachId;
             _attach_params['attach_class'] = _thumbData.imAttachClass;
+            _attach_params['attach_value'] = _thumbData.imAttachValue;
             _attach_params['entity_class'] = launcher.config.imEntityClass;
-
+            _attach_params['crops_slugs'] = _thumbData.imCropsSlugs;
+            _attach_params['crops_labels'] = _thumbData.imCropsLabels;
 
 
             //
@@ -246,22 +252,33 @@
             }
 
 
+
             //
             $.post(_thumbData.imAttachPath,  _attach_params, function(result) {
 
-                //
+                // Update widget image
                 if (launcher.element.find(".preview > img").length) {
-                    launcher.element.find(".preview > img").replaceWith($(result).find('.preview img'));
+                    launcher.element.find(".preview > img").replaceWith($(result).find('.preview > img'));
                 }
                 else {
-                    launcher.element.find(".no-img").replaceWith($(result).find('.preview img'));
+                    launcher.element.find(".no-img").replaceWith($(result).find('.preview > img'));
                 }
-                launcher.element.find(".preview input[name$='[image]']").val($(result).find(".preview input[name$='[image]']").val());
+
+                // Update file_name field
                 launcher.element.find(".preview input[name$='[file_name]']").val($(result).find(".preview input[name$='[file_name]']").val());
-                // launcher.element.find(".caption").html($(result).find('.caption').html());
+                launcher.element.find(".preview input[name$='[image]']").val($(result).find(".preview input[name$='[image]']").val());
+
+                // Update footer
+                launcher.element.find(".caption").html($(result).find('.caption').html());
+
+                // Remove all action buttons except upload (first)
                 launcher.element.find(".caption-overflow a:not(:first-child)").remove();
                 launcher.element.find(".caption-overflow a:first-child").after($(result).find('.caption-overflow a:not(:first-child)'));
 
+                // Give correct modal target to crop button
+                launcher.element.find(".caption-overflow .iconCrop").attr('data-target', '#'+launcher.element.find('.modalCrop').attr('id'));
+
+                //
                 launcher.element.find(".thumbnail").attr("data-im-crop-path", $(result).attr('data-im-crop-path'));
                 launcher.element.find(".thumbnail").attr("data-im-image-id", $(result).attr('data-im-image-id'));
                 launcher.element.find(".thumbnail").attr("data-im-attach-id", $(result).attr('data-im-attach-id'));
@@ -275,6 +292,9 @@
                 // $.uniform.update($('.checkbox-library-thumb input').attr('checked',false));
                 _button.html("Ajouter l'image").attr('disabled', false);
 
+                //
+                // var cropper = new IM_Cropper(launcher);
+                // cropper.initCropper();
 
             });
 
@@ -315,6 +335,8 @@
                             launcher.element.find(".preview input[name$='[image][title]']").removeAttr('value');
                             launcher.element.find(".preview input[name$='[image][alt]']").removeAttr('value');
 
+                            launcher.element.find(".preview input[name$='[image][file_name]']").removeAttr('value');
+
                         }
                         _button.closest('.modal').modal('hide');
 
@@ -345,6 +367,10 @@
         //
         var obj = this;
         this.launcher = launcher;
+
+        //
+        var cropper = new IM_Cropper(launcher);
+        cropper.initCropper();
 
         //
         var gallery = this;
@@ -434,15 +460,15 @@
 
         this.sortable_list = function() {
 
-            obj.launcher.element.find('.row > div').sortable({
-                // connectWith: ".row",
+            obj.launcher.element.find('.row').sortable({
+                items: "> div",
                 update: function( event, ui ) {
                     obj.launcher.element.find('.thumbnail').each(function(index) {
 
                         var _input = $(this).find('input:hidden');
                         if (_input.length) {
                             _input.each(function() {
-                                var new_name = $(this).attr('name').replace(/\[\d+\]/g, "["+(index)+"]");
+                                var new_name = $(this).attr('name').replace(/\[[0-9]+\]?/, "["+(index)+"]");
                                 $(this).attr('name', new_name);
                             });
                         }
@@ -450,6 +476,27 @@
                     });
                 }
             });
+
+        }
+
+
+        this.reIndex = function()
+        {
+
+            launcher.element.find('.thumbnail').each(function(i) {
+
+                $(this).find('input:hidden').each(function() {
+
+                    old_name = $(this).attr('name');
+                    new_name = old_name.replace(/\[[0-9]+\]?/, function (match, $1) {
+                        return '[' + i + ']';
+                    });
+
+                    $(this).attr('name', new_name);
+
+                })
+            });
+
 
         }
 
@@ -470,26 +517,41 @@
 
 
                 //
-                var $galleryContent = launcher.element.find('> .galleryContent > div');
+                var $galleryContent = launcher.element.find('> .galleryContent');
                 var prototype = $galleryContent.data('prototype');
                 var index = $galleryContent.children().length;
                 var newItem = prototype.replace(/__name__/g, index);
 
-                //
+                // Get image of the library
                 $imgLibraryModal = $(this).closest('tr').find('.img-preview');
                 $img = $('<img>').attr('src', $imgLibraryModal.attr('src'));
+
+                // Add a new image from the prototype in the container, and replace the place holder by the image
                 $galleryContent.append($(newItem));
-                $galleryContent.find('[name$="['+index+'][image]"]').val($(this).val());
                 $galleryContent.find(".no-img").replaceWith($img);
 
                 //
-                var $thumbnail = $galleryContent.find('[name$="['+index+'][image]"]').closest('.thumbnail');
+                var $thumbnail = $galleryContent.find('[name$="['+index+'][title]"]').closest('.thumbnail');
+
+                // If the image is stored as a relation
+                var $attach_image = $galleryContent.find('[name$="['+index+'][image]"]');
+                if ($attach_image.length) {
+
+                    $thumbnail.attr('data-im-image-id', $(this).val());
+                    $attach_image.val($(this).val());
+
+                }
+                // If image is stored as a file name
+                else {
+                    var filename = $img.attr('src').split('\\').pop().split('/').pop();
+                    $galleryContent.find('[name$="['+index+'][file_name]"]').val(filename)
+                }
+
+                //
                 $thumbnail.attr('data-im-crop-path', $imgLibraryModal.attr('data-crop-path'));
-                $thumbnail.attr('data-im-image-id', $(this).val());
 
                 //
                 if (launcher.config.imCropActive) {
-                    var $thumbnail = $galleryContent.find('[name$="['+index+'][image]"]').closest('.thumbnail');
                     $thumbnail.find(".iconCrop").attr('data-target', $thumbnail.find(".iconCrop").attr('data-target') + launcher.config.imAttachShortClass);
                 }
 
@@ -628,7 +690,7 @@
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        widget.parent().fadeOut(400, function() {$(this).remove();} );
+                        widget.parent().fadeOut(400, function() { $(this).remove(); gallery.reIndex(); } );
                         $(this).closest('.modal').modal('hide');
 
                     },
@@ -675,7 +737,12 @@
             //
             var button = $(event.relatedTarget);
             if (button.length) {
-                obj.launcher = button.closest('[data-im-type]').data('launcher');
+                if (button.attr('data-rel')) {
+                    obj.launcher = $('#' + button.attr('data-rel')).closest('[data-im-type]').data('launcher');;
+                }
+                else {
+                    obj.launcher = button.closest('[data-im-type]').data('launcher');
+                }
             }
 
             config = obj.launcher.config;
@@ -697,168 +764,6 @@
         });
 
 
-        $(selectors.crop.class).on('shown.bs.modal', function (event) {
-
-            //
-            var cropButton = $(event.relatedTarget);
-            if (cropButton.length) {
-                if (cropButton.closest('[data-im-type]').length) {
-                    obj.launcher = cropButton.closest('[data-im-type]').data('launcher');
-                }
-                else if (cropButton.closest('[rel="im-manager"]').length) {
-                    obj.launcher = cropButton.closest('[rel="im-manager"]').data('launcher');
-                }
-            }
-
-            //
-            var _modal = $(this);
-            var $thumbnail = cropButton.closest('.thumbnail');
-
-
-            //
-            var ImgId = $thumbnail.attr('data-im-image-id');
-            var ImgSrc = $thumbnail.attr('data-im-crop-path');
-
-
-            //
-            var changeImage = false;
-            var $button = _modal.find(selectors.crop.ratios+':first');
-            var $image = _modal.find(selectors.crop.image);
-            var $imageContainer = _modal.find(selectors.crop.imageContainer);
-            var isInitialized = $image.data('cropper');
-
-
-            // S'il n'y avait pas d'image, ou si l'image a changé
-            if (!$image.length || parseInt($image.data('id')) != parseInt(ImgId)) {
-
-                // S'il n'y avait pas d'image
-                if (!$image.length) {
-
-                    //
-                    var _img = $('<img>')
-                        .attr("src", ImgSrc);
-
-                    //
-                    _modal.find(selectors.crop.imageContainer).html(_img);
-                    _modal.find(selectors.crop.image).attr("width", 600);
-                    $image = _modal.find(selectors.crop.image);
-
-                }
-                else {
-
-                    //
-                    changeImage = true;
-                }
-
-                //
-                $imageContainer.data('id', ImgId);
-                $imageContainer.data('thumb', $thumbnail.attr('id'));
-                _modal.find(selectors.crop.ratios).each(function() {
-
-                    // On met à jour la valeur du crop (associée au radio button)
-                    $(this).removeAttr('data-crop');
-                    //
-                    // // Soit, une valeur est attachée à l'image (le crop a donc été réglé lors d'une ouverture précédente de la popup)
-                    // var _data_name = 'data-crop-' + $(this).val();
-                    // if ($thumbnail.data(_data_name) && $thumbnail.data(_data_name).length) {
-                    //     $(this).attr('data-crop', $thumbnail.data(_data_name));
-                    // }
-                    //
-                    // // Soit, une valeur est renseignée dans le formulaire (le crop a été réglé puis enregistré précédemment)
-                    // else {
-
-                    $imageCropInfo = $thumbnail.find('[name$="[filter]"][value="'+$(this).val()+'"]').next();
-                    if ($imageCropInfo.length && $imageCropInfo.val().length) {
-                        $(this).attr('data-crop', $imageCropInfo.val());
-                    }
-
-                    // }
-
-                });
-
-            }
-            else {
-
-                //
-                // console.log("image existante");
-
-            }
-
-
-            //
-            if (!isInitialized) {
-
-                //
-                // console.log("instanciate");
-
-                //
-                _modal.on('click', selectors.crop.ratios, function() {
-
-                    //
-                    var _options = obj.cropper_options($(this));
-                    _modal.find(selectors.crop.image).cropper('destroy').cropper(_options);
-
-                });
-
-
-                //
-                _modal.on('click', selectors.crop.save, function() {
-
-                    //
-                    // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
-                    // data.crop_info = {};
-
-                    // Get the data-prototype explained earlier
-                    $collectionHolder = $thumbnail.find('[id$="_crops"]');
-                    // $collectionHolder = _modal.next();
-                    $collectionHolder.empty();
-                    var prototype = $collectionHolder.data('prototype');
-
-                    //
-                    _modal.find(selectors.crop.ratios).each(function(index) {
-
-                        var _ratio = $(this);
-
-                        // Replace '__name__' in the prototype's HTML to
-                        // instead be a number based on how many items we have
-                        var newForm = prototype.replace(/__name__/g, index);
-                        $collectionHolder.append(newForm);
-
-                        $collectionHolder.find('[name$="['+index+'][filter]"]').val(_ratio.val());
-                        $collectionHolder.find('[name$="['+index+'][crop]"]').val(_ratio.attr('data-crop'));
-                    });
-
-                    _modal.modal('hide');
-                    //
-                    // //
-                    // $.post(Routing.generate('image_crop_save'), data, function(answer) {
-                    //
-                    //     $(selectors.crop.id).modal('hide');
-                    //
-                    // })
-
-                });
-
-
-                //
-                var _options = obj.cropper_options($button);
-                _modal.find(selectors.crop.image).cropper(_options);
-
-            }
-            else if (changeImage) {
-
-                var _options = obj.cropper_options($button);
-                $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
-                changeImage = false;
-
-            }
-
-
-
-        });
-
-
-
 
         //
         var _modal_attributes = $(selectors.attributes.class);
@@ -870,7 +775,9 @@
             var attributesButton = $(event.relatedTarget);
             _modal_attributes.data('related', attributesButton);
 
-            //
+
+            // Read values from widget hidden fields
+            // to populate the attributes modal fields
             var attributesInputs = $(selectors.attributes.inputs);
             var $widget = attributesButton.closest('.thumb');
             attributesInputs.each(function(index) {
@@ -880,6 +787,52 @@
 
                 _input.val(_val);
             });
+
+
+            //
+            var $attributesContainer = $widget.closest('[data-title-enabled]');
+            var isTitleEnabled = ($attributesContainer.attr('data-title-enabled') === '1');
+            var isDescriptionEnabled = ($attributesContainer.attr('data-description-enabled') === '1');
+            var isLinkEnabled = ($attributesContainer.attr('data-link-enabled') === '1');
+
+            //
+            if (!isTitleEnabled && !isDescriptionEnabled && !isLinkEnabled) {
+                _modal_attributes.find('.nav-tabs').hide();
+                _modal_attributes.find('#gallery-image-texts').hide();
+                _modal_attributes.find('#gallery-image-attributes').removeClass('show active').show();
+            }
+            else {
+                _modal_attributes.find('.nav-tabs').show();
+                _modal_attributes.find('.nav-tabs li:first a').addClass('active');
+                _modal_attributes.find('.nav-tabs li:not(:first) a').removeClass('active');
+                _modal_attributes.find('#gallery-image-texts').addClass('show active').removeAttr('style');
+                _modal_attributes.find('#gallery-image-attributes').removeClass('show active').removeAttr('style');
+            }
+
+            if (isTitleEnabled) {
+                _modal_attributes.find('#img_title').show();
+                _modal_attributes.find('#img_title label').html($attributesContainer.attr('data-title-label'))
+            }
+            else {
+                _modal_attributes.find('#img_title').hide();
+            }
+
+            if (isDescriptionEnabled) {
+                _modal_attributes.find('#img_description').show();
+                _modal_attributes.find('#img_description label').html($attributesContainer.attr('data-description-label'))
+            }
+            else {
+                _modal_attributes.find('#img_description').hide();
+            }
+
+            if (isLinkEnabled) {
+                _modal_attributes.find('#img_link').show();
+                _modal_attributes.find('#img_link label').html($attributesContainer.attr('data-link-label'))
+            }
+            else {
+                _modal_attributes.find('#img_link').hide();
+            }
+
 
         });
 
@@ -913,6 +866,7 @@
             // })
 
         });
+
 
 
         this.load_pictures = function(button) {
@@ -955,67 +909,6 @@
             $(selectors.modal.id).data('imLibrary', _library);
 
         };
-
-
-        this.cropper_options = function(button) {
-
-            //
-            var $modal = button.closest(selectors.crop.class);
-            var $image = $modal.find(selectors.crop.image);
-
-            //
-            var _options = {
-                viewMode: 2,
-                aspectRatio: button.attr("data-ratio"),
-                autoCropArea: 1,
-                zoomable: false,
-                minContainerWidth: 200,
-                minContainerHeight: 200,
-                ready: function(e) {
-                    // console.log(e.type);
-                    // e.preventDefault();
-                    // if ($modal.find(selectors.crop.ratios+':checked').attr('data-crop')) {
-                    //
-                    //     var _data = $modal.find(selectors.crop.ratios+':checked').attr('data-crop').split(",");
-                    //     var _cropboxdata = {left: _data[0], top: _data[1], width: _data[2], height: _data[3]};
-                    //     console.log(_cropboxdata);
-                    //     $image.cropper('setCropBoxData', _cropboxdata);
-                    // }
-                    //
-                },
-                cropend: function(e) {
-
-                    // console.log(e.type);
-                    // Prevent to start cropping, moving, etc if necessary
-                    // if (e.action === 'crop') {
-                    //     e.preventDefault();
-                    // }
-                    // else {
-                    //     $modal.find(selectors.crop.ratios+':checked').attr("data-crop", data.x+","+data.y+","+data.width+","+data.height);
-                    // }
-
-                },
-                cropstart: function(e) {
-                    // console.log(e.type);
-                },
-                cropmove: function(e) {
-                    // console.log(e.type);
-                },
-                crop: function(data) {
-                    // console.log(data);
-                    $modal.find(selectors.crop.ratios+':checked').attr("data-crop", data.x+","+data.y+","+data.width+","+data.height);
-                }
-            }
-
-            //
-            if (button.attr('data-crop') && button.attr('data-crop').length)
-            {
-                _data = button.attr('data-crop').split(",");
-                _options['data'] = {x: Math.floor(_data[0]), y: Math.floor(_data[1]), width: Math.floor(_data[2]), height: Math.floor(_data[3])};
-                // _options['data'] = {x: _data[0], y: _data[1], width: _data[2], height: _data[3]};
-            }
-            return _options;
-        }
 
 
         // Event // Clic sur le bouton de validation
@@ -1148,6 +1041,247 @@
         }
 
 
+
+    }
+
+
+
+
+    var IM_Cropper = function(launcher)
+    {
+        //
+        var obj = this;
+        var $modal = launcher.element.find(selectors.crop.class)
+
+        //
+        this.cropper_options = function(button) {
+
+            //
+            // var $modal = button.closest(selectors.crop.class);
+            var $image = $modal.find(selectors.crop.image);
+
+            //
+            var _options = {
+                viewMode: 2,
+                aspectRatio: button.attr("data-ratio"),
+                autoCropArea: 1,
+                zoomable: false,
+                minContainerWidth: 200,
+                minContainerHeight: 200,
+                ready: function(e) {
+                    // console.log(e.type);
+                    // e.preventDefault();
+                    // if ($modal.find(selectors.crop.ratios+':checked').attr('data-crop')) {
+                    //
+                    //     var _data = $modal.find(selectors.crop.ratios+':checked').attr('data-crop').split(",");
+                    //     var _cropboxdata = {left: _data[0], top: _data[1], width: _data[2], height: _data[3]};
+                    //     console.log(_cropboxdata);
+                    //     $image.cropper('setCropBoxData', _cropboxdata);
+                    // }
+                    //
+                },
+                cropend: function(e) {
+
+                    // console.log(e.type);
+                    // Prevent to start cropping, moving, etc if necessary
+                    // if (e.action === 'crop') {
+                    //     e.preventDefault();
+                    // }
+                    // else {
+                    //     $modal.find(selectors.crop.ratios+':checked').attr("data-crop", data.x+","+data.y+","+data.width+","+data.height);
+                    // }
+
+                },
+                cropstart: function(e) {
+                    // console.log(e.type);
+                },
+                cropmove: function(e) {
+                    // console.log(e.type);
+                },
+                crop: function(data) {
+                    // console.log(data);
+                    $modal.find(selectors.crop.ratios+':checked').attr("data-crop", data.x+","+data.y+","+data.width+","+data.height);
+                }
+            }
+
+            //
+            if (button.attr('data-crop') && button.attr('data-crop').length)
+            {
+                _data = button.attr('data-crop').split(",");
+                _options['data'] = {x: Math.floor(_data[0]), y: Math.floor(_data[1]), width: Math.floor(_data[2]), height: Math.floor(_data[3])};
+                // _options['data'] = {x: _data[0], y: _data[1], width: _data[2], height: _data[3]};
+            }
+            return _options;
+        }
+
+
+        this.initCropper = function (_modal) {
+
+            if (!$modal.data('initialized')) {
+
+                //
+                $modal.on('shown.bs.modal', function (event) {
+
+                    //
+                    var cropButton = $(event.relatedTarget);
+                    if (cropButton.length) {
+                        if (cropButton.closest('[data-im-type]').length) {
+                            obj.launcher = cropButton.closest('[data-im-type]').data('launcher');
+                        }
+                        else if (cropButton.closest('[rel="im-manager"]').length) {
+                            obj.launcher = cropButton.closest('[rel="im-manager"]').data('launcher');
+                        }
+                    }
+
+                    //
+                    var $thumbnail = cropButton.closest('.thumbnail');
+
+
+                    //
+                    var ImgId = $thumbnail.attr('data-im-image-id');
+                    var ImgSrc = $thumbnail.attr('data-im-crop-path');
+
+
+                    //
+                    var changeImage = false;
+                    var $button = $modal.find(selectors.crop.ratios+':first');
+                    var $image = $modal.find(selectors.crop.image);
+                    var $imageContainer = $modal.find(selectors.crop.imageContainer);
+                    var isInitialized = $image.data('cropper');
+
+
+                    // S'il n'y avait pas d'image, ou si l'image a changé
+                    if (!$image.length || parseInt($image.data('id')) != parseInt(ImgId)) {
+
+                        // S'il n'y avait pas d'image
+                        if (!$image.length) {
+
+                            //
+                            var _img = $('<img>')
+                                .attr("src", ImgSrc);
+
+                            //
+                            $modal.find(selectors.crop.imageContainer).html(_img);
+                            $modal.find(selectors.crop.image).attr("width", 600);
+                            $image = $modal.find(selectors.crop.image);
+
+                        }
+                        else {
+
+                            //
+                            changeImage = true;
+                        }
+
+                        //
+                        $imageContainer.data('id', ImgId);
+                        $imageContainer.data('thumb', $thumbnail.attr('id'));
+                        $modal.find(selectors.crop.ratios).each(function() {
+
+                            // On met à jour la valeur du crop (associée au radio button)
+                            $(this).removeAttr('data-crop');
+                            //
+                            // // Soit, une valeur est attachée à l'image (le crop a donc été réglé lors d'une ouverture précédente de la popup)
+                            // var _data_name = 'data-crop-' + $(this).val();
+                            // if ($thumbnail.data(_data_name) && $thumbnail.data(_data_name).length) {
+                            //     $(this).attr('data-crop', $thumbnail.data(_data_name));
+                            // }
+                            //
+                            // // Soit, une valeur est renseignée dans le formulaire (le crop a été réglé puis enregistré précédemment)
+                            // else {
+
+                            $imageCropInfo = $thumbnail.find('[name$="[filter]"][value="'+$(this).val()+'"]').next();
+                            if ($imageCropInfo.length && $imageCropInfo.val().length) {
+                                $(this).attr('data-crop', $imageCropInfo.val());
+                            }
+
+                            // }
+
+                        });
+
+                    }
+                    else {
+
+                        //
+                        // console.log("image existante");
+
+                    }
+
+
+                    //
+                    if (!isInitialized) {
+
+                        //
+                        // console.log("instanciate");
+
+                        //
+                        $modal.on('click', selectors.crop.ratios, function() {
+
+                            //
+                            var _options = obj.cropper_options($(this));
+                            $modal.find(selectors.crop.image).cropper('destroy').cropper(_options);
+
+                        });
+
+
+                        //
+                        $modal.on('click', selectors.crop.save, function() {
+
+                            //
+                            // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
+                            // data.crop_info = {};
+
+                            // Get the data-prototype explained earlier
+                            $collectionHolder = $thumbnail.find('[id$="_crops"]');
+                            // $collectionHolder = _modal.next();
+                            $collectionHolder.empty();
+                            var prototype = $collectionHolder.data('prototype');
+
+                            //
+                            $modal.find(selectors.crop.ratios).each(function(index) {
+
+                                var _ratio = $(this);
+
+                                // Replace '__name__' in the prototype's HTML to
+                                // instead be a number based on how many items we have
+                                var newForm = prototype.replace(/__name__/g, index);
+                                $collectionHolder.append(newForm);
+
+                                $collectionHolder.find('[name$="['+index+'][filter]"]').val(_ratio.val());
+                                $collectionHolder.find('[name$="['+index+'][crop]"]').val(_ratio.attr('data-crop'));
+                            });
+
+                            $modal.modal('hide');
+                            //
+                            // //
+                            // $.post(Routing.generate('image_crop_save'), data, function(answer) {
+                            //
+                            //     $(selectors.crop.id).modal('hide');
+                            //
+                            // })
+
+                        });
+
+
+                        //
+                        var _options = obj.cropper_options($button);
+                        $modal.find(selectors.crop.image).cropper(_options);
+
+                    }
+                    else if (changeImage) {
+
+                        var _options = obj.cropper_options($button);
+                        $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
+                        changeImage = false;
+
+                    }
+
+                    $modal.data('initialized', true);
+
+                });
+
+            }
+
+        }
 
     };
 

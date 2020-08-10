@@ -12,7 +12,7 @@
 namespace Aropixel\AdminBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 
 /**
@@ -88,6 +88,28 @@ abstract class PublishableRepository extends ServiceEntityRepository
     {
         //
         $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
+        if ($limit==1) {
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+        else {
+            return $qb->getQuery()->getResult();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findPublishedBy($by, array $orderBy = null, $limit = null, $offset = null)
+    {
+        //
+        $converter = new CamelCaseToSnakeCaseNameConverter();
+
+        $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
+        foreach ($by as $key => $value) {
+            $qb->andWhere('q.'.$key.' = :'.$converter->normalize($key));
+            $qb->setParameter($converter->normalize($key), $value);
+        }
+
         if ($limit==1) {
             return $qb->getQuery()->getOneOrNullResult();
         }

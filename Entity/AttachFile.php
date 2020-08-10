@@ -7,9 +7,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
-use Aropixel\AdminBundle\Entity\Fichier;
 
 
 /**

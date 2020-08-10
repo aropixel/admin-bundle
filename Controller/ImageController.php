@@ -10,6 +10,7 @@ use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
@@ -230,24 +231,56 @@ class ImageController extends AbstractController
         // Selected images
         $images = $request->get('images');
 
-        // Data type to store: entity or file_name
-        $dataType = $request->get('data_type');
-
         // Class name to use if data type is entity
         $attachClass = $request->get('attach_class');
+
+        // The property to store file name if needed
+        $attachValue = $request->get('attach_value');
 
         // Id
         $attachId = $request->get('attach_id');
 
+        // Crops
+        $cropsSlugs = $request->get('crops_slugs', '');
+        $cropsLabels = $request->get('crops_labels', '');
 
         //
-        if ($dataType == 'entity') {
+        $options = ['crops' => []];
 
+        //
+        if (strlen($cropsSlugs)) {
+
+            $i = 0;
+            $cropsSlugs = explode(';', $cropsSlugs);
+            $cropsLabels = explode(';', $cropsLabels);
+            foreach ($cropsSlugs as $slug) {
+                $options['crops'][$slug] = $cropsLabels[$i++];
+            }
+
+        }
+
+        //
+        $data = null;
+        if ($attachValue) {
+
+            //
+            $options['data_class'] = $attachClass;
+
+            if ($attachValue) {
+                $options['data_value'] = $attachValue;
+            }
+
+        }
+
+        else {
+            //
+            $options['data_class'] = $attachClass;
+
+            //
             $data = new $attachClass();
             if ($attachId) {
                 $data = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
             }
-
         }
 
 
@@ -257,16 +290,19 @@ class ImageController extends AbstractController
             //
             $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
 
-            //
-            if ($dataType == 'entity') {
-                $data->setImage($image);
+            // If attachValue is given, we just pass the filename
+            if ($attachValue) {
+                $data = new $attachClass();
+                $propertyAccessor = PropertyAccess::createPropertyAccessor();
+                $propertyAccessor->setValue($data, $attachValue, $image->getFilename());
             }
+            // Otherwise, datatype is entity, we give the image to the entity
             else {
-                $data = $image->getFilename();
+                $data->setImage($image);
             }
 
             //
-            $form = $this->createForm(ImageType::class, $data, array('data_type' => $dataType, 'data_class' => $attachClass));
+            $form = $this->createForm(ImageType::class, $data, $options);
 
             //
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', array(

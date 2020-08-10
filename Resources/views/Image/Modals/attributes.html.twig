@@ -4,31 +4,65 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
+					<h5 class="modal-title">Attributs de votre image</h5>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">Attributs HTML</h5>
 				</div>
 
 				<div class="modal-body">
 
-					<p>
-						<strong>Renseignez les attributs HTML de votre balise image.</strong><br />
-						Les attributs peuvent être utiles pour le référencement ou pour des plugins de gestions d'images (popups, filtres, ...).<br />
-					</p>
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link active" id="texts-tab" data-toggle="tab" href="#gallery-image-texts" role="tab" aria-controls="gallery-image-texts" aria-selected="true">Textes & Liens</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="attributes-tab" data-toggle="tab" href="#gallery-image-attributes" role="tab" aria-controls="gallery-image-attributes" aria-selected="true">Attributs HTML</a>
+						</li>
+					</ul>
 
-					<div class="m-t-30">
-						<label>Attribut <em>title</em> de votre balise image</label>
-						<input type="text" name="title" id="img_title" value="" class="form-control">
+					<div class="tab-content mt-3" id="myTabContent">
+
+						<div class="tab-pane fade show active" id="gallery-image-texts" role="tabpanel" aria-labelledby="texts-tab">
+
+							<div id="img_title">
+								<label>Titre de votre image</label>
+								<input type="text" name="title" value="" class="form-control">
+							</div>
+
+							<div class="m-t-15" id="img_description">
+								<label>Description de votre image</label>
+								<input type="text" name="description" value="" class="form-control">
+							</div>
+
+							<div class="m-t-15" id="img_link">
+								<label>Lien de votre image</label>
+								<input type="text" name="link" value="" class="form-control">
+							</div>
+						</div>
+
+						<div class="tab-pane" id="gallery-image-attributes" role="tabpanel" aria-labelledby="attributes-tab">
+							<p>
+								<strong>Renseignez les attributs HTML de votre balise image.</strong><br />
+								Les attributs peuvent être utiles pour le référencement ou pour des plugins de gestions d'images (popups, filtres, ...).<br />
+							</p>
+
+							<div class="m-t-15" id="img_attr_title">
+								<label>Attribut <em>title</em> de votre balise image</label>
+								<input type="text" name="attr_title" value="" class="form-control">
+							</div>
+
+							<div class="m-t-15" id="img_attr_alt">
+								<label>Attribut <em>alt</em> de votre balise image</label>
+								<input type="text" name="attr_alt" value="" class="form-control">
+							</div>
+
+							<div class="m-t-15" id="img_attr_class">
+								<label>Attribut <em>class</em> de votre balise image</label>
+								<input type="text" name="attr_class" value="" class="form-control">
+							</div>
+						</div>
 					</div>
 
-					<div class="m-t-15">
-						<label>Attribut <em>alt</em> de votre balise image</label>
-						<input type="text" name="alt" id="img_alt" value="" class="form-control">
-					</div>
 
-					<div class="m-t-15">
-						<label>Attribut <em>class</em> de votre balise image</label>
-						<input type="text" name="class" id="img_class" value="" class="form-control">
-					</div>
 
 				</div>
 
