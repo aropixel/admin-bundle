@@ -335,6 +335,8 @@
                             launcher.element.find(".preview input[name$='[image][title]']").removeAttr('value');
                             launcher.element.find(".preview input[name$='[image][alt]']").removeAttr('value');
 
+                            launcher.element.find(".preview input[name$='[image][file_name]']").removeAttr('value');
+
                         }
                         _button.closest('.modal').modal('hide');
 
