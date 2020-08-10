@@ -10,7 +10,9 @@
         <field name="description" type="text" nullable="true" />
         <field name="attrTitle" type="string" nullable="true" />
         <field name="attrAlt" type="string" nullable="true" />
+        <field name="alt" type="string" nullable="true" />
         <field name="attrClass" type="string" nullable="true" />
+        <field name="class" type="string" nullable="true" />
         <field name="position" type="integer">
             <gedmo:sortable-position/>
         </field>

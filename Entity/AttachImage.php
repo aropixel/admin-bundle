@@ -18,34 +18,44 @@ abstract class AttachImage
 {
 
     /**
-     * @var  Title of the image
+     * @var string Title of the image
      */
     protected $title;
 
     /**
-     * @var  Link of the image
+     * @var string Link of the image
      */
     protected $link;
 
     /**
-     * @var  Description of the image
+     * @var string Description of the image
      */
     protected $description;
 
     /**
-     * @var  Html "title" attribute of the image
+     * @var string Html "title" attribute of the image
      */
     protected $attrTitle;
 
     /**
-     * @var  Html "alt" attribute of the image
+     * @deprecated Use attrAlt instead. Will be removed in v2.
+     */
+    protected $alt;
+
+    /**
+     * @var string Html "alt" attribute of the image
      */
     protected $attrAlt;
 
     /**
-     * @var  Specific class to give when rendering the image
+     * @var string Specific class to give when rendering the image
      */
     protected $attrClass;
+
+    /**
+     * @deprecated Use attrAlt instead. Will be removed in v2.
+     */
+    protected $class;
 
     /**
      * @var integer Position when the image is part of a set of images
@@ -163,6 +173,24 @@ abstract class AttachImage
     }
 
     /**
+     * @return mixed
+     */
+    public function getAlt()
+    {
+        return $this->alt;
+    }
+
+    /**
+     * @param mixed $alt
+     * @return AttachImage
+     */
+    public function setAlt($alt)
+    {
+        $this->alt = $alt;
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getAttrClass()
@@ -180,6 +208,23 @@ abstract class AttachImage
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param mixed $class
+     * @return AttachImage
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+        return $this;
+    }
 
     /**
      * Set position
