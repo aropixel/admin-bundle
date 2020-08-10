@@ -1,6 +1,13 @@
-{% set myfilters = filters is defined ? filters : image|crop_filters(imageLongClass) %}
+{% set myfilters = [] %}
+{% if image_value is defined and image_value %}
+	{% set myfilters = filters is defined ? filters : image|crop_filters(crops) %}
+{% elseif image_class is defined and image_class %}
+	{% set myfilters = filters is defined ? filters : image|entity_crop_filters(image_class) %}
+{% endif %}
+
+
 <!-- Full width modal -->
-<div id="modalCrop{{ imageShortClass }}" class="modalCrop modal fade" style="text-align: left">
+<div id="modalCrop{{ suffix }}" class="modalCrop modal fade" style="text-align: left">
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -13,7 +20,9 @@
 				<div>
 
 					<div class="float-left" id="crop_zone">
-						{% if image and image.id %}
+						{% if file_name is defined and file_name %}
+							<img src="{{ file_name | filename_web_path | imagine_filter('admin_crop') }}" width="600" data-id="{{ suffix }}" />
+						{% elseif image is defined and image and image.id %}
 							<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.image.id }}" />
 						{% endif %}
 					</div>
@@ -31,7 +40,7 @@
 						{% for filter in myfilters %}
 
 							<div class="form-check">
-								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ imageShortClass }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.crop }}">
+								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ suffix }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.crop }}">
 								<label for="ratio_{{ filter.slug }}" class="form-check-label">{{ filter.name }}</label><br />
 							</div>
 

@@ -1,10 +1,13 @@
 <?php
 namespace Aropixel\AdminBundle\Twig;
 
+use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Aropixel\AdminBundle\Services\Seo;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -55,11 +58,14 @@ class AropixelExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            'datetime' => new TwigFilter('datetime', array($this, 'datetime')),
+            'datetime' => new TwigFilter('datetime', array($this, 'intl_date')),
+            'intl_date' => new TwigFilter('intl_date', array($this, 'intl_date')),
             'crop_filters' => new TwigFilter('crop_filters', array($this, 'cropFilters')),
+            'entity_crop_filters' => new TwigFilter('entity_crop_filters', array($this, 'entityCropFilters')),
             'class_name' => new TwigFilter('class_name', array($this, 'getClassFromCategory')),
             'seo' => new TwigFilter('seo', array($this, 'getSeo')),
             'ucfirst' => new TwigFilter('ucfirst', array($this, 'myUcfirst')),
+            'filename_web_path' => new TwigFilter('filename_web_path', array($this, 'getFileNameWebPath')),
         );
     }
 
@@ -134,6 +140,14 @@ class AropixelExtension extends AbstractExtension
         }
     }
 
+    /**
+     * récupère le chemin de l'image uploadée en parametre pour une marque blanche
+     */
+    public function getFileNameWebPath($filename)
+    {
+        return Image::getFileNameWebPath($filename);
+    }
+
 
     public function myUcfirst($text)
     {
@@ -162,35 +176,48 @@ class AropixelExtension extends AbstractExtension
             $defaultField = $seoField=='keywords' ? 'description' : $seoField;
         }
 
-        $seoMethod = "getMeta".ucfirst($seoField);
-        $dftMethod = "get".ucfirst($defaultField);
+        //
+        $accessor = PropertyAccess::createPropertyAccessor();
+
 
         // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
-        $seoText = "";
-        if (method_exists($entity, $seoMethod)) {
-            $seoText = $entity->{$seoMethod}();
+        try {
+            $seoText = $accessor->getValue($entity, $seoField);
         }
+        catch (NoSuchPropertyException $e) {
+            $seoText = "";
+        }
+
 
         // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS]
-        if (!strlen($seoText) && method_exists($entity, $dftMethod)) {
-            $seoText = $entity->{$dftMethod}();
+        if (!strlen($seoText)) {
+
+            // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
+            try {
+                $seoText = $accessor->getValue($entity, $defaultField);
+            }
+            catch (NoSuchPropertyException $e) {
+                $seoText = "";
+            }
+
             if (strlen($seoText)) {
                 $seoText.= $appendText;
             }
         }
 
-        // Si non trouvé, on cherche dans les champs getMeta[NOM DU CHAMPS] de la traduction
-        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $seoMethod)) {
-            $seoText = $entity->translate()->{$seoMethod}();
-        }
 
-        // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS] de la traduction
-        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $dftMethod)) {
-            $seoText = $entity->translate()->{$dftMethod}();
-            if (strlen($seoText)) {
-                $seoText.= $appendText;
-            }
-        }
+//        // Si non trouvé, on cherche dans les champs getMeta[NOM DU CHAMPS] de la traduction
+//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $seoMethod)) {
+//            $seoText = $entity->translate()->{$seoMethod}();
+//        }
+//
+//        // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS] de la traduction
+//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $dftMethod)) {
+//            $seoText = $entity->translate()->{$dftMethod}();
+//            if (strlen($seoText)) {
+//                $seoText.= $appendText;
+//            }
+//        }
 
 
         //
@@ -212,23 +239,29 @@ class AropixelExtension extends AbstractExtension
         return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
 
-    public function datetime($d, $format = "%B %e", $lang="fr_FR")
+
+    public function intl_date($d, $format = "%B %e", $lang="fr_FR")
     {
-//        if ($d instanceof \DateTime) {
-//            $d = $d->getTimestamp();
-//        }
-//        setlocale(LC_ALL, 'fr_FR.UTF-8', 'French', 'French');
-//        return strftime($format, $d);
-        $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::LONG, \IntlDateFormatter::LONG);
+        $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);
         return $formatter->format($d);
     }
 
 
-    public function cropFilters($image, $imageClass)
+    public function cropFilters($data, $crops)
     {
         //
-        $filters = $this->imageManager->getCropFilters($image, $imageClass);
+        $filters = $this->imageManager->getCropFilters($data, $crops);
+
+        //
+        return $filters;
+    }
+
+
+    public function entityCropFilters($image, $imageClass)
+    {
+        //
+        $filters = $this->imageManager->getEntityCropFilters($image, $imageClass);
 
         //
         return $filters;

@@ -664,7 +664,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     font-size: 46px;
     margin-top: 105px;
 }
-
+.thumbnail .card-footer {
+    background-color: #fff;
+    border-top: 1px solid #ededed;
+}
 .thumbnail .caption h6 {
     text-overflow: ellipsis;
     overflow: hidden;

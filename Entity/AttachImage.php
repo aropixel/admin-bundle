@@ -18,17 +18,42 @@ abstract class AttachImage
 {
 
     /**
-     * @var string  Title html attribute of the image
+     * @var string Title of the image
      */
     protected $title;
 
     /**
-     * @var string  Attr html attribute of the image
+     * @var string Link of the image
+     */
+    protected $link;
+
+    /**
+     * @var string Description of the image
+     */
+    protected $description;
+
+    /**
+     * @var string Html "title" attribute of the image
+     */
+    protected $attrTitle;
+
+    /**
+     * @deprecated Use attrAlt instead. Will be removed in v2.
      */
     protected $alt;
 
     /**
-     * @var string  Specific class to give when rendering the image
+     * @var string Html "alt" attribute of the image
+     */
+    protected $attrAlt;
+
+    /**
+     * @var string Specific class to give when rendering the image
+     */
+    protected $attrClass;
+
+    /**
+     * @deprecated Use attrAlt instead. Will be removed in v2.
      */
     protected $class;
 
@@ -57,25 +82,8 @@ abstract class AttachImage
      */
     protected $updatedAt;
 
-
     /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return AttachImage
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
+     * @return string|null
      */
     public function getTitle()
     {
@@ -83,23 +91,89 @@ abstract class AttachImage
     }
 
     /**
-     * Set alt
-     *
-     * @param string $alt
-     *
+     * @param string|null $title
      * @return AttachImage
      */
-    public function setAlt($alt)
+    public function setTitle($title)
     {
-        $this->alt = $alt;
-
+        $this->title = $title;
         return $this;
     }
 
     /**
-     * Get alt
-     *
-     * @return string
+     * @return string|null
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param string|null $link
+     * @return AttachImage
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     * @return AttachImage
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrTitle()
+    {
+        return $this->attrTitle;
+    }
+
+    /**
+     * @param string|null $attrTitle
+     * @return AttachImage
+     */
+    public function setAttrTitle($attrTitle)
+    {
+        $this->attrTitle = $attrTitle;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrAlt()
+    {
+        return $this->attrAlt;
+    }
+
+    /**
+     * @param string|null $attrAlt
+     * @return AttachImage
+     */
+    public function setAttrAlt($attrAlt)
+    {
+        $this->attrAlt = $attrAlt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
      */
     public function getAlt()
     {
@@ -107,26 +181,49 @@ abstract class AttachImage
     }
 
     /**
-     * Set class
-     *
-     * @param string $class
-     *
+     * @param mixed $alt
+     * @return AttachImage
+     */
+    public function setAlt($alt)
+    {
+        $this->alt = $alt;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttrClass()
+    {
+        return $this->attrClass;
+    }
+
+    /**
+     * @param string|null $attrClass
+     * @return AttachImage
+     */
+    public function setAttrClass($attrClass)
+    {
+        $this->attrClass = $attrClass;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param mixed $class
      * @return AttachImage
      */
     public function setClass($class)
     {
         $this->class = $class;
         return $this;
-    }
-
-    /**
-     * Get class
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**

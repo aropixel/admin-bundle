@@ -174,7 +174,7 @@ abstract class AbstractMenuListener
         }
 
         $options = array_merge($options, $route);
-        $options['label'] = $name;
+        $options['label'] = html_entity_decode($name);
 
         //
         if (!is_null($weight)) {

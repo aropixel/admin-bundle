@@ -7,16 +7,13 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Image;
 
-use Aropixel\AdminBundle\Form\EventListener\DoFileCropListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Liip\ImagineBundle\Imagine\Data\DataManager;
-use Liip\ImagineBundle\Imagine\Filter\FilterManager;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+
 
 
 class CropType extends AbstractType
@@ -32,6 +29,16 @@ class CropType extends AbstractType
     }
 
 
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+
+        // If the crops to display was specified in the form configuration
+        if (array_key_exists('file_name', $options) && $options['file_name']) {
+            $view->vars['file_name'] = $options['file_name'];
+        }
+//        parent::buildView($view, $form, $options);
+
+    }
 
 
     public function configureOptions(OptionsResolver $resolver)
@@ -39,6 +46,8 @@ class CropType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => null,
             'image_class' => null,
+            'file_name' => null,
+            'crops' => null,
         ));
     }
 
