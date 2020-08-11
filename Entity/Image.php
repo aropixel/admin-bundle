@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Image implements ImageInterface
 {
 
+    const PRIVATE_DIR = 'private';
     const UPLOAD_DIR = 'images';
 
     /**

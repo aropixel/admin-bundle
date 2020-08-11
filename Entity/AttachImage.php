@@ -298,6 +298,16 @@ abstract class AttachImage
      *
      * @return string
      */
+    public function getFilename()
+    {
+        return $this->image ? $this->image->getFilename() : null;
+    }
+
+    /**
+     * Get image url
+     *
+     * @return string
+     */
     public function getWebPath()
     {
         return $this->image ? $this->image->getWebPath() : null;

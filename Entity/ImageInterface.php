@@ -15,6 +15,8 @@ interface ImageInterface
 
     public function getWebPath();
 
+    public function getFilename();
+
     public function preUpload();
 
     public function upload();
