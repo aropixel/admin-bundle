@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Controller;
 use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
+use Aropixel\AdminBundle\Image\PathResolver;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +24,16 @@ use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
  */
 class ImageController extends AbstractController
 {
-
+    //
     private $datatableFieds = array();
 
+    /** @var PathResolver */
+    private $pathResolver;
 
-    public function __construct() {
 
+    public function __construct(PathResolver $pathResolver) {
+
+        $this->pathResolver = $pathResolver;
         $this->datatableFieds = array(
             array('label' => '', 'style' => 'width:50px;'),
             array('label' => '', 'style' => 'width:200px;'),
@@ -50,7 +55,7 @@ class ImageController extends AbstractController
      *
      * @Route("/list/ajax", name="image_ajax", methods={"GET"})
      */
-    public function datatablerAction(Request $request, Datatabler $datatabler)
+    public function datatablerAction(PathResolver $pathResolver, Datatabler $datatabler)
     {
 
         //
@@ -88,7 +93,7 @@ class ImageController extends AbstractController
      *
      * @Route("/list/ajax/{category}", name="image_ajax_category", methods={"GET"})
      */
-    public function datatablerWithCategoryAction(Request $request, Datatabler $datatabler, $category)
+    public function datatablerWithCategoryAction(PathResolver $pathResolver, Datatabler $datatabler, $category)
     {
 
         //
@@ -114,7 +119,8 @@ class ImageController extends AbstractController
             foreach ($images as $image)
             {
                 //
-                if (file_exists($image->getAbsolutePath())) {
+                $imagePath = $this->pathResolver->getAbsolutePath($image->getFilename());
+                if (file_exists($imagePath)) {
                     $response[] = $this->_dataTableElements($image);
                 }
 
@@ -130,7 +136,9 @@ class ImageController extends AbstractController
 
     private function _dataTableElements($image) {
 
-        $bytes = @filesize($image->getAbsolutePath());
+        $imagePath = $this->pathResolver->getAbsolutePath($image->getFilename());
+
+        $bytes = @filesize($imagePath);
         $sz = 'bkMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
         $decimals = 2;
@@ -139,7 +147,7 @@ class ImageController extends AbstractController
             $decimals = 0;
         }
         $filesize = sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-        list($width, $height) = getimagesize($image->getAbsolutePath());
+        list($width, $height) = getimagesize($imagePath);
 
         return array(
             $this->renderView('@AropixelAdmin/Image/Datatabler/checkbox.html.twig', array('image' => $image)),

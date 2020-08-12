@@ -8,13 +8,13 @@
 namespace Aropixel\AdminBundle\Entity;
 
 
-interface ImageInterface
+interface UploadableInterface
 {
+    
+    public function preUpload();
 
-    public function getAbsolutePath();
+    public function upload();
 
-    public function getWebPath();
-
-    public function getFilename();
+    public function removeUpload();
 
 }

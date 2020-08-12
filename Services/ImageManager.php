@@ -2,6 +2,7 @@
 // src/Aropixel/AdminBundle/Services/Datatabler.php
 namespace Aropixel\AdminBundle\Services;
 
+use Aropixel\AdminBundle\Entity\CropInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\Publishable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,6 +10,7 @@ use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 
 class ImageManager
@@ -68,10 +70,9 @@ class ImageManager
 //        }
 
         //
-        $existingCropsByName = array();
-        if ($data && method_exists($data, "getCrops")) {
-
-            $existingCrops = $data->getCrops();
+        $accessor = PropertyAccess::createPropertyAccessor();
+        try {
+            $existingCrops = $accessor->getValue($data, 'crops');
             if (!is_null($existingCrops)) {
 
                 foreach ($existingCrops as $crop) {
@@ -81,8 +82,11 @@ class ImageManager
                 }
 
             }
-
         }
+        catch (\Exception $e) {
+            $existingCropsByName = [];
+        }
+
 
 
         // Récupère les filtres existants et leurs labels (descriptions)

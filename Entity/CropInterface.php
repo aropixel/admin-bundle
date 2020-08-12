@@ -11,6 +11,8 @@ namespace Aropixel\AdminBundle\Entity;
 interface CropInterface
 {
 
+    public function getImage();
+
     public function getFilter();
 
     public function getCrop();

@@ -370,57 +370,9 @@ class Image implements ImageInterface
     }
 
 
-    /**
-     */
-    public function preUpload()
+    public function getTempPath()
     {
-        $this->createdAt = $this->updatedAt = new \DateTime();
-
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->filename = $filename.'.'.$this->getFile()->guessExtension();
-            $this->extension = $this->getFile()->guessExtension();
-
-            $i = strrpos($this->titre, '.');
-            if ($i!==false) {
-                $this->titre = substr($this->titre, 0, $i);
-            }
-
-        }
-    }
-
-    /**
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->filename);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
-    }
-
-    /**
-     */
-    public function removeUpload()
-    {
-        $file = $this->getAbsolutePath();
-        if ($file && file_exists($file)) {
-            unlink($file);
-        }
+        return $this->temp;
     }
 
 

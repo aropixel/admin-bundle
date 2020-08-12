@@ -1,6 +1,6 @@
 {% set myfilters = [] %}
 {% if image_value is defined and image_value %}
-	{% set myfilters = filters is defined ? filters : image|crop_filters(crops) %}
+	{% set myfilters = filters is defined ? filters : image_path|crop_filters(crops) %}
 {% elseif image_class is defined and image_class %}
 	{% set myfilters = filters is defined ? filters : image|entity_crop_filters(image_class) %}
 {% endif %}

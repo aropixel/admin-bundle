@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Abstract class to handle image attachment
  */
-abstract class AttachImage
+abstract class AttachImage implements ImageInterface
 {
 
     /**

@@ -27,10 +27,19 @@ class PathResolver
     }
 
 
+    public function getAbsoluteDirectory()
+    {
+        $path = $this->kernel->getProjectDir();
+        $path.= '/'.Image::PRIVATE_DIR.'/'.Image::UPLOAD_DIR;
+
+        return $path;
+    }
+
+
     public function getAbsolutePath($fileName)
     {
         $path = $this->kernel->getProjectDir();
-        $path.= Image::PRIVATE_DIR.'/'.Image::UPLOAD_DIR;
+        $path.= '/'.Image::PRIVATE_DIR.'/'.Image::UPLOAD_DIR;
         $path.= '/'.$fileName;
 
         return $path;
@@ -40,6 +49,12 @@ class PathResolver
     public function getDataRootRelativePath($fileName)
     {
         return Image::UPLOAD_DIR.'/'.$fileName;
+    }
+
+
+    public function fileExists($fileName)
+    {
+        return file_exists($this->getAbsolutePath($fileName));
     }
 
 

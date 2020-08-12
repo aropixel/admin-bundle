@@ -472,19 +472,6 @@
 
 
 
-{% block aropixel_admin_slideshow_widget -%}
-
-    {% if prototype is defined and not prototype.rendered %}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
-    {% endif %}
-    {%- set attr = attr|merge({'data-collection': 'container', 'class': 'row'}) -%}
-
-    {{- block('form_widget') -}}
-
-{%- endblock aropixel_admin_slideshow_widget %}
-
-
-
 {% block gallery_aropixel_admin_crops_row -%}
     {{- form_widget(form) -}}
 {%- endblock gallery_aropixel_admin_crops_row %}
@@ -492,7 +479,6 @@
 
 
 {% block aropixel_admin_crops_row -%}
-
     {% if crops is defined and crops|length %}
         {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops }) }}
     {% else %}
@@ -501,6 +487,15 @@
     {{- form_widget(form) -}}
 {%- endblock aropixel_admin_crops_row %}
 
+
+{% block aropixel_admin_crops_widget -%}
+
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+
+{%- endblock aropixel_admin_crops_widget %}
 
 
 {% block crop_row -%}

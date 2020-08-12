@@ -5,13 +5,13 @@
 
     <mapped-superclass name="Aropixel\AdminBundle\Entity\Image" repository-class="Aropixel\AdminBundle\Repository\ImageRepository" table="aropixel_image">
 
-        <lifecycle-callbacks>
-            <lifecycle-callback type="prePersist" method="preUpload"/>
-            <lifecycle-callback type="preUpdate" method="preUpload"/>
-            <lifecycle-callback type="postPersist" method="upload"/>
-            <lifecycle-callback type="postUpdate" method="upload"/>
-            <lifecycle-callback type="postRemove" method="removeUpload"/>
-        </lifecycle-callbacks>
+<!--        <lifecycle-callbacks>-->
+<!--            <lifecycle-callback type="prePersist" method="preUpload"/>-->
+<!--            <lifecycle-callback type="preUpdate" method="preUpload"/>-->
+<!--            <lifecycle-callback type="postPersist" method="upload"/>-->
+<!--            <lifecycle-callback type="postUpdate" method="upload"/>-->
+<!--            <lifecycle-callback type="postRemove" method="removeUpload"/>-->
+<!--        </lifecycle-callbacks>-->
 
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
