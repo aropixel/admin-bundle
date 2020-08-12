@@ -63,11 +63,30 @@ services:
         resource: '../../Twig'
 
 
+    Aropixel\AdminBundle\Image\PathResolver:
+        arguments: ['@kernel']
+
+
+    Aropixel\AdminBundle\Image\Cropper:
+        arguments: ['@Aropixel\AdminBundle\Image\PathResolver', '@liip_imagine.data.manager','@liip_imagine.filter.manager','@liip_imagine.cache.manager']
+
+
     Aropixel\AdminBundle\EventListener\DoFileCropListener:
-        arguments: ['@liip_imagine.data.manager','@liip_imagine.filter.manager','@liip_imagine.cache.manager']
+        arguments: ['@Aropixel\AdminBundle\Image\Cropper']
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+
+
+    Aropixel\AdminBundle\EventListener\UploadListener:
+        arguments: ['@Aropixel\AdminBundle\Image\PathResolver']
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.image%' }
+
 
     Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
         arguments: ['%aropixel_admin.entities%']

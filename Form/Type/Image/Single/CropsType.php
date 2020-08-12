@@ -90,6 +90,8 @@ class CropsType extends AbstractType
             $this->instanceToData->setFilenameValue($options['image_value']);
             $this->instanceToData->setCropsValue($options['crops_value']);
             $view->vars['file_name'] = $this->instanceToData->getFileName($imageData);
+            $view->vars['image_path'] = $view->vars['file_name'];
+            $view->vars['image_value'] = $options['image_value'];
 
         }
 

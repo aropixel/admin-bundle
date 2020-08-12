@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Abstract class to handle image attachment
  */
-abstract class AttachImage
+abstract class AttachImage implements ImageInterface
 {
 
     /**
@@ -291,6 +291,16 @@ abstract class AttachImage
     public function hasImageChanged()
     {
         return ($this->oldImage != $this->image);
+    }
+
+    /**
+     * Get image url
+     *
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->image ? $this->image->getFilename() : null;
     }
 
     /**

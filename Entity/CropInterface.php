@@ -8,13 +8,13 @@
 namespace Aropixel\AdminBundle\Entity;
 
 
-interface ImageInterface
+interface CropInterface
 {
 
-    public function getAbsolutePath();
+    public function getImage();
 
-    public function getWebPath();
+    public function getFilter();
 
-    public function getFilename();
+    public function getCrop();
 
 }

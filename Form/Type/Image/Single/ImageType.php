@@ -206,6 +206,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         // The entity class in charge to record the image
         if (array_key_exists('data_value', $options) && $options['data_value']) {
             $view->vars['attach_value'] = $options['data_value'];
+            $view->vars['image_value'] = $options['data_value'];
         }
 
         // If the crops to display was specified in the form configuration
@@ -297,7 +298,7 @@ class ImageType extends AbstractType implements DataMapperInterface
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
             $propertyAccessor->setValue($data, $this->filenameValue, $forms['file_name']->getData());
 
-            if (array_key_exists($this->cropsValue, $forms)) {
+            if (array_key_exists('crops', $forms)) {
                 $propertyAccessor->setValue($data, $this->cropsValue, $forms['crops']->getData());
             }
 

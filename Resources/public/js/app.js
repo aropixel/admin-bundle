@@ -857,7 +857,7 @@ $(function() {
     });
 
 
-    $('[data-form-collection-add]').click(function() {
+    $('.main-content').on('click', '[data-form-collection-add]', function() {
 
         //
         let $collection = $('#'+$(this).attr('data-form-collection-add'));
@@ -873,9 +873,14 @@ $(function() {
         $list.append(prototype);
 
         //
-        activateDatePicker($('[data-form-collection-index="'+count+'"] .pickadate'));
-        activateCkeditor($('[data-form-collection-index="'+count+'"] .ckeditor'));
-        activateImManager($('[data-form-collection-index="'+count+'"] .im-manager'));
+        activateDatePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickadate'));
+        activateCkeditor($list.find('[data-form-collection="item"]:nth-child('+count+') .ckeditor'));
+        activateImManager($list.find('[data-form-collection="item"]:nth-child('+count+') .im-manager'));
+        activateSortable($list.find('[data-form-collection="list"]'));
+        $list.find('[data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
+            autoWidth: false
+        });
+
 
     });
 
@@ -883,6 +888,8 @@ $(function() {
         $(this).on('click', '[data-form-collection="delete"]', function() {
             $(this).closest('[data-form-collection="item"]').remove();
         });
+        activateSortable($(this));
+
     });
 
 });
@@ -1033,5 +1040,40 @@ function activateImManager($elements) {
     $elements.each(function() {
         $(this).ImageManager();
     })
+
+}
+
+
+function activateSortable($container) {
+
+    $container.sortable({
+        items: '> [data-form-collection="item"]',
+        handle: '[data-form-collection="move"]',
+        update : function ()
+        {
+            var level = $container.parents('[data-form-collection="item"]').length * 2;
+            $container.find('> [data-form-collection="item"]').each(function(iItem) {
+
+                var _inputs = $(this).find('input, select');
+                _inputs.each(function() {
+
+                    let re = /(\[[0-9]+\])/g;
+                    old_name = $(this).attr('name');
+
+                    let splitted = old_name.split(re);
+                    splitted[level+1] = '[' + iItem + ']';
+                    new_name = splitted.join('');
+
+                    // new_name = old_name.replace(/\[[0-9]+\]?/, function (match, $1) {
+                    //     return '[' + iItem + ']';
+                    // });
+
+                    $(this).attr('name', new_name);
+                });
+
+            })
+
+        }
+    });
 
 }

@@ -10,6 +10,7 @@ namespace Aropixel\AdminBundle\Twig;
 
 use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Image\PathResolver;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -30,6 +31,9 @@ class ImageExtension extends AbstractExtension
     /** @var ParameterBagInterface */
     private $parameterBag;
 
+    /** @var PathResolver */
+    private $pathResolver;
+
     /** @var CacheManager */
     private $cacheManager;
 
@@ -41,14 +45,16 @@ class ImageExtension extends AbstractExtension
      * @param RequestStack $requestStack
      * @param KernelInterface $kernel
      * @param ParameterBagInterface $parameterBag
+     * @param PathResolver $pathResolver
      * @param CacheManager $cacheManager
      * @param FilterService $filterService
      */
-    public function __construct(RequestStack $requestStack, KernelInterface $kernel, ParameterBagInterface $parameterBag, CacheManager $cacheManager, FilterService $filterService)
+    public function __construct(RequestStack $requestStack, KernelInterface $kernel, ParameterBagInterface $parameterBag, PathResolver $pathResolver, CacheManager $cacheManager, FilterService $filterService)
     {
         $this->requestStack = $requestStack;
         $this->kernel = $kernel;
         $this->parameterBag = $parameterBag;
+        $this->pathResolver = $pathResolver;
         $this->cacheManager = $cacheManager;
         $this->filterService = $filterService;
     }
@@ -70,7 +76,7 @@ class ImageExtension extends AbstractExtension
 
         if ($isImage) {
             /** @var AttachImage $image */
-            $path = $image->fileExists() ? $image->getWebPath() : null;
+            $path = $this->pathResolver->fileExists($image->getFilename()) ? $image->getWebPath() : null;
         }
         else {
             $path = Image::getFileNameWebPath($image);

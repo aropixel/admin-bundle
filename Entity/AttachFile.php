@@ -121,11 +121,11 @@ abstract class AttachFile
     /**
      * Set image
      *
-     * @param Fichier $file
+     * @param File $file
      *
      * @return AttachFile
      */
-    public function setFile(Fichier $file = null)
+    public function setFile(File $file = null)
     {
         $this->file = $file;
 
@@ -135,7 +135,7 @@ abstract class AttachFile
     /**
      * Get image
      *
-     * @return Fichier
+     * @return File
      */
     public function getFile()
     {

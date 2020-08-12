@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Crop informations for an image
  */
-abstract class Crop
+abstract class Crop implements CropInterface
 {
 
     /**

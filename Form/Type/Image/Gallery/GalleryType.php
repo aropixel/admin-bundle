@@ -146,6 +146,7 @@ class GalleryType extends AbstractType
         $view->vars['image_class_short'] = $shortClass;
         $view->vars['image_library'] = $options['image_library'] ?: ($options['image_class'] ?: '');
 
+        $view->vars['image_path'] = null;
         $view->vars['image_value'] = $options['image_value'];
         $view->vars['image_crops'] = $options['image_crops'];
         $view->vars['crops'] = $options['crops'];

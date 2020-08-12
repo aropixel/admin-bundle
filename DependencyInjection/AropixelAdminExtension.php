@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -49,6 +50,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.theme', $config['theme']);
         $container->setParameter('aropixel_admin.forms', $config['forms']);
         $container->setParameter('aropixel_admin.entities', $config['entities']);
+        $container->setParameter('aropixel_admin.entity.image', $config['entities'][ImageInterface::class]);
 
         if (isset($config['form_translations'])) {
 //            $container->setParameter('aropixel_admin.form_translations.locales', $config['form_translations']['locales']);
