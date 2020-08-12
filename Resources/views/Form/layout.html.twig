@@ -24,10 +24,10 @@
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
     <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
-     {{ form_label(form) }} {# -#}
-        {{ form_widget(form, widget_attr) }} {# -#}
-        {{ form_help(form) }}
-{#        {{ form_errors(form) }} #}{# -#}
+    {{ form_label(form) }} {# -#}
+    {{ form_widget(form, widget_attr) }} {# -#}
+    {{ form_help(form) }}
+    {#        {{ form_errors(form) }} #}{# -#}
     </{{ element|default('div') }}> {# -#}
 {%- endblock form_row %}
 
@@ -106,21 +106,24 @@
 
 {% macro collection_item(form, allow_delete, index) %}
     {% apply spaceless %}
-        <div data-form-collection="item" data-form-collection-index="{{ index }}">
-            {% if allow_delete %}
-            <div class="float-left">
-                <a href="#" data-form-collection="delete" class="btn group btn-xs btn-danger" style="margin-bottom: 1em;">
-                    <i class="fa fa-times"></i>
-                </a>
-            </div>
-            {% endif %}
-            {% if allow_delete %}
-                <div style="margin-left: 50px">
-            {% endif %}
-            {{ form_widget(form) }}
-            {% if allow_delete %}
+        <div class="collection-item" data-form-collection="item" data-form-collection-index="{{ index }}">
+            <div class="collection-container">
+                <div class="collection-commands">
+                    {% if allow_delete %}
+                        <a href="#" data-form-collection="delete" class="btn group btn-xs btn-danger" style="margin-bottom: 1em;">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    {% endif %}
+                    <a href="#" data-form-collection="move" class="move">
+                        <i class="fas fa-arrows-alt"></i>
+                    </a>
                 </div>
-            {% endif %}
+                <div class="collection-content">
+                    <div>
+                        {{ form_widget(form) }}
+                    </div>
+                </div>
+            </div>
         </div>
     {% endapply %}
 {% endmacro %}
@@ -275,13 +278,13 @@
 {% block aropixel_gallery_image_row -%}
 
     <div
-        class="{{ grid }}"
-        data-title-label="{{ title_label }}"
-        data-title-enabled="{{ title_enabled }}"
-        data-description-label="{{ description_label }}"
-        data-description-enabled="{{ description_enabled }}"
-        data-link-label="{{ link_label }}"
-        data-link-enabled="{{ link_enabled }}"
+            class="{{ grid }}"
+            data-title-label="{{ title_label }}"
+            data-title-enabled="{{ title_enabled }}"
+            data-description-label="{{ description_label }}"
+            data-description-enabled="{{ description_enabled }}"
+            data-link-label="{{ link_label }}"
+            data-link-enabled="{{ link_enabled }}"
     >
         {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
     </div>
@@ -491,9 +494,9 @@
 {% block aropixel_admin_crops_row -%}
 
     {% if crops is defined and crops|length %}
-    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops }) }}
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops }) }}
     {% else %}
-    {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'image_class': form.vars.image_class }) }}
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'image_class': form.vars.image_class }) }}
     {% endif %}
     {{- form_widget(form) -}}
 {%- endblock aropixel_admin_crops_row %}

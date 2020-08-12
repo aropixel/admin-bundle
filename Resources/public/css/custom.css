@@ -1037,7 +1037,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 
 
-
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
     padding: 12px 20px;
     line-height: 1.7;
@@ -1526,4 +1525,44 @@ p {
 }
 .progress-upload .info {
     font-size: 12px;
+}
+
+
+.collection-item {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.collection-item .collection-container {
+    display: flex;
+}
+.collection-item .collection-container .collection-commands {
+    padding-top: 6px;
+    border-right: 1px solid #dedede;
+    padding-right: 15px;
+}
+.collection-item .collection-container .collection-content .collection-commands {
+    padding-top: 6px;
+    border-right: 0 none;
+    padding-right: 0;
+}
+.collection-item .collection-container .collection-commands a {
+    display: block;
+}
+.collection-item .collection-container .collection-content {
+    margin-left: 25px;
+    flex-grow: 1;
+}
+.collection-item .collection-container .collection-commands .btn-xs {
+    padding: 0 0.5rem;
+    font-size: 10px;
+    line-height: 21px;
+}
+.collection-item .collection-container .collection-commands a.move {
+    color: #212121;
+    margin-top: 8px;
+    cursor: default;
+}
+.collection-item .collection-container .collection-commands a.move i {
+    font-size: 15px;
 }
