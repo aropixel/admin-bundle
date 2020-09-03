@@ -331,11 +331,11 @@
                             launcher.element.find(".caption-overflow .iconUnlink").remove();
                             launcher.element.find(".caption-overflow .iconCrop").remove();
 
-                            launcher.element.find(".preview input[name$='[image][image]']").removeAttr('value');
-                            launcher.element.find(".preview input[name$='[image][title]']").removeAttr('value');
-                            launcher.element.find(".preview input[name$='[image][alt]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[image]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[title]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[alt]']").removeAttr('value');
 
-                            launcher.element.find(".preview input[name$='[image][file_name]']").removeAttr('value');
+                            launcher.element.find(".preview input[name$='[file_name]']").removeAttr('value');
 
                         }
                         _button.closest('.modal').modal('hide');
