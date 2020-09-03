@@ -51,7 +51,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     private $normalizedData;
 
     //
-    private $cropSuffix;
+    private $cropSuffix = [];
 
     //
     private $filenameInstance;
@@ -77,7 +77,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Build a uniqid used to identify the crop modal
-        $this->cropSuffix = uniqid();
+        $this->cropSuffix[$builder->getName()] = uniqid();
 
 
         //
@@ -123,7 +123,7 @@ class ImageType extends AbstractType implements DataMapperInterface
                         'image_class'  => $options['data_class'],
                         'data_class'  => $options['crop_class'],
                     ),
-                    'suffix'  => $this->cropSuffix,
+                    'suffix'  => $this->cropSuffix[$builder->getName()],
                 ))
             ;
         }
@@ -171,7 +171,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         if (count($crops)) {
             $builder
                 ->add('crops', CropsType::class, array(
-                    'suffix'  => $this->cropSuffix,
+                    'suffix'  => $this->cropSuffix[$builder->getName()],
                     'image_value'  => $this->filenameValue,
                     'crops_value'  => $this->cropsValue,
                     'crops' => $crops,
@@ -195,7 +195,7 @@ class ImageType extends AbstractType implements DataMapperInterface
 
         // Can be an AttachImage entity, or a file name as a string
         $view->vars['data'] = $data;
-        $view->vars['crop_suffix'] = $this->cropSuffix;
+        $view->vars['crop_suffix'] = $this->cropSuffix[$form->getName()];
         $view->vars['grid'] = $options['grid'];
 
         // The entity class in charge to record the image
