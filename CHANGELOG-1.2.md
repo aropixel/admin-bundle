@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.3** *(20xx-xx-xx)*
+* **1.2.4** *(20xx-xx-xx)*
 
+
+* **1.2.3** *(2020-09-03)*
+    * Authorize twig/intl-extra ^2.12
 
 * **1.2.2** *(2020-09-03)*
     * Bugfix detach image which is not names "image"
