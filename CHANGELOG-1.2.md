@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.4** *(20xx-xx-xx)*
+* **1.2.5** *(20xx-xx-xx)*
 
+
+* **1.2.4** *(2020-09-03)*
+    * Bugfix crop if several image instances declared on the same form
 
 * **1.2.3** *(2020-09-03)*
     * Authorize twig/intl-extra ^2.12
