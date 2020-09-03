@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.2** *(20xx-xx-xx)*
+* **1.2.3** *(20xx-xx-xx)*
 
+
+* **1.2.2** *(2020-09-03)*
+    * Bugfix detach image which is not names "image"
 
 * **1.2.1** *(2020-08-12)*
     * Create PathResolver & Cropper image services
