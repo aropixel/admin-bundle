@@ -40,6 +40,7 @@
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar{% if admin_theme.menu_position == "top" %} justify-content-between{% endif %}">
 
+            {% block topbar_left %}
             {% if admin_theme.menu_position == "left" %}
             <form class="form-inline mr-auto">
                 <ul class="navbar-nav mr-3">
@@ -51,6 +52,7 @@
                 <a href="{{ url('_admin') }}" class="navbar-brand sidebar-gone-hide">{{ admin_client.name }}</a>
                 <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
             {% endif %}
+            {% endblock %}
 
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown">
