@@ -4,10 +4,13 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.6** *(20xx-xx-xx)*
+* **1.2.7** *(20xx-xx-xx)*
 
 
-* **1.2.5** *(2020-09-03)*
+* **1.2.6** *(2020-09-11)*
+    * Authorize ImageType as simple mapped filename field
+
+* **1.2.5** *(2020-09-11)*
     * Add topbar_left block in base layout
     * Add Css for searchbar
 
