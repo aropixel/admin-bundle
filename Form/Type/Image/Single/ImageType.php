@@ -293,14 +293,16 @@ class ImageType extends AbstractType implements DataMapperInterface
     {
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
+        $config = $forms['file_name']->getParent()->getConfig();
+        $dataClass = $config->getDataClass();
 
-        if (!is_null($this->filenameClass)) {
+        if (!is_null($dataClass)) {
 
             $propertyAccessor = PropertyAccess::createPropertyAccessor();
-            $propertyAccessor->setValue($data, $this->filenameValue, $forms['file_name']->getData());
+            $propertyAccessor->setValue($data, $config->getOption('data_value'), $forms['file_name']->getData());
 
             if (array_key_exists('crops', $forms)) {
-                $propertyAccessor->setValue($data, $this->cropsValue, $forms['crops']->getData());
+                $propertyAccessor->setValue($data, $config->getOption('crops_value'), $forms['crops']->getData());
             }
 
         }
