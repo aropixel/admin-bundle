@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.7** *(20xx-xx-xx)*
+* **1.2.8** *(20xx-xx-xx)*
 
+
+* **1.2.7** *(2020-09-15)*
+    * Bugfix ImageType form
 
 * **1.2.6** *(2020-09-11)*
     * Authorize ImageType as simple mapped filename field
