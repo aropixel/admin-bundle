@@ -109,6 +109,7 @@ $(function() {
 
 
     var $pickatime = $('.pickatime');
+
     if ($pickatime.length) {
 
         // $pickatime.pickatime({
@@ -119,6 +120,9 @@ $(function() {
         //     interval: 15,
         //     hiddenName: true
         // });
+        $pickatime.each(function() {
+            activateTimePicker($(this));
+        });
         $pickatime.clockpicker({
             amOrPm: false,
             cleartext: 'Effacer',
@@ -873,7 +877,9 @@ $(function() {
         $list.append(prototype);
 
         //
+
         activateDatePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickadate'));
+        activateTimePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickatime'));
         activateCkeditor($list.find('[data-form-collection="item"]:nth-child('+count+') .ckeditor'));
         activateImManager($list.find('[data-form-collection="item"]:nth-child('+count+') .im-manager'));
         activateSortable($list.find('[data-form-collection="list"]'));
@@ -1021,6 +1027,19 @@ function activateDatePicker($element) {
             $(this)[0].render();
 
         }
+    });
+}
+
+function activateTimePicker($element) {
+
+    if (!$element.length) {
+        return false;
+    }
+
+    $element.clockpicker({
+        amOrPm: false,
+        cleartext: 'Effacer',
+        donetext: 'Valider'
     });
 }
 
