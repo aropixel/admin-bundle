@@ -161,7 +161,7 @@ class ConfigureMenuListener extends AbstractMenuListener
     }
 }
 ```
-- Once your event listener created, add it to your 'services.yaml' (careful with the indentation):
+- Once your event listener created, add it to your **services.yaml** (careful with the indentation):
 ```yaml
 App\EventListener\ConfigureMenuListener:
     tags:
