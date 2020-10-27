@@ -1,6 +1,6 @@
 ![Aropixel Logo](Resources/public/logo-aropixel.png)
 
-#Aropixel Admin Bundle
+# Aropixel Admin Bundle
 
 Aropixel Admin Bundle is a Bootstrap admin bundle for your Symfony 4/5 projects. It provides a minimalist admin system with: login, logout, admin users crud, admin menu management.
 <br><br>
