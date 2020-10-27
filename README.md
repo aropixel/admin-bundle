@@ -1,4 +1,4 @@
-![Aropixel Logo](logo-aropixel.png)
+![Aropixel Logo](Resources/public/logo-aropixel.png)
 
 #Aropixel Admin Bundle
 
