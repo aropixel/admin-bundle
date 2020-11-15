@@ -60,7 +60,7 @@ abstract class AttachImage implements ImageInterface
     /**
      * @var integer Position when the image is part of a set of images
      */
-    protected $position;
+    protected $position = 0;
 
     /**
      * @var ImageInterface  Image entity that represent image source
