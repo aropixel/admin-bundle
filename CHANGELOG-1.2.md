@@ -4,8 +4,15 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.9** *(20xx-xx-xx)*
+* **1.2.11** *(20xx-xx-xx)*
 
+
+* **1.2.10** *(2020-11-16)*
+    * Bugfix revelated by Gedmo SortableListener when remove entity with image
+
+* **1.2.9** *(2020-10-26)*
+    * Fix ManagerRegistry namespace for SF 5.0 compatibility
+    * Fix Js problems for multiple timepickers
 
 * **1.2.8** *(2020-09-15)*
     * Bugfix ImageType form if null
