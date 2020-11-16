@@ -28,7 +28,7 @@ abstract class AttachFile
     /**
      * @var integer Position when the file is part of a set of files
      */
-    protected $position;
+    protected $position = 0;
 
     /**
      * @var FileInterface  File entity that represent file source
