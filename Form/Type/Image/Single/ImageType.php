@@ -8,6 +8,7 @@
 namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 
+use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
@@ -51,7 +52,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     private $normalizedData;
 
     //
-    private $cropSuffix;
+    private $cropSuffix = [];
 
     //
     private $filenameInstance;
@@ -77,7 +78,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Build a uniqid used to identify the crop modal
-        $this->cropSuffix = uniqid();
+        $this->cropSuffix[$builder->getName()] = uniqid();
 
 
         //
@@ -123,7 +124,7 @@ class ImageType extends AbstractType implements DataMapperInterface
                         'image_class'  => $options['data_class'],
                         'data_class'  => $options['crop_class'],
                     ),
-                    'suffix'  => $this->cropSuffix,
+                    'suffix'  => $this->cropSuffix[$builder->getName()],
                 ))
             ;
         }
@@ -171,7 +172,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         if (count($crops)) {
             $builder
                 ->add('crops', CropsType::class, array(
-                    'suffix'  => $this->cropSuffix,
+                    'suffix'  => $this->cropSuffix[$builder->getName()],
                     'image_value'  => $this->filenameValue,
                     'crops_value'  => $this->cropsValue,
                     'crops' => $crops,
@@ -195,12 +196,15 @@ class ImageType extends AbstractType implements DataMapperInterface
 
         // Can be an AttachImage entity, or a file name as a string
         $view->vars['data'] = $data;
-        $view->vars['crop_suffix'] = $this->cropSuffix;
+        $view->vars['crop_suffix'] = $this->cropSuffix[$form->getName()];
         $view->vars['grid'] = $options['grid'];
 
         // The entity class in charge to record the image
         if (array_key_exists('data_class', $options) && $options['data_class']) {
             $view->vars['attach_class'] = $options['data_class'];
+        }
+        elseif (array_key_exists('data_value', $options) && $options['data_value']) {
+            $view->vars['attach_class'] = $form->getParent()->getConfig()->getDataClass();
         }
 
         // The entity class in charge to record the image
@@ -243,7 +247,7 @@ class ImageType extends AbstractType implements DataMapperInterface
 
 
     /**
-     * @param mixed $data
+     * @param AttachImage|string $data
      * @param iterable|FormInterface[] $forms
      */
     public function mapDataToForms($data, $forms)
@@ -265,7 +269,6 @@ class ImageType extends AbstractType implements DataMapperInterface
         // Get the instance of the custom entity that store the file name and the crops info
         $this->filenameInstance = $data;
         $this->normalizedData = $this->instanceToData->getFileName($data);
-
 
         $forms['file_name']->setData($this->instanceToData->getFileName($data));
 
@@ -290,18 +293,25 @@ class ImageType extends AbstractType implements DataMapperInterface
     {
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
+        $config = $forms['file_name']->getParent()->getConfig();
+        $dataClass = $config->getDataClass();
 
-//        dump($data);
-//        $data = $this->filenameInstance;
-        if ($data) {
+        if (!is_null($dataClass)) {
 
-            $propertyAccessor = PropertyAccess::createPropertyAccessor();
-            $propertyAccessor->setValue($data, $this->filenameValue, $forms['file_name']->getData());
+            if (!is_null($data)) {
 
-            if (array_key_exists('crops', $forms)) {
-                $propertyAccessor->setValue($data, $this->cropsValue, $forms['crops']->getData());
+                $propertyAccessor = PropertyAccess::createPropertyAccessor();
+                $propertyAccessor->setValue($data, $config->getOption('data_value'), $forms['file_name']->getData());
+
+                if (array_key_exists('crops', $forms)) {
+                    $propertyAccessor->setValue($data, $config->getOption('crops_value'), $forms['crops']->getData());
+                }
+
             }
 
+        }
+        else {
+            $data = $forms['file_name']->getData();
         }
 
         return $data;

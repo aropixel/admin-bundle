@@ -1566,3 +1566,53 @@ p {
 .collection-item .collection-container .collection-commands a.move i {
     font-size: 15px;
 }
+
+
+
+
+
+.navbar .form-inline .form-control {
+    background-color: #fff;
+    border-color: transparent;
+    padding-left: 20px;
+    padding-right: 0;
+    margin-right: -6px;
+    min-height: 46px;
+    font-weight: 500;
+    border-radius: 3px 0 0 3px;
+    transition: all 1s;
+}
+.navbar .form-inline .form-control:focus + .btn + .search-backdrop + .search-result {
+    opacity: 1;
+    visibility: visible;
+    top: 80px;
+}
+.navbar .form-inline .search-result {
+    position: absolute;
+    z-index: 9002;
+    top: 100px;
+    background-color: #fff;
+    border-radius: 3px;
+    width: 450px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .5s;
+}
+.navbar .form-inline .search-result:before {
+    position: absolute;
+    top: -26px;
+    left: 34px;
+    content: '\f0d8';
+    font-weight: 600;
+    font-family: 'Font Awesome 5 Free';
+    color: #fff;
+    font-size: 30px;
+}
+.navbar .form-inline .search-result .search-header {
+    padding: 13px 18px 2px 18px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-weight: 600;
+    font-size: 10px;
+    color: #bcc1c6;
+}
