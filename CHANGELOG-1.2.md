@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.11** *(20xx-xx-xx)*
+* **1.2.12** *(20xx-xx-xx)*
 
+
+* **1.2.11** *(2020-11-17)*
+    * Add footer twig blocks in template
 
 * **1.2.10** *(2020-11-16)*
     * Bugfix revelated by Gedmo SortableListener when remove entity with image
