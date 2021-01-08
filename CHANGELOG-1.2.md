@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.14** *(20xx-xx-xx)*
+* **1.2.15** *(20xx-xx-xx)*
 
+
+* **1.2.14** *(2021-01-08)*
+    * Bugfix edit admin without changing password
 
 * **1.2.13** *(2021-01-08)*
     * Bugfix user creation when entity is overrided

@@ -135,7 +135,8 @@ $(function() {
     var passWordUser = document.querySelector('[data-gdpr]');
     if (passWordUser) {
 
-        new GdprPassword(passWordUser);
+        var gdprform = passWordUser.closest('form');
+        new GdprPassword(passWordUser, {form: gdprform});
 
     }
 
