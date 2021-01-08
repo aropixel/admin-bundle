@@ -4,8 +4,15 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.12** *(20xx-xx-xx)*
+* **1.2.14** *(20xx-xx-xx)*
 
+
+* **1.2.13** *(2021-01-08)*
+    * Bugfix user creation when entity is overrided
+    * Authorize multiple admin creation from command line
+
+* **1.2.12** *(2020-12-08)*
+  * Fix "remember me" input name in template
 
 * **1.2.11** *(2020-11-17)*
     * Add footer twig blocks in template

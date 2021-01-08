@@ -71,25 +71,21 @@ EOT
         $outputStyle->writeln('Création du compte administrateur.');
 
 
-        $userRepository = $this->em->getRepository(User::class);
-        $admin = $userRepository->findOneBy([]);
-
-        if (is_null($admin)) {
-
-            try {
-                $admin = $this->configureNewUser(new User(), $input, $output);
-            } catch (\InvalidArgumentException $exception) {
-                return;
-            }
-
-            $admin->setRoles(['ROLE_SUPER_ADMIN']);
-            $admin->setEnabled(true);
-            $this->userManager->updateUser($admin);
-
-            $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
-            $outputStyle->newLine();
-
+        try {
+            $user = $this->userManager->createUser();
+            $admin = $this->configureNewUser($user, $input, $output);
+        } catch (\InvalidArgumentException $exception) {
+            return;
         }
+
+        $admin->setRoles(['ROLE_SUPER_ADMIN']);
+        $admin->setEnabled(true);
+        $this->userManager->updateUser($admin);
+
+        $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
+        $outputStyle->newLine();
+
+
 
         return defined( 'Command::SUCCESS' ) ? constant('Command::SUCCESS') : 0;
 
@@ -104,7 +100,7 @@ EOT
 
 
         //
-        $userRepository = $this->em->getRepository(User::class);
+        $userRepository = $this->userManager->getRepository();
 
         if ($input->getOption('no-interaction')) {
 
@@ -163,7 +159,7 @@ EOT
     {
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
-        $userRepository = $this->em->getRepository(User::class);
+        $userRepository = $this->userManager->getRepository();
 
         do {
             $question = $this->createEmailQuestion();
