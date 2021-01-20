@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.15** *(20xx-xx-xx)*
+* **1.2.16** *(20xx-xx-xx)*
 
+
+* **1.2.15** *(2021-01-20)*
+    * Bugfix: jqueryui sortable removes ckeditor content after sorting
 
 * **1.2.14** *(2021-01-08)*
     * Bugfix edit admin without changing password
