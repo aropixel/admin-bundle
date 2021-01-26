@@ -764,6 +764,13 @@
         });
 
 
+        // Attribue le launcher du widget (et ses réglages) à la popup
+        // lors de l'ouverture de la popup
+        $(selectors.modal.id).on('hide.bs.modal', function (event) {
+            $('#alertUploadError').html('').hide();
+        });
+
+
 
         //
         var _modal_attributes = $(selectors.attributes.class);
@@ -960,15 +967,31 @@
                     'callback' : function() {
 
                         //
+                        var closeModal = $(this).closest('.modal');
                         $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
                             //
-                            imcore.modal.load_pictures();
+                            if (answer == 'OK') {
+
+                                //
+                                imcore.modal.load_pictures();
+
+                            }
+                            else if (answer == 'FOREIGN_KEY') {
+
+                                $('#alertUploadError').html('<strong>Suppression impossible.</strong> Votre image est utilisée dans un ou plusieurs contenus.').fadeIn();
+
+                            }
+                            else {
+
+                                $('#alertUploadError').html('Votre image n\'a pas pu être supprimée.').fadeIn();
+
+                            }
+
                             $(selectors.crop.id).modal('hide');
+                            closeModal.modal('hide');
 
                         })
-
-                        $(this).closest('.modal').modal('hide');
 
                     },
 

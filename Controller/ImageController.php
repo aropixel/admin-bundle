@@ -8,6 +8,7 @@ use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Image\PathResolver;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -457,25 +458,42 @@ class ImageController extends AbstractController
         if ($image) {
 
             //
-            $libraryEntity = new \ReflectionClass($libraryClass);
-            if ($libraryEntity instanceof AttachImage) {
+            try {
 
                 //
-                $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
-                if (count($attachedImages)) {
+                $libraryEntity = new \ReflectionClass($libraryClass);
+                if ($libraryEntity instanceof AttachImage) {
 
-                    foreach ($attachedImages as $attachedImage) {
-                        $em->remove($attachedImage);
+                    //
+                    $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
+                    if (count($attachedImages)) {
+
+                        foreach ($attachedImages as $attachedImage) {
+                            $em->remove($attachedImage);
+                        }
+                        $em->flush();
+
                     }
-                    $em->flush();
-
                 }
+
+
+                //
+                $em->remove($image);
+                $em->flush();
+
             }
+            catch(ForeignKeyConstraintViolationException $e) {
 
+                //
+                return new Response('FOREIGN_KEY', Response::HTTP_OK);
 
-            //
-            $em->remove($image);
-            $em->flush();
+            }
+            catch(\Exception $e) {
+
+                //
+                return new Response('KO', Response::HTTP_OK);
+
+            }
 
         }
 
