@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.16** *(20xx-xx-xx)*
+* **1.2.17** *(20xx-xx-xx)*
 
+
+* **1.2.16** *(2021-01-26)*
+    * Handle errors when delete images from library
 
 * **1.2.15** *(2021-01-20)*
     * Bugfix: jqueryui sortable removes ckeditor content after sorting
