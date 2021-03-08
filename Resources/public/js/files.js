@@ -190,7 +190,7 @@
 
 
             //
-            $.post(Routing.generate('file_attach'),  _attach_params, function(result) {
+            $.post(_fileData.flAttachPath,  _attach_params, function(result) {
 
                 // Nom des champs de formulaires à conserver
                 var formFieldFile = launcher.element.find("input[name$='[file]']");

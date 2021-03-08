@@ -340,7 +340,7 @@ class FileController extends AbstractController
             $form = $this->createForm(FileType::class, $attachFile, array('data_class' => $attachClass));
 
             //
-            $html.= $this->renderView('@AropixelAdmin/Themes/Limitless/File/Widget/file.html.twig', array(
+            $html.= $this->renderView('@AropixelAdmin/File/Widget/file.html.twig', array(
                 'form'      => $form->createView(),
             ));
 

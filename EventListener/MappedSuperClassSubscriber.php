@@ -7,17 +7,12 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\ImageInterface;
-use Aropixel\PageBundle\Entity\Page;
+
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Webmozart\Assert\Assert;
+
 
 
 class MappedSuperClassSubscriber implements EventSubscriber

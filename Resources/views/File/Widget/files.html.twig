@@ -3,15 +3,17 @@
     <div class="panel-heading">
         <h6 class="panel-title"><i class="icon-paperplane"></i>&nbsp;&nbsp;Fichiers</h6>
     </div>
-    <table class="table table-responsive tableFiles" data-new="{{ prototype_new|e }}">
-        {% block preview %}
-            {% if form.vars.attachedFile is defined and form.vars.attachedFile and form.vars.attachedFile.image %}
-                {{ form_widget(form) }}
-            {% else %}
-                {{ include('AropixelAdminBundle:Themes/Limitless/File/Widget:new.html.twig') }}
-            {% endif %}
-        {% endblock %}
-    </table>
+    <div class="table-responsive">
+        <table class="table tableFiles" data-new="{{ prototype_new|e }}">
+            {% block preview %}
+                {% if form.vars.attachedFile is defined and form.vars.attachedFile and form.vars.attachedFile.image %}
+                    {{ form_widget(form) }}
+                {% else %}
+                    {{ include('AropixelAdminBundle:Themes/Limitless/File/Widget:new.html.twig') }}
+                {% endif %}
+            {% endblock %}
+        </table>
+    </div>
     <div class="panel-footer">
         <div class="heading-elements">
             <a class="btn btn-primary heading-btn pull-right" data-toggle="modal" data-target="#modalFilesLibrary">
