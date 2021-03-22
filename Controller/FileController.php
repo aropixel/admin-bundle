@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Controller;
 use Aropixel\AdminBundle\Entity\AttachFile;
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
+use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -24,9 +25,13 @@ class FileController extends AbstractController
 
     private $datatableFieds = array();
 
+    /** @var PathResolverInterface */
+    private $pathResolver;
 
-    public function __construct() {
 
+    public function __construct(PathResolverInterface $pathResolver) {
+
+        $this->pathResolver = $pathResolver;
         $this->datatableFieds = array(
             array('label' => '', 'style' => 'width:50px;'),
             array('label' => '', 'style' => 'width:200px;'),
@@ -136,7 +141,8 @@ class FileController extends AbstractController
 
     private function _dataTableElements($file) {
 
-        $bytes = @filesize($file->getAbsolutePath());
+        $filePath = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+        $bytes = @filesize($filePath);
         $sz = 'bkMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
         $decimals = 2;

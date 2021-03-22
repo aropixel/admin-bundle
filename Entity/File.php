@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class File implements FileInterface
 {
+
+    const UPLOAD_DIR = 'files';
+
     /**
      * @var integer
      */
@@ -247,16 +250,6 @@ class File implements FileInterface
     }
 
     /**
-     * Get image absolute path
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return null === $this->filename ? null : $this->getUploadRootDir().'/'.$this->filename;
-    }
-
-    /**
      * Get image url
      *
      * @return string
@@ -264,28 +257,6 @@ class File implements FileInterface
     public function getWebPath()
     {
         return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
-    }
-
-    /**
-     * Get upload directory absolute path from root
-     *
-     * @return string
-     */
-    public function getUploadRootDir()
-    {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../private/'.$this->getUploadDir();
-    }
-
-    /**
-     * Get upload directory absolute path from root
-     *
-     * @return string
-     */
-    public function getUploadRootPublicDir()
-    {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../public/'.$this->getUploadDir();
     }
 
     /**
@@ -327,6 +298,12 @@ class File implements FileInterface
         } else {
             $this->path = 'initial';
         }
+    }
+
+
+    public function getTempPath()
+    {
+        return $this->temp;
     }
 
 

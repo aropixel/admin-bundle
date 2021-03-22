@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Image implements ImageInterface
 {
 
-    const PRIVATE_DIR = 'private';
     const UPLOAD_DIR = 'images';
 
     /**
@@ -292,16 +291,6 @@ class Image implements ImageInterface
     }
 
     /**
-     * Get image absolute path
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return null === $this->filename ? null : $this->getUploadRootDir().'/'.$this->filename;
-    }
-
-    /**
      * Get image url
      *
      * @return string
@@ -315,17 +304,6 @@ class Image implements ImageInterface
     static function getFileNameWebPath($fileName)
     {
         return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
-    }
-
-    /**
-     * Get upload directory absolute path from root
-     *
-     * @return string
-     */
-    public function getUploadRootDir()
-    {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__.'/../../../../private/'.$this->getUploadDir();
     }
 
     /**

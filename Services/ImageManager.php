@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Services;
 use Aropixel\AdminBundle\Entity\CropInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\Publishable;
+use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,15 +24,19 @@ class ImageManager
     /** @var EntityManagerInterface  */
     private $em;
 
+    /** @var PathResolverInterface  */
+    private $pathResolver;
+
     /** @var FilterService  */
     private $filterService;
 
 
 
 
-    public function __construct(Container $container, EntityManagerInterface $em, FilterService $filterService)
+    public function __construct(Container $container, EntityManagerInterface $em, PathResolverInterface $pathResolver, FilterService $filterService)
     {
         $this->container = $container;
+        $this->pathResolver  = $pathResolver;
         $this->filterService  = $filterService;
         $this->em  = $em;
     }
@@ -236,7 +241,7 @@ class ImageManager
         }
         else {
 
-            $size = getimagesize($image->getAbsolutePath());
+            $size = getimagesize($this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename()));
 
             // Runtime configuration
             $runtimeConfig = [
@@ -264,7 +269,7 @@ class ImageManager
     /**
      * Applique le crop sur le fichier du filtre
      *
-     * @param AropixelAdminBundle:Image $image
+     * @param Image $image
      * @param string $filter
      * @param string $crop_info
      *
@@ -284,7 +289,7 @@ class ImageManager
         $filter_actions = $filterManager->getFilterConfiguration()->get($filter);
 
         //
-        $path = $image->getAbsolutePath();
+        $path = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
         list($realWidth, $realHeight) = getimagesize($path);
         $ratio = 600 / $realWidth;
 
