@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/izitoast/css/iziToast.min.css') }}">
     <!-- CSS Libraries -->
 
     {% endblock %}
@@ -55,6 +56,8 @@
             {% endblock %}
 
             <ul class="navbar-nav navbar-right">
+                {% block topbar_right %}
+                {% endblock %}
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" class="rounded-circle mr-1">
@@ -161,6 +164,7 @@
 <script src="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.full.min.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.queue.min.js') }}"></script>
+<script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.min.js') }}"></script>
 <script src="{{ asset('bundles/aropixeladmin/js/stisla.js') }}"></script>
 <!-- JS Libraies -->
