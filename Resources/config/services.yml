@@ -66,7 +66,7 @@ services:
     Aropixel\AdminBundle\Resolver\PathResolver:
         arguments: ['@kernel']
 
-    Aropixel\AdminBundle\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Resolver\PathResolver';
+    Aropixel\AdminBundle\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Resolver\PathResolver'
 
 
     Aropixel\AdminBundle\Image\Cropper:
