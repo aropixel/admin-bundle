@@ -4,8 +4,11 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.19** *(20xx-xx-xx)*
+* **1.2.20** *(20xx-xx-xx)*
 
+
+* **1.2.19** *(2021-03-25)*
+    * Upgrade stof/doctrine-extensions-bundle
 
 * **1.2.18** *(2021-03-23)*
     * Add path resolver service
