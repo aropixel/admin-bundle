@@ -846,6 +846,10 @@ div.dataTables_wrapper div.dataTables_paginate {
 .dropdown.bootstrap-select.form-control .btn.btn-light:hover {
     background-color: #fff!important;
 }
+.dropdown.bootstrap-select.form-control .btn.disabled,
+.dropdown.bootstrap-select.form-control .btn.disabled:hover {
+    background-color: #e9ecef !important;
+}
 .dropdown.bootstrap-select.form-control.show .btn {
     border-color: #95a0f4!important;
 }

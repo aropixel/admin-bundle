@@ -4,8 +4,10 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.20** *(20xx-xx-xx)*
+* **1.2.21** *(20xx-xx-xx)*
 
+* **1.2.20** *(2021-04-29)*
+    * Bugfix css dropdown disabled
 
 * **1.2.19** *(2021-03-25)*
     * Upgrade stof/doctrine-extensions-bundle
