@@ -76,7 +76,7 @@ class ImageExtension extends AbstractExtension
 
         if ($isImage) {
             /** @var AttachImage $image */
-            $path = $this->pathResolver->fileExists(Image::UPLOAD_DIR, $image->getFilename().'.'.$image->getImage()->getExtension()) ? $image->getWebPath().'.'.$image->getImage()->getExtension() : null;
+            $path = $this->pathResolver->fileExists(Image::UPLOAD_DIR, $image->getFilename()) ? $image->getWebPath() : null;
         }
         else {
             $path = Image::getFileNameWebPath($image);
