@@ -4,7 +4,10 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.24** *(20xx-xx-xx)*
+* **1.2.25** *(20xx-xx-xx)*
+
+* **1.2.24** *(2021-06-07)*
+    * Bugfix aropixel_imagine_filter
 
 * **1.2.23** *(2021-05-28)*
     * Check if image exists on DoFileCropListener
