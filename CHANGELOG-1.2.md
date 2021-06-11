@@ -4,9 +4,12 @@ CHANGELOG for 1.2.x
 This changelog references the relevant changes (bug and security fixes) done
 in 1.2 minor versions.
 
-* **1.2.26** *(20xx-xx-xx)*
+* **1.2.27** *(20xx-xx-xx)*
 
-* **1.2.25** *(2021-06-07)*
+* **1.2.26** *(2021-06-11)*
+    * Bugfix crops on galleries
+
+* **1.2.25** *(2021-06-10)*
     * Add euro date sort on datatable
 
 * **1.2.24** *(2021-06-07)*
