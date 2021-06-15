@@ -9,10 +9,12 @@ namespace Aropixel\AdminBundle\Security;
 
 
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
-class UserManager
+class UserManager implements UserManagerInterface
 {
 
     /** @var EntityManagerInterface $em */
@@ -21,14 +23,44 @@ class UserManager
     /** @var PasswordUpdater $passwordUpdater */
     private $passwordUpdater;
 
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
+    /** @var string */
+    private $model = User::class;
+
+
     /**
      * UserManager constructor.
+     * @param EntityManagerInterface $em
      * @param PasswordUpdater $passwordUpdater
+     * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(EntityManagerInterface $em, PasswordUpdater $passwordUpdater)
+    public function __construct(EntityManagerInterface $em, PasswordUpdater $passwordUpdater, ParameterBagInterface $parameterBag)
     {
         $this->em = $em;
         $this->passwordUpdater = $passwordUpdater;
+        $this->parameterBag = $parameterBag;
+
+        $entities = $this->parameterBag->get('aropixel_admin.entities');
+        $this->model = $entities[UserInterface::class];
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRepository()
+    {
+        return $this->em->getRepository($this->model);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createUser()
+    {
+        return new $this->model();
     }
 
 
@@ -37,7 +69,7 @@ class UserManager
      */
     public function findUserByEmail($email)
     {
-        return $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
+        return $this->em->getRepository($this->model)->findOneBy(array('email' => $email));
     }
 
 

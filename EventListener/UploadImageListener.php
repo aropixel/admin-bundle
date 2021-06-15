@@ -9,10 +9,10 @@ namespace Aropixel\AdminBundle\EventListener;
 
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
-use Aropixel\AdminBundle\Image\PathResolver;
+use Aropixel\AdminBundle\Resolver\PathResolver;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-class UploadListener
+class UploadImageListener
 {
 
     /** @var PathResolver */
@@ -49,7 +49,7 @@ class UploadListener
 
     public function postRemove(ImageInterface $image, LifecycleEventArgs $event)
     {
-        $file = $this->pathResolver->getAbsolutePath($image->getFilename());
+        $file = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
         if ($file && file_exists($file)) {
             unlink($file);
         }
@@ -92,12 +92,12 @@ class UploadListener
         // if there is an error when moving the file, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
-        $image->getFile()->move($this->pathResolver->getAbsoluteDirectory(), $image->getFilename());
+        $image->getFile()->move($this->pathResolver->getAbsoluteDirectory(Image::UPLOAD_DIR), $image->getFilename());
 
         // check if we have an old image
         if ($image->getTempPath()) {
             // delete the old image
-            unlink($this->pathResolver->getAbsoluteDirectory().'/'.$image->getTempPath());
+            unlink($this->pathResolver->getAbsoluteDirectory(Image::UPLOAD_DIR).'/'.$image->getTempPath());
             // clear the temp image path
             $this->temp = null;
         }

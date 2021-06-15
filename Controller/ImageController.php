@@ -5,9 +5,10 @@ namespace Aropixel\AdminBundle\Controller;
 use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
-use Aropixel\AdminBundle\Image\PathResolver;
+use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +28,11 @@ class ImageController extends AbstractController
     //
     private $datatableFieds = array();
 
-    /** @var PathResolver */
+    /** @var PathResolverInterface */
     private $pathResolver;
 
 
-    public function __construct(PathResolver $pathResolver) {
+    public function __construct(PathResolverInterface $pathResolver) {
 
         $this->pathResolver = $pathResolver;
         $this->datatableFieds = array(
@@ -55,7 +56,7 @@ class ImageController extends AbstractController
      *
      * @Route("/list/ajax", name="image_ajax", methods={"GET"})
      */
-    public function datatablerAction(PathResolver $pathResolver, Datatabler $datatabler)
+    public function datatablerAction(Datatabler $datatabler)
     {
 
         //
@@ -93,7 +94,7 @@ class ImageController extends AbstractController
      *
      * @Route("/list/ajax/{category}", name="image_ajax_category", methods={"GET"})
      */
-    public function datatablerWithCategoryAction(PathResolver $pathResolver, Datatabler $datatabler, $category)
+    public function datatablerWithCategoryAction(Datatabler $datatabler, $category)
     {
 
         //
@@ -119,7 +120,7 @@ class ImageController extends AbstractController
             foreach ($images as $image)
             {
                 //
-                $imagePath = $this->pathResolver->getAbsolutePath($image->getFilename());
+                $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
                 if (file_exists($imagePath)) {
                     $response[] = $this->_dataTableElements($image);
                 }
@@ -136,7 +137,7 @@ class ImageController extends AbstractController
 
     private function _dataTableElements($image) {
 
-        $imagePath = $this->pathResolver->getAbsolutePath($image->getFilename());
+        $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
 
         $bytes = @filesize($imagePath);
         $sz = 'bkMGTP';
@@ -457,25 +458,42 @@ class ImageController extends AbstractController
         if ($image) {
 
             //
-            $libraryEntity = new \ReflectionClass($libraryClass);
-            if ($libraryEntity instanceof AttachImage) {
+            try {
 
                 //
-                $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
-                if (count($attachedImages)) {
+                $libraryEntity = new \ReflectionClass($libraryClass);
+                if ($libraryEntity instanceof AttachImage) {
 
-                    foreach ($attachedImages as $attachedImage) {
-                        $em->remove($attachedImage);
+                    //
+                    $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
+                    if (count($attachedImages)) {
+
+                        foreach ($attachedImages as $attachedImage) {
+                            $em->remove($attachedImage);
+                        }
+                        $em->flush();
+
                     }
-                    $em->flush();
-
                 }
+
+
+                //
+                $em->remove($image);
+                $em->flush();
+
             }
+            catch(ForeignKeyConstraintViolationException $e) {
 
+                //
+                return new Response('FOREIGN_KEY', Response::HTTP_OK);
 
-            //
-            $em->remove($image);
-            $em->flush();
+            }
+            catch(\Exception $e) {
+
+                //
+                return new Response('KO', Response::HTTP_OK);
+
+            }
 
         }
 

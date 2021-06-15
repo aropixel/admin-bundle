@@ -135,7 +135,8 @@ $(function() {
     var passWordUser = document.querySelector('[data-gdpr]');
     if (passWordUser) {
 
-        new GdprPassword(passWordUser);
+        var gdprform = passWordUser.closest('form');
+        new GdprPassword(passWordUser, {form: gdprform});
 
     }
 
@@ -1071,13 +1072,36 @@ function activateSortable($container) {
     $container.sortable({
         items: '> [data-form-collection="item"]',
         handle: '[data-form-collection="move"]',
+        start: function (event, ui)
+        {
+            $container.find('> [data-form-collection="item"] textarea').each(function(iItem) {
+
+                for(name in CKEDITOR.instances)
+                {
+                    if (this.id == name) {
+                        CKEDITOR.instances[name].destroy();
+                    }
+                }
+
+            });
+        },
+        stop: function (event, ui)
+        {
+            $container.find('> [data-form-collection="item"] textarea.ckeditor').each(function(iItem) {
+
+                var id_textarea = $(this).attr("id");
+                CKEDITOR.replace(id_textarea);
+
+            });
+        },
         update : function ()
         {
             var level = $container.parents('[data-form-collection="item"]').length * 2;
             $container.find('> [data-form-collection="item"]').each(function(iItem) {
 
-                var _inputs = $(this).find('input, select');
+                var _inputs = $(this).find('input, select, textarea');
                 _inputs.each(function() {
+
 
                     let re = /(\[[0-9]+\])/g;
                     old_name = $(this).attr('name');
@@ -1086,14 +1110,22 @@ function activateSortable($container) {
                     splitted[level+1] = '[' + iItem + ']';
                     new_name = splitted.join('');
 
-                    // new_name = old_name.replace(/\[[0-9]+\]?/, function (match, $1) {
-                    //     return '[' + iItem + ']';
-                    // });
 
                     $(this).attr('name', new_name);
+
+
+                    //
+                    // let new_id = new_name.replace(/[\[\]]+/g,'_');
+                    // new_id = new_id.substring(0, new_id.length - 1);
+                    // $(this).attr('id', new_id);
+
+
                 });
 
+                $(this).attr('data-form-collection-index', iItem);
+
             })
+
 
         }
     });

@@ -2,10 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 
 /**
  * Admin user for AropixelAdminBundle

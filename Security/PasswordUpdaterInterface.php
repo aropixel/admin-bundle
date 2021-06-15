@@ -11,7 +11,7 @@
 
 namespace Aropixel\AdminBundle\Security;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 /**
  * @author Christophe Coevoet <stof@notk.org>
@@ -24,9 +24,9 @@ interface PasswordUpdaterInterface
      * The implement should be a no-op in case there is no new password (it should not erase the
      * existing hash with a wrong one).
      *
-     * @param User $user
+     * @param UserInterface $user
      *
      * @return void
      */
-    public function hashPassword(User $user);
+    public function hashPassword(UserInterface $user);
 }

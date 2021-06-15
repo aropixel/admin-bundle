@@ -8,6 +8,8 @@
 namespace Aropixel\AdminBundle\Image;
 
 
+use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
@@ -15,7 +17,7 @@ use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 class Cropper
 {
 
-    /** @var PathResolver  */
+    /** @var PathResolverInterface  */
     private $pathResolver;
 
     /** @var DataManager  */
@@ -30,12 +32,12 @@ class Cropper
 
     /**
      * Cropper constructor.
-     * @param PathResolver $pathResolver
+     * @param PathResolverInterface $pathResolver
      * @param DataManager $dataManager
      * @param FilterManager $filterManager
      * @param CacheManager $cacheManager
      */
-    public function __construct(PathResolver $pathResolver, DataManager $dataManager, FilterManager $filterManager, CacheManager $cacheManager)
+    public function __construct(PathResolverInterface $pathResolver, DataManager $dataManager, FilterManager $filterManager, CacheManager $cacheManager)
     {
         $this->pathResolver = $pathResolver;
         $this->dataManager = $dataManager;
@@ -66,7 +68,7 @@ class Cropper
         $filterConfiguration = $filterManager->getFilterConfiguration()->get($filterName);
 
         //
-        $imagePath = $this->pathResolver->getAbsolutePath($fileName);
+        $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $fileName);
         $ratio = $this->getRatio($imagePath);
 
         // Merge crop configuration with needed coords into the filter configuration
@@ -82,7 +84,7 @@ class Cropper
         $mergedFilters = array_merge($cropConfiguration, $filterConfiguration['filters']);
 
         // Retrieves the image with the given filter applied
-        $relativeDataRootPath = $this->pathResolver->getDataRootRelativePath($fileName);
+        $relativeDataRootPath = $this->pathResolver->getDataRootRelativePath(Image::UPLOAD_DIR, $fileName);
         $binary = $dataManager->find($filterName, $relativeDataRootPath);
 
         // Apply the crop

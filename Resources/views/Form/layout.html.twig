@@ -396,6 +396,7 @@
 
     <div class="panel-list fl-manager"
          data-fl-type="{{ type }}"
+         data-fl-attach-path="{{ path('file_attach') }}"
          data-fl-attach-id="{{ form.vars.attachedFile is defined and form.vars.attachedFile ? form.vars.attachedFile.id : '' }}"
          data-fl-attach-class="{{ attach_class }}"
          data-fl-entity-class="{{ entityClass }}"
@@ -403,31 +404,32 @@
 
 
         {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
-        {%- set attr = attr|merge({'class': 'table table-responsive table-striped tableFiles'}) -%}
+        {%- set attr = attr|merge({'class': 'table table-striped tableFiles'}) -%}
 
-        <div class="panel panel-default border-left-xlg border-left-info">
-            <div class="panel-heading">
-                <h6 class="panel-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+        <div class="card card-default border-left-xlg border-left-info">
+            <div class="card-header">
+                <h6 class="card-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
             </div>
 
-            <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
-                <tbody>
-                {%- if form.parent is empty -%}
-                    {{ form_errors(form) }}
-                {%- endif -%}
+            <div class="table-responsive ">
+                <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
+                    <tbody>
+                    {%- if form.parent is empty -%}
+                        {{ form_errors(form) }}
+                    {%- endif -%}
 
-                {%- if data|length -%}
-                    {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
-                {%- else -%}
-                    {{ prototype_new|raw }}
-                {%- endif -%}
+                    {%- if data|length -%}
+                        {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
+                    {%- else -%}
+                        {{ prototype_new|raw }}
+                    {%- endif -%}
 
-                {{- form_rest(form) -}}
-                </tbody>
-            </table>
+                    {{- form_rest(form) -}}
+                    </tbody>
+                </table>
+            </div>
 
-
-            <div class="panel-footer">
+            <div class="card-footer">
                 <div class="heading-elements">
                     <div>
                         <a class="btn btn-primary heading-btn pull-right" data-toggle="modal" data-target="#modalFilesLibrary">

@@ -5,14 +5,17 @@
  * Date: 11/08/2020 à 16:30
  */
 
-namespace Aropixel\AdminBundle\Image;
+namespace Aropixel\AdminBundle\Resolver;
 
 
 use Aropixel\AdminBundle\Entity\Image;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class PathResolver
+class PathResolver implements PathResolverInterface
 {
+    //
+    const PRIVATE_DIR = 'private';
+
 
     /** @var KernelInterface */
     private $kernel;
@@ -27,34 +30,34 @@ class PathResolver
     }
 
 
-    public function getAbsoluteDirectory()
+    public function getAbsoluteDirectory($directory)
     {
         $path = $this->kernel->getProjectDir();
-        $path.= '/'.Image::PRIVATE_DIR.'/'.Image::UPLOAD_DIR;
+        $path.= '/'.self::PRIVATE_DIR.'/'.$directory;
 
         return $path;
     }
 
 
-    public function getAbsolutePath($fileName)
+    public function getAbsolutePath($directory, $fileName)
     {
         $path = $this->kernel->getProjectDir();
-        $path.= '/'.Image::PRIVATE_DIR.'/'.Image::UPLOAD_DIR;
+        $path.= '/'.self::PRIVATE_DIR.'/'.$directory;
         $path.= '/'.$fileName;
 
         return $path;
     }
 
 
-    public function getDataRootRelativePath($fileName)
+    public function getDataRootRelativePath($directory, $fileName)
     {
-        return Image::UPLOAD_DIR.'/'.$fileName;
+        return $directory.'/'.$fileName;
     }
 
 
-    public function fileExists($fileName)
+    public function fileExists($directory, $fileName)
     {
-        return file_exists($this->getAbsolutePath($fileName));
+        return file_exists($this->getAbsolutePath($directory, $fileName));
     }
 
 

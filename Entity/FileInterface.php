@@ -10,7 +10,6 @@ namespace Aropixel\AdminBundle\Entity;
 
 interface FileInterface
 {
-    public function getAbsolutePath();
 
     public function getWebPath();
 

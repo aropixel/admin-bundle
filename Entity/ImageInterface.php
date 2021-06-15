@@ -11,8 +11,6 @@ namespace Aropixel\AdminBundle\Entity;
 interface ImageInterface
 {
 
-    public function getAbsolutePath();
-
     public function getWebPath();
 
     public function getFilename();

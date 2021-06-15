@@ -11,9 +11,7 @@
 
 namespace Aropixel\AdminBundle\Security;
 
-use Aropixel\AdminBundle\Entity\User;
-use FOS\UserBundle\Model\UserInterface;
-use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
@@ -30,7 +28,7 @@ class PasswordUpdater implements PasswordUpdaterInterface
         $this->encoderFactory = $encoderFactory;
     }
 
-    public function hashPassword(User $user)
+    public function hashPassword(UserInterface $user)
     {
         $plainPassword = $user->getPlainPassword();
 

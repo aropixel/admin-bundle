@@ -143,21 +143,6 @@ abstract class AttachFile
     }
 
     /**
-     * Check wether image exists
-     *
-     * @return bool
-     */
-    public function fileExists()
-    {
-        $absolutePath = $this->file ? $this->file->getAbsolutePath() : null;
-        if ($absolutePath && file_exists($absolutePath)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get image url
      *
      * @return string
@@ -165,16 +150,6 @@ abstract class AttachFile
     public function getWebPath()
     {
         return $this->file ? $this->file->getWebPath() : null;
-    }
-
-    /**
-     * Get image url
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return $this->file ? $this->file->getAbsolutePath() : null;
     }
 
 

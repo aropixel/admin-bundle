@@ -313,29 +313,6 @@ abstract class AttachImage implements ImageInterface
         return $this->image ? $this->image->getWebPath() : null;
     }
 
-    /**
-     * Get image url
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return $this->image ? $this->image->getAbsolutePath() : null;
-    }
-
-    /**
-     * Get image url
-     *
-     * @return string
-     */
-    public function fileExists()
-    {
-        $absolutePath = $this->image ? $this->image->getAbsolutePath() : null;
-        if ($absolutePath && file_exists($absolutePath)) {
-            return true;
-        }
-    }
-
 
     /**
      * Set createdAt
