@@ -891,6 +891,16 @@ $(function() {
         // re-init select2 for new select 2 item in collection
         $('.select2').select2();
 
+        $(".select-multiple").not('.select2-container').each(function() {
+
+            if ($(this).parent('.duallistbox').length) {
+
+            }
+            else {
+                $(this).select2();
+            }
+        });
+
 
     });
 
