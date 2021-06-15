@@ -887,6 +887,9 @@ $(function() {
             autoWidth: false
         });
 
+        // re-init select2 for new select 2 item in collection
+        $('.select2').select2();
+
 
     });
 
