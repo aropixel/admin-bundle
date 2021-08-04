@@ -460,7 +460,9 @@ $(function() {
 
         }
         else {
-            $(this).select2();
+            $(this).select2({
+                'closeOnSelect': false
+            });
         }
 
     });
