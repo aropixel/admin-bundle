@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Controller;
 
 use Aropixel\AdminBundle\Entity\AttachFile;
+use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
@@ -42,6 +43,12 @@ class FileController extends AbstractController
 
     }
 
+    private function getFileClassName()
+    {
+        $entities = $this->getParameter('aropixel_admin.entities');
+        return $entities[FileInterface::class];
+    }
+
     /**
      * Lists all Image entities.
      *
@@ -58,7 +65,7 @@ class FileController extends AbstractController
         $isPublic = (boolean)$request->get('editor');
 
         //
-        $datatabler->setRepository(File::class, $this->datatableFieds);
+        $datatabler->setRepository($this->getFileClassName(), $this->datatableFieds);
         $qb = $datatabler->getQueryBuilder();
         $qb
             ->andWhere('f.public = :public')
@@ -89,7 +96,7 @@ class FileController extends AbstractController
     }
 
     /**
-     * Lists all Image entities.
+     * Lists all File entities.
      *
      * @Route("/list/ajax/{category}", name="file_ajax_category", methods={"GET"})
      */
@@ -104,7 +111,7 @@ class FileController extends AbstractController
         $isPublic = (boolean)$request->get('editor');
 
         //
-        $datatabler = $datatabler->setRepository('AropixelAdminBundle:File', $this->datatableFieds);
+        $datatabler = $datatabler->setRepository($this->getFileClassName(), $this->datatableFieds);
         $qb = $datatabler->getQueryBuilder();
         $qb
             ->andWhere('f.category = :category')
@@ -125,9 +132,10 @@ class FileController extends AbstractController
             foreach ($files as $file)
             {
                 //
-
-                //
-                $response[] = $this->_dataTableElements($file);
+                $filePath = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+                if (file_exists($filePath)) {
+                    $response[] = $this->_dataTableElements($file);
+                }
 
             }
         }
@@ -184,7 +192,7 @@ class FileController extends AbstractController
 
         $entity_id = $request->request->get('id');
         $titre = $request->request->get('titre');
-        $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($entity_id);
+        $file = $this->getDoctrine()->getRepository($this->getFileClassName())->find($entity_id);
 
         if ($file) {
 
@@ -256,7 +264,8 @@ class FileController extends AbstractController
     public function uploadAction(Request $request)
     {
         //
-        $file = new File();
+        $className = $this->getFileClassName();
+        $file = new $className();
         $form = $this->createForm(PluploadFileType::class, $file, array(
             'action' => $this->generateUrl('file_upload'),
             'method' => 'POST',
@@ -272,6 +281,19 @@ class FileController extends AbstractController
             $em->flush();
 
             $response = $this->_dataTableElements($file);
+        }
+        else {
+
+            //
+            $errors = [];
+            $formErrors = $form->getErrors(true);
+            foreach ($formErrors as $formError) {
+                $errors[] = $formError->getMessage();
+            }
+
+            //
+            $http_response = new Response(implode($errors, '<br />'), 500);
+            return $http_response;
         }
 
         //
@@ -297,7 +319,7 @@ class FileController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         //
-        $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($file_id);
+        $image = $this->getDoctrine()->getRepository($this->getFileClassName())->find($file_id);
         $image->setTitre($title);
         $em->flush();
 

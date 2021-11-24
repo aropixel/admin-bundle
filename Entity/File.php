@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -268,7 +266,7 @@ class File implements FileInterface
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-        return 'files';
+        return self::UPLOAD_DIR;
     }
 
     /**
@@ -305,67 +303,6 @@ class File implements FileInterface
     {
         return $this->temp;
     }
-
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->filename = $filename.'.'.$this->getFile()->guessExtension();
-            $this->extension = $this->getFile()->guessExtension();
-
-            $i = strrpos($this->titre, '.');
-            if ($i!==false) {
-                $this->titre = substr($this->titre, 0, $i);
-            }
-
-        }
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        //
-        $dir = $this->isPublic() ? $this->getUploadRootPublicDir() : $this->getUploadRootDir();
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($dir, $this->filename);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($dir.'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        $file = $this->getAbsolutePath();
-        if ($file && file_exists($file)) {
-            unlink($file);
-        }
-    }
-
 
     /**
      * Set category
