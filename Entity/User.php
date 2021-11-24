@@ -16,62 +16,62 @@ class User implements UserInterface
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $email;
+    protected $email;
 
     /**
      * @var boolean
      */
-    private $enabled;
+    protected $enabled;
 
     /**
      * @var string
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @var string
      */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var array
      */
-    private $roles = [];
+    protected $roles = [];
 
     /**
      * @var string The hashed password
      */
-    private $password;
+    protected $password;
 
     /**
      * @var string  Plain password. Used for model validation. Must not be persisted.
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
      * @var string The token for password reset request
      */
-    private $passwordResetToken;
+    protected $passwordResetToken;
 
     /**
      * @var \DateTime
      */
-    private $passwordRequestedAt;
+    protected $passwordRequestedAt;
 
     /**
      * @var string The token for password reset request
      */
-    private $emailVerificationToken;
+    protected $emailVerificationToken;
 
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
 
 

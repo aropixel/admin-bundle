@@ -460,7 +460,9 @@ $(function() {
 
         }
         else {
-            $(this).select2();
+            $(this).select2({
+                'closeOnSelect': false
+            });
         }
 
     });
@@ -886,6 +888,17 @@ $(function() {
         activateSortable($list.find('[data-form-collection="list"]'));
         $list.find('[data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
             autoWidth: false
+        });
+
+        // re-init select2 for new select 2 item in collection
+        $(".select-multiple").not('.select2-container').each(function() {
+
+            if ($(this).parent('.duallistbox').length) {
+
+            }
+            else {
+                $(this).select2();
+            }
         });
 
 

@@ -39,16 +39,20 @@ class DoFileCropListener
         //
         if ($entity instanceof CropInterface) {
 
-            /** @var ImageInterface $image */
-            $image = $entity->getImage();
-            $filterName = $entity->getFilter();
+            // If there is no crops info registered, we can leave
             $cropCoordinates = $entity->getCrop();
-
-            //
             if (!$cropCoordinates)    return;
-            if (!$image->getFilename())    return;
+
+            /**
+             * If there is no image attached or no filename for the image,
+             * we leave
+             * @var ImageInterface $image
+             */
+            $image = $entity->getImage();
+            if (!$image || !$image->getFilename())    return;
 
             //
+            $filterName = $entity->getFilter();
             $this->cropper->applyCrop($image->getFilename(), $filterName, $cropCoordinates);
 
         }

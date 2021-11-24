@@ -520,14 +520,39 @@
                 var $galleryContent = launcher.element.find('> .galleryContent');
                 var prototype = $galleryContent.data('prototype');
                 var index = $galleryContent.children().length;
-                var newItem = prototype.replace(/__name__/g, index);
+
+                // Turn the prototype to objects
+                var $newItem = $(prototype);
+
+
+                // Replace __name__ in childs which have this pattern in name and id attr
+                $newItem.find('[name*="[__name__]"]').each(function() {
+                    $(this).attr('name', $(this).attr('name').replace(/__name__/g, index))
+                })
+
+                // Replace __name__ in childs which have this pattern in name and id attr
+                $newItem.find('[id*="__name__"]').each(function() {
+                    $(this).attr('id', $(this).attr('id').replace(/__name__/g, index))
+                })
+
+                // Replace __name__in crops prototype
+                $newItem.find('[data-prototype*="[__name__]"]').each(function() {
+
+                    $(this).attr('data-prototype', $(this).attr('data-prototype').replace(/\[__name__\]\[crops\]/g, '['+index+'][crops]'))
+                    $(this).attr('data-prototype', $(this).attr('data-prototype').replace(/___name___crops/g, index+'_crops'))
+
+                })
+
+                // console.log($newItem.find('[name*="artist"]'));
+                //
+                // var newItem = prototype.replace(/__name__/g, index);
 
                 // Get image of the library
                 $imgLibraryModal = $(this).closest('tr').find('.img-preview');
                 $img = $('<img>').attr('src', $imgLibraryModal.attr('src'));
 
                 // Add a new image from the prototype in the container, and replace the place holder by the image
-                $galleryContent.append($(newItem));
+                $galleryContent.append($newItem);
                 $galleryContent.find(".no-img").replaceWith($img);
 
                 //
@@ -1231,13 +1256,13 @@
 
 
                     //
-                    if (!isInitialized) {
+                    // if (!isInitialized) {
 
                         //
                         // console.log("instanciate");
 
                         //
-                        $modal.on('click', selectors.crop.ratios, function() {
+                        $modal.off('click').on('click', selectors.crop.ratios, function() {
 
                             //
                             var _options = obj.cropper_options($(this));
@@ -1247,7 +1272,7 @@
 
 
                         //
-                        $modal.on('click', selectors.crop.save, function() {
+                        $modal.off('click').on('click', selectors.crop.save, function() {
 
                             //
                             // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
@@ -1255,6 +1280,7 @@
 
                             // Get the data-prototype explained earlier
                             $collectionHolder = $thumbnail.find('[id$="_crops"]');
+                            console.log($collectionHolder);
                             // $collectionHolder = _modal.next();
                             $collectionHolder.empty();
                             var prototype = $collectionHolder.data('prototype');
@@ -1263,11 +1289,15 @@
                             $modal.find(selectors.crop.ratios).each(function(index) {
 
                                 var _ratio = $(this);
+                                console.log(prototype);
+                                console.log(index);
 
                                 // Replace '__name__' in the prototype's HTML to
                                 // instead be a number based on how many items we have
                                 var newForm = prototype.replace(/__name__/g, index);
+                                console.log(newForm);
                                 $collectionHolder.append(newForm);
+                                console.log('[name$="['+index+'][filter]"]');
 
                                 $collectionHolder.find('[name$="['+index+'][filter]"]').val(_ratio.val());
                                 $collectionHolder.find('[name$="['+index+'][crop]"]').val(_ratio.attr('data-crop'));
@@ -1286,17 +1316,20 @@
 
 
                         //
-                        var _options = obj.cropper_options($button);
-                        $modal.find(selectors.crop.image).cropper(_options);
+                        // var _options = obj.cropper_options($button);
+                        // $modal.find(selectors.crop.image).cropper(_options);
+                    var _options = obj.cropper_options($button);
+                    $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
 
-                    }
-                    else if (changeImage) {
 
-                        var _options = obj.cropper_options($button);
-                        $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
-                        changeImage = false;
-
-                    }
+                    // }
+                    // else if (changeImage) {
+                    //
+                    //     var _options = obj.cropper_options($button);
+                    //     $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
+                    //     changeImage = false;
+                    //
+                    // }
 
                     $modal.data('initialized', true);
 
