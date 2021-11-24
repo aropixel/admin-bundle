@@ -98,6 +98,10 @@ class Select2
         return $this;
     }
 
+    public function getQueryBuilder()
+    {
+        return $this->qb;
+    }
 
     /**
      * @return mixed

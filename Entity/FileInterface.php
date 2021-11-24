@@ -13,10 +13,6 @@ interface FileInterface
 
     public function getWebPath();
 
-    public function preUpload();
-
-    public function upload();
-
-    public function removeUpload();
+    public function getFilename();
 
 }
