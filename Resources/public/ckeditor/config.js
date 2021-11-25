@@ -9,7 +9,18 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-    config.customConfig = '/aropixeladmin/ckeditor/config.js';
+    let textarea = document.querySelectorAll('textarea');
+
+    textarea.forEach(field => {
+        if (field.classList.contains('simple-ckeditor')){
+            let id = field.getAttribute('id');
+            CKEDITOR.replace( id, {
+                customConfig: '/aropixeladmin/ckeditor/config-simple.js'
+            });
+        } else {
+            config.customConfig = '/aropixeladmin/ckeditor/config.js';
+        }
+    });
 
 	// Extra config
 	// ------------------------------
