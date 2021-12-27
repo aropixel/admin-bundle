@@ -27,7 +27,10 @@
     "symfony/framework-bundle": "^4.4|^5.0",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
-    "twig/intl-extra": "^2.12|^3.0"
+    "twig/intl-extra": "^2.12|^3.0",
+    "doctrine/orm": "^2.9",
+    "knplabs/doctrine-behaviors": "^2.2",
+    "a2lix/translation-form-bundle": "^3.0"
   },
   "scripts": {
     "auto-scripts": {
