@@ -81,7 +81,7 @@ class FrontRouter implements WarmableInterface, ServiceSubscriberInterface, Rout
 
             if ($request->attributes->has('_locale')) {
                 $locale = $request->attributes->get('_locale');
-                $parameters['locale'] = $locale;
+                $parameters['_locale'] = $locale;
             }
         }
 
