@@ -704,6 +704,46 @@ $(function() {
 
 
 
+    $(".main-content").on('click', 'a.confirm[data-confirm]', function() {
+
+        //
+        var _button = $(this);
+
+        //
+        var _buttons = {
+
+            "Annuler": function() {
+
+                $(this).closest('.modal').modal('hide');
+
+            },
+
+            "Confirmer": {
+
+                'class' : 'btn-danger',
+                'callback' : function() {
+                    location.reload();
+                },
+            }
+
+
+        }
+
+        var me_data = _button.data('confirm');
+
+        var me_title = "Confirmation";
+        var me_description = me_data;
+
+        me_data = me_data.split("|");
+        if (me_data.length > 1) {
+            me_title = me_data[0];
+            me_description = me_data[1];
+        }
+
+        modalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+
+    });
+
 
 
     $(".main-content").on('click', 'a.delete[data-confirm]', function() {
