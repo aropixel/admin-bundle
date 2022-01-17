@@ -722,7 +722,7 @@ $(function() {
 
                 'class' : 'btn-danger',
                 'callback' : function() {
-                    location.reload();
+                    window.location.href = _button.attr("data-path");
                 },
             }
 
