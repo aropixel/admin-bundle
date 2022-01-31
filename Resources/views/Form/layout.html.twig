@@ -218,8 +218,12 @@
 
 
 {% block textarea_widget -%}
-    {% if 'ckeditor' in attr.class|default('') %}
-        {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim, 'data-attach-path': get_image_editor_route()}) %}
+    {% if 'ckeditor' in attr.class|default('') or 'simple-ckeditor' in attr.class|default('') %}
+        {% if get_class(form.parent.vars.value) %}
+            {% set attr = attr|merge({'data-class': get_class(form.parent.vars.value)|trim, 'data-attach-path': get_image_editor_route()}) %}
+        {% else %}
+            {% set attr = attr|merge({'data-attach-path': get_image_editor_route()}) %}
+        {% endif %}
     {% endif %}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
     {{- parent() -}}
