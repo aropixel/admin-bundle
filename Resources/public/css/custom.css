@@ -1590,6 +1590,8 @@ p {
     opacity: 1;
     visibility: visible;
     top: 80px;
+    max-height: 520px;
+    overflow-y: scroll;
 }
 .navbar .form-inline .search-result {
     position: absolute;

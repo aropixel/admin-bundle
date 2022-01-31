@@ -1,0 +1,2 @@
+imports:
+  - { resource: 'a2lix.yml' }

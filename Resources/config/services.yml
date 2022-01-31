@@ -99,6 +99,9 @@ services:
             - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.file%' }
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
 
+    Aropixel\AdminBundle\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 30}
 
     Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
         arguments: ['%aropixel_admin.entities%']
@@ -112,3 +115,11 @@ services:
 
     Liip\ImagineBundle\Service\FilterService:
         alias: 'liip_imagine.service.filter'
+
+    #####################################################
+    ## ROUTER
+    #####################################################
+
+    Aropixel\AdminBundle\Router\FrontRouter:
+        decorates: router
+        arguments: ['@.inner']
