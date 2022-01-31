@@ -47,14 +47,17 @@
             <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
         </a>
     {% endif %}
-    {% if delete_form is defined and delete_form %}
-    {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
-    <button type="button" id="delete_button" class="fa-stack danger" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
-        <i class="fas fa-circle fa-stack-2x"></i>
-        <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-    </button>
-    {{ form_widget(delete_form._token) }}
-    {{ form_end(delete_form) }}
+    {% if app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
+        {% if form.vars.data.id is defined and form.vars.data.id %}
+            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
+                <button type="button" id="delete_button" class="fa-stack danger" data-toggle="tooltip" data-placement="bottom" title="Supprimer">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+                </button>
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
+            </form>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
