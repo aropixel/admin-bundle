@@ -15,6 +15,7 @@ namespace Aropixel\AdminBundle\Security;
 
 use Aropixel\AdminBundle\Generator\RandomnessGeneratorInterface;
 use Aropixel\AdminBundle\Repository\UserRepository;
+use Aropixel\AdminBundle\Security\UserManager;
 use Webmozart\Assert\Assert;
 
 final class UniqueTokenGenerator implements GeneratorInterface
@@ -25,6 +26,9 @@ final class UniqueTokenGenerator implements GeneratorInterface
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var UserManager */
+    private $userManager;
+
     /** @var int */
     private $tokenLength;
 
@@ -33,10 +37,12 @@ final class UniqueTokenGenerator implements GeneratorInterface
      */
     public function __construct(
         RandomnessGeneratorInterface $generator,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        UserManager $userManager
     ) {
         $this->generator = $generator;
         $this->userRepository = $userRepository;
+        $this->userManager = $userManager;
         $this->tokenLength = 16;
     }
 
@@ -57,6 +63,7 @@ final class UniqueTokenGenerator implements GeneratorInterface
      */
     public function isUnique(string $token): bool
     {
-        return null === $this->userRepository->findOneBy(['passwordResetToken' => $token]);
+        $userRepository = $this->userManager->getRepository();
+        return null === $userRepository->findOneBy(['passwordResetToken' => $token]);
     }
 }
