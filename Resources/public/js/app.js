@@ -469,31 +469,27 @@ $(function() {
 
 
 
-    //
-    $(".select2").not('.select2-container').each(function() {
+    function initializeSelect2(_select) {
 
         var params = {};
-        var width = $(this).prop('style')['width'];
+        var width = _select.prop('style')['width'];
         if (width.length) {
             params.width = width;
         }
 
-        if ($(this)[0].hasAttribute("data-placeholder")) {
+        if (_select[0].hasAttribute("data-placeholder")) {
             params.allowClear = true;
         }
 
-        $(this).select2(params);
-
-    });
-
+        _select.select2(params);
+    }
 
 
-    //
-    $(".select2-ajax").each(function() {
+    function initializeSelect2Ajax(_select) {
 
-        var _url = $(this).attr('data-url');
-        var _placeholder = $(this).attr('data-placeholder');
-        var _multiple = $(this).attr('data-multiple') ? true : false;
+        var _url = _select.attr('data-url');
+        var _placeholder = _select.attr('data-placeholder');
+        var _multiple = _select.attr('data-multiple') ? true : false;
 
         var params = {
             multiple: _multiple,
@@ -528,17 +524,31 @@ $(function() {
         };
 
 
-        if ($(this)[0].hasAttribute("data-placeholder")) {
+        if (_select[0].hasAttribute("data-placeholder")) {
             params.placeholder = _placeholder;
             params.allowClear = true;
         }
 
 
-        $(this).select2(params);
+        _select.select2(params);
+    }
+
+
+
+    //
+    $(".select2-ajax").each(function() {
+
+        initializeSelect2Ajax($(this));
 
     });
 
 
+    //
+    $(".select2").not('.select2-container').each(function() {
+
+        initializeSelect2($(this));
+
+    });
 
 
     function resizePreview(spanPreview) {
@@ -930,14 +940,27 @@ $(function() {
             autoWidth: false
         });
 
+
         // re-init select2 for new select 2 item in collection
+        $(".select2-ajax").each(function() {
+
+            initializeSelect2Ajax($(this));
+
+        });
+
+        $(".select2").not('.select2-container').each(function() {
+
+            initializeSelect2($(this));
+
+        });
+
         $(".select-multiple").not('.select2-container').each(function() {
 
             if ($(this).parent('.duallistbox').length) {
 
             }
             else {
-                $(this).select2();
+                initializeSelect2($(this));
             }
         });
 
