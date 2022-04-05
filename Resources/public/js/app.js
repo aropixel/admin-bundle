@@ -926,6 +926,7 @@ $(function() {
 
         //
         let count = $items.length + 1;
+        // $items.attr('data-form-collection-index', count);
         let prototype = $collection.attr('data-prototype');
 
         if (pattern_id_replace) {
@@ -960,14 +961,15 @@ $(function() {
 
         //
         $list.append(prototype);
+        $list.find('> [data-form-collection="item"]:nth-child('+count+')').attr('data-form-collection-index', count);
 
 
-        activateDatePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickadate'));
-        activateTimePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickatime'));
-        activateCkeditor($list.find('[data-form-collection="item"]:nth-child('+count+') .ckeditor'));
-        activateImManager($list.find('[data-form-collection="item"]:nth-child('+count+') .im-manager'));
-        activateSortable($list.find('[data-form-collection="list"]'));
-        $list.find('[data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
+        activateDatePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickadate'));
+        activateTimePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickatime'));
+        activateCkeditor($list.find('> [data-form-collection="item"]:nth-child('+count+') .ckeditor'));
+        activateImManager($list.find('> [data-form-collection="item"]:nth-child('+count+') .im-manager'));
+        activateSortable($list.find('> [data-form-collection="list"]'));
+        $list.find('> [data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
             autoWidth: false
         });
 
