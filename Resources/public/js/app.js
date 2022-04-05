@@ -918,18 +918,49 @@ $(function() {
 
         //
         let $collection = $('#'+$(this).attr('data-form-collection-add'));
-        let $list = $collection.find('[data-form-collection="list"]');
+        let pattern_id_replace = $(this).attr('data-form-prototype-id-replace');
+        let pattern_name_replace = $(this).attr('data-form-prototype-name-replace');
+
+        let $list = $collection.find('> [data-form-collection="list"]');
         let $items = $list.find('> [data-form-collection="item"]');
 
         //
         let count = $items.length + 1;
         let prototype = $collection.attr('data-prototype');
-        prototype = prototype.replace(/__name__/g, count);
+
+        if (pattern_id_replace) {
+
+            let replace_value = pattern_id_replace.replace(/__name__/g, count);
+
+            let re = new RegExp(pattern_id_replace,"g");
+            prototype = prototype.replace(re, replace_value);
+
+        }
+        else {
+            prototype = prototype.replace(/__name__/g, count);
+        }
+
+        if (pattern_name_replace) {
+
+            pattern_name_replace = pattern_name_replace.replace(/\[/g, '\\[');
+            pattern_name_replace = pattern_name_replace.replace(/]/g, '\\]');
+
+            let replace_value = pattern_name_replace.replace(/__name__/g, count);
+            replace_value = replace_value.replace(/\\\[/g, '[')
+            replace_value = replace_value.replace(/\\]/g, ']')
+
+            let re = new RegExp(pattern_name_replace,"g");
+            prototype = prototype.replace(re, replace_value);
+
+        }
+        else {
+            prototype = prototype.replace(/__name__/g, count);
+        }
+
 
         //
         $list.append(prototype);
 
-        //
 
         activateDatePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickadate'));
         activateTimePicker($list.find('[data-form-collection="item"]:nth-child('+count+') .pickatime'));
@@ -944,7 +975,9 @@ $(function() {
         // re-init select2 for new select 2 item in collection
         $(".select2-ajax").each(function() {
 
-            initializeSelect2Ajax($(this));
+            if (!$(this).next().length || !$(this).next().hasClass('select2-container')) {
+                initializeSelect2Ajax($(this));
+            }
 
         });
 
