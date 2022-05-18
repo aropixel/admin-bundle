@@ -5,17 +5,24 @@
             {% else %}
                 <a data-toggle="modal" data-target="#modalLibrary" class="btn border-white text-white btn-flat btn-icon btn-rounded iconUpload"><i class="fas fa-cloud-upload-alt"></i></a>
             {% endif %}
+
             {% if form.vars.data and form.vars.data.image is defined and form.vars.data.image %}
-            {% if form.crops is defined and form.vars.data|entity_crop_filters(get_class(form.vars.data))|length > 0 %}
+
+                {% if form.crops is defined and form.vars.data|entity_crop_filters(get_class(form.vars.data))|length > 0 %}
                 <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconCrop" data-toggle="modal" data-target="#modalCrop{{ form.vars.crop_suffix }}"><i class="fas fa-crop-alt"></i></a>
-            {% endif %}
+                {% endif %}
+
                 <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconUnlink"><i class="fas fa-unlink"></i></a>
-            {% elseif form.vars.data and form.vars.attach_value is defined and form.vars.attach_value %}
-            {% if form.vars.crops is defined and form.vars.crops|length > 0 %}
+
+            {% elseif form.vars.data and form.vars.attach_value is defined and form.vars.attach_value and attribute(form.vars.data, form.vars.attach_value) %}
+
+                {% if form.vars.crops is defined and form.vars.crops|length > 0 %}
                 <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconCrop" data-toggle="modal" data-target="#modalCrop{{ form.vars.crop_suffix }}"><i class="fas fa-crop-alt"></i></a>
-            {% endif %}
+                {% endif %}
                 <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconUnlink"><i class="fas fa-unlink"></i></a>
-        {% endif %}
+
+            {% endif %}
+
         {% endblock %}
     </span>
 </div>
