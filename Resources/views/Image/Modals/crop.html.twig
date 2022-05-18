@@ -22,7 +22,7 @@
 					<div class="float-left" id="crop_zone">
 						{% if file_name is defined and file_name %}
 							<img src="{{ file_name | filename_web_path | imagine_filter('admin_crop') }}" width="600" data-id="{{ suffix }}" />
-						{% elseif image is defined and image and image.id %}
+						{% elseif image is defined and image and image.id and image.getWebPath() %}
 							<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.image.id }}" />
 						{% endif %}
 					</div>
