@@ -522,7 +522,10 @@
     {% elseif attr.class is not defined or 'select2' not in attr.class|join('') %}
         {% set attr = attr|merge({'class': 'bootstrap-select form-control'}) %}
     {% endif %}
-    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}{%- if placeholder is not none and ('select2' in attr.class|join('')) -%} data-placeholder="{{placeholder }}"{% endif %}>
+        {%- if placeholder is not none and ('select2' in attr.class|join('')) and not multiple -%}
+            <option></option>
+        {%- endif -%}
         {%- if placeholder is not none and (attr.class is not defined or 'select2' not in attr.class|join('')) -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
         {%- endif -%}
