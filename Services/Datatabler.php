@@ -89,13 +89,7 @@ class Datatabler
     }
 
 
-    /**
-     * @param $repoName
-     * @param $dataTableFields
-     * @return $this
-     * @throws \ReflectionException
-     */
-    public function setRepository($repoName, $dataTableFields)
+    public function setRepository($repoName, $dataTableFields, $repositoryMethod='getQueryDataTable')
     {
         //
         if (strpos($repoName, ':') !== false) {
@@ -112,13 +106,14 @@ class Datatabler
 
         }
 
+        $this->qb = $this->em->getRepository($repoName)->{$repositoryMethod}($this->params);
 
-        $this->qb = $this->em->getRepository($repoName)->getQueryDataTable($this->params);
         $this->columns = $dataTableFields;
         $this->setOrder($dataTableFields);
 
         return $this;
     }
+
 
 
     /**
