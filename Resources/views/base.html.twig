@@ -60,7 +60,9 @@
                 {% endblock %}
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" class="rounded-circle mr-1">
+                        {% block navbar_nav_img %}
+                            <img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" class="rounded-circle mr-1">
+                        {% endblock %}
                         <div class="d-sm-none d-lg-inline-block">{% block user_name %}{{app.user.firstName}} {{app.user.lastName}}{% endblock %}</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -81,20 +83,21 @@
         {% set appMenu = app_menu() %}
         {% if admin_theme.menu_position == 'left' %}
 
-        <div class="main-sidebar sidebar-style-2">
-            <aside id="sidebar-wrapper">
-                <div class="sidebar-brand">
-                    <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
-                </div>
-                <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
-                </div>
+        {% block main_sidebar %}
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand">
+                        <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
+                    </div>
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
+                    </div>
 
-                {{ appMenu | raw }}
+                    {{ appMenu | raw }}
 
-            </aside>
-        </div>
-
+                </aside>
+            </div>
+        {% endblock %}
         {% else %}
 
             <nav class="navbar navbar-secondary navbar-expand-lg">
