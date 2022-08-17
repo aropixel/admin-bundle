@@ -49,7 +49,7 @@ class FrontRouter implements WarmableInterface, ServiceSubscriberInterface, Rout
         return $this->router->warmUp($cacheDir);
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices() : array
     {
         return [
             'routing.loader' => LoaderInterface::class,
