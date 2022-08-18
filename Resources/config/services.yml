@@ -47,7 +47,7 @@ services:
         autowire: true
 
     # Autowire des services
-    Aropixel\AdminBundle\Security\ApiKeyAuthenticator:
+    Aropixel\AdminBundle\Security\LoginFormAuthenticator:
         autowire: true
 
     # Autowire des services

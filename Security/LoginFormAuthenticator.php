@@ -18,14 +18,14 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class ApiKeyAuthenticator extends AbstractAuthenticator
+class LoginFormAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
@@ -48,20 +48,19 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
     public function supports(Request $request): ?bool
     {
         return 'aropixel_admin_security_login' === $request->attributes->get('_route')
-            && $request->isMethod('POST') && $request->headers->has('X-AUTH-TOKEN');
+            && $request->isMethod('POST');
     }
 
 
     public function authenticate(Request $request): Passport
     {
-        $apiToken = $request->headers->get('X-AUTH-TOKEN');
-        if (null === $apiToken) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
-            throw new CustomUserMessageAuthenticationException('No API token provided');
-        }
+        $password = $request->request->get('password');
+        $email = $request->request->get('email');
 
-        return new SelfValidatingPassport(new UserBadge($apiToken));
+        return new Passport(
+            new UserBadge($email),
+            new PasswordCredentials($password)
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
@@ -70,9 +69,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         return new RedirectResponse($this->urlGenerator->generate('_admin'));
-//        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

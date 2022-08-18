@@ -14,6 +14,7 @@ use Aropixel\AdminBundle\Form\Reset\RequestType;
 use Aropixel\AdminBundle\Form\Reset\ResetPasswordType;
 use Aropixel\AdminBundle\Security\UniqueTokenGenerator;
 use Aropixel\AdminBundle\Security\UserManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,19 +35,24 @@ class ResetController extends AbstractController
     /** @var string */
     private $model;
 
+    /** @var ManagerRegistry $doctrine */
+    private $doctrine;
+
 
     /**
      * ResetController constructor.
      * @param ParameterBagInterface $parameterBag
      * @param UserManager $userManager
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager)
+    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, ManagerRegistry $doctrine)
     {
         $this->parameterBag = $parameterBag;
         $this->userManager = $userManager;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $this->model = $entities[UserInterface::class];
+        $this->doctrine = $doctrine;
 
     }
 
@@ -64,7 +70,7 @@ class ResetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
 
             //
             $email = $form->get('email')->getData();
