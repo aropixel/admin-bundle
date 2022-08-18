@@ -2,16 +2,18 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Admin user for AropixelAdminBundle
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, PasswordHasherAwareInterface
 {
 
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-
 
     /**
      * @var integer
@@ -363,6 +365,16 @@ class User implements UserInterface
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+    
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function getPasswordHasherName(): ?string
+    {
+        return 'harsh';
     }
 
 }

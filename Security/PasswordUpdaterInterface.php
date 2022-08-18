@@ -11,6 +11,7 @@
 
 namespace Aropixel\AdminBundle\Security;
 
+use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserInterface;
 
 /**
@@ -28,5 +29,5 @@ interface PasswordUpdaterInterface
      *
      * @return void
      */
-    public function hashPassword(UserInterface $user);
+    public function hashPassword(User $user);
 }

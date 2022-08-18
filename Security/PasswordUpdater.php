@@ -11,8 +11,9 @@
 
 namespace Aropixel\AdminBundle\Security;
 
+use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class updating the hashed password in the user when there is a new password.
@@ -21,14 +22,14 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 class PasswordUpdater implements PasswordUpdaterInterface
 {
-    private $encoderFactory;
+    private $passwordHasher;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory)
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        $this->encoderFactory = $encoderFactory;
+        $this->passwordHasher = $passwordHasher;
     }
 
-    public function hashPassword(UserInterface $user)
+    public function hashPassword(User $user)
     {
         $plainPassword = $user->getPlainPassword();
 
@@ -36,9 +37,10 @@ class PasswordUpdater implements PasswordUpdaterInterface
             return;
         }
 
-        $encoder = $this->encoderFactory->getEncoder($user);
-        $salt = rtrim(str_replace('+', '.', base64_encode(random_bytes(32))), '=');
-        $hashedPassword = $encoder->encodePassword($plainPassword, $salt);
+        //$encoder = $this->encoderFactory->getEncoder($user);
+        //$salt = rtrim(str_replace('+', '.', base64_encode(random_bytes(32))), '=');
+        //$hashedPassword = $encoder->encodePassword($plainPassword, $salt);
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
         $user->eraseCredentials();
     }

@@ -47,7 +47,7 @@ services:
         autowire: true
 
     # Autowire des services
-    Aropixel\AdminBundle\Security\LoginFormAuthenticator:
+    Aropixel\AdminBundle\Security\ApiKeyAuthenticator:
         autowire: true
 
     # Autowire des services
@@ -116,10 +116,5 @@ services:
     Liip\ImagineBundle\Service\FilterService:
         alias: 'liip_imagine.service.filter'
 
-    #####################################################
-    ## ROUTER
-    #####################################################
-
-    Aropixel\AdminBundle\Router\FrontRouter:
-        decorates: router
-        arguments: ['@.inner']
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: 'service_container'
