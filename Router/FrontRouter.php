@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -39,12 +40,12 @@ class FrontRouter implements WarmableInterface, ServiceSubscriberInterface, Rout
         $this->requestStack = $requestStack;
     }
 
-    public function getRouteCollection()
+    public function getRouteCollection(): RouteCollection
     {
         return $this->router->getRouteCollection();
     }
 
-    public function warmUp(string $cacheDir)
+    public function warmUp(string $cacheDir): array
     {
         return $this->router->warmUp($cacheDir);
     }
@@ -61,17 +62,17 @@ class FrontRouter implements WarmableInterface, ServiceSubscriberInterface, Rout
         return $this->router->setContext($context);
     }
 
-    public function getContext()
+    public function getContext(): RequestContext
     {
         return $this->router->getContext();
     }
 
-    public function matchRequest(Request $request)
+    public function matchRequest(Request $request): array
     {
         return $this->router->matchRequest($request);
     }
 
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         if($this->isNotProfilerRoute($name) &&
             $this->isNotAdminRoute($name)
@@ -98,7 +99,7 @@ class FrontRouter implements WarmableInterface, ServiceSubscriberInterface, Rout
         return substr($name, 0, 15) !== 'aropixel_admin';
     }
 
-    public function match(string $pathinfo)
+    public function match(string $pathinfo): array
     {
         return $this->router->match($pathinfo);
     }
