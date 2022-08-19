@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
@@ -16,7 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class GalleryController extends AbstractController
 {
 
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * Attach an Image.
@@ -37,7 +47,7 @@ class GalleryController extends AbstractController
         $html = '';
         foreach ($images as $image_id) {
 
-            $image = $this->getDoctrine()->getRepository('AropixelAdminBundle:Image')->find($image_id);
+            $image = $this->entityManager->getRepository('AropixelAdminBundle:Image')->find($image_id);
 
             $html.= $this->renderView('AropixelGalleryBundle::image.html.twig', array(
                 'id'        => $entity_id,

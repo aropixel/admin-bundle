@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Aropixel\AdminBundle\Entity\File;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
@@ -29,10 +30,14 @@ class FileController extends AbstractController
     /** @var PathResolverInterface */
     private $pathResolver;
 
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
-    public function __construct(PathResolverInterface $pathResolver) {
+
+    public function __construct(PathResolverInterface $pathResolver, EntityManagerInterface $entityManager) {
 
         $this->pathResolver = $pathResolver;
+        $this->entityManager = $entityManager;
         $this->datatableFieds = array(
             array('label' => '', 'style' => 'width:50px;'),
             array('label' => '', 'style' => 'width:200px;'),
@@ -59,7 +64,6 @@ class FileController extends AbstractController
 
         //
         $response = array();
-        $em = $this->getDoctrine()->getManager();
 
         //
         $isPublic = (boolean)$request->get('editor');
@@ -105,7 +109,6 @@ class FileController extends AbstractController
 
         //
         $response = array();
-        $em = $this->getDoctrine()->getManager();
 
         //
         $isPublic = (boolean)$request->get('editor');
@@ -192,12 +195,12 @@ class FileController extends AbstractController
 
         $entity_id = $request->request->get('id');
         $titre = $request->request->get('titre');
-        $file = $this->getDoctrine()->getRepository($this->getFileClassName())->find($entity_id);
+        $em = $this->entityManager;
+        $file = $em->getRepository($this->getFileClassName())->find($entity_id);
 
         if ($file) {
 
             $file->setTitre($titre);
-            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
         }
@@ -219,8 +222,8 @@ class FileController extends AbstractController
         $libraryClass = $request->get('category');
 
         //
-        $em = $this->getDoctrine()->getManager();
-        $fichier = $this->getDoctrine()->getRepository(File::class)->find($fichier_id);
+        $em = $this->entityManager;
+        $fichier = $em->getRepository(File::class)->find($fichier_id);
 
         //
         if ($fichier) {
@@ -230,7 +233,7 @@ class FileController extends AbstractController
             if ($libraryEntity instanceof AttachFile) {
 
                 //
-                $attachedFiles = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('file' => $fichier));
+                $attachedFiles = $em->getRepository($libraryClass)->findBy(array('file' => $fichier));
 
                 //
                 if (count($attachedFiles)) {
@@ -276,7 +279,7 @@ class FileController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($file);
             $em->flush();
 
@@ -316,10 +319,10 @@ class FileController extends AbstractController
         $title = $request->get('value');
 
         //
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         //
-        $image = $this->getDoctrine()->getRepository($this->getFileClassName())->find($file_id);
+        $image = $em->getRepository($this->getFileClassName())->find($file_id);
         $image->setTitre($title);
         $em->flush();
 
@@ -346,10 +349,11 @@ class FileController extends AbstractController
         $entity_name = array_pop($t_entity);    array_pop($t_entity);
         $short_namespace = implode('', $t_entity);
         $attachRepositoryName = $short_namespace.':'.$entity_name;
+        $em = $this->entityManager;
 
         //
         if ($attachId) {
-            $attachFile = $this->getDoctrine()->getRepository($attachRepositoryName)->find($attachId);
+            $attachFile = $em->getRepository($attachRepositoryName)->find($attachId);
         }
         else {
             $attachFile = new $attachClass();
@@ -361,7 +365,7 @@ class FileController extends AbstractController
         foreach ($files as $fileId) {
 
             //
-            $file = $this->getDoctrine()->getRepository('AropixelAdminBundle:File')->find($fileId);
+            $file = $em->getRepository('AropixelAdminBundle:File')->find($fileId);
             $attachFile->setFile($file);
             $attachFile->setTitle($file->getTitre());
             //

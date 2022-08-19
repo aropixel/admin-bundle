@@ -30,7 +30,8 @@
     "doctrine/orm": "^2.9",
     "knplabs/doctrine-behaviors": "^2.1",
     "a2lix/translation-form-bundle": "^3.0",
-    "symfony/flex": "^2"
+    "symfony/flex": "^2",
+    "ext-intl": "*"
   },
   "scripts": {
     "auto-scripts": {

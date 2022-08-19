@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Aropixel\AdminBundle\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
  * User controller.
@@ -29,13 +31,18 @@ class UserController extends AbstractController
     /** @var string */
     private $form = UserType::class;
 
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
     /**
      * UserController constructor.
      * @param ParameterBagInterface $parameterBag
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
+        $this->entityManager = $entityManager;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $forms = $this->parameterBag->get('aropixel_admin.forms');
@@ -53,9 +60,7 @@ class UserController extends AbstractController
      */
     public function index()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository($this->model)->findAll();
+        $entities = $this->entityManager->getRepository($this->model)->findAll();
 
         $columns = array(
             array('label' => 'Email', 'style' => ''),
@@ -88,7 +93,6 @@ class UserController extends AbstractController
         $user = new $this->model();
 
         $form = $this->createForm($this->form, $user, array(
-            'security.authorization_checker' => $this->get('security.authorization_checker'),
             'new' => true,
         ));
         $form->handleRequest($request);
@@ -129,9 +133,7 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, UserManager $userManager, $id)
     {
-        //
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository($this->model)->find($id);
+        $user = $this->entityManager->getRepository($this->model)->find($id);
 
         //
         if (is_null($user)) {
@@ -139,9 +141,7 @@ class UserController extends AbstractController
         }
 
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm($this->form, $user, array(
-            'security.authorization_checker' => $this->get('security.authorization_checker')
-        ));
+        $editForm = $this->createForm($this->form, $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -171,7 +171,7 @@ class UserController extends AbstractController
     public function delete(Request $request, $id)
     {
         //
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $user = $em->getRepository($this->model)->find($id);
 
         //
@@ -186,7 +186,6 @@ class UserController extends AbstractController
 
             $this->addFlash('notice', 'Votre utilisateur a bien été supprimé.');
 
-            $em = $this->getDoctrine()->getManager();
             $em->remove($user);
             $em->flush();
 

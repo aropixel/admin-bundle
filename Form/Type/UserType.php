@@ -13,14 +13,20 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserType extends AbstractType
 {
-    /**
-     * @var string
-     */
-    private $securityContext;
+    /** @var Security  */
+    private $security;
 
+    /**
+     * @param Security $security
+     */
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
 
     /**
@@ -29,7 +35,6 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->securityContext = $options['security.authorization_checker'];
 
         $builder
             ->add('email')
@@ -63,7 +68,7 @@ class UserType extends AbstractType
 
 
         // If the user is granted
-        if($this->securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+        if($this->security->isGranted('ROLE_SUPER_ADMIN')) {
 
             $builder
                 ->add('superAdmin', ChoiceType::class, array(
@@ -91,9 +96,6 @@ class UserType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => User::class,
             'new' => false
-        ));
-        $resolver->setRequired(array(
-            'security.authorization_checker'
         ));
     }
 

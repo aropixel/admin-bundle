@@ -14,7 +14,7 @@ use Aropixel\AdminBundle\Form\Reset\RequestType;
 use Aropixel\AdminBundle\Form\Reset\ResetPasswordType;
 use Aropixel\AdminBundle\Security\UniqueTokenGenerator;
 use Aropixel\AdminBundle\Security\UserManager;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,24 +35,24 @@ class ResetController extends AbstractController
     /** @var string */
     private $model;
 
-    /** @var ManagerRegistry $doctrine */
-    private $doctrine;
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
 
     /**
      * ResetController constructor.
      * @param ParameterBagInterface $parameterBag
      * @param UserManager $userManager
-     * @param ManagerRegistry $doctrine
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, ManagerRegistry $doctrine)
+    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
         $this->userManager = $userManager;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $this->model = $entities[UserInterface::class];
-        $this->doctrine = $doctrine;
+        $this->entityManager = $entityManager;
 
     }
 
@@ -69,8 +69,7 @@ class ResetController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //
-            $em = $this->doctrine->getManager();
+            $em = $this->entityManager;
 
             //
             $email = $form->get('email')->getData();
@@ -106,11 +105,9 @@ class ResetController extends AbstractController
 
     public function resetPassword(Request $request, string $token): Response
     {
-        //
-        $em = $this->getDoctrine()->getManager();
 
         /** @var User $user */
-        $user = $em->getRepository($this->model)->findOneBy(['passwordResetToken' => $token]);
+        $user = $this->entityManager->getRepository($this->model)->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {
             throw new NotFoundHttpException('Token not found.');
         }
@@ -151,7 +148,7 @@ class ResetController extends AbstractController
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
 
-        $this->getDoctrine()->getManager()->flush();
+        $this->entityManager->flush();
     }
 
     protected function handleResetPassword(UserInterface $user, string $newPassword)

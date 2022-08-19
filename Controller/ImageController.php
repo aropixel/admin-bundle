@@ -16,6 +16,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
@@ -31,10 +32,14 @@ class ImageController extends AbstractController
     /** @var PathResolverInterface */
     private $pathResolver;
 
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
-    public function __construct(PathResolverInterface $pathResolver) {
+
+    public function __construct(PathResolverInterface $pathResolver, EntityManagerInterface $entityManager) {
 
         $this->pathResolver = $pathResolver;
+        $this->entityManager = $entityManager;
         $this->datatableFieds = array(
             array('label' => '', 'style' => 'width:50px;'),
             array('label' => '', 'style' => 'width:200px;'),
@@ -61,7 +66,6 @@ class ImageController extends AbstractController
 
         //
         $response = array();
-        $em = $this->getDoctrine()->getManager();
 
         //
         $datatabler->setRepository($this->getImageClassName(), $this->datatableFieds);
@@ -173,7 +177,7 @@ class ImageController extends AbstractController
         $category = $request->get('category');
 
         //
-        $repository = $this->getDoctrine()->getRepository($this->getImageClassName());
+        $repository = $this->entityManager->getRepository($this->getImageClassName());
         $nbs = $repository->count($category);
 
         //
@@ -201,7 +205,7 @@ class ImageController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
             $em->persist($image);
             $em->flush();
 
@@ -252,6 +256,7 @@ class ImageController extends AbstractController
         // Crops
         $cropsSlugs = $request->get('crops_slugs', '');
         $cropsLabels = $request->get('crops_labels', '');
+        $em = $this->entityManager;
 
         //
         $options = ['crops' => []];
@@ -288,7 +293,7 @@ class ImageController extends AbstractController
             //
             $data = new $attachClass();
             if ($attachId) {
-                $data = $this->getDoctrine()->getRepository($attachClass)->find($attachId);
+                $data = $em->getRepository($attachClass)->find($attachId);
             }
         }
 
@@ -297,7 +302,7 @@ class ImageController extends AbstractController
         foreach ($images as $image_id) {
 
             //
-            $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+            $image = $em->getRepository($this->getImageClassName())->find($image_id);
 
             // If attachValue is given, we just pass the filename
             if ($attachValue) {
@@ -342,18 +347,21 @@ class ImageController extends AbstractController
         $position = $request->get('position');
         $t_entity = explode('\\', $category);
 
+        $em = $this->entityManager;
+
+
         //
         $entity_name = array_pop($t_entity);    array_pop($t_entity);
         $short_namespace = implode('', $t_entity);
 
         //
-        $entity = $this->getDoctrine()->getRepository($short_namespace.':'.$entity_name)->find($entity_id);
+        $entity = $em->getRepository($short_namespace.':'.$entity_name)->find($entity_id);
 
         //
         $html = '';
         foreach ($images as $image_id) {
 
-            $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+            $image = $em->getRepository($this->getImageClassName())->find($image_id);
 
 
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/gallery.html.twig', array(
@@ -392,6 +400,8 @@ class ImageController extends AbstractController
         $decoupe = $request->get('filter', null);
         $alt = $request->get('alt', '');
 
+        $em = $this->entityManager;
+
         if ($width=='customfilter') {
             $width = null;
         }
@@ -412,7 +422,7 @@ class ImageController extends AbstractController
 
 
                 //
-                $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+                $image = $em->getRepository($this->getImageClassName())->find($image_id);
                 $url = $imageManager->editorResize($image, $width, $decoupe);
 
                 //
@@ -451,8 +461,8 @@ class ImageController extends AbstractController
         $libraryClass = $request->get('category');
 
         //
-        $em = $this->getDoctrine()->getManager();
-        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+        $em = $this->entityManager;
+        $image = $em->getRepository($this->getImageClassName())->find($image_id);
 
         //
         if ($image) {
@@ -465,7 +475,7 @@ class ImageController extends AbstractController
                 if ($libraryEntity instanceof AttachImage) {
 
                     //
-                    $attachedImages = $this->getDoctrine()->getRepository($libraryClass)->findBy(array('image' => $image));
+                    $attachedImages = $em->getRepository($libraryClass)->findBy(array('image' => $image));
                     if (count($attachedImages)) {
 
                         foreach ($attachedImages as $attachedImage) {
@@ -517,7 +527,7 @@ class ImageController extends AbstractController
 
         //
         $image_id = $request->get('image_id');
-        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+        $image = $this->entityManager->getRepository($this->getImageClassName())->find($image_id);
 
         //
         $filters = $imageManager->getCropFilters($route_name, $image);
@@ -541,7 +551,7 @@ class ImageController extends AbstractController
         $crop_infos = $request->get('crop_info');
 
         // Charge l'image à cropper
-        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+        $image = $this->entityManager->getRepository($this->getImageClassName())->find($image_id);
 
         // Pour chaque filtre passé, on recrope l'image chargée
         foreach ($crop_infos as $filter => $crop_info) {
@@ -570,10 +580,10 @@ class ImageController extends AbstractController
         $title = $request->get('value');
 
         //
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         //
-        $image = $this->getDoctrine()->getRepository($this->getImageClassName())->find($image_id);
+        $image = $em->getRepository($this->getImageClassName())->find($image_id);
         $image->setTitre($title);
         $em->flush();
 
