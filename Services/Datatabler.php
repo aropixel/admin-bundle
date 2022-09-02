@@ -59,11 +59,13 @@ class Datatabler
 
         //
         $request = $this->requestStack->getCurrentRequest();
+        $all = $request->query->all();
+
         $draw    = $request->query->get('draw', 0);
         $start   = $request->query->get('start', 0);
         $length  = $request->query->get('length', 50);
-        $order   = $request->query->get('order', array());
-        $search  = $request->query->get('search', array());
+        $order = array_key_exists('order', $all) ? $all['order'] : [];
+        $search = $all['search'];
 
         //
         $params = array();
