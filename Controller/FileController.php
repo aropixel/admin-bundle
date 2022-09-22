@@ -264,7 +264,7 @@ class FileController extends AbstractController
     public function downloadAction(File $file)
     {
         $path = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
-        return $this->file($path);
+        return $this->file($path, $file->getRewritedFileName());
     }
 
 
