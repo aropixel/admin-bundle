@@ -259,6 +259,18 @@ class FileController extends AbstractController
     /**
      * Upload an File.
      *
+     * @Route("/download/{id}/{filename}", name="file_download", methods={"GET"})
+     */
+    public function downloadAction(File $file)
+    {
+        $path = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+        return $this->file($path);
+    }
+
+
+    /**
+     * Upload an File.
+     *
      * @Route("/upload", name="file_upload", options={"expose"=true}, methods={"POST"})
      */
     public function uploadAction(Request $request)
