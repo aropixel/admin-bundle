@@ -67,6 +67,7 @@ class Datatabler
         $order = array_key_exists('order', $all) ? $all['order'] : [];
         $search = $all['search'];
 
+
         //
         $params = array();
         $params['draw'] = $draw;
