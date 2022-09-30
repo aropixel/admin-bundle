@@ -73,6 +73,15 @@ class User implements UserInterface
      */
     protected $createdAt;
 
+    /**
+     * @var \DateTime
+     */
+    protected $lastPasswordUpdate;
+
+    /**
+     * @var \DateTime
+     */
+    protected $lastLogin;
 
 
     public function getId(): ?int
@@ -363,6 +372,38 @@ class User implements UserInterface
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPasswordUpdate(): ?\DateTime
+    {
+        return $this->lastPasswordUpdate;
+    }
+
+    /**
+     * @param \DateTime $lastPasswordUpdate
+     */
+    public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void
+    {
+        $this->lastPasswordUpdate = $lastPasswordUpdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastLogin(): ?\DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param \DateTime $lastLogin
+     */
+    public function setLastLogin(\DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 
 }

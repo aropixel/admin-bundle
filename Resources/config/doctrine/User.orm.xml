@@ -31,6 +31,8 @@
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>
+        <field name="lastPasswordUpdate" type="datetime" nullable="true"/>
+        <field name="lastLogin" type="datetime" nullable="true"/>
 
     </mapped-superclass>
 

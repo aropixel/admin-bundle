@@ -134,6 +134,28 @@ class ResetController extends AbstractController
         );
     }
 
+    public function resetPasswordAfter6Months(Request $request, User $user): Response
+    {
+        dd($user);
+        $form = $this->createForm(ResetPasswordType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $password = $form->get('password')->getViewData();
+            $this->handleResetPassword($user, $password['first']);
+
+            return $this->redirectToRoute('aropixel_admin_reset_result');
+
+        }
+
+        return $this->render('@AropixelAdmin/Reset/reset-rgpd.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
+    }
+
 
     public function resetSuccess()
     {
