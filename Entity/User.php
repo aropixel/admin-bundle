@@ -29,6 +29,11 @@ class User implements UserInterface
     protected $enabled;
 
     /**
+     * @var boolean
+     */
+    protected $blocked;
+
+    /**
      * @var string
      */
     protected $firstName;
@@ -264,6 +269,37 @@ class User implements UserInterface
         return $this;
     }
 
+    public function isBlocked()
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked($boolean)
+    {
+        $this->blocked = (bool) $boolean;
+
+        return $this;
+    }
+
+    public function tooOldLastLogin()
+    {
+        $lastLogin = $this->getLastLogin();
+
+        $now = new \Datetime('now');
+
+        if ($lastLogin) {
+            $lastLoginAnd3Months = clone($lastLogin);
+            $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+3 month');
+            $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+1 day');
+
+            if ($now > $lastLoginAnd3Months) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return string
      */
@@ -399,9 +435,9 @@ class User implements UserInterface
     }
 
     /**
-     * @param \DateTime $lastLogin
+     * @param ?\DateTime $lastLogin
      */
-    public function setLastLogin(\DateTime $lastLogin): void
+    public function setLastLogin(?\DateTime $lastLogin): void
     {
         $this->lastLogin = $lastLogin;
     }

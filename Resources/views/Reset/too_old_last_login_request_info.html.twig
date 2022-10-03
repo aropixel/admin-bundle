@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
+
+    {% block stylesheets %}
+
+        <!-- General CSS Files -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+
+        <!-- CSS Libraries -->
+
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
+
+
+        <!-- Awesome Font -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
+
+    {% endblock %}
+
+</head>
+<body>
+
+<div id="app">
+    <section class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                    <div class="login-brand">
+                        <img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
+                    </div>
+
+                    <div class="card card-primary">
+                        <div class="card-header"><h4>Réactivation de votre compte</h4></div>
+
+                        <div class="card-body">
+                            <p>Après plusieurs mois d'inactivité, votre compte a été désactivé.</p>
+                            <p>
+                                Nous venons de vous adresser un mail qui vous permettra de choisir un nouveau mot de passe afin de réactiver votre compte.<br>
+                                Vous pouvez consulter dès maintenant votre messagerie.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="simple-footer">
+                        Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+</body>
+</html>

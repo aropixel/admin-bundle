@@ -2,27 +2,28 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Aropixel\AdminBundle\Security\Exception\TooOldPasswordException;
-use Aropixel\AdminBundle\Security\Passport\Badge\TooOldPasswordBadge;
+use Aropixel\AdminBundle\Security\Exception\TooOldLastLoginException;
+use Aropixel\AdminBundle\Security\Passport\Badge\TooOldLastLoginBadge;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
-class TooOldPasswordEventListener implements EventSubscriberInterface
+class TooOldLastLoginEventListener implements EventSubscriberInterface
 {
 
     public function checkPassport(CheckPassportEvent $event): void
     {
         $passport = $event->getPassport();
-        if (!$passport->hasBadge(TooOldPasswordBadge::class)) {
+        if (!$passport->hasBadge(TooOldLastLoginBadge::class)) {
             return;
         }
 
-        /** @var TooOldPasswordBadge $badge */
-        $badge = $passport->getBadge(TooOldPasswordBadge::class);
+        /** @var TooOldLastLoginBadge $badge */
+        $badge = $passport->getBadge(TooOldLastLoginBadge::class);
+
         $user = $badge->getUser();
 
         if (!$badge->isResolved()) {
-            throw new TooOldPasswordException($user);
+            throw new TooOldLastLoginException($user);
         }
 
     }

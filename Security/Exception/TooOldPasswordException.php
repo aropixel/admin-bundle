@@ -5,15 +5,15 @@ namespace Aropixel\AdminBundle\Security\Exception;
 
 
 use Aropixel\AdminBundle\Entity\User;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class TooOldPasswordAuthenticationException extends \Exception
+class TooOldPasswordException extends AuthenticationException
 {
     private $user;
 
     public function __construct(User $user)
     {
         $this->user = $user;
-        parent::__construct();
     }
 
     /**
@@ -21,11 +21,17 @@ class TooOldPasswordAuthenticationException extends \Exception
      */
     public function getMessageKey()
     {
-        return 'Le mot de passe doit être renouvelé.';
+        return "Vous n'avez pas modifié votre mot de passe depuis trop longtemps.";
     }
 
     public function getUser()
     {
         return $this->user;
     }
+
+    public function toHide()
+    {
+        return false;
+    }
+    
 }

@@ -103,6 +103,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 30}
 
+    Aropixel\AdminBundle\EventListener\TooOldPasswordEventListener:
+        tags:
+            - { name: kernel.event_listener, event: 'checkPassport'}
+
+    Aropixel\AdminBundle\EventListener\TooOldLastLoginEventListener:
+        tags:
+            - { name: kernel.event_listener, event: 'checkPassport' }
+
     Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
         arguments: ['%aropixel_admin.entities%']
         tags:
@@ -112,6 +120,7 @@ services:
         tags:
             - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
 
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@security.user_providers'
 
     Liip\ImagineBundle\Service\FilterService:
         alias: 'liip_imagine.service.filter'
@@ -123,3 +132,8 @@ services:
     Aropixel\AdminBundle\Router\FrontRouter:
         decorates: router
         arguments: ['@.inner']
+
+    backoffice.login_rate_limiter:
+        arguments:
+            $globalFactory: '@limiter.ip_login'
+            $localFactory: '@limiter.backoffice_username_ip_login'

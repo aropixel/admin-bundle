@@ -12,12 +12,10 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
  *
  * @final
  */
-class UpdateOldPasswordBadge implements BadgeInterface
+class TooOldPasswordBadge implements BadgeInterface
 {
 
     private $user;
-
-    private $resolved = false;
 
     public function __construct(User $user)
     {
@@ -34,22 +32,13 @@ class UpdateOldPasswordBadge implements BadgeInterface
         $now = new \Datetime('now');
         $lastPasswordUpdate = $this->user->getLastPasswordUpdate() ?: $this->user->getCreatedAt();
 
-        $diff = $lastPasswordUpdate->diff($now);
-        $yearsInMonths = $diff->format('%r%y') * 12;
-        $months = $diff->format('%r%m');
-        $totalMonths = $yearsInMonths + intval($months);
+        $lastPasswordUpdate = clone($lastPasswordUpdate);
+        $lastPasswordUpdate = $lastPasswordUpdate->modify('+6 month');
 
-        if ($totalMonths > 5) {
-            return true;
+        if ($now > $lastPasswordUpdate) {
+            return false;
         }
-
-        $this->markResolved();
         return true;
-    }
-
-    public function markResolved(): void
-    {
-        $this->resolved = true;
     }
 
 }

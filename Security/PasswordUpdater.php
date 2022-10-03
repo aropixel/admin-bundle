@@ -40,6 +40,8 @@ class PasswordUpdater implements PasswordUpdaterInterface
         $salt = rtrim(str_replace('+', '.', base64_encode(random_bytes(32))), '=');
         $hashedPassword = $encoder->encodePassword($plainPassword, $salt);
         $user->setPassword($hashedPassword);
+        $user->setLastPasswordUpdate(new \Datetime('now'));
+        $user->setLastLogin(null);
         $user->eraseCredentials();
     }
 }

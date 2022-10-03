@@ -40,13 +40,17 @@
 						</div>
 
 						<div class="card card-primary">
-							<div class="card-header"><h4>{% if hour >= 5 and hour < 19 %}
+							<div class="card-header">
+								<h4>
+									{% if hour >= 5 and hour < 19 %}
 										Bonjour !
 									{% elseif hour >= 19 and hour <=23  %}
 										Bonsoir !
 									{% else %}
 										Bonne nuit !
-									{% endif %}</h4></div>
+									{% endif %}
+								</h4>
+							</div>
 
 							<div class="card-body">
 								{% if error|length %}
