@@ -29,3 +29,11 @@ aropixel_admin_too_old_last_login_reset_password:
 aropixel_admin_too_old_last_login_reset_request_info:
     path:     /reset/old-login/request/info
     defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::tooOldLastLoginResetRequestInfo }
+
+aropixel_admin_blocked_reset_password:
+    path:     /reset/blocked/{userId}
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetBlockedLogin }
+
+aropixel_admin_blocked_reset_request_info:
+    path:     /reset/blocked/request/info
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::blockedResetRequestInfo }

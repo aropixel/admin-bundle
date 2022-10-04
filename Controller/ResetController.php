@@ -40,12 +40,20 @@ class ResetController extends AbstractController
     /** @var EntityManagerInterface */
     private $entityManager;
 
+    /** @var UniqueTokenGenerator */
+    private $generator;
 
-    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager)
+    /** @var ResetEmailSender */
+    private $resetEmailSender;
+
+
+    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager, UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender)
     {
         $this->parameterBag = $parameterBag;
         $this->userManager = $userManager;
         $this->entityManager = $entityManager;
+        $this->generator = $generator;
+        $this->resetEmailSender = $resetEmailSender;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $this->model = $entities[UserInterface::class];
@@ -111,7 +119,6 @@ class ResetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $form->get('password')->getViewData();
-            $user->setLastPasswordUpdate(new \DateTime('now'));
             $this->entityManager->flush();
             $this->handleResetPassword($user, $password['first']);
 
@@ -144,41 +151,50 @@ class ResetController extends AbstractController
         $user->setPlainPassword($newPassword);
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
+        $user->setLastLogin(null);
+        $user->setBlocked(0);
 
-        //
         $this->userManager->updateUser($user, true);
-
     }
 
 
-    public function resetTooOldPassword(UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, int $userId): Response
+    public function resetTooOldPassword(int $userId): Response
     {
-        $user = $this->entityManager->getRepository($this->model)->find($userId);
-
-        if (null === $user) {
-            throw new NotFoundHttpException("Cet utilisateur n'existe pas.");
-        }
-
-        $user->setPasswordResetToken($generator->generate());
-        $user->setPasswordRequestedAt(new \DateTime());
-        $user->setLastPasswordUpdate(new \DateTime('now'));
-        $this->entityManager->flush();
-
-        $resetEmailSender->sendResetEmail($user);
+        $this->resetPasswordAfterFail($userId, 0);
 
         return $this->redirectToRoute('aropixel_admin_too_old_password_reset_request_info');
     }
 
-    public function tooOldPasswordResetRequestInfo(AuthenticationUtils $authenticationUtils)
+    public function resetTooOldLastLogin(UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, int $userId): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $this->resetPasswordAfterFail($userId, 0);
 
-        return $this->render('@AropixelAdmin/Reset/too_old_password_request_info.html.twig', [
-            'error' => $error
-        ]);
+        return $this->redirectToRoute('aropixel_admin_too_old_last_login_reset_request_info');
     }
 
-    public function resetTooOldLastLogin(UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, int $userId): Response
+    public function resetBlockedLogin(int $userId): Response
+    {
+        $this->resetPasswordAfterFail($userId, 1);
+
+        return $this->redirectToRoute('aropixel_admin_blocked_reset_request_info');
+    }
+
+    public function tooOldPasswordResetRequestInfo()
+    {
+        return $this->render('@AropixelAdmin/Reset/too_old_password_request_info.html.twig');
+    }
+
+    public function tooOldLastLoginResetRequestInfo()
+    {
+        return $this->render('@AropixelAdmin/Reset/too_old_last_login_request_info.html.twig');
+    }
+
+    public function blockedResetRequestInfo()
+    {
+        return $this->render('@AropixelAdmin/Reset/blocked_request_info.html.twig');
+    }
+
+    protected function resetPasswordAfterFail(int $userId, bool $blocked)
     {
         $user = $this->entityManager->getRepository($this->model)->find($userId);
 
@@ -186,22 +202,13 @@ class ResetController extends AbstractController
             throw new NotFoundHttpException("Cet utilisateur n'existe pas.");
         }
 
-        $user->setPasswordResetToken($generator->generate());
+        $user->setPasswordResetToken($this->generator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
+        $user->setBlocked($blocked);
+
         $this->entityManager->flush();
 
-        $resetEmailSender->sendResetEmail($user);
-
-        return $this->redirectToRoute('aropixel_admin_too_old_last_login_reset_request_info');
-    }
-
-    public function tooOldLastLoginResetRequestInfo(AuthenticationUtils $authenticationUtils)
-    {
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        return $this->render('@AropixelAdmin/Reset/too_old_last_login_request_info.html.twig', [
-            'error' => $error
-        ]);
+        $this->resetEmailSender->sendResetEmail($user);
     }
 
 }

@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Security;
 
 use Aropixel\AdminBundle\Security\Exception\TooOldPasswordException;
 use Aropixel\AdminBundle\Security\Exception\TooOldLastLoginException;
+use Aropixel\AdminBundle\Security\Passport\Badge\BlockedUserBadge;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,7 +43,6 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Aropixel\AdminBundle\Security\Passport\Badge\TooOldPasswordBadge;
 use Aropixel\AdminBundle\Security\Passport\Badge\TooOldLastLoginBadge;
-use TickLive\ShopBundle\Infrastructure\Stack\Symfony\Authentication\RateLimiter\LocalLoginRateLimiter;
 
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
@@ -56,9 +56,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     protected $userProvider;
     protected $urlGenerator;
 
-    /** @var LocalLoginRateLimiter */
-    protected $limiter;
-
 
     public function __construct(
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -66,8 +63,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         ParameterBagInterface $parameterBag,
         UserPasswordEncoderInterface $passwordEncoder,
         UserProviderInterface $userProvider,
-        UrlGeneratorInterface $urlGenerator,
-        LocalLoginRateLimiter $limiter
+        UrlGeneratorInterface $urlGenerator
     )
     {
         $this->csrfTokenManager = $csrfTokenManager;
@@ -76,7 +72,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->passwordEncoder = $passwordEncoder;
         $this->userProvider = $userProvider;
         $this->urlGenerator = $urlGenerator;
-        $this->limiter = $limiter;
     }
 
     public function supports(Request $request): bool
@@ -113,8 +108,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             [new RememberMeBadge()]
         );
 
-        $passport->addBadge(new TooOldPasswordBadge($user));
+        $passport->addBadge(new TooOldPasswordBadge($user, $this->parameterBag));
         $passport->addBadge(new TooOldLastLoginBadge($user));
+        $passport->addBadge(new BlockedUserBadge($user));
 
         // Ajout d'un badge de gestion du Csrf
         $passport->addBadge(new CsrfTokenBadge('authenticate', $credentials['csrf_token']));
@@ -180,20 +176,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $userId = $exception->getUser()->getId();
             return new RedirectResponse($this->urlGenerator->generate('aropixel_admin_too_old_last_login_reset_password', ['userId' => $userId]));
         }
-
-
-        if ($this->parameterBag->get('aropixel_admin.rate_limiter')) {
-
-            if ($exception instanceof TooManyLoginAttemptsAuthenticationException) {
-                $this->limiter->setTooManyLoginAttempts();
-
-                $credentials = $this->getCredentials($request);
-                $user = $this->getUser($credentials, $this->userProvider);
-                $user->setBlocked(1);
-            }
-
-        }
-
 
         $url = $this->getLoginUrl($request);
 

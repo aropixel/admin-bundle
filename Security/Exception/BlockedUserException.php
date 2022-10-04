@@ -7,7 +7,8 @@ namespace Aropixel\AdminBundle\Security\Exception;
 use Aropixel\AdminBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class TooOldPasswordException extends AuthenticationException
+
+class BlockedUserException extends AuthenticationException
 {
     private $user;
 
@@ -21,7 +22,7 @@ class TooOldPasswordException extends AuthenticationException
      */
     public function getMessageKey()
     {
-        return "Vous n'avez pas modifié votre mot de passe depuis trop longtemps.";
+        return "Suite à de trop nombreuses tentatives de connexion échouées, votre compte a été désactivé.";
     }
 
     public function getUser()

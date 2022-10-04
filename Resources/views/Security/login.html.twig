@@ -54,9 +54,11 @@
 
 							<div class="card-body">
 								{% if error|length %}
-									<div class="alert alert-danger">
-										{{ error.messageKey|trans(error.messageData, 'security') }}
-									</div>
+									{% if error.toHide is not defined or (error.toHide is defined and not error.toHide) %}
+										<div class="alert alert-danger">
+											{{ error.messageKey|trans(error.messageData, 'security') }}
+										</div>
+									{% endif %}
 								{% endif %}
 								<form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
 									<div class="form-group">

@@ -29,7 +29,7 @@ class TooOldLastLoginException extends AuthenticationException
 
     public function toHide()
     {
-        return false;
+        return true;
     }
     
 }

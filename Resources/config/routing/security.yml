@@ -10,17 +10,3 @@ aropixel_admin_security_check:
 aropixel_admin_security_logout:
     path:     /logout
     defaults: { _controller: Aropixel\AdminBundle\Controller\SecurityController::logout }
-
-
-framework:
-    rate_limiter:
-        # define 2 rate limiters (one for username+IP, the other for IP)
-        backoffice_username_ip_login:
-            policy: token_bucket
-            limit: 6
-            rate: { interval: '60 minutes' }
-
-        ip_login:
-            policy: sliding_window
-            limit: 50
-            interval: '15 minutes'

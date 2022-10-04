@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
  *
  * @final
  */
-class TooOldLastLoginBadge implements TooOldLastLoginBadgeInterface
+class BlockedUserBadge implements BlockedUserBadgeInterface
 {
 
     private $user;
@@ -29,11 +29,7 @@ class TooOldLastLoginBadge implements TooOldLastLoginBadgeInterface
 
     public function isResolved(): bool
     {
-        if ($this->user->tooOldLastLogin()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !$this->user->isBlocked();
     }
 
 }
