@@ -75,7 +75,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return 'aropixel_admin_security_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
@@ -151,7 +151,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return $this->passwordHasher->isPasswordValid($user, $credentials['password']);
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

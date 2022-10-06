@@ -130,11 +130,3 @@ services:
 
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: 'service_container'
-
-    #####################################################
-    ## ROUTER
-    #####################################################
-
-    Aropixel\AdminBundle\Router\FrontRouter:
-        decorates: router
-        arguments: ['@.inner']
