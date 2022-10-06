@@ -58,6 +58,6 @@ class ResetEmailSender
         ;
 
         $this->mailer->send($email);
-
     }
+
 }

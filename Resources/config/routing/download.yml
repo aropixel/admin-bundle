@@ -1,0 +1,3 @@
+aropixel_admin_download_files:
+  resource: "@AropixelAdminBundle/Controller/DownloadController.php"
+  type:     annotation

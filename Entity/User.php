@@ -31,6 +31,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     protected $enabled;
 
     /**
+     * @var boolean
+     */
+    protected $blocked;
+
+    /**
      * @var string
      */
     protected $firstName;
@@ -75,6 +80,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
      */
     protected $createdAt;
 
+    /**
+     * @var \DateTime
+     */
+    protected $lastPasswordUpdate;
+
+    /**
+     * @var \DateTime
+     */
+    protected $lastLogin;
 
 
     public function getId(): ?int
@@ -257,6 +271,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         return $this;
     }
 
+    public function isBlocked()
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked($boolean)
+    {
+        $this->blocked = (bool) $boolean;
+
+        return $this;
+    }
+
+    public function tooOldLastLogin()
+    {
+        $lastLogin = $this->getLastLogin();
+
+        $now = new \Datetime('now');
+
+        if ($lastLogin) {
+            $lastLoginAnd3Months = clone($lastLogin);
+            $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+3 month');
+            $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+1 day');
+
+            if ($now > $lastLoginAnd3Months) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return string
      */
@@ -375,6 +420,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     public function getPasswordHasherName(): ?string
     {
         return 'harsh';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPasswordUpdate(): ?\DateTime
+    {
+        return $this->lastPasswordUpdate;
+    }
+
+    /**
+     * @param \DateTime $lastPasswordUpdate
+     */
+    public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void
+    {
+        $this->lastPasswordUpdate = $lastPasswordUpdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastLogin(): ?\DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param ?\DateTime $lastLogin
+     */
+    public function setLastLogin(?\DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 
 }

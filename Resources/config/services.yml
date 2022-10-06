@@ -1,3 +1,6 @@
+parameters:
+    passwordPeriod: '6 months'
+
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -103,6 +106,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 30}
 
+    Aropixel\AdminBundle\EventListener\TooOldPasswordEventListener:
+        tags:
+            - { name: kernel.event_listener, event: 'checkPassport'}
+
+    Aropixel\AdminBundle\EventListener\TooOldLastLoginEventListener:
+        tags:
+            - { name: kernel.event_listener, event: 'checkPassport' }
+
     Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
         arguments: ['%aropixel_admin.entities%']
         tags:
@@ -112,9 +123,18 @@ services:
         tags:
             - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
 
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@security.user_providers'
 
     Liip\ImagineBundle\Service\FilterService:
         alias: 'liip_imagine.service.filter'
 
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: 'service_container'
+
+    #####################################################
+    ## ROUTER
+    #####################################################
+
+    Aropixel\AdminBundle\Router\FrontRouter:
+        decorates: router
+        arguments: ['@.inner']

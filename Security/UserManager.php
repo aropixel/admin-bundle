@@ -79,6 +79,7 @@ class UserManager implements UserManagerInterface
     public function updatePassword(User $user)
     {
         $this->passwordUpdater->hashPassword($user);
+        $user->setLastPasswordUpdate(new \Datetime('now'));
     }
 
 

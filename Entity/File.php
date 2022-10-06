@@ -350,4 +350,16 @@ class File implements FileInterface
     {
         return $this->import;
     }
+
+
+    /**
+     * Get rewritedFileName
+     *
+     * @return string
+     */
+    public function getRewritedFileName():string
+    {
+        return $this->titre.".".$this->getExtension();
+    }
+
 }

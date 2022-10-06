@@ -1118,6 +1118,7 @@ function activateDatePicker($element) {
         monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
         weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
         today: 'aujourd\'hui',
+        firstDay : 1,
         clear: 'effacer',
         close: 'fermer',
         selectMonths: true,

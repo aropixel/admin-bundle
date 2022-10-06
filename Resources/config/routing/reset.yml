@@ -11,5 +11,29 @@ aropixel_admin_reset_password:
     defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetPassword }
 
 aropixel_admin_reset_result:
-    path:     /reset/sucess
+    path:     /reset/success
     defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetSuccess }
+
+aropixel_admin_too_old_password_reset_password:
+    path:     /reset/old-password/{userId}/password
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetTooOldPassword }
+
+aropixel_admin_too_old_password_reset_request_info:
+    path:     /reset/old-password/request/info
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::tooOldPasswordResetRequestInfo }
+
+aropixel_admin_too_old_last_login_reset_password:
+    path:     /reset/old-login/{userId}
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetTooOldLastLogin }
+
+aropixel_admin_too_old_last_login_reset_request_info:
+    path:     /reset/old-login/request/info
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::tooOldLastLoginResetRequestInfo }
+
+aropixel_admin_blocked_reset_password:
+    path:     /reset/blocked/{userId}
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetBlockedLogin }
+
+aropixel_admin_blocked_reset_request_info:
+    path:     /reset/blocked/request/info
+    defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::blockedResetRequestInfo }
