@@ -74,11 +74,13 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-        ];
+        if ($request->hasSession()) {
+            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        }
 
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        $url = $this->getLoginUrl($request);
+
+        return new RedirectResponse($url);
     }
 
     public function getCredentials(Request $request)
