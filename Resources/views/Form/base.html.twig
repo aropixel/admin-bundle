@@ -57,6 +57,7 @@
                 </button>
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
+                {% if form.vars.entity_name is defined %}<input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.entity_name ~ form.vars.data.id }}">{% endif %}
             </form>
         {% endif %}
     {% endif %}
