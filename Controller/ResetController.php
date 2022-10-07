@@ -152,7 +152,6 @@ class ResetController extends AbstractController
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
         $user->setLastLogin(null);
-        $user->setBlocked(0);
 
         $this->userManager->updateUser($user, true);
     }
@@ -165,7 +164,7 @@ class ResetController extends AbstractController
         return $this->redirectToRoute('aropixel_admin_too_old_password_reset_request_info');
     }
 
-    public function resetTooOldLastLogin(UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, int $userId): Response
+    public function resetTooOldLastLogin(int $userId): Response
     {
         $this->resetPasswordAfterFail($userId, 0);
 
@@ -174,7 +173,7 @@ class ResetController extends AbstractController
 
     public function resetBlockedLogin(int $userId): Response
     {
-        $this->resetPasswordAfterFail($userId, 1);
+        $this->resetPasswordAfterFail($userId);
 
         return $this->redirectToRoute('aropixel_admin_blocked_reset_request_info');
     }
@@ -194,7 +193,7 @@ class ResetController extends AbstractController
         return $this->render('@AropixelAdmin/Reset/blocked_request_info.html.twig');
     }
 
-    protected function resetPasswordAfterFail(int $userId, bool $blocked)
+    protected function resetPasswordAfterFail(int $userId)
     {
         $user = $this->entityManager->getRepository($this->model)->find($userId);
 
@@ -204,7 +203,6 @@ class ResetController extends AbstractController
 
         $user->setPasswordResetToken($this->generator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
-        $user->setBlocked($blocked);
 
         $this->entityManager->flush();
 

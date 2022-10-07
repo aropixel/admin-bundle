@@ -21,7 +21,7 @@
         </id>
         <field name="email" type="string" length="180" unique="true" />
         <field name="enabled" type="boolean" />
-        <field name="blocked" type="boolean" />
+        <field name="passwordAttempts" type="integer" />
         <field name="firstName" type="string" length="255" nullable="true" />
         <field name="lastName" type="string" length="255" nullable="true" />
         <field name="roles" type="json" />

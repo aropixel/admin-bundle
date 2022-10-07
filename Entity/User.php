@@ -29,9 +29,9 @@ class User implements UserInterface
     protected $enabled;
 
     /**
-     * @var boolean
+     * @var int
      */
-    protected $blocked;
+    protected $passwordAttempts;
 
     /**
      * @var string
@@ -269,16 +269,20 @@ class User implements UserInterface
         return $this;
     }
 
-    public function isBlocked()
+    /**
+     * @return int
+     */
+    public function getPasswordAttempts(): int
     {
-        return $this->blocked;
+        return $this->passwordAttempts;
     }
 
-    public function setBlocked($boolean)
+    /**
+     * @param int $passwordAttempts
+     */
+    public function setPasswordAttempts(int $passwordAttempts): void
     {
-        $this->blocked = (bool) $boolean;
-
-        return $this;
+        $this->passwordAttempts = $passwordAttempts;
     }
 
     public function tooOldLastLogin()
