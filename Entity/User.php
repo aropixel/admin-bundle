@@ -31,7 +31,7 @@ class User implements UserInterface
     /**
      * @var int
      */
-    protected $passwordAttempts;
+    protected $passwordAttempts = 0;
 
     /**
      * @var string
