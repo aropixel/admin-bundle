@@ -7,7 +7,7 @@ aropixel_admin_reset_request_info:
     defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::requestResetInfo }
 
 aropixel_admin_reset_password:
-    path:     /reset/{token}/password
+    path:     /reset/{token}/password/{afterFail}
     defaults: { _controller: Aropixel\AdminBundle\Controller\ResetController::resetPassword }
 
 aropixel_admin_reset_result:

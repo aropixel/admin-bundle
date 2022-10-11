@@ -42,6 +42,12 @@
 
 							<div class="card-body">
 
+								{% if error %}
+									<div class="alert alert-danger">
+										{{ error }}
+									</div>
+								{% endif %}
+
 								{{ form_start(form) }}
 
 								<div class="form-group">

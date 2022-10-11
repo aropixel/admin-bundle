@@ -41,7 +41,7 @@ class ResetEmailSender
     }
 
 
-    public function sendResetEmail(User $user)
+    public function sendResetEmail(User $user, bool $afterFail)
     {
         $client = $this->parameterBag->get('aropixel_admin.client');
         $sender = array_key_exists('email', $client) && $client['email'] ? $client['email'] : $user->getEmail();
@@ -53,7 +53,7 @@ class ResetEmailSender
             ->htmlTemplate('@AropixelAdmin/Email/reset.html.twig')
             ->context([
                 'user' => $user,
-                'link' => $this->router->generate('aropixel_admin_reset_password', ['token' => $user->getPasswordResetToken()], UrlGeneratorInterface::ABSOLUTE_URL)
+                'link' => $this->router->generate('aropixel_admin_reset_password', ['token' => $user->getPasswordResetToken(), 'afterFail' => $afterFail ? 1 : 0], UrlGeneratorInterface::ABSOLUTE_URL)
             ])
         ;
 

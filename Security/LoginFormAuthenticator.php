@@ -152,6 +152,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
         $user = $token->getUser();
         $user->setPasswordAttempts(0);
+        $user->setLastLogin(new \DateTime('now'));
         $this->entityManager->flush();
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
