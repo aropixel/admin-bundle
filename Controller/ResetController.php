@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class ResetController extends AbstractController
@@ -47,18 +47,18 @@ class ResetController extends AbstractController
     /** @var ResetEmailSender */
     private $resetEmailSender;
 
-    /** @var UserPasswordEncoderInterface */
-    private $passwordEncoder;
+    /** @var UserPasswordHasherInterface  */
+    private $passwordHasher;
 
 
-    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager, UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager, UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, UserPasswordHasherInterface $passwordHasher)
     {
         $this->parameterBag = $parameterBag;
         $this->userManager = $userManager;
         $this->entityManager = $entityManager;
         $this->generator = $generator;
         $this->resetEmailSender = $resetEmailSender;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $this->model = $entities[UserInterface::class];
@@ -126,7 +126,7 @@ class ResetController extends AbstractController
 
             $password = $form->get('password')->getViewData();
 
-            if ($afterFail && $this->passwordEncoder->isPasswordValid($user, $password['first'])) {
+            if ($afterFail && $this->passwordHasher->isPasswordValid($user, $password['first'])) {
                 $error = "Veuillez choisir un mot de passe différent du mot de passe actuel.";
             } else {
                 $this->entityManager->flush();
