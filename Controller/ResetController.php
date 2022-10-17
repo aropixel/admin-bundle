@@ -23,6 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class ResetController extends AbstractController
@@ -46,14 +47,18 @@ class ResetController extends AbstractController
     /** @var ResetEmailSender */
     private $resetEmailSender;
 
+    /** @var UserPasswordEncoderInterface */
+    private $passwordEncoder;
 
-    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager, UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender)
+
+    public function __construct(ParameterBagInterface $parameterBag, UserManager $userManager, EntityManagerInterface $entityManager, UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->parameterBag = $parameterBag;
         $this->userManager = $userManager;
         $this->entityManager = $entityManager;
         $this->generator = $generator;
         $this->resetEmailSender = $resetEmailSender;
+        $this->passwordEncoder = $passwordEncoder;
 
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         $this->model = $entities[UserInterface::class];
@@ -78,7 +83,7 @@ class ResetController extends AbstractController
                 $user->setPasswordRequestedAt(new \DateTime());
                 $this->entityManager->flush();
 
-                $resetEmailSender->sendResetEmail($user);
+                $resetEmailSender->sendResetEmail($user, 0);
 
                 return $this->redirectToRoute('aropixel_admin_reset_request_info');
             }
@@ -98,10 +103,11 @@ class ResetController extends AbstractController
     }
 
 
-    public function resetPassword(Request $request, string $token): Response
+    public function resetPassword(Request $request, string $token, bool $afterFail): Response
     {
         /** @var User $user */
         $user = $this->entityManager->getRepository($this->model)->findOneBy(['passwordResetToken' => $token]);
+        $error = null;
 
         if (null === $user) {
             throw new NotFoundHttpException('Token not found.');
@@ -119,16 +125,23 @@ class ResetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $form->get('password')->getViewData();
-            $this->entityManager->flush();
-            $this->handleResetPassword($user, $password['first']);
 
-            return $this->redirectToRoute('aropixel_admin_reset_result');
+            if ($afterFail && $this->passwordEncoder->isPasswordValid($user, $password['first'])) {
+                $error = "Veuillez choisir un mot de passe différent du mot de passe actuel.";
+            } else {
+                $this->entityManager->flush();
+                $this->handleResetPassword($user, $password['first']);
+
+                return $this->redirectToRoute('aropixel_admin_reset_result');
+            }
+
         }
 
         return $this->render('@AropixelAdmin/Reset/reset.html.twig',
             [
                 'form' => $form->createView(),
                 'user' => $user,
+                'error' => $error
             ]
         );
     }
@@ -152,7 +165,6 @@ class ResetController extends AbstractController
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
         $user->setLastLogin(null);
-        $user->setBlocked(0);
 
         $this->userManager->updateUser($user, true);
     }
@@ -160,21 +172,21 @@ class ResetController extends AbstractController
 
     public function resetTooOldPassword(int $userId): Response
     {
-        $this->resetPasswordAfterFail($userId, 0);
+        $this->resetPasswordAfterFail($userId);
 
         return $this->redirectToRoute('aropixel_admin_too_old_password_reset_request_info');
     }
 
-    public function resetTooOldLastLogin(UniqueTokenGenerator $generator, ResetEmailSender $resetEmailSender, int $userId): Response
+    public function resetTooOldLastLogin(int $userId): Response
     {
-        $this->resetPasswordAfterFail($userId, 0);
+        $this->resetPasswordAfterFail($userId);
 
         return $this->redirectToRoute('aropixel_admin_too_old_last_login_reset_request_info');
     }
 
     public function resetBlockedLogin(int $userId): Response
     {
-        $this->resetPasswordAfterFail($userId, 1);
+        $this->resetPasswordAfterFail($userId);
 
         return $this->redirectToRoute('aropixel_admin_blocked_reset_request_info');
     }
@@ -194,7 +206,7 @@ class ResetController extends AbstractController
         return $this->render('@AropixelAdmin/Reset/blocked_request_info.html.twig');
     }
 
-    protected function resetPasswordAfterFail(int $userId, bool $blocked)
+    protected function resetPasswordAfterFail(int $userId)
     {
         $user = $this->entityManager->getRepository($this->model)->find($userId);
 
@@ -204,11 +216,10 @@ class ResetController extends AbstractController
 
         $user->setPasswordResetToken($this->generator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
-        $user->setBlocked($blocked);
 
         $this->entityManager->flush();
 
-        $this->resetEmailSender->sendResetEmail($user);
+        $this->resetEmailSender->sendResetEmail($user, 1);
     }
 
 }

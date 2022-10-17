@@ -1,5 +1,6 @@
 parameters:
     passwordPeriod: '6 months'
+    passwordAttempts: 6
 
 services:
     _defaults:

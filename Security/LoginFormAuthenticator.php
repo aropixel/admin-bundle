@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Security;
 
 use Aropixel\AdminBundle\Security\Exception\TooOldPasswordException;
 use Aropixel\AdminBundle\Security\Exception\TooOldLastLoginException;
-use Aropixel\AdminBundle\Security\Passport\Badge\BlockedUserBadge;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -101,7 +100,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
         $credentials = $this->getCredentials($request);
 
-        $user = $this->getUser($credentials, $this->userProvider);
+        $user = $this->getUser($credentials);
 
         $passport = new Passport(
             new UserBadge($credentials['email'], [$this->userProvider, 'loadUserByIdentifier']),
@@ -111,7 +110,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         $passport->addBadge(new TooOldPasswordBadge($user, $this->parameterBag));
         $passport->addBadge(new TooOldLastLoginBadge($user));
-        $passport->addBadge(new BlockedUserBadge($user));
 
         // Ajout d'un badge de gestion du Csrf
         $passport->addBadge(new CsrfTokenBadge('authenticate', $credentials['csrf_token']));
@@ -123,7 +121,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return $passport;
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials)
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
@@ -135,7 +133,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new BadCredentialsException('Invalid credentials.');
         }
 
         if (!$user->isEnabled()) {
@@ -153,6 +151,11 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
+        $user = $token->getUser();
+        $user->setPasswordAttempts(0);
+        $user->setLastLogin(new \DateTime('now'));
+        $this->entityManager->flush();
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
@@ -166,6 +169,21 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
         if ($request->hasSession()) {
             $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        }
+
+        $credentials = $this->getCredentials($request);
+        $user = $this->getUser($credentials);
+
+        if ($user) {
+            $newPasswordAttempts = $user->getPasswordAttempts() +1;
+            $user->setPasswordAttempts($newPasswordAttempts);
+            $this->entityManager->flush();
+
+            $maxPasswordAttempts = $this->parameterBag->get('passwordAttempts');
+
+            if ($newPasswordAttempts >= $maxPasswordAttempts) {
+                return new RedirectResponse($this->urlGenerator->generate('aropixel_admin_blocked_reset_password', ['userId' => $user->getId()]));
+            }
         }
 
         if ($exception instanceof TooOldPasswordException) {
