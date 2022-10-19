@@ -65,7 +65,6 @@ class Datatabler
         $start   = $request->query->get('start', 0);
         $length  = $request->query->get('length', 50);
         $order = array_key_exists('order', $all) ? $all['order'] : [];
-        $search = $all['search'];
 
 
         //
@@ -75,7 +74,10 @@ class Datatabler
         $params['start'] = $start;
         $params['sort_col'] = isset($order[0]) ? $order[0]['column'] : 0;
         $params['sort_dir'] = isset($order[0]) ? $order[0]['dir'] : 'ASC';
-        $params['search'] = isset($search['value']) ? $search['value'] : '';
+        if (array_key_exists('search', $all)) {
+            $search = $all['search'];
+            $params['search'] = isset($search['value']) ?? $search['value'];
+        }
         $this->params = $params;
     }
 
