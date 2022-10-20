@@ -76,7 +76,7 @@ class Datatabler
         $params['sort_dir'] = isset($order[0]) ? $order[0]['dir'] : 'ASC';
         if (array_key_exists('search', $all)) {
             $search = $all['search'];
-            $params['search'] = isset($search['value']) ?? $search['value'];
+            $params['search'] = isset($search['value']) ? $search['value'] : '';
         }
         $this->params = $params;
     }
