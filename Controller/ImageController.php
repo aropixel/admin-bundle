@@ -219,7 +219,16 @@ class ImageController extends AbstractController
             $errors = [];
             $formErrors = $form->getErrors(true);
             foreach ($formErrors as $formError) {
-                $errors[] = $formError->getMessage();
+
+                $errorMessage = $formError->getMessage();
+                $errorParameters = $formError->getMessageParameters();
+                if (array_key_exists('{{ suffix }}', $errorParameters)) {
+                    $errorMessage = str_replace('bytes', 'o', $errorMessage);
+                    $errorMessage = str_replace('KiB', 'KB', $errorMessage);
+                    $errorMessage = str_replace('MiB', 'MB', $errorMessage);
+                }
+
+                $errors[] = $errorMessage;
             }
 
             //
