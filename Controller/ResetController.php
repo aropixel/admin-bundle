@@ -85,15 +85,12 @@ class ResetController extends AbstractController
 
                 $resetEmailSender->sendResetEmail($user, 0);
 
-                return $this->redirectToRoute('aropixel_admin_reset_request_info');
-            }
-            else {
-                $notFound = true;
             }
 
         }
 
-        return $this->render('@AropixelAdmin/Reset/request.html.twig', ['form' => $form->createView(), 'not_found' => $notFound]);
+        return $this->redirectToRoute('aropixel_admin_reset_request_info');
+//        return $this->render('@AropixelAdmin/Reset/request.html.twig', ['form' => $form->createView(), 'not_found' => $notFound]);
     }
 
 
