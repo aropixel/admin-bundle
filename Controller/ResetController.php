@@ -87,10 +87,12 @@ class ResetController extends AbstractController
 
             }
 
+
+            return $this->redirectToRoute('aropixel_admin_reset_request_info');
+
         }
 
-        return $this->redirectToRoute('aropixel_admin_reset_request_info');
-//        return $this->render('@AropixelAdmin/Reset/request.html.twig', ['form' => $form->createView(), 'not_found' => $notFound]);
+        return $this->render('@AropixelAdmin/Reset/request.html.twig', ['form' => $form->createView(), 'not_found' => $notFound]);
     }
 
 
