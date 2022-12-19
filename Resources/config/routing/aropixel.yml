@@ -20,3 +20,7 @@ aropixel_admin_images:
 aropixel_admin_files:
     resource: "@AropixelAdminBundle/Controller/FileController.php"
     type:     annotation
+
+aropixel_admin_download_files:
+    resource: "@AropixelAdminBundle/Controller/DownloadController.php"
+    type:     annotation
