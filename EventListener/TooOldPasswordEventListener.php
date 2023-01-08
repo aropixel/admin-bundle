@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
+use App\Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
 use Aropixel\AdminBundle\Security\Exception\TooOldPasswordException;
-use Aropixel\AdminBundle\Security\Passport\Badge\TooOldPasswordBadge;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 

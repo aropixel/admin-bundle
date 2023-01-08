@@ -19,6 +19,23 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    Aropixel\AdminBundle\Http\:
+        resource: '../../Http'
+        tags: ['controller.service_arguments']
+
+
+    # Autowire des services
+    Aropixel\AdminBundle\Infrastructure\:
+        resource: '../../Infrastructure'
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\:
+        resource: '../../Infrastructure/Security/Passport/Badge'
+        autowire: false
+
+
+
     # Autowire des services
     Aropixel\AdminBundle\Email\ResetEmailSender:
         autowire: true
@@ -50,17 +67,13 @@ services:
     Aropixel\AdminBundle\Security\UserManager:
         autowire: true
 
-    # Autowire des services
-    Aropixel\AdminBundle\Security\LoginFormAuthenticator:
-        autowire: true
-
-    # Autowire des services
-    Aropixel\AdminBundle\Services\:
-        resource: '../../Services'
-
     # Autowire des formulaires
     Aropixel\AdminBundle\Form\Type\:
         resource: '../../Form/Type'
+
+    # Autowire des extensions twig
+    Aropixel\AdminBundle\Services\:
+        resource: '../../Services'
 
     # Autowire des extensions twig
     Aropixel\AdminBundle\Twig\:

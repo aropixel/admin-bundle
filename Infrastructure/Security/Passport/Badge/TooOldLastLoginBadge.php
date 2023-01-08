@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Security\Passport\Badge;
+namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge;
 
 
 use Aropixel\AdminBundle\Entity\User;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
  *
  * @final
  */
-class TooOldLastLoginBadge implements TooOldLastLoginBadgeInterface
+class TooOldLastLoginBadge implements BadgeInterface
 {
 
     private $user;
