@@ -3,7 +3,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="Aropixel\AdminBundle\Entity\File" repository-class="Aropixel\AdminBundle\Repository\FileRepository" table="aropixel_file">
+    <mapped-superclass name="Aropixel\AdminBundle\Domain\Entity\File" repository-class="Aropixel\AdminBundle\Repository\FileRepository" table="aropixel_file">
 
         <!--<lifecycle-callbacks>
             <lifecycle-callback type="prePersist" method="preUpload"/>

@@ -2,14 +2,10 @@
 // src/Aropixel/AdminBundle/Services/Datatabler.php
 namespace Aropixel\AdminBundle\Services;
 
-use Aropixel\AdminBundle\Entity\CropInterface;
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\Publishable;
+use Aropixel\AdminBundle\Domain\Entity\Image;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Service\FilterService;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

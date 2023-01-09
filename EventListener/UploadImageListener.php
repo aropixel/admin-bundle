@@ -7,8 +7,8 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Domain\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\ImageInterface;
 use Aropixel\AdminBundle\Resolver\PathResolver;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 

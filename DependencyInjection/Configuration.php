@@ -2,13 +2,13 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
-use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Entity\FileInterface;
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\ImageInterface;
-use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Domain\Entity\File;
+use Aropixel\AdminBundle\Domain\Entity\FileInterface;
+use Aropixel\AdminBundle\Domain\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\ImageInterface;
+use Aropixel\AdminBundle\Domain\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\UserInterface;
+use Aropixel\AdminBundle\Http\Form\Type\UserType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 

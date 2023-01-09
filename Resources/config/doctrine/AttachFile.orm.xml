@@ -3,14 +3,14 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="Aropixel\AdminBundle\Entity\AttachFile">
+    <mapped-superclass name="Aropixel\AdminBundle\Domain\Entity\AttachFile">
 
         <field name="title" type="string" nullable="true" />
         <field name="alt" type="string" nullable="true" />
         <field name="position" type="integer">
             <gedmo:sortable-position/>
         </field>
-        <many-to-one field="file" target-entity="Aropixel\AdminBundle\Entity\FileInterface" />
+        <many-to-one field="file" target-entity="Aropixel\AdminBundle\Domain\Entity\FileInterface" />
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>

@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
-use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Domain\Entity\File;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;

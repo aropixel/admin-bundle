@@ -11,8 +11,8 @@
 
 namespace Aropixel\AdminBundle\Security;
 
-use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserInterface;
+use Aropixel\AdminBundle\Domain\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\UserInterface;
 
 /**
  * @author Christophe Coevoet <stof@notk.org>

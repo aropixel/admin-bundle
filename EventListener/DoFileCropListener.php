@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Aropixel\AdminBundle\Entity\CropInterface;
-use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Domain\Entity\CropInterface;
+use Aropixel\AdminBundle\Domain\Entity\ImageInterface;
 use Aropixel\AdminBundle\Image\Cropper;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -46,7 +46,7 @@ class DoFileCropListener
             /**
              * If there is no image attached or no filename for the image,
              * we leave
-             * @var ImageInterface $image
+             * @var \Aropixel\AdminBundle\Domain\Entity\ImageInterface $image
              */
             $image = $entity->getImage();
             if (!$image || !$image->getFilename())    return;

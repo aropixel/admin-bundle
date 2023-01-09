@@ -3,9 +3,8 @@
 namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge;
 
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\User;
 use Aropixel\AdminBundle\EventListener\TooOldPasswordEventListener;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
 

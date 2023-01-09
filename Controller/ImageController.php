@@ -2,21 +2,21 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
-use Aropixel\AdminBundle\Entity\AttachImage;
-use Aropixel\AdminBundle\Entity\ImageInterface;
-use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
+use Aropixel\AdminBundle\Domain\Entity\AttachImage;
+use Aropixel\AdminBundle\Domain\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\ImageInterface;
+use Aropixel\AdminBundle\Http\Form\Type\Image\PluploadType;
+use Aropixel\AdminBundle\Http\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
-use Doctrine\ORM\EntityManagerInterface;
 
 
 /**

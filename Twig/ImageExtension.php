@@ -8,8 +8,8 @@
 namespace Aropixel\AdminBundle\Twig;
 
 
-use Aropixel\AdminBundle\Entity\AttachImage;
-use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\AttachImage;
+use Aropixel\AdminBundle\Domain\Entity\Image;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;

@@ -7,10 +7,10 @@
 
 namespace Aropixel\AdminBundle\Email;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\User;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 

@@ -27,7 +27,7 @@ class AdminUserProvider implements AdminUserProviderInterface
     private function getUserClass() : string
     {
         $entities = $this->parameterBag->get('aropixel_admin.entities');
-        return $entities[\Aropixel\AdminBundle\Entity\UserInterface::class];
+        return $entities[\Aropixel\AdminBundle\Domain\Entity\UserInterface::class];
     }
 
     /**

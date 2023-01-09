@@ -7,22 +7,19 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
+use Aropixel\AdminBundle\Domain\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\UserInterface;
 use Aropixel\AdminBundle\Email\ResetEmailSender;
-use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Form\Reset\RequestType;
-use Aropixel\AdminBundle\Form\Reset\ResetPasswordType;
+use Aropixel\AdminBundle\Http\Form\Reset\RequestType;
+use Aropixel\AdminBundle\Http\Form\Reset\ResetPasswordType;
 use Aropixel\AdminBundle\Security\UniqueTokenGenerator;
 use Aropixel\AdminBundle\Security\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -105,7 +102,7 @@ class ResetController extends AbstractController
 
     public function resetPassword(Request $request, string $token, bool $afterFail): Response
     {
-        /** @var User $user */
+        /** @var \Aropixel\AdminBundle\Domain\Entity\User $user */
         $user = $this->entityManager->getRepository($this->model)->findOneBy(['passwordResetToken' => $token]);
         $error = null;
 

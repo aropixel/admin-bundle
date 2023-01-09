@@ -4,7 +4,7 @@
 namespace Aropixel\AdminBundle\Security\Exception;
 
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\User;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class TooOldPasswordException extends AuthenticationException
@@ -33,5 +33,5 @@ class TooOldPasswordException extends AuthenticationException
     {
         return true;
     }
-    
+
 }

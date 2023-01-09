@@ -1,0 +1,25 @@
+# SECURITY
+aropixel_admin_security:
+    resource: "@AropixelAdminBundle/Resources/config/routing/security.yml"
+
+aropixel_admin_reset:
+    resource: "@AropixelAdminBundle/Resources/config/routing/reset.yml"
+
+aropixel_admin_dashboard:
+    resource: "@AropixelAdminBundle/Resources/config/routing/dashboard.yml"
+
+aropixel_admin_users:
+    resource: "@AropixelAdminBundle/Controller/UserController.php"
+    type:     annotation
+
+aropixel_admin_images:
+    resource: "@AropixelAdminBundle/Controller/ImageController.php"
+    type:     annotation
+
+aropixel_admin_files:
+    resource: "@AropixelAdminBundle/Controller/FileController.php"
+    type:     annotation
+
+aropixel_admin_download_files:
+    resource: "@AropixelAdminBundle/Controller/DownloadController.php"
+    type:     annotation

@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Repository;
 
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Aropixel\AdminBundle\Domain\Entity\File;
 use Doctrine\ORM\EntityRepository;
-use Aropixel\AdminBundle\Entity\File;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
  * FileRepository

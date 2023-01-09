@@ -1,7 +1,7 @@
 <?php
 namespace Aropixel\AdminBundle\Twig;
 
-use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\Image;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Aropixel\AdminBundle\Services\Seo;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +12,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-
 
 
 class AropixelExtension extends AbstractExtension

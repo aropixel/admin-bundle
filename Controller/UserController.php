@@ -2,16 +2,16 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
-use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Domain\Entity\User;
+use Aropixel\AdminBundle\Domain\Entity\UserInterface;
+use Aropixel\AdminBundle\Http\Form\Type\UserType;
 use Aropixel\AdminBundle\Security\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Aropixel\AdminBundle\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 
 
 /**

@@ -11,8 +11,7 @@
 
 namespace Aropixel\AdminBundle\Security;
 
-use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserInterface;
+use Aropixel\AdminBundle\Domain\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**

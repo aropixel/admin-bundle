@@ -2,19 +2,18 @@
 
 namespace Aropixel\AdminBundle\Controller;
 
-use Aropixel\AdminBundle\Entity\AttachFile;
-use Aropixel\AdminBundle\Entity\FileInterface;
-use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
-use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
+use Aropixel\AdminBundle\Domain\Entity\AttachFile;
+use Aropixel\AdminBundle\Domain\Entity\File;
+use Aropixel\AdminBundle\Domain\Entity\FileInterface;
+use Aropixel\AdminBundle\Http\Form\Type\File\PluploadFileType;
+use Aropixel\AdminBundle\Http\Form\Type\File\Single\FileType;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Aropixel\AdminBundle\Entity\File;
-use Doctrine\ORM\EntityManagerInterface;
 
 
 /**

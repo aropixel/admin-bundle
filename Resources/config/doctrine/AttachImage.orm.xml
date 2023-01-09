@@ -3,7 +3,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="Aropixel\AdminBundle\Entity\AttachImage">
+    <mapped-superclass name="Aropixel\AdminBundle\Domain\Entity\AttachImage">
 
         <field name="title" type="string" nullable="true" />
         <field name="link" type="string" nullable="true" />
@@ -16,7 +16,7 @@
         <field name="position" type="integer">
             <gedmo:sortable-position/>
         </field>
-        <many-to-one field="image" target-entity="Aropixel\AdminBundle\Entity\ImageInterface" />
+        <many-to-one field="image" target-entity="Aropixel\AdminBundle\Domain\Entity\ImageInterface" />
         <field name="createdAt" column="created_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>

@@ -2,10 +2,10 @@
 
 namespace Aropixel\AdminBundle\Repository;
 
+use Aropixel\AdminBundle\Domain\Entity\Image;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
-use Doctrine\ORM\EntityRepository;
-use Aropixel\AdminBundle\Entity\Image;
 
 /**
  * ImageRepository

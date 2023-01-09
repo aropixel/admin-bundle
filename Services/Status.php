@@ -2,7 +2,7 @@
 // src/Aropixel/AdminBundle/Services/Select2.php
 namespace Aropixel\AdminBundle\Services;
 
-use Aropixel\AdminBundle\Entity\Publishable;
+use Aropixel\AdminBundle\Domain\Entity\Publishable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 

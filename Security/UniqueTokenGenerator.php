@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace Aropixel\AdminBundle\Security;
 
 use Aropixel\AdminBundle\Generator\RandomnessGeneratorInterface;
-use Aropixel\AdminBundle\Repository\UserRepository;
-use Aropixel\AdminBundle\Security\UserManager;
+use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
 use Webmozart\Assert\Assert;
 
 final class UniqueTokenGenerator implements GeneratorInterface
@@ -23,7 +22,7 @@ final class UniqueTokenGenerator implements GeneratorInterface
     /** @var RandomnessGeneratorInterface */
     private $generator;
 
-    /** @var UserRepository */
+    /** @var \Aropixel\AdminBundle\Infrastructure\User\UserRepository */
     private $userRepository;
 
     /** @var UserManager */

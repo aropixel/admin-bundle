@@ -1,0 +1,3 @@
+_admin:
+    path: /
+    controller: Aropixel\AdminBundle\Http\DashboardAction

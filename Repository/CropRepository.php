@@ -3,7 +3,6 @@
 namespace Aropixel\AdminBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Aropixel\AdminBundle\Entity\Crop;
 
 /**
  * CropRepository

@@ -8,9 +8,6 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
 
-    Aropixel\AdminBundle\Command\AdminAccessCommand:
-        tags:
-            - { name: 'console.command', command: 'aropixel:admin:setup' }
 
 
     # controllers are imported separately to make sure services can be injected
@@ -23,17 +20,18 @@ services:
         resource: '../../Http'
         tags: ['controller.service_arguments']
 
-
-    # Autowire des services
     Aropixel\AdminBundle\Infrastructure\:
         resource: '../../Infrastructure'
         autowire: true
 
-    # Autowire des services
+
+    # Disable autowire
+    Aropixel\AdminBundle\Http\Command\CommandExecutor:
+        autowire: false
+
     Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\:
         resource: '../../Infrastructure/Security/Passport/Badge'
         autowire: false
-
 
 
     # Autowire des services

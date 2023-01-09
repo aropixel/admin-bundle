@@ -8,7 +8,7 @@
 namespace Aropixel\AdminBundle\Image;
 
 
-use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Domain\Entity\Image;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;

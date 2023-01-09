@@ -56,11 +56,11 @@ security:
     providers:
         admin_user_provider:
             entity:
-                class: Aropixel\AdminBundle\Entity\User
+                class: Aropixel\AdminBundle\Domain\Entity\User
                 property: email
 
     encoders:
-        Aropixel\AdminBundle\Entity\User:
+        Aropixel\AdminBundle\Domain\Entity\User:
             algorithm: argon2i
             cost: 12
 

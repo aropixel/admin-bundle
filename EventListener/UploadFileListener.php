@@ -7,8 +7,8 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Entity\FileInterface;
+use Aropixel\AdminBundle\Domain\Entity\File;
+use Aropixel\AdminBundle\Domain\Entity\FileInterface;
 use Aropixel\AdminBundle\Resolver\PathResolver;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 

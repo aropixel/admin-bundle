@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory;
 
+use Aropixel\AdminBundle\Domain\Entity\User;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
-use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -48,7 +48,7 @@ class PassportFactory implements PassportFactoryInterface
             [new RememberMeBadge()]
         );
 
-        /** @var User $user */
+        /** @var \Aropixel\AdminBundle\Domain\Entity\User $user */
         $user = $userBadge->getUser();
         $passport->addBadge(new TooOldPasswordBadge($user, $this->parameterBag->get('passwordPeriod')));
         $passport->addBadge(new TooOldLastLoginBadge($user));
