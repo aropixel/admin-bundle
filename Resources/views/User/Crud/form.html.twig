@@ -4,7 +4,7 @@
 {% block header_breadcrumb %}
     <ul class="breadcrumb breadcrumb-caret position-right">
         <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('user_index') }}">Utilisateurs</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">Utilisateurs</a></li>
         {% if user and user.id %}
             <li class="breadcrumb-item active">Modifier</li>
         {% else %}

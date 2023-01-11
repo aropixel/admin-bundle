@@ -1,0 +1,18 @@
+aropixel_admin_user_index:
+  path: /user/
+  controller: Aropixel\AdminBundle\Http\Action\User\IndexUserAction
+
+aropixel_admin_user_new:
+  path: /user/new
+  controller: Aropixel\AdminBundle\Http\Action\User\CreateUserAction
+
+aropixel_admin_user_delete:
+  path: /user/{id}
+  controller: Aropixel\AdminBundle\Http\Action\User\DeleteUserAction
+
+aropixel_admin_user_edit:
+  path: /user/{id}/edit
+  controller: Aropixel\AdminBundle\Http\Action\User\EditUserAction
+
+
+

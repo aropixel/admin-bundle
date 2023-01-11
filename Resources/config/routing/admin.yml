@@ -10,8 +10,7 @@ aropixel_admin:
     type:     annotation
 
 aropixel_admin_users:
-    resource: "@AropixelAdminBundle/Controller/UserController.php"
-    type:     annotation
+    resource: "@AropixelAdminBundle/Resources/config/routing/user.yml"
 
 aropixel_admin_images:
     resource: "@AropixelAdminBundle/Controller/ImageController.php"
