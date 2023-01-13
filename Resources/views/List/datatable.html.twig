@@ -34,7 +34,7 @@
     {% block panels %}
 
         <!-- Form horizontal -->
-        <div class="card">
+        <div class="card {% if cardClass is defined %}{{ cardClass }}{% endif %}">
 
             <div class="card-header">
                 <h4 class="card-title">{% block paneltitle %}{% endblock %}</h4>
