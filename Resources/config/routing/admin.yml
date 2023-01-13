@@ -5,16 +5,15 @@ sf_web_app_back_office_security:
 aropixel_reset:
     resource: "@AropixelAdminBundle/Resources/config/routing/reset.yml"
 
-aropixel_admin:
-    resource: "@AropixelAdminBundle/Controller/DefaultController.php"
-    type:     annotation
+_admin:
+    path: /
+    controller: Aropixel\AdminBundle\Http\Action\Dashboard\DashboardAction
 
 aropixel_admin_users:
     resource: "@AropixelAdminBundle/Resources/config/routing/user.yml"
 
 aropixel_admin_images:
-    resource: "@AropixelAdminBundle/Controller/ImageController.php"
-    type:     annotation
+    resource: "@AropixelAdminBundle/Resources/config/routing/image.yml"
 
 aropixel_admin_files:
     resource: "@AropixelAdminBundle/Controller/FileController.php"
