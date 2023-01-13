@@ -2,9 +2,8 @@
 // src/Aropixel/AdminBundle/Services/Datatabler.php
 namespace Aropixel\AdminBundle\Services;
 
-use Aropixel\AdminBundle\Entity\CropInterface;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\Publishable;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Service\FilterService;
@@ -17,64 +16,35 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class ImageManager
 {
 
-
-    /** @var Container  */
-    private $container;
-
-    /** @var EntityManagerInterface  */
-    private $em;
-
-    /** @var PathResolverInterface  */
-    private $pathResolver;
-
-    /** @var FilterService  */
-    private $filterService;
-
-
-
-
-    public function __construct(Container $container, EntityManagerInterface $em, PathResolverInterface $pathResolver, FilterService $filterService)
-    {
-        $this->container = $container;
-        $this->pathResolver  = $pathResolver;
-        $this->filterService  = $filterService;
-        $this->em  = $em;
-    }
-
-
+    public function __construct(
+        private readonly Container $container,
+        private readonly EntityManagerInterface $em,
+        private readonly PathResolverInterface $pathResolver,
+        private readonly FilterService $filterService
+    ){}
 
 
     /**
      * Récupère les filtres de crop attribué à aucune entité
-     *
-     * @return array
      */
-    public function getOrphanFilters()
+    public function getOrphanFilters() : array
     {
-
-        $editorFilers = $this->container->getParameter('aropixel_admin.editor_filter_sets');
-
-        return $editorFilers;
+        return $this->container->getParameter('aropixel_admin.editor_filter_sets');
     }
 
-
+    public function getImageClassName()
+    {
+        $entities = $this->container->getParameter('aropixel_admin.entities');
+        return $entities[ImageInterface::class];
+    }
 
 
     /**
      * Récupère les filtres de crop pour une entité
-     *
-     * @param mixed $data
-     * @param array $crops
-     *
-     * @return array
      */
-    public function getCropFilters($data, $crops)
+    public function getCropFilters(mixed $data, array $crops) : array
     {
-//        if (is_null($data)) {
-//            return [];
-//        }
 
-        //
         $accessor = PropertyAccess::createPropertyAccessor();
         try {
             $existingCrops = $accessor->getValue($data, 'crops');
@@ -93,12 +63,11 @@ class ImageManager
         }
 
 
-
         // Récupère les filtres existants et leurs labels (descriptions)
         $liip_filters = $this->container->getParameter('liip_imagine.filter_sets');
 
         // Tableau des filtres à retourner
-        $filters = array();
+        $filters = [];
 
         foreach ($liip_filters as $slug => $filter) {
 
@@ -118,12 +87,12 @@ class ImageManager
             $filter['slug'] = $slug;
             $filter['name'] = $crops[$slug];
 
-            //
             $filters[$crops[$slug]] = $filter;
 
         }
 
         return $filters;
+
     }
 
 
@@ -131,23 +100,16 @@ class ImageManager
 
     /**
      * Récupère les filtres de crop pour une entité
-     *
-     * @param string $entity_name
-     * @param AropixelAdminBundle:Image $image
-     *
-     * @return array
      */
-    public function getEntityCropFilters($image, $imageClass)
+    public function getEntityCropFilters(Image $image, $imageClass) : array
     {
-        //
         $imageClass = str_replace('Proxies\__CG__\\', '', $imageClass);
 
         // Récupère les filtres existants et leurs labels (descriptions)
         $all_filters = $this->container->getParameter('liip_imagine.filter_sets');
         $all_labels = $this->container->getParameter('aropixel_admin.filter_sets');
 
-        //
-        $existingCropsByName = array();
+        $existingCropsByName = [];
         if ($image && method_exists($image, "getCrops")) {
             $existingCrops = $image->getCrops();
             foreach ($existingCrops as $crop) {
@@ -156,9 +118,8 @@ class ImageManager
         }
 
         // Tableau des filtres à retourner
-        $filters = array();
+        $filters = [];
 
-        //
         // On ne retourne que les filtres qui concerne le type d'entité passée
         if (array_key_exists($imageClass, $all_labels)) {
 
@@ -188,6 +149,7 @@ class ImageManager
         }
 
         return $filters;
+
     }
 
 
@@ -216,18 +178,11 @@ class ImageManager
 //
 
 
-
     /**
      * Applique le crop en BDD et sur le fichier
-     *
-     * @param Image $image
-     * @param string $filter
-     * @param string $crop_info
-     *
-     * @return string
      */
-    public function editorResize($image, $width, $filter=null) {
-
+    public function editorResize(Image $image, $width, string $filter = null) : string
+    {
 
         // Si aucun filtre mais une largeur
         // on récupère le filtre de largeur préconstruit par le bundle
@@ -235,7 +190,6 @@ class ImageManager
             $filter = 'editor_'.$width;
         }
 
-        //
         if (!is_null($filter)) {
             $resourcePath = $this->filterService->getUrlOfFilteredImage($image->getWebPath(), $filter);
         }
@@ -258,26 +212,17 @@ class ImageManager
 
         }
 
-
-
         return $resourcePath;
+
     }
-
-
 
 
     /**
      * Applique le crop sur le fichier du filtre
-     *
-     * @param Image $image
-     * @param string $filter
-     * @param string $crop_info
-     *
-     * @return void
      */
-    public function saveFileCrop($image, $filter, $crop_info) {
+    public function saveFileCrop(Image $image, string $filter, string $crop_info) : void
+    {
 
-        //
         $t_crop = explode(',', $crop_info);
 
         // Récupération des services de liip imagine bundle
@@ -288,25 +233,24 @@ class ImageManager
         // Récupère la configuration du filtre
         $filter_actions = $filterManager->getFilterConfiguration()->get($filter);
 
-        //
         $path = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
         list($realWidth, $realHeight) = getimagesize($path);
         $ratio = 600 / $realWidth;
 
         // Ajoute le crop personnalisé avant toute action du filtre
-        $crop_action = array(
-            'crop' => array(
-                'size' => array($t_crop[2] / $ratio, $t_crop[3] / $ratio),
-                'start' => array($t_crop[0] / $ratio, $t_crop[1] / $ratio)
-            ));
+        $crop_action = [
+            'crop' => [
+                'size' => [$t_crop[2] / $ratio, $t_crop[3] / $ratio],
+                'start' => [$t_crop[0] / $ratio, $t_crop[1] / $ratio]
+            ]
+        ];
         $actions = array_merge($crop_action, $filter_actions['filters']);
 
 
         // Applique le filtre personnalisé et sauve l'image
         $binary = $dataManager->find($filter, $image->getWebPath());
-        $filteredBinary = $filterManager->apply($binary, array(
-            'filters' => $actions
-        ));
+        $filteredBinary = $filterManager->apply($binary, ['filters' => $actions]);
+
         $cacheManager->store($filteredBinary, $image->getWebPath(), $filter);
 
     }
