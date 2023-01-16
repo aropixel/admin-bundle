@@ -18,7 +18,7 @@ class SaveCropAction extends AbstractController
     /**
      * Save crop info of an Image.
      */
-    public function __invoke(Request $request, ImageManager $imageManager) : Response
+    public function __invoke(Request $request) : Response
     {
 
         $image_id = $request->get('image_id');
@@ -32,7 +32,7 @@ class SaveCropAction extends AbstractController
         // Pour chaque filtre passé, on recrope l'image chargée
         foreach ($crop_infos as $filter => $crop_info) {
 
-            $imageManager->saveCrop($image, $filter, $crop_info);
+            $this->imageManager->saveCrop($image, $filter, $crop_info);
 
         }
 
