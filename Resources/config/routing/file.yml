@@ -1,0 +1,43 @@
+file_ajax:
+  path: /file/list/ajax
+  controller: Aropixel\AdminBundle\Http\Action\File\AjaxAction
+
+file_ajax_category:
+  path: /file/list/ajax/{category}
+  controller: Aropixel\AdminBundle\Http\Action\File\AjaxCategoryAction
+
+file_save:
+  path: /file/save
+  controller: Aropixel\AdminBundle\Http\Action\File\SaveAction
+  defaults:
+    expose: true
+
+file_delete:
+  path: /file/remove
+  controller: Aropixel\AdminBundle\Http\Action\File\DeleteAction
+  defaults:
+    expose: true
+
+file_upload:
+  path: /file/upload
+  controller: Aropixel\AdminBundle\Http\Action\File\UploadAction
+  defaults:
+    expose: true
+
+file_title:
+  path: /file/title
+  controller: Aropixel\AdminBundle\Http\Action\File\SaveCropAction
+  defaults:
+    expose: true
+
+file_attach:
+  path: /file/attach/file
+  controller: Aropixel\AdminBundle\Http\Action\File\AttachAction
+  defaults:
+    expose: true
+
+file_download:
+  path: /download/{id}/{filename}
+  controller: Aropixel\AdminBundle\Http\Action\File\DownloadAction
+  defaults:
+    expose: true

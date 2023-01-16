@@ -16,9 +16,4 @@ aropixel_admin_images:
     resource: "@AropixelAdminBundle/Resources/config/routing/image.yml"
 
 aropixel_admin_files:
-    resource: "@AropixelAdminBundle/Controller/FileController.php"
-    type:     annotation
-
-aropixel_admin_download_files:
-    resource: "@AropixelAdminBundle/Controller/DownloadController.php"
-    type:     annotation
+    resource: "@AropixelAdminBundle/Resources/config/routing/file.yml"
