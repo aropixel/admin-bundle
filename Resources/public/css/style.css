@@ -308,6 +308,7 @@
 
 body {
   font-family: 'Poppins', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -415,7 +416,7 @@ p, ul:not(.list-unstyled), ol {
 select.form-control:not([size]):not([multiple]),
 .form-control:not(.form-control-sm):not(.form-control-lg) {
   font-size: 14px;
-  padding: 10px 15px;
+  padding: 0.825rem 1.15rem;
   height: 42px; }
 
 textarea.form-control {
@@ -457,9 +458,8 @@ select.form-control:not([size]):not([multiple]) {
 .form-group .control-label,
 .form-group > label {
   font-weight: 500;
-  color: #34395e;
-  font-size: 14px;
-  letter-spacing: .5px; }
+  color: #3f4254;
+  font-size: 14px; }
 .form-group.floating-addon {
   position: relative; }
 .form-group.floating-addon .input-group-prepend {
@@ -852,9 +852,9 @@ select.form-control:not([size]):not([multiple]) {
 
 /* 3.5 Card */
 .card {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+  box-shadow: none;
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 6px;
   border: none;
   position: relative;
   margin-bottom: 30px; }
@@ -866,6 +866,18 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-body {
   padding-top: 20px;
   padding-bottom: 20px; }
+.card.card-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+.card.card-centered .card-body {
+  max-width: 800px!important; }
+.card.card-centered-large .card-body {
+  max-width: 1000px!important; }
+.card.card-centered .card-body:first-child {
+  padding-top: 60px; }
+.card.card-centered .card-body:last-child {
+  padding-bottom: 60px; }
 .card .card-body .section-title {
   margin: 30px 0 10px 0;
   font-size: 16px; }
@@ -1272,15 +1284,16 @@ table tr:hover .table-links {
   color: #fff;
   background-color: #6777ef; }
 .nav-pills .nav-item .nav-link {
-  color: #6777ef;
+  color: #495057;
+  font-weight: 600;
   padding-left: 15px !important;
   padding-right: 15px !important; }
 .nav-pills .nav-item .nav-link:hover {
   background-color: #f6f7fe; }
 .nav-pills .nav-item .nav-link.active {
-  box-shadow: 0 2px 6px #acb5f6;
-  color: #fff;
-  background-color: #6777ef; }
+  box-shadow: none;
+  color: var(--main-bg-color);
+  background-color: #e6ebed; }
 .nav-pills .nav-item .nav-link .badge {
   padding: 5px 8px;
   margin-left: 5px; }
@@ -1674,9 +1687,24 @@ h6 .badge {
 
 /* 3.14 Breadcrumb */
 .breadcrumb {
-  background-color: transparent; list-style: none; margin: 0 }
+  background-color: transparent; list-style: none; margin: 20px 0 0 }
 .breadcrumb .breadcrumb-item {
+  color: #a1a5b7!important;
   line-height: 1; }
+.breadcrumb .breadcrumb-item a {
+  text-decoration: none;
+  font-weight: 400;
+  color: #a1a5b7!important; }
+.breadcrumb-item+.breadcrumb-item::before {
+  color: #a1a5b7!important;
+  content: " - ";
+}
+.breadcrumb .breadcrumb-item.active {
+  font-weight: 500;
+  color: #181c32!important; }
+.breadcrumb .breadcrumb-item.active a {
+  font-weight: 500;
+  color: #181c32!important; }
 .breadcrumb .breadcrumb-item i {
   margin-right: 5px; }
 
@@ -2455,23 +2483,28 @@ pre {
 .section > *:first-child {
   margin-top: -7px; }
 .section .section-header {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  background-color: #fff;
-  border-radius: 3px;
   border: none;
   position: relative;
-  margin-bottom: 30px;
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 20px 0;
   display: flex;
   align-items: center; }
 .section .section-header h1 {
   margin-bottom: 0;
-  font-weight: 700;
+  font-weight: 600!important;
   display: inline-block;
-  font-size: 24px;
+  font-size: 20px;
   margin-top: 3px;
   color: #34395e; }
+.section .section-header h1 span {
+  margin-left: 0.25rem!important;
+  font-weight: 500!important;
+  font-size: .95rem!important;
+  margin-top: 3px;
+  color: #a1a5b7!important; }
+.section .section-header h1 span:before {
+  margin-right: 0.25rem!important;
+  content: ' - '; }
 .section .section-header .section-header-back {
   margin-right: 15px; }
 .section .section-header .section-header-back .btn:hover {
@@ -2507,6 +2540,13 @@ pre {
   margin-top: -20px; }
 .section .section-lead {
   margin-left: 45px; }
+
+.main-content .section-header {
+  background-color: transparent;
+  border-top: none !important;
+  box-shadow: none;
+  justify-content: space-between;
+}
 
 .main-wrapper-1 .section .section-header {
   margin-left: -30px;

@@ -1,5 +1,5 @@
 
-{% use "bootstrap_4_layout.html.twig" %}
+{% use "bootstrap_5_layout.html.twig" %}
 
 {% set modalLibrary = false %}
 
@@ -23,9 +23,11 @@
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}>
     {{ form_label(form) }} {# -#}
-    {{ form_widget(form, widget_attr) }} {# -#}
+    <div class="form-widget">
+        {{ form_widget(form, widget_attr) }} {# -#}
+    </div>
     {{ form_help(form) }}
     {#        {{ form_errors(form) }} #}{# -#}
     </{{ element|default('div') }}> {# -#}

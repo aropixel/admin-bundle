@@ -229,11 +229,11 @@ button.fa-stack.danger .fa-stack-1x {
 
 
 
-.input-group-text, select.form-control:not([size]):not([multiple]), .form-control:not(.form-control-sm):not(.form-control-lg) {
-    font-size: 13px;
-    padding: 10px 15px;
-    height: 38px;
-}
+/*.input-group-text, select.form-control:not([size]):not([multiple]), .form-control:not(.form-control-sm):not(.form-control-lg) {*/
+/*    font-size: 13px;*/
+/*    padding: 10px 15px;*/
+/*    height: 38px;*/
+/*}*/
 
 
 
@@ -877,7 +877,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-bottom: 8px;
 }
 
-.card { border: 1px solid transparent; color: #333333; }
+.card { color: #333333; }
 .card .card-header {
     border-bottom-color: #ececec;
 }
@@ -1699,9 +1699,6 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     color: #fff !important;
 }
 
-.nav-tabs .nav-item .nav-link {
-    color: var(--main-darker-bg-color);
-}
 
 .alert-success {
     background-color: var(--success-color);
@@ -1717,4 +1714,46 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 .form-control:focus, .input-group-text:focus, .custom-select:focus, .custom-file-label:focus {
     border-color: var(--main-bg-color);
+}
+
+.tabbable .nav-pills .nav-item .nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.tabbable .nav-pills .nav-item .nav-link span {
+    margin-left: 5px;
+}
+
+.tabbable .nav-pills .nav-item .nav-link i + span {
+    display: inline-block;
+    max-width: 0;
+    white-space:nowrap;
+    -webkit-transition: max-width 1s;
+    transition: max-width 1s;
+    overflow: hidden;
+}
+
+.tabbable .nav-pills .nav-item .nav-link.active i + span,
+.tabbable .nav-pills .nav-item .nav-link:hover i + span
+{
+    max-width: 7rem;
+}
+
+.card.card-centered .card-body {
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+.card.card-centered .card-body .form-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card.card-centered .card-body .form-group .form-label {
+    flex: 0 0 auto;
+    width: 25%;
+}
+.card.card-centered .card-body .form-group .form-widget {
+    flex: 0 0 auto;
+    width: 75%;
 }

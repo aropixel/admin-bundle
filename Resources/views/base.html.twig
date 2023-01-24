@@ -121,21 +121,38 @@
             <section class="section">
                 <div class="section-header">
 
-                    <h1>{% block header_title %}{% endblock %}</h1>
+                    {% block header %}
 
-                    {% if block('header_elements') is defined %}
-                    {% set _elements = block('header_elements') %}
-                    <div class="heading-elements">
-                        {{ _elements|raw }}
-                    </div>
-                    {% endif %}
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <h1>{% block header_title %}{% endblock %}</h1>
 
-                    <div class="section-header-breadcrumb">
-                        {% block header_breadcrumb %}{% endblock %}
-                    </div>
+                                {% if block('header_elements') is defined %}
+                                    {% set _elements = block('header_elements') %}
+                                    <div class="heading-elements">
+                                        {{ _elements|raw }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="section-header-breadcrumb">
+                                {% block header_breadcrumb %}{% endblock %}
+                            </div>
+                        </div>
+
+                        {% if block('tabbable') is defined %}
+                            {% set _navtabs = block('tabbable') %}
+                            <div class="tabbable">
+                                <ul class="nav nav-pills" role="tablist">
+                                    {{ _navtabs|raw }}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                    {% endblock %}
 
                 </div>
-                {% block sub_header %}{% endblock %}
 
                 <div class="section-body">
 
@@ -144,6 +161,7 @@
                 </div>
             </section>
         </div>
+
         <footer class="main-footer">
             {% block footer_left %}
             <div class="footer-left">

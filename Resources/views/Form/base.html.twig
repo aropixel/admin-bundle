@@ -63,6 +63,67 @@
     {% endif %}
 {% endblock %}
 
+{% set has_tabs =
+    block('tabbable') is defined or
+    form.createdAt is defined or
+    form.publishAt is defined or
+    form.publishUntil is defined or
+    form.slug is defined or
+    form.status is defined or
+    form.image is defined or
+    form.files is defined
+%}
+
+{% block header %}
+
+    <div>
+        <div class="d-flex align-items-center">
+            <h1>{% block header_title %}{% endblock %}</h1>
+
+            {% if block('header_elements') is defined %}
+                {% set _elements = block('header_elements') %}
+                <div class="heading-elements">
+                    {{ _elements|raw }}
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="section-header-breadcrumb">
+            {% block header_breadcrumb %}{% endblock %}
+        </div>
+    </div>
+
+    {% if has_tabs %}
+        {% set _navtabs = block('tabbable') %}
+        <div class="tabbable">
+            <ul class="nav nav-pills" role="tablist">
+                {{ _navtabs|raw }}
+                {% if form.image is defined  %}
+                    <li class="nav-item"><a href="#panel-tab-image" data-bs-toggle="pill" class="nav-link"><i class="fas fa-image position-left"></i><span> Image</span></a></li>
+                {% endif %}
+                {% if form.files is defined  %}
+                    <li class="nav-item"><a href="#panel-tab-files" data-bs-toggle="pill" class="nav-link"><i class="fas fa-files-o position-left"></i><span> Fichiers</span></a></li>
+                {% endif %}
+                {% if
+                    form.createdAt is defined or
+                    form.publishAt is defined or
+                    form.publishUntil is defined or
+                    form.slug is defined or
+                    form.status is defined
+                %}
+                    <li class="nav-item"><a href="#panel-tab-publication" data-bs-toggle="pill" class="nav-link"><i class="fas fa-clock position-left"></i><span> Publication</span></a></li>
+                {% endif %}
+                <li>
+                    <button class="btn btn-primary">Enregistrer</button>
+                </li>
+            </ul>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
 {% block body -%}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
@@ -80,141 +141,128 @@
     {% endfor %}
 
 
-    {% if block('navtabs') is defined %}
-    {% set _navtabs = block('navtabs') %}
-    <ul class="nav nav-tabs" id="myTab">
-            {{ _navtabs|raw }}
-    </ul>
-    {% endif %}
-
-
     {% block panels %}
 
     {{ form_start(form, {'attr': {'data-form': 'form'}}) }}
 
         {{ form_errors(form) }}
 
-        <div class="row">
-
-            <div class="form-content tab-content col-sm-12 col-md-7 col-lg-9">
+        <div{% if has_tabs %} class="panel-tab-content tab-content" {% endif %}>
 
 
-                {% block mainPanel %}
-                    <!-- Form horizontal -->
-                    <div class="card">
+            {% block mainPanel %}
+                <!-- Form horizontal -->
+                <div class="card">
 
-                        <div class="card-header">
-                            <h4 class="card-title">{% block formtitle %}{% endblock %}</h4>
-                        </div>
+                    <div class="card-header">
+                        <h4 class="card-title">{% block formtitle %}{% endblock %}</h4>
+                    </div>
 
-                        <div class="card-body">
+                    <div class="card-body">
 
-                            {% block formbody %}{% endblock %}
-
-                        </div>
+                        {% block formbody %}{% endblock %}
 
                     </div>
-                {% endblock %}
 
-            </div>
+                </div>
+            {% endblock %}
+
+            {% block publication %}
+
+                {% if
+                    form.createdAt is defined or
+                    form.publishAt is defined or
+                    form.publishUntil is defined or
+                    form.slug is defined or
+                    form.status is defined
+                %}
 
 
-            <div class="form-sidebar col-sm-12 col-md-5 col-lg-3">
+                    <div class="tab-pane fade" role="tabpanel" id="panel-tab-publication">
 
-                {% block sidebar %}
+                        <div class="card">
 
-                    {% if form.publishAt is defined or form.publishAt is defined %}
-                    <div class="tabbable" data-form="publish-tabs">
-                        <ul class="nav nav-tabs nav-tabs-bottom bottom-divided nav-tabs-icon" style="margin-bottom: 0">
-                            <li class="nav-item"><a href="#sidepanel-tab1" data-toggle="tab" class="nav-link active"><i class="fas fa-paper-plane position-left"></i><span> Publier</span></a></li>
-                            <li class="nav-item"><a href="#sidepanel-tab2" data-toggle="tab" class="nav-link"><i class="fas fa-bell position-left"></i><span> Programmer</span></a></li>
-                        </ul>
-                    </div>
-                    {% endif %}
-
-                    <div class="card border-left-xlg border-left-info">
-
-                        {% if form.publishAt is defined or form.publishAt is defined %}
-                        {% else %}
                             <div class="card-heading">
                                 <h6 class="card-header no-margin"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Publier</h6>
                             </div>
-                        {% endif %}
 
-                        <div class="card-body">
+                            <div class="card-body">
 
-                            <div class="panel-tab-content tab-content">
-                                <div class="tab-pane active has-padding" id="sidepanel-tab1">
+                                {% block publishSlug %}
+                                    {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+                                {% endblock %}
 
-                                    {% block publishSlug %}
-                                        {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
-                                    {% endblock %}
+                                {% block publishStatus %}
+                                    {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                                {% endblock %}
 
-                                    {% block publishStatus %}
-                                        {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
-                                    {% endblock %}
-
-                                    {% block publishCreated %}
-                                        {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                                    {% endblock %}
-
-                                </div>
-
-                                {% if form.publishAt is defined or form.publishAt is defined %}
-                                    <div class="tab-pane has-padding" id="sidepanel-tab2">
-
-                                        {% block publishDates %}
-                                            {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                                        {% endblock %}
-
-                                    </div>
-                                {% endif %}
+                                {% block publishCreated %}
+                                    {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+                                {% endblock %}
 
                             </div>
 
                         </div>
-                        <div class="card-footer text-right">
-
-                            {% block publishAction %}
-
-                                {% if preview is defined and preview %}
-                                    <div class="btn-group">
-                                        <button type="submit" class="btn btn-primary" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
-                                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{{preview}}" target="_blank">Aperçu</a></li>
-                                        </ul>
-                                    </div>
-                                {% else %}
-                                    <button type="submit" class="btn btn-primary heading-btn pull-right" data-form="submit" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
-                                {% endif %}
 
 
-                            {% endblock %}
+                        {% if form.publishAt is defined or form.publishAt is defined %}
 
+                            <div class="card">
+                                <div class="card-heading">
+                                    <h6 class="card-header no-margin"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Publier</h6>
+                                </div>
 
-                        </div>
+                                <div class="card-body">
+
+                                    {% block publishDates %}
+                                        {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
+                                    {% endblock %}
+
+                                </div>
+                            </div>
+
+                        {% endif %}
+
                     </div>
 
+                {% endif %}
 
-                    {% block sidebarImage %}
+            {% endblock %}
 
-                        {% if form.image is defined %}
-                            {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
-                        {% endif %}
+            {% block image %}
 
-                        {% if form.files is defined %}
-                            {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
-                        {% endif %}
+                {% if form.image is defined  %}
+                <div class="tab-pane fade" role="tabpanel" id="panel-tab-image">
+                    {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
+                </div>
+                {% endif %}
 
-                    {% endblock %}
+            {% endblock %}
 
-                {% endblock %}
+            {% block files %}
 
-            </div>
+                {% if form.files is defined  %}
+                    {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
+                {% endif %}
+
+            {% endblock %}
+
 
         </div>
+        {% block publishAction %}
 
+            {% if preview is defined and preview %}
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{preview}}" target="_blank">Aperçu</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <button type="submit" class="btn btn-primary heading-btn pull-right" data-form="submit" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+            {% endif %}
+        {% endblock %}
     {{ form_end(form) }}
 
     {% endblock %}
