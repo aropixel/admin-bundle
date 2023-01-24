@@ -1,0 +1,43 @@
+
+/** LOGIN */
+body {
+    background-color: #fbfbfb !important;
+}
+
+.login-side {
+    background-color: var(--main-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-content {
+    width: 400px;
+    margin-top: -60px;
+}
+
+.login-content h4 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.form-control,
+.input-group-text,
+.custom-select,
+.custom-file-label {
+    background-color: #eceef1 !important;
+    border: none !important; }
+
+@media screen and (max-width: 769px) {
+    .login-svg {
+        display: none;
+    }
+    .login-content {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}

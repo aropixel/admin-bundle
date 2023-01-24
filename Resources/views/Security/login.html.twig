@@ -7,6 +7,8 @@
 
 	{% block stylesheets %}
 
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 		<!-- General CSS Files -->
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
@@ -17,8 +19,8 @@
 		<!-- Template CSS -->
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/login.css') }}">
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
-
 
 		<!-- Awesome Font -->
 		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
@@ -31,85 +33,87 @@
 	{% set hour = "now"|date("H") %}
 
 	<div id="app">
-		<section class="section">
-			<div class="container mt-5">
-				<div class="row">
-					<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-						<div class="login-brand">
-							<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
-						</div>
 
-						<div class="card card-primary">
-							<div class="card-header">
-								<h4>
-									{% if hour >= 5 and hour < 19 %}
-										Bonjour !
-									{% elseif hour >= 19 and hour <=23  %}
-										Bonsoir !
-									{% else %}
-										Bonne nuit !
-									{% endif %}
-								</h4>
-							</div>
+		<div class="row">
 
-							<div class="card-body">
-								{% if error|length %}
-									{% if error.toHide is not defined or (error.toHide is defined and not error.toHide) %}
-										<div class="alert alert-danger">
-											{{ error.messageKey|trans(error.messageData, 'security') }}
-										</div>
-									{% endif %}
-								{% endif %}
-								<form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
-									<div class="form-group">
-										<label for="email">Identifiant</label>
-										<input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
-										<div class="invalid-feedback">
-											Veuillez saisir votre identifiant
-										</div>
-									</div>
+			<div class="col-12 col-md-5 login-side"></div>
 
-									<div class="form-group">
-										<div class="d-block">
-											<label for="password" class="control-label">Mot de passe</label>
-											<div class="float-right">
-												<a href="{{ path('aropixel_admin_reset_request') }}" class="text-small">
-													Mot de passe oublié ?
-												</a>
-											</div>
-										</div>
-										<input id="password" type="password" class="form-control" name="password" tabindex="2" required>
-										<div class="invalid-feedback">
-											Veuillez saisir votre mot de passe
-										</div>
-									</div>
+			<div class="col-12 col-md-7 d-flex align-items-center justify-content-center">
 
-									<div class="form-group">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" name="_remember_me" class="custom-control-input" tabindex="3" id="remember-me">
-											<label class="custom-control-label" for="remember-me">Se souvenir de moi</label>
-										</div>
-									</div>
+				<div class="login-content">
 
-									<div class="d-grid gap-2">
-										<button class="btn btn-primary btn-lg" type="button">Se connecter</button>
-									</div>
-
-									<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-
-								</form>
-
-							</div>
-						</div>
-						<div class="simple-footer">
-							Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
-						</div>
+					<div class="login-brand">
+						<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" class="shadow-light rounded-circle" width="100">
 					</div>
-				</div>
-			</div>
-		</section>
-	</div>
 
+					<h4>
+						{% if hour >= 5 and hour < 19 %}
+							{% trans %}Hello{% endtrans %}
+						{% elseif hour >= 19 and hour <=23  %}
+							{% trans %}Good evening{% endtrans %}
+						{% else %}
+							{% trans %}Good night{% endtrans %}
+						{% endif %}
+					</h4>
+
+					{% if error|length %}
+						{% if error.toHide is not defined or (error.toHide is defined and not error.toHide) %}
+							<div class="alert alert-danger">
+								{{ error.messageKey|trans(error.messageData, 'security') }}
+							</div>
+						{% endif %}
+					{% endif %}
+
+					<form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
+						<div class="form-group">
+							<label for="email" class="control-label">{% trans %}Login{% endtrans %}</label>
+							<input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+							<div class="invalid-feedback">
+								Veuillez saisir votre identifiant
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="d-flex justify-content-between ">
+								<label for="password" class="control-label">{% trans %}Password{% endtrans %}</label>
+								<a href="{{ path('aropixel_admin_reset_request') }}" class="text-small">
+									{% trans %}Forgotten password ?{% endtrans %}
+								</a>
+							</div>
+							<input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+							<div class="invalid-feedback">
+								Veuillez saisir votre mot de passe
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="form-check">
+								<input type="checkbox" name="_remember_me" class="form-check-input" tabindex="3" id="remember-me">
+								<label class="form-check-label" for="remember-me">{% trans %}Remember me{% endtrans %}</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary w-100" tabindex="4">
+								{% trans %}Submit{% endtrans %}
+							</button>
+						</div>
+
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+					</form>
+
+					<div class="simple-footer">
+						Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
 
 </body>
 </html>

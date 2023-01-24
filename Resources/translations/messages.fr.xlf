@@ -3,16 +3,36 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Previous</source>
-                <target>Précédent</target>
+                <source>Hello</source>
+                <target>Bonjour</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Next</source>
-                <target>Suivant</target>
+                <source>Good evening</source>
+                <target>Bonsoir</target>
             </trans-unit>
             <trans-unit id="3">
-                <source>This value is not valid.</source>
-                <target>Ce champs contient une erreur.</target>
+                <source>Good night</source>
+                <target>Bonne nuit</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Login</source>
+                <target>Identifiant</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Password</source>
+                <target>Mot de passe</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Forgotten password ?</source>
+                <target>Mot de passe oublié ?</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Remember me</source>
+                <target>Se souvenir de moi</target>
+            </trans-unit>
+            <trans-unit id="login_submit">
+                <source>Submit</source>
+                <target>Se connecter</target>
             </trans-unit>
         </body>
     </file>
