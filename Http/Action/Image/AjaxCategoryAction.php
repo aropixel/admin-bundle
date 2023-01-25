@@ -17,7 +17,6 @@ class AjaxCategoryAction extends AbstractController
 
     public function __construct(
         private readonly PathResolverInterface $pathResolver,
-        private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager
     ){
         $this->datatableFieds = [

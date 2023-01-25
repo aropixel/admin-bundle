@@ -55,7 +55,7 @@ class UploadAction extends AbstractController
                 $errors[] = $formError->getMessage();
             }
 
-            $http_response = new Response(implode($errors, '<br />'), 500);
+            $http_response = new Response(implode('<br />', $errors), 500);
             return $http_response;
 
         }

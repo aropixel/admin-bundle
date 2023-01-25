@@ -85,13 +85,13 @@ $(function() {
     var $formSlug = $('#setslug');
     if ($formSlug.length) {
 
-        $formSlug.editable({
-            name: 'slug',
-            emptytext: "Aucun",
-            success: function(response, newValue) {
-                $("#setslug").parent().find('input:hidden').val(newValue);
-            }
-        });
+        // $formSlug.editable({
+        //     name: 'slug',
+        //     emptytext: "Aucun",
+        //     success: function(response, newValue) {
+        //         $("#setslug").parent().find('input:hidden').val(newValue);
+        //     }
+        // });
 
     }
 
@@ -243,7 +243,7 @@ $(function() {
         drawCallback: function () {
             //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
             $(this).closest('.dataTables_wrapper').unblock();
-            $("[data-modal-xeditable]").editable();
+            // $("[data-modal-xeditable]").editable();
         },
         preDrawCallback: function() {
             //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
@@ -692,26 +692,6 @@ $(function() {
 
     // Override defaults
     // ------------------------------
-
-    // Disable highlight
-    $.fn.editable.defaults.highlight = false;
-
-    // Output template
-    // $.fn.editableform.template = '<form class="editableform">' +
-    //     '<div class="control-group">' +
-    //     '<div class="editable-input"></div> <div class="editable-buttons"></div>' +
-    //     '<div class="editable-error-block"></div>' +
-    //     '</div> ' +
-    //     '</form>'
-
-    // Set popup mode as default
-    $.fn.editable.defaults.mode = 'popup';
-
-    // Buttons
-    $.fn.editableform.buttons =
-        '<button type="submit" class="btn btn-primary btn-icon editable-submit"><i class="fas fa-check"></i></button>' +
-        '<button type="button" class="btn btn-default btn-icon editable-cancel"><i class="fas fa-ban"></i></button>';
-
 
 
     $(".main-content").on('click', 'a.confirm[data-confirm]', function() {

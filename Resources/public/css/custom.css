@@ -548,12 +548,12 @@ table.dataTable td, table.dataTable th {
     position: relative;
     display: block;
     float: left;
-    margin: 15px 0 5px 20px;
+    margin: 15px 0 5px 40px;
 }
 .dataTables_length {
     float: right;
     display: inline-block;
-    margin: 14px 20px 0 0;
+    margin: 14px 40px 0 0;
 }
 .dataTables_length > label > span:first-child {
     float: left;
@@ -1756,4 +1756,13 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 .card.card-centered .card-body .form-group .form-widget {
     flex: 0 0 auto;
     width: 75%;
+}
+
+#libraryDataTable tr td:first-child,
+#libraryDataTable tr th:first-child {
+    padding-left: 40px;
+}
+#libraryDataTable tr td:last-child,
+#libraryDataTable tr th:last-child {
+    padding-right: 40px;
 }

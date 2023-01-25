@@ -186,6 +186,7 @@
         //
         var obj = this;
         var widget = launcher.element;
+        console.log(widget);
 
         //
         var cropper = new IM_Cropper(launcher);

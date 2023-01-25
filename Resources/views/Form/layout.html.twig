@@ -145,7 +145,7 @@
                         {% set locale = translationsFields.vars.name %}
 
                         <li {% if app.request.locale == locale %}class="active"{% endif %}>
-                            <a href="#" data-toggle="tab" data-target=".{{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }}">
+                            <a href="#" data-bs-toggle="tab" data-bs-target=".{{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }}">
                                 <img src="{{ asset('bundles/aropixeladmin/images/flags/' ~ locale ~ '.png') }}">
                                 {% if translationsFields.vars.required %}*{% endif %}
                             </a>
@@ -369,7 +369,7 @@
         <div class="panel-footer">
             <div class="m-t-10 m-b-10 text-right">
                 <div>
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#modalFilesLibrary">
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
                         <i class="icon-files-empty2 position-left"></i>
                         {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
                     </a>
@@ -438,7 +438,7 @@
             <div class="card-footer">
                 <div class="heading-elements">
                     <div>
-                        <a class="btn btn-primary heading-btn pull-right" data-toggle="modal" data-target="#modalFilesLibrary">
+                        <a class="btn btn-primary heading-btn pull-right" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
                             <i class="icon-files-empty2 position-left"></i>
                             {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
                         </a>

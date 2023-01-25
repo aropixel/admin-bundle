@@ -7,6 +7,7 @@ use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -64,7 +65,7 @@ class UploadAction extends AbstractController
                 $errors[] = $formError->getMessage();
             }
 
-            $http_response = new Response(implode($errors, '<br />'), 500);
+            $http_response = new Response(implode('<br />', $errors), 500);
             return $http_response;
         }
 

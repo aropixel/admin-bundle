@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TotalAction extends AbstractController
