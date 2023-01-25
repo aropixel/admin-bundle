@@ -8,6 +8,7 @@
 namespace Aropixel\AdminBundle\Security;
 
 
+use App\Aropixel\AdminBundle\Infrastructure\User\PasswordUpdater;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;

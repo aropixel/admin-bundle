@@ -34,16 +34,7 @@ class TooOldPasswordBadge implements BadgeInterface
 
     public function isResolved(): bool
     {
-        $now = new \Datetime('now');
-        $lastPasswordUpdate = $this->user->getLastPasswordUpdate() ?: $this->user->getCreatedAt();
-
-        $lastPasswordUpdate = clone($lastPasswordUpdate);
-        $lastPasswordUpdate = $lastPasswordUpdate->modify('+'. $this->nbMonths);
-
-        if ($now > $lastPasswordUpdate) {
-            return false;
-        }
-        return true;
+        return $this->user->tooOldPassword($this->nbMonths);
     }
 
 }

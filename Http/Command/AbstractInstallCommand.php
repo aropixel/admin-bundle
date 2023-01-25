@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Aropixel\AdminBundle\Command;
+namespace Aropixel\AdminBundle\Http\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;

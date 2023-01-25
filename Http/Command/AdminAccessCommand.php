@@ -6,12 +6,11 @@
  * Time: 13:55
  */
 
-namespace Aropixel\AdminBundle\Command;
+namespace Aropixel\AdminBundle\Http\Command;
 
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Security\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
