@@ -614,7 +614,7 @@ select.form-control:not([size]):not([multiple]) {
   border-radius: 50px;
   position: relative;
   vertical-align: bottom;
-  border: 1px solid rgba(0, 40, 100, 0.12);
+  border: 1px solid rgba(0, 40, 100, 0.06);
   transition: .3s border-color, .3s background-color; }
 .custom-switch-indicator:before {
   content: '';
