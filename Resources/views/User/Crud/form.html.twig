@@ -13,58 +13,38 @@
     </ul>
 {% endblock %}
 
+{% set tabbableCollapsed = false %}
+
 {% block formtitle %}{% if user and user.id %}Modifier un utilisateur{% else %}Ajouter un utilisateur{% endif %}{% endblock %}
 
-{% block formbody %}
 
+{% block tabbable %}{% endblock %}
 
-    <fieldset class="content-group">
+{% block mainPanel %}
 
-        <div class="section-title mt-0">Utilisateur</div>
+    <div class="card card-centered card-centered-large">
 
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_row(form.lastName) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.firstName) }}
-            </div>
+        {{ form_errors(form.enabled) }}
+        {{ form_widget(form.enabled, {'value': 'offline'}) }}
+
+        <div class="card-body">
+
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.firstName) }}
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {{ form_row(form.superAdmin) }}
+            {% endif %}
+
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+            {{ form_row(form.plainPassword.second) }}
+
         </div>
 
-        {% if is_granted('ROLE_SUPER_ADMIN') %}{{ form_row(form.superAdmin) }}{% endif %}
-
-    </fieldset>
-
-    <fieldset class="content-group">
-
-        <div class="section-title m-t-10">Identifiant / Mot de passe</div>
-
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_row(form.email) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
-                {{ form_row(form.plainPassword.second) }}
-            </div>
-        </div>
-
-
-    </fieldset>
-
-
-
-{% endblock %}
-
-{% block publishStatus %}
-
-    {{ form_errors(form.enabled) }}
-    <div class="row form-group">
-        <div class="col-md-5">Actif</div>
-        <div class="col-md-7">
-            {{ form_widget(form.enabled, {'value': 'offline', 'label_attr': {'class' : 'radio-inline'}}) }}
-        </div>
     </div>
 
-
 {% endblock %}
+
+
+{% block publishStatus %}{% endblock %}

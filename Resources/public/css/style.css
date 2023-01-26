@@ -1293,7 +1293,7 @@ table tr:hover .table-links {
 .nav-pills .nav-item .nav-link.active {
   box-shadow: none;
   color: var(--main-bg-color);
-  background-color: #e6ebed; }
+  background-color: #fff; }
 .nav-pills .nav-item .nav-link .badge {
   padding: 5px 8px;
   margin-left: 5px; }

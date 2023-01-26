@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -45,25 +46,22 @@ class UserType extends AbstractType
                 'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
                 'second_options' => array('label' => 'Confirmer le mot de passe'),
             ))
-            ->add('enabled', ChoiceType::class, array(
-                'choices'  => array(
-                    'Oui' => '1',
-                    'Non' => '0',
-                ),
-                'empty_data' => 'Non',
-                'label' => 'Actif',
-                'expanded' => true
+            ->add('enabled', CheckboxType::class, array(
+                'label' => "Actif",
+                'label_attr' => [
+                    'class' => 'checkbox-switch',
+                ]
             ))
             ->add('lastName', null, array('label' => 'Nom'))
             ->add('firstName', null, array('label' => 'Prénom'))
-            ->add('createdAt', DateTimeType::class, array(
+            /*->add('createdAt', DateTimeType::class, array(
                 'disabled' => true,
                 'required' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy-MM-dd',
                 'years' => range(date('Y') - 50, date('Y') + 5)
-            ))
+            ))*/
         ;
 
 

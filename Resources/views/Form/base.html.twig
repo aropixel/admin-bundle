@@ -37,21 +37,27 @@
 {% block header_elements %}
     {% set baseroute = get_baseroute() %}
     {% if route_exists(baseroute ~ '_index')  %}
-        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Liste">
+        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Liste">
             <i class="fas fa-circle fa-stack-2x"></i>
             <i class="fas fa-list fa-stack-1x fa-inverse"></i>
         </a>
     {% endif %}
     {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nouveau">
+        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Nouveau">
             <i class="fas fa-circle fa-stack-2x"></i>
             <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        </a>
+    {% endif %}
+    {% if form.vars.data.id and form.vars.data.createdAt  %}
+        <a href="#" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ "Créé le " ~ form.vars.data.createdAt|date('d-m-Y') ~ " à " ~ form.vars.data.createdAt|date('h:i') }}">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-info fa-stack-1x fa-inverse"></i>
         </a>
     {% endif %}
     {% if app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
         {% if form.vars.data.id is defined and form.vars.data.id %}
             <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
-                <button type="button" id="delete_button" class="fa-stack danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Supprimer">
+                <button type="button" id="delete_button" class="fa-stack danger" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Supprimer">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                 </button>
@@ -74,6 +80,8 @@
     form.files is defined
 %}
 
+{% set tabbableCollapsed = tabbableCollapsed is defined ? tabbableCollapsed : false %}
+
 {% block header %}
 
     <div>
@@ -95,10 +103,14 @@
     </div>
 
     {% if has_tabs %}
-        {% set _navtabs = block('tabbable') %}
-        <div class="tabbable">
+        {% if block('tabbable') is defined %}
+            {% set _navtabs = block('tabbable') %}
+        {% endif %}
+        <div class="tabbable {% if tabbableCollapsed %}collapsed {% endif %}">
             <ul class="nav nav-pills" role="tablist">
-                {{ _navtabs|raw }}
+                {% if _navtabs is defined %}
+                    {{ _navtabs|raw }}
+                {% endif %}
                 {% if form.image is defined  %}
                     <li class="nav-item"><a href="#panel-tab-image" data-bs-toggle="pill" class="nav-link"><i class="fas fa-image position-left"></i><span> Image</span></a></li>
                 {% endif %}
@@ -154,9 +166,9 @@
                 <!-- Form horizontal -->
                 <div class="card">
 
-                    <div class="card-header">
+                    {#<div class="card-header">
                         <h4 class="card-title">{% block formtitle %}{% endblock %}</h4>
-                    </div>
+                    </div>#}
 
                     <div class="card-body">
 
@@ -180,11 +192,7 @@
 
                     <div class="tab-pane fade" role="tabpanel" id="panel-tab-publication">
 
-                        <div class="card">
-
-                            <div class="card-heading">
-                                <h6 class="card-header no-margin"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Publier</h6>
-                            </div>
+                        <div class="card card-centered">
 
                             <div class="card-body">
 
@@ -200,28 +208,17 @@
                                     {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
                                 {% endblock %}
 
-                            </div>
-
-                        </div>
-
-
-                        {% if form.publishAt is defined or form.publishAt is defined %}
-
-                            <div class="card">
-                                <div class="card-heading">
-                                    <h6 class="card-header no-margin"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Publier</h6>
-                                </div>
-
-                                <div class="card-body">
+                                {% if form.publishAt is defined or form.publishAt is defined %}
 
                                     {% block publishDates %}
                                         {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
                                     {% endblock %}
 
-                                </div>
+                                {% endif %}
+
                             </div>
 
-                        {% endif %}
+                        </div>
 
                     </div>
 
@@ -255,18 +252,24 @@
         </div>
         {% block publishAction %}
 
-            {% if preview is defined and preview %}
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
-                    <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"> <span class="caret"></span> </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{preview}}" target="_blank">Aperçu</a></li>
-                    </ul>
-                </div>
-            {% else %}
-                <button type="submit" class="btn btn-primary heading-btn pull-right" data-form="submit" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+            {% if not has_tabs %}
+
+                {% if preview is defined and preview %}
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                        <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"> <span class="caret"></span> </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ preview }}" target="_blank">Aperçu</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <button type="submit" class="btn btn-primary heading-btn pull-right" data-form="submit" id="submitForm"><i class="icon-floppy-disk position-left"></i> Enregistrer</button>
+                {% endif %}
+
             {% endif %}
+
         {% endblock %}
+
     {{ form_end(form) }}
 
     {% endblock %}

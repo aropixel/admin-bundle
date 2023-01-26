@@ -1014,10 +1014,10 @@ function modalDyn(title, message, buttons, options)
 
     var params = $.extend({}, defaults, options);
 
-    var _modal = $( '<div class="modal fade" id="' + params.modalId + '"><div class="modal-dialog ' + params.modalClass + '"><div class="modal-content"></div></div></div>' );
+    var _modal = $( '<div class="modal fade" id="' + params.modalId + '"><div class="modal-dialog modal-dialog-centered ' + params.modalClass + '"><div class="modal-content"></div></div></div>' );
     var _header = $( '<div class="modal-header ' + params.headerClass + '"> \
 					<h5 class="modal-title">' + title + '</h5> \
-					<button type="button" class="close" data-dismiss="modal">×</button> \
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> \
 					</div>' );
     var _body = '<div class="modal-body">'+message+'</div>';
     var _buttonset = '';

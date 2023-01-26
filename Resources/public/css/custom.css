@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 body {
-    background-color: #f1f5f2;
+    background-color: #f5f8fa;
 }
 
 .heading-elements {
@@ -111,6 +111,10 @@ body {
 
 .heading-elements > * {
     margin-left: 20px;
+}
+
+.heading-elements i {
+    margin-left: 0 !important;
 }
 
 .heading-elements .fa-stack {
@@ -811,6 +815,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 .input-group>.input-group-prepend>.input-group-text {
     border-top-right-radius: .25rem;
     border-bottom-right-radius: .25rem;
+}
+
+.btn {
+    padding: 7px 15px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 600 !important;
 }
 
 .btn-default, .btn-default.disabled {
@@ -1716,6 +1727,18 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     border-color: var(--main-bg-color);
 }
 
+
+.tabbable .nav-pills li {
+    margin-left: 10px;
+}
+
+.tabbable .nav-pills li a, .tabbable .nav-pills li button {
+    padding: 8px 15px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 600 !important;
+}
+
 .tabbable .nav-pills .nav-item .nav-link {
     display: flex;
     align-items: center;
@@ -1725,7 +1748,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin-left: 5px;
 }
 
-.tabbable .nav-pills .nav-item .nav-link i + span {
+.tabbable.collapsed .nav-pills .nav-item .nav-link i + span {
     display: inline-block;
     max-width: 0;
     white-space:nowrap;
@@ -1734,10 +1757,14 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     overflow: hidden;
 }
 
-.tabbable .nav-pills .nav-item .nav-link.active i + span,
-.tabbable .nav-pills .nav-item .nav-link:hover i + span
+.tabbable.collapsed .nav-pills .nav-item .nav-link.active i + span,
+.tabbable.collapsed .nav-pills .nav-item .nav-link:hover i + span
 {
     max-width: 7rem;
+}
+
+.nav-pills .nav-item .nav-link:hover {
+    background-color: #fff;
 }
 
 .card.card-centered .card-body {
@@ -1765,4 +1792,60 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 #libraryDataTable tr td:last-child,
 #libraryDataTable tr th:last-child {
     padding-right: 40px;
+}
+
+
+.btn-icon-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-icon-group i {
+    font-size: 16px;
+    color: var(--main-darker-bg-color);
+}
+
+.btn-icon-group .fa-trash {
+    color: var(--danger-color);
+}
+
+.form-check.form-switch {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: end;
+    align-items: center;
+    margin-top: 15px;
+    margin-right: 50px;
+}
+
+.form-check-input {
+    float: inherit;
+}
+
+.form-switch .form-check-input {
+    height: 17px;
+    width: 35px;
+    margin-left: 15px !important;
+    margin-top: 0 !important;
+    border-color: var(--main-darker-bg-color);
+}
+
+.form-check-input:checked {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+}
+
+.form-switch .form-check-input:focus {
+    filter: grayscale(1);
+}
+
+.form-check-label {
+    font-weight: 500;
+    color: #3f4254;
+    font-size: 14px;
 }

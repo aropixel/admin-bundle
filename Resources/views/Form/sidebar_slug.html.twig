@@ -1,10 +1,12 @@
 
     {% if form.slug is defined %}
-    <div class="row form-group">
-        <div class="col-md-4">Permalien</div>
-        <div class="col-md-8">
-            <span id="setslug" class="p-t-0" data-type="text" data-placement="left" title="Modifier le permalien">{{ form.vars.value.slug ?: '' }}</span>
-            {{ form_widget(form.slug) }}
+
+        <div class="form-group">
+            <label class="form-label">Permalien</label>
+            <div class="form-widget">
+                <span id="setslug" class="p-t-0" data-type="text" data-placement="left" title="Modifier le permalien">{{ form.vars.value.slug ?: '' }}</span>
+                {{ form_widget(form.slug) }}
+            </div>
         </div>
-    </div>
+
     {% endif %}

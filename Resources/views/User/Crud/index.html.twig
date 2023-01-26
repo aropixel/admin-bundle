@@ -29,14 +29,9 @@
                 <td>{{ user.completeName }}</td>
                 <td>{{ user.createdAt|datetime('dd/MM/Y') }}</td>
                 <td>
-                    <div class="btn-group">
-                        <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}" class="btn btn-primary btn-labeled"><b><i class="fas fa-edit"></i></b> Modifier</a>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"><a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}"><i class="fas fa-edit"></i> Modifier</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item"><a class="delete" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?"><i class="fas fa-trash"></i> Supprimer</a></li>
-                        </ul>
+                    <div class="btn-icon-group">
+                        <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}" title="Modifier"><i class="fas fa-edit"></i></a>
+                        <a class="delete" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" title="Supprimer"><i class="fas fa-trash"></i></a>
                         {{ form(delete_forms[user.id]) }}
                     </div>
                 </td>

@@ -1,20 +1,28 @@
 
     {% if form.publishAt is defined %}
-    <div class="row form-group">
-        <div class="col-md-4">Publier le</div>
-        <div class="col-md-8">
-            <div class="m-b-5">{{ form_widget(form.publishAt['date']) }}</div>
-            <div>{{ form_widget(form.publishAt['time']) }}</div>
+
+        <div class="form-group">
+            <label class="form-label">Publier le</label>
+            <div class="form-widget">
+                <div class="row">
+                    <div class="col-6">{{ form_widget(form.publishAt['date']) }}</div>
+                    <div class="col-6">{{ form_widget(form.publishAt['time']) }}</div>
+                </div>
+            </div>
         </div>
-    </div>
+
     {% endif %}
 
     {% if form.publishUntil is defined %}
-    <div class="row form-group">
-        <div class="col-md-4">Jusqu'au</div>
-        <div class="col-md-8">
-            <div class="m-b-5">{{ form_widget(form.publishUntil['date']) }}</div>
-            <div>{{ form_widget(form.publishUntil['time']) }}</div>
+
+        <div class="form-group">
+            <label class="form-label">Jusqu'au</label>
+            <div class="form-widget">
+                <div class="row">
+                    <div class="col-6">{{ form_widget(form.publishUntil['date']) }}</div>
+                    <div class="col-6">{{ form_widget(form.publishUntil['time']) }}</div>
+                </div>
+            </div>
         </div>
-    </div>
+
     {% endif %}
