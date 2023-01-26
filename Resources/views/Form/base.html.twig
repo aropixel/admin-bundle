@@ -81,8 +81,8 @@
     <div class="section-header-left">
         <div class="d-flex">
             {% if form.image is defined %}
-            <div class="section-header-left-image">
-                <img src="{{ form.image.vars.value | imagine_filter('admin_thumbnail') }}" alt="" />
+            <div class="section-header-left-image" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+                <img src="{{ form.image.vars.value | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
             </div>
             {% endif %}
             <div class="section-header-left-content">
@@ -115,12 +115,6 @@
                     {% if _navtabs is defined %}
                         {{ _navtabs|raw }}
                     {% endif %}
-                    {% if form.image is defined  %}
-                        <li class="nav-item"><a href="#panel-tab-image" data-bs-toggle="pill" class="nav-link"><i class="fas fa-image position-left"></i><span> Image</span></a></li>
-                    {% endif %}
-                    {% if form.files is defined  %}
-                        <li class="nav-item"><a href="#panel-tab-files" data-bs-toggle="pill" class="nav-link"><i class="fas fa-files-o position-left"></i><span> Fichiers</span></a></li>
-                    {% endif %}
                     <li>
                         <button class="btn btn-primary" form="aropixel_admin_form">Enregistrer</button>
                     </li>
@@ -128,13 +122,13 @@
             </div>
             <div class="section-entry-properties">
                 {% if form.vars.value.createdAt is defined and form.vars.value.createdAt  %}
-                    <div class="section-entry-property">Créé le : <strong>{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
+                    <div class="section-entry-property" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Créé le : <strong>{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
                 {% endif %}
                 {% if form.vars.value.slug is defined and form.vars.value.slug  %}
-                    <div class="section-entry-property">Permalien : <strong>{{ form.vars.value.slug }}</strong></div>
+                    <div class="section-entry-property" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong>{{ form.vars.value.slug }}</strong></div>
                 {% endif %}
                 {% if form.status is defined and form.status.vars.value  %}
-                    <div class="section-entry-status">
+                    <div class="section-entry-status" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
                         <div class="d-flex align-items-center">
                             <div>Publié </div>
                             <span class="status-indicator checked warning"></span>
@@ -178,6 +172,55 @@
     </div>
     {% endfor %}
 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasForm" aria-labelledby="Réglages">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            {% block image %}
+
+                {% if form.image is defined  %}
+                    {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
+                {% endif %}
+
+            {% endblock %}
+
+            {% block files %}
+
+                {% if form.files is defined  %}
+                    {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
+                {% endif %}
+
+            {% endblock %}
+
+
+            {% block publishSlug %}
+                {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+            {% endblock %}
+
+            {% block publishStatus %}
+                {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+            {% endblock %}
+
+            {% block publishCreated %}
+                {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+            {% endblock %}
+
+            {% if form.publishAt is defined or form.publishAt is defined %}
+
+                {% block publishDates %}
+                    {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
+                {% endblock %}
+
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="offcanvas-buttons">
+        <a class="offcanvas-btn offcanvas-btn-img btn btn-animate-collapse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="far fa-image"></i><span> Image</span></a>
+    </div>
+
 
     {% block panels %}
 
@@ -203,75 +246,6 @@
                     </div>
 
                 </div>
-            {% endblock %}
-
-            {% block publication %}
-
-                {% if
-                    form.createdAt is defined or
-                    form.publishAt is defined or
-                    form.publishUntil is defined or
-                    form.slug is defined or
-                    form.status is defined
-                %}
-
-
-                    <div class="tab-pane fade" role="tabpanel" id="panel-tab-publication">
-
-                        <div class="card card-centered">
-
-                            <div class="card-body">
-
-                                {% block publishSlug %}
-                                    {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
-                                {% endblock %}
-
-                                {% block publishStatus %}
-                                    {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
-                                {% endblock %}
-
-                                {% block publishCreated %}
-                                    {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                                {% endblock %}
-
-                                {% if form.publishAt is defined or form.publishAt is defined %}
-
-                                    {% block publishDates %}
-                                        {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                                    {% endblock %}
-
-                                {% endif %}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                {% endif %}
-
-            {% endblock %}
-
-            {% block image %}
-
-                {% if form.image is defined  %}
-                <div class="tab-pane fade" role="tabpanel" id="panel-tab-image">
-                    <div class="row">
-                        <div class="col-3">
-                            {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-            {% endblock %}
-
-            {% block files %}
-
-                {% if form.files is defined  %}
-                    {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
-                {% endif %}
-
             {% endblock %}
 
 

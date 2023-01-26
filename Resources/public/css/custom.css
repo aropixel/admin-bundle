@@ -1744,22 +1744,27 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     align-items: center;
 }
 
-.tabbable .nav-pills .nav-item .nav-link span {
-    margin-left: 5px;
+.tabbable .nav-pills .nav-item .nav-link span,
+.btn-animate-collapse span {
+    margin-left: 0;
 }
 
-.tabbable.collapsed .nav-pills .nav-item .nav-link i + span {
+.tabbable.collapsed .nav-pills .nav-item .nav-link i + span,
+.btn-animate-collapse i + span {
     display: inline-block;
     max-width: 0;
     white-space:nowrap;
-    -webkit-transition: max-width 1s;
-    transition: max-width 1s;
+    -webkit-transition: max-width 1s, margin-left 1s;
+    transition: max-width 1s, margin-left 1s;
     overflow: hidden;
 }
 
 .tabbable.collapsed .nav-pills .nav-item .nav-link.active i + span,
-.tabbable.collapsed .nav-pills .nav-item .nav-link:hover i + span
+.tabbable.collapsed .nav-pills .nav-item .nav-link:hover i + span,
+.btn-animate-collapse.active i + span,
+.btn-animate-collapse:hover i + span
 {
+    margin-left: 7px;
     max-width: 7rem;
 }
 
@@ -1912,7 +1917,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin: 13px 0 0;
 }
 
-.section-entry-status > div::before {
+.section-entry-property + .section-entry-status > div::before {
     color: #a1a5b7!important;
     content: " - ";
     padding-left: 15px;
@@ -1936,4 +1941,37 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 .section-entry-status .status-indicator.checked.warning {
     border-color: var(--info-color);
     background: #fff;
+}
+
+.offcanvas-buttons {
+    position: fixed;
+    transition: transform 0.3s ease-in-out;
+    right: 20px;
+    z-index: 1100;
+    transform: rotate(90deg);
+    transform-origin: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.offcanvas-buttons .btn,
+.offcanvas-buttons .btn:hover {
+    background-color: var(--main-bg-color)!important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    line-height: 24px!important;
+}
+
+.offcanvas.showing + .offcanvas-buttons {
+    transform: translateX(-400px) rotate(90deg);
+}
+.offcanvas.show + .offcanvas-buttons {
+    transform: translateX(-400px) rotate(90deg);
+}
+.offcanvas.show.hiding + .offcanvas-buttons {
+    transform: rotate(90deg);
 }
