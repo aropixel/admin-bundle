@@ -26,6 +26,13 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: "Ubuntu", Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+.text-underlined-dashed {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
 
 
 @media (min-width: 992px) and (max-width: 1169px) {
@@ -1744,7 +1751,10 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     align-items: center;
 }
 
-.tabbable .nav-pills .nav-item .nav-link span,
+.tabbable .nav-pills .nav-item .nav-link span {
+    margin-left: 5px;
+}
+
 .btn-animate-collapse span {
     margin-left: 0;
 }
@@ -1869,7 +1879,6 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     font-weight: 500;
     color: #181c32!important;
 }
-
 .section-entry-property::before {
     color: #a1a5b7!important;
     content: " - ";
@@ -1897,6 +1906,10 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 }
 
 .section-header-left-image {
+    position: relative;
+}
+
+.section-header-left-image img {
     width: 65px;
     height: 65px;
     border-radius: 50%;
@@ -1905,8 +1918,11 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin-right: 14px;
     box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
 }
-.section-header-left-image img {
-    width: 100%;
+.section-header-left-image .editable-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 0 2px 2px;
 }
 
 .section .section-header .section-header-left-image + .section-header-left-content h1 {
@@ -1963,7 +1979,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     color: #fff;
     display: flex;
     align-items: center;
-    line-height: 24px!important;
+    height: 40px!important;
 }
 
 .offcanvas.showing + .offcanvas-buttons {
@@ -1974,4 +1990,20 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 }
 .offcanvas.show.hiding + .offcanvas-buttons {
     transform: rotate(90deg);
+}
+
+.editable-indicator {
+    background: #333;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    line-height: 20px!important;
+    font-size: 10px;
+    border-radius: 50%;
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+}
+.editable-indicator::before {
+    margin: 0 0 2px 1px;
 }

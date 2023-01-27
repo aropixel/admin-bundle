@@ -81,8 +81,9 @@
     <div class="section-header-left">
         <div class="d-flex">
             {% if form.image is defined %}
-            <div class="section-header-left-image" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+            <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
                 <img src="{{ form.image.vars.value | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+                <i class="fas fa-external-link-alt editable-indicator"></i>
             </div>
             {% endif %}
             <div class="section-header-left-content">
@@ -122,15 +123,15 @@
             </div>
             <div class="section-entry-properties">
                 {% if form.vars.value.createdAt is defined and form.vars.value.createdAt  %}
-                    <div class="section-entry-property" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Créé le : <strong>{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
+                    <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Créé le : <strong class="text-underlined-dashed">{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
                 {% endif %}
                 {% if form.vars.value.slug is defined and form.vars.value.slug  %}
-                    <div class="section-entry-property" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong>{{ form.vars.value.slug }}</strong></div>
+                    <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong class="text-underlined-dashed">{{ form.vars.value.slug }}</strong></div>
                 {% endif %}
                 {% if form.status is defined and form.status.vars.value  %}
-                    <div class="section-entry-status" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+                    <div class="section-entry-status cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
                         <div class="d-flex align-items-center">
-                            <div>Publié </div>
+                            <div class="text-underlined-dashed">Programmé </div>
                             <span class="status-indicator checked warning"></span>
                         </div>
                     </div>
@@ -218,7 +219,7 @@
         </div>
     </div>
     <div class="offcanvas-buttons">
-        <a class="offcanvas-btn offcanvas-btn-img btn btn-animate-collapse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="far fa-image"></i><span> Image</span></a>
+        <a class="offcanvas-btn offcanvas-btn-img btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="fas fa-cog"></i></a>
     </div>
 
 
