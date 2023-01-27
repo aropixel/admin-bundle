@@ -1,9 +1,9 @@
 
     {% if form.createdAt is defined %}
 
-        <div class="form-group">
-            <label class="form-label">Créé le</label>
-            <div class="form-widget">
+        <div class="form-group row mb-1">
+            <label class="col-sm-4 col-form-label">Créé le</label>
+            <div class="col-sm-8 form-widget">
                 <div class="row">
                     <div class="col-6">{{ form_widget(form.createdAt['date']) }}</div>
                     <div class="col-6">{{ form_widget(form.createdAt['time']) }}</div>
