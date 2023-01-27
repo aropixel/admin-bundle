@@ -11,7 +11,7 @@ namespace Aropixel\AdminBundle\Entity;
 trait PublishableTrait
 {
 
-    function isPublished() {
+    function isPublished() : bool {
 
         if (property_exists($this, 'status') && $this->status == Publishable::STATUS_OFFLINE) {
             return false;
@@ -32,6 +32,21 @@ trait PublishableTrait
         }
 
         return true;
+    }
+
+    function isScheduled() : bool {
+
+        $now = new \DateTime();
+
+        if (
+            property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now) &&
+            property_exists($this, 'status') && $this->status == Publishable::STATUS_ONLINE
+        ) {
+            return true;
+        }
+
+
+        return false;
     }
 
 }

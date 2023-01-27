@@ -17,15 +17,13 @@
 
 
 body {
-    font-family: "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 13px;
     line-height: 1.54;
     color: #333333;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Ubuntu", Helvetica Neue, Helvetica, Arial, sans-serif;
-}
+
+
 .text-underlined-dashed {
     text-decoration: underline;
     text-decoration-style: dashed;
@@ -146,7 +144,7 @@ body {
 
 button.fa-stack {
     background: none;
-    color: #6777ef;
+    color: var(--main-bg-color);
     font-weight: 500;
     transition: all .5s;
     -webkit-transition: all .5s;
@@ -336,9 +334,7 @@ span.select2-selection__clear {
 .picker__frame {
     transition: none!important;
 }
-.picker__wrap {
-    font-family: 'Nunito', 'Segoe UI', arial;
-}
+
 .picker__box {
     border-radius: 0;
     border-color: transparent;
@@ -419,7 +415,7 @@ span.select2-selection__clear {
 
 .picker__date-display {
     text-align: center;
-    background-color: #6777ef;
+    background-color: var(--main-bg-color);
     color: #fff;
     padding-bottom: 15px;
     font-weight: 300
@@ -461,7 +457,7 @@ span.select2-selection__clear {
     border-radius: 50%;
     -webkit-transform: scale(0.9);
     transform: scale(0.9);
-    background-color: #6777ef;
+    background-color: var(--main-bg-color);
     color: #ffffff;
     display: inline-block;
     padding: .75rem;
@@ -512,7 +508,7 @@ span.select2-selection__clear {
 
 
 .clockpicker-popover .popover-title {
-    background-color: #6777ef;
+    background-color: var(--main-bg-color);
     padding: 30px 10px;
     letter-spacing: .2;
     font-size: 2.4rem;
@@ -539,7 +535,7 @@ button.clockpicker-clear {
     font-weight: 400;
 }
 button.clockpicker-done {
-    color: #525eb7;
+    color: var(--main-darker-bg-color);
     font-weight: 500;
 }
 
@@ -939,7 +935,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-radius: 5px;
     height: 8px;
     width: 30px;
-    background-color: #6777ef;
+    background-color: var(--main-bg-color);
     display: inline-block;
     float: left;
     margin-top: 11px;
@@ -1343,7 +1339,7 @@ p {
     border: 1px solid rgba(0,0,0,.15);
 }
 .multiselect-container>li.active {
-    background: #6777ef;
+    background: var(--main-bg-color);
 }
 .multiselect-container>li.active>a {
     color: #fff;
@@ -1468,9 +1464,9 @@ p {
     clear: right;
 }
 .sp-container button {
-    background-color: #6777ef;
+    background-color: var(--main-bg-color);
     background-image: none;
-    border: 1px solid #6777ef;
+    border: 1px solid var(--main-bg-color);
     border-radius: 3px;
     color: #fff;
     text-shadow: none;
@@ -1723,7 +1719,7 @@ a, a:hover, a:focus {
 }
 
 .picker__weekday-display {
-    background-color: var(--main-darker-bg-color);
+    background-color: var(--main-bg-color);
 }
 
 .picker__day--highlighted:hover, .picker__day--infocus:hover, .picker__day--outfocus:hover {
@@ -1979,6 +1975,11 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     border: 3px solid #d0d5dc;
 }
 
+.section-entry-status .status-indicator {
+    border-color: var(--danger-color);
+    background: #fff;
+}
+
 .section-entry-status .status-indicator.checked {
     border-color: var(--main-bg-color);
     background: #fff;
@@ -2027,7 +2028,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     position: fixed;
     transition: right 0.3s ease-in-out;
     right: 20px;
-    z-index: 1100;
+    z-index: 990;
     transform: rotate(90deg);
     transform-origin: right;
     display: flex;

@@ -101,7 +101,7 @@ class ImageManager
     /**
      * Récupère les filtres de crop pour une entité
      */
-    public function getEntityCropFilters(Image $image, $imageClass) : array
+    public function getEntityCropFilters(?Image $image, $imageClass) : array
     {
         $imageClass = str_replace('Proxies\__CG__\\', '', $imageClass);
 
