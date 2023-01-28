@@ -123,6 +123,7 @@
                 {% if form.vars.value.slug is defined and form.vars.value.slug  %}
                     <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong class="text-underlined-dashed">{{ form.vars.value.slug }}</strong></div>
                 {% endif %}
+                {% block publishState %}
                 {% if form.status is defined and form.vars.value.isPublished is defined  %}
                     <div class="section-entry-status cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
                         <div class="d-flex align-items-center">
@@ -130,6 +131,7 @@
                         </div>
                     </div>
                 {% endif %}
+                {% endblock %}
             </div>
         </div>
     </div>
@@ -216,6 +218,13 @@
 
                 {% endblock %}
 
+                {% if
+                    form.slug is defined or
+                    form.status is defined or
+                    form.createdAt is defined or
+                    form.publishAt is defined or
+                    form.publishUntil is defined
+                %}
                 <h2 class="section-title mt-0">Publication</h2>
                 <div class="section-lead mb-4">Paramétrez vos options de publication</div>
 
@@ -237,6 +246,7 @@
                         {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
                     {% endblock %}
 
+                {% endif %}
                 {% endif %}
 
             </div>

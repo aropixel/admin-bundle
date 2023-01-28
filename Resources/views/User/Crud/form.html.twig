@@ -17,15 +17,22 @@
 
 {% block formtitle %}{% if user and user.id %}Modifier un utilisateur{% else %}Ajouter un utilisateur{% endif %}{% endblock %}
 
+{% block publishState %}
+    <div class="section-entry-status">
+        <div class="d-flex align-items-center">
+            <div>{{ user.enabled ? "Actif" : "Inactif" }} </div>
+            <span class="status-indicator {{ user.enabled ? "checked" : "" }}"></span>
+        </div>
+    </div>
+{% endblock %}
 
 {% block mainPanel %}
 
     <div class="card card-centered card-centered-large">
 
-        {{ form_errors(form.enabled) }}
-        {{ form_widget(form.enabled, {'value': 'offline'}) }}
-
         <div class="card-body">
+
+            {{ form_row(form.enabled) }}
 
             {{ form_row(form.lastName) }}
             {{ form_row(form.firstName) }}
