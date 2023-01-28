@@ -1913,7 +1913,7 @@ h6 .badge {
   padding-bottom: 4px;
   font-weight: 600; }
 .navbar .nav-link.nav-link-user img {
-  width: 30px; }
+  width: 40px; }
 .navbar .nav-link.nav-link-img {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2369,7 +2369,9 @@ blockquote .blockquote-footer {
 
 .sidebar-gone-show {
   display: none !important; }
-
+.user-avatar {
+  border: 2px solid #fff;
+  border-radius: 50%; }
 pre {
   border-radius: 3px; }
 

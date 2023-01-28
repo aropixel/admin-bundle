@@ -118,7 +118,7 @@
 
             <div class="section-entry-properties">
                 {% if form.vars.value.createdAt is defined and form.vars.value.createdAt  %}
-                    <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Créé le : <strong class="text-underlined-dashed">{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
+                    <div class="section-entry-property{% if form.createdAt is defined %}  cursor-pointer{% endif %}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Créé le : <strong{% if form.createdAt is defined %} class="text-underlined-dashed"{% endif %}>{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
                 {% endif %}
                 {% if form.vars.value.slug is defined and form.vars.value.slug  %}
                     <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong class="text-underlined-dashed">{{ form.vars.value.slug }}</strong></div>
@@ -180,6 +180,17 @@
         </div>
 
 
+        {% block offcanvas %}
+
+        {% if
+            form.image is defined or
+            form.files is defined or
+            form.slug is defined or
+            form.status is defined or
+            form.createdAt is defined or
+            form.publishAt is defined or
+            form.publishUntil is defined
+        %}
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasForm" aria-labelledby="Réglages">
             <div class="offcanvas-header">
@@ -191,6 +202,7 @@
 
                     {% if form.image is defined  %}
                         {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
+                        <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
                     {% endif %}
 
                 {% endblock %}
@@ -199,11 +211,10 @@
 
                     {% if form.files is defined  %}
                         {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
+                        <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
                     {% endif %}
 
                 {% endblock %}
-
-                <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
 
                 <h2 class="section-title mt-0">Publication</h2>
                 <div class="section-lead mb-4">Paramétrez vos options de publication</div>
@@ -233,6 +244,9 @@
         <div class="offcanvas-buttons">
             <a class="offcanvas-btn offcanvas-btn-img btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="fas fa-cog"></i></a>
         </div>
+        {% endif %}
+
+        {% endblock %}
 
 
         {{ form_end(form) }}

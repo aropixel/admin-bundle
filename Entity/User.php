@@ -15,80 +15,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
-    /**
-     * @var integer
-     */
-    protected $id;
+    protected ?int $id = null;
 
-    /**
-     * @var string
-     */
-    protected $email;
+    protected ?string $email = null;
 
-    /**
-     * @var boolean
-     */
-    protected $enabled;
+    protected bool $enabled = false;
 
-    /**
-     * @var int
-     */
-    protected $passwordAttempts = 0;
+    protected int $passwordAttempts = 0;
 
-    /**
-     * @var string
-     */
-    protected $firstName;
+    protected ?string $firstName = null;
 
-    /**
-     * @var string
-     */
-    protected $lastName;
+    protected ?string $lastName = null;
 
-    /**
-     * @var array
-     */
-    protected $roles = [];
+    protected array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    protected $password;
+    protected ?string $password = null;
 
-    /**
-     * @var string  Plain password. Used for model validation. Must not be persisted.
-     */
-    protected $plainPassword;
+    protected ?string $plainPassword = null;
 
-    /**
-     * @var string The token for password reset request
-     */
-    protected $passwordResetToken;
+    protected ?string $passwordResetToken = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $passwordRequestedAt;
+    protected ?\DateTime $passwordRequestedAt = null;
 
-    /**
-     * @var string The token for password reset request
-     */
-    protected $emailVerificationToken;
+    protected ?string $emailVerificationToken = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
+    protected ?\DateTime $createdAt = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $lastPasswordUpdate;
+    protected ?\DateTime $lastPasswordUpdate = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $lastLogin;
+    protected ?\DateTime $lastLogin = null;
+
+    protected ?UserImage $image = null;
 
 
     public function getId(): ?int
@@ -456,6 +413,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     public function setLastLogin(?\DateTime $lastLogin): void
     {
         $this->lastLogin = $lastLogin;
+    }
+
+    public function getImage(): ?UserImage
+    {
+        return $this->image;
+    }
+
+    public function setImage(?UserImage $image): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($image === null && $this->image !== null) {
+            $this->image->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($image !== null && $image->getUser() !== $this) {
+            $image->setUser($this);
+        }
+
+        $this->image = $image;
+
+        return $this;
     }
 
 }

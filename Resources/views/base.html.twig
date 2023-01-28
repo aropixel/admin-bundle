@@ -65,7 +65,7 @@
 
                     <a href="#" class="dropdown-toggle nav-link nav-link-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% block navbar_nav_img %}
-                            <img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" class="rounded-circle mr-1">
+                            <img alt="image" src="{{ app.user.image ? app.user.image | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
                         {% endblock %}
                         <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
                     </a>

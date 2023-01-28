@@ -3,6 +3,8 @@
 namespace Aropixel\AdminBundle\Form\Type;
 
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserImage;
+use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -48,12 +50,14 @@ class UserType extends AbstractType
             ))
             ->add('enabled', CheckboxType::class, array(
                 'label' => "Actif",
-                'label_attr' => [
-                    'class' => 'checkbox-switch',
-                ]
             ))
             ->add('lastName', null, array('label' => 'Nom'))
             ->add('firstName', null, array('label' => 'Prénom'))
+            ->add('image',ImageType::class, [
+                'label' => 'Image de la modal',
+                'data_class' => UserImage::class,
+                'required' => false,
+            ])
             /*->add('createdAt', DateTimeType::class, array(
                 'disabled' => true,
                 'required' => false,

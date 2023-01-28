@@ -7,6 +7,8 @@ use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserImage;
+use Aropixel\AdminBundle\Entity\UserImageInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -45,6 +47,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode(ImageInterface::class)->defaultValue(Image::class)->end()
                         ->scalarNode(FileInterface::class)->defaultValue(File::class)->end()
                         ->scalarNode(UserInterface::class)->defaultValue(User::class)->end()
+                        ->scalarNode(UserImageInterface::class)->defaultValue(UserImage::class)->end()
                     ->end()
                 ->end()
                 ->arrayNode('forms')

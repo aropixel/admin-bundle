@@ -2028,6 +2028,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     position: fixed;
     transition: right 0.3s ease-in-out;
     right: 20px;
+    top: 50%;
     z-index: 990;
     transform: rotate(90deg);
     transform-origin: right;

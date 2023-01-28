@@ -34,6 +34,12 @@
         </field>
         <field name="lastPasswordUpdate" type="datetime" nullable="true"/>
         <field name="lastLogin" type="datetime" nullable="true"/>
+        <one-to-one field="image" target-entity="UserImage" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-one>
 
     </mapped-superclass>
 
