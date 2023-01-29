@@ -1901,6 +1901,15 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin-top: 10px;
     line-height: 28px;
 }
+.section-entry-properties [data-bs-toggle="offcanvas"]::after {
+    content: "\f35d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 10px;
+    color: #333;
+    position: absolute;
+    right: -25px;
+}
 .section-entry-properties strong {
     font-weight: 500;
     color: #181c32!important;

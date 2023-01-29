@@ -222,7 +222,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         if ($options['data_value']) {
 
             $normalizedData = $this->instanceToData->getFileName($data);
-            $view->vars['image_path'] = Image::getFileNameWebPath($normalizedData);
+            $view->vars['image_path'] = $normalizedData ? Image::getFileNameWebPath($normalizedData) : '';
 
         }
         else {

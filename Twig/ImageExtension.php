@@ -70,7 +70,7 @@ class ImageExtension extends AbstractExtension
 
     public function customImagineFilter($image, $filter, array $config = [], $resolver = null)
     {
-        $path = $image;
+        $path = null;
         $isImage = ($image instanceof AttachImage);
 
 
@@ -78,7 +78,7 @@ class ImageExtension extends AbstractExtension
             /** @var AttachImage $image */
             $path = $this->pathResolver->fileExists(Image::UPLOAD_DIR, $image->getFilename()) ? $image->getWebPath() : null;
         }
-        else {
+        elseif (is_string($image)) {
             $path = Image::getFileNameWebPath($image);
         }
 //

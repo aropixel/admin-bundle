@@ -301,7 +301,7 @@ class Image implements ImageInterface
     }
 
 
-    static function getFileNameWebPath($fileName)
+    static function getFileNameWebPath(string $fileName)
     {
         return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
     }
