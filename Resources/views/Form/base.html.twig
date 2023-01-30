@@ -72,12 +72,12 @@
     <div class="section-header-left">
         <div class="d-flex">
             {% block header_image %}
-            {% if form.image is defined %}
-            <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
-                <img src="{{ form.image.vars.value | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
-                <i class="fas fa-external-link-alt editable-indicator"></i>
-            </div>
-            {% endif %}
+                {% if form.image is defined %}
+                    <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+                        <img src="{{ form.image.vars.value | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+                        <i class="fas fa-external-link-alt editable-indicator"></i>
+                    </div>
+                {% endif %}
             {% endblock %}
             <div class="section-header-left-content">
 
@@ -103,19 +103,19 @@
     <div>
         <div class="text-end">
             {% if has_tabs %}
-            {% set _navtabs = block('tabbable') %}
-            <div class="tabbable {% if tabbableCollapsed %}collapsed {% endif %}">
-                <ul class="nav nav-pills" role="tablist">
-                    {% if _navtabs is defined %}
-                        {{ _navtabs|raw }}
-                    {% endif %}
-                    <li>
-                        {% block publishPillAction %}<button class="btn btn-primary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
-                    </li>
-                </ul>
-            </div>
+                {% set _navtabs = block('tabbable') %}
+                <div class="tabbable {% if tabbableCollapsed %}collapsed {% endif %}">
+                    <ul class="nav nav-pills" role="tablist">
+                        {% if _navtabs is defined %}
+                            {{ _navtabs|raw }}
+                        {% endif %}
+                        <li>
+                            {% block publishPillAction %}<button class="btn btn-secondary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
+                        </li>
+                    </ul>
+                </div>
             {% else %}
-                {% block publishAction %}<button class="btn btn-primary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
+                {% block publishAction %}<button class="btn btn-secondary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
             {% endif %}
 
             <div class="section-entry-properties">
@@ -126,13 +126,13 @@
                     <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong class="text-underlined-dashed">{{ form.vars.value.slug }}</strong></div>
                 {% endif %}
                 {% block publishState %}
-                {% if form.status is defined and form.vars.value.isPublished is defined  %}
-                    <div class="section-entry-status cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
-                        <div class="d-flex align-items-center">
-                            {% include '@AropixelAdmin/Form/status_indicator.html.twig' with {'publishable' : form.vars.value} %}
+                    {% if form.status is defined and form.vars.value.isPublished is defined  %}
+                        <div class="section-entry-status cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+                            <div class="d-flex align-items-center">
+                                {% include '@AropixelAdmin/Form/status_indicator.html.twig' with {'publishable' : form.vars.value} %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
                 {% endblock %}
             </div>
         </div>
@@ -227,16 +227,27 @@
                     form.publishAt is defined or
                     form.publishUntil is defined
                 %}
-                <h2 class="section-title mt-0">Publication</h2>
-                <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+                        <h2 class="section-title mt-0">Publication</h2>
+                        <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+                    </div>
+
+                    <div>
+                        {% block publishStatus %}
+                            {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                        {% endblock %}
+                    </div>
+
+                </div>
 
                 {% block publishSlug %}
                     {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
                 {% endblock %}
 
-                {% block publishStatus %}
-                    {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
-                {% endblock %}
+
 
                 {% block publishCreated %}
                     {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}

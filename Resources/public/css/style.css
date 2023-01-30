@@ -2473,11 +2473,11 @@ pre {
   margin-top: -7px; }
 .section .section-header {
   border: none;
-  position: relative;
   margin-bottom: 20px;
   padding: 20px 0;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: space-between;}
 .section .section-header h1 {
   margin-bottom: 0;
   font-weight: 600!important;
