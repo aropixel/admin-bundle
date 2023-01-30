@@ -1,15 +1,12 @@
 
     {% if form.status is defined  %}
 
-        {% set _status = (form.vars.value.status=='online' ? 'online' : 'offline') %}
+        {% set publishable = form.vars.value %}
 
         <div class="form-switch form-status-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-            <label class="form-check-label" for="flexSwitchCheckDefault">Publié</label>
-        </div>
-
-        <div class="d-none">
-            {{ form_widget(form.status, {'value': 'offline', 'label_attr': {'class' : 'radio-inline'}}) }}
+            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch" id="flexSwitchCheckChecked"{{ form.status.vars.value == "online" ? " checked" : "" }}>
+            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "") }}</label>
+            {{ form_widget(form.status) }}
         </div>
 
     {% endif %}
