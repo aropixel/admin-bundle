@@ -866,18 +866,6 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-body {
   padding-top: 20px;
   padding-bottom: 20px; }
-.card.card-centered {
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-.card.card-centered .card-body {
-  max-width: 800px!important; }
-.card.card-centered-large .card-body {
-  max-width: 1000px!important; }
-.card.card-centered .card-body:first-child {
-  padding-top: 60px; }
-.card.card-centered .card-body:last-child {
-  padding-bottom: 60px; }
 .card .card-body .section-title {
   margin: 30px 0 10px 0;
   font-size: 16px; }
