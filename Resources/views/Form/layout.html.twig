@@ -5,7 +5,7 @@
 
 
 {% block form_start -%}
-    {% set attr = attr|merge({class: (attr.class|default('form-horizontal'))|trim}) %}
+    {% set attr = attr|merge({class: 'form-layout ' ~ (attr.class|default('form-horizontal'))|trim}) %}
     {{- parent() -}}
 {%- endblock form_start %}
 

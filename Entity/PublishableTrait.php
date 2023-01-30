@@ -17,36 +17,31 @@ trait PublishableTrait
             return false;
         }
 
-        //
-        $now = new \DateTime();
-
-
-        //
-        if (property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now)) {
-            return false;
-        }
-
-        //
-        if (property_exists($this, 'publishUntil') && !is_null($this->publishUntil) && ($now > $this->publishUntil)) {
-            return false;
-        }
-
-        return true;
+        return !$this->isScheduled() || !$this->isScheduleOutdated() && !$this->isScheduleIncoming();
     }
 
     function isScheduled() : bool {
+        return (
+            (
+                (property_exists($this, 'publishAt') && !is_null($this->publishAt)) ||
+                (property_exists($this, 'publishUntil') && !is_null($this->publishUntil))
+            ) &&
+            (property_exists($this, 'status') && $this->status == Publishable::STATUS_ONLINE)
+
+        );
+    }
+
+    function isScheduleIncoming() : bool {
 
         $now = new \DateTime();
+        return (property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now));
 
-        if (
-            property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now) &&
-            property_exists($this, 'status') && $this->status == Publishable::STATUS_ONLINE
-        ) {
-            return true;
-        }
+    }
 
+    function isScheduleOutdated() : bool {
 
-        return false;
+        $now = new \DateTime();
+        return (property_exists($this, 'publishUntil') && !is_null($this->publishUntil) && ($now > $this->publishUntil));
     }
 
 }
