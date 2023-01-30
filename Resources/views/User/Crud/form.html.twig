@@ -1,14 +1,14 @@
 {% extends '@AropixelAdmin/Form/base.html.twig' %}
 
-{% block header_title %}Utilisateurs{% endblock %}
+{% block header_title %}{% trans %}Users{% endtrans %}{% endblock %}
 {% block header_breadcrumb %}
     <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">Utilisateurs</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}Home{% endtrans %}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">{% trans %}Users{% endtrans %}</a></li>
         {% if user and user.id %}
-            <li class="breadcrumb-item active">Modifier</li>
+            <li class="breadcrumb-item active">{% trans %}Edit{% endtrans %}</li>
         {% else %}
-            <li class="breadcrumb-item active">Création</li>
+            <li class="breadcrumb-item active">{% trans %}Add{% endtrans %}</li>
         {% endif %}
     </ul>
 {% endblock %}
@@ -20,7 +20,7 @@
 {% block publishState %}
     <div class="section-entry-status">
         <div class="d-flex align-items-center">
-            <div>{{ user.enabled ? "Actif" : "Inactif" }} </div>
+            <div>{{ user.enabled ? "Active" : "Inactive"}} </div>
             <span class="status-indicator {{ user.enabled ? "checked" : "" }}"></span>
         </div>
     </div>

@@ -34,6 +34,96 @@
                 <source>Submit</source>
                 <target>Se connecter</target>
             </trans-unit>
+            <trans-unit id="8">
+                <source>Please enter your login</source>
+                <target>Veuillez saisir votre identifiant</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Please enter your password</source>
+                <target>Veuillez saisir votre mot de passe</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>My profile</source>
+                <target>Mon profil</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Logout</source>
+                <target>Déconnexion</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Home</source>
+                <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Users</source>
+                <target>Utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Users roles</source>
+                <target>Liste des administrateurs</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Title</source>
+                <target>Titre</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Created on</source>
+                <target>Créé le</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>New</source>
+                <target>Nouveau</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Reorder</source>
+                <target>Réorganiser</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Edit</source>
+                <target>Modifier</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Add</source>
+                <target>Création</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Save</source>
+                <target>Enregistrer</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Featured image</source>
+                <target>Image à la une</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Select a picture</source>
+                <target>Choisissez une image</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Alternative text</source>
+                <target>Texte alternatif</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Remove the picture</source>
+                <target>Retirer l'image</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Active</source>
+                <target>Actif</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Inactive</source>
+                <target>Inactif</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Dashboard</source>
+                <target>Tableau de bord</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Filter</source>
+                <target>Filtrer</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>

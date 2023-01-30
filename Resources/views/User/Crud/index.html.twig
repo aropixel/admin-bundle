@@ -1,16 +1,16 @@
 {% extends '@AropixelAdmin/List/datatable.html.twig' %}
 {% set cardClass = 'datatable-card' %}
 
-{% block header_title %}Utilisateurs{% endblock %}
+{% block header_title %}{% trans %}Users{% endtrans %}{% endblock %}
 {% block header_breadcrumb %}
     <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
-        <li class="breadcrumb-item active">Utilisateurs</li>
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}Home{% endtrans %}</a></li>
+        <li class="breadcrumb-item active">{% trans %}Users{% endtrans %}</li>
     </ul>
 {% endblock %}
 
 
-{% block paneltitle %}Liste des administrateurs{% endblock %}
+{% block paneltitle %}{% trans %}Users roles{% endtrans %}{% endblock %}
 
 
 {% block paneldatatable %}
@@ -18,8 +18,8 @@
     <table class="table card-table table-vcenter text-nowrap datatable">
         <thead>
         <tr>
-            <th>Titre</th>
-            <th style="width:200px">Créé le</th>
+            <th>{% trans %}Title{% endtrans %}</th>
+            <th style="width:200px">{% trans %}Created on{% endtrans %}</th>
             <th style="width:200px">Actions</th>
         </tr>
         </thead>

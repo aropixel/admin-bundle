@@ -36,11 +36,11 @@
     <div class="image-properties d-flex">
 
         <div>
-            <h2 class="section-title">Image à la une</h2>
-            <div class="section-lead mb-4">{{ description is defined and description|length ? description : 'Choisissez une image' }}</div>
+            <h2 class="section-title">{% trans %}Featured image{% endtrans %}</h2>
+            <div class="section-lead mb-4">{{ description is defined and description|length ? description : 'Select a picture' | trans}}</div>
 
             <div class="form-group mb-1">
-                <label class="col-form-label">Texte alternatif</label>
+                <label class="col-form-label">{% trans %}Alternative text{% endtrans %}</label>
                 <div class="form-widget">
                     <input type="text" value="" placeholder="" class="form-control" />
                 </div>
@@ -49,8 +49,8 @@
         </div>
 
         <div class="image-actions">
-            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLibrary">Choisir une image</a>
-            <a class="btn btn-danger">Retirer l'image</a>
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLibrary">{% trans %}Select a picture{% endtrans %}</a>
+            <a class="btn btn-danger">{% trans %}Remove the picture{% endtrans %}</a>
         </div>
 
     </div>

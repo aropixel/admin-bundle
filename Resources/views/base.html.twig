@@ -34,9 +34,14 @@
     {% endblock %}
 
 </head>
+<div id="js-locale" class="js-locale"
+     data-currentLocale="{{ app.request.defaultLocale }}"
+></div>
+
 
 <body{% if admin_theme.menu_position == "top" %} class="layout-3" {% endif %}>
 <div id="app">
+
     <div class="main-wrapper {{ admin_theme.menu_position=="top" ? "container" : "main-wrapper-1" }}">
         <div class="navbar-bg"></div>
 
@@ -73,11 +78,11 @@
                     <div class="dropdown-menu dropdown-menu-right">
 {#                        <div class="dropdown-title">Connecté il y a 5 minutes</div>#}
                         <a href="{#{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}#}" class="dropdown-item has-icon">
-                            <i class="far fa-user"></i> Mon profil
+                            <i class="far fa-user"></i> {% trans %}My profile{% endtrans %}
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
-                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                            <i class="fas fa-sign-out-alt"></i> {% trans %}Logout{% endtrans %}
                         </a>
                     </div>
 

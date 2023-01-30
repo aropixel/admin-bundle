@@ -3,13 +3,13 @@
 {% block header_elements %}
     {% set baseroute = get_baseroute() %}
     {% if route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
+        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="{% trans %}New{% endtrans %}">
             <i class="fas fa-circle fa-stack-2x"></i>
             <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
         </a>
     {% endif %}
     {% if route_exists(baseroute ~ '_order') %}
-        <a href="{{ path(baseroute ~ '_order') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Réorganiser">
+        <a href="{{ path(baseroute ~ '_order') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="{% trans %}Reorder{% endtrans %}">
             <i class="fas fa-circle fa-stack-2x"></i>
             <i class="fas fa-arrows-alt fa-stack-1x fa-inverse"></i>
         </a>

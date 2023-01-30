@@ -215,40 +215,79 @@ $(function() {
     // ------------------------------
 
     // Setting datatable defaults
-    $.extend( $.fn.dataTable.defaults, {
-        autoWidth: false,
-        columnDefs: [
-            {
-                orderable: false,
-                targets: [ 'no-sort' ]
+    var currentLocale = document.getElementById('js-locale').getAttribute('data-currentLocale')
+
+    if (currentLocale == 'fr') {
+        $.extend($.fn.dataTable.defaults, {
+            autoWidth: false,
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: ['no-sort']
+                },
+                {
+                    type: 'date-euro',
+                    targets: ['date-euro']
+                },
+                {
+                    className: 'position',
+                    targets: ['position']
+                }
+            ],
+            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            language: {
+                search: '<span>Filtrer:</span> _INPUT_',
+                lengthMenu: '<span>Nombre par page :</span> _MENU_',
+                sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ment(s)",
+                sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                sEmptyTable: "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                paginate: {'first': 'Premier', 'last': 'Dernier', 'next': '&rarr;', 'previous': '&larr;'}
             },
-            {
-                type: 'date-euro',
-                targets: [ 'date-euro' ]
+            drawCallback: function () {
+                //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+                $(this).closest('.dataTables_wrapper').unblock();
+                $("[data-modal-xeditable]").editable();
             },
-            {
-                className: 'position',
-                targets: [ 'position' ]
+            preDrawCallback: function () {
+                //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
             }
-        ],
-        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-        language: {
-            search: '<span>Filtrer:</span> _INPUT_',
-            lengthMenu: '<span>Nombre par page:</span> _MENU_',
-            sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-            sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-            sEmptyTable: "Aucun &eacute;l&eacute;ment &agrave; afficher",
-            paginate: { 'first': 'Premier', 'last': 'Dernier', 'next': '&rarr;', 'previous': '&larr;' }
-        },
-        drawCallback: function () {
-            //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-            $(this).closest('.dataTables_wrapper').unblock();
-            // $("[data-modal-xeditable]").editable();
-        },
-        preDrawCallback: function() {
-            //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-        }
-    });
+        });
+    } else {
+        $.extend($.fn.dataTable.defaults, {
+            autoWidth: false,
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: ['no-sort']
+                },
+                {
+                    type: 'date-euro',
+                    targets: ['date-euro']
+                },
+                {
+                    className: 'position',
+                    targets: ['position']
+                }
+            ],
+            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+            language: {
+                search: '<span>Filter:</span> _INPUT_',
+                lengthMenu: '<span>Items per page:</span> _MENU_',
+                sInfo: "Display item(s) _START_ to _END_ on _TOTAL_ item(s)",
+                sInfoEmpty: "Display item 0 to 0 on 0 item",
+                sEmptyTable: "No item to display",
+                paginate: {'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;'}
+            },
+            drawCallback: function () {
+                //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
+                $(this).closest('.dataTables_wrapper').unblock();
+                $("[data-modal-xeditable]").editable();
+            },
+            preDrawCallback: function () {
+                //$(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
+            }
+        });
+    }
 
     //
     // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
