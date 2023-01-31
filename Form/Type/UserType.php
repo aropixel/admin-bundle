@@ -44,15 +44,15 @@ class UserType extends AbstractType
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'required' => $options['new'],
-                'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre.',
-                'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
-                'second_options' => array('label' => 'Confirmer le mot de passe'),
+                'invalid_message' => 'Password and confirmation must match.',
+                'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Modify password'),
+                'second_options' => array('label' => 'Confirm password'),
             ))
             ->add('enabled', CheckboxType::class, array(
-                'label' => "Actif",
+                'label' => "Active",
             ))
-            ->add('lastName', null, array('label' => 'Nom'))
-            ->add('firstName', null, array('label' => 'Prénom'))
+            ->add('lastName', null, array('label' => 'Last name'))
+            ->add('firstName', null, array('label' => 'First name'))
             ->add('image',ImageType::class, [
                 'label' => 'Image de la modal',
                 'data_class' => UserImage::class,
@@ -75,11 +75,11 @@ class UserType extends AbstractType
             $builder
                 ->add('superAdmin', ChoiceType::class, array(
                     'choices'  => array(
-                        'Oui' => '1',
-                        'Non' => '0',
+                        'Yes' => '1',
+                        'No' => '0',
                     ),
-                    'empty_data' => 'Non',
-                    'label' => 'Super Administrateur',
+                    'empty_data' => 'No',
+                    'label' => 'Super Administrator',
                     'label_attr' => array('class' => 'radio-inline'),
                     'expanded' => true
                 ))

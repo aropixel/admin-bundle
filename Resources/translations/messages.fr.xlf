@@ -122,7 +122,58 @@
                 <source>Filter</source>
                 <target>Filtrer</target>
             </trans-unit>
-
+            <trans-unit id="30">
+                <source>Delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>List</source>
+                <target>Liste</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Last name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>First name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Super Administrator</source>
+                <target>Super Administrateur</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Modify password</source>
+                <target>Modifier le mot de passe</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Confirm password</source>
+                <target>Confirmer le mot de passe</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Password and confirmation must match</source>
+                <target>Le mot de passe et la confirmation doivent correspondre</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Yes</source>
+                <target>Oui</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>No</source>
+                <target>Non</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Permalink</source>
+                <target>Permalien</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Pick a date</source>
+                <target>Entrer une date</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Pick a time</source>
+                <target>Entrer une heure</target>
+            </trans-unit>
 
         </body>
     </file>

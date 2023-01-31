@@ -574,7 +574,7 @@
     {% if widget == 'single_text' %}
         <div class="input-group">
             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-            <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="Entrer une date" {% if value is not empty %}value="{{ date(value)|date("d/m/Y", false) }}" {% endif %} />
+            <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="{% trans %}Pick a date{% endtrans %}" {% if value is not empty %}value="{{ date(value)|date("d/m/Y", false) }}" {% endif %} />
         </div>
     {% else -%}
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
@@ -597,7 +597,7 @@
     {% if widget == 'single_text' %}
         <div class="input-group">
             <span class="input-group-addon"><i class="icon-alarm"></i></span>
-            <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="Entrer une heure&hellip;" {% if value is not empty %}value="{{ value }}" {% endif %} />
+            <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="{% trans %}Pick a time{% endtrans %}&hellip;" {% if value is not empty %}value="{{ value }}" {% endif %} />
         </div>
     {% else -%}
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}

@@ -21,8 +21,8 @@ class PublishableType extends AbstractType
         $builder
             ->add('status', ChoiceType::class, array(
                 'choices'  => array(
-                    'Oui' => 'online',
-                    'Non' => 'offline',
+                    'Yes' => 'online',
+                    'No' => 'offline',
                 ),
                 'empty_data' => 'Non',
                 'expanded' => true

@@ -30,8 +30,8 @@
                 <td>{{ user.createdAt|datetime('dd/MM/Y') }}</td>
                 <td>
                     <div class="btn-icon-group">
-                        <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}" title="Modifier"><i class="fas fa-edit"></i></a>
-                        <a class="delete" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" title="Supprimer"><i class="fas fa-trash"></i></a>
+                        <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}" title="{% trans %}Edit{% endtrans %}"><i class="fas fa-edit"></i></a>
+                        <a class="delete" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" title="{% trans %}Delete{% endtrans %}"><i class="fas fa-trash"></i></a>
                         {{ form(delete_forms[user.id]) }}
                     </div>
                 </td>
