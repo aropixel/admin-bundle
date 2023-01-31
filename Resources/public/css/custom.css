@@ -8,9 +8,10 @@
 :root {
     --main-bg-color: #0CABA8;
     --main-darker-bg-color: #2e4f5e;
+    --main-light-color: rgba(122, 220, 218, 0.71);
     --second-bg-color: #b91e67;
     --second-darker-bg-color: #a11455;
-    --success-color: #239477;
+    --success-color: #63ceb3;
     --danger-color: #e52321;
     --warning-color: #F25C05;
     --info-color: #e39b02;
@@ -863,13 +864,13 @@ div.dataTables_wrapper div.dataTables_paginate {
 .btn-default, .btn-default.disabled {
     box-shadow: 0 1px 3px #e6ecf1;
     background-color: #fff;
-    border-color: #e4e6fc;
+    border-color: var(--main-bg-color);
     color: #495057;
 }
 .btn.btn-default:not(.btn-social):not(.btn-social-icon):active,
 .btn.btn-default:not(.btn-social):not(.btn-social-icon):focus,
 .btn.btn-default:not(.btn-social):not(.btn-social-icon):hover {
-    border-color: #d1d6fc!important;
+    border-color: var(--main-bg-color)!important;
 }
 
 
@@ -1668,12 +1669,13 @@ a, a:hover, a:focus {
 }
 
 .btn-primary, .btn-primary.disabled {
-    box-shadow: 0 2px 6px #50859a;
+    box-shadow: 0 2px 6px var(--main-light-color);
     background-color: var(--main-bg-color);
-    border: none !important;
+    border: 1px solid var(--main-bg-color);
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active,
+.btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled:hover {
    background-color: var(--main-darker-bg-color) !important;
    border-color: var(--main-darker-bg-color) !important;
    color: #fff !important;
@@ -1731,7 +1733,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 
 .alert-success {
-    background-color: var(--success-color);
+    background-color: var(--success-color) !important;
 }
 
 .card.card-primary {

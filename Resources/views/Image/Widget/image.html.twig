@@ -49,8 +49,10 @@
         </div>
 
         <div class="image-actions">
-            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLibrary">Choisir une image</a>
-            <a class="btn btn-danger">Retirer l'image</a>
+            <a class="btn btn-primary btnUpload" data-bs-toggle="modal" data-bs-target="#modalLibrary">Choisir une image</a>
+            {% if form.vars.data and form.vars.data.image is defined and form.vars.data.image %}
+                <a class="btn btn-danger btnUnlink">Retirer l'image</a>
+            {% endif %}
         </div>
 
     </div>

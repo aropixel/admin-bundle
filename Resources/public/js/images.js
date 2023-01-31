@@ -21,8 +21,8 @@
         },
 
         panel: {
-            open: '.thumbnail .caption-overflow .iconUpload',
-            unlink: '.iconUnlink',
+            open: '.image-actions .btnUpload',
+            unlink: '.btnUnlink',
             edit: '.iconEdit',
             crop: '.iconCrop',
         },
@@ -186,7 +186,6 @@
         //
         var obj = this;
         var widget = launcher.element;
-        console.log(widget);
 
         //
         var cropper = new IM_Cropper(launcher);
@@ -273,8 +272,11 @@
                 launcher.element.find(".caption").html($(result).find('.caption').html());
 
                 // Remove all action buttons except upload (first)
-                launcher.element.find(".caption-overflow a:not(:first-child)").remove();
-                launcher.element.find(".caption-overflow a:first-child").after($(result).find('.caption-overflow a:not(:first-child)'));
+                launcher.element.find(".image-actions .btnUnlink").remove();
+                launcher.element.find(".image-actions .btnUpload").after($(result).find('.image-actions .btnUnlink'));
+
+                /*launcher.element.find(".caption-overflow a:not(:first-child)").remove();
+                launcher.element.find(".caption-overflow a:first-child").after($(result).find('.caption-overflow a:not(:first-child)'));*/
 
                 // Give correct modal target to crop button
                 launcher.element.find(".caption-overflow .iconCrop").attr('data-target', '#'+launcher.element.find('.modalCrop').attr('id'));
@@ -329,7 +331,8 @@
                         {
                             var _preview = launcher.element.find(".preview");
                             launcher.element.find(".preview > img").replaceWith(_preview.attr('data-new'));
-                            launcher.element.find(".caption-overflow .iconUnlink").remove();
+                            //launcher.element.find(".caption-overflow .iconUnlink").remove();
+                            launcher.element.find(".image-actions .btnUnlink").remove();
                             launcher.element.find(".caption-overflow .iconCrop").remove();
 
                             launcher.element.find(".preview input[name$='[image]']").removeAttr('value');
