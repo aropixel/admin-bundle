@@ -110,12 +110,12 @@
                             {{ _navtabs|raw }}
                         {% endif %}
                         <li>
-                            {% block publishPillAction %}<button class="btn btn-secondary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
+                            {% block publishPillAction %}<button class="btn btn-secondary btn-small" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
                         </li>
                     </ul>
                 </div>
             {% else %}
-                {% block publishAction %}<button class="btn btn-secondary" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
+                {% block publishAction %}<button class="btn btn-secondary btn-small" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
             {% endif %}
 
             <div class="section-entry-properties">
@@ -186,88 +186,97 @@
 
         {% block offcanvas %}
 
-        {% if
-            form.image is defined or
-            form.files is defined or
-            form.slug is defined or
-            form.status is defined or
-            form.createdAt is defined or
-            form.publishAt is defined or
-            form.publishUntil is defined
-        %}
+            {% if
+                form.image is defined or
+                form.files is defined or
+                form.slug is defined or
+                form.status is defined or
+                form.createdAt is defined or
+                form.publishAt is defined or
+                form.publishUntil is defined
+            %}
 
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasForm" aria-labelledby="Réglages">
-            <div class="offcanvas-header">
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-
-                {% block image %}
-
-                    {% if form.image is defined  %}
-                        {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
-                        <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
-                    {% endif %}
-
-                {% endblock %}
-
-                {% block files %}
-
-                    {% if form.files is defined  %}
-                        {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
-                        <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
-                    {% endif %}
-
-                {% endblock %}
-
-                {% if
-                    form.slug is defined or
-                    form.status is defined or
-                    form.createdAt is defined or
-                    form.publishAt is defined or
-                    form.publishUntil is defined
-                %}
-
-                <div class="d-flex justify-content-between">
-
-                    <div>
-                        <h2 class="section-title mt-0">Publication</h2>
-                        <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasForm" aria-labelledby="Réglages">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
+                    <div class="offcanvas-body">
 
-                    <div>
-                        {% block publishStatus %}
-                            {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                        {% block image %}
+
+                            {% if form.image is defined  %}
+                                {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
+                                <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
+                            {% endif %}
+
                         {% endblock %}
+
+                        {% block files %}
+
+                            {% if form.files is defined  %}
+                                {% include '@AropixelAdmin/Form/sidebar_file.html.twig' %}
+                                <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
+                            {% endif %}
+
+                        {% endblock %}
+
+                        {% if
+                            form.slug is defined or
+                            form.status is defined or
+                            form.createdAt is defined or
+                            form.publishAt is defined or
+                            form.publishUntil is defined
+                        %}
+
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+                                    <h2 class="section-title mt-0">Publication</h2>
+                                    <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+                                </div>
+
+                                <div>
+                                    {% block publishStatus %}
+                                        {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                                    {% endblock %}
+                                </div>
+
+                            </div>
+
+                            {% block publishSlug %}
+                                {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+                            {% endblock %}
+
+                            {% block publishCreated %}
+                                {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+                            {% endblock %}
+
+                            {% if form.publishAt is defined or form.publishAt is defined %}
+
+                                {% block publishDates %}
+                                    {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
+                                {% endblock %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+
+                        <div class="d-flex justify-content-between w-100 m-t-60">
+                            <a class="btn btn-default" data-bs-dismiss="offcanvas">Continuer mes modifications</a>
+                            <a class="btn btn-primary">Enregistrer</a>
+                        </div>
+
+
                     </div>
 
                 </div>
 
-                {% block publishSlug %}
-                    {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
-                {% endblock %}
+                <div class="offcanvas-buttons">
+                    <a class="offcanvas-btn offcanvas-btn-img btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="fas fa-cog"></i></a>
+                </div>
 
-
-
-                {% block publishCreated %}
-                    {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                {% endblock %}
-
-                {% if form.publishAt is defined or form.publishAt is defined %}
-
-                    {% block publishDates %}
-                        {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                    {% endblock %}
-
-                {% endif %}
-                {% endif %}
-
-            </div>
-        </div>
-        <div class="offcanvas-buttons">
-            <a class="offcanvas-btn offcanvas-btn-img btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="fas fa-cog"></i></a>
-        </div>
-        {% endif %}
+            {% endif %}
 
         {% endblock %}
 

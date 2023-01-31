@@ -607,7 +607,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-left: 50px;
     flex-direction: column;
     justify-content: space-between;
-    width: calc(100% - 360px);
+    width: calc(100% - 270px);
 }
 
 .image-widget .image-properties .section-title:first-child {
@@ -1747,7 +1747,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin-left: 10px;
 }
 
-.tabbable .nav-pills li a, .tabbable .nav-pills li button {
+.btn.btn-small {
     padding: 8px 15px !important;
     box-shadow: none !important;
     line-height: initial !important;
