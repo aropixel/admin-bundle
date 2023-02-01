@@ -227,34 +227,41 @@ export class SwitchStatus {
 
 
     highlightPublishAt() {
-        console.log(this.isIncoming());
-        if (this.isScheduled() && this.isIncoming()) {
-            this.options.publishAtDate.classList.add(this.options.publishDateClasses.scheduled);
-            this.options.publishAtTime.classList.add(this.options.publishDateClasses.scheduled);
-            this.options.publishAtDate.classList.remove(this.options.publishDateClasses.published);
-            this.options.publishAtTime.classList.remove(this.options.publishDateClasses.published);
+
+        if (typeof this.options.publishAtDate !== "undefined") {
+
+            if (this.isIncoming()) {
+                this.options.publishAtDate.classList.add(this.options.publishDateClasses.scheduled);
+                this.options.publishAtTime.classList.add(this.options.publishDateClasses.scheduled);
+                this.options.publishAtDate.classList.remove(this.options.publishDateClasses.published);
+                this.options.publishAtTime.classList.remove(this.options.publishDateClasses.published);
+            } else {
+                this.options.publishAtDate.classList.remove(this.options.publishDateClasses.scheduled);
+                this.options.publishAtTime.classList.remove(this.options.publishDateClasses.scheduled);
+                this.options.publishAtDate.classList.add(this.options.publishDateClasses.published);
+                this.options.publishAtTime.classList.add(this.options.publishDateClasses.published);
+            }
+
         }
-        else {
-            this.options.publishAtDate.classList.remove(this.options.publishDateClasses.scheduled);
-            this.options.publishAtTime.classList.remove(this.options.publishDateClasses.scheduled);
-            this.options.publishAtDate.classList.add(this.options.publishDateClasses.published);
-            this.options.publishAtTime.classList.add(this.options.publishDateClasses.published);
-        }
+
     }
 
     highlightPublishUntil() {
 
-        if (this.isScheduled() && this.isOutdated()) {
-            this.options.publishUntilDate.classList.add(this.options.publishDateClasses.outdated);
-            this.options.publishUntilTime.classList.add(this.options.publishDateClasses.outdated);
-            this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.published);
-            this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.published);
-        }
-        else {
-            this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.outdated);
-            this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.outdated);
-            this.options.publishUntilDate.classList.add(this.options.publishDateClasses.published);
-            this.options.publishUntilTime.classList.add(this.options.publishDateClasses.published);
+        if (typeof this.options.publishUntilDate !== "undefined") {
+
+            if (this.isOutdated()) {
+                this.options.publishUntilDate.classList.add(this.options.publishDateClasses.outdated);
+                this.options.publishUntilTime.classList.add(this.options.publishDateClasses.outdated);
+                this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.published);
+                this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.published);
+            } else {
+                this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.outdated);
+                this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.outdated);
+                this.options.publishUntilDate.classList.add(this.options.publishDateClasses.published);
+                this.options.publishUntilTime.classList.add(this.options.publishDateClasses.published);
+            }
+
         }
     }
 
