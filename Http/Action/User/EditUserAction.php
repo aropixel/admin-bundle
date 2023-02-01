@@ -9,12 +9,14 @@ use Aropixel\AdminBundle\Security\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditUserAction extends AbstractController
 {
     public function __construct(
         private readonly FormFactory $formFactory,
         private readonly RequestStack $request,
+        private readonly TranslatorInterface $translator,
         private readonly UserManager $userManager,
         private readonly UserRepository $userRepository,
     ){}
@@ -35,7 +37,7 @@ class EditUserAction extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userManager->updateUser($user);
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->addFlash('notice', $this->translator->trans('Your user has been successfully registered.'));
 
             return $this->redirectToRoute('aropixel_admin_user_edit', array('id' => $user->getId()));
         }

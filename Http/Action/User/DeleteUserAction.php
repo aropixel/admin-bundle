@@ -7,12 +7,14 @@ use Aropixel\AdminBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeleteUserAction extends AbstractController
 {
     public function __construct(
         private readonly FormFactory $formFactory,
         private readonly RequestStack $request,
+        private readonly TranslatorInterface $translator,
         private readonly UserRepository $userRepository,
     )
     {}
@@ -27,7 +29,7 @@ class DeleteUserAction extends AbstractController
         $form->handleRequest($this->request->getMainRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('notice', 'Votre utilisateur a bien été supprimé.');
+            $this->addFlash('notice', $this->translator->trans('Your user has been successfully deleted.'));
             $this->userRepository->remove($user, true);
         }
 

@@ -8,12 +8,14 @@ use Aropixel\AdminBundle\Security\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateUserAction extends AbstractController
 {
     public function __construct(
         private readonly RequestStack $request,
         private readonly UserManager $userManager,
+        private readonly TranslatorInterface $translator,
     ){}
 
     private string $model = User::class;
@@ -33,7 +35,7 @@ class CreateUserAction extends AbstractController
             // Vérifie si l'utilisateur n'existe pas déjà
             $exists = $this->userManager->findUserByEmail($user->getEmail());
             if ($exists) {
-                $this->addFlash('error','Cet email est déjà utilisé pour un utilisateur.');
+                $this->addFlash('error',$this->translator->trans('This email is already used for a user.'));
                 return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
                     'user' => $user,
                     'form' => $form->createView(),
@@ -41,7 +43,7 @@ class CreateUserAction extends AbstractController
             }
 
             $this->userManager->updateUser($user);
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->addFlash('notice', $this->translator->trans('Your user has been successfully registered.'));
 
             return $this->redirectToRoute('aropixel_admin_user_edit', array('id' => $user->getId()));
         }
