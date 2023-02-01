@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Http\Action\File;
 
 use Aropixel\AdminBundle\Entity\AttachFile;
 use Aropixel\AdminBundle\Entity\File;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
