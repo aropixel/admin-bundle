@@ -2083,7 +2083,20 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     border: 0 none;
 }
 
+.publish-date input[name$="[date]"].scheduled,
+.publish-date input[name$="[time]"].scheduled {
+    background-color: #ffb16c !important;
+}
 
+.publish-date input[name$="[date]"].published,
+.publish-date input[name$="[time]"].published {
+    background-color: #c9ecd3 !important;
+}
+
+.publish-date input[name$="[date]"].outdated,
+.publish-date input[name$="[time]"].outdated {
+    background-color: #ffd1d1 !important;
+}
 
 
 

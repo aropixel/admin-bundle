@@ -8,8 +8,10 @@
 *  Latest update: Oct 20, 2015
 *
 * ---------------------------------------------------------------------------- */
+import {SwitchStatus} from './module/switch-status/switch-status.js';
 
 $(function() {
+
 
     moment.locale('fr', {
         months : 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
@@ -123,12 +125,29 @@ $(function() {
         $pickatime.each(function() {
             activateTimePicker($(this));
         });
-        $pickatime.clockpicker({
-            amOrPm: false,
-            cleartext: 'Effacer',
-            donetext: 'Valider'
-        });
+        // $pickatime.clockpicker({
+        //     amOrPm: false,
+        //     cleartext: 'Effacer',
+        //     donetext: 'Valider'
+        // });
 
+    }
+
+    let status = document.querySelector(".form-status-switch input[type='hidden'][name$='[status]']");
+    if (status) {
+
+        let offcanvas = status.closest('.offcanvas-body');
+        let publishAtDate = offcanvas.querySelector("input[name$='[publishAt][date]']");
+        let publishAtTime = offcanvas.querySelector("input[name$='[publishAt][time]']");
+        let publishUntilDate = offcanvas.querySelector("input[name$='[publishUntil][date]']");
+        let publishUntilTime = offcanvas.querySelector("input[name$='[publishUntil][time]']");
+
+        new SwitchStatus(status, {
+            'publishAtDate' : publishAtDate,
+            'publishAtTime' : publishAtTime,
+            'publishUntilDate' : publishUntilDate,
+            'publishUntilTime' : publishUntilTime,
+        })
     }
 
 
