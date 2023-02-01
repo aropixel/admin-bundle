@@ -1,31 +1,33 @@
 <?php
+/**
+ * Créé par Aropixel @2023.
+ * Par: Joël Gomez Caballe
+ * Date: 01/02/2023 à 16:46
+ */
 
 namespace Aropixel\AdminBundle\Infrastructure\User;
 
+use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
+use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class UserRepositoryProvider
+class UserFactory implements UserFactoryInterface
 {
-
-    private EntityManagerInterface $em;
     private ParameterBagInterface $parameterBag;
 
     /**
-     * @param EntityManagerInterface $em
      * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(EntityManagerInterface $em, ParameterBagInterface $parameterBag)
+    public function __construct(ParameterBagInterface $parameterBag)
     {
-        $this->em = $em;
         $this->parameterBag = $parameterBag;
     }
 
-    public function getUserRepository() : EntityRepository
+
+    public function createUser(): User
     {
         $entities = $this->parameterBag->get('aropixel_admin.entities');
-        $this->em->getRepository($entities[UserInterface::class]);
+        return new $entities[UserInterface::class]();
     }
 }

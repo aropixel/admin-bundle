@@ -5,9 +5,9 @@ namespace Aropixel\AdminBundle\Http\Action\Reset;
 use Aropixel\AdminBundle\Domain\Reset\PasswordResetHandlerInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Form\Reset\ResetPasswordType;
-use Aropixel\AdminBundle\Infrastructure\User\UserRepositoryProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,25 +16,25 @@ class ResetPasswordAction extends AbstractController
 {
     private PasswordResetHandlerInterface $passwordResetHandler;
     private RequestLauncherInterface $requestLauncher;
-    private UserRepositoryProvider $userRepositoryProvider;
+    private UserRepositoryInterface $userRepository;
 
     /**
      * @param PasswordResetHandlerInterface $passwordResetHandler
      * @param RequestLauncherInterface $requestLauncher
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(PasswordResetHandlerInterface $passwordResetHandler, RequestLauncherInterface $requestLauncher, UserRepositoryProvider $userRepositoryProvider)
+    public function __construct(PasswordResetHandlerInterface $passwordResetHandler, RequestLauncherInterface $requestLauncher, UserRepositoryInterface $userRepository)
     {
         $this->passwordResetHandler = $passwordResetHandler;
         $this->requestLauncher = $requestLauncher;
-        $this->userRepositoryProvider = $userRepositoryProvider;
+        $this->userRepository = $userRepository;
     }
 
 
     public function __invoke(Request $request, string $token)
     {
         /** @var User $user */
-        $user = $this->userRepositoryProvider->getUserRepository()->findOneBy(['passwordResetToken' => $token]);
+        $user = $this->userRepository->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {
             throw new NotFoundHttpException('Token not found.');
         }
@@ -54,7 +54,7 @@ class ResetPasswordAction extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $form->get('password')->getViewData();
+            $password = $form->get('password')->get('first')->getViewData();
 
             try {
                 $this->passwordResetHandler->update($user, $password);

@@ -6,8 +6,7 @@ use Aropixel\AdminBundle\Domain\Reset\Email\ResetEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\ResetLinkFactoryInterface;
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Infrastructure\User\UserRepositoryProvider;
-use Aropixel\AdminBundle\Security\UniqueTokenGenerator;
+use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 
 

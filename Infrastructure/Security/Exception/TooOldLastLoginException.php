@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Aropixel\AdminBundle\Security\Exception;
+namespace Aropixel\AdminBundle\Infrastructure\Security\Exception;
 
 
 use Aropixel\AdminBundle\Entity\User;
@@ -31,5 +31,5 @@ class TooOldLastLoginException extends AuthenticationException
     {
         return true;
     }
-    
+
 }

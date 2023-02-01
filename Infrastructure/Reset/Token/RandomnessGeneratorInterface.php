@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Aropixel\AdminBundle\Generator;
+namespace Aropixel\AdminBundle\Infrastructure\Reset\Token;
 
 interface RandomnessGeneratorInterface
 {

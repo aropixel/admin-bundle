@@ -1,9 +1,9 @@
 <?php
 
-namespace Aropixel\AdminBundle\EventListener;
+namespace Aropixel\AdminBundle\Infrastructure\Security\EventListener;
 
-use App\Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
-use Aropixel\AdminBundle\Security\Exception\TooOldLastLoginException;
+use Aropixel\AdminBundle\Infrastructure\Security\Exception\TooOldLastLoginException;
+use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 

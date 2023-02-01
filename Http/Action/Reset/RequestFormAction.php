@@ -3,25 +3,24 @@
 namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Reset\RequestType;
-use Aropixel\AdminBundle\Infrastructure\User\UserRepositoryProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestFormAction extends AbstractController
 {
     private RequestLauncherInterface $requestLauncher;
-    private UserRepositoryProvider $userRepositoryProvider;
-
+    private UserRepositoryInterface $userRepository;
 
     /**
      * @param RequestLauncherInterface $requestLauncher
-     * @param UserRepositoryProvider $userRepositoryProvider
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(RequestLauncherInterface $requestLauncher, UserRepositoryProvider $userRepositoryProvider)
+    public function __construct(RequestLauncherInterface $requestLauncher, UserRepositoryInterface $userRepository)
     {
         $this->requestLauncher = $requestLauncher;
-        $this->userRepositoryProvider = $userRepositoryProvider;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -35,11 +34,11 @@ class RequestFormAction extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->get('email')->getData();
-            $user = $this->userRepositoryProvider->getUserRepository()->findOneBy(['email' => $email]);
+            $user = $this->userRepository->findUserByEmail($email);
 
             if ($user) {
                 $this->requestLauncher->reset($user);
-                return $this->redirectToRoute('aropixel_admin_reset_request_info');
+                return $this->redirectToRoute('aropixel_admin_request_status', ['status' => RequestStatusAction::PENDING]);
             }
 
             $notFound = true;

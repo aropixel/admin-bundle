@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Aropixel\AdminBundle\Security;
+namespace Aropixel\AdminBundle\Infrastructure\Reset\Token;
 
 interface GeneratorInterface
 {

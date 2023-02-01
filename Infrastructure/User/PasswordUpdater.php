@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Aropixel\AdminBundle\Infrastructure\User;
+namespace Aropixel\AdminBundle\Infrastructure\User;
 
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Entity\User;
@@ -39,6 +39,7 @@ class PasswordUpdater implements PasswordUpdaterInterface
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
+        $user->setLastPasswordUpdate(new \DateTime());
         $user->eraseCredentials();
     }
 }

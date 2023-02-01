@@ -58,8 +58,6 @@ class AdminUserProvider implements AdminUserProviderInterface
      */
     public function supportsClass(string $class) : bool
     {
-        dump($class);
-        dump($this->getUserClass());
         return $class == $this->getUserClass();
     }
 

@@ -2,24 +2,43 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
+use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Http\Form\User\FormFactory;
-use Aropixel\AdminBundle\Repository\UserRepository;
-use Aropixel\AdminBundle\Security\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 class EditUserAction extends AbstractController
 {
-    public function __construct(
-        private readonly FormFactory $formFactory,
-        private readonly RequestStack $request,
-        private readonly UserManager $userManager,
-        private readonly UserRepository $userRepository,
-    ){}
+    private EntityManagerInterface $em;
+    private FormFactory $formFactory;
+    private PasswordUpdaterInterface $passwordUpdater;
+    private RequestStack $request;
+    private UserRepositoryInterface $userRepository;
+
 
     private string $form = UserType::class;
+
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param FormFactory $formFactory
+     * @param PasswordUpdaterInterface $passwordUpdater
+     * @param RequestStack $request
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(EntityManagerInterface $em, FormFactory $formFactory, PasswordUpdaterInterface $passwordUpdater, RequestStack $request, UserRepositoryInterface $userRepository)
+    {
+        $this->em = $em;
+        $this->formFactory = $formFactory;
+        $this->passwordUpdater = $passwordUpdater;
+        $this->request = $request;
+        $this->userRepository = $userRepository;
+    }
+
 
     public function __invoke(int $id) : Response
     {
@@ -34,7 +53,9 @@ class EditUserAction extends AbstractController
         $editForm->handleRequest($this->request->getMainRequest());
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->userManager->updateUser($user);
+
+            $this->passwordUpdater->hashPlainPassword($user);
+            $this->em->flush();
             $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
 
             return $this->redirectToRoute('aropixel_admin_user_edit', array('id' => $user->getId()));

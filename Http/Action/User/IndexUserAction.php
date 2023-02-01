@@ -2,21 +2,29 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Http\Form\User\FormFactory;
-use Aropixel\AdminBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class IndexUserAction extends AbstractController
 {
-    public function __construct(
-        private readonly FormFactory $formFactory,
-        private readonly UserRepository $userRepository
-    ){}
+    private FormFactory $formFactory;
+    private UserRepositoryInterface $userRepository;
+
+    /**
+     * @param FormFactory $formFactory
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(FormFactory $formFactory, UserRepositoryInterface $userRepository)
+    {
+        $this->formFactory = $formFactory;
+        $this->userRepository = $userRepository;
+    }
 
     public function __invoke() : Response
     {
-        $users = $this->userRepository->findAll();
+        $users = $this->userRepository->findBy([], ['createdAt' => 'ASC']);
 
         $columns = array(
             array('label' => 'Email', 'style' => ''),

@@ -8,9 +8,9 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
 
-    Aropixel\AdminBundle\Command\AdminAccessCommand:
-        tags:
-            - { name: 'console.command', command: 'aropixel:admin:setup' }
+#    Aropixel\AdminBundle\Command\AdminAccessCommand:
+#        tags:
+#            - { name: 'console.command', command: 'aropixel:admin:setup' }
 
 
     # controllers are imported separately to make sure services can be injected
@@ -23,6 +23,13 @@ services:
         resource: '../../Http'
         tags: ['controller.service_arguments']
 
+    Aropixel\AdminBundle\Http\Command\CommandExecutor:
+        autowire: false
+
+    # Autowire des services
+    Aropixel\AdminBundle\Domain\:
+        resource: '../../Domain'
+        autowire: true
 
     # Autowire des services
     Aropixel\AdminBundle\Infrastructure\:
@@ -36,36 +43,15 @@ services:
 
 
 
-    # Autowire des services
-    Aropixel\AdminBundle\Email\ResetEmailSender:
-        autowire: true
-
     Aropixel\AdminBundle\Menu\AbstractMenuListener:
         autowire: true
 
-    # Autowire des services
-    Aropixel\AdminBundle\Generator\RandomnessGenerator:
-        autowire: true
 
     # Autowire des services
-    Aropixel\AdminBundle\Generator\RandomnessGeneratorInterface:
-        alias: Aropixel\AdminBundle\Generator\RandomnessGenerator
-
-    # Autowire des services
-    Aropixel\AdminBundle\Repository\UserRepository:
+    Aropixel\AdminBundle\Infrastructure\User\UserRepository:
         tags: ['doctrine.repository_service']
 
-    # Autowire des services
-    Aropixel\AdminBundle\Security\PasswordUpdater:
-        autowire: true
 
-    # Autowire des services
-    Aropixel\AdminBundle\Security\UniqueTokenGenerator:
-        autowire: true
-
-    # Autowire des services
-    Aropixel\AdminBundle\Security\UserManager:
-        autowire: true
 
     # Autowire des formulaires
     Aropixel\AdminBundle\Form\Type\:
@@ -120,11 +106,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 30}
 
-    Aropixel\AdminBundle\EventListener\TooOldPasswordEventListener:
+    Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldPasswordEventListener:
         tags:
             - { name: kernel.event_listener, event: 'checkPassport'}
 
-    Aropixel\AdminBundle\EventListener\TooOldLastLoginEventListener:
+    Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldLastLoginEventListener:
         tags:
             - { name: kernel.event_listener, event: 'checkPassport' }
 

@@ -8,8 +8,9 @@
 
 namespace Aropixel\AdminBundle\Http\Command;
 
+use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
+use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Security\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,16 +36,16 @@ class AdminAccessCommand extends AbstractInstallCommand
     protected static $defaultName = 'aropixel:admin:setup';
 
 
-    /** @var UserManager */
-    private $userManager;
+    private PasswordUpdaterInterface $passwordUpdater;
+    private UserFactoryInterface $userFactory;
 
 
 
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, UserManager $userManager)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory)
     {
         parent::__construct($em, $validator);
-
-        $this->userManager = $userManager;
+        $this->passwordUpdater = $passwordUpdater;
+        $this->userFactory = $userFactory;
     }
 
 
@@ -71,7 +72,7 @@ EOT
 
 
         try {
-            $user = $this->userManager->createUser();
+            $user = $this->userFactory->createUser();
             $admin = $this->configureNewUser($user, $input, $output);
         } catch (\InvalidArgumentException $exception) {
             return;
@@ -79,7 +80,7 @@ EOT
 
         $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setEnabled(true);
-        $this->userManager->updateUser($admin);
+        $this->passwordUpdater->hashPlainPassword($admin);
 
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
@@ -99,17 +100,17 @@ EOT
 
 
         //
-        $userRepository = $this->userManager->getRepository();
-
-        if ($input->getOption('no-interaction')) {
-
-            Assert::null($userRepository->findOneBy(array('email' => 'example@mail.com')));
-
-            $user->setEmail('example@mail.com');
-            $user->setPlainPassword('aropixel');
-
-            return $user;
-        }
+//        $userRepository = $this->userRepository->getRepository();
+//
+//        if ($input->getOption('no-interaction')) {
+//
+//            Assert::null($userRepository->findOneBy(array('email' => 'example@mail.com')));
+//
+//            $user->setEmail('example@mail.com');
+//            $user->setPlainPassword('aropixel');
+//
+//            return $user;
+//        }
 
         $email = $this->getAdministratorEmail($input, $output);
         $user->setEmail($email);
