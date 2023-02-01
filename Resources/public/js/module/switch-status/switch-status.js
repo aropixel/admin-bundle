@@ -235,11 +235,17 @@ export class SwitchStatus {
                 this.options.publishAtTime.classList.add(this.options.publishDateClasses.scheduled);
                 this.options.publishAtDate.classList.remove(this.options.publishDateClasses.published);
                 this.options.publishAtTime.classList.remove(this.options.publishDateClasses.published);
-            } else {
+            } else if (this.options.publishAtDate.value.length) {
                 this.options.publishAtDate.classList.remove(this.options.publishDateClasses.scheduled);
                 this.options.publishAtTime.classList.remove(this.options.publishDateClasses.scheduled);
                 this.options.publishAtDate.classList.add(this.options.publishDateClasses.published);
                 this.options.publishAtTime.classList.add(this.options.publishDateClasses.published);
+            }
+            else {
+                this.options.publishAtDate.classList.remove(this.options.publishDateClasses.scheduled);
+                this.options.publishAtTime.classList.remove(this.options.publishDateClasses.scheduled);
+                this.options.publishAtDate.classList.remove(this.options.publishDateClasses.published);
+                this.options.publishAtTime.classList.remove(this.options.publishDateClasses.published);
             }
 
         }
@@ -255,11 +261,17 @@ export class SwitchStatus {
                 this.options.publishUntilTime.classList.add(this.options.publishDateClasses.outdated);
                 this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.published);
                 this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.published);
-            } else {
+            } else if (this.options.publishUntilDate.value.length) {
                 this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.outdated);
                 this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.outdated);
                 this.options.publishUntilDate.classList.add(this.options.publishDateClasses.published);
                 this.options.publishUntilTime.classList.add(this.options.publishDateClasses.published);
+            }
+            else {
+                this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.outdated);
+                this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.outdated);
+                this.options.publishUntilDate.classList.remove(this.options.publishDateClasses.published);
+                this.options.publishUntilTime.classList.remove(this.options.publishDateClasses.published);
             }
 
         }
