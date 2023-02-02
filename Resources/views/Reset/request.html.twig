@@ -37,28 +37,29 @@
 							<img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
 						</div>
 
-						<div class="card card-primary">
-							<div class="card-header"><h4>Mot de passe oublié ?</h4></div>
+						{{ form_start(form) }}
+						<div class="card card-primary mt-5">
+							<div class="card-header d-flex flex-column justify-content-start align-items-start">
+								<h4 class="mb-1">Mot de passe oublié ?</h4>
+								<p class="mb-0">Pas de panique ! Nous allons vous guider pour le réinitialiser.</p>
+							</div>
 
 							<div class="card-body">
-								<p>Pas de panique ! Nous allons vous guider pour le réinitialiser.</p>
-								{{ form_start(form) }}
-									<div class="form-group">
-										<label for="email">Entrez votre email :</label>
-										{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-									</div>
-									{% if not_found %}<div class="alert alert-danger">Votre email n'a pas été trouvé.</div>{% endif %}
 
-									<div class="form-group">
-										<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-											Continuer
-										</button>
-									</div>
-
-								{{ form_end(form) }}
+								<div class="mt-4 mb-4">
+									<label for="email">Entrez votre email :</label>
+									{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+								</div>
+								{% if not_found %}<div class="alert alert-danger">Votre email n'a pas été trouvé.</div>{% endif %}
 
 							</div>
 						</div>
+						<div class="d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">Continuer</button>
+						</div>
+						{{ form_end(form) }}
+
+						<br /><br /><br />
 						<div class="simple-footer">
 							Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
 						</div>

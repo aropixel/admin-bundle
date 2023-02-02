@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge;
 
 
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\EventListener\TooOldLastLoginEventListener;
+use Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldLastLoginEventListener;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
 /**
@@ -29,11 +29,7 @@ class TooOldLastLoginBadge implements BadgeInterface
 
     public function isResolved(): bool
     {
-        if ($this->user->tooOldLastLogin()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !$this->user->tooOldLastLogin();
     }
 
 }

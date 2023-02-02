@@ -2,20 +2,31 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Http\Form\User\FormFactory;
-use Aropixel\AdminBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 class DeleteUserAction extends AbstractController
 {
-    public function __construct(
-        private readonly FormFactory $formFactory,
-        private readonly RequestStack $request,
-        private readonly UserRepository $userRepository,
-    )
-    {}
+    private FormFactory $formFactory;
+    private RequestStack $request;
+    private UserRepositoryInterface $userRepository;
+
+    /**
+     * @param FormFactory $formFactory
+     * @param RequestStack $request
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(FormFactory $formFactory, RequestStack $request, UserRepositoryInterface $userRepository)
+    {
+        $this->formFactory = $formFactory;
+        $this->request = $request;
+        $this->userRepository = $userRepository;
+    }
+
+
     public function __invoke(int $id) : Response
     {
         $user = $this->userRepository->find($id);

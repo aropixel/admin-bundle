@@ -244,7 +244,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         $this->passwordAttempts = $passwordAttempts;
     }
 
-    public function tooOldLastLogin()
+    public function tooOldPassword(string $delay) : bool
+    {
+        $now = new \Datetime('now');
+        $lastPasswordUpdate = $this->getLastPasswordUpdate() ?: $this->getCreatedAt();
+
+        $lastPasswordUpdate = clone($lastPasswordUpdate);
+        $lastPasswordUpdate = $lastPasswordUpdate->modify('+'. $delay);
+
+        if ($now > $lastPasswordUpdate) {
+            return true;
+        }
+        return false;
+    }
+
+    public function tooOldLastLogin() : bool
     {
         $lastLogin = $this->getLastLogin();
 
@@ -284,7 +298,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     /**
      * {@inheritdoc}
      */
-    public function isPasswordRequestNonExpired(\DateInterval $ttl): bool
+    public function isPasswordRequestExpired(\DateInterval $ttl): bool
     {
         if (null === $this->passwordRequestedAt) {
             return false;
@@ -293,7 +307,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         $threshold = new \DateTime();
         $threshold->sub($ttl);
 
-        return $threshold <= $this->passwordRequestedAt;
+        return $threshold > $this->passwordRequestedAt;
     }
 
     /**
@@ -305,7 +319,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     }
 
     /**
-     * @param \DateTime $passwordRequestedAt
+     * @param ?\DateTime $passwordRequestedAt
      * @return User
      */
     public function setPasswordRequestedAt($passwordRequestedAt): self
@@ -372,7 +386,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     {
         return $this->createdAt;
     }
-    
+
     public function getUserIdentifier(): string
     {
         return $this->email;
