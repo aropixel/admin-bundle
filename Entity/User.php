@@ -253,9 +253,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
         $lastPasswordUpdate = $lastPasswordUpdate->modify('+'. $delay);
 
         if ($now > $lastPasswordUpdate) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public function tooOldLastLogin() : bool
@@ -386,7 +386,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Passwor
     {
         return $this->createdAt;
     }
-    
+
     public function getUserIdentifier(): string
     {
         return $this->email;

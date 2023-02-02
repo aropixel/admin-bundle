@@ -29,11 +29,7 @@ class TooOldLastLoginBadge implements BadgeInterface
 
     public function isResolved(): bool
     {
-        if ($this->user->tooOldLastLogin()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !$this->user->tooOldLastLogin();
     }
 
 }

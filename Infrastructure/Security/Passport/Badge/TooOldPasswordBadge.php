@@ -33,7 +33,7 @@ class TooOldPasswordBadge implements BadgeInterface
 
     public function isResolved(): bool
     {
-        return $this->user->tooOldPassword($this->nbMonths);
+        return !$this->user->tooOldPassword($this->nbMonths);
     }
 
 }

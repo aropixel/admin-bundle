@@ -38,6 +38,7 @@ class PasswordResetHandler implements PasswordResetHandlerInterface
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
         $user->setLastLogin(null);
+        $user->setLastPasswordUpdate(new \DateTime());
 
         $hashPassword = $this->userPasswordHasher->hashPassword($user, $password);
         $user->setPassword($hashPassword);

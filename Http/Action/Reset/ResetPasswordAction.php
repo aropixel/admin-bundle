@@ -58,12 +58,11 @@ class ResetPasswordAction extends AbstractController
 
             try {
                 $this->passwordResetHandler->update($user, $password);
+                return $this->redirectToRoute('aropixel_admin_request_status', ['status' => RequestStatusAction::SUCCESS]);
             }
             catch (UnchangedPasswordException $e) {
                 $error = "Veuillez choisir un mot de passe différent du mot de passe actuel.";
             }
-
-            return $this->redirectToRoute('aropixel_admin_request_status', ['status' => RequestStatusAction::SUCCESS]);
 
         }
 
