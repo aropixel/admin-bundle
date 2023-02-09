@@ -1,0 +1,12 @@
+<li class="nav-item {{ submenu.isActive ? 'active' : '' }} dropdown">
+    <a href="#" class="nav-link has-dropdown" data-bs-toggle="dropdown">
+        {% if submenu.getProperty('icon') %}<i class="{{ submenu.getProperty('icon') }}"></i>{% endif %}
+        <span>{{ submenu.label }}</span>
+    </a>
+    <ul class="menu_level_1 dropdown-menu">
+        {% for subitem in submenu.items %}
+            {% if subitem.type == 'link' %}{{ include('@AropixelAdmin/Menu/link.html.twig', {'link' : subitem})  }}{% endif %}
+            {% if subitem.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {'submenu' : subitem})  }}{% endif %}
+        {% endfor %}
+    </ul>
+</li>
