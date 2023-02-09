@@ -19,7 +19,7 @@ class Link implements ItemInterface, RoutableInterface
 
     private ?string $id;
 
-    private ?IterableInterface $parent;
+    private ?IterableInterface $parent = null;
 
     private bool $isActive = false;
 

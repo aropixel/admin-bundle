@@ -19,7 +19,7 @@ class SubMenu implements ItemInterface, IterableInterface
 
     private bool $isActive = false;
 
-    private ?IterableInterface $parent;
+    private ?IterableInterface $parent = null;
 
 
     /**
