@@ -86,7 +86,7 @@
             </div>
         </nav>
 
-        {% set appMenu = app_menu() %}
+        {% set adminMenu = aropixel_admin_render_menu() %}
         {% if admin_theme.menu_position == 'left' %}
 
         {% block main_sidebar %}
@@ -99,7 +99,7 @@
                         <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
                     </div>
 
-                    {{ appMenu | raw }}
+                    {{ adminMenu | raw }}
 
                 </aside>
             </div>
@@ -109,7 +109,7 @@
             <nav class="navbar navbar-secondary navbar-expand-lg">
                 <div class="container">
 
-                    {{ appMenu | raw }}
+                    {{ adminMenu | raw }}
 
                 </div>
             </nav>
