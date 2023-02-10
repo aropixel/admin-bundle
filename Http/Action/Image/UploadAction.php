@@ -20,7 +20,7 @@ class UploadAction extends AbstractController
     /**
      * @param EntityManagerInterface $entityManager
      * @param ImageManager $imageManager
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     * @param PathResolverInterface $pathResolver
      */
     public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager, PathResolverInterface $pathResolver)
     {
