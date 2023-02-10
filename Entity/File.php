@@ -3,7 +3,7 @@
 namespace Aropixel\AdminBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 /**
  * File
@@ -39,7 +39,6 @@ class File implements FileInterface
     protected $public;
 
     /**
-     * @var UploadedFile    Uploaded File object
      * @Assert\File()
      */
     public $file;
@@ -155,7 +154,7 @@ class File implements FileInterface
      *
      * @return string
      */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->filename;
     }
@@ -271,10 +270,8 @@ class File implements FileInterface
 
     /**
      * Get file.
-     *
-     * @return UploadedFile
      */
-    public function getFile()
+    public function getFile() : ?SymfonyFile
     {
         return $this->file;
     }
@@ -282,10 +279,8 @@ class File implements FileInterface
 
     /**
      * Sets file.
-     *
-     * @param UploadedFile $file
      */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(SymfonyFile $file = null)
     {
         $this->file = $file;
         // check if we have an old image path
@@ -299,7 +294,7 @@ class File implements FileInterface
     }
 
 
-    public function getTempPath()
+    public function getTempPath() : ?string
     {
         return $this->temp;
     }

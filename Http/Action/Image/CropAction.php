@@ -10,11 +10,18 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CropAction extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+    private ImageManager $imageManager;
 
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
-    ){}
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param ImageManager $imageManager
+     */
+    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->imageManager = $imageManager;
+    }
 
     /**
      * Crop an Image.

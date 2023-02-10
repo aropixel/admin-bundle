@@ -5,7 +5,7 @@
  * Date: 04/05/2020 à 11:48
  */
 
-namespace Aropixel\AdminBundle\Form\Reset;
+namespace Aropixel\AdminBundle\Http\Form\Reset;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Http\Action\Image;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,21 +14,20 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UploadAction extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+    private ImageManager $imageManager;
+    private PathResolverInterface $pathResolver;
 
-    private $datatableFieds = [];
-
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
-    ){
-        $this->datatableFieds = [
-            ['label' => '', 'style' => 'width:50px;'],
-            ['label' => '', 'style' => 'width:200px;'],
-            ['field' => 'i.titre', 'label' => 'Titre'],
-            ['field' => 'i.createdAt', 'label' => 'Date'],
-            ['label' => '', 'style' => 'width:200px;']
-        ];
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param ImageManager $imageManager
+     * @param PathResolverInterface $pathResolver
+     */
+    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager, PathResolverInterface $pathResolver)
+    {
+        $this->entityManager = $entityManager;
+        $this->imageManager = $imageManager;
+        $this->pathResolver = $pathResolver;
     }
 
     /**

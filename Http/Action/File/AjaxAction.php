@@ -13,14 +13,21 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AjaxAction extends AbstractController
 {
+    private PathResolverInterface $pathResolver;
+    private FileManager $fileManager;
 
-    private $datatableFieds = [];
+    private array $datatableFieds = [];
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FileManager $fileManager
-    ){
+    /**
+     * @param PathResolverInterface $pathResolver
+     * @param EntityManagerInterface $entityManager
+     * @param FileManager $fileManager
+     */
+    public function __construct(PathResolverInterface $pathResolver, FileManager $fileManager)
+    {
+        $this->pathResolver = $pathResolver;
+        $this->fileManager = $fileManager;
+
         $this->datatableFieds = [
             ['label' => '', 'style' => 'width:50px;'],
             ['label' => '', 'style' => 'width:200px;'],
@@ -29,6 +36,7 @@ class AjaxAction extends AbstractController
             ['label' => '', 'style' => 'width:200px;'],
         ];
     }
+
 
     /**
      * Lists all file entities.

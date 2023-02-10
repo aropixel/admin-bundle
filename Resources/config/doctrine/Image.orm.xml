@@ -16,11 +16,11 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
-        <field name="titre" type="string" />
+        <field name="title" type="string" />
         <field name="category" type="string" />
         <field name="attrTitle" type="string" nullable="true" />
         <field name="attrAlt" type="string" nullable="true" />
-        <field name="attrDescription" type="string" nullable="true" />
+        <field name="description" type="string" nullable="true" />
         <field name="filename" type="string" />
         <field name="extension" type="string" length="20" />
         <field name="import" type="text" nullable="true" />

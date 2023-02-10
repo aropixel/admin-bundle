@@ -5,57 +5,48 @@
  * Date: 11/08/2020 à 16:27
  */
 
-namespace Aropixel\AdminBundle\Image;
+namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Crop;
 
 
+use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 
-class Cropper
+class CropApplier implements CropApplierInterface
 {
 
-    /** @var PathResolverInterface  */
-    private $pathResolver;
-
-    /** @var DataManager  */
-    private $dataManager;
-
-    /** @var FilterManager  */
-    private $filterManager;
-
-    /** @var CacheManager  */
-    private $cacheManager;
+    private CacheManager $cacheManager;
+    private DataManager $dataManager;
+    private FilterManager $filterManager;
+    private PathResolverInterface $pathResolver;
 
 
     /**
-     * Cropper constructor.
-     * @param PathResolverInterface $pathResolver
+     * @param CacheManager $cacheManager
      * @param DataManager $dataManager
      * @param FilterManager $filterManager
-     * @param CacheManager $cacheManager
+     * @param PathResolverInterface $pathResolver
      */
-    public function __construct(PathResolverInterface $pathResolver, DataManager $dataManager, FilterManager $filterManager, CacheManager $cacheManager)
+    public function __construct(CacheManager $cacheManager, DataManager $dataManager, FilterManager $filterManager, PathResolverInterface $pathResolver)
     {
-        $this->pathResolver = $pathResolver;
+        $this->cacheManager = $cacheManager;
         $this->dataManager = $dataManager;
         $this->filterManager = $filterManager;
-        $this->cacheManager = $cacheManager;
+        $this->pathResolver = $pathResolver;
     }
 
 
     private function getRatio($imagePath) {
 
         list($realWidth, $realHeight) = getimagesize($imagePath);
-        $ratio = 600 / $realWidth;
-
-        return $ratio;
+        return (600 / $realWidth);
     }
 
 
-    public function applyCrop($fileName, $filterName, $cropCoordinates)
+    public function applyCrop(string $fileName, string $filterName, string $cropCoordinates) : void
     {
 
         // Liip imagine services

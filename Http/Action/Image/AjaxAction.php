@@ -12,13 +12,24 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AjaxAction extends AbstractController
 {
+    private Datatabler $datatabler;
+    private ImageManager $imageManager;
+    private PathResolverInterface $pathResolver;
 
     private $datatableFieds = [];
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly ImageManager $imageManager
-    ){
+
+    /**
+     * @param Datatabler $datatabler
+     * @param ImageManager $imageManager
+     * @param PathResolverInterface $pathResolver
+     */
+    public function __construct(Datatabler $datatabler, ImageManager $imageManager, PathResolverInterface $pathResolver)
+    {
+        $this->datatabler = $datatabler;
+        $this->imageManager = $imageManager;
+        $this->pathResolver = $pathResolver;
+
         $this->datatableFieds = [
             ['label' => '', 'style' => 'width:50px;'],
             ['label' => '', 'style' => 'width:200px;'],
@@ -28,20 +39,21 @@ class AjaxAction extends AbstractController
         ];
     }
 
+
     /**
      * Lists all Image entities.
      */
-    public function __invoke(Datatabler $datatabler) : Response
+    public function __invoke() : Response
     {
 
         $response = [];
 
         $imageClassName = $this->imageManager->getImageClassName();
-        $datatabler->setRepository($imageClassName, $this->datatableFieds);
+        $this->datatabler->setRepository($imageClassName, $this->datatableFieds);
 
-        if ($datatabler->isCalled()) {
+        if ($this->datatabler->isCalled()) {
 
-            $images = $datatabler->getItems();
+            $images = $this->datatabler->getItems();
 
             foreach ($images as $image)
             {
@@ -49,7 +61,7 @@ class AjaxAction extends AbstractController
             }
         }
 
-        return $datatabler->getResponse($response);
+        return $this->datatabler->getResponse($response);
 
     }
 

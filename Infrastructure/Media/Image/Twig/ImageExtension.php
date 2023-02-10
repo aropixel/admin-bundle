@@ -5,7 +5,7 @@
  * Date: 06/11/2019 à 16:41
  */
 
-namespace Aropixel\AdminBundle\Twig;
+namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
 
 use Aropixel\AdminBundle\Entity\AttachImage;
@@ -14,49 +14,29 @@ use Aropixel\AdminBundle\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class ImageExtension extends AbstractExtension
 {
 
-    /** @var RequestStack */
-    private $requestStack;
-
-    /** @var KernelInterface */
-    private $kernel;
-
-    /** @var ParameterBagInterface */
-    private $parameterBag;
-
-    /** @var PathResolverInterface */
-    private $pathResolver;
-
-    /** @var CacheManager */
-    private $cacheManager;
-
-    /** @var FilterService  */
-    private $filterService;
+    private CacheManager $cacheManager;
+    private FilterService $filterService;
+    private ParameterBagInterface $parameterBag;
+    private PathResolverInterface $pathResolver;
 
     /**
-     * ImageExtension constructor.
-     * @param RequestStack $requestStack
-     * @param KernelInterface $kernel
-     * @param ParameterBagInterface $parameterBag
-     * @param PathResolverInterface $pathResolver
      * @param CacheManager $cacheManager
      * @param FilterService $filterService
+     * @param ParameterBagInterface $parameterBag
+     * @param PathResolverInterface $pathResolver
      */
-    public function __construct(RequestStack $requestStack, KernelInterface $kernel, ParameterBagInterface $parameterBag, PathResolverInterface $pathResolver, CacheManager $cacheManager, FilterService $filterService)
+    public function __construct(CacheManager $cacheManager, FilterService $filterService, ParameterBagInterface $parameterBag, PathResolverInterface $pathResolver)
     {
-        $this->requestStack = $requestStack;
-        $this->kernel = $kernel;
-        $this->parameterBag = $parameterBag;
-        $this->pathResolver = $pathResolver;
         $this->cacheManager = $cacheManager;
         $this->filterService = $filterService;
+        $this->parameterBag = $parameterBag;
+        $this->pathResolver = $pathResolver;
     }
 
 
@@ -81,10 +61,7 @@ class ImageExtension extends AbstractExtension
         elseif (is_string($image)) {
             $path = Image::getFileNameWebPath($image);
         }
-//
-//        if (!is_string($image) || !file_exists($image)) {
-//            $path = null;
-//        }
+
 
         if (is_null($path)) {
 

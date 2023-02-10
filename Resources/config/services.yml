@@ -13,12 +13,6 @@ services:
 #            - { name: 'console.command', command: 'aropixel:admin:setup' }
 
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    Aropixel\AdminBundle\Controller\:
-        resource: '../../Controller'
-        tags: ['controller.service_arguments']
-
     Aropixel\AdminBundle\Http\:
         resource: '../../Http'
         tags: ['controller.service_arguments']
@@ -72,18 +66,19 @@ services:
     Aropixel\AdminBundle\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Resolver\PathResolver'
 
 
-    Aropixel\AdminBundle\Image\Cropper:
-        arguments: ['@Aropixel\AdminBundle\Resolver\PathResolver', '@liip_imagine.data.manager','@liip_imagine.filter.manager','@liip_imagine.cache.manager']
+    Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface:
+        class: Aropixel\AdminBundle\Infrastructure\Media\Image\Crop\CropApplier
+        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Resolver\PathResolver']
 
 
-    Aropixel\AdminBundle\EventListener\DoFileCropListener:
-        arguments: ['@Aropixel\AdminBundle\Image\Cropper']
+    Aropixel\AdminBundle\Infrastructure\Media\Crop\DoFileCropListener:
+        arguments: ['@Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface']
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
 
 
-    Aropixel\AdminBundle\EventListener\UploadImageListener:
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Upload\UploadImageListener:
         arguments: ['@Aropixel\AdminBundle\Resolver\PathResolver']
         tags:
             - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.image%' }
@@ -93,7 +88,7 @@ services:
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.image%' }
 
 
-    Aropixel\AdminBundle\EventListener\UploadFileListener:
+    Aropixel\AdminBundle\Infrastructure\Media\File\Upload\UploadFileListener:
         arguments: ['@Aropixel\AdminBundle\Resolver\PathResolver']
         tags:
             - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.file%' }
@@ -102,9 +97,7 @@ services:
             - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.file%' }
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
 
-    Aropixel\AdminBundle\EventListener\LocaleListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 30}
+
 
     Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldPasswordEventListener:
         tags:
@@ -119,7 +112,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, priority: 8192 }
 
-    Aropixel\AdminBundle\Imagine\Filter\ThumbnailFilter:
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Filter\ThumbnailFilter:
         tags:
             - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
 

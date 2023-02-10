@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Imagine\Filter;
+namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Filter;
 
 use Imagine\Filter\Basic\Crop;
 use Imagine\Filter\Basic\Resize;

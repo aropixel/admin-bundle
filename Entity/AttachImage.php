@@ -298,7 +298,7 @@ abstract class AttachImage implements ImageInterface
      *
      * @return string
      */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->image ? $this->image->getFilename() : null;
     }

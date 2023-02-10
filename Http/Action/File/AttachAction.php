@@ -10,10 +10,15 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AttachAction extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager
-    ){}
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * Attach a file

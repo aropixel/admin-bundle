@@ -11,10 +11,15 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DownloadAction extends AbstractController
 {
+    private PathResolverInterface $pathResolver;
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver
-    ){}
+    /**
+     * @param PathResolverInterface $pathResolver
+     */
+    public function __construct(PathResolverInterface $pathResolver)
+    {
+        $this->pathResolver = $pathResolver;
+    }
 
     /**
      * Upload a file.

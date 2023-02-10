@@ -10,9 +10,6 @@ namespace Aropixel\AdminBundle\Entity;
 
 interface ImageInterface
 {
-
     public function getWebPath();
-
-    public function getFilename();
 
 }

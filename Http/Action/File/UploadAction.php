@@ -14,12 +14,22 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UploadAction extends AbstractController
 {
+    private PathResolverInterface $pathResolver;
+    private EntityManagerInterface $entityManager;
+    private FileManager $fileManager;
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FileManager $fileManager
-    ){}
+    /**
+     * @param PathResolverInterface $pathResolver
+     * @param EntityManagerInterface $entityManager
+     * @param FileManager $fileManager
+     */
+    public function __construct(PathResolverInterface $pathResolver, EntityManagerInterface $entityManager, FileManager $fileManager)
+    {
+        $this->pathResolver = $pathResolver;
+        $this->entityManager = $entityManager;
+        $this->fileManager = $fileManager;
+    }
+
 
     /**
      * Upload a file
