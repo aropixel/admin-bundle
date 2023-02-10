@@ -7,7 +7,6 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;

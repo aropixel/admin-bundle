@@ -20,7 +20,7 @@ class Menu implements IterableInterface
     {
         $item->setId($item->getId() ?: $this->generateId($item->getLabel()));
         $this->items[] = $item;
-        $this->positions[] = $item->getId() ?: $this->generateId($item->getLabel());
+        $this->positions[] = $item->getId();
     }
 
     public function addBefore(string $id, ItemInterface $item) : void
