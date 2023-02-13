@@ -8,7 +8,7 @@
 
             {% if form.vars.data and form.vars.data.image is defined and form.vars.data.image %}
 
-                {% if form.crops is defined and form.vars.data|entity_crop_filters(get_class(form.vars.data))|length > 0 %}
+                {% if form.crops is defined and get_available_crop_filters(form.vars.data)|length > 0 %}
                 <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.crop_suffix }}"><i class="fas fa-crop-alt"></i></a>
                 {% endif %}
 

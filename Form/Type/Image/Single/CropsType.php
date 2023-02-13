@@ -48,17 +48,9 @@ class CropsType extends AbstractType
             'image_class' => '',
             'image_value' => '',
             'crops_value' => '',
-            'crops' => '',
+            'crops' => null,
             'suffix' => '',
         ));
-//
-//        $resolver->setNormalizer('entry_options', static function (Options $options, $entryOptions) {
-//
-//            $entryOptions['data_class'] = $options['data_class'];
-//            $entryOptions['image_class'] = $options['image_class'];
-//            return $entryOptions;
-//
-//        });
     }
 
     /**
@@ -75,38 +67,9 @@ class CropsType extends AbstractType
         $imageData = $imageForm->getData();
 
 
-        //
         $view->vars['image'] = $imageData;
         $view->vars['suffix'] = $options['suffix'];
-
-        //
-        if (array_key_exists('crops', $options)) {
-            $view->vars['crops'] = $options['crops'];
-        }
-
-        //
-        if (array_key_exists('image_value', $options) && strlen($options['image_value'])) {
-
-            $this->instanceToData->setFilenameValue($options['image_value']);
-            $this->instanceToData->setCropsValue($options['crops_value']);
-            $view->vars['file_name'] = $this->instanceToData->getFileName($imageData);
-            $view->vars['image_path'] = $view->vars['file_name'];
-            $view->vars['image_value'] = $options['image_value'];
-
-        }
-
-        $entryOptions = $form->getConfig()->getOption('entry_options');
-        if (array_key_exists('image_class', $entryOptions) && $entryOptions['image_class']) {
-
-//            $shortClassItems = explode('\\', $entryOptions['image_class']);
-//            $shortClass = array_pop($shortClassItems);
-
-            // set an "image_url" variable that will be available when rendering this field
-            $view->vars['image_class'] = $entryOptions['image_class'];
-//            $view->vars['imageShortClass'] = $shortClass;
-
-        }
-
+        $view->vars['optional_available_crop_list'] = array_key_exists('crops', $options) ? $options['crops'] : null;
     }
 
 

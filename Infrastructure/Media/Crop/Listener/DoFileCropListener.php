@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Infrastructure\Media\Crop;
+namespace Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\CropInterface;

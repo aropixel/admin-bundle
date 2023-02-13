@@ -71,7 +71,7 @@ services:
         arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Resolver\PathResolver']
 
 
-    Aropixel\AdminBundle\Infrastructure\Media\Crop\DoFileCropListener:
+    Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener\DoFileCropListener:
         arguments: ['@Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface']
         tags:
             - { name: doctrine.event_listener, event: postPersist }

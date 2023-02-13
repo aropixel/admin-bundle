@@ -247,7 +247,7 @@
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ image_class }}"
          data-im-attach-short-class="{{ image_class_short }}"
-         data-im-crop-active="{{ false|entity_crop_filters(image_class)|length > 1 }}">
+         data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}">
 
 
         {% if prototype is defined and not prototype.rendered %}
@@ -487,10 +487,8 @@
 
 
 {% block aropixel_admin_crops_row -%}
-    {% if crops is defined and crops|length %}
-        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops }) }}
-    {% else %}
-        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'image_class': form.vars.image_class }) }}
+    {% if image %}
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops is defined ? crops : null }) }}
     {% endif %}
     {{- form_widget(form) -}}
 {%- endblock aropixel_admin_crops_row %}
