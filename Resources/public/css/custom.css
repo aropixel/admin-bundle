@@ -611,6 +611,16 @@ div.dataTables_wrapper div.dataTables_paginate {
     width: calc(100% - 270px);
 }
 
+.image-widget .image-properties .form-group {
+    flex-direction: column;
+}
+
+.image-widget .image-properties .form-group label {
+    margin-bottom: 0;
+    font-weight: 400;
+    font-size: 13px;
+}
+
 .image-widget .image-properties .section-title:first-child {
     margin-top: 0;
 }
@@ -638,6 +648,26 @@ div.dataTables_wrapper div.dataTables_paginate {
     color: #a1a5b7;
     margin-right: 0!important;
 }
+.image-widget .image-actions .btn.btn-light-primary:hover {
+    color: #20d489;
+    background-color: #e4fff4!important;
+}
+
+.image-widget .image-actions .btn.btn-light-primary:hover i {
+    color: #20d489;
+}
+
+.image-widget .image-actions .btn.btn-light-danger {
+    color: #fff;
+    background-color: #d42020;
+}
+
+.image-widget .image-actions .btn.btn-light-danger i,
+.image-widget .image-actions .btn.btn-light-danger:hover i{
+    color: #fff;
+    font-size: 0.8rem!important;
+}
+
 
 .thumbnail {
     width: 230px;
@@ -2149,6 +2179,8 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
 
 .main-content {
     padding-top: 100px;
+    padding-left: 400px;
+    padding-right: 180px;
 }
 
 .navbar-bg {
