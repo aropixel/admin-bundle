@@ -1381,7 +1381,7 @@
                 // On sauvegarde dans la nouvelle description en propriété de la vignette
                 // et on lance une sauvegarde asynchrone
                 _li.attr('data-title', description.val());
-                $.post(_base_url + "images/update.html", {id:_li.attr('data-id'), titre:description.val()}, function() {});
+                $.post(_base_url + "images/update.html", {id:_li.attr('data-id'), title:description.val()}, function() {});
             }
 
         };
@@ -1466,7 +1466,7 @@
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imLibrary'), 'plupload_image[titre]': file.name };
+                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imLibrary'), 'plupload_image[title]': file.name };
 
                     },
 

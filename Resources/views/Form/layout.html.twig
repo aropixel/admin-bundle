@@ -239,7 +239,6 @@
     {% set type = type is defined ? type : 'gallery' %}
     {% set entityField = field is defined ? field : 'gallery' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
-    {{ load_library(true) }}
 
     <div class="panel-list im-manager"
          data-im-type="{{ type }}"
@@ -290,8 +289,7 @@
             data-description-label="{{ description_label }}"
             data-description-enabled="{{ description_enabled }}"
             data-link-label="{{ link_label }}"
-            data-link-enabled="{{ link_enabled }}"
-    >
+            data-link-enabled="{{ link_enabled }}">
         {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
     </div>
 
@@ -319,7 +317,6 @@
     {% set entityField = field is defined ? field : 'files' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
     {% set multiple = multiple is defined and not multiple ? 0 : 1 %}
-    {{ load_files_library(true) }}
 
     <div class="panel-list fl-manager"
          data-fl-type="{{ type }}"
@@ -398,7 +395,6 @@
     {% set entityField = field is defined ? field : 'files' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
     {% set multiple = 0 %}
-    {{ load_files_library(true) }}
 
     <div class="panel-list fl-manager"
          data-fl-type="{{ type }}"
@@ -461,7 +457,6 @@
     {% set type = type is defined ? type : 'image' %}
     {% set entityField = field is defined ? field : 'image' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
-    {{ load_library(true) }}
 
     <div class="panel-list im-manager form-group"
          data-im-type="{{ type }}"
