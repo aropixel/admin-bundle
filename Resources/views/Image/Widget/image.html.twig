@@ -25,7 +25,7 @@
         <div class="thumb">
 
             {{ include('@AropixelAdmin/Image/Widget/_preview.html.twig') }}
-{#            {{ include('@AropixelAdmin/Image/Widget/_caption.html.twig') }}#}
+            {{ include('@AropixelAdmin/Image/Widget/_caption.html.twig') }}
 
 
         </div>
@@ -49,9 +49,14 @@
         </div>
 
         <div class="image-actions">
-            <a class="btn btn-primary btnUpload" data-bs-toggle="modal" data-bs-target="#modalLibrary">Choisir une image</a>
+            <a class="btn btn-sm btn-icon btn-active-light-primary me-3 btnUpload" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="Choisir une image"><i class="far fa-image"></i></a>
+
+            {% if form.crops is defined and get_available_crop_filters(form.vars.data)|length > 0 %}
+                <a class="btn btn-sm btn-icon btn-active-light-primary me-3 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></a>
+            {% endif %}
+
             {% if form.vars.data and form.vars.data.image is defined and form.vars.data.image %}
-                <a class="btn btn-danger btnUnlink">Retirer l'image</a>
+                <a class="btn btn-sm btn-icon btn-active-light-primary me-3 btnUnlink" title="Retirer l'image"><i class="fas fa-unlink"></i></a>
             {% endif %}
         </div>
 

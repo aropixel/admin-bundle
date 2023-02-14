@@ -30,7 +30,7 @@ trait CroppableTrait
         $cropsInfos = [];
 
         foreach ($this->getCrops() as $crop) {
-            $cropsInfos[$crop->getFilter()] = $crop;
+            $cropsInfos[$crop->getFilter()] = $crop->getCrop();
         }
 
         return $cropsInfos;

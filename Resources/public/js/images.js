@@ -1186,7 +1186,7 @@
                     }
 
                     //
-                    var $thumbnail = cropButton.closest('.thumbnail');
+                    var $thumbnail = cropButton.closest('.image-widget').find('.thumbnail');
 
 
                     //
@@ -1266,9 +1266,8 @@
                         // console.log("instanciate");
 
                         //
-                        $modal.off('click').on('click', selectors.crop.ratios, function() {
+                        $modal.on('change', selectors.crop.ratios, function() {
 
-                            //
                             var _options = obj.cropper_options($(this));
                             $modal.find(selectors.crop.image).cropper('destroy').cropper(_options);
 
@@ -1276,7 +1275,7 @@
 
 
                         //
-                        $modal.off('click').on('click', selectors.crop.save, function() {
+                        $modal.on('click', selectors.crop.save, function() {
 
                             //
                             // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
