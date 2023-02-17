@@ -4,13 +4,13 @@ namespace Aropixel\AdminBundle\Http\Action\File;
 
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
-use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\FileManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UploadAction extends AbstractController
 {
@@ -19,7 +19,7 @@ class UploadAction extends AbstractController
     private FileManager $fileManager;
 
     /**
-     * @param PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
      * @param EntityManagerInterface $entityManager
      * @param FileManager $fileManager
      */
@@ -79,7 +79,7 @@ class UploadAction extends AbstractController
 
     private function _dataTableElements($file) {
 
-        $filePath = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+        $filePath = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
         $bytes = @filesize($filePath);
         $sz = 'bkMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);

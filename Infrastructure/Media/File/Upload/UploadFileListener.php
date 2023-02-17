@@ -10,7 +10,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\File\Upload;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
-use Aropixel\AdminBundle\Resolver\PathResolver;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver;
 
 class UploadFileListener
 {
@@ -52,7 +52,7 @@ class UploadFileListener
 
     public function postRemove(FileInterface $file) : void
     {
-        $file = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+        $file = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
         if ($file && file_exists($file)) {
             unlink($file);
         }
@@ -76,12 +76,12 @@ class UploadFileListener
         // if there is an error when moving the file, an exception will
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
-        $file->getFile()->move($this->pathResolver->getAbsoluteDirectory(File::UPLOAD_DIR), $file->getFilename());
+        $file->getFile()->move($this->pathResolver->getPrivateAbsolutePath(File::UPLOAD_DIR), $file->getFilename());
 
         // check if we have an old image
         if ($file->getTempPath()) {
             // delete the old image
-            unlink($this->pathResolver->getAbsoluteDirectory(File::UPLOAD_DIR).'/'.$file->getTempPath());
+            unlink($this->pathResolver->getPrivateAbsolutePath(File::UPLOAD_DIR).'/'.$file->getTempPath());
         }
     }
 

@@ -9,8 +9,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
 
 use Aropixel\AdminBundle\Entity\AttachImage;
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -29,7 +28,7 @@ class ImageExtension extends AbstractExtension
      * @param CacheManager $cacheManager
      * @param FilterService $filterService
      * @param ParameterBagInterface $parameterBag
-     * @param PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(CacheManager $cacheManager, FilterService $filterService, ParameterBagInterface $parameterBag, PathResolverInterface $pathResolver)
     {
@@ -48,22 +47,12 @@ class ImageExtension extends AbstractExtension
     }
 
 
-    public function customImagineFilter($image, $filter, array $config = [], $resolver = null)
+    public function customImagineFilter(?string $webPath, string $filter, array $config = [], $resolver = null)
     {
-        $path = null;
-        $isImage = ($image instanceof AttachImage);
 
+        /** @var AttachImage $image */
 
-        if ($isImage) {
-            /** @var AttachImage $image */
-            $path = $this->pathResolver->fileExists(Image::UPLOAD_DIR, $image->getFilename()) ? $image->getWebPath() : null;
-        }
-        elseif (is_string($image)) {
-            $path = Image::getFileNameWebPath($image);
-        }
-
-
-        if (is_null($path)) {
+        if (is_null($webPath) || !$this->pathResolver->privateFileExists($webPath)) {
 
             $filterSets = $this->parameterBag->get('liip_imagine.filter_sets');
             if (!array_key_exists($filter, $filterSets)) {
@@ -84,7 +73,7 @@ class ImageExtension extends AbstractExtension
 
 
             $filter = 'fallback_pixel';
-            $path = 'pixel.png';
+            $webPath = 'pixel.png';
 
             // Runtime configuration
             $runtimeConfig = [
@@ -99,7 +88,7 @@ class ImageExtension extends AbstractExtension
             ];
 
             $resourcePath = $this->filterService->getUrlOfFilteredImageWithRuntimeFilters(
-                $path,
+                $webPath,
                 $filter,
                 $runtimeConfig
             );
@@ -107,7 +96,7 @@ class ImageExtension extends AbstractExtension
             return $resourcePath;
         }
 
-        return $this->cacheManager->getBrowserPath(parse_url($path, PHP_URL_PATH), $filter, [], null);
+        return $this->cacheManager->getBrowserPath(parse_url($webPath, PHP_URL_PATH), $filter, [], null);
     }
 
 }

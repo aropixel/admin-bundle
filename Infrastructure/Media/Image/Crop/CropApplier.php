@@ -10,7 +10,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Crop;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
@@ -58,8 +58,8 @@ class CropApplier implements CropApplierInterface
         // Get the filter configuration
         $filterConfiguration = $filterManager->getFilterConfiguration()->get($filterName);
 
-        //
-        $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $fileName);
+
+        $imagePath = $this->pathResolver->getPrivateAbsolutePath($fileName);
         $ratio = $this->getRatio($imagePath);
 
         // Merge crop configuration with needed coords into the filter configuration
@@ -75,8 +75,8 @@ class CropApplier implements CropApplierInterface
         $mergedFilters = array_merge($cropConfiguration, $filterConfiguration['filters']);
 
         // Retrieves the image with the given filter applied
-        $relativeDataRootPath = $this->pathResolver->getDataRootRelativePath(Image::UPLOAD_DIR, $fileName);
-        $binary = $dataManager->find($filterName, $relativeDataRootPath);
+        $relativePath = Image::UPLOAD_DIR.'/'.$fileName;
+        $binary = $dataManager->find($filterName, $relativePath);
 
         // Apply the crop
         $filteredBinary = $filterManager->apply($binary, array(
@@ -84,7 +84,7 @@ class CropApplier implements CropApplierInterface
         ));
 
         // Store & overwrite image
-        $cacheManager->store($filteredBinary, $relativeDataRootPath, $filterName);
+        $cacheManager->store($filteredBinary, $relativePath, $filterName);
 
     }
 }

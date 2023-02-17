@@ -38,7 +38,7 @@
 									<strong>Attention à ne pas sélectionner une taille d'image supérieure à la taille originale.</strong> L'image insérée pourrait être de mauvaise qualité.
 								</p>
 
-								{% set myfilters = orphan_filters() %}
+								{% set myfilters = get_editor_filters() %}
 								<div class="m-t-15">
 									<label>Largeur de l'image</label>
 									<select class="bootstrap-select" data-width="100%" name="img_size" id="img_size">

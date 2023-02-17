@@ -23,16 +23,12 @@ class AropixelExtension extends AbstractExtension
     /** @var RouterInterface  */
     private $router;
 
-    /** @var ImageManager  */
-    private $imageManager;
-
     /** @var Seo  */
     private $seo;
 
 
-    public function __construct(RequestStack $requestStack, RouterInterface $router, EntityManagerInterface $em, ImageManager $imageManager, Seo $seo)
+    public function __construct(RequestStack $requestStack, RouterInterface $router, EntityManagerInterface $em, Seo $seo)
     {
-        $this->imageManager = $imageManager;
         $this->requestStack = $requestStack;
         $this->router = $router;
         $this->em = $em;
@@ -60,7 +56,6 @@ class AropixelExtension extends AbstractExtension
             'get_baseroute' => new TwigFunction('get_baseroute', array($this, 'getBaseRoute')),
             'get_image_editor_route' => new TwigFunction('get_image_editor_route', array($this, 'getImageEditorRoute')),
             'get_class' => new TwigFunction('get_class', array($this, 'getClass')),
-            'orphan_filters' => new TwigFunction('orphan_filters', array($this, 'getOrphanFilters')),
         );
     }
 
@@ -192,36 +187,6 @@ class AropixelExtension extends AbstractExtension
         $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);
         return $formatter->format($d);
-    }
-
-
-    public function cropFilters($data, $crops)
-    {
-        //
-        $filters = $this->imageManager->getCropFilters($data, $crops);
-
-        //
-        return $filters;
-    }
-
-
-    public function entityCropFilters($image, $imageClass)
-    {
-        //
-        $filters = $this->imageManager->getEntityCropFilters($image, $imageClass);
-
-        //
-        return $filters;
-    }
-
-
-    public function getOrphanFilters()
-    {
-        //
-        $filters = $this->imageManager->getOrphanFilters();
-
-        //
-        return $filters;
     }
 
 
