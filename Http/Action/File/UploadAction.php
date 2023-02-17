@@ -19,7 +19,7 @@ class UploadAction extends AbstractController
     private FileManager $fileManager;
 
     /**
-     * @param PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
      * @param EntityManagerInterface $entityManager
      * @param FileManager $fileManager
      */
