@@ -23,36 +23,16 @@ class AropixelExtension extends AbstractExtension
     /** @var RouterInterface  */
     private $router;
 
-    /** @var ImageManager  */
-    private $imageManager;
-
     /** @var Seo  */
     private $seo;
 
-    /** @var bool  */
-    private $loadLibrary;
 
-    /** @var bool  */
-    private $loadFilesLibrary;
-
-
-    public function __construct(RequestStack $requestStack, RouterInterface $router, EntityManagerInterface $em, ImageManager $imageManager, Seo $seo)
+    public function __construct(RequestStack $requestStack, RouterInterface $router, EntityManagerInterface $em, Seo $seo)
     {
-        $this->imageManager = $imageManager;
         $this->requestStack = $requestStack;
         $this->router = $router;
         $this->em = $em;
         $this->seo = $seo;
-        $this->loadLibrary = false;
-        $this->loadFilesLibrary = false;
-    }
-
-    public function getGlobals()
-    {
-        return array(
-            'loadLibrary' => $this->loadLibrary,
-            'loadFilesLibrary' => $this->loadFilesLibrary,
-        );
     }
 
     public function getFilters()
@@ -62,7 +42,6 @@ class AropixelExtension extends AbstractExtension
             'intl_date' => new TwigFilter('intl_date', array($this, 'intl_date')),
             'crop_filters' => new TwigFilter('crop_filters', array($this, 'cropFilters')),
             'entity_crop_filters' => new TwigFilter('entity_crop_filters', array($this, 'entityCropFilters')),
-            'class_name' => new TwigFilter('class_name', array($this, 'getClassFromCategory')),
             'seo' => new TwigFilter('seo', array($this, 'getSeo')),
             'ucfirst' => new TwigFilter('ucfirst', array($this, 'myUcfirst')),
             'filename_web_path' => new TwigFilter('filename_web_path', array($this, 'getFileNameWebPath')),
@@ -77,10 +56,6 @@ class AropixelExtension extends AbstractExtension
             'get_baseroute' => new TwigFunction('get_baseroute', array($this, 'getBaseRoute')),
             'get_image_editor_route' => new TwigFunction('get_image_editor_route', array($this, 'getImageEditorRoute')),
             'get_class' => new TwigFunction('get_class', array($this, 'getClass')),
-            'load_library' => new TwigFunction('load_library', array($this, 'setLoadLibrary')),
-            'load_files_library' => new TwigFunction('load_files_library', array($this, 'setLoadFilesLibrary')),
-            'get_short_class' => new TwigFunction('get_short_class', array($this, 'getShortClass')),
-            'orphan_filters' => new TwigFunction('orphan_filters', array($this, 'getOrphanFilters')),
         );
     }
 
@@ -113,33 +88,6 @@ class AropixelExtension extends AbstractExtension
     }
 
 
-    public function getShortClass($object)
-    {
-        return $object && is_object($object) ? (new \ReflectionClass($object))->getShortName() : "";
-    }
-
-
-    public function setLoadLibrary($load=null)
-    {
-        if (!is_null($load)) {
-            $this->loadLibrary = $load;
-        }
-        else {
-            return $this->loadLibrary;
-        }
-    }
-
-
-    public function setLoadFilesLibrary($load=null)
-    {
-        if (!is_null($load)) {
-            $this->loadFilesLibrary = $load;
-        }
-        else {
-            return $this->loadFilesLibrary;
-        }
-    }
-
     /**
      * récupère le chemin de l'image uploadée en parametre pour une marque blanche
      */
@@ -152,12 +100,6 @@ class AropixelExtension extends AbstractExtension
     public function myUcfirst($text)
     {
         return ucfirst($text);
-    }
-
-
-    public function getClassFromCategory($category)
-    {
-        return substr($category, strrpos($category, '\\') + 1);
     }
 
 
@@ -245,36 +187,6 @@ class AropixelExtension extends AbstractExtension
         $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);
         return $formatter->format($d);
-    }
-
-
-    public function cropFilters($data, $crops)
-    {
-        //
-        $filters = $this->imageManager->getCropFilters($data, $crops);
-
-        //
-        return $filters;
-    }
-
-
-    public function entityCropFilters($image, $imageClass)
-    {
-        //
-        $filters = $this->imageManager->getEntityCropFilters($image, $imageClass);
-
-        //
-        return $filters;
-    }
-
-
-    public function getOrphanFilters()
-    {
-        //
-        $filters = $this->imageManager->getOrphanFilters();
-
-        //
-        return $filters;
     }
 
 

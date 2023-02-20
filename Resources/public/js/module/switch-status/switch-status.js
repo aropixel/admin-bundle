@@ -114,7 +114,7 @@ export class SwitchStatus {
 
     isIncoming() {
 
-        if (typeof this.options.publishAtDate === "undefined") {
+        if (this.options.publishAtDate === null || typeof this.options.publishAtDate === "undefined") {
             return false;
         }
 
@@ -132,7 +132,7 @@ export class SwitchStatus {
 
     isOutdated() {
 
-        if (typeof this.options.publishUntilDate === "undefined") {
+        if (this.options.publishUntilDate === null || typeof this.options.publishUntilDate === "undefined") {
             return false;
         }
 

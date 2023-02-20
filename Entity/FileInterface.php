@@ -8,11 +8,8 @@
 namespace Aropixel\AdminBundle\Entity;
 
 
-interface FileInterface
+interface FileInterface extends ItemLibraryInterface
 {
-
     public function getWebPath();
-
-    public function getFilename();
 
 }

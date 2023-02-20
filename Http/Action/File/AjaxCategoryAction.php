@@ -3,24 +3,31 @@
 namespace Aropixel\AdminBundle\Http\Action\File;
 
 use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\FileManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AjaxCategoryAction extends AbstractController
 {
+    private PathResolverInterface $pathResolver;
+    private FileManager $fileManager;
 
-    private $datatableFieds = [];
+    private array $datatableFieds = [];
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FileManager $fileManager
-    ){
+    /**
+     * @param PathResolverInterface $pathResolver
+     * @param EntityManagerInterface $entityManager
+     * @param FileManager $fileManager
+     */
+    public function __construct(PathResolverInterface $pathResolver, FileManager $fileManager)
+    {
+        $this->pathResolver = $pathResolver;
+        $this->fileManager = $fileManager;
+
         $this->datatableFieds = [
             ['label' => '', 'style' => 'width:50px;'],
             ['label' => '', 'style' => 'width:200px;'],
@@ -59,7 +66,7 @@ class AjaxCategoryAction extends AbstractController
 
             foreach ($files as $file)
             {
-                $filePath = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+                $filePath = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
                 if (file_exists($filePath)) {
                     $response[] = $this->_dataTableElements($file);
                 }
@@ -74,7 +81,7 @@ class AjaxCategoryAction extends AbstractController
 
     private function _dataTableElements($file) {
 
-        $filePath = $this->pathResolver->getAbsolutePath(File::UPLOAD_DIR, $file->getFilename());
+        $filePath = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
         $bytes = @filesize($filePath);
         $sz = 'bkMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);

@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
+use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,11 +11,22 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class AttachEditorAction
 {
+    private EditorImageBuilderInterface $editorImageBuilder;
+    private EntityManagerInterface $entityManager;
+    private ImageManager $imageManager;
 
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager
-    ){}
+    /**
+     * @param EditorImageBuilderInterface $editorImageBuilder
+     * @param EntityManagerInterface $entityManager
+     * @param ImageManager $imageManager
+     */
+    public function __construct(EditorImageBuilderInterface $editorImageBuilder, EntityManagerInterface $entityManager, ImageManager $imageManager)
+    {
+        $this->editorImageBuilder = $editorImageBuilder;
+        $this->entityManager = $entityManager;
+        $this->imageManager = $imageManager;
+    }
+
 
     /**
      * Attach an Image.
@@ -25,7 +37,7 @@ class AttachEditorAction
 
         $images_id = $request->get('images', []);
         $width = $request->get('width', 300);
-        $decoupe = $request->get('filter', null);
+        $filter = $request->get('filter', null);
         $alt = $request->get('alt', '');
 
         $em = $this->entityManager;
@@ -36,7 +48,7 @@ class AttachEditorAction
 
         if ($width=='auto') {
             $width = null;
-            $decoupe = null;
+            $filter = null;
         }
 
         if (count($images_id)) {
@@ -47,7 +59,7 @@ class AttachEditorAction
 
                 $imageClassName = $this->imageManager->getImageClassName();
                 $image = $em->getRepository($imageClassName)->find($image_id);
-                $url = $imageManager->editorResize($image, $width, $decoupe);
+                $url = $this->editorImageBuilder->buildImageUrl($image, $width, $filter);
 
                 $class = "";
                 $widthTag = ' width="'.$width.'"';

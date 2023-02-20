@@ -17,75 +17,45 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AttachImage implements ImageInterface
 {
 
-    /**
-     * @var string Title of the image
-     */
-    protected $title;
+    protected ?string $title;
+
+    protected ?string $link;
+
+    protected ?string $description;
+
+    protected ?string $attrTitle;
+
+    protected ?string $attrAlt;
 
     /**
-     * @var string Link of the image
+     * Specific class to give when rendering the image
      */
-    protected $link;
+    protected ?string $attrClass;
 
     /**
-     * @var string Description of the image
+     * Position when the image is part of a set of images
      */
-    protected $description;
+    protected int $position = 0;
 
     /**
-     * @var string Html "title" attribute of the image
+     * Image library selected
      */
-    protected $attrTitle;
+    protected ?ItemLibraryInterface $image = null;
 
     /**
-     * @deprecated Use attrAlt instead. Will be removed in v2.
+     * Used when image is changed
      */
-    protected $alt;
+    protected ?ItemLibraryInterface $oldImage = null;
 
-    /**
-     * @var string Html "alt" attribute of the image
-     */
-    protected $attrAlt;
 
-    /**
-     * @var string Specific class to give when rendering the image
-     */
-    protected $attrClass;
+    protected ?\DateTime $createdAt = null;
 
-    /**
-     * @deprecated Use attrAlt instead. Will be removed in v2.
-     */
-    protected $class;
-
-    /**
-     * @var integer Position when the image is part of a set of images
-     */
-    protected $position = 0;
-
-    /**
-     * @var ImageInterface  Image entity that represent image source
-     */
-    protected $image;
-
-    /**
-     * @var ImageInterface
-     */
-    protected $oldImage;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
+    protected ?\DateTime $updatedAt = null;
 
     /**
      * @return string|null
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -94,7 +64,7 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $title
      * @return AttachImage
      */
-    public function setTitle($title)
+    public function setTitle(?string $title): AttachImage
     {
         $this->title = $title;
         return $this;
@@ -103,7 +73,7 @@ abstract class AttachImage implements ImageInterface
     /**
      * @return string|null
      */
-    public function getLink()
+    public function getLink(): ?string
     {
         return $this->link;
     }
@@ -112,7 +82,7 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $link
      * @return AttachImage
      */
-    public function setLink($link)
+    public function setLink(?string $link): AttachImage
     {
         $this->link = $link;
         return $this;
@@ -121,7 +91,7 @@ abstract class AttachImage implements ImageInterface
     /**
      * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -130,7 +100,7 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $description
      * @return AttachImage
      */
-    public function setDescription($description)
+    public function setDescription(?string $description): AttachImage
     {
         $this->description = $description;
         return $this;
@@ -139,7 +109,7 @@ abstract class AttachImage implements ImageInterface
     /**
      * @return string|null
      */
-    public function getAttrTitle()
+    public function getAttrTitle(): ?string
     {
         return $this->attrTitle;
     }
@@ -148,7 +118,7 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $attrTitle
      * @return AttachImage
      */
-    public function setAttrTitle($attrTitle)
+    public function setAttrTitle(?string $attrTitle): AttachImage
     {
         $this->attrTitle = $attrTitle;
         return $this;
@@ -157,7 +127,7 @@ abstract class AttachImage implements ImageInterface
     /**
      * @return string|null
      */
-    public function getAttrAlt()
+    public function getAttrAlt(): ?string
     {
         return $this->attrAlt;
     }
@@ -166,34 +136,16 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $attrAlt
      * @return AttachImage
      */
-    public function setAttrAlt($attrAlt)
+    public function setAttrAlt(?string $attrAlt): AttachImage
     {
         $this->attrAlt = $attrAlt;
         return $this;
     }
 
     /**
-     * @return mixed
-     */
-    public function getAlt()
-    {
-        return $this->alt;
-    }
-
-    /**
-     * @param mixed $alt
-     * @return AttachImage
-     */
-    public function setAlt($alt)
-    {
-        $this->alt = $alt;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
-    public function getAttrClass()
+    public function getAttrClass(): ?string
     {
         return $this->attrClass;
     }
@@ -202,64 +154,44 @@ abstract class AttachImage implements ImageInterface
      * @param string|null $attrClass
      * @return AttachImage
      */
-    public function setAttrClass($attrClass)
+    public function setAttrClass(?string $attrClass): AttachImage
     {
         $this->attrClass = $attrClass;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * @param mixed $class
-     * @return AttachImage
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-        return $this;
-    }
-
-    /**
-     * Set position
-     *
-     * @param integer $position
-     *
-     * @return AttachImage
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return integer
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
 
     /**
-     * Set image
-     *
-     * @param Image $image
-     *
-     * @return $this
+     * @param int $position
+     * @return AttachImage
      */
-    public function setImage(ImageInterface $image = null)
+    public function setPosition(int $position): AttachImage
     {
-        //
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * @return ItemLibraryInterface
+     */
+    public function getImage(): ?ItemLibraryInterface
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param ItemLibraryInterface $image
+     * @return AttachImage
+     */
+    public function setImage(?ItemLibraryInterface $image): AttachImage
+    {
         if (!is_null($this->image)) {
             $this->oldImage = clone ($this->image);
         }
@@ -267,20 +199,26 @@ abstract class AttachImage implements ImageInterface
             $this->oldImage = null;
         }
 
-        //
         $this->image = $image;
-
         return $this;
     }
 
     /**
-     * Get image
-     *
-     * @return ImageInterface
+     * @return ItemLibraryInterface|null
      */
-    public function getImage()
+    public function getOldImage(): ?ItemLibraryInterface
     {
-        return $this->image;
+        return $this->oldImage;
+    }
+
+    /**
+     * @param ItemLibraryInterface|null $oldImage
+     * @return AttachImage
+     */
+    public function setOldImage(?ItemLibraryInterface $oldImage): AttachImage
+    {
+        $this->oldImage = $oldImage;
+        return $this;
     }
 
     /**
@@ -293,73 +231,52 @@ abstract class AttachImage implements ImageInterface
         return ($this->oldImage != $this->image);
     }
 
-    /**
-     * Get image url
-     *
-     * @return string
-     */
-    public function getFilename()
+
+    public function getFilename() : ?string
     {
         return $this->image ? $this->image->getFilename() : null;
     }
 
-    /**
-     * Get image url
-     *
-     * @return string
-     */
     public function getWebPath()
     {
         return $this->image ? $this->image->getWebPath() : null;
     }
 
-
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return AttachImage
+     * @return \DateTime|null
      */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
+     * @param \DateTime|null $createdAt
      * @return AttachImage
      */
-    public function setUpdatedAt($updatedAt)
+    public function setCreatedAt(?\DateTime $createdAt): AttachImage
     {
-        $this->updatedAt = $updatedAt;
-
+        $this->createdAt = $createdAt;
         return $this;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
+
+    /**
+     * @param \DateTime|null $updatedAt
+     * @return AttachImage
+     */
+    public function setUpdatedAt(?\DateTime $updatedAt): AttachImage
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
 
 }

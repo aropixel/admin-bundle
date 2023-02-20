@@ -2,14 +2,13 @@
  Tagger - Converts any text input box into an easy-to-edit multiple-tag interface.
  */
 
+import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
 
 (function($){
 
 
-
-    //
     // Paramètres par défaut
-    var selectors = {
+    let selectors = {
 
         modal: {
             id: '#modalLibrary',
@@ -68,11 +67,10 @@
 
 
 
-    var IM_Launcher = function(element, options)
+    let IM_Launcher = function(element, options)
     {
-        //
         // Paramètres par défaut
-        var defaults = {
+        let defaults = {
             type: 'image',
             multiple: false,
         }
@@ -108,10 +106,9 @@
 
 
 
-    var IM_Editor = function(launcher, editor)
+    let IM_Editor = function(launcher, editor)
     {
 
-        //
         // Ouvre la modal et charge les images
         imcore.modal.set_launcher(launcher);
         $(selectors.modal.id).modal('show');
@@ -120,15 +117,13 @@
         this.insert_image = function()
         {
 
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.modal.attach);
+            let _button = $(selectors.modal.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Création des vignettes').attr('disabled', 'disabled');
 
 
-            //
-            var _attach_params = {};
-            var _attach = [];
+            let _attach_params = {};
+            let _attach = [];
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
                 _attach.push($(this).val());
@@ -142,31 +137,22 @@
             _attach_params['filter'] = $(selectors.settings.filterField).val();
             _attach_params['alt'] = $(selectors.settings.altField).val();
 
-
-
-            //
             if (launcher.config.attach_params!=false)
             {
-                var isFunc = jQuery.isFunction( launcher.config.attach_params );
+                let isFunc = jQuery.isFunction( launcher.config.attach_params );
                 if (isFunc)         $.extend( _attach_params, launcher.config.attach_params() );
                 else                $.extend( _attach_params, launcher.config.attach_params );
             }
 
 
-
-            //
             $.post( launcher.element.data('imAttachEditor'),  _attach_params, function(result) {
 
-                //
                 editor.insertHtml( result );
                 editor.focusManager.focus();
 
-                //
                 $(selectors.modal.id).modal('hide');
 
-                //
                 _button.html("Ajouter l'image").attr('disabled', false);
-
 
             });
 
@@ -178,51 +164,34 @@
 
 
 
-
-
-    var IM_Widget = function(launcher)
+    let IM_Widget = function(launcher)
     {
 
-        //
-        var obj = this;
-        var widget = launcher.element;
+        let obj = this;
+        let widget = launcher.element;
 
-        //
-        var cropper = new IM_Cropper(launcher);
+        let cropper = new IM_Cropper(launcher);
         cropper.initCropper();
 
-        //
         widget.on('click', selectors.panel.unlink, function() {
 
             obj.detach();
 
         });
-        //
-        // //
-        // widget.on('click', selectors.panel.crop, function() {
-        //
-        //     obj.open_crop();
-        //
-        // });
-
-
 
 
         this.attach = function()
         {
 
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.modal.attach);
+            let _button = $(selectors.modal.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Création des vignettes').attr('disabled', 'disabled');
 
-            //
-            var _thumbData = widget.find(".thumbnail").data();
+            let _thumbData = widget.find(".thumbnail").data();
 
 
-            //
-            var _attach_params = {};
-            var _attach = [];
+            let _attach_params = {};
+            let _attach = [];
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
                 _attach.push($(this).val());
@@ -243,10 +212,9 @@
             _attach_params['crops_labels'] = _thumbData.imCropsLabels;
 
 
-            //
             if (launcher.config.attach_params!=false)
             {
-                var isFunc = jQuery.isFunction( launcher.config.attach_params );
+                let isFunc = jQuery.isFunction( launcher.config.attach_params );
                 if (isFunc)         $.extend( _attach_params, launcher.config.attach_params() );
                 else                $.extend( _attach_params, launcher.config.attach_params );
             }
@@ -273,6 +241,7 @@
 
                 // Remove all action buttons except upload (first)
                 launcher.element.find(".image-actions .btnUnlink").remove();
+                launcher.element.find(".image-actions .iconCrop").remove();
                 launcher.element.find(".image-actions .btnUpload").after($(result).find('.image-actions .btnUnlink'));
 
                 /*launcher.element.find(".caption-overflow a:not(:first-child)").remove();
@@ -281,23 +250,15 @@
                 // Give correct modal target to crop button
                 launcher.element.find(".caption-overflow .iconCrop").attr('data-target', '#'+launcher.element.find('.modalCrop').attr('id'));
 
-                //
                 launcher.element.find(".thumbnail").attr("data-im-crop-path", $(result).attr('data-im-crop-path'));
                 launcher.element.find(".thumbnail").attr("data-im-image-id", $(result).attr('data-im-image-id'));
                 launcher.element.find(".thumbnail").attr("data-im-attach-id", $(result).attr('data-im-attach-id'));
 
-                //
                 // params.onAttach(launcher, result);
                 $(selectors.modal.id).modal('hide');
 
-
-                //
                 // $.uniform.update($('.checkbox-library-thumb input').attr('checked',false));
                 _button.html("Ajouter l'image").attr('disabled', false);
-
-                //
-                // var cropper = new IM_Cropper(launcher);
-                // cropper.initCropper();
 
             });
 
@@ -306,12 +267,10 @@
         }
 
 
-        //
         this.detach = function() {
 
 
-            //
-            var _buttons = {
+            let _buttons = {
 
                 "Fermer": function() {
                     $(this).closest('.modal').modal('hide');
@@ -322,17 +281,18 @@
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        var _button = $(this);
+                        let _button = $(this);
                         if (launcher.config.multiple)
                         {
                             widget.parent().remove();
                         }
                         else
                         {
-                            var _preview = launcher.element.find(".preview");
+                            let _preview = launcher.element.find(".preview");
                             launcher.element.find(".preview > img").replaceWith(_preview.attr('data-new'));
                             //launcher.element.find(".caption-overflow .iconUnlink").remove();
                             launcher.element.find(".image-actions .btnUnlink").remove();
+                            launcher.element.find(".image-actions .iconCrop").remove();
                             launcher.element.find(".caption-overflow .iconCrop").remove();
 
                             launcher.element.find(".preview input[name$='[image]']").removeAttr('value');
@@ -349,9 +309,7 @@
                 }
             }
 
-
-            //
-            modalDyn("Supprimer", "Voulez-vous supprimer l'image de ce contenu ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+            new ModalDyn("Supprimer", "Voulez-vous supprimer l'image de ce contenu ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
         }
 
 
@@ -366,21 +324,17 @@
 
 
 
-    var IM_Gallery = function(launcher)
+    let IM_Gallery = function(launcher)
     {
-        //
-        var obj = this;
+        let obj = this;
         this.launcher = launcher;
 
-        //
-        var cropper = new IM_Cropper(launcher);
+        let cropper = new IM_Cropper(launcher);
         cropper.initCropper();
 
-        //
-        var gallery = this;
+        let gallery = this;
         launcher.element.find('.thumbnail').each(function() {
 
-            //
             new IM_Gallery_Widget(gallery, $(this));
 
         });
@@ -389,17 +343,17 @@
         $(selectors.video.modal).on('keyup', selectors.video.textarea, function() {
 
 
-            var _content = $(selectors.video.textarea).val();
-            var _modalWidth = $(selectors.video.modal).find('.modal-content').outerWidth() - 2;
+            let _content = $(selectors.video.textarea).val();
+            let _modalWidth = $(selectors.video.modal).find('.modal-content').outerWidth() - 2;
 
             if ($(_content).prop("tagName").toLowerCase()=='iframe') {
 
-                var _width = $(_content).attr("width");
-                var _height = $(_content).attr("height");
-                var _newHeight = Math.round(_height * _modalWidth / _width);
+                let _width = $(_content).attr("width");
+                let _height = $(_content).attr("height");
+                let _newHeight = Math.round(_height * _modalWidth / _width);
 
 
-                var _iframe = $(_content).clone();
+                let _iframe = $(_content).clone();
                 _iframe.attr("width", _modalWidth);
                 _iframe.attr("height", _newHeight);
 
@@ -411,18 +365,13 @@
         });
 
 
-
         $(selectors.video.modal).on('click', selectors.video.attach, function() {
 
-
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.video.attach);
+            let _button = $(selectors.video.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Ajouter la vidéo').attr('disabled', 'disabled');
 
-
-            //
-            var _attach_params = {};
+            let _attach_params = {};
             _attach_params['iframe']   = $(selectors.video.textarea).val();
             _attach_params['category'] = launcher.config.imEntityClass;
             _attach_params['id']       = launcher.config.imEntityId;
@@ -431,30 +380,22 @@
             _attach_params['multiple'] = '1';
 
 
-            //
             $.post(Routing.generate('gallery_video'),  _attach_params, function(result) {
 
-                //
-                var _element = $('<div></div>').addClass(selectors.gallery.grid).html(result);
+                let _element = $('<div></div>').addClass(selectors.gallery.grid).html(result);
 
-                //
                 if ($(launcher.config.imTarget+' .row:last > div').length < 4) {
                     $(launcher.config.imTarget+' .row:last').append(_element);
                 }
                 else {
-                    var _row = $('<div></div>').addClass('row').html(_element);
+                    let _row = $('<div></div>').addClass('row').html(_element);
                     $(launcher.config.imTarget+' .row:last').after(_row);
                 }
 
-
-                //
                 $(selectors.video.modal).modal('hide');
                 $(launcher.config.imTarget+' .row').sortable( "refresh" );
 
-
-                //
                 _button.html("Ajouter la video").attr('disabled', false);
-
 
             });
 
@@ -469,10 +410,10 @@
                 update: function( event, ui ) {
                     obj.launcher.element.find('.thumbnail').each(function(index) {
 
-                        var _input = $(this).find('input:hidden');
+                        let _input = $(this).find('input:hidden');
                         if (_input.length) {
                             _input.each(function() {
-                                var new_name = $(this).attr('name').replace(/\[[0-9]+\]?/, "["+(index)+"]");
+                                let new_name = $(this).attr('name').replace(/\[[0-9]+\]?/, "["+(index)+"]");
                                 $(this).attr('name', new_name);
                             });
                         }
@@ -491,8 +432,8 @@
 
                 $(this).find('input:hidden').each(function() {
 
-                    old_name = $(this).attr('name');
-                    new_name = old_name.replace(/\[[0-9]+\]?/, function (match, $1) {
+                    let old_name = $(this).attr('name');
+                    let new_name = old_name.replace(/\[[0-9]+\]?/, function (match, $1) {
                         return '[' + i + ']';
                     });
 
@@ -508,25 +449,22 @@
         this.attach = function()
         {
 
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.modal.attach);
+            let _button = $(selectors.modal.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Création des vignettes').attr('disabled', 'disabled');
 
 
-            //
-            var _attach_params = {};
-            var _attach = [];
+            let _attach_params = {};
+            let _attach = [];
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
 
-                //
-                var $galleryContent = launcher.element.find('> .galleryContent');
-                var prototype = $galleryContent.data('prototype');
-                var index = $galleryContent.children().length;
+                let $galleryContent = launcher.element.find('> .galleryContent');
+                let prototype = $galleryContent.data('prototype');
+                let index = $galleryContent.children().length;
 
                 // Turn the prototype to objects
-                var $newItem = $(prototype);
+                let $newItem = $(prototype);
 
 
                 // Replace __name__ in childs which have this pattern in name and id attr
@@ -547,23 +485,19 @@
 
                 })
 
-                // console.log($newItem.find('[name*="artist"]'));
-                //
-                // var newItem = prototype.replace(/__name__/g, index);
 
                 // Get image of the library
-                $imgLibraryModal = $(this).closest('tr').find('.img-preview');
-                $img = $('<img>').attr('src', $imgLibraryModal.attr('src'));
+                let $imgLibraryModal = $(this).closest('tr').find('.img-preview');
+                let $img = $('<img>').attr('src', $imgLibraryModal.attr('src'));
 
                 // Add a new image from the prototype in the container, and replace the place holder by the image
                 $galleryContent.append($newItem);
                 $galleryContent.find(".no-img").replaceWith($img);
 
-                //
-                var $thumbnail = $galleryContent.find('[name$="['+index+'][title]"]').closest('.thumbnail');
+                let $thumbnail = $galleryContent.find('[name$="['+index+'][title]"]').closest('.thumbnail');
 
                 // If the image is stored as a relation
-                var $attach_image = $galleryContent.find('[name$="['+index+'][image]"]');
+                let $attach_image = $galleryContent.find('[name$="['+index+'][image]"]');
                 if ($attach_image.length) {
 
                     $thumbnail.attr('data-im-image-id', $(this).val());
@@ -572,37 +506,20 @@
                 }
                 // If image is stored as a file name
                 else {
-                    var filename = $img.attr('src').split('\\').pop().split('/').pop();
+                    let filename = $img.attr('src').split('\\').pop().split('/').pop();
                     $galleryContent.find('[name$="['+index+'][file_name]"]').val(filename)
                 }
 
-                //
                 $thumbnail.attr('data-im-crop-path', $imgLibraryModal.attr('data-crop-path'));
 
-                //
                 if (launcher.config.imCropActive) {
                     $thumbnail.find(".iconCrop").attr('data-target', $thumbnail.find(".iconCrop").attr('data-target') + launcher.config.imAttachShortClass);
                 }
 
-                //
                 new IM_Gallery_Widget(gallery, $thumbnail);
 
-                //
                 _button.html("Ajouter l'image").attr('disabled', false);
                 $(selectors.modal.id).modal('hide');
-
-                //
-                // //
-                // if ($(launcher.config.imTarget+' .row:last > div').length < 4) {
-                //
-                //     $(launcher.config.imTarget+' .row:last').append(_element);
-                //
-                // }
-                // else {
-                //     var _row = $('<div></div>').addClass('row').html(_element);
-                //     $(launcher.config.imTarget+' .row:last').after(_row);
-                // }
-                //
 
             });
 
@@ -614,20 +531,17 @@
     }
 
 
-    var IM_Gallery_Widget = function(gallery, widget)
+    let IM_Gallery_Widget = function(gallery, widget)
     {
-        //
-        var obj = this;
-        var launcher = gallery.launcher;
+        let obj = this;
+        let launcher = gallery.launcher;
 
-        //
         widget.on('click', selectors.panel.unlink, function() {
 
             obj.detach();
 
         });
 
-        //
         widget.on('click', selectors.panel.edit, function() {
 
             obj.edit();
@@ -635,30 +549,25 @@
         });
 
 
-        //
         this.edit = function() {
 
-            //
-            var _edit_params = {};
-            var _imageGalleryId = widget.find('input[name^="attach_edit"]').val();
-            var _imageAdminId = widget.find('input[name^="attach_new"]').val();
+            let _edit_params = {};
+            let _imageGalleryId = widget.find('input[name^="attach_edit"]').val();
+            let _imageAdminId = widget.find('input[name^="attach_new"]').val();
 
 
-            //
             if (_imageGalleryId) {
-                var _params = {};
-                var _url = Routing.generate('gallery_image_infos_edit', {id:_imageGalleryId});
+                let _params = {};
+                let _url = Routing.generate('gallery_image_infos_edit', {id:_imageGalleryId});
             }
             else {
-                var _params = widget.find('[name^="attach_infos"]').serialize();
-                var _url = Routing.generate('gallery_image_infos_new', {id:_imageAdminId});
+                let _params = widget.find('[name^="attach_infos"]').serialize();
+                let _url = Routing.generate('gallery_image_infos_new', {id:_imageAdminId});
             }
 
-            //
             $.get(_url, _params, function(_modal_content) {
 
-                //
-                var _buttons = {
+                let _buttons = {
 
                     "Fermer": function() {
                         $(this).closest('.modal').modal('hide');
@@ -669,8 +578,8 @@
                         'class' : 'btn-primary',
                         'callback' : function() {
 
-                            var _modal = $(this).closest('.modal');
-                            var _form = $(this).closest('.modal').find('form');
+                            let _modal = $(this).closest('.modal');
+                            let _form = $(this).closest('.modal').find('form');
                             $.post(_form.attr('action'), _form.serialize(), function(info_fields) {
 
                                 if ($(info_fields).find('[name^="attach_infos"]').length) {
@@ -694,9 +603,7 @@
                     }
                 }
 
-
-                //
-                modalDyn("Modifier l'image", _modal_content, _buttons, {modalClass: 'modal_lg', headerClass: 'bg-primary'});
+                new ModalDyn("Modifier l'image", _modal_content, _buttons, {modalClass: 'modal_lg', headerClass: 'bg-primary'});
 
             })
         }
@@ -707,8 +614,7 @@
         this.detach = function() {
 
 
-            //
-            var _buttons = {
+            let _buttons = {
 
                 "Fermer": function() {
                     $(this).closest('.modal').modal('hide');
@@ -727,9 +633,8 @@
                 }
             }
 
+            new ModalDyn("Supprimer", "Voulez-vous supprimer l'image de la galerie ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
-            //
-            modalDyn("Supprimer", "Voulez-vous supprimer l'image de la galerie ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
         }
 
 
@@ -742,16 +647,13 @@
 
 
 
-
-    var IM_Modal = function()
+    let IM_Modal = function()
     {
 
-        //
-        var obj = this;
-        var images = new Array();
-        var config = {};
+        let obj = this;
+        let images = new Array();
+        let config = {};
 
-        //
         this.launcher = false;
 
 
@@ -763,8 +665,7 @@
             $(selectors.modal.id).css('z-index', 9996);
             $(selectors.modal.checkbox).attr('checked', false);
 
-            //
-            var button = $(event.relatedTarget);
+            let button = $(event.relatedTarget);
             if (button.length) {
                 if (button.attr('data-rel')) {
                     obj.launcher = $('#' + button.attr('data-rel')).closest('[data-im-type]').data('launcher');;
@@ -801,37 +702,32 @@
 
 
 
-        //
-        var _modal_attributes = $(selectors.attributes.class);
+        let _modal_attributes = $(selectors.attributes.class);
 
-        //
         _modal_attributes.on('show.bs.modal', function (event) {
 
-            //
-            var attributesButton = $(event.relatedTarget);
+            let attributesButton = $(event.relatedTarget);
             _modal_attributes.data('related', attributesButton);
 
 
             // Read values from widget hidden fields
             // to populate the attributes modal fields
-            var attributesInputs = $(selectors.attributes.inputs);
-            var $widget = attributesButton.closest('.thumb');
+            let attributesInputs = $(selectors.attributes.inputs);
+            let $widget = attributesButton.closest('.thumb');
             attributesInputs.each(function(index) {
 
-                var _input = $(this);
-                var _val = $widget.find('[name$="['+_input.attr('name')+']"]').val();
+                let _input = $(this);
+                let _val = $widget.find('[name$="['+_input.attr('name')+']"]').val();
 
                 _input.val(_val);
             });
 
 
-            //
-            var $attributesContainer = $widget.closest('[data-title-enabled]');
-            var isTitleEnabled = ($attributesContainer.attr('data-title-enabled') === '1');
-            var isDescriptionEnabled = ($attributesContainer.attr('data-description-enabled') === '1');
-            var isLinkEnabled = ($attributesContainer.attr('data-link-enabled') === '1');
+            let $attributesContainer = $widget.closest('[data-title-enabled]');
+            let isTitleEnabled = ($attributesContainer.attr('data-title-enabled') === '1');
+            let isDescriptionEnabled = ($attributesContainer.attr('data-description-enabled') === '1');
+            let isLinkEnabled = ($attributesContainer.attr('data-link-enabled') === '1');
 
-            //
             if (!isTitleEnabled && !isDescriptionEnabled && !isLinkEnabled) {
                 _modal_attributes.find('.nav-tabs').hide();
                 _modal_attributes.find('#gallery-image-texts').hide();
@@ -872,45 +768,32 @@
 
         });
 
-        //
+
         _modal_attributes.on('click', selectors.attributes.save, function() {
 
-            //
-            // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
-            // data.crop_info = {};
-
             // Get the data-prototype explained earlier
-            var attributesButton = _modal_attributes.data('related');
-            var attributesInputs = $(selectors.attributes.inputs);
-            var $widget = attributesButton.closest('.thumb');
+            let attributesButton = _modal_attributes.data('related');
+            let attributesInputs = $(selectors.attributes.inputs);
+            let $widget = attributesButton.closest('.thumb');
 
-            //
             attributesInputs.each(function(index) {
 
-                var _input = $(this);
+                let _input = $(this);
                 $widget.find('[name$="['+_input.attr('name')+']"]').val(_input.val());
 
             });
 
             _modal_attributes.modal('hide');
-            //
-            // //
-            // $.post(Routing.generate('image_crop_save'), data, function(answer) {
-            //
-            //     $(selectors.crop.id).modal('hide');
-            //
-            // })
 
         });
 
 
-
         this.load_pictures = function(button) {
 
-            var _class = obj.launcher.element.data('imAttachClass');
-            var _library = obj.launcher.element.data('imLibrary');
-            var _src = $(selectors.modal.dataTable).attr('data-src')
-            var _params = {
+            let _class = obj.launcher.element.data('imAttachClass');
+            let _library = obj.launcher.element.data('imLibrary');
+            let _src = $(selectors.modal.dataTable).attr('data-src')
+            let _params = {
                 "processing": true,
                 "serverSide": true,
                 "order": [],
@@ -951,8 +834,7 @@
         $(selectors.modal.attach).click(function() {
 
 
-            //
-            var _attach = [];
+            let _attach = [];
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
                 _attach.push($(this).val());
@@ -974,17 +856,14 @@
         // Event // Clic sur le bouton de validation
         $(selectors.modal.dataTable).on('click', selectors.modal.delete, function() {
 
-            //
-            var $deleteButton = $(this);
+            let $deleteButton = $(this);
 
-            //
-            var _detach_params = {};
+            let _detach_params = {};
             _detach_params['category'] = obj.launcher.config.imLibrary;
             _detach_params['entity_id'] = obj.launcher.config.imEntityId;
             _detach_params['image_id'] = $(this).data('id');
 
-            //
-            var _buttons = {
+            let _buttons = {
 
                 "Fermer": function() {
                     $(this).closest('.modal').modal('hide');
@@ -995,8 +874,7 @@
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        //
-                        var closeModal = $(this).closest('.modal');
+                        let closeModal = $(this).closest('.modal');
                         $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
                             //
@@ -1027,11 +905,7 @@
                 }
             }
 
-
-            //
-            modalDyn("Supprimer", "Voulez-vous supprimer l'image de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
-
+            new ModalDyn("Supprimer", "Voulez-vous supprimer l'image de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
         });
 
@@ -1041,9 +915,7 @@
 
             $('#alertNoImg').hide();
             if (config.imType == 'image') {
-
                 $(selectors.modal.checkbox).not($(this)).attr('checked', false);
-
             }
 
         });
@@ -1052,28 +924,20 @@
         // Event // Clic sur checkbox
         $(selectors.settings.size).on('change', '#img_size', function() {
 
-
             if ($(this).val() == 'customfilter') {
-
                 $(selectors.settings.filter).fadeIn();
-
             }
             else {
-
                 $(selectors.settings.filter).fadeOut();
-
             }
 
         });
-
 
 
         this.set_launcher = function(launcher)
         {
             obj.launcher = launcher;
         }
-
-
 
 
         this.valid_pictures = function()
@@ -1092,28 +956,19 @@
             }
         }
 
-
-
     }
 
 
-
-
-    var IM_Cropper = function(launcher)
+    let IM_Cropper = function(launcher)
     {
-        //
-        var obj = this;
-        var $modal = launcher.element.find(selectors.crop.class)
+        let obj = this;
+        let $modal = launcher.element.find(selectors.crop.class)
 
-        //
         this.cropper_options = function(button) {
 
-            //
-            // var $modal = button.closest(selectors.crop.class);
-            var $image = $modal.find(selectors.crop.image);
+            let $image = $modal.find(selectors.crop.image);
 
-            //
-            var _options = {
+            let _options = {
                 viewMode: 2,
                 aspectRatio: button.attr("data-ratio"),
                 autoCropArea: 1,
@@ -1121,20 +976,16 @@
                 minContainerWidth: 200,
                 minContainerHeight: 200,
                 ready: function(e) {
-                    // console.log(e.type);
                     // e.preventDefault();
                     // if ($modal.find(selectors.crop.ratios+':checked').attr('data-crop')) {
                     //
                     //     var _data = $modal.find(selectors.crop.ratios+':checked').attr('data-crop').split(",");
-                    //     var _cropboxdata = {left: _data[0], top: _data[1], width: _data[2], height: _data[3]};
-                    //     console.log(_cropboxdata);
+                    //     let _cropboxdata = {left: _data[0], top: _data[1], width: _data[2], height: _data[3]};
                     //     $image.cropper('setCropBoxData', _cropboxdata);
                     // }
-                    //
                 },
                 cropend: function(e) {
 
-                    // console.log(e.type);
                     // Prevent to start cropping, moving, etc if necessary
                     // if (e.action === 'crop') {
                     //     e.preventDefault();
@@ -1145,23 +996,18 @@
 
                 },
                 cropstart: function(e) {
-                    // console.log(e.type);
                 },
                 cropmove: function(e) {
-                    // console.log(e.type);
                 },
                 crop: function(data) {
-                    // console.log(data);
                     $modal.find(selectors.crop.ratios+':checked').attr("data-crop", data.x+","+data.y+","+data.width+","+data.height);
                 }
             }
 
-            //
             if (button.attr('data-crop') && button.attr('data-crop').length)
             {
-                _data = button.attr('data-crop').split(",");
+                let _data = button.attr('data-crop').split(",");
                 _options['data'] = {x: Math.floor(_data[0]), y: Math.floor(_data[1]), width: Math.floor(_data[2]), height: Math.floor(_data[3])};
-                // _options['data'] = {x: _data[0], y: _data[1], width: _data[2], height: _data[3]};
             }
             return _options;
         }
@@ -1171,11 +1017,9 @@
 
             if (!$modal.data('initialized')) {
 
-                //
                 $modal.on('shown.bs.modal', function (event) {
 
-                    //
-                    var cropButton = $(event.relatedTarget);
+                    let cropButton = $(event.relatedTarget);
                     if (cropButton.length) {
                         if (cropButton.closest('[data-im-type]').length) {
                             obj.launcher = cropButton.closest('[data-im-type]').data('launcher');
@@ -1185,21 +1029,16 @@
                         }
                     }
 
-                    //
-                    var $thumbnail = cropButton.closest('.thumbnail');
+                    let $thumbnail = cropButton.closest('.image-widget').find('.thumbnail');
+                    let ImgId = $thumbnail.attr('data-im-image-id');
+                    let ImgSrc = $thumbnail.attr('data-im-crop-path');
 
 
-                    //
-                    var ImgId = $thumbnail.attr('data-im-image-id');
-                    var ImgSrc = $thumbnail.attr('data-im-crop-path');
-
-
-                    //
-                    var changeImage = false;
-                    var $button = $modal.find(selectors.crop.ratios+':first');
-                    var $image = $modal.find(selectors.crop.image);
-                    var $imageContainer = $modal.find(selectors.crop.imageContainer);
-                    var isInitialized = $image.data('cropper');
+                    let changeImage = false;
+                    let $button = $modal.find(selectors.crop.ratios+':first');
+                    let $image = $modal.find(selectors.crop.image);
+                    let $imageContainer = $modal.find(selectors.crop.imageContainer);
+                    let isInitialized = $image.data('cropper');
 
 
                     // S'il n'y avait pas d'image, ou si l'image a changé
@@ -1208,132 +1047,70 @@
                         // S'il n'y avait pas d'image
                         if (!$image.length) {
 
-                            //
-                            var _img = $('<img>')
+                            let _img = $('<img>')
                                 .attr("src", ImgSrc);
 
-                            //
                             $modal.find(selectors.crop.imageContainer).html(_img);
                             $modal.find(selectors.crop.image).attr("width", 600);
                             $image = $modal.find(selectors.crop.image);
 
                         }
                         else {
-
-                            //
                             changeImage = true;
                         }
 
-                        //
                         $imageContainer.data('id', ImgId);
                         $imageContainer.data('thumb', $thumbnail.attr('id'));
                         $modal.find(selectors.crop.ratios).each(function() {
 
                             // On met à jour la valeur du crop (associée au radio button)
                             $(this).removeAttr('data-crop');
-                            //
-                            // // Soit, une valeur est attachée à l'image (le crop a donc été réglé lors d'une ouverture précédente de la popup)
-                            // var _data_name = 'data-crop-' + $(this).val();
-                            // if ($thumbnail.data(_data_name) && $thumbnail.data(_data_name).length) {
-                            //     $(this).attr('data-crop', $thumbnail.data(_data_name));
-                            // }
-                            //
-                            // // Soit, une valeur est renseignée dans le formulaire (le crop a été réglé puis enregistré précédemment)
-                            // else {
 
-                            $imageCropInfo = $thumbnail.find('[name$="[filter]"][value="'+$(this).val()+'"]').next();
+                            let $imageCropInfo = $thumbnail.find('[name$="[filter]"][value="'+$(this).val()+'"]').next();
                             if ($imageCropInfo.length && $imageCropInfo.val().length) {
                                 $(this).attr('data-crop', $imageCropInfo.val());
                             }
-
-                            // }
 
                         });
 
                     }
                     else {
-
-                        //
-                        // console.log("image existante");
-
                     }
 
+                    $modal.on('change', selectors.crop.ratios, function() {
 
-                    //
-                    // if (!isInitialized) {
+                        let _options = obj.cropper_options($(this));
+                        $modal.find(selectors.crop.image).cropper('destroy').cropper(_options);
 
-                        //
-                        // console.log("instanciate");
+                    });
 
-                        //
-                        $modal.off('click').on('click', selectors.crop.ratios, function() {
+                    $modal.on('click', selectors.crop.save, function() {
 
-                            //
-                            var _options = obj.cropper_options($(this));
-                            $modal.find(selectors.crop.image).cropper('destroy').cropper(_options);
+                        // Get the data-prototype explained earlier
+                        let $collectionHolder = $thumbnail.find('[id$="_crops"]');
+                        // $collectionHolder = _modal.next();
+                        $collectionHolder.empty();
+                        let prototype = $collectionHolder.data('prototype');
 
+                        $modal.find(selectors.crop.ratios).each(function(index) {
+
+                            let _ratio = $(this);
+
+                            // Replace '__name__' in the prototype's HTML to
+                            // instead be a number based on how many items we have
+                            let newForm = prototype.replace(/__name__/g, index);
+                            $collectionHolder.append(newForm);
+
+                            $collectionHolder.find('[name$="['+index+'][filter]"]').val(_ratio.val());
+                            $collectionHolder.find('[name$="['+index+'][crop]"]').val(_ratio.attr('data-crop'));
                         });
 
+                        $modal.modal('hide');
 
-                        //
-                        $modal.off('click').on('click', selectors.crop.save, function() {
+                    });
 
-                            //
-                            // var data = { image_id: _modal.find(selectors.crop.image).data('id') };
-                            // data.crop_info = {};
-
-                            // Get the data-prototype explained earlier
-                            $collectionHolder = $thumbnail.find('[id$="_crops"]');
-                            console.log($collectionHolder);
-                            // $collectionHolder = _modal.next();
-                            $collectionHolder.empty();
-                            var prototype = $collectionHolder.data('prototype');
-
-                            //
-                            $modal.find(selectors.crop.ratios).each(function(index) {
-
-                                var _ratio = $(this);
-                                console.log(prototype);
-                                console.log(index);
-
-                                // Replace '__name__' in the prototype's HTML to
-                                // instead be a number based on how many items we have
-                                var newForm = prototype.replace(/__name__/g, index);
-                                console.log(newForm);
-                                $collectionHolder.append(newForm);
-                                console.log('[name$="['+index+'][filter]"]');
-
-                                $collectionHolder.find('[name$="['+index+'][filter]"]').val(_ratio.val());
-                                $collectionHolder.find('[name$="['+index+'][crop]"]').val(_ratio.attr('data-crop'));
-                            });
-
-                            $modal.modal('hide');
-                            //
-                            // //
-                            // $.post(Routing.generate('image_crop_save'), data, function(answer) {
-                            //
-                            //     $(selectors.crop.id).modal('hide');
-                            //
-                            // })
-
-                        });
-
-
-                        //
-                        // var _options = obj.cropper_options($button);
-                        // $modal.find(selectors.crop.image).cropper(_options);
-                    var _options = obj.cropper_options($button);
+                    let _options = obj.cropper_options($button);
                     $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
-
-
-                    // }
-                    // else if (changeImage) {
-                    //
-                    //     var _options = obj.cropper_options($button);
-                    //     $image.cropper('destroy').attr('src', ImgSrc).cropper(_options);
-                    //     changeImage = false;
-                    //
-                    // }
 
                     $modal.data('initialized', true);
 
@@ -1346,64 +1123,17 @@
     };
 
 
-
-    var IM_Image = function(li, launcher)
+    let IM_Uploader = function()
     {
 
-        //
-        var obj = this;
-        var my_id = $(li).attr('data-id');
-        var my_li = $(li);
-
-
-        //
-        this.get_id = function()
-        {
-            return my_id;
-        }
-
-
-        //
-        this.update_description = function()
-        {
-
-            //
-            var _li = $(selectors.image_list_selected);
-
-
-            // Si la description a changé, on l'enregistre
-            if ($(selectors.image_info_title).val()!=_li.attr('data-title'))
-            {
-                //
-                var description = $(selectors.image_info_title);
-
-                //
-                // On sauvegarde dans la nouvelle description en propriété de la vignette
-                // et on lance une sauvegarde asynchrone
-                _li.attr('data-title', description.val());
-                $.post(_base_url + "images/update.html", {id:_li.attr('data-id'), titre:description.val()}, function() {});
-            }
-
-        };
-
-
-    };
-
-
-
-    var IM_Uploader = function()
-    {
-
-        //
-        var obj = this;
+        let obj = this;
         this.element = $(selectors.modal.uploader);
         this.dataTable = $(selectors.modal.dataTable).DataTable();
         this.progress = this.element.next();
         this.category = this.element.data('category');
 
 
-        //
-        var params = {
+        let params = {
 
             runtimes : 'gears,html5,flash,silverlight,browserplus',
             max_file_size : '20mb',
@@ -1417,7 +1147,6 @@
         }
 
 
-        //
         this.init = function()
         {
             if (!obj.element.data('plupload') || obj.element.data('plupload')=='undefined')
@@ -1429,13 +1158,11 @@
 
         this.init_plupload = function()
         {
-            //
             // Évènement de démarrage de l'upload (envoi des fichiers)
-            var button_upload_id = (Math.random() + '').replace('0.', '');
+            let button_upload_id = (Math.random() + '').replace('0.', '');
             obj.element.attr("id", button_upload_id);
 
 
-            //
             // Initialisation de l'uploader
             params = {
 
@@ -1466,15 +1193,14 @@
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imLibrary'), 'plupload_image[titre]': file.name };
+                        up.settings.multipart_params = { 'plupload_image[category]': $(selectors.modal.id).data('imLibrary'), 'plupload_image[title]': file.name };
 
                     },
 
                     UploadFile: function(up, file) {
 
-                        //
                         // On ajoute un élément à la liste des images, avec une barre de progression
-                        var new_item = '<li id="' + file.id + '" class="width-200">';
+                        let new_item = '<li id="' + file.id + '" class="width-200">';
                         new_item += '<div class="info">'+file.name+'</div>';
                         new_item += '<div class="progress"><div class="progress-bar" style="width: 0;"></div></div>';
                         new_item += '</li>';
@@ -1498,14 +1224,12 @@
 
                     Error: function(upload, error) {
 
-                        //
                         $('#alertUploadError').html(error.response).fadeIn();
 
                     },
 
                     FileUploaded: function(upload, file, response) {
 
-                        //
                         imcore.modal.load_pictures();
 
                     }
@@ -1525,8 +1249,6 @@
     };
 
 
-
-    //
     $.fn.extend({
 
         ImageManager: function(options)
@@ -1535,7 +1257,7 @@
             {
                 // Le launcher initie les comportements du widget
                 // et transmet les bons paramètres au core
-                var launcher = new IM_Launcher(this, options);
+                let launcher = new IM_Launcher(this, options);
                 $(this).data('launcher', launcher);
 
                 if (launcher.config.imType=="gallery") {
@@ -1551,20 +1273,14 @@
 
 
 
-
-
-    var IM_Core = function()
+    let IM_Core = function()
     {
         this.modal = new IM_Modal();
         this.uploader = new IM_Uploader();
-
-        // return this;
     }
 
 
-
-    var imcore = false;
-
+    let imcore = false;
 
     $(document).ready(function() {
 

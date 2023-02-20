@@ -10,11 +10,18 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TitleAction extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+    private FileManager $fileManager;
 
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FileManager $fileManager
-    ){}
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param FileManager $fileManager
+     */
+    public function __construct(EntityManagerInterface $entityManager, FileManager $fileManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->fileManager = $fileManager;
+    }
 
     /**
      * Add a title.

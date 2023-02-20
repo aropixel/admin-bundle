@@ -9,6 +9,7 @@
 *
 * ---------------------------------------------------------------------------- */
 import {SwitchStatus} from './module/switch-status/switch-status.js';
+import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
 
 $(function() {
 
@@ -82,9 +83,7 @@ $(function() {
     // ========================================
 
 
-
-    //
-    var $formSlug = $('#setslug');
+    let $formSlug = $('#setslug');
     if ($formSlug.length) {
 
         // $formSlug.editable({
@@ -97,9 +96,7 @@ $(function() {
 
     }
 
-
-
-    var $pickadate = $('.pickadate');
+    let $pickadate = $('.pickadate');
     if ($pickadate.length) {
 
         $pickadate.each(function() {
@@ -110,7 +107,7 @@ $(function() {
 
 
 
-    var $pickatime = $('.pickatime');
+    let $pickatime = $('.pickatime');
 
     if ($pickatime.length) {
 
@@ -151,17 +148,17 @@ $(function() {
     }
 
 
-    var passWordUser = document.querySelector('[data-gdpr]');
+    let passWordUser = document.querySelector('[data-gdpr]');
     if (passWordUser) {
 
-        var gdprform = passWordUser.closest('form');
+        let gdprform = passWordUser.closest('form');
         new GdprPassword(passWordUser, {form: gdprform});
 
     }
 
 
 
-    var $bsSelect = $('.bootstrap-select');
+    let $bsSelect = $('.bootstrap-select');
     if ($bsSelect.length) {
 
         $bsSelect.selectpicker({
@@ -171,7 +168,7 @@ $(function() {
     }
 
 
-    var $colorPicker = $('.color-picker');
+    let $colorPicker = $('.color-picker');
     if ($colorPicker.length) {
 
         $colorPicker.spectrum({
@@ -201,13 +198,13 @@ $(function() {
     // Basic functionality
     $(".sortable tbody").each(function() {
 
-        var _sortable_element = $(this);
+        let _sortable_element = $(this);
         _sortable_element.sortable({
             opacity: 0.7,
             // 'helper': fixHelper,
             update : function ()
             {
-                var _path = _sortable_element.parent().attr('data-path') ? _sortable_element.parent().attr('data-path') : window.location.href;
+                let _path = _sortable_element.parent().attr('data-path') ? _sortable_element.parent().attr('data-path') : window.location.href;
                 //
                 $.post(_path, $(this).sortable('serialize'),
                     function(answer)
@@ -274,7 +271,7 @@ $(function() {
     //
     $.fn.dataTable.pipeline = function ( opts ) {
         // Configuration options
-        var conf = $.extend( {
+        let conf = $.extend( {
             pages: 5,     // number of pages to cache
             url: '',      // script url
             data: null,   // function or object with parameters to send to the server
@@ -283,17 +280,17 @@ $(function() {
         }, opts );
 
         // Private variables for storing the cache
-        var cacheLower = -1;
-        var cacheUpper = null;
-        var cacheLastRequest = null;
-        var cacheLastJson = null;
+        let cacheLower = -1;
+        let cacheUpper = null;
+        let cacheLastRequest = null;
+        let cacheLastJson = null;
 
         return function ( request, drawCallback, settings ) {
-            var ajax          = false;
-            var requestStart  = request.start;
-            var drawStart     = request.start;
-            var requestLength = request.length;
-            var requestEnd    = requestStart + requestLength;
+            let ajax          = false;
+            let requestStart  = request.start;
+            let drawStart     = request.start;
+            let requestLength = request.length;
+            let requestEnd    = requestStart + requestLength;
 
             if ( settings.clearCache ) {
                 // API requested that the cache be cleared
@@ -336,7 +333,7 @@ $(function() {
                     // As a function it is executed with the data object as an arg
                     // for manipulation. If an object is returned, it is used as the
                     // data object to submit
-                    var d = conf.data( request );
+                    let d = conf.data( request );
                     if ( d ) {
                         $.extend( request, d );
                     }
@@ -379,7 +376,7 @@ $(function() {
                 } );
             }
             else {
-                json = $.extend( true, {}, cacheLastJson );
+                let json = $.extend( true, {}, cacheLastJson );
                 json.draw = request.draw; // Update the echo for each response
                 json.data.splice( 0, requestStart-cacheLower );
                 json.data.splice( requestLength, json.data.length );
@@ -401,11 +398,9 @@ $(function() {
     // AJAX sourced data
     $('.datatable-ajax').each(function() {
 
-        //
-        var _suffix = document.URL.slice(-1)=='/' ? '' : '/';
-        var _src = $(this).data('src') ? $(this).data('src') : document.URL+_suffix+"dataTable.json";
-// console.log(_src);
-        var _params = {
+        let _suffix = document.URL.slice(-1)=='/' ? '' : '/';
+        let _src = $(this).data('src') ? $(this).data('src') : document.URL+_suffix+"dataTable.json";
+        let _params = {
             "processing": true,
             "serverSide": true,
             "order": [],
@@ -415,19 +410,15 @@ $(function() {
             } )
         };
 
-        //
         if ($(this).data("order-column"))
         {
-            //
-            var _column = $(this).data("order-column") - 1;
-            var _direction = 'asc';
+            let _column = $(this).data("order-column") - 1;
+            let _direction = 'asc';
             if ($(this).data("order-direction")) 	_direction = $(this).data("order-direction");
 
-            //
             _params["order"] = [[ _column, _direction ]];
         }
 
-        //
         $(this).dataTable(_params);
 
     })
@@ -437,16 +428,13 @@ $(function() {
     // Basic datatable
     $('.datatable').each(function() {
 
-        //
-        var _params = {}
+        let _params = {}
         if ($(this).data("order-column"))
         {
-            //
-            var _column = $(this).data("order-column") - 1;
-            var _direction = 'asc';
+            let _column = $(this).data("order-column") - 1;
+            let _direction = 'asc';
             if ($(this).data("order-direction")) 	_direction = $(this).data("order-direction");
 
-            //
             _params["order"] = [[ _column, _direction ]];
         }
 
@@ -470,9 +458,6 @@ $(function() {
 
 
 
-
-
-    //
     $(".select-multiple").not('.select2-container').each(function() {
 
         if ($(this).parent('.duallistbox').length) {
@@ -490,8 +475,8 @@ $(function() {
 
     function initializeSelect2(_select) {
 
-        var params = {};
-        var width = _select.prop('style')['width'];
+        let params = {};
+        let width = _select.prop('style')['width'];
         if (width.length) {
             params.width = width;
         }
@@ -506,11 +491,11 @@ $(function() {
 
     function initializeSelect2Ajax(_select) {
 
-        var _url = _select.attr('data-url');
-        var _placeholder = _select.attr('data-placeholder');
-        var _multiple = _select.attr('data-multiple') ? true : false;
+        let _url = _select.attr('data-url');
+        let _placeholder = _select.attr('data-placeholder');
+        let _multiple = _select.attr('data-multiple') ? true : false;
 
-        var params = {
+        let params = {
             multiple: _multiple,
             ajax: {
                 url: _url,
@@ -553,8 +538,6 @@ $(function() {
     }
 
 
-
-    //
     $(".select2-ajax").each(function() {
 
         initializeSelect2Ajax($(this));
@@ -562,7 +545,6 @@ $(function() {
     });
 
 
-    //
     $(".select2").not('.select2-container').each(function() {
 
         initializeSelect2($(this));
@@ -572,13 +554,13 @@ $(function() {
 
     function resizePreview(spanPreview) {
 
-        var width = spanPreview.outerWidth();
-        var height = width * 9 / 16;
+        let width = spanPreview.outerWidth();
+        let height = width * 9 / 16;
         spanPreview.height(height);
 
     }
 
-    var $videos = $('.video-type');
+    let $videos = $('.video-type');
     if ($videos.length) {
 
         // Enable Select2 select for the length option
@@ -587,13 +569,13 @@ $(function() {
             $(this).find('.preview').fitVids();
             $(this).on('keyup', 'textarea', function() {
 
-                var srcArea = $(this).val().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
-                var $preview = $(this).closest('.video-type').find('.preview');
-                var $iframe = $preview.find('iframe');
+                let srcArea = $(this).val().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
+                let $preview = $(this).closest('.video-type').find('.preview');
+                let $iframe = $preview.find('iframe');
 
                 if (srcArea) {
                     if ($iframe) {
-                        var srcPreview = $preview.html().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
+                        let srcPreview = $preview.html().match(/<iframe.*? src="([^"]+)".*?>.*?<\/iframe>/g);
                         if (!srcPreview || srcPreview[1] != srcArea[1]) {
                             $preview.html($(this).val());
                             $preview.fitVids();
@@ -622,8 +604,8 @@ $(function() {
 
 
 
-    var $form = $('form[data-form="form"]');
-    var $submitForm = $form.find('[data-form="submit"]');
+    let $form = $('form[data-form="form"]');
+    let $submitForm = $form.find('[data-form="submit"]');
 
     if ($form.length) {
 
@@ -632,15 +614,15 @@ $(function() {
 
             $form.submit(function(e) {
 
-                var $requiredFields = $form.find('[required="required"]');
+                let $requiredFields = $form.find('[required="required"]');
 
-                var hasError = false;
-                var messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Ce champs est obligatoire.</div></div>';
-                var messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
+                let hasError = false;
+                let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Ce champs est obligatoire.</div></div>';
+                let messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
 
                 $requiredFields.each(function() {
 
-                    var $formGroup = $(this).closest('.form-group');
+                    let $formGroup = $(this).closest('.form-group');
 
                     // if (!$(this).hasClass('picker__input') && !$(this).val().length) {
                     if (!$(this).val().length) {
@@ -676,7 +658,7 @@ $(function() {
 
     $('#delete_button').click(function() {
 
-        var _buttons = {
+        let _buttons = {
 
             "Annuler": function() {
 
@@ -688,7 +670,6 @@ $(function() {
 
                 'class' : 'btn-danger',
                 'callback' : function() {
-                    //
                     $('#delete_button').closest('form').submit();
                     $(this).closest('.modal').fadeOut('300', function() { $(this).remove(); });
                 },
@@ -696,12 +677,10 @@ $(function() {
         }
 
 
-        //
-        var message = 'Voulez-vous vraiment <strong>supprimer ce contenu</strong> ?<br /> \
+        let message = 'Voulez-vous vraiment <strong>supprimer ce contenu</strong> ?<br /> \
                         Le contenu sera définitivement supprimé, il ne sera plus possible de le récupérer.';
 
-        //
-        modalDyn("Supprimer un contenu", message, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        new ModalDyn("Supprimer un contenu", message, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
 
     });
@@ -714,11 +693,9 @@ $(function() {
 
     $(".main-content").on('click', 'a.confirm[data-confirm]', function() {
 
-        //
-        var _button = $(this);
+        let _button = $(this);
 
-        //
-        var _buttons = {
+        let _buttons = {
 
             "Annuler": function() {
 
@@ -737,10 +714,10 @@ $(function() {
 
         }
 
-        var me_data = _button.data('confirm');
+        let me_data = _button.data('confirm');
 
-        var me_title = "Confirmation";
-        var me_description = me_data;
+        let me_title = "Confirmation";
+        let me_description = me_data;
 
         me_data = me_data.split("|");
         if (me_data.length > 1) {
@@ -748,7 +725,7 @@ $(function() {
             me_description = me_data[1];
         }
 
-        modalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        new ModalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
     });
 
@@ -756,11 +733,9 @@ $(function() {
 
     $(".main-content").on('click', 'a.delete[data-confirm]', function() {
 
-        //
-        var _button = $(this);
+        let _button = $(this);
 
-        //
-        var _buttons = {
+        let _buttons = {
 
             "Annuler": function() {
 
@@ -772,8 +747,7 @@ $(function() {
 
                 'class' : 'btn-danger',
                 'callback' : function() {
-                    //
-                    var $form = _button.closest('.btn-group').children('form');
+                    let $form = _button.closest('.btn-group').children('form');
                     $form.submit();
 
                 },
@@ -782,10 +756,10 @@ $(function() {
 
         }
 
-        var me_data = _button.data('confirm');
+        let me_data = _button.data('confirm');
 
-        var me_title = "Confirmation";
-        var me_description = me_data;
+        let me_title = "Confirmation";
+        let me_description = me_data;
 
         me_data = me_data.split("|");
         if (me_data.length > 1) {
@@ -793,7 +767,7 @@ $(function() {
             me_description = me_data[1];
         }
 
-        modalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        new ModalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
 
 
@@ -805,16 +779,14 @@ $(function() {
 
     $(".main-content").on('click', 'a.status[data-confirm]', function() {
 
-        //
-        var _button = $(this);
-        var _btn_group = _button.closest('.btn-group');
-        var _etat = _btn_group.find('button').hasClass('btn-default') ? 'offline' : 'online';
-        var _modalBgClass = (_etat == 'online' ? 'bg-default' : 'bg-primary');
-        var _buttonValidClass = (_etat == 'online' ? 'btn-default' : 'btn-primary');
-        var _message = _button.data('confirm').replace('%s', _etat=='online' ? 'hors ligne' : 'en ligne');
+        let _button = $(this);
+        let _btn_group = _button.closest('.btn-group');
+        let _etat = _btn_group.find('button').hasClass('btn-default') ? 'offline' : 'online';
+        let _modalBgClass = (_etat == 'online' ? 'bg-default' : 'bg-primary');
+        let _buttonValidClass = (_etat == 'online' ? 'btn-default' : 'btn-primary');
+        let _message = _button.data('confirm').replace('%s', _etat=='online' ? 'hors ligne' : 'en ligne');
 
-        //
-        var _buttons = {
+        let _buttons = {
 
             "Annuler": function() {
 
@@ -827,26 +799,21 @@ $(function() {
                 'class' : _buttonValidClass,
                 'callback' : function() {
 
-                    //
-                    var suffix = document.URL.slice(-1)=='/' ? '' : '/';
-                    var url = _button.attr("data-path") ? _button.attr("data-path") : document.URL+suffix+"state";
-                    var button = $(this);
+                    let suffix = document.URL.slice(-1)=='/' ? '' : '/';
+                    let url = _button.attr("data-path") ? _button.attr("data-path") : document.URL+suffix+"state";
+                    let button = $(this);
 
-                    //
                     button.attr('disabled', 'disabled');
 
-                    //
                     $.get(url, function(answer) {
                         if (answer=='OK') {
 
-                            //
                             _btn_group.children('a, button')
                                 .removeClass(_etat=='online' ? 'btn-primary' : 'btn-default')
                                 .addClass(_etat!='online' ? 'btn-primary' : 'btn-default');
 
                             _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (_etat=='online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
 
-                            //
                             button.removeAttr('disabled');
                             button.closest('.modal').modal('hide');
                             button.closest('.modal').on('hidden.bs.modal', function (e) {
@@ -864,7 +831,7 @@ $(function() {
 
 
 
-        modalDyn("Confirmation", _message, _buttons, {modalClass: 'modal_mini', headerClass: _modalBgClass});
+        new ModalDyn("Confirmation", _message, _buttons, {modalClass: 'modal_mini', headerClass: _modalBgClass});
 
 
 
@@ -875,11 +842,9 @@ $(function() {
 
     $(".main-content").on('click', 'a.delete-out[data-confirm]', function() {
 
-        //
-        var _button = $(this);
+        let _button = $(this);
 
-        //
-        var _buttons = {
+        let _buttons = {
 
             "Annuler": function () {
 
@@ -892,7 +857,6 @@ $(function() {
                 'class': 'btn-danger',
                 'callback': function () {
 
-                    //
                     if (_button.data('rel')) {
                         $('.forms-out[rel="' + _button.data('rel') + '"] form[action$="' + _button.data('id') + '"]').submit();
                     } else {
@@ -906,7 +870,7 @@ $(function() {
 
         }
 
-        modalDyn("Confirmation", _button.attr('data-confirm'), _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        new ModalDyn("Confirmation", _button.attr('data-confirm'), _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
 
     });
@@ -914,7 +878,6 @@ $(function() {
 
     $('.main-content').on('click', '[data-form-collection-add]', function() {
 
-        //
         let $collection = $('#'+$(this).attr('data-form-collection-add'));
         let pattern_id_replace = $(this).attr('data-form-prototype-id-replace');
         let pattern_name_replace = $(this).attr('data-form-prototype-name-replace');
@@ -922,7 +885,6 @@ $(function() {
         let $list = $collection.find('> [data-form-collection="list"]');
         let $items = $list.find('> [data-form-collection="item"]');
 
-        //
         let count = $items.length + 1;
         // $items.attr('data-form-collection-index', count);
         let prototype = $collection.attr('data-prototype');
@@ -957,7 +919,6 @@ $(function() {
         }
 
 
-        //
         $list.append(prototype);
         $list.find('> [data-form-collection="item"]:nth-child('+count+')').attr('data-form-collection-index', count);
 
@@ -1011,89 +972,6 @@ $(function() {
 });
 
 
-
-function modalDyn(title, message, buttons, options)
-{
-    //
-    var defaults = {
-        modalClass: '',
-        modalId: 'modalDyn',
-        headerClass: '',
-        zIndex: 5000
-    };
-
-    //
-    var defaultButton = {
-        class: 'btn-default',
-        text: '',
-        icon: '',
-        callback: function() {},
-    };
-
-    var params = $.extend({}, defaults, options);
-
-    var _modal = $( '<div class="modal fade" id="' + params.modalId + '"><div class="modal-dialog modal-dialog-centered ' + params.modalClass + '"><div class="modal-content"></div></div></div>' );
-    var _header = $( '<div class="modal-header ' + params.headerClass + '"> \
-					<h5 class="modal-title">' + title + '</h5> \
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> \
-					</div>' );
-    var _body = '<div class="modal-body">'+message+'</div>';
-    var _buttonset = '';
-
-
-    //
-    var hasButton = false;
-    var classBtn = "btn-default";
-
-    //
-    if (buttons && (typeof buttons === 'object') && buttons !== null)
-    {
-        //
-        _buttonset = $( "<div></div>" ).addClass( "modal-footer" );
-
-        //
-        $.each(buttons, function(name, buttonParams) {
-
-            buttonParams = $.isPlainObject( buttonParams ) ?
-                buttonParams :
-                { class: classBtn, icon: '', callback: buttonParams };
-
-            buttonParams.text = name;
-            buttonParams = $.extend({}, defaultButton, buttonParams);
-
-            var button = $('<button type="button" class="btn '+buttonParams.class+'" aria-hidden="true"></button>')
-                .click(function() {
-                    buttonParams.callback.apply(button);
-                })
-                .prepend(buttonParams.icon ? '<i class="'+buttonParams.icon+'"></i> ' : '')
-                .prepend(buttonParams.text)
-                .appendTo(_buttonset);
-
-            //
-            classBtn = "btn-success";
-            hasButton = true;
-        });
-
-    }
-
-    //
-    _modal.find('.modal-content').append(_header);
-    _modal.find('.modal-content').append(_body);
-    _modal.find('.modal-content').append(_buttonset);
-    _modal.css('z-index', 9997);
-    _modal.hide();
-    $("body").append(_modal);
-
-    _modal.modal('show');
-    _modal.on('hidden.bs.modal', function (e) {
-        _modal.remove();
-    });
-
-    return _modal;
-
-}
-
-
 function formatRepo (repo) {
 
     if (repo.loading) return repo.text;
@@ -1128,11 +1006,11 @@ function activateDatePicker($element) {
         onOpen: function() {
 
             moment.locale('fr');
-            var selected = $(this)[0].get('select');
-            var dateMoment = selected ? moment(selected.obj) : moment();
-            var dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
+            let selected = $(this)[0].get('select');
+            let dateMoment = selected ? moment(selected.obj) : moment();
+            let dayName = dateMoment.format('dddd')[0].toUpperCase() + dateMoment.format('dddd').slice(1);
 
-            var displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
+            let displayDate = '<div class="picker__date-display"><div class="picker__weekday-display">'+dayName+'</div><div class="picker__month-display"><div>'+dateMoment.format('MMM')+'</div></div><div class="picker__day-display"><div>'+dateMoment.format('D')+'</div></div><div class="picker__year-display"><div>'+dateMoment.format('YYYY')+'</div></div></div>';
             $(this)[0].$root.find( '.picker__wrap .picker__date-display' ).remove();
             $(this)[0].$root.find( '.picker__wrap' ).prepend(displayDate);
             $(this)[0].render();
@@ -1196,32 +1074,31 @@ function activateSortable($container) {
         {
             $container.find('> [data-form-collection="item"] textarea.ckeditor').each(function(iItem) {
 
-                var id_textarea = $(this).attr("id");
+                let id_textarea = $(this).attr("id");
                 CKEDITOR.replace(id_textarea);
 
             });
         },
         update : function ()
         {
-            var level = $container.parents('[data-form-collection="item"]').length * 2;
+            let level = $container.parents('[data-form-collection="item"]').length * 2;
             $container.find('> [data-form-collection="item"]').each(function(iItem) {
 
-                var _inputs = $(this).find('input, select, textarea');
+                let _inputs = $(this).find('input, select, textarea');
                 _inputs.each(function() {
 
 
                     let re = /(\[[0-9]+\])/g;
-                    old_name = $(this).attr('name');
+                    let old_name = $(this).attr('name');
 
                     let splitted = old_name.split(re);
                     splitted[level+1] = '[' + iItem + ']';
-                    new_name = splitted.join('');
+                    let new_name = splitted.join('');
 
 
                     $(this).attr('name', new_name);
 
 
-                    //
                     // let new_id = new_name.replace(/[\[\]]+/g,'_');
                     // new_id = new_id.substring(0, new_id.length - 1);
                     // $(this).attr('id', new_id);

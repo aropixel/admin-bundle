@@ -1,37 +1,28 @@
-{% set myfilters = [] %}
-{% if image_value is defined and image_value %}
-	{% set myfilters = filters is defined ? filters : image_path|crop_filters(crops) %}
-{% elseif image_class is defined and image_class %}
-	{% set myfilters = filters is defined ? filters : image|entity_crop_filters(image_class) %}
-{% endif %}
-
+{# Get available crop filters for this image #}
+{% set myfilters = get_available_crop_filters(image, optional_available_crop_list) %}
 
 <!-- Full width modal -->
-<div id="modalCrop{{ suffix }}" class="modalCrop modal fade" style="text-align: left">
+<div id="modalCrop{{ image.getImageUid() }}" data-bs-backdrop="false" class="modalCrop modal fade" tabindex="-1" role='dialog' style="background-color: rgba(0, 0, 0, 0.5);">
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Recadrer une image</h5>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
 			<div class="modal-body">
 
-				<div>
+				<div class="d-flex justify-content-start">
 
 					<div class="float-left" id="crop_zone">
-						{% if file_name is defined and file_name %}
-							<img src="{{ file_name | filename_web_path | imagine_filter('admin_crop') }}" width="600" data-id="{{ suffix }}" />
-						{% elseif image is defined and image and image.id and image.getWebPath() %}
-							<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.image.id }}" />
-						{% endif %}
+						<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.getImageUid() }}" />
 					</div>
 
 					<div class="float-left full-with m-l-50" id="crop_options">
 
-						<h4><span class="semi-bold">Régler les découpes</span> de votre image</h4>
+						<h5 class="mb-3">Régler les découpes de votre image</h5>
 
-						<p>
+						<p class="mb-5">
 							Optimisez l'affichage des images dans votre site, en réglant les différentes découpes de vos images.<br />
 							<strong>Attention, si vous réduisez beaucoup votre zone de sélection, la qualité pourrait être affectée.</strong>
 						</p>
@@ -40,8 +31,8 @@
 						{% for filter in myfilters %}
 
 							<div class="form-check">
-								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ suffix }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.crop }}">
-								<label for="ratio_{{ filter.slug }}" class="form-check-label">{{ filter.name }}</label><br />
+								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ suffix }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.coordinates }}">
+								<label for="ratio_{{ filter.slug }}" class="form-check-label">{{ filter.description }}</label><br />
 							</div>
 
 							{% set class = '' %}
@@ -55,8 +46,8 @@
 
 			</div>
 
-			<div class="modal-footer">
-				<button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+			<div class="modal-footer d-flex justify-content-between">
+				<button type="button" class="btn btn-default m-r-15" data-dismiss="modal">Fermer</button>
 				<button type="button" class="btn btn-primary crop-file">Recadrer l'image</button>
 			</div>
 		</div>

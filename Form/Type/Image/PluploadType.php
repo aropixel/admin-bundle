@@ -17,7 +17,7 @@ class PluploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
+            ->add('title')
             ->add('file', FileType::class)
             ->add('category')
         ;

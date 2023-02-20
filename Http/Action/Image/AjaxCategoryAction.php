@@ -3,22 +3,31 @@
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 
 class AjaxCategoryAction extends AbstractController
 {
+    private Datatabler $datatabler;
+    private ImageManager $imageManager;
+    private PathResolverInterface $pathResolver;
 
     private $datatableFieds = [];
 
-    public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly ImageManager $imageManager
-    ){
+    /**
+     * @param Datatabler $datatabler
+     * @param ImageManager $imageManager
+     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     */
+    public function __construct(Datatabler $datatabler, ImageManager $imageManager, PathResolverInterface $pathResolver)
+    {
+        $this->datatabler = $datatabler;
+        $this->imageManager = $imageManager;
+        $this->pathResolver = $pathResolver;
+
         $this->datatableFieds = [
             ['label' => '', 'style' => 'width:50px;'],
             ['label' => '', 'style' => 'width:200px;'],
@@ -28,32 +37,33 @@ class AjaxCategoryAction extends AbstractController
         ];
     }
 
+
     /**
      * Lists all Image entities.
      */
-    public function __invoke(Datatabler $datatabler, string $category) : Response
+    public function __invoke(string $category) : Response
     {
 
         $response = [];
 
         $imageClassName = $this->imageManager->getImageClassName();
-        $datatabler->setRepository($imageClassName, $this->datatableFieds);
+        $this->datatabler->setRepository($imageClassName, $this->datatableFieds);
 
-        $qb = $datatabler->getQueryBuilder();
+        $qb = $this->datatabler->getQueryBuilder();
         $qb
             ->andWhere('i.category = :category')
             ->setParameter('category', $category)
         ;
 
-        $datatabler->setQueryBuilder($qb, 'i');
+        $this->datatabler->setQueryBuilder($qb, 'i');
 
-        if ($datatabler->isCalled()) {
+        if ($this->datatabler->isCalled()) {
 
-            $images = $datatabler->getItems();
+            $images = $this->datatabler->getItems();
 
             foreach ($images as $image)
             {
-                $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
+                $imagePath = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
                 if (file_exists($imagePath)) {
                     $response[] = $this->_dataTableElements($image);
                 }
@@ -61,13 +71,13 @@ class AjaxCategoryAction extends AbstractController
             }
         }
 
-        return $datatabler->getResponse($response);
+        return $this->datatabler->getResponse($response);
 
     }
 
     private function _dataTableElements($image) {
 
-        $imagePath = $this->pathResolver->getAbsolutePath(Image::UPLOAD_DIR, $image->getFilename());
+        $imagePath = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
 
         $bytes = @filesize($imagePath);
         $sz = 'bkMGTP';

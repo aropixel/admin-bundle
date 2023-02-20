@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -11,154 +9,137 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Image
  */
-class Image implements ImageInterface
+class Image implements ItemLibraryInterface
 {
 
     const UPLOAD_DIR = 'images';
 
-    /**
-     * @var integer
-     */
-    protected $id;
+    protected ?int $id;
 
     /**
-     * @var string  Image title
+     * Image title
      */
-    protected $titre;
+    protected string $title;
 
     /**
-     * @var string  Regroup images for displaying specific library images
+     * Used in order to display image in his specific library
      */
-    protected $category;
+    protected string $category;
 
     /**
-     * @var string  Temporary path (not mapped)
+     * Temporary path (not mapped)
      */
-    protected $temp;
+    protected ?string $temp = null;
 
     /**
-     * @var UploadedFile    File object of the image
+     * File object of the image
      * @Assert\File()
      */
-    public $file;
+    public ?File $file;
 
     /**
-     * @var string  Default title attribute (can be overrided by AttachImage)
+     * Default title attribute (can be overrided in AttachImage)
      */
-    protected $attrTitle;
+    protected ?string $attrTitle;
 
     /**
-     * @var string  Default alt attribute (can be overrided by AttachImage)
+     * Default alt attribute (can be overrided by AttachImage)
      */
-    protected $attrAlt;
+    protected ?string $attrAlt;
 
     /**
-     * @var string  Description of the image
+     * Description of the image
      */
-    protected $attrDescription;
+    protected ?string $description;
 
     /**
-     * @var string  Image filename
+     * Image filename
      */
-    protected $filename;
+    protected ?string $filename;
 
     /**
-     * @var string  Image type: filename extension
+     * Filename extension
      */
-    protected $extension;
+    protected ?string $extension;
 
     /**
-     * @var string  URL used if the image was imported (not uploaded)
+     * URL used of the imported image (if not uploaded)
      */
-    protected $import;
+    protected ?string $import;
 
     /**
-     * @var boolean
+     * Is the image just created (not mapped)
      */
-    protected $isNew;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
+    protected bool $isNew = false;
 
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->crops = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    protected ?\DateTime $createdAt;
+    protected ?\DateTime $updatedAt;
+
+
 
     /**
      * Get id
-     *
-     * @return integer
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
     /**
-     * Set titre
-     *
-     * @param string $titre
-     * @return Image
+     * The image's title in the image library
      */
-    public function setTitre($titre)
+    public function getTitle(): string
     {
-        $this->titre = $titre;
+        return $this->title;
+    }
 
+    /**
+     * @deprecated
+     */
+    public function getTitre() : string
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     * The image's title in the image library
+     */
+    public function setTitle(string $title): Image
+    {
+        $this->title = $title;
         return $this;
     }
 
     /**
-     * Get titre
-     *
-     * @return string
+     * @deprecated
      */
-    public function getTitre()
+    public function setTitre(string $title) : Image
     {
-        return $this->titre;
+        return $this->setTitle($title);
     }
 
     /**
-     * Set attrTitle
-     *
-     * @param string $attrTitle
-     * @return Image
+     * Default title attribute
      */
-    public function setAttrTitle($attrTitle)
+    public function setDefaultAttrTitle(?string $attrTitle) : Image
     {
         $this->attrTitle = $attrTitle;
-
         return $this;
     }
 
     /**
-     * Get attrTitle
-     *
-     * @return string
+     * Default title attribute
      */
-    public function getAttrTitle()
+    public function getDefaultAttrTitle() : ?string
     {
         return $this->attrTitle;
     }
 
     /**
-     * Set attrAlt
-     *
-     * @param string $attrAlt
-     * @return Image
+     * Default alt attribute
      */
-    public function setAttrAlt($attrAlt)
+    public function setDefaultAttrAlt(?string $attrAlt) : Image
     {
         $this->attrAlt = $attrAlt;
 
@@ -166,164 +147,124 @@ class Image implements ImageInterface
     }
 
     /**
-     * Get attrAlt
-     *
-     * @return string
+     * Default alt attribute
      */
-    public function getAttrAlt()
+    public function getDefaultAttrAlt() : ?string
     {
         return $this->attrAlt;
     }
 
     /**
-     * Set attrDescription
-     *
-     * @param string $attrDescription
-     * @return Image
+     * Set image's description
      */
-    public function setAttrDescription($attrDescription)
+    public function setDescription($description) : Image
     {
-        $this->attrDescription = $attrDescription;
-
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * Get attrDescription
-     *
-     * @return string
+     * Set image's description
      */
-    public function getAttrDescription()
+    public function getDescription() : ?string
     {
-        return $this->attrDescription;
+        return $this->description;
     }
 
     /**
      * Set filename
-     *
-     * @param string $filename
-     * @return Image
      */
-    public function setFilename($filename)
+    public function setFilename($filename) : Image
     {
         $this->filename = $filename;
-
         return $this;
     }
 
     /**
      * Get filename
-     *
-     * @return string
      */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->filename;
     }
 
     /**
      * Set extension
-     *
-     * @param string $extension
-     * @return Image
      */
-    public function setExtension($extension)
+    public function setExtension($extension) : Image
     {
         $this->extension = $extension;
-
         return $this;
     }
 
     /**
      * Get extension
-     *
-     * @return string
      */
-    public function getExtension()
+    public function getExtension() : ?string
     {
         return $this->extension;
     }
 
     /**
      * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Image
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt) : Image
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
     /**
      * Get createdAt
-     *
-     * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?\DateTime
     {
         return $this->createdAt;
     }
 
     /**
      * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Image
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt) : Image
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
     /**
      * Get updatedAt
-     *
-     * @return \DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?\DateTime
     {
         return $this->updatedAt;
     }
 
     /**
      * Get image url
-     *
-     * @return string
      */
-    public function getWebPath()
+    public function getWebPath() : ?string
     {
         return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
     }
 
 
-    static function getFileNameWebPath(string $fileName)
+    static function getFileNameWebPath(?string $fileName) : ?string
     {
         return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
     }
 
     /**
-     * Get image absolute path
-     *
-     * @return string
+     * Get image directory
      */
     protected function getUploadDir()
     {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
         return self::UPLOAD_DIR;
     }
 
     /**
      * Get file.
-     *
-     * @return UploadedFile
      */
-    public function getFile()
+    public function getFile() : File
     {
         return $this->file;
     }
@@ -331,12 +272,11 @@ class Image implements ImageInterface
 
     /**
      * Sets file.
-     *
-     * @param UploadedFile $file
      */
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
+
         // check if we have an old image path
         if (isset($this->path)) {
             // store the old name to delete after the update
@@ -348,7 +288,7 @@ class Image implements ImageInterface
     }
 
 
-    public function getTempPath()
+    public function getTempPath() : ?string
     {
         return $this->temp;
     }
@@ -356,93 +296,44 @@ class Image implements ImageInterface
 
     /**
      * Set category
-     *
-     * @param string $category
-     * @return Image
      */
-    public function setCategory($category)
+    public function setCategory($category) : Image
     {
         $this->category = $category;
-
         return $this;
     }
 
     /**
      * Get category
-     *
-     * @return string
      */
-    public function getCategory()
+    public function getCategory() : string
     {
         return $this->category;
     }
 
     /**
-     * Add crops
-     *
-     * @param Crop $crops
-     * @return Image
-     */
-    public function addCrop(Crop $crops)
-    {
-        $this->crops[] = $crops;
-
-        return $this;
-    }
-
-    /**
-     * Remove crops
-     *
-     * @param Crop $crops
-     */
-    public function removeCrop(Crop $crops)
-    {
-        $this->crops->removeElement($crops);
-    }
-
-    /**
-     * Get crops
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCrops()
-    {
-        return $this->crops;
-    }
-
-    /**
      * Set import
-     *
-     * @param string $import
-     * @return Image
      */
-    public function setImport($import)
+    public function setImport(?string $import) : Image
     {
         $this->import = $import;
-
         return $this;
     }
 
     /**
      * Get import
-     *
-     * @return string
      */
-    public function getImport()
+    public function getImport() : ?string
     {
         return $this->import;
     }
 
     /**
      * Set isNew
-     *
-     * @param string $import
-     * @return Image
      */
-    public function setIsNew($is_new)
+    public function setIsNew(bool $isNew) : Image
     {
-        $this->isNew = $is_new;
-
+        $this->isNew = $isNew;
         return $this;
     }
 
@@ -451,7 +342,7 @@ class Image implements ImageInterface
      *
      * @return string
      */
-    public function isNew()
+    public function isNew() : bool
     {
         return $this->isNew;
     }
