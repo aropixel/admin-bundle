@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\FileManager;

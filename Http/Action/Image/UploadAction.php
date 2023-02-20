@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
 use Aropixel\AdminBundle\Services\ImageManager;
@@ -20,7 +20,7 @@ class UploadAction extends AbstractController
     /**
      * @param EntityManagerInterface $entityManager
      * @param ImageManager $imageManager
-     * @param \App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager, PathResolverInterface $pathResolver)
     {

@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Repository;
 
+use Aropixel\AdminBundle\Domain\DataTable\DataTableContext;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\EntityRepository;
@@ -17,17 +18,17 @@ class ImageRepository extends EntityRepository
 {
 
 
-    public function getQueryDataTable($params) {
+    public function getQueryDataTable(DataTableContext $context) {
 
         //
         $qb = $this->createQueryBuilder('i');
 
         //
-        if (strlen($params['search'])) {
+        if (strlen($context->getSearch())) {
             $qb->where($qb->expr()->orX(
-                $qb->expr()->like('i.titre', ':search')
+                $qb->expr()->like('i.title', ':search')
             ));
-            $qb->setParameter('search', '%'.$params['search'].'%');
+            $qb->setParameter('search', '%'.$context->getSearch().'%');
         }
 
         //
@@ -36,27 +37,17 @@ class ImageRepository extends EntityRepository
         return $qb;
     }
 
-    /**
-     * Compte le nombre d'images dans une catégorie
-     *
-     * @param string $category
-     */
-    public function count($category)
-    {
+    public function getCategoryQueryDataTable(DataTableContext $context) {
 
-        //
-        $qb = $this->createQueryBuilder('i')
-            ->select('COUNT(i)');
+        $qb = $this->getQueryDataTable($context);
+        $qb
+            ->andWhere('i.category = :category')
+            ->setParameter('category', $context->getAdditionalParameter('category'))
+        ;
 
-        //
-        if ($category) {
-            $qb->where('i.category = :category');
-            $qb->setParameter('category', $category);
-        }
-
-        return $qb->getQuery()
-            ->getSingleScalarResult();
+        return $qb;
     }
+
 
 
     /**

@@ -7,7 +7,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Editor;
 
-use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Liip\ImagineBundle\Service\FilterService;

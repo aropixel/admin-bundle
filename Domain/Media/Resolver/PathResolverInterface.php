@@ -5,7 +5,7 @@
  * Date: 08/03/2021 à 16:18
  */
 
-namespace App\Aropixel\AdminBundle\Domain\Media\Resolver;
+namespace Aropixel\AdminBundle\Domain\Media\Resolver;
 
 interface PathResolverInterface
 {

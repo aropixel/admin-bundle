@@ -30,6 +30,14 @@ class DataTable implements DataTableInterface
         $this->dataTableRepository = $dataTableRepository;
     }
 
+    /**
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
+
     public function getContext(): DataTableContext
     {
         return $this->context;
@@ -40,19 +48,43 @@ class DataTable implements DataTableInterface
         return $this->columns;
     }
 
+    public function getRowsContent(): iterable
+    {
+        return $this->dataTableRepository->getRowsContent($this);
+    }
+
     public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array
     {
-        $this->dataTableRepository->getRowsContent($this);
+        $rows = [];
+        $rowsContent = $this->getRowsContent();
+
+        foreach ($rowsContent as $rowContent) {
+            $rows[] = $dataTableRowFactory->createRow($rowContent);
+        }
+
+        return $rows;
     }
 
     public function getTotal(): int
     {
-        // TODO: Implement getTotal() method.
+        return $this->dataTableRepository->count($this);
     }
 
     public function getResponse(DataTableRowFactoryInterface $dataTableRowFactory): Response
     {
-        // TODO: Implement getResponse() method.
+        $count = $this->getTotal();
+
+        $records = array();
+        $records["data"] = $this->getRows($dataTableRowFactory);
+        $records["order"] = array();
+        $records["draw"] = $this->context->getDraw();
+        $records["recordsTotal"] = $count;
+        $records["recordsFiltered"] = $count;
+
+
+        $http_response = new Response(json_encode($records));
+        $http_response->headers->set('Content-Type', 'application/json');
+        return $http_response;
     }
 
 

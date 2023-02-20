@@ -8,7 +8,7 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
 
-use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachImage;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
@@ -28,7 +28,7 @@ class ImageExtension extends AbstractExtension
      * @param CacheManager $cacheManager
      * @param FilterService $filterService
      * @param ParameterBagInterface $parameterBag
-     * @param \App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(CacheManager $cacheManager, FilterService $filterService, ParameterBagInterface $parameterBag, PathResolverInterface $pathResolver)
     {
