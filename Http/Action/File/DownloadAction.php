@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,7 +12,7 @@ class DownloadAction extends AbstractController
     private PathResolverInterface $pathResolver;
 
     /**
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(PathResolverInterface $pathResolver)
     {

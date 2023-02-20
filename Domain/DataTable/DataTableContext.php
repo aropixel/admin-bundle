@@ -4,15 +4,35 @@ namespace Aropixel\AdminBundle\Domain\DataTable;
 
 class DataTableContext
 {
+    private string $search;
+
     private int $page;
 
     private int $length;
 
-    private string $search;
-
-    private DataTableColumn $orderColumn;
+    private int $orderColumn;
 
     private string $orderDirection;
+
+    private array $additionalParameters = [];
+
+
+    /**
+     * @param string $search
+     * @param int $page
+     * @param int $length
+     * @param int $orderColumn
+     * @param string $orderDirection
+     */
+    public function __construct(string $search, int $page, int $length, int $orderColumn, string $orderDirection)
+    {
+        $this->search = $search;
+        $this->page = $page;
+        $this->length = $length;
+        $this->orderColumn = $orderColumn;
+        $this->orderDirection = $orderDirection;
+    }
+
 
     /**
      * @return int
@@ -39,9 +59,9 @@ class DataTableContext
     }
 
     /**
-     * @return DataTableColumn
+     * @return int
      */
-    public function getOrderColumn(): DataTableColumn
+    public function getOrderColumn(): int
     {
         return $this->orderColumn;
     }
@@ -54,5 +74,8 @@ class DataTableContext
         return $this->orderDirection;
     }
 
-
+    public function addParameters(array $additionalParameters)
+    {
+        $this->additionalParameters = array_merge($this->additionalParameters, $additionalParameters);
+    }
 }

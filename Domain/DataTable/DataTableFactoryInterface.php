@@ -2,10 +2,11 @@
 
 namespace Aropixel\AdminBundle\Domain\DataTable;
 
-use Symfony\Component\HttpFoundation\Request;
 
 interface DataTableFactoryInterface
 {
+    public function setRepository(DataTableRepositoryInterface $dataTableRepository);
+
     public function create(string $className, array $columns) : DataTableInterface;
-    public function getContext() : DataTableContext;
+
 }

@@ -2,10 +2,7 @@
 // src/Aropixel/AdminBundle/Services/Datatabler.php
 namespace Aropixel\AdminBundle\Services;
 
-use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
-use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 

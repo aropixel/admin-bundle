@@ -7,9 +7,9 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Editor;
 
+use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Service\FilterService;
 
 class EditorImageBuilder implements EditorImageBuilderInterface

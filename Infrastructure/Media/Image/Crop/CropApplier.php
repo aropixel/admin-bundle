@@ -8,9 +8,9 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Crop;
 
 
+use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;

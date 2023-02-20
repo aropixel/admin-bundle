@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
+use App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +20,7 @@ class AjaxCategoryAction extends AbstractController
     /**
      * @param Datatabler $datatabler
      * @param ImageManager $imageManager
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \App\Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(Datatabler $datatabler, ImageManager $imageManager, PathResolverInterface $pathResolver)
     {
