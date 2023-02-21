@@ -59,7 +59,7 @@ class CropApplier implements CropApplierInterface
         $filterConfiguration = $filterManager->getFilterConfiguration()->get($filterName);
 
 
-        $imagePath = $this->pathResolver->getPrivateAbsolutePath($fileName);
+        $imagePath = $this->pathResolver->getPrivateAbsolutePath($fileName, Image::UPLOAD_DIR);
         $ratio = $this->getRatio($imagePath);
 
         // Merge crop configuration with needed coords into the filter configuration

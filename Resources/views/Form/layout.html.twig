@@ -467,7 +467,7 @@
          data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
 
 
-        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form }) }}
+        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form, 'crops': crops is defined ? crops : null }) }}
 
     </div>
 

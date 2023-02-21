@@ -2,7 +2,6 @@
 namespace Aropixel\AdminBundle\Twig;
 
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Services\ImageManager;
 use Aropixel\AdminBundle\Services\Seo;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,11 +39,8 @@ class AropixelExtension extends AbstractExtension
         return array(
             'datetime' => new TwigFilter('datetime', array($this, 'intl_date')),
             'intl_date' => new TwigFilter('intl_date', array($this, 'intl_date')),
-            'crop_filters' => new TwigFilter('crop_filters', array($this, 'cropFilters')),
-            'entity_crop_filters' => new TwigFilter('entity_crop_filters', array($this, 'entityCropFilters')),
             'seo' => new TwigFilter('seo', array($this, 'getSeo')),
             'ucfirst' => new TwigFilter('ucfirst', array($this, 'myUcfirst')),
-            'filename_web_path' => new TwigFilter('filename_web_path', array($this, 'getFileNameWebPath')),
         );
     }
 
@@ -87,14 +83,6 @@ class AropixelExtension extends AbstractExtension
         return $object && is_object($object) ? (new \ReflectionClass($object))->getName() : "";
     }
 
-
-    /**
-     * récupère le chemin de l'image uploadée en parametre pour une marque blanche
-     */
-    public function getFileNameWebPath($filename)
-    {
-        return Image::getFileNameWebPath($filename);
-    }
 
 
     public function myUcfirst($text)

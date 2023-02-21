@@ -51,7 +51,7 @@
         <div class="image-actions">
             <a class="btn btn-sm btn-icon btn-light-primary me-3 btnUpload" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="Choisir une image"><i class="far fa-image"></i></a>
 
-            {% if form.crops is defined and get_available_crop_filters(form.vars.data)|length > 0 %}
+            {% if form.crops is defined and get_available_crop_filters(form.vars.data, crops)|length > 0 %}
                 <a class="btn btn-sm btn-icon btn-light-primary me-3 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></a>
             {% endif %}
 
