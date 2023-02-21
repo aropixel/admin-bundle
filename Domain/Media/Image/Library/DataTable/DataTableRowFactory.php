@@ -1,9 +1,9 @@
 <?php
 
-namespace Aropixel\AdminBundle\Domain\Media\Image\Library;
+namespace Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Twig\Environment;
 

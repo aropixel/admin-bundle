@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTableRowFactory;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class AjaxAction extends AbstractController
     /**
      * @param ClassNameResolverInterface $classNameResolver
      * @param DataTableFactoryInterface $dataTableFactory
-     * @param DataTableRowFactory $dataTableRowFactory
+     * @param \Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory $dataTableRowFactory
      */
     public function __construct(ClassNameResolverInterface $classNameResolver, DataTableFactoryInterface $dataTableFactory, DataTableRowFactory $dataTableRowFactory)
     {

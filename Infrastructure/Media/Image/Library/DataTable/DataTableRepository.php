@@ -5,7 +5,7 @@
  * Date: 20/02/2023 à 16:17
  */
 
-namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Library;
+namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Library\DataTable;
 
 use Aropixel\AdminBundle\Infrastructure\DataTable\Repository\Doctrine\DefaultDataTableRepository;
 

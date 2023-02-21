@@ -4,9 +4,9 @@ namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTableRowFactory;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
-use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\DataTableRepository;
+use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\DataTable\DataTableRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

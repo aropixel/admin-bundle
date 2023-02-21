@@ -3,35 +3,31 @@
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
-use Aropixel\AdminBundle\Services\ImageManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 
 class AttachEditorAction
 {
     private EditorImageBuilderInterface $editorImageBuilder;
-    private EntityManagerInterface $entityManager;
-    private ImageManager $imageManager;
+    private ImageRepositoryInterface $imageRepository;
+
 
     /**
      * @param EditorImageBuilderInterface $editorImageBuilder
-     * @param EntityManagerInterface $entityManager
-     * @param ImageManager $imageManager
+     * @param ImageRepositoryInterface $imageRepository
      */
-    public function __construct(EditorImageBuilderInterface $editorImageBuilder, EntityManagerInterface $entityManager, ImageManager $imageManager)
+    public function __construct(EditorImageBuilderInterface $editorImageBuilder, ImageRepositoryInterface $imageRepository)
     {
         $this->editorImageBuilder = $editorImageBuilder;
-        $this->entityManager = $entityManager;
-        $this->imageManager = $imageManager;
+        $this->imageRepository = $imageRepository;
     }
 
 
     /**
      * Attach an Image.
      */
-    public function __invoke(Request $request, ImageManager $imageManager) : Response
+    public function __invoke(Request $request) : Response
     {
         $html = "";
 
@@ -39,8 +35,6 @@ class AttachEditorAction
         $width = $request->get('width', 300);
         $filter = $request->get('filter', null);
         $alt = $request->get('alt', '');
-
-        $em = $this->entityManager;
 
         if ($width=='customfilter') {
             $width = null;
@@ -57,8 +51,7 @@ class AttachEditorAction
 
             foreach ($images_id as $image_id) {
 
-                $imageClassName = $this->imageManager->getImageClassName();
-                $image = $em->getRepository($imageClassName)->find($image_id);
+                $image = $this->imageRepository->find($image_id);
                 $url = $this->editorImageBuilder->buildImageUrl($image, $width, $filter);
 
                 $class = "";

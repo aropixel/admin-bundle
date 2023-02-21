@@ -40,6 +40,9 @@ services:
     Aropixel\AdminBundle\Infrastructure\User\UserRepository:
         tags: ['doctrine.repository_service']
 
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Library\ImageRepository:
+        tags: ['doctrine.repository_service']
+
 
 
     # Autowire des formulaires
