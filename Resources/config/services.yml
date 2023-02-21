@@ -36,13 +36,11 @@ services:
         autowire: false
 
 
-
-    Aropixel\AdminBundle\Menu\AbstractMenuListener:
-        autowire: true
-
-
     # Autowire des services
     Aropixel\AdminBundle\Infrastructure\User\UserRepository:
+        tags: ['doctrine.repository_service']
+
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Library\ImageRepository:
         tags: ['doctrine.repository_service']
 
 
@@ -60,15 +58,15 @@ services:
         resource: '../../Twig'
 
 
-    Aropixel\AdminBundle\Resolver\PathResolver:
+    Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver:
         arguments: ['@kernel']
 
-    Aropixel\AdminBundle\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Resolver\PathResolver'
+    Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver'
 
 
     Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface:
         class: Aropixel\AdminBundle\Infrastructure\Media\Image\Crop\CropApplier
-        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Resolver\PathResolver']
+        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
 
 
     Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener\DoFileCropListener:
@@ -79,7 +77,7 @@ services:
 
 
     Aropixel\AdminBundle\Infrastructure\Media\Image\Upload\UploadImageListener:
-        arguments: ['@Aropixel\AdminBundle\Resolver\PathResolver']
+        arguments: ['@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
         tags:
             - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.image%' }
             - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.image%' }
@@ -89,7 +87,7 @@ services:
 
 
     Aropixel\AdminBundle\Infrastructure\Media\File\Upload\UploadFileListener:
-        arguments: ['@Aropixel\AdminBundle\Resolver\PathResolver']
+        arguments: ['@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
         tags:
             - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.file%' }
             - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.file%' }

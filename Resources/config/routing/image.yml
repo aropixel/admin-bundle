@@ -6,10 +6,6 @@ image_ajax_category:
   path: /image/list/ajax/{category}
   controller: Aropixel\AdminBundle\Http\Action\Image\AjaxCategoryAction
 
-image_total:
-  path: /image/total
-  controller: Aropixel\AdminBundle\Http\Action\Image\TotalAction
-
 image_upload:
   path: /image/upload
   controller: Aropixel\AdminBundle\Http\Action\Image\UploadAction

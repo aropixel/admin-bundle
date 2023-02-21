@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use Aropixel\AdminBundle\Services\ImageManager;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,17 +11,18 @@ use Doctrine\ORM\EntityManagerInterface;
 class AttachGalleryAction extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private ImageManager $imageManager;
+    private ImageRepositoryInterface $imageRepository;
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param ImageManager $imageManager
+     * @param ImageRepositoryInterface $imageRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager)
+    public function __construct(EntityManagerInterface $entityManager, ImageRepositoryInterface $imageRepository)
     {
         $this->entityManager = $entityManager;
-        $this->imageManager = $imageManager;
+        $this->imageRepository = $imageRepository;
     }
+
 
     /**
      * Attach an Image.
@@ -47,9 +48,7 @@ class AttachGalleryAction extends AbstractController
         $html = '';
         foreach ($images as $image_id) {
 
-            $imageClassName = $this->imageManager->getImageClassName();
-            $image = $em->getRepository($imageClassName)->find($image_id);
-
+            $image = $this->imageRepository->find($image_id);
             $html.= $this->renderView('@AropixelAdmin/Image/Widget/gallery.html.twig', array(
                 'id'        => $entity_id,
                 'category'  => $category,

@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
+use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Aropixel\AdminBundle\Entity\AttachImage;
-use Aropixel\AdminBundle\Services\ImageManager;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,16 +13,17 @@ use Doctrine\ORM\EntityManagerInterface;
 class DeleteAction extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private ImageManager $imageManager;
+    private ImageRepositoryInterface $imageRepository;
+
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param ImageManager $imageManager
+     * @param ImageRepositoryInterface $imageRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager)
+    public function __construct(EntityManagerInterface $entityManager, ImageRepositoryInterface $imageRepository)
     {
         $this->entityManager = $entityManager;
-        $this->imageManager = $imageManager;
+        $this->imageRepository = $imageRepository;
     }
 
 
@@ -33,10 +34,7 @@ class DeleteAction extends AbstractController
     {
         $image_id = $request->get('image_id');
         $libraryClass = $request->get('category');
-
-        $em = $this->entityManager;
-        $imageClassName = $this->imageManager->getImageClassName();
-        $image = $em->getRepository($imageClassName)->find($image_id);
+        $image = $this->imageRepository->find($image_id);
 
         if ($image) {
 
@@ -45,20 +43,20 @@ class DeleteAction extends AbstractController
                 $libraryEntity = new \ReflectionClass($libraryClass);
                 if ($libraryEntity instanceof AttachImage) {
 
-                    $attachedImages = $em->getRepository($libraryClass)->findBy(['image' => $image]);
+                    $attachedImages = $this->entityManager->getRepository($libraryClass)->findBy(['image' => $image]);
                     if (count($attachedImages)) {
 
                         foreach ($attachedImages as $attachedImage) {
-                            $em->remove($attachedImage);
+                            $this->entityManager->remove($attachedImage);
                         }
-                        $em->flush();
+                        $this->entityManager->flush();
 
                     }
 
                 }
 
-                $em->remove($image);
-                $em->flush();
+                $this->entityManager->remove($image);
+                $this->entityManager->flush();
 
             }
 

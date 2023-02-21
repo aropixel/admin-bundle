@@ -74,7 +74,7 @@
             {% block header_image %}
                 {% if form.image is defined %}
                     <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
-                        <img src="{{ form.image.vars.value.getWebPath() | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+                        <img src="{{ (form.image.vars.value ? form.image.vars.value.getWebPath() : null) | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
                         <i class="fas fa-external-link-alt editable-indicator"></i>
                     </div>
                 {% endif %}

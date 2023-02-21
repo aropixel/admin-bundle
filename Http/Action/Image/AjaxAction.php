@@ -2,40 +2,29 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
-use Aropixel\AdminBundle\Services\Datatabler;
-use Aropixel\AdminBundle\Services\ImageManager;
+use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
+use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
+use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class AjaxAction extends AbstractController
 {
-    private Datatabler $datatabler;
-    private ImageManager $imageManager;
-    private PathResolverInterface $pathResolver;
-
-    private $datatableFieds = [];
-
+    private ClassNameResolverInterface $classNameResolver;
+    private DataTableFactoryInterface $dataTableFactory;
+    private DataTableRowFactory $dataTableRowFactory;
 
     /**
-     * @param Datatabler $datatabler
-     * @param ImageManager $imageManager
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     * @param ClassNameResolverInterface $classNameResolver
+     * @param DataTableFactoryInterface $dataTableFactory
+     * @param \Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory $dataTableRowFactory
      */
-    public function __construct(Datatabler $datatabler, ImageManager $imageManager, PathResolverInterface $pathResolver)
+    public function __construct(ClassNameResolverInterface $classNameResolver, DataTableFactoryInterface $dataTableFactory, DataTableRowFactory $dataTableRowFactory)
     {
-        $this->datatabler = $datatabler;
-        $this->imageManager = $imageManager;
-        $this->pathResolver = $pathResolver;
-
-        $this->datatableFieds = [
-            ['label' => '', 'style' => 'width:50px;'],
-            ['label' => '', 'style' => 'width:200px;'],
-            ['field' => 'i.titre', 'label' => 'Titre'],
-            ['field' => 'i.createdAt', 'label' => 'Date'],
-            ['label' => '', 'style' => 'width:200px;']
-        ];
+        $this->classNameResolver = $classNameResolver;
+        $this->dataTableFactory = $dataTableFactory;
+        $this->dataTableRowFactory = $dataTableRowFactory;
     }
 
 
@@ -45,50 +34,17 @@ class AjaxAction extends AbstractController
     public function __invoke() : Response
     {
 
-        $response = [];
+        $dataTable = $this->dataTableFactory->create($this->classNameResolver->getImageClassName(), [
+            new DataTableColumn('', '', 'width:50px;'),
+            new DataTableColumn('Aperçu', '', 'width:100px;'),
+            new DataTableColumn('Titre', 'title'),
+            new DataTableColumn('Date', 'createdAt'),
+            new DataTableColumn('Fichier', '', 'width:200px;'),
+            new DataTableColumn('', ''),
+        ]);
 
-        $imageClassName = $this->imageManager->getImageClassName();
-        $this->datatabler->setRepository($imageClassName, $this->datatableFieds);
-
-        if ($this->datatabler->isCalled()) {
-
-            $images = $this->datatabler->getItems();
-
-            foreach ($images as $image)
-            {
-                $response[] = $this->_dataTableElements($image);
-            }
-        }
-
-        return $this->datatabler->getResponse($response);
+        return $dataTable->getResponse($this->dataTableRowFactory);
 
     }
-
-    private function _dataTableElements($image) {
-
-        $imagePath = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
-
-        $bytes = @filesize($imagePath);
-        $sz = 'bkMGTP';
-        $factor = floor((strlen($bytes) - 1) / 3);
-        $decimals = 2;
-        $unite = @$sz[$factor];
-        if ($unite=='b' || $unite=='k') {
-            $decimals = 0;
-        }
-        $filesize = sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-        list($width, $height) = getimagesize($imagePath);
-
-        return array(
-            $this->renderView('@AropixelAdmin/Image/Datatabler/checkbox.html.twig', array('image' => $image)),
-            $this->renderView('@AropixelAdmin/Image/Datatabler/preview.html.twig', array('image' => $image)),
-            $this->renderView('@AropixelAdmin/Image/Datatabler/title.html.twig', array('image' => $image)),
-            $image->getCreatedAt()->format('d/m/Y'),
-            $this->renderView('@AropixelAdmin/Image/Datatabler/properties.html.twig', array('image' => $image, 'filesize' => $filesize, 'width' => $width, 'height' => $height)),
-            $this->renderView('@AropixelAdmin/Image/Datatabler/button.html.twig', array('image' => $image))
-        );
-
-    }
-
 
 }

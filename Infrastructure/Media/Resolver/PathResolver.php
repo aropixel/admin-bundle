@@ -8,6 +8,7 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Resolver;
 
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class PathResolver implements PathResolverInterface

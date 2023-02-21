@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Form\Type\File\PluploadFileType;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Services\Datatabler;
 use Aropixel\AdminBundle\Services\FileManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +19,7 @@ class UploadAction extends AbstractController
     private FileManager $fileManager;
 
     /**
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      * @param EntityManagerInterface $entityManager
      * @param FileManager $fileManager
      */

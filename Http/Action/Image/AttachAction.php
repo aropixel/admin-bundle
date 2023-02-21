@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
+use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
-use Aropixel\AdminBundle\Services\ImageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +13,17 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class AttachAction extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private ImageManager $imageManager;
+    private ImageRepositoryInterface $imageRepository;
+
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param ImageManager $imageManager
+     * @param ImageRepositoryInterface $imageRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager)
+    public function __construct(EntityManagerInterface $entityManager, ImageRepositoryInterface $imageRepository)
     {
         $this->entityManager = $entityManager;
-        $this->imageManager = $imageManager;
+        $this->imageRepository = $imageRepository;
     }
 
 
@@ -88,8 +89,7 @@ class AttachAction extends AbstractController
         $html = '';
         foreach ($images as $image_id) {
 
-            $imageClassName = $this->imageManager->getImageClassName();
-            $image = $em->getRepository($imageClassName)->find($image_id);
+            $image = $this->imageRepository->find($image_id);
 
             // If attachValue is given, we just pass the filename
             if ($attachValue) {

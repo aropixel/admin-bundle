@@ -1675,8 +1675,16 @@ p, ul:not(.list-unstyled), ol {
 
 .page-item .page-link {
     margin: 0 10px;
-    color: #fff;
+    color: var(--main-bg-color);
     border-radius: 10px;
+}
+
+.page-item .page-link:hover {
+    background-color: #e4e6f0;
+}
+
+.page-item.active .page-link {
+    color: #fff;
 }
 
 .page-item.disabled .page-link  {
