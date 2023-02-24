@@ -27,7 +27,7 @@ class AvailableCropProvider implements AvailableCropProviderInterface
     public function getAvailableCropFilters(?CroppableInterface $croppable, ?array $configuredFilters = null): array
     {
         $availableCropList = [];
-dump($croppable);
+
         // Get crops already applied and saved
         $imageRegisteredCrops = $croppable ? $croppable->getCropsInfos() : [];
 

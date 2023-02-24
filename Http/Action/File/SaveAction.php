@@ -31,7 +31,7 @@ class SaveAction extends AbstractController
     {
 
         $entity_id = $request->request->get('id');
-        $titre = $request->request->get('titre');
+        $title = $request->request->get('title');
         $em = $this->entityManager;
 
         $fileClassName = $this->fileManager->getFileClassName();
@@ -39,12 +39,12 @@ class SaveAction extends AbstractController
 
         if ($file) {
 
-            $file->setTitre($titre);
+            $file->setTitle($title);
             $em->flush();
 
         }
 
-        return new Response($titre, Response::HTTP_OK);
+        return new Response($title, Response::HTTP_OK);
 
     }
 

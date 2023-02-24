@@ -2,14 +2,13 @@
 
 namespace Aropixel\AdminBundle\Form\Type\File;
 
-use Aropixel\AdminBundle\Entity\Fichier;
 use Aropixel\AdminBundle\Entity\File;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class PluploadFileType extends AbstractType
+class PluploadType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -18,7 +17,7 @@ class PluploadFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
+            ->add('title')
             ->add('file', FileType::class)
             ->add('category')
             ->add('public')

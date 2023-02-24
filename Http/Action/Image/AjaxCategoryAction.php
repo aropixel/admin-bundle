@@ -50,7 +50,6 @@ class AjaxCategoryAction extends AbstractController
                 new DataTableColumn('', ''),
             ]);
 
-
         $dataTable->getContext()->addParameters(['category' => $category]);
 
         return $dataTable->getResponse($this->dataTableRowFactory);

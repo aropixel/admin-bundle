@@ -1292,28 +1292,46 @@ table tr:hover .table-links {
 
 /* 3.10 Pagination */
 .page-item .page-link {
-  color: #6777ef;
-  border-radius: 3px;
-  margin: 0 3px; }
+  color: #fff;
+  margin: 0 10px;
+  border-radius: 10px;
+}
 .page-item.active .page-link {
-  background-color: #6777ef;
-  border-color: #6777ef; }
+  background-color: var(--main-bg-color);
+  border-color: var(--main-bg-color);
+  color: #fff;
+}
 .page-item.disabled .page-link {
   border-color: transparent;
-  background-color: #f9fafe;
-  color: #6777ef;
-  opacity: .6; }
+  background-color: var(--light-grey);
+  color: var(--main-bg-color);
+  opacity: .6;
+}
+.page-item.disabled .page-link  {
+  background-color: var(--light-grey);
+}
+.page-item .page-link {
+  margin: 0 10px;
+  color: var(--main-bg-color);
+  border-radius: 10px !important;
+}
+.page-item .page-link:hover {
+  background-color: #e4e6f0;
+  border-color: #e4e6f0;
+}
 
 .page-link {
   border-color: transparent;
   background-color: #f9fafe;
-  font-weight: 600; }
-.page-link:hover {
-  background-color: #6777ef;
-  color: #fff;
-  border-color: transparent; }
+  font-weight: 600;
+  width: 35px;
+  text-align: center;
+  padding: 5px 0;
+}
+
 .page-link:focus {
-  box-shadow: none; }
+  box-shadow: none;
+}
 
 /* 3.11 Badge */
 .badges .badge {

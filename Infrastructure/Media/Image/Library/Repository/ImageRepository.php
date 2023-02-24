@@ -56,12 +56,9 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
 
     /**
      * Import une image distante
-     *
-     * @param string $externalUrl
      */
-    public function existRemoteImage($externalUrl)
+    public function existRemoteImage(string $externalUrl)
     {
-        //
         $ch = curl_init($externalUrl);
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_exec($ch);
@@ -76,16 +73,12 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
 
     /**
      * Verifie si une image distante a déjà été importée
-     *
-     * @param string $externalUrl
      */
-    public function isAlreadyImported($externalUrl)
+    public function isAlreadyImported(string $externalUrl)
     {
-        //
         $image = $this->findOneByImport($externalUrl);
         if ($image && $image->isNew())         $image->setIsNew(false);
 
-        //
         return $image;
     }
 
@@ -93,18 +86,14 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
 
     /**
      * Import une image distante
-     *
-     * @param string $externalUrl
      */
-    public function importRemoteImage($externalUrl, $category, $titre=false)
+    public function importRemoteImage(string $externalUrl, string $category, $title = false)
     {
 
-        //
         if ($image = $this->isAlreadyImported($externalUrl)) {
             return $image;
         }
 
-        //
         if (!$this->existRemoteImage($externalUrl)) {
             return false;
         }
@@ -125,25 +114,20 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
             return false;
         }
 
-
-        //
         $filename = sha1(uniqid(mt_rand(), true));
         $ext = $file->guessExtension();
 
         // Crée l'image en base de données
         $image = new Image();
-        $image->setTitre($titre ?: $filename.'.'.$ext);
+        $image->setTitle($title ?: $filename.'.'.$ext);
         $image->setFilename($filename.'.'.$ext);
         $image->setCategory($category);
         $image->setExtension($ext ? $ext : 'jpg');
         $image->setImport($externalUrl);
         $image->setIsNew(true);
 
-        //
         $this->_em->persist($image);
         $this->_em->flush();
-
-        //
 
         // Déplace le fichier dans l'arborescence images
         $file->move($image->getUploadRootDir(), $filename.'.'.$ext);
@@ -154,18 +138,14 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
 
     /**
      * Import une image distante
-     *
-     * @param string $externalUrl
      */
-    public function importLocalImage($internalUrl, $category, $titre=false)
+    public function importLocalImage(string $internalUrl, string $category, $title=false)
     {
 
-        //
         if ($image = $this->isAlreadyImported($internalUrl)) {
             return $image;
         }
 
-        //
         if (!file_exists($internalUrl)) {
             return false;
         }
@@ -179,24 +159,21 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
         }
 
 
-        //
         $filename = sha1(uniqid(mt_rand(), true));
         $ext = $file->guessExtension();
 
         // Crée l'image en base de données
         $image = new Image();
-        $image->setTitre($titre ?: $filename.'.'.$ext);
+        $image->setTitle($title ?: $filename.'.'.$ext);
         $image->setFilename($filename.'.'.$ext);
         $image->setCategory($category);
         $image->setExtension($ext ? $ext : 'jpg');
         $image->setImport($internalUrl);
         $image->setIsNew(true);
 
-        //
         $this->_em->persist($image);
         $this->_em->flush();
 
-        //
         $fs = new Filesystem();
         $fs->copy($internalUrl, $image->getUploadRootDir().'/'.$filename.'.'.$ext);
         // Déplace le fichier dans l'arborescence images

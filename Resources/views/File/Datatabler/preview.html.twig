@@ -1,1 +1,3 @@
-    <label for="file{{ file.id }}"><img class="file-type" data-src="{{ url('file_download', {id:file.id, filename: file.rewritedFileName}) }}" src="{{ icon }}" height="30"></label>
+<a href="{{ url('file_download', { id:file.id, filename: file.rewritedFileName }) }}" data-popup="lightbox">
+    <i class="fas fa-download" style="font-size: 30px"></i>
+</a>

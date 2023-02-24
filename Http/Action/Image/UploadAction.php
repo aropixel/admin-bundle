@@ -3,11 +3,9 @@
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
+use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Domain\Media\Image\Library\Factory\ImageFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
-use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
-use Aropixel\AdminBundle\Services\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,16 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UploadAction extends AbstractController
 {
-    private DataTableRowFactoryInterface $dataTableRowFactory;
+    private DataTableRowFactory $dataTableRowFactory;
     private EntityManagerInterface $entityManager;
     private ImageFactoryInterface $imageFactory;
 
     /**
-     * @param DataTableRowFactoryInterface $dataTableRowFactory
+     * @param DataTableRowFactory $dataTableRowFactory
      * @param EntityManagerInterface $entityManager
      * @param ImageFactoryInterface $imageFactory
      */
-    public function __construct(DataTableRowFactoryInterface $dataTableRowFactory, EntityManagerInterface $entityManager, ImageFactoryInterface $imageFactory)
+    public function __construct(DataTableRowFactory $dataTableRowFactory, EntityManagerInterface $entityManager, ImageFactoryInterface $imageFactory)
     {
         $this->dataTableRowFactory = $dataTableRowFactory;
         $this->entityManager = $entityManager;

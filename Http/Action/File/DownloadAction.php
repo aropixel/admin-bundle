@@ -12,7 +12,7 @@ class DownloadAction extends AbstractController
     private PathResolverInterface $pathResolver;
 
     /**
-     * @param \Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
+     * @param PathResolverInterface $pathResolver
      */
     public function __construct(PathResolverInterface $pathResolver)
     {

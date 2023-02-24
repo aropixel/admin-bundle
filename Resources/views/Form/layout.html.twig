@@ -344,8 +344,12 @@
     {% endif %}
 
     <div class="panel panel-default border-left-xlg border-left-info">
-        <div class="panel-heading">
-            <h6 class="panel-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+        <div class="panel-heading d-flex align-items-center justify-content-between">
+            <h6 class="panel-title m-b-0"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+            <a class="btn btn-sm btn-icon btn-light-primary me-3 btn-file-action" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary"
+               title="{{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}">
+                <i class="fas fa-plus"></i>
+            </a>
         </div>
 
         <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
@@ -361,18 +365,6 @@
 
             {{- form_rest(form) -}}
         </table>
-
-
-        <div class="panel-footer">
-            <div class="m-t-10 m-b-10 text-right">
-                <div>
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
-                        <i class="icon-files-empty2 position-left"></i>
-                        {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
-                    </a>
-                </div>
-            </div>
-        </div>
 
     </div>
 
