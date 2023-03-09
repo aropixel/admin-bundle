@@ -121,3 +121,5 @@ services:
 
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: 'service_container'
+
+    #Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface: ~

@@ -48,7 +48,7 @@ class AttachAction extends AbstractController
 
             $file = $em->getRepository('AropixelAdminBundle:File')->find($fileId);
             $attachFile->setFile($file);
-            $attachFile->setTitle($file->getTitre());
+            $attachFile->setTitle($file->getTitle());
 
             $form = $this->createForm(FileType::class, $attachFile, ['data_class' => $attachClass]);
 

@@ -18,7 +18,7 @@ class AjaxAction extends AbstractController
     /**
      * @param ClassNameResolverInterface $classNameResolver
      * @param DataTableFactoryInterface $dataTableFactory
-     * @param \Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory $dataTableRowFactory
+     * @param DataTableRowFactory $dataTableRowFactory
      */
     public function __construct(ClassNameResolverInterface $classNameResolver, DataTableFactoryInterface $dataTableFactory, DataTableRowFactory $dataTableRowFactory)
     {

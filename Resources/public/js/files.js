@@ -3,13 +3,13 @@
  */
 
 
+import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
+
 (function($){
 
 
-
-    //
     // Paramètres par défaut
-    var selectors = {
+    let selectors = {
 
         modal: {
             id: '#modalFilesLibrary',
@@ -40,22 +40,18 @@
 
 
 
-    var FL_Launcher = function(element, options)
+    let FL_Launcher = function(element, options)
     {
-        //
         // Paramètres par défaut
-        var defaults = {
+        let defaults = {
             type: 'file',
             multiple: $(element).data('flMultiple')!='undefined' ? $(element).data('flMultiple') : false,
         }
 
-        //
         this.config = $.extend(defaults, options || {});
         this.element = $(element);
         this.selectors = selectors;
 
-
-        //
         if (typeof options === 'object' && ("editor" in options))
         {
             this.element.data('flAttachClass', options.category);
@@ -72,16 +68,12 @@
 
 
 
-
-
-    var FL_Editor = function(launcher, editor)
+    let FL_Editor = function(launcher, editor)
     {
 
-        //
         // Ouvre la modal et charge les images
         flcore.modal.set_launcher(launcher);
 
-        //
         this.open_modal = function()
         {
             $('.cke_dialog_background_cover').css('z-index', 960);
@@ -89,18 +81,15 @@
             $(selectors.modal.id).modal('show');
         }
 
-        //
         this.insert_file = function()
         {
-            //
-            var protomatch = /^(https?|ftp):\/\//;
-            var _src = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr').find('.file-type').attr('data-src');
+
+            let protomatch = /^(https?|ftp):\/\//;
+            let _src = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr').find('.file-type').attr('data-src');
             _src = _src.replace(protomatch, '');
 
-            //
             $(selectors.modal.id).modal('hide');
 
-            //
             $('.cke_dialog_tabs > a').removeClass('cke_dialog_tab_selected');
             $('.cke_dialog_tabs > a:first').addClass('cke_dialog_tab_selected');
             $('.cke_dialog_contents > tbody > tr > td:first > div').hide();
@@ -115,21 +104,15 @@
 
 
 
-
-
-    var FL_Widget = function(launcher)
+    let FL_Widget = function(launcher)
     {
 
-        //
-        var obj = this;
+        let obj = this;
         this.launcher = launcher;
 
-
-        //
-        var filesWidget = this;
+        let filesWidget = this;
         launcher.element.find(selectors.table.item).each(function() {
 
-            //
             new FL_File_Widget(filesWidget, $(this));
 
         });
@@ -142,9 +125,9 @@
                 update: function( event, ui ) {
                     obj.launcher.element.find('.thumbnail').each(function(index) {
 
-                        var _input = $(this).find('input:hidden[name^=attach_gallery]');
+                        let _input = $(this).find('input:hidden[name^=attach_gallery]');
                         if (_input.length) {
-                            var new_name = _input.attr('name').replace(/attach\_gallery\[\d+\]/g, "attach_gallery["+(index)+"]");
+                            let new_name = _input.attr('name').replace(/attach\_gallery\[\d+\]/g, "attach_gallery["+(index)+"]");
                             _input.attr('name', new_name);
                         }
 
@@ -159,20 +142,15 @@
         this.attach = function()
         {
 
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.modal.attach);
+            let _button = $(selectors.modal.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Association des fichiers').attr('disabled', 'disabled');
 
+            let _fileData = launcher.element.data();
 
-            //
-            var _fileData = launcher.element.data();
-
-
-            //
-            var _attach_params = {};
-            var _attach = [];
-            var $selectedFile;
+            let _attach_params = {};
+            let _attach = [];
+            let $selectedFile;
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
                 _attach.push($(this).val());
@@ -180,7 +158,6 @@
             });
 
 
-            //
             _attach_params['multiple']     = '0';
             _attach_params['files']       = _attach;
             _attach_params['attach_id']    = _fileData.flAttachId;
@@ -188,50 +165,37 @@
             _attach_params['entity_class'] = launcher.config.flEntityClass;
 
 
-
-            //
             $.post(_fileData.flAttachPath,  _attach_params, function(result) {
 
                 // Nom des champs de formulaires à conserver
-                var formFieldFile = launcher.element.find("input[name$='[file]']");
-                var formFieldTitle = launcher.element.find("input[name$='[title]']");
-                var formFieldAlt = launcher.element.find("input[name$='[alt]']");
+                let formFieldFile = launcher.element.find("input[name$='[file]']");
+                let formFieldTitle = launcher.element.find("input[name$='[title]']");
+                let formFieldAlt = launcher.element.find("input[name$='[alt]']");
 
-                //
-                var $filesContent = launcher.element.find('.tableFiles');
-                var $fileTbody = $filesContent.find('tbody');
+                let $filesContent = launcher.element.find('.tableFiles');
+                let $fileTbody = $filesContent.find('tbody');
 
-                //
                 $fileTbody.html($(result));
                 $fileTbody.find('div').empty();
                 $fileTbody.find('div').append(formFieldAlt);
                 $fileTbody.find('div').append(formFieldTitle);
                 $fileTbody.find('div').append(formFieldFile);
 
-
                 launcher.element.find("input[name$='[file]']").val($(result).find("[name$='[file]']").val());
                 launcher.element.find("input[name$='[title]']").val($selectedFile.find('[data-modal-xeditable]').html());
                 launcher.element.find("input[name$='[alt]']").val($(result).find("[name$='[alt]']").val());
                 launcher.element.attr("data-fl-attach-id", $(result).attr('data-fl-attach-id'));
 
-
-                //
                 new FL_File_Widget(filesWidget, $fileTbody);
 
-
-                //
                 // params.onAttach(launcher, result);
                 $(selectors.modal.id).modal('hide');
 
-
-                //
                 // $.uniform.update($('.checkbox-library-thumb input').attr('checked',false));
                 _button.html("Ajouter le fichier").attr('disabled', false);
 
 
             });
-
-
 
         }
 
@@ -240,30 +204,24 @@
         this.addToGallery = function()
         {
 
-            //
             // On désactive le bouton, et on change le texte
-            var _button = $(selectors.modal.attach);
+            let _button = $(selectors.modal.attach);
             _button.html('<i class="icon-spinner2 spinner position-left"></i> Association des fichiers').attr('disabled', 'disabled');
 
-
-            //
-            var _attach_params = {};
-            var _attach = [];
+            let _attach_params = {};
+            let _attach = [];
             $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').each(function() {
 
-
-                //
-                var $filesContent = launcher.element.find('.tableFiles');
-                var prototype = $filesContent.data('prototype');
-                var index = 0;
+                let $filesContent = launcher.element.find('.tableFiles');
+                let prototype = $filesContent.data('prototype');
+                let index = 0;
                 if (obj.launcher.config.multiple) {
                     index = $filesContent.find('.itemFile').length;
                 }
-                var newItem = prototype.replace(/__name__/g, index);
+                let newItem = prototype.replace(/__name__/g, index);
 
 
-                //
-                $selectedFile = $(this).closest('tr');
+                let $selectedFile = $(this).closest('tr');
                 $(newItem).find('span').html($selectedFile.find('.file-type').data('src'));
 
                 $filesContent.find(".itemNew").remove();
@@ -279,17 +237,13 @@
                 $filesContent.find('[name$="['+index+'][file]"]').closest('td').find('span').html($selectedFile.find('[data-modal-xeditable]').html());
                 $filesContent.find('[name$="['+index+'][title]"]').val($selectedFile.find('[data-modal-xeditable]').html());
 
-                //
-                var $fileRow = $filesContent.find('[name$="['+index+'][file]"]').closest('tr');
+                let $fileRow = $filesContent.find('[name$="['+index+'][file]"]').closest('tr');
                 $fileRow.attr('data-fl-file-id', $(this).val());
 
-                //
                 new FL_File_Widget(filesWidget, $fileRow);
 
-                //
                 _button.html("Ajouter les fichiers").attr('disabled', false);
                 $(selectors.modal.id).modal('hide');
-
 
             });
 
@@ -303,20 +257,17 @@
 
 
 
-    var FL_File_Widget = function(filesWidget, fileRow)
+    let FL_File_Widget = function(filesWidget, fileRow)
     {
-        //
-        var obj = this;
-        var launcher = filesWidget.launcher;
+        let obj = this;
+        let launcher = filesWidget.launcher;
 
-        //
         fileRow.on('click', selectors.table.unlink, function() {
 
             obj.detach($(this));
 
         });
 
-        //
         fileRow.on('click', selectors.table.edit, function() {
 
             obj.edit();
@@ -324,30 +275,25 @@
         });
 
 
-        //
         this.edit = function() {
 
-            //
-            var _edit_params = {};
-            var _imageGalleryId = fileRow.find('input[name^="attach_edit"]').val();
-            var _imageAdminId = fileRow.find('input[name^="attach_new"]').val();
+            let _edit_params = {};
+            let _imageGalleryId = fileRow.find('input[name^="attach_edit"]').val();
+            let _imageAdminId = fileRow.find('input[name^="attach_new"]').val();
 
 
-            //
             if (_imageGalleryId) {
-                var _params = {};
-                var _url = Routing.generate('gallery_image_infos_edit', {id:_imageGalleryId});
+                let _params = {};
+                let _url = Routing.generate('gallery_image_infos_edit', {id:_imageGalleryId});
             }
             else {
-                var _params = widget.find('[name^="attach_infos"]').serialize();
-                var _url = Routing.generate('gallery_image_infos_new', {id:_imageAdminId});
+                let _params = widget.find('[name^="attach_infos"]').serialize();
+                let _url = Routing.generate('gallery_image_infos_new', {id:_imageAdminId});
             }
 
-            //
             $.get(_url, _params, function(_modal_content) {
 
-                //
-                var _buttons = {
+                let _buttons = {
 
                     "Fermer": function() {
                         $(this).closest('.modal').modal('hide');
@@ -358,8 +304,8 @@
                         'class' : 'btn-primary',
                         'callback' : function() {
 
-                            var _modal = $(this).closest('.modal');
-                            var _form = $(this).closest('.modal').find('form');
+                            let _modal = $(this).closest('.modal');
+                            let _form = $(this).closest('.modal').find('form');
                             $.post(_form.attr('action'), _form.serialize(), function(info_fields) {
 
                                 if ($(info_fields).find('[name^="attach_infos"]').length) {
@@ -383,21 +329,16 @@
                     }
                 }
 
-
-                //
-                modalDyn("Modifier l'image", _modal_content, _buttons, {modalClass: 'modal_lg', headerClass: 'bg-primary'});
+                new ModalDyn("Modifier l'image", _modal_content, _buttons, {modalClass: 'modal_lg', headerClass: 'bg-primary'});
 
             })
         }
 
 
 
-        //
         this.detach = function(button) {
 
-
-            //
-            var _buttons = {
+            let _buttons = {
 
                 "Fermer": function() {
                     $(this).closest('.modal').modal('hide');
@@ -408,11 +349,11 @@
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        var $filesTbody = button.closest('tbody');
-                        var placeholder = button.closest('table').data('placeholder');
+                        let $filesTbody = button.closest('tbody');
+                        let placeholder = button.closest('table').data('placeholder');
 
                         button.closest('tr').fadeOut(400, function() {
-                            var formFields = $filesTbody.find('div');
+                            let formFields = $filesTbody.find('div');
                             $(this).remove();
                             if ($filesTbody.children('tr').length == 0) {
 
@@ -433,27 +374,22 @@
                 }
             }
 
+            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
-            //
-            modalDyn("Supprimer", "Voulez-vous supprimer le fichier ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
         }
-
-
 
 
     }
 
 
 
-    var FL_Modal = function()
+    let FL_Modal = function()
     {
 
-        //
-        var obj = this;
-        var images = new Array();
-        var config = {};
+        let obj = this;
+        let images = new Array();
+        let config = {};
 
-        //
         this.launcher = false;
 
 
@@ -465,8 +401,7 @@
             $(selectors.modal.id).css('z-index', 1080);
             $(selectors.modal.checkbox).attr('checked', false);
 
-            //
-            var button = $(event.relatedTarget);
+            let button = $(event.relatedTarget);
             if (button.length) {
                 obj.launcher = button.closest('[data-fl-type]').data('launcher');
             }
@@ -479,10 +414,10 @@
 
         this.load_files = function(button) {
 
-            var _public = (typeof obj.launcher.editor != "undefined");
-            var _class = obj.launcher.element.data('flAttachClass');
-            var _src = $(selectors.modal.dataTable).attr('data-src')
-            var _params = {
+            let _public = (typeof obj.launcher.editor != "undefined");
+            let _class = obj.launcher.element.data('flAttachClass');
+            let _src = $(selectors.modal.dataTable).attr('data-src')
+            let _params = {
                 "processing": true,
                 "serverSide": true,
                 "order": [],
@@ -492,7 +427,6 @@
                 } )
             };
 
-            //
             $(selectors.modal.dataTable).DataTable().clearPipeline().destroy();
             $(selectors.modal.dataTable)
                 .on( 'init.dt', function () {
@@ -531,17 +465,14 @@
         // Event // Clic sur le bouton de validation
         $(selectors.modal.dataTable).on('click', selectors.modal.delete, function() {
 
-            //
-            var $deleteButton = $(this);
+            let $deleteButton = $(this);
 
-            //
-            var _detach_params = {};
+            let _detach_params = {};
             _detach_params['category'] = obj.launcher.element.data('flAttachClass');
             _detach_params['entity_id'] = obj.launcher.config.flEntityId;
             _detach_params['file_id'] = $(this).data('id');
 
-            //
-            var _buttons = {
+            let _buttons = {
 
                 "Fermer": function() {
                     $(this).closest('.modal').modal('hide');
@@ -552,10 +483,8 @@
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        //
                         $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
-                            //
                             flcore.modal.load_files();
 
                         })
@@ -567,11 +496,7 @@
                 }
             }
 
-
-            //
-            modalDyn("Supprimer", "Voulez-vous supprimer le fichier de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
-
+            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
 
         });
 
@@ -614,46 +539,35 @@
         }
 
 
-
     };
 
 
-
-    var FL_File = function(li, launcher)
+    let FL_File = function(li, launcher)
     {
 
-        //
-        var obj = this;
-        var my_id = $(li).attr('data-id');
-        var my_li = $(li);
+        let obj = this;
+        let my_id = $(li).attr('data-id');
+        let my_li = $(li);
 
-
-        //
         this.get_id = function()
         {
             return my_id;
         }
 
-
-        //
         this.update_description = function()
         {
 
-            //
-            var _li = $(selectors.image_list_selected);
-
+            let _li = $(selectors.image_list_selected);
 
             // Si la description a changé, on l'enregistre
             if ($(selectors.image_info_title).val()!=_li.attr('data-title'))
             {
-                //
-                var description = $(selectors.image_info_title);
+                let description = $(selectors.image_info_title);
 
-                //
                 // On sauvegarde dans la nouvelle description en propriété de la vignette
                 // et on lance une sauvegarde asynchrone
                 _li.attr('data-title', description.val());
-                $.post(_base_url + "images/update.html", {id:_li.attr('data-id'), titre:description.val()}, function() {});
+                $.post(_base_url + "images/update.html", {id:_li.attr('data-id'), title:description.val()}, function() {});
             }
 
         };
@@ -663,19 +577,17 @@
 
 
 
-    var FL_Uploader = function()
+    let FL_Uploader = function()
     {
 
-        //
-        var obj = this;
+        let obj = this;
         this.element = $(selectors.modal.uploader);
         this.dataTable = $(selectors.modal.dataTable).DataTable();
         this.progress = this.element.next();
         this.category = this.element.data('category');
 
 
-        //
-        var params = {
+        let params = {
 
             runtimes : 'gears,html5,flash,silverlight,browserplus',
             max_file_size : '20mb',
@@ -689,7 +601,6 @@
         }
 
 
-        //
         this.init = function()
         {
             if (!obj.element.data('plupload') || obj.element.data('plupload')=='undefined')
@@ -701,12 +612,10 @@
 
         this.init_plupload = function()
         {
-            //
             // Évènement de démarrage de l'upload (envoi des fichiers)
-            var button_upload_id = (Math.random() + '').replace('0.', '');
+            let button_upload_id = (Math.random() + '').replace('0.', '');
             obj.element.attr("id", button_upload_id);
 
-            //
             // Initialisation de l'uploader
             params = {
 
@@ -736,15 +645,14 @@
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'plupload_file[titre]': file.name, 'plupload_file[public]': flcore.modal.launcher.editor ? true : false };
+                        up.settings.multipart_params = { 'plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'plupload_file[title]': file.name, 'plupload_file[public]': flcore.modal.launcher.editor ? true : false };
 
                     },
 
                     UploadFile: function(up, file) {
 
-                        //
                         // On ajoute un élément à la liste des images, avec une barre de progression
-                        var new_item = '<li id="' + file.id + '" class="width-200">';
+                        let new_item = '<li id="' + file.id + '" class="width-200">';
                         new_item += '<div class="info">'+file.name+'</div>';
                         new_item += '<div class="progress"><div class="progress-bar" style="width: 0;"></div></div>';
                         new_item += '</li>';
@@ -768,7 +676,6 @@
 
                     FileUploaded: function(upload, file, response) {
 
-                        //
                         flcore.modal.load_files();
 
                     }
@@ -788,8 +695,6 @@
     };
 
 
-
-    //
     $.fn.extend({
 
         FileManager: function(options)
@@ -798,7 +703,7 @@
             {
                 // Le launcher initie les comportements du widget
                 // et transmet les bons paramètres au core
-                var launcher = new FL_Launcher(this, options);
+                let launcher = new FL_Launcher(this, options);
                 $(this).data('launcher', launcher);
 
 
@@ -810,7 +715,7 @@
 
 
 
-    var FL_Core = function()
+    let FL_Core = function()
     {
         this.modal = new FL_Modal();
         this.uploader = new FL_Uploader();
@@ -819,8 +724,7 @@
     }
 
 
-
-    var flcore = false;
+    let flcore = false;
 
 
     $(document).ready(function() {

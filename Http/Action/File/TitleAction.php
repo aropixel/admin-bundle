@@ -36,7 +36,7 @@ class TitleAction extends AbstractController
 
         $fileClassName = $this->fileManager->getFileClassName();
         $image = $em->getRepository($fileClassName)->find($file_id);
-        $image->setTitre($title);
+        $image->setTitle($title);
         $em->flush();
 
         return new Response('Done', Response::HTTP_OK);

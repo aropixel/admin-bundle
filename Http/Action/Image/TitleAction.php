@@ -34,7 +34,7 @@ class TitleAction extends AbstractController
         $title = $request->get('value');
 
         $image = $this->imageRepository->find($image_id);
-        $image->setTitre($title);
+        $image->setTitle($title);
         $this->entityManager->flush();
 
         return new Response('Done', Response::HTTP_OK);

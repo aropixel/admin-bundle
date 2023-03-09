@@ -27,7 +27,9 @@ body {
     background-color: var(--light-grey);
 }
 
-
+.text-right {
+    text-align: right;
+}
 
 .text-underlined-dashed {
     text-decoration: underline;
@@ -560,7 +562,7 @@ table.dataTable td, table.dataTable th {
 .dataTables_length {
     float: right;
     display: inline-block;
-    margin: 14px 40px 0 0;
+    margin: 14px 15px 0 0;
 }
 .dataTables_length > label > span:first-child {
     float: left;
@@ -724,7 +726,7 @@ div.dataTables_wrapper div.dataTables_paginate {
     position: absolute;
     left: 0;
     top: 0%;
-    margin-top: -17px;
+    /*margin-top: -17px;*/
     width: 100%;
     height: 100%;
     text-align: center;
@@ -1673,7 +1675,7 @@ p, ul:not(.list-unstyled), ol {
     line-height: 18px;
 }
 
-.page-item .page-link {
+/*.page-item .page-link {
     margin: 0 10px;
     color: var(--main-bg-color);
     border-radius: 10px;
@@ -1689,7 +1691,7 @@ p, ul:not(.list-unstyled), ol {
 
 .page-item.disabled .page-link  {
     background-color: var(--light-grey);
-}
+}*/
 
 
 /* colors */
@@ -1865,7 +1867,9 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 
 #libraryDataTable tr td:first-child,
-#libraryDataTable tr th:first-child {
+#libraryDataTable tr th:first-child,
+#filesLibraryDataTable tr td:first-child,
+#filesLibraryDataTable tr th:first-child{
     padding-left: 40px;
 }
 #libraryDataTable tr td:last-child,
@@ -2094,6 +2098,7 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 #offcanvasForm .offcanvas-body {
     padding-left: 50px;
     padding-right: 50px;
+    padding-bottom: 30px;
 }
 
 .offcanvas-buttons {
@@ -2178,7 +2183,7 @@ body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item > .nav-link:hover
 }
 
 .main-sidebar .sidebar-menu li.active a, .main-sidebar .sidebar-menu li:hover a {
-    color: var(--main-bg-color);
+    color: var(--main-bg-color) !important;
 }
 
 body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
@@ -2197,4 +2202,111 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
 
 body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
     background-color: var(--main-bg-color);
+}
+
+
+/* FILES */
+
+
+.image-actions .btn {
+    height: calc(1.5em + 1.1rem + 2px);
+    width: calc(1.5em + 1.1rem + 2px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%)!important;
+    text-align: center;
+}
+
+.image-actions .btn i {
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 1rem!important;
+    color: #a1a5b7;
+    margin-right: 0!important;
+}
+.image-actions .btn.btn-light-primary:hover {
+    color: #20d489;
+    background-color: #e4fff4!important;
+}
+
+.image-actions .btn.btn-light-primary:hover i {
+    color: #20d489;
+}
+
+.image-actions .btn.btn-light-danger {
+    color: #fff;
+    background-color: #d42020;
+}
+
+
+/* modal */
+
+#modalFilesLibrary .datatable-scroll,
+#modalLibrary .datatable-scroll {
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+#modalFilesLibrary .modal-header,
+#modalLibrary .modal-header {
+    padding-left: 40px;
+}
+
+/* Files */
+
+.tableFiles {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    --bs-table-color: var(--bs-body-color);
+    --bs-table-bg: #fff;
+    --bs-table-border-color: #fff;
+    --bs-table-striped-bg: #fff;
+    width: 100%;
+    color: var(--bs-table-color);
+    vertical-align: top;
+    border-color: transparent;
+}
+
+.table-striped tbody tr {
+    background-color: #fff !important;
+}
+
+.btn.btn-file-action {
+    height: calc(1.5em + 1.1rem + 2px);
+    width: calc(1.5em + 1.1rem + 2px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%)!important;
+    text-align: center;
+}
+
+.btn-file-action i {
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 1rem!important;
+    color: #a1a5b7 !important;
+    margin-right: 0!important;
+}
+
+.btn-file-action.btn-light-primary:hover {
+    color: #20d489;
+    background-color: #e4fff4!important;
+}
+
+.btn-file-action.btn.btn-light-primary:hover i {
+    color: #20d489 !important;
+}
+
+.itemFile .fa-unlink {
+    color: var(--danger-color);
+}
+
+.itemFile .iconUnlinkFile {
+    cursor : pointer;
 }

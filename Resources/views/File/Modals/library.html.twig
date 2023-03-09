@@ -1,47 +1,48 @@
 
-    <!-- Full width modal -->
-	<div id="modalFilesLibrary" class="modal fade">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Choisir des fichiers</h5>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- Full width modal -->
+<div id="modalFilesLibrary" class="modal fade">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Choisir des fichiers</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+
+			<div class="row">
+
+				<div id="library_container" class="col-md-12">
+					<table id="filesLibraryDataTable" class="table" data-src="{{ path('file_ajax') }}">
+						<thead>
+						<tr>
+							<th class="no-sort" style="width: 20px;"><input type="checkbox"></th>
+							<th class="no-sort" style="width: 50px;">&nbsp;</th>
+							<th>Titre</th>
+							<th>Date</th>
+							<th>Propriétés</th>
+							<th class="text-center no-sort" align="center"></th>
+						</tr>
+						</thead>
+					</table>
 				</div>
 
-				<div class="modal-body">
+			</div>
 
-					<div class="row">
-
-						<div id="library_container" class="col-md-12">
-							<table id="filesLibraryDataTable" class="table" data-src="{{ path('file_ajax') }}">
-								<thead>
-									<tr>
-										<th width="10" class="no-sort"><input type="checkbox"></th>
-		                                <th width="30" class="no-sort">&nbsp;</th>
-		                                <th>Titre</th>
-		                                <th>Date</th>
-		                                <th>Propriétés</th>
-		                                <th width="60" class="text-center no-sort" align="center"></th>
-						            </tr>
-								</thead>
-							</table>
-						</div>
-
-					</div>
-
+			<div class="alert bg-info" style="border-radius: 0; display: none" id="alertNoImg">
+				<span class="text-semibold">Attention!</span> Veuillez sélectionner un ficher.
+			</div>
+			<div class="modal-footer d-flex justify-content-between">
+				<div>
+					<button type="button" class="btn btn-primary file-uploader" data-path="{{ path('file_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">Uploader un fichier<i class="icon-upload position-right"></i></button>
+					<ul class="progress-upload d-inline-block"></ul>
 				</div>
-				<div class="alert bg-info" style="border-radius: 0px; display: none" id="alertNoImg">
-					<span class="text-semibold">Attention!</span> Veuillez sélectionner un ficher.
-				</div>
-				<div class="modal-footer">
-					<div class="mr-auto">
-						<button type="button" class="btn btn-primary file-uploader" data-path="{{ path('file_upload') }}" data-category="{{ category }}" data-dataTabler="#filesLibraryDataTable">Uploader un fichier <i class="icon-upload position-right"></i></button>
-						<ul class="progress-upload d-inline-block"></ul>
-					</div>
-					<button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+				<div>
+					<button type="button" class="btn btn-default m-r-15" data-dismiss="modal">Fermer</button>
 					<button type="button" class="btn btn-primary attach-files">Ajouter les fichiers</button>
 				</div>
 			</div>
+
 		</div>
+
 	</div>
-	<!-- /full width modal -->
+</div>
+<!-- /full width modal -->

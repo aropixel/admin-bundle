@@ -75,13 +75,11 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
             multiple: false,
         }
 
-        //
         this.config = $.extend(defaults, $(element).data() || {});
         this.element = $(element);
         this.selectors = selectors;
 
 
-        //
         if (typeof options === 'object' && ("editor" in options))
         {
             this.element.data('imLibrary', options.category);
@@ -113,7 +111,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
         imcore.modal.set_launcher(launcher);
         $(selectors.modal.id).modal('show');
 
-        //
         this.insert_image = function()
         {
 
@@ -131,7 +128,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
             });
 
 
-            //
             _attach_params['images'] = _attach;
             _attach_params['width'] = $(selectors.settings.sizeField).val();
             _attach_params['filter'] = $(selectors.settings.filterField).val();
@@ -199,7 +195,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
             });
 
 
-            //
             _attach_params['route']        = launcher.config.imRoute;
             _attach_params['multiple']     = '0';
             _attach_params['images']       = _attach;
@@ -221,7 +216,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
 
 
 
-            //
             $.post(_thumbData.imAttachPath,  _attach_params, function(result) {
 
                 // Update widget image
@@ -313,14 +307,11 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
         }
 
 
-        //
         this.open_crop = function() {
 
         }
 
     }
-
-
 
 
 
@@ -610,7 +601,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
 
 
 
-        //
         this.detach = function() {
 
 
@@ -638,7 +628,6 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
         }
 
 
-        //
         this.open_crop = function() {
 
         }
@@ -803,7 +792,7 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
                 } )
             };
 
-            //
+
             $(selectors.modal.dataTable).DataTable().clearPipeline().destroy();
             $(selectors.modal.dataTable)
                 .on( 'init.dt', function () {
@@ -877,10 +866,8 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
                         let closeModal = $(this).closest('.modal');
                         $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
 
-                            //
                             if (answer == 'OK') {
 
-                                //
                                 imcore.modal.load_pictures();
 
                             }

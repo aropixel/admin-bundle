@@ -40,6 +40,7 @@ class DefaultDataTableRepository implements DataTableRepositoryInterface
     public function count(DataTableInterface $dataTable): int
     {
         $context = $dataTable->getContext();
+
         $qb = $this->em->getRepository($dataTable->getClassName())->{$this->repositoryMethodName}($context);
 
         $qb->select('COUNT('.$this->getTableAs($dataTable).')');

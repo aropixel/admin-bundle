@@ -21,7 +21,7 @@ class File implements FileInterface
     /**
      * @var string  File title
      */
-    protected $titre;
+    protected $title;
 
     /**
      * @var string  Regroup files for displaying specific files libraries
@@ -90,27 +90,33 @@ class File implements FileInterface
         return $this->id;
     }
 
-    /**
-     * Set titre
-     *
-     * @param string $titre
-     * @return self
-     */
-    public function setTitre($titre)
+
+    public function setTitle(string $title) : self
     {
-        $this->titre = $titre;
+        $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get titre
-     *
-     * @return string
-     */
-    public function getTitre()
+    public function getTitle() : string
     {
-        return $this->titre;
+        return $this->title;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function setTitre(string $title) : self
+    {
+        return $this->setTitle($title);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getTitre() : string
+    {
+        return $this->getTitle();
     }
 
     /**
@@ -354,7 +360,7 @@ class File implements FileInterface
      */
     public function getRewritedFileName():string
     {
-        return $this->titre.".".$this->getExtension();
+        return $this->title.".".$this->getExtension();
     }
 
 }
