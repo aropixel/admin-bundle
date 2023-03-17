@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Aropixel\AdminBundle\Repository;
+namespace Aropixel\AdminBundle\Infrastructure\Publication\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 
 /**
@@ -20,9 +21,8 @@ use Doctrine\ORM\EntityRepository;
  *
  * @author  Joel Gomez <joel.gomez@aropixel.com>
  */
-abstract class RepositoryManager extends EntityRepository
+abstract class PublishableRepository extends ServiceEntityRepository
 {
-
 
     /**
      * {@inheritdoc}
@@ -52,8 +52,33 @@ abstract class RepositoryManager extends EntityRepository
             }
         }
 
+        if (!is_null($limit)) {
+            $qb->setMaxResults($limit);
+        }
+
+        if (!is_null($offset)) {
+            $qb->setFirstResult($offset);
+        }
+
 
         return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countPublished(array $orderBy = null, $limit = null, $offset = null)
+    {
+
+        //
+        $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
+        $qb
+            ->select('count(q.id)')
+        ;
+
+        //
+        return $qb->getQuery()->getSingleScalarResult();
+
     }
 
     /**
@@ -63,7 +88,34 @@ abstract class RepositoryManager extends EntityRepository
     {
         //
         $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
-        return $qb->getQuery()->getResult();
+        if ($limit==1) {
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+        else {
+            return $qb->getQuery()->getResult();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findPublishedBy($by, array $orderBy = null, $limit = null, $offset = null)
+    {
+        //
+        $converter = new CamelCaseToSnakeCaseNameConverter();
+
+        $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
+        foreach ($by as $key => $value) {
+            $qb->andWhere('q.'.$key.' = :'.$converter->normalize($key));
+            $qb->setParameter($converter->normalize($key), $value);
+        }
+
+        if ($limit==1) {
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+        else {
+            return $qb->getQuery()->getResult();
+        }
     }
 
     /**

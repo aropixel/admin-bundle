@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use Aropixel\AdminBundle\Domain\Media\File\Library\Repository\FileRepositoryInterface;
 use Aropixel\AdminBundle\Services\FileManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,16 +12,16 @@ use Doctrine\ORM\EntityManagerInterface;
 class SaveAction extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private FileManager $fileManager;
+    private FileRepositoryInterface $fileRepository;
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param FileManager $fileManager
+     * @param FileRepositoryInterface $fileRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, FileManager $fileManager)
+    public function __construct(EntityManagerInterface $entityManager, FileRepositoryInterface $fileRepository)
     {
         $this->entityManager = $entityManager;
-        $this->fileManager = $fileManager;
+        $this->fileRepository = $fileRepository;
     }
 
 
@@ -32,15 +33,12 @@ class SaveAction extends AbstractController
 
         $entity_id = $request->request->get('id');
         $title = $request->request->get('title');
-        $em = $this->entityManager;
 
-        $fileClassName = $this->fileManager->getFileClassName();
-        $file = $em->getRepository($fileClassName)->find($entity_id);
-
+        $file = $this->fileRepository->find($entity_id);
         if ($file) {
 
             $file->setTitle($title);
-            $em->flush();
+            $this->entityManager->flush();
 
         }
 

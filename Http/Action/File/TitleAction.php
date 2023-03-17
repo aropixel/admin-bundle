@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use Aropixel\AdminBundle\Domain\Media\File\Library\Repository\FileRepositoryInterface;
 use Aropixel\AdminBundle\Services\FileManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,33 +12,30 @@ use Doctrine\ORM\EntityManagerInterface;
 class TitleAction extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private FileManager $fileManager;
+    private FileRepositoryInterface $fileRepository;
 
     /**
      * @param EntityManagerInterface $entityManager
-     * @param FileManager $fileManager
+     * @param FileRepositoryInterface $fileRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, FileManager $fileManager)
+    public function __construct(EntityManagerInterface $entityManager, FileRepositoryInterface $fileRepository)
     {
         $this->entityManager = $entityManager;
-        $this->fileManager = $fileManager;
+        $this->fileRepository = $fileRepository;
     }
+
 
     /**
      * Add a title.
      */
     public function __invoke(Request $request) : Response
     {
-
         $file_id = $request->get('pk');
         $title = $request->get('value');
 
-        $em = $this->entityManager;
-
-        $fileClassName = $this->fileManager->getFileClassName();
-        $image = $em->getRepository($fileClassName)->find($file_id);
-        $image->setTitle($title);
-        $em->flush();
+        $file = $this->fileRepository->find($file_id);
+        $file->setTitle($title);
+        $this->entityManager->flush();
 
         return new Response('Done', Response::HTTP_OK);
 
