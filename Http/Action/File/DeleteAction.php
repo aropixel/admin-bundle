@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DeleteAction extends AbstractController
 {
-    private readonly EntityManagerInterface $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @param EntityManagerInterface $entityManager

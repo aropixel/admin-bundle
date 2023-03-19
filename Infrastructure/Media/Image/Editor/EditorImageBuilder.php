@@ -15,8 +15,8 @@ use Liip\ImagineBundle\Service\FilterService;
 class EditorImageBuilder implements EditorImageBuilderInterface
 {
 
-    private readonly PathResolverInterface $pathResolver;
-    private readonly FilterService $filterService;
+    private PathResolverInterface $pathResolver;
+    private FilterService $filterService;
 
     /**
      * @param PathResolverInterface $pathResolver
