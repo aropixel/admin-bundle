@@ -23,7 +23,7 @@
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
     "symfony/mailer": "^4.4|^5.0|^6.0",
-    "symfony/flex": "^2",
+    "symfony/flex": "^1|^2",
     "symfony/framework-bundle": "^4.4|^5.0|^6.0",
     "symfony/string": "^4.4|^5.0|^6.0",
     "twig/extra-bundle": "^2.12|^3.0",
