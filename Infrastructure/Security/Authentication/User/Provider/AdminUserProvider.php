@@ -68,4 +68,14 @@ class AdminUserProvider implements AdminUserProviderInterface
     {
         return $this->em->getRepository($this->getUserClass())->findOneBy(['email' => $identifier]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function loadUserByUsername(string $identifier): UserInterface
+    {
+        return $this->loadUserByIdentifier($identifier);
+    }
+
+
 }
