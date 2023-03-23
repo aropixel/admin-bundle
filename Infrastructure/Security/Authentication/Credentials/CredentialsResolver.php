@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials;
 
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 class CredentialsResolver implements CredentialsResolverInterface
