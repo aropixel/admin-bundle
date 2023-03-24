@@ -989,8 +989,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 .card .card-header h6 + .card-header-action,
 .card .card-header h6 + .card-header-form {
     margin-left: auto; }
-
-
+.card > .table-responsive > .table, .card > .table {
+    margin-bottom: 0;
+}
+.table:not(.table-sm):not(.table-md):not(.dataTable) td:first-child, .table:not(.table-sm):not(.table-md):not(.dataTable) th:first-child {
+    padding-left: 25px;
+}
+.table:not(.table-sm):not(.table-md):not(.dataTable) td:last-child, .table:not(.table-sm):not(.table-md):not(.dataTable) th:last-child {
+    padding-left: 25px;
+}
 
 .badge {
     text-transform: uppercase;
@@ -1716,9 +1723,9 @@ a, a:hover, a:focus {
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active,
 .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled:hover {
-   background-color: var(--main-darker-bg-color) !important;
-   border-color: var(--main-darker-bg-color) !important;
-   color: #fff !important;
+    background-color: var(--main-darker-bg-color) !important;
+    border-color: var(--main-darker-bg-color) !important;
+    color: #fff !important;
 }
 
 .btn-secondary {
@@ -2027,12 +2034,21 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin: 0 0 2px 2px;
 }
 
+.section .section-header .section-header-breadcrumb {
+    margin-top: 6px;
+    color: #888;
+}
+.section .section-header .section-header-breadcrumb .breadcrumb {
+    margin: 0px;
+}
+
+
 .section .section-header .section-header-left-image + .section-header-left-content h1 {
     margin-top: 6px;
 }
 
-.section .section-header .section-header-left-image + .section-header-left-content .breadcrumb {
-    margin: 13px 0 0;
+.section .section-header .section-header-left-image + .section-header-left-content .section-header-breadcrumb {
+    margin-top: 13px;
 }
 
 .section-entry-property + .section-entry-status > div::before {
