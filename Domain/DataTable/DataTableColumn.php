@@ -21,6 +21,11 @@ class DataTableColumn
     private string $style;
 
     /**
+     * @var string Html classes for column
+     */
+    private string $htmlClasses;
+
+    /**
      * @var array Html custom data-attributes
      * ["type" => "date-euro"] gives attribute data-type="date-euro"
      */
@@ -70,6 +75,24 @@ class DataTableColumn
     public function getData(): array
     {
         return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->htmlClasses;
+    }
+
+    /**
+     * @param string $htmlClasses
+     * @return DataTableColumn
+     */
+    public function setClass(string $htmlClasses): DataTableColumn
+    {
+        $this->htmlClasses = $htmlClasses;
+        return $this;
     }
 
 
