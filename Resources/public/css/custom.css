@@ -39,6 +39,10 @@ body {
     cursor: pointer;
 }
 
+hr {
+    border-top-style: dashed;
+    margin: 2.5rem 0!important;
+}
 
 @media (min-width: 992px) and (max-width: 1169px) {
 
