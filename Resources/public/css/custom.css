@@ -90,6 +90,7 @@ body {
 
 
 
+.col-form-label.required:after,
 .form-label.required:after,
 .form-image.required:after {
     content: " *";
@@ -1862,15 +1863,14 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     display: flex;
     flex-wrap: wrap;
 }
-.form-horizontal .form-group .form-label {
+.form-horizontal .form-group .col-form-label {
     flex: 0 0 auto;
     width: 25%;
 }
-.form-horizontal .form-group .form-widget {
+.form-horizontal .form-group .col-form-content {
     flex: 0 0 auto;
     width: 75%;
 }
-
 
 
 #libraryDataTable tr td:first-child,
