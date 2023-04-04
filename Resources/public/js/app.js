@@ -161,8 +161,9 @@ $(function() {
     let $bsSelect = $('.bootstrap-select');
     if ($bsSelect.length) {
 
-        $bsSelect.selectpicker({
-            autoWidth: false
+        $bsSelect.select2({
+            width: '100%',
+            minimumResultsForSearch: -1
         });
 
     }
