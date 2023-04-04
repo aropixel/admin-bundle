@@ -655,6 +655,11 @@ div.dataTables_wrapper div.dataTables_paginate {
     color: #a1a5b7;
     margin-right: 0!important;
 }
+
+.image-widget .image-actions .btn.btn-disabled i {
+    color: #c6cadb!important;
+}
+
 .image-widget .image-actions .btn.btn-light-primary:hover {
     color: #20d489;
     background-color: #e4fff4!important;
@@ -909,7 +914,15 @@ div.dataTables_wrapper div.dataTables_paginate {
 .btn.btn-default:not(.btn-social):not(.btn-social-icon):hover {
     border-color: var(--main-bg-color)!important;
 }
-
+.btn-disabled, .btn.btn-disabled:not(.btn-social):not(.btn-social-icon):hover {
+    box-shadow: 0 1px 3px #e6ecf1;
+    background-color: #f3f3f3;
+    color: #acb7c2;
+    cursor: default;
+}
+.btn-disabled i {
+    color: #acb7c2;
+}
 
 .visual-password-indicator {
     display: inline-block;
@@ -1661,6 +1674,12 @@ p {
 
 .form-group label {
     margin-bottom: 0.5rem;
+}
+
+.form-group .control-label, .form-group > label, .form-group > legend  {
+    font-weight: 500;
+    color: #3f4254;
+    font-size: 14px;
 }
 
 select.form-control:not([size]):not([multiple]) {

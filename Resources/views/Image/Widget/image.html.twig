@@ -53,6 +53,8 @@
 
             {% if form.crops is defined and get_available_crop_filters(form.vars.data, crops)|length > 0 %}
                 <a class="btn btn-sm btn-icon btn-light-primary me-3 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></a>
+            {% else %}
+                <span class="btn btn-sm btn-icon btn-disabled me-3" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></span>
             {% endif %}
 
             {% if form.vars.data and (form.vars.attach_value is defined and form.vars.attach_value and
@@ -60,6 +62,8 @@
                 attribute(form.vars.data, form.vars.attach_value) is not defined)) or (form.vars.data.image is defined and form.vars.data.image)
             %}
                 <a class="btn btn-sm btn-icon btn-light-danger me-3 btnUnlink" title="Retirer l'image"><i class="fas fa-unlink"></i></a>
+            {% else %}
+                <span class="btn btn-sm btn-icon btn-disabled me-3" title="Retirer l'image"><i class="fas fa-unlink"></i></span>
             {% endif %}
         </div>
 
