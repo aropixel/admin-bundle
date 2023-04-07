@@ -781,7 +781,8 @@ $(function() {
     $(".main-content").on('click', 'a.status[data-confirm]', function() {
 
         let _button = $(this);
-        let _btn_group = _button.closest('.btn-group');
+        let _btn_group= _button.closest('.btn-group');
+        let _state_icon= $(this).closest('tr').find('.state-icon');
         let _etat = _btn_group.find('button').hasClass('btn-default') ? 'offline' : 'online';
         let _modalBgClass = (_etat == 'online' ? 'bg-default' : 'bg-primary');
         let _buttonValidClass = (_etat == 'online' ? 'btn-default' : 'btn-primary');
@@ -809,9 +810,14 @@ $(function() {
                     $.get(url, function(answer) {
                         if (answer=='OK') {
 
+                            let stateIconClass = _state_icon.hasClass('state-icon-online') ? 'state-icon-online' : 'state-icon-offline';
+
                             _btn_group.children('a, button')
                                 .removeClass(_etat=='online' ? 'btn-primary' : 'btn-default')
                                 .addClass(_etat!='online' ? 'btn-primary' : 'btn-default');
+                            _state_icon
+                                .removeClass(stateIconClass === 'state-icon-online' ? 'state-icon-online' : 'state-icon-offline')
+                                .addClass(stateIconClass === 'state-icon-offline' ? 'state-icon-online' : 'state-icon-offline');
 
                             _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (_etat=='online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
 

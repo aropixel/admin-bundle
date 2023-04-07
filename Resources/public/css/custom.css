@@ -555,6 +555,11 @@ table.dataTable td, table.dataTable th {
     vertical-align: middle;
 }
 
+.table.dataTable td a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .datatable-header, .datatable-footer {
     overflow: hidden;
 }
@@ -562,12 +567,12 @@ table.dataTable td, table.dataTable th {
     position: relative;
     display: block;
     float: left;
-    margin: 15px 0 5px 40px;
+    margin: 15px 0 5px 25px;
 }
 .dataTables_length {
     float: right;
     display: inline-block;
-    margin: 14px 15px 0 0;
+    margin: 14px 25px 0 0;
 }
 .dataTables_length > label > span:first-child {
     float: left;
@@ -590,7 +595,7 @@ table.dataTable td, table.dataTable th {
 .dataTables_info {
     float: left;
     padding: 8px 0;
-    margin: 10px 0 15px 20px;
+    margin: 10px 0 15px 25px;
 }
 .dataTables_wrapper {
     position: relative;
@@ -598,7 +603,45 @@ table.dataTable td, table.dataTable th {
 div.dataTables_wrapper div.dataTables_paginate {
     float: right;
     text-align: right;
-    margin: 10px 10px 5px 20px;
+    margin: 10px 15px 5px 20px;
+}
+.select2-container--open {
+    z-index: 1100
+}
+table.dataTable td:first-child, table.dataTable th:first-child {
+    padding-left: 25px;
+}
+table.dataTable td:last-child, table.dataTable th:last-child {
+    padding-right: 25px;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+    right: 25px;
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+    right: 33px;
+}
+
+.state-icon {
+    display: inline-block;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    margin-right: 20px;
+    margin-bottom: -3px;
+}
+.state-icon-offline {
+    background-color: #e7e7e7;
+}
+.state-icon-online {
+    background-color: #81d7b1;
 }
 
 .im-manager .card {
@@ -1009,6 +1052,9 @@ div.dataTables_wrapper div.dataTables_paginate {
     margin-left: auto; }
 .card > .table-responsive > .table, .card > .table {
     margin-bottom: 0;
+}
+.card > .table-responsive {
+    overflow-y: visible !important;
 }
 .table:not(.table-sm):not(.table-md):not(.dataTable) td:first-child, .table:not(.table-sm):not(.table-md):not(.dataTable) th:first-child {
     padding-left: 25px;

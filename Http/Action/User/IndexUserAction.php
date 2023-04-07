@@ -26,12 +26,12 @@ class IndexUserAction extends AbstractController
     {
         $users = $this->userRepository->findBy([], ['createdAt' => 'ASC']);
 
-        $columns = array(
-            array('label' => 'Email', 'style' => ''),
-            array('label' => 'Nom', 'style' => ''),
-        );
+        $columns = [
+            ['label' => 'Email', 'style' => ''],
+            ['label' => 'Nom', 'style' => ''],
+        ];
 
-        $delete_forms = array();
+        $delete_forms = [];
         foreach ($users as $user) {
             $deleteForm = $this->formFactory->createDeleteForm($user);
             $delete_forms[$user->getId()] = $deleteForm->createView();
