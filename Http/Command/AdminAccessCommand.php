@@ -10,6 +10,7 @@ namespace Aropixel\AdminBundle\Http\Command;
 
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -38,14 +39,16 @@ class AdminAccessCommand extends AbstractInstallCommand
 
     private PasswordUpdaterInterface $passwordUpdater;
     private UserFactoryInterface $userFactory;
+    private UserRepositoryInterface $userRepository;
 
 
 
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository)
     {
         parent::__construct($em, $validator);
         $this->passwordUpdater = $passwordUpdater;
         $this->userFactory = $userFactory;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -98,20 +101,6 @@ EOT
         OutputInterface $output
     ): User {
 
-
-        //
-//        $userRepository = $this->userRepository->getRepository();
-//
-//        if ($input->getOption('no-interaction')) {
-//
-//            Assert::null($userRepository->findOneBy(array('email' => 'example@mail.com')));
-//
-//            $user->setEmail('example@mail.com');
-//            $user->setPlainPassword('aropixel');
-//
-//            return $user;
-//        }
-
         $email = $this->getAdministratorEmail($input, $output);
         $user->setEmail($email);
         $user->setFirstName($this->getAdministratorName('Prénom', $input, $output));
@@ -159,12 +148,11 @@ EOT
     {
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
-        $userRepository = $this->userManager->getRepository();
 
         do {
             $question = $this->createEmailQuestion();
             $email = $questionHelper->ask($input, $output, $question);
-            $exists = null !== $userRepository->findOneBy(array('email' => $email));
+            $exists = null !== $this->userRepository->findOneBy(array('email' => $email));
 
             if ($exists) {
                 $output->writeln('<error>Cet email est déjà utilisé!</error>');
