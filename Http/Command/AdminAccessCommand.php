@@ -84,6 +84,7 @@ EOT
         $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setEnabled(true);
         $this->passwordUpdater->hashPlainPassword($admin);
+        $this->em->flush();
 
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
@@ -106,6 +107,7 @@ EOT
         $user->setFirstName($this->getAdministratorName('Prénom', $input, $output));
         $user->setLastName($this->getAdministratorName('Nom', $input, $output));
         $user->setPlainPassword($this->getAdministratorPassword($input, $output));
+        $this->em->persist($user);
 
         return $user;
     }
