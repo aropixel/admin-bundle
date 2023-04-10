@@ -642,7 +642,8 @@ table.dataTable thead .sorting_desc_disabled:before {
     background-color: #e7e7e7;
 }
 .state-icon-online {
-    background-color: #81d7b1;
+    background-color: #fff;
+    border: 3px solid #0CABA8;
 }
 
 .im-manager .card {
