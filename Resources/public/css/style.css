@@ -1627,6 +1627,10 @@ h6 .badge {
   background-color: #6777ef;
   color: #fff; }
 
+.btn-group.text-right {
+  display: block;
+}
+
 .btn-progress {
   position: relative;
   background-image: url("../img/spinner-white.svg");
