@@ -35,7 +35,7 @@ class Seo
      * @param  integer $length of the description
      * @return string
      */
-    static public function text(string $text, int $length = 160) : string
+    static public function text(?string $text, int $length = 160) : string
     {
         return self::limitChars(self::clean($text), $length,'',TRUE);
     }
@@ -46,7 +46,7 @@ class Seo
      * @param  integer $max_keys number of keywords
      * @return string
      */
-    static public function keywords(string $text, int $max_keys = 15, bool $clean=true) : string
+    static public function keywords(?string $text, int $max_keys = 15, bool $clean=true) : string
     {
         if ($clean) {
             $text = self::clean(mb_strtolower($text));
@@ -116,7 +116,7 @@ class Seo
      * @param   boolean $preserve_words enable or disable the preservation of words while limiting
      * @return  string
      */
-    private static function limitChars($str, $limit = 100, $end_char = NULL, $preserve_words = FALSE) : string
+    private static function limitChars(?string $str, int $limit = 100, ?string $end_char = NULL, bool $preserve_words = FALSE) : string
     {
         $end_char = ($end_char === NULL) ? '…' : $end_char;
 
