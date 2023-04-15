@@ -142,17 +142,17 @@
 {% block body -%}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
-    <div class="alert alert-success alert-dismissible alert-styled-left alert-arrow-left alert-bordered">
-        {{ flash_message|raw }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-success alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+            {{ flash_message|raw }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
 
     {% for flash_message in app.session.flashbag.get('error') %}
-    <div class="alert alert-warning alert-dismissible alert-styled-left alert-arrow-left alert-bordered">
-        {{ flash_message|raw }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-warning alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+            {{ flash_message|raw }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
 
 

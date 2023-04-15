@@ -748,7 +748,8 @@ $(function() {
 
                 'class' : 'btn-danger',
                 'callback' : function() {
-                    let $form = _button.closest('.btn-group').children('form');
+                    let $btnGroup = _button.closest('.btn-group');
+                    let $form = $btnGroup.find('form');
                     $form.submit();
 
                 },
@@ -782,7 +783,7 @@ $(function() {
 
         let _button = $(this);
         let _btn_group= _button.closest('.btn-group');
-        let _state_icon= $(this).closest('tr').find('.state-icon');
+        let _state_icon = $(this).closest('tr').find('.state-icon');
         let _etat = _btn_group.find('button').hasClass('btn-default') ? 'offline' : 'online';
         let _modalBgClass = (_etat == 'online' ? 'bg-default' : 'bg-primary');
         let _buttonValidClass = (_etat == 'online' ? 'btn-default' : 'btn-primary');
