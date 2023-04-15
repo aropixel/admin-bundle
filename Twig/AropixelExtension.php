@@ -1,9 +1,7 @@
 <?php
 namespace Aropixel\AdminBundle\Twig;
 
-use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Services\Seo;
-use Doctrine\ORM\EntityManagerInterface;
+use Aropixel\AdminBundle\Domain\Seo\Seo;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -13,25 +11,16 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 
-
 class AropixelExtension extends AbstractExtension
 {
-    /** @var RequestStack  */
-    private $requestStack;
-
-    /** @var RouterInterface  */
-    private $router;
-
-    /** @var Seo  */
-    private $seo;
+    private RequestStack $requestStack;
+    private RouterInterface $router;
 
 
-    public function __construct(RequestStack $requestStack, RouterInterface $router, EntityManagerInterface $em, Seo $seo)
+    public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
         $this->requestStack = $requestStack;
         $this->router = $router;
-        $this->em = $em;
-        $this->seo = $seo;
     }
 
     public function getFilters()
@@ -136,29 +125,15 @@ class AropixelExtension extends AbstractExtension
         }
 
 
-//        // Si non trouvé, on cherche dans les champs getMeta[NOM DU CHAMPS] de la traduction
-//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $seoMethod)) {
-//            $seoText = $entity->translate()->{$seoMethod}();
-//        }
-//
-//        // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS] de la traduction
-//        if (!strlen($seoText) && method_exists($entity, 'translate') && method_exists($entity->translate(), $dftMethod)) {
-//            $seoText = $entity->translate()->{$dftMethod}();
-//            if (strlen($seoText)) {
-//                $seoText.= $appendText;
-//            }
-//        }
-
-
         //
         if ($seoField == 'title') {
-            return $this->seo->text($seoText ? $seoText : $defaultText, 70);
+            return Seo::text($seoText ?: $defaultText, 70);
         }
         elseif ($seoField == 'description') {
-            return $this->seo->text($seoText ? $seoText : $defaultText);
+            return Seo::text($seoText ?: $defaultText);
         }
         elseif ($seoField == 'keywords') {
-            return $this->seo->keywords($seoText ? $seoText : $defaultText, 15, $seoText ? true : false);
+            return Seo::keywords($seoText ?: $defaultText, 15, (bool)$seoText);
         }
 
         return $seoText;
@@ -166,7 +141,7 @@ class AropixelExtension extends AbstractExtension
 
     function routeExists($name)
     {
-        return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
+        return !((null === $this->router->getRouteCollection()->get($name)));
     }
 
 
