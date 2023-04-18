@@ -6,9 +6,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AdminUserProvider implements AdminUserProviderInterface
+class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderInterface
 {
     private EntityManagerInterface $em;
     private ParameterBagInterface $parameterBag;
@@ -24,11 +26,21 @@ class AdminUserProvider implements AdminUserProviderInterface
         $this->parameterBag = $parameterBag;
     }
 
+
     private function getUserClass() : string
     {
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         return $entities[\Aropixel\AdminBundle\Entity\UserInterface::class];
     }
+
+
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    {
+        // set the new hashed password on the User object
+        $user->setPassword($newHashedPassword);
+        $this->em->flush();
+    }
+
 
     /**
      * @inheritDoc
