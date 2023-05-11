@@ -3,7 +3,7 @@
 
 {% set modalLibrary = false %}
 
-{% block form_label_class -%} {%- endblock form_label_class %}
+{% block form_label_class -%} col-form-label{%- endblock form_label_class %}
 {% block form_group_class -%} col-form-content{%- endblock form_group_class %}
 
 
@@ -557,11 +557,16 @@
 
 
 
+{% block datetime_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' d-flex')|trim}) -%}
+    {{- parent() -}}
+{%- endblock datetime_widget %}
+
 
 {% block date_widget -%}
     {% if widget == 'single_text' %}
-        <div class="input-group">
-            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+        <div class="input-group input-group-date">
+            <span class="input-group-text"><i class="far fa-calendar"></i></span>
             <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="Entrer une date" {% if value is not empty %}value="{{ date(value)|date("d/m/Y", false) }}" {% endif %} />
         </div>
     {% else -%}
@@ -583,8 +588,8 @@
 
 {% block time_widget -%}
     {% if widget == 'single_text' %}
-        <div class="input-group">
-            <span class="input-group-addon"><i class="icon-alarm"></i></span>
+        <div class="input-group input-group-time">
+            <span class="input-group-text"><i class="far fa-clock"></i></span>
             <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="Entrer une heure&hellip;" {% if value is not empty %}value="{{ value }}" {% endif %} />
         </div>
     {% else -%}
@@ -607,7 +612,7 @@
 {% block select2_row -%}
     <div class="form-group form-group-select2{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
-        <div class="controls">
+        <div class="col-form-content">
             {{- form_widget(form) -}}
             {{- form_errors(form) -}}
         </div>

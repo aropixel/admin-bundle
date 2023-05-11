@@ -251,7 +251,9 @@ button.fa-stack.danger .fa-stack-1x {
 /*    height: 38px;*/
 /*}*/
 
-
+.input-group-date + .input-group-time {
+    margin-left: 20px;
+}
 
 
 
@@ -1917,6 +1919,8 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     display: flex;
     justify-content: center;
     align-items: center; }
+.form-layout .card.align-left {
+    align-items: flex-start!important; }
 .form-layout .card .card-body {
     max-width: 800px!important; }
 .form-layout .card.card-centered-large .card-body {
