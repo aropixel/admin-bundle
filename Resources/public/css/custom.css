@@ -824,6 +824,17 @@ table.dataTable thead .sorting_desc_disabled:before {
     font-size: 13px;
 }
 
+.modal-xxl {
+    width: 90vw;
+    max-width: none;
+}
+
+@media (min-width: 1200px) {
+    .modal-xxl {
+        width: 85vw;
+        max-width: none;
+    }
+}
 
 .modal .popover {
     z-index: 9999;
@@ -1121,7 +1132,30 @@ table.dataTable thead .sorting_desc_disabled:before {
 .btn-rounded {
     border-radius: 100px;
 }
+
+.btn.btn-small {
+    padding: 8px 15px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 600 !important;
+}
+
+.btn.btn-xs {
+    padding: 6px 10px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 400 !important;
+}
+
+.btn-icon {
+    border-radius: 0.225rem;
+}
+
 .btn.btn-icon.btn-sm .ion, .btn.btn-icon.btn-sm .fas, .btn.btn-icon.btn-sm .far, .btn.btn-icon.btn-sm .fab, .btn.btn-icon.btn-sm .fal {
+    font-size: 10px;
+}
+
+.btn.btn-icon.btn-xs .ion, .btn.btn-icon.btn-xs .fas, .btn.btn-icon.btn-xs .far, .btn.btn-icon.btn-xs .fab, .btn.btn-icon.btn-xs .fal {
     font-size: 10px;
 }
 .btn-outline-lg {
@@ -1867,13 +1901,6 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 .tabbable .nav-pills li {
     margin-left: 10px;
-}
-
-.btn.btn-small {
-    padding: 8px 15px !important;
-    box-shadow: none !important;
-    line-height: initial !important;
-    font-weight: 600 !important;
 }
 
 .tabbable .nav-pills .nav-item .nav-link {
