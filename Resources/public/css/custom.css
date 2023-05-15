@@ -634,12 +634,10 @@ table.dataTable thead .sorting_desc_disabled:before {
 }
 
 .state-icon {
-    display: inline-block;
+    display: block;
     border-radius: 50%;
     height: 15px;
     width: 15px;
-    margin-right: 20px;
-    margin-bottom: -3px;
 }
 .state-icon-offline {
     background-color: #e7e7e7;
