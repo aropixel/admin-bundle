@@ -119,9 +119,12 @@
                             <i class="fa fa-times"></i>
                         </a>
                     {% endif %}
-                    <a href="#" data-form-collection="move" class="move">
-                        <i class="fas fa-arrows-alt"></i>
-                    </a>
+                    {% set baseroute = get_baseroute() %}
+                    {% if route_exists(baseroute ~ '_order') %}
+                        <a href="#" data-form-collection="move" class="move">
+                            <i class="fas fa-arrows-alt"></i>
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="collection-content">
                     <div>
