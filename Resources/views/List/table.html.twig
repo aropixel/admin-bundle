@@ -21,10 +21,10 @@
 
     {% for flash_message in app.session.flashbag.get('notice') %}
 
-    <div class="alert alert-success no-border">
-      <button type="button" class="btn-close" data-bs-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-      <p>{{ flash_message }}</p>
-    </div>
+        <div class="alert alert-success no-border alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <p>{{ flash_message }}</p>
+        </div>
 
     {% endfor %}
 
