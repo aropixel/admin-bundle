@@ -82,6 +82,10 @@
     {%- endif %}
 {%- endblock form_errors %}
 
+{% block submit_row -%}
+    {{- form_widget(form) -}}
+{%- endblock submit_row %}
+
 {% block collection_widget -%}
     {% import _self as self %}
     {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
