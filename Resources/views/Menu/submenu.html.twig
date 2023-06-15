@@ -1,5 +1,5 @@
-<li class="nav-item {{ submenu.isActive ? 'active' : '' }} dropdown">
-    <a href="#" class="nav-link has-dropdown" data-bs-toggle="dropdown">
+<li class="nav-item {{ submenu.isActive ? 'active' : '' }} accordion">
+    <a href="#" class="nav-link has-dropdown">
         {% if submenu.getProperty('icon') %}<i class="{{ submenu.getProperty('icon') }}"></i>{% endif %}
         <span>{{ submenu.label }}</span>
     </a>

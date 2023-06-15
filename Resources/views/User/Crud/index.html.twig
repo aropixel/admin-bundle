@@ -20,7 +20,7 @@
             <tr>
                 <th>Titre</th>
                 <th style="width:200px">Créé le</th>
-                <th style="width:200px">Actions</th>
+                <th class="no-sort" style="width:200px">Actions</th>
             </tr>
         </thead>
 
@@ -30,8 +30,8 @@
 
                 <tr>
                     <td>
-                        <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
-                            <span class="state-icon state-icon-{{ user.enabled ? 'online' : 'offline' }}" title="{{ user.enabled ? 'en ligne' : 'hors ligne' }}"></span>
+                        <a class="d-flex align-items-center" href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
+                            <span class="state-icon state-icon-{{ user.enabled ? 'online' : 'offline' }} me-2" title="{{ user.enabled ? 'en ligne' : 'hors ligne' }}"></span>
                             {{ user.completeName }}
                         </a>
                     </td>

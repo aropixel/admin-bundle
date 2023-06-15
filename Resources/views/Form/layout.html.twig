@@ -70,6 +70,24 @@
 {%- endblock form_row %}
 
 
+{% block fieldset_form_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <fieldset{% with {attr: row_attr|merge({class: row_attr.class|default('mb-3')|trim})} %}{{ block('attributes') }}{% endwith %}>
+        <div class="form-group mb-0{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
+            {{- form_label(form) -}}
+            <div class="{{ block('form_group_class') }}">
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_help(form) -}}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </fieldset>
+{%- endblock fieldset_form_row %}
+
+
 {% block form_errors -%}
     {%- if errors|length > 0 -%}
         <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
@@ -204,6 +222,16 @@
 
 {# Labels #}
 
+{% block aropixel_admin_toggle_switch_row %}
+
+    <div class="mb-3 form-group form-check form-switch">
+        <label for="{{ id }}" class="form-check-label col-form-label">{{ label }}</label>
+        <div class="col-form-content">
+            <input type="checkbox" class="form-check-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        </div>
+    </div>
+
+{% endblock %}
 
 
 {% block video_row -%}

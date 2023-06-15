@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
+use App\Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
@@ -48,7 +49,7 @@ class UserType extends AbstractType
                 'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
                 'second_options' => array('label' => 'Confirmer le mot de passe'),
             ))
-            ->add('enabled', CheckboxType::class, array(
+            ->add('enabled', ToggleSwitchType::class, array(
                 'label' => "Actif",
             ))
             ->add('lastName', null, array('label' => 'Nom'))
