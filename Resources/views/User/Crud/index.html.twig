@@ -16,14 +16,11 @@
 
             {% for user in users %}
 
-                <div class="col-md-3">
-                    <div class="card" style="{% if not user.enabled  %}opacity: 0.5;{% endif %}">
+                <div class="col-sm-6 col-md-3">
+                    <div class="card" style="{% if not user.enabled %}opacity: 0.5;{% endif %}">
                         <div class="pt-4 pb-4 ps-3 pe-3 d-block">
 
-                            <div class="d-flex justify-content-between mb-3">
-                                <div>
-                                    <div class="fw-bold badge badge-info">{% if 'ROLE_HYPER_ADMIN'in user.roles %}Hyper Administrateur{% elseif 'ROLE_SUPER_ADMIN'in user.roles %}Super Administrateur{% else %}Administrateur{% endif %}</div>
-                                </div>
+                            <div class="d-flex justify-content-end mb-3">
                                 <div class="btn-group">
                                     <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="btn btn-danger btn-sm delete btn-user"><i class="fas fa-trash"></i> </a>
                                     {{ form(delete_forms[user.id]) }}
