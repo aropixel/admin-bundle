@@ -8,54 +8,45 @@
     </ul>
 {% endblock %}
 
-
-{% block paneltitle %}Liste des administrateurs{% endblock %}
+{% block paneltitle %}{% endblock %}
 
 
 {% block paneldatatable %}
 
-    <table class="table card-table table-vcenter text-nowrap datatable">
+    <div class="row">
 
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th style="width:200px">Créé le</th>
-                <th class="no-sort" style="width:200px">Actions</th>
-            </tr>
-        </thead>
+        {% for user in users %}
 
-        <tbody>
+            <div class="col-md-3">
+                <div class="card" style="{% if not user.enabled  %}opacity: 0.5;{% endif %}">
+                    <div class="pt-4 pb-4 ps-3 pe-3 d-block">
 
-            {% for user in users %}
-
-                <tr>
-                    <td>
-                        <a class="d-flex align-items-center" href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
-                            <span class="state-icon state-icon-{{ user.enabled ? 'online' : 'offline' }} me-2" title="{{ user.enabled ? 'en ligne' : 'hors ligne' }}"></span>
-                            {{ user.completeName }}
-                        </a>
-                    </td>
-                    <td>{{ user.createdAt|datetime('dd/MM/Y') }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="button" class="badge badge-light badge-icon" data-bs-toggle="dropdown" data-boundary="viewport">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                                <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i> Modifier</a>
-                                <div class="dropdown-divider"></div>
-                                <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="delete dropdown-item has-icon text-danger">
-                                    <i class="fas fa-trash"></i> Supprimer
-                                </a>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="fw-bold badge badge-info">{% if 'ROLE_HYPER_ADMIN'in user.roles %}Hyper Administrateur{% elseif 'ROLE_SUPER_ADMIN'in user.roles %}Super Administrateur{% else %}Administrateur{% endif %}</div>
+                            </div>
+                            <div class="btn-group">
+                                <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="btn btn-danger btn-sm delete btn-user"><i class="fas fa-trash"></i> </a>
                                 {{ form(delete_forms[user.id]) }}
                             </div>
                         </div>
-                    </td>
-                </tr>
 
-            {% endfor %}
+                        <div class="text-center mb-3 mt-4">
+                            <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
+                                    <img src="{{ user.image ? user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" alt="" class="w-50 rounded-circle"/>
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <strong>{{ user.completeName }}</strong>
+                            <div class="text-muted lh-1 mt-2 mb-3">{{ user.email }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        </tbody>
-    </table>
+        {% endfor %}
+
+    </div>
 
 {% endblock %}
+
