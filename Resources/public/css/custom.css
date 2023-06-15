@@ -1161,14 +1161,6 @@ table.dataTable thead .sorting_desc_disabled:before {
 .btn-outline-lg {
     border-width: 2px;
 }
-.btn-icon.icon-left > i { margin-right: 4px; }
-.btn-primary:not([href]):not([tabindex]),
-.btn-danger:not([href]):not([tabindex]),
-.btn-primary:not([href]):not([tabindex]):hover,
-.btn-danger:not([href]):not([tabindex]):hover
-{
-    color: #fff;
-}
 
 
 
