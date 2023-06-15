@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Aropixel\AdminBundle\Form\Type;
+namespace Aropixel\AdminBundle\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;

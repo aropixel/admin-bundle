@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
-use App\Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
+use Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
