@@ -1,6 +1,19 @@
-<li class="accordion-item {{ link.isActive ? 'active' : '' }}">
-    <a href="{{ url(link.routeName, link.routeParameters) }}" class="nav-link" data-item="{{ link.id }}">
-        {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
-        <span>{{ link.label }}</span>
-    </a>
-</li>
+{% if admin_theme.menu_position == "top" %}
+
+    <li class="nav-item {{ link.isActive ? 'active' : '' }}">
+        <a href="{{ url(link.routeName, link.routeParameters) }}" class="nav-link" data-item="{{ link.id }}">
+            {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
+            <span>{{ link.label }}</span>
+        </a>
+    </li>
+
+{% else %}
+
+    <li class="accordion-item {{ link.isActive ? 'active' : '' }}">
+        <a href="{{ url(link.routeName, link.routeParameters) }}" class="nav-link" data-item="{{ link.id }}">
+            {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
+            <span>{{ link.label }}</span>
+        </a>
+    </li>
+
+{% endif %}
