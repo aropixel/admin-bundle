@@ -892,6 +892,12 @@ table.dataTable thead .sorting_desc_disabled:before {
     text-decoration: none;
     cursor: pointer;
 }
+.dropdown-menu .accordion-item {
+    border: 0;
+}
+.nav-item.accordion {
+    margin-bottom: 0;
+}
 .dropdown-toggle + .dropdown-menu {
     border: 1px solid #dedede;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1959,10 +1965,15 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 .form-horizontal .form-group .col-form-label {
     flex: 0 0 auto;
     width: 25%;
+    padding-right: 10px;
 }
 .form-horizontal .form-group .col-form-content {
     flex: 0 0 auto;
     width: 75%;
+}
+
+.form-horizontal .form-check-inline {
+    margin-top: 8px;
 }
 
 
@@ -2002,6 +2013,17 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 .form-check-input {
     float: inherit;
+}
+
+.form-check.form-switch .form-check-input {
+    float: none;
+    margin: 10px 0 0 0;
+    width: 30px;
+    height: 15px;
+}
+
+.form-check.form-switch {
+    padding-left: 0;
 }
 
 .form-switch.form-status-switch .form-check-input {
@@ -2296,11 +2318,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
     background-color: var(--main-bg-color);
 }
 
-.main-content {
+/*.main-content {
     padding-top: 100px;
     padding-left: 400px;
     padding-right: 180px;
-}
+}*/
 
 .navbar-bg {
     height: 70px;
