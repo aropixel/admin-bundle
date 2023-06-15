@@ -202,7 +202,7 @@
 
                         {% block image %}
 
-                            {% if form.image is defined  %}
+                            {% if form.image is defined and not form.image.rendered  %}
                                 {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
                                 <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
                             {% endif %}

@@ -1,0 +1,75 @@
+body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item.active > .nav-link {
+    color: var(--main-bg-color);
+}
+
+body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item > .nav-link:before {
+    background-color: var(--main-bg-color);
+}
+
+body.layout-3 .navbar.navbar-secondary .navbar-nav > .nav-item > .nav-link:hover {
+    color: var(--main-bg-color) !important;
+}
+
+.main-sidebar .sidebar-menu li.active a, .main-sidebar .sidebar-menu li:hover a {
+    color: var(--main-bg-color) !important;
+}
+
+body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
+    background-color: var(--main-bg-color);
+}
+
+body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
+    background-color: var(--main-bg-color);
+}
+
+.main-sidebar .sidebar-menu li.menu-header {
+    font-family: 'Nunito', 'Segoe UI', arial;
+}
+
+.main-sidebar .sidebar-menu li.nav-item a {
+    font-weight: 500;
+}
+
+.main-sidebar .sidebar-menu li.active a .fas,
+.main-sidebar .sidebar-menu li.active a .far,
+.main-sidebar .sidebar-menu li.active a .fal,
+.main-sidebar .sidebar-menu li.active a .fab {
+    margin-left: 8px;
+}
+
+.navbar-bg {
+    height: 70px;
+}
+
+.dropdown-menu > li > a > i, .dropdown-menu > .dropdown-header > i, .dropdown-menu > li > a > img, .dropdown-menu > .dropdown-header > img {
+    margin-right: 12px;
+    float: left;
+    margin-top: 8px;
+    top: 0;
+}
+.dropdown-menu > li > a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.dropdown-menu .accordion-item {
+    border: 0;
+}
+.nav-item.accordion {
+    margin-bottom: 0;
+}
+.dropdown-toggle + .dropdown-menu {
+    border: 1px solid #dedede;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.dropdown-item a {
+    display: block;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
+
+.dropdown:focus, .dropdown-toggle:focus {
+    outline: none;
+}

@@ -1,0 +1,98 @@
+#offcanvasForm {
+    width : 50%
+}
+
+#offcanvasForm.showing + .offcanvas-buttons {
+    right: calc(50% + 20px);
+}
+#offcanvasForm.show + .offcanvas-buttons {
+    right: calc(50% + 20px);
+}
+#offcanvasForm.show.hiding + .offcanvas-buttons {
+    transform: rotate(90deg);
+    right: 20px;
+}
+
+#offcanvasForm h2 {
+    font-size: 1.25rem!important;
+    margin-bottom: 1.75rem!important;
+    font-weight: 600!important;
+}
+
+#offcanvasForm .offcanvas-header {
+    padding-left: 20px;
+}
+
+#offcanvasForm .offcanvas-body {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+}
+
+.offcanvas-buttons {
+    position: fixed;
+    transition: right 0.3s ease-in-out;
+    right: 20px;
+    top: 50%;
+    z-index: 990;
+    transform: rotate(90deg);
+    transform-origin: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.offcanvas-buttons .btn,
+.offcanvas-buttons .btn:hover {
+    background-color: var(--main-bg-color)!important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    height: 40px!important;
+    border: 0 none;
+}
+
+.section-entry-properties {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 12px;
+    color: #a1a5b7!important;
+    font-weight: 400;
+    margin-top: 10px;
+    line-height: 28px;
+}
+/*.section-entry-properties [data-bs-toggle="offcanvas"]::after {*/
+/*    content: "\f35d";*/
+/*    font-family: "Font Awesome 5 Free";*/
+/*    font-weight: 900;*/
+/*    font-size: 10px;*/
+/*    color: #333;*/
+/*    position: absolute;*/
+/*    right: -25px;*/
+/*}*/
+.section-entry-properties strong {
+    font-weight: 500;
+    color: #181c32!important;
+}
+.section-entry-property::before {
+    color: #a1a5b7!important;
+    content: " - ";
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.section-entry-property:first-child::before {
+    content: "";
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.section-entry-property + .section-entry-status > div::before {
+    color: #a1a5b7!important;
+    content: " - ";
+    padding-left: 15px;
+    padding-right: 12px;
+}

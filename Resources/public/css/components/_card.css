@@ -1,0 +1,46 @@
+.card { color: #333333; }
+.card .card-header {
+    border-bottom-color: #ececec;
+}
+/*.card .card-title { font-family: 'Nunito', 'Segoe UI', arial; }*/
+.card .card-title:before {
+    content: ' ';
+    border-radius: 5px;
+    height: 8px;
+    width: 30px;
+    background-color: var(--main-bg-color);
+    display: inline-block;
+    float: left;
+    margin-top: 11px;
+    margin-right: 15px;
+}
+.card .card-body:first-child {
+    padding-top: 25px;
+}
+.card .card-header h5,
+.card .card-body h4,
+.card .card-body h5 {
+    font-size: 16px;
+    line-height: 28px;
+    padding-right: 10px;
+    margin-bottom: 0;
+}
+.card .card-header h5 + .card-header-action,
+.card .card-header h5 + .card-header-form,
+.card .card-header h6 + .card-header-action,
+.card .card-header h6 + .card-header-form {
+    margin-left: auto; }
+.card > .table-responsive > .table, .card > .table {
+    margin-bottom: 0;
+}
+.card > .table-responsive {
+    overflow-y: visible !important;
+}
+
+.card.card-primary {
+    border-top: 2px solid var(--main-bg-color);
+}
+
+.im-manager .card {
+    margin-bottom: 0;
+}

@@ -55,7 +55,7 @@ class UserType extends AbstractType
             ->add('lastName', null, array('label' => 'Nom'))
             ->add('firstName', null, array('label' => 'Prénom'))
             ->add('image',ImageType::class, [
-                'label' => 'Image de la modal',
+                'label' => "Avatar",
                 'data_class' => UserImage::class,
                 'required' => false,
             ])

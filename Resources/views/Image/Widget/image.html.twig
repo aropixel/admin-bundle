@@ -1,5 +1,5 @@
 {% if form is defined and form.crops is defined %}
-{% form_theme form.crops '@AropixelAdmin/Form/layout.html.twig' %}
+    {% form_theme form.crops '@AropixelAdmin/Form/layout.html.twig' %}
 {% endif %}
 
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}
@@ -36,7 +36,7 @@
     <div class="image-properties d-flex">
 
         <div>
-            <h2 class="section-title">Image à la une</h2>
+            <h2 class="section-title">{{ form.vars.label ?: 'Image à la une' }}</h2>
             <div class="section-lead mb-4">{{ description is defined and description|length ? description : 'Choisissez une image' }}</div>
 
             <div class="form-group mb-1">

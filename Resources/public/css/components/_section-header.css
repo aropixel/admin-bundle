@@ -1,0 +1,68 @@
+.section-header-left-image {
+    position: relative;
+}
+
+.section-header-left-image img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    margin-right: 14px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
+}
+
+.section-header-left-image .editable-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 0 2px 2px;
+}
+
+.section .section-header .section-header-breadcrumb {
+    margin-top: 13px;
+    color: #888;
+}
+.section .section-header .section-header-breadcrumb .breadcrumb {
+    margin: 0px;
+}
+
+.section .section-header .section-header-left-image + .section-header-left-content h1 {
+    margin-top: 6px;
+}
+
+.tabbable .nav-pills li {
+    margin-left: 10px;
+}
+
+.tabbable .nav-pills .nav-item .nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.tabbable .nav-pills .nav-item .nav-link span {
+    margin-left: 5px;
+}
+
+.btn-animate-collapse span {
+    margin-left: 0;
+}
+
+.tabbable.collapsed .nav-pills .nav-item .nav-link i + span,
+.btn-animate-collapse i + span {
+    display: inline-block;
+    max-width: 0;
+    white-space:nowrap;
+    -webkit-transition: max-width 1s, margin-left 1s;
+    transition: max-width 1s, margin-left 1s;
+    overflow: hidden;
+}
+
+.tabbable.collapsed .nav-pills .nav-item .nav-link.active i + span,
+.tabbable.collapsed .nav-pills .nav-item .nav-link:hover i + span,
+.btn-animate-collapse.active i + span,
+.btn-animate-collapse:hover i + span
+{
+    margin-left: 7px;
+    max-width: 7rem;
+}

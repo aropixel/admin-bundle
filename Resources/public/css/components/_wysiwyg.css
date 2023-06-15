@@ -1,0 +1,168 @@
+/* ------------------------------------------------------------------------------
+*
+*  WYSIHTML5 editor
+*
+* ---------------------------------------------------------------------------- */
+.wysihtml5 {
+    max-height: 450px;
+    resize: vertical;
+    background-color: #fff;
+    overflow: auto;
+    padding: 20px;
+    outline: 0;
+}
+.wysihtml5-editor {
+    border-width: 0;
+    padding: 0;
+}
+.wysihtml5-sandbox {
+    width: 100%!important;
+}
+.bootstrap-wysihtml5-insert-link-modal .modal-dialog,
+.bootstrap-wysihtml5-insert-image-modal .modal-dialog {
+    width: 566px;
+}
+.wysihtml5-toolbar {
+    margin: 0;
+    padding: 15px 20px;
+    padding-bottom: 0;
+    display: block;
+    background-color: #fcfcfc;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.wysihtml5-toolbar > li {
+    display: inline-block;
+    list-style: none;
+    margin: 0 15px 15px 0;
+}
+.wysihtml5-toolbar .dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}
+.wysihtml5-toolbar .dropdown-menu .color-select > li > a:hover,
+.wysihtml5-toolbar .dropdown-menu .color-select > li > a:focus {
+    background-color: #f5f5f5;
+    color: #333333;
+}
+.wysihtml5-commands-disabled .wysihtml5-toolbar .dropdown-menu {
+    display: none !important;
+}
+.wysihtml5-toolbar .dropdown-toggle > [class*=icon-] {
+    margin-right: 7px;
+}
+.wysihtml5-toolbar .dropdown-toggle .caret {
+    margin-left: 7px;
+}
+.wysihtml5-toolbar a[data-wysihtml5-command=bold] {
+    font-weight: bold;
+}
+.wysihtml5-toolbar a[data-wysihtml5-command=italic] {
+    font-style: italic;
+}
+.wysihtml5-toolbar a[data-wysihtml5-command=underline] {
+    text-decoration: underline;
+}
+.wysihtml5-toolbar a.btn.wysihtml5-command-active {
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.wysihtml5-toolbar a.wysihtml5-colors-title {
+    padding-left: 40px;
+}
+.wysihtml5-toolbar .wysihtml5-colors {
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    pointer-events: none;
+    left: 12px;
+    top: 10px;
+    border-radius: 100px;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="black"] {
+    background: black !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="silver"] {
+    background: silver !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="gray"] {
+    background: gray !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="maroon"] {
+    background: maroon !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="red"] {
+    background: red !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="purple"] {
+    background: purple !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="green"] {
+    background: green !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="olive"] {
+    background: olive !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="navy"] {
+    background: navy !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="blue"] {
+    background: blue !important;
+}
+.wysihtml5-toolbar div[data-wysihtml5-command-value="orange"] {
+    background: orange !important;
+}
+.wysiwyg-color-black {
+    color: black;
+}
+.wysiwyg-color-silver {
+    color: silver;
+}
+.wysiwyg-color-gray {
+    color: gray;
+}
+.wysiwyg-color-white {
+    color: white;
+}
+.wysiwyg-color-maroon {
+    color: maroon;
+}
+.wysiwyg-color-red {
+    color: red;
+}
+.wysiwyg-color-purple {
+    color: purple;
+}
+.wysiwyg-color-fuchsia {
+    color: fuchsia;
+}
+.wysiwyg-color-green {
+    color: green;
+}
+.wysiwyg-color-lime {
+    color: lime;
+}
+.wysiwyg-color-olive {
+    color: olive;
+}
+.wysiwyg-color-yellow {
+    color: yellow;
+}
+.wysiwyg-color-navy {
+    color: navy;
+}
+.wysiwyg-color-blue {
+    color: blue;
+}
+.wysiwyg-color-teal {
+    color: teal;
+}
+.wysiwyg-color-aqua {
+    color: aqua;
+}
+.wysiwyg-color-orange {
+    color: orange;
+}

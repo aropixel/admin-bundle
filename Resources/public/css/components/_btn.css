@@ -1,0 +1,143 @@
+.btn {
+    padding: 0.75rem 1.5rem;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 600 !important;
+}
+
+.btn-default, .btn-default.disabled {
+    box-shadow: 0 1px 3px #e6ecf1;
+    background-color: #fff;
+    border-color: var(--main-bg-color);
+    color: #495057;
+}
+
+.btn.btn-default:not(.btn-social):not(.btn-social-icon):active,
+.btn.btn-default:not(.btn-social):not(.btn-social-icon):focus,
+.btn.btn-default:not(.btn-social):not(.btn-social-icon):hover {
+    border-color: var(--main-bg-color)!important;
+}
+.btn-disabled, .btn.btn-disabled:not(.btn-social):not(.btn-social-icon):hover {
+    box-shadow: 0 1px 3px #e6ecf1;
+    background-color: #f3f3f3;
+    color: #acb7c2;
+    cursor: default;
+}
+.btn-disabled i {
+    color: #acb7c2;
+}
+
+.btn-primary, .btn-primary.disabled {
+    box-shadow: 0 2px 6px var(--main-light-color);
+    background-color: var(--main-bg-color);
+    border: 1px solid var(--main-bg-color);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active,
+.btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled:hover {
+    background-color: var(--main-darker-bg-color) !important;
+    border-color: var(--main-darker-bg-color) !important;
+    color: #fff !important;
+}
+
+.btn-secondary {
+    background-color: var(--second-bg-color);
+    border-color: var(--second-bg-color);
+    color: #fff;
+}
+
+.btn-secondary:hover,  .btn-secondary:focus, .btn-secondary:active {
+    background-color: var(--second-darker-bg-color) !important;
+    color: #fff !important;
+}
+
+.btn.btn-rounded.btn-sm {
+    padding: 0;
+    font-size: 12px;
+    width: 28px;
+    height: 28px;
+}
+.btn.btn-rounded.btn-sm .fas,
+.btn.btn-rounded.btn-sm .far,
+.btn.btn-rounded.btn-sm .fal,
+.btn.btn-rounded.btn-sm .fab {
+    margin-right: 0;
+}
+.btn-flat {
+    border-width: 2px;
+    background-color: transparent;
+}
+.btn-rounded {
+    border-radius: 100px;
+}
+
+.btn.btn-small {
+    padding: 8px 15px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 600 !important;
+}
+
+.btn.btn-xs {
+    padding: 6px 10px !important;
+    box-shadow: none !important;
+    line-height: initial !important;
+    font-weight: 400 !important;
+}
+
+.btn-icon {
+    border-radius: 0.225rem;
+}
+
+.btn.btn-icon.btn-sm .ion, .btn.btn-icon.btn-sm .fas, .btn.btn-icon.btn-sm .far, .btn.btn-icon.btn-sm .fab, .btn.btn-icon.btn-sm .fal {
+    font-size: 10px;
+}
+
+.btn.btn-icon.btn-xs .ion, .btn.btn-icon.btn-xs .fas, .btn.btn-icon.btn-xs .far, .btn.btn-icon.btn-xs .fab, .btn.btn-icon.btn-xs .fal {
+    font-size: 10px;
+}
+
+.btn-icon-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-icon-group i {
+    font-size: 16px;
+    color: var(--main-darker-bg-color);
+}
+
+.btn-icon-group .fa-trash {
+    color: var(--danger-color);
+}
+
+.btn-outline-lg {
+    border-width: 2px;
+}
+
+button.fa-stack {
+    background: none;
+    color: var(--main-bg-color);
+    font-weight: 500;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+    border: 0 none;
+    cursor: pointer;
+    position: relative;
+}
+button.fa-stack .fa-stack-2x, button.fa-stack .fa-stack-1x {
+    top: 0;
+}
+
+button.fa-stack.danger .fa-circle {
+    color: #fc544b;
+}
+
+button.fa-stack.danger:hover .fa-circle {
+    color: #fb160a !important;
+}
+
+button.fa-stack.danger .fa-stack-1x {
+    color: #fff;
+}

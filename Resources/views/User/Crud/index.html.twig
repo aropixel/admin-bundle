@@ -22,14 +22,16 @@
 
                             <div class="d-flex justify-content-end mb-3">
                                 <div class="btn-group">
-                                    <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="btn btn-danger btn-sm delete btn-user"><i class="fas fa-trash"></i> </a>
+                                    <button type="button" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="badge badge-danger badge-icon delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                     {{ form(delete_forms[user.id]) }}
                                 </div>
                             </div>
 
                             <div class="text-center mb-3 mt-4">
                                 <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
-                                        <img src="{{ user.image ? user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" alt="" class="w-50 rounded-circle"/>
+                                    <img src="{{ user.image ? user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" alt="" class="w-50 rounded-circle"/>
                                 </a>
                             </div>
                             <div class="text-center">

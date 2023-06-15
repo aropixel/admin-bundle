@@ -421,3 +421,73 @@
 .m-b-65 {
   margin-bottom: 65px!important;
 }
+
+
+.border-top {
+  border-top: 1px solid;
+}
+.border-bottom {
+  border-bottom: 1px solid;
+}
+.border-left {
+  border-left: 1px solid;
+}
+.border-right {
+  border-right: 1px solid;
+}
+.border-lg {
+  border-width: 2px;
+}
+.border-top-lg {
+  border-top: 2px solid;
+}
+.border-bottom-lg {
+  border-bottom: 2px solid;
+}
+.border-left-lg {
+  border-left: 2px solid;
+}
+.border-right-lg {
+  border-right: 2px solid;
+}
+.border-xl {
+  border-width: 3px;
+}
+.border-top-xl {
+  border-top: 3px solid;
+}
+.border-bottom-xl {
+  border-bottom: 3px solid;
+}
+.border-left-xl {
+  border-left: 3px solid;
+}
+.border-right-xl {
+  border-right: 3px solid;
+}
+
+.text-black {
+  font-weight: 900;
+}
+.text-bold {
+  font-weight: 700;
+}
+.text-semibold {
+  font-weight: 600;
+}
+.text-regular {
+  font-weight: 400;
+}
+.text-light {
+  font-weight: 300;
+}
+.text-thin {
+  font-weight: 100;
+}
+.text-muted {
+  color: #999999 !important;
+}
+
+.text-right {
+  text-align: right;
+}
