@@ -2424,3 +2424,8 @@ body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
 .itemFile .iconUnlinkFile {
     cursor : pointer;
 }
+
+.btn-user {
+    border-radius: 2px !important;
+    padding-top: 5px !important;
+}
