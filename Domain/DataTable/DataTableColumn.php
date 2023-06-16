@@ -8,28 +8,28 @@ class DataTableColumn
     /**
      * @var string Column title
      */
-    private string $label;
+    private string $label = "";
 
     /**
      * @var string Target field in query builder
      */
-    private string $queryField;
+    private string $queryField = "";
 
     /**
      * @var string Inline style for column
      */
-    private string $style;
+    private string $style = "";
 
     /**
      * @var string Html classes for column
      */
-    private string $htmlClasses;
+    private string $htmlClasses = "";
 
     /**
      * @var array Html custom data-attributes
      * ["type" => "date-euro"] gives attribute data-type="date-euro"
      */
-    private array $data;
+    private array $data = [];
 
     /**
      * @param string $label
