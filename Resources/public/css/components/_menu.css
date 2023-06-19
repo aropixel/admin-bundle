@@ -20,6 +20,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu > li.active > a:before {
 
 body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
     background-color: var(--main-bg-color);
+    color: #fff !important;
 }
 
 .main-sidebar .sidebar-menu li.menu-header {
