@@ -256,6 +256,22 @@ p, ul:not(.list-unstyled), ol {
 
 /* colors */
 
+.bg-pink {
+    background-color: #EC0868;
+    border-color: #EC0868;
+    color: #fff;
+}
+
+.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.bg-teal {
+    background-color: #0F8B8D;
+    border-color: #0F8B8D;
+    color: #fff;
+}
+
 .navbar-bg {
     background-color: var(--main-bg-color);
 }
