@@ -68,7 +68,7 @@
 {% block header %}
 
     <div class="section-header-left">
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
             {% block header_image %}
                 {% if form.image is defined %}
                     <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
@@ -80,7 +80,7 @@
             <div class="section-header-left-content">
 
                 <div class="d-flex align-items-center{% if form.image is defined %}{% endif %}">
-                    <h1>{% block header_title %}{% endblock %}</h1>
+                    <h1 class="mt-0">{% block header_title %}{% endblock %}</h1>
 
                     {% if block('header_elements') is defined %}
                         {% set _elements = block('header_elements') %}

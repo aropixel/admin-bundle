@@ -92,6 +92,24 @@ hr {
     border: 3px solid #0CABA8;
 }
 
+.img-state-icon {
+    display: block;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    border: 3px solid #fff;
+    position: absolute;
+    bottom: 0;
+    right: -7px;
+}
+
+.img-state-icon--online {
+    background-color: #0CABA8;
+}
+.img-state-icon--offline {
+    background-color: #e7e7e7;
+}
+
 .badge {
     text-transform: uppercase;
     border: 1px solid transparent;
