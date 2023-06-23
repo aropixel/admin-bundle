@@ -57,6 +57,7 @@
 .section-entry-properties {
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
     align-items: center;
     font-size: 12px;
     color: #a1a5b7!important;

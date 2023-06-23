@@ -98,12 +98,12 @@
         </div>
     </div>
 
-    <div>
+    <div class="section-header-right">
         <div class="text-end">
             {% if has_tabs %}
                 {% set _navtabs = block('tabbable') %}
                 <div class="tabbable {% if tabbableCollapsed %}collapsed {% endif %}">
-                    <ul class="nav nav-pills" role="tablist">
+                    <ul class="nav nav-pills justify-content-end" role="tablist">
                         {% if _navtabs is defined %}
                             {{ _navtabs|raw }}
                         {% endif %}

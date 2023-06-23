@@ -125,6 +125,7 @@ class ImageType extends AbstractType implements DataMapperInterface
                         'data_class'  => $options['crop_class'],
                     ),
                     'suffix'  => $this->cropSuffix[$builder->getName()],
+                    'crops' => $options['crops']
                 ))
             ;
         }

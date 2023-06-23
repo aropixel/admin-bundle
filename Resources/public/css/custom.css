@@ -120,6 +120,9 @@ hr {
     border-radius: 2px;
     padding: 5px 12px;
 }
+.badge:hover {
+    color: #fff;
+}
 .badge-flat {
     background-color: transparent;
     border-width: 2px;
