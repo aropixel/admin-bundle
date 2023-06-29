@@ -8,15 +8,23 @@
 .btn-default, .btn-default.disabled {
     box-shadow: 0 1px 3px #e6ecf1;
     background-color: #fff;
+    border-color: #fff;
+    color: #495057;
+}
+
+.btn-outline, .btn-outline.disabled {
+    box-shadow: 0 1px 3px #e6ecf1;
+    background-color: #fff;
     border-color: var(--main-bg-color);
     color: #495057;
 }
 
-.btn.btn-default:not(.btn-social):not(.btn-social-icon):active,
-.btn.btn-default:not(.btn-social):not(.btn-social-icon):focus,
-.btn.btn-default:not(.btn-social):not(.btn-social-icon):hover {
+.btn.btn-outline:not(.btn-social):not(.btn-social-icon):active,
+.btn.btn-outline:not(.btn-social):not(.btn-social-icon):focus,
+.btn.btn-outline:not(.btn-social):not(.btn-social-icon):hover {
     border-color: var(--main-bg-color)!important;
 }
+
 .btn-disabled, .btn.btn-disabled:not(.btn-social):not(.btn-social-icon):hover {
     box-shadow: 0 1px 3px #e6ecf1;
     background-color: #f3f3f3;

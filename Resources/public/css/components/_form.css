@@ -12,7 +12,10 @@
     padding-top: 60px; }
 .form-layout .card-body:last-child {
     padding-bottom: 60px; }
-
+.form-layout .card.card-large .card-body {
+    padding: 60px 40px;
+    max-width: 100% !important;
+}
 .form-layout .card-body {
     flex: 1 1 auto;
     width: 100%;

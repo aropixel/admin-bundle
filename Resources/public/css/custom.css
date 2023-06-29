@@ -261,6 +261,12 @@ hr {
     text-decoration: none;
 }
 
+.main-wrapper-1 .section .section-header {
+    margin: 0 0 20px 0 !important;
+    border: 0;
+    padding: 20px 0;
+}
+
 
 /**  X-EDITABLE PLUGIN  **/
 
