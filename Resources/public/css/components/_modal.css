@@ -14,21 +14,25 @@
     font-weight: 600;
 }
 .modal-header.bg-danger,
+.modal-header.bg-success,
 .modal-header.bg-primary
 {
     padding: 18px 25px 15px;
 }
 .modal-header.bg-danger .modal-title,
+.modal-header.bg-success .modal-title,
 .modal-header.bg-primary .modal-title {
     color: #fff;
 }
 .modal-header.bg-danger .close,
+.modal-header.bg-success .close,
 .modal-header.bg-primary .close {
     color: #fff;
     opacity: 0.9;
     text-shadow: none;
 }
 .modal-header.bg-danger + .modal-body,
+.modal-header.bg-success + .modal-body,
 .modal-header.bg-primary + .modal-body {
     padding-top: 25px;
 }
