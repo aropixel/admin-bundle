@@ -3,7 +3,9 @@
 {% endif %}
 
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}
+
 <div class="image-widget">
+
     <div class="thumbnail"
          data-im-attach-path="{{ path('image_attach') }}"
          data-im-attach-class="{{ form.vars.attach_class }}"
@@ -20,53 +22,68 @@
 
          data-im-image-id="{{ form.vars.data is defined and form.vars.data and form.vars.data.image ? form.vars.data.image.id : '' }}"
 
-    {% endif %}
-    {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %} >
+        {% endif %}
+        {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %}
+    >
+
+        {% set savedImage =
+            form.vars.data and (form.vars.attach_value is defined and form.vars.attach_value and
+            ((attribute(form.vars.data, form.vars.attach_value) is defined and attribute(form.vars.data, form.vars.attach_value)) or
+            attribute(form.vars.data, form.vars.attach_value) is not defined)) or (form.vars.data.image is defined and form.vars.data.image)
+        %}
+
         <div class="thumb">
 
             {{ include('@AropixelAdmin/Image/Widget/_preview.html.twig') }}
             {{ include('@AropixelAdmin/Image/Widget/_caption.html.twig') }}
 
+            <div class="image-actions {% if not savedImage %}visually-hidden{% endif %}">
 
-        </div>
-    {#        {% if form.vars.card_footer %}#}
-    {#            {{ include('@AropixelAdmin/Image/Widget/_footer.html.twig') }}#}
-    {#        {% endif %}#}
-    </div>
-    <div class="image-properties d-flex">
-
-        <div>
-            <h2 class="section-title">{{ form.vars.label ?: 'Image à la une' }}</h2>
-            <div class="section-lead mb-4">{{ description is defined and description|length ? description : 'Choisissez une image' }}</div>
-
-            <div class="form-group mb-1">
-                <label class="col-form-label flex-grow-1">Texte alternatif</label>
-                <div class="form-widget">
-                    <input type="text" value="" placeholder="" class="form-control" />
+                <div class="btn-group">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item btnUpload" href="#" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="Choisir une image"><i class="far fa-image me-2"></i> Modifier l'image</a>
+                            {% if savedImage %}
+                                {% if form.crops is defined and get_available_crop_filters(form.vars.data, crops)|length > 0 %}
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt me-2"></i> Redimensionner l'image</a>
+                                {% endif %}
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> Modifier le texte alternatif</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger btnUnlink" href="#"><i class="fas fa-unlink me-2"></i> Retirer l'image</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
         </div>
 
-        <div class="image-actions">
-            <a class="btn btn-sm btn-icon btn-light-primary me-3 btnUpload" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="Choisir une image"><i class="far fa-image"></i></a>
+    </div>
 
-            {% if form.crops is defined and get_available_crop_filters(form.vars.data, crops)|length > 0 %}
-                <a class="btn btn-sm btn-icon btn-light-primary me-3 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></a>
-            {% else %}
-                <span class="btn btn-sm btn-icon btn-disabled me-3" title="Recadrer l'image"><i class="fas fa-crop-alt"></i></span>
-            {% endif %}
+    {% if form.vars.data %}
 
-            {% if form.vars.data and (form.vars.attach_value is defined and form.vars.attach_value and
-                ((attribute(form.vars.data, form.vars.attach_value) is defined and attribute(form.vars.data, form.vars.attach_value)) or
-                attribute(form.vars.data, form.vars.attach_value) is not defined)) or (form.vars.data.image is defined and form.vars.data.image)
-            %}
-                <a class="btn btn-sm btn-icon btn-light-danger me-3 btnUnlink" title="Retirer l'image"><i class="fas fa-unlink"></i></a>
-            {% else %}
-                <span class="btn btn-sm btn-icon btn-disabled me-3" title="Retirer l'image"><i class="fas fa-unlink"></i></span>
-            {% endif %}
+        <div class="modal fade" id="modalAlt{{ form.vars.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Texte alternatif</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-widget">
+                            <input type="text" value="" placeholder="" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
+    {% endif %}
+
 </div>
 

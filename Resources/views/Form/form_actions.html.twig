@@ -1,0 +1,68 @@
+<div class="d-flex align-items-center form-action-btns">
+
+    {% if form.status is defined %}
+
+        {% set publishable = form.vars.value %}
+
+        <div class="form-switch form-status-switch">
+            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "Non publié") }}</label>
+            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
+            {{ form_widget(form.status) }}
+        </div>
+
+    {% endif %}
+
+    {% block publishAction %}
+
+        {% set deleteRoute = app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
+        {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
+
+        {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined %}
+
+        <div class="btn-group">
+
+            <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form">
+                Enregistrer
+            </button>
+
+            {% block publishDropdownActions %}
+
+                {% if previewPath is defined or form.createdAt is defined or deleteRoute %}
+
+                    <button type="button" class="btn btn-secondary btn-small dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+
+                    <div class="dropdown-menu">
+
+                        {% if previewPath is defined %}
+                            <a class="dropdown-item" href="#">Prévisualiser</a>
+                        {% endif %}
+
+                        {% if publicationOptions %}
+                            <a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Options de publication</a>
+                        {% endif %}
+
+                        {% if deleteRoute %}
+                            {% if previewPath is defined or publicationOptions %}
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
+                                <a id="delete_button" class="dropdown-item text-danger cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Supprimer">
+                                    Supprimer
+                                </a>
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
+                                <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
+                            </form>
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endblock %}
+
+        </div>
+
+    {% endblock %}
+
+</div>

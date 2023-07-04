@@ -13,43 +13,52 @@
     </ul>
 {% endblock %}
 
-{% set tabbableCollapsed = false %}
 
-{% block formtitle %}{% if user and user.id %}Modifier un utilisateur{% else %}Ajouter un utilisateur{% endif %}{% endblock %}
-
-{% block publishState %}
-    <div class="section-entry-status">
-        <div class="d-flex align-items-center">
-            <div>{{ user.enabled ? "Actif" : "Inactif" }} </div>
-            <span class="status-indicator {{ user.enabled ? "checked" : "" }}"></span>
-        </div>
-    </div>
+{% block tabbable %}
+    <li class="nav-item"><a href="#panel-tab1" data-bs-toggle="pill" class="nav-link active">Configuration</a></li>
+    <li class="nav-item"><a href="#panel-tab2" data-bs-toggle="pill" class="nav-link">Avatar</a></li>
 {% endblock %}
+
 
 {% block mainPanel %}
 
-    <div class="card">
+    <div class="tab-pane active" id="panel-tab1">
 
-        <div class="card-body">
+        <div class="card">
 
-            {{ form_row(form.enabled) }}
+            <div class="card-body">
 
-            {{ form_row(form.lastName) }}
-            {{ form_row(form.firstName) }}
+                {{ form_row(form.enabled) }}
 
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                {{ form_row(form.superAdmin) }}
-            {% endif %}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.firstName) }}
 
-            {{ form_row(form.email) }}
-            {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
-            {{ form_row(form.plainPassword.second) }}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {{ form_row(form.superAdmin) }}
+                {% endif %}
+
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+                {{ form_row(form.plainPassword.second) }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="tab-pane tab-pane-img" id="panel-tab2">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                {{ form_row(form.image) }}
+
+            </div>
 
         </div>
 
     </div>
 
 {% endblock %}
-
-
-{% block publishStatus %}{% endblock %}

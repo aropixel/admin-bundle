@@ -236,6 +236,7 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
                 // Remove all action buttons except upload (first)
                 launcher.element.find(".image-actions .btnUnlink").remove();
                 launcher.element.find(".image-actions .iconCrop").remove();
+                $('.image-actions').removeClass('visually-hidden');
                 launcher.element.find(".image-actions .btnUpload").after($(result).find('.image-actions .btnUnlink'));
 
                 /*launcher.element.find(".caption-overflow a:not(:first-child)").remove();
@@ -285,6 +286,7 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
                             let _preview = launcher.element.find(".preview");
                             launcher.element.find(".preview > img").replaceWith(_preview.attr('data-new'));
                             //launcher.element.find(".caption-overflow .iconUnlink").remove();
+                            $('.image-actions').addClass('visually-hidden');
                             launcher.element.find(".image-actions .btnUnlink").remove();
                             launcher.element.find(".image-actions .iconCrop").remove();
                             launcher.element.find(".caption-overflow .iconCrop").remove();

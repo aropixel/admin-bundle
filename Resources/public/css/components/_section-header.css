@@ -18,51 +18,41 @@
     flex: 1;
 }
 
+.section-header-left-image {
+    position: relative;
+}
+
+.section-header-left-image img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    margin-right: 14px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
+}
+
+.section-header-left-image .editable-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 0 2px 2px;
+}
+
 .btn-animate-collapse span {
     margin-left: 0;
 }
 
-.section-header-resume .card-body {
-    padding: 40px 40px 0 40px !important;
-}
-
-.section-header-resume h2 {
-    font-size: 22px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.section-header-resume .header-image {
-    position: relative;
-}
-
-.section-header-resume .header-image img {
-    height: 160px;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.section-header-resume .header-image .editable-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.section-header-resume .header-content {
-    padding: 20px 20px 0 20px;
-}
-
-.section-header-resume .section-entry-status .status-indicator {
-    width: 15px;
-    height: 15px;
-    margin-left: 10px;
+.section-entry-properties {
+    margin-bottom: 30px;
+    padding-right: 10px;
 }
 
 .section-entry-properties strong {
     font-weight: 500;
     color: #181c32!important;
 }
+
 .section-entry-property::before {
     color: #a1a5b7!important;
     content: " - ";
@@ -84,31 +74,71 @@
 }
 
 .section-entry-property {
-    font-size: 13px;
+    font-size: 12px;
     color: #7b7d86 !important;
     font-weight: 400;
     margin-bottom: 5px;
 }
 
-.section-header-resume .tabbable {
-    margin-top: 30px;
-}
-
-.section-header-resume .tabbable li {
+.tabbable.tabbable-header li {
     padding-left: 0;
     padding-bottom: 0;
     padding-right: 20px;
 }
 
-.section-header-resume .tabbable li a {
-    border-bottom: 2px solid #fff;
+.tabbable.tabbable-header li a {
+    border-bottom: 2px solid transparent;
     font-weight: 600;
     font-size: 13px;
     color: #a1a5b7;
     padding: 0 0.5rem 0.9rem;
 }
 
-.section-header-resume .tabbable li a.active {
+.tabbable.tabbable-header li a.active {
     border-bottom: 2px solid var(--main-bg-color);
     color: var(--main-bg-color);
+}
+
+.form-action-btns .form-switch.form-status-switch {
+    align-items: center;
+    flex-direction: inherit;
+}
+
+.form-action-btns .form-switch.form-status-switch .form-check-label {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 10px;
+    font-size: 12px;
+}
+
+.form-action-btns .form-switch.form-status-switch .form-check-input {
+    margin-left: 0 !important;
+}
+
+.form-action-btns .dropdown-toggle, .form-action-btns:hover {
+    border-left: 1px solid #f6f8fa !important;
+}
+
+.form-action-btns .dropdown-toggle.btn:hover {
+    border-left: 1px solid #f6f8fa !important;
+}
+
+.form-action-btns .dropdown-toggle::after {
+    border: none;
+    content: '...';
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.form-action-btns .dropdown-menu form {
+    width: 100%;
+}
+
+.form-action-btns .dropdown-menu form {
+    width: 100%;
+}
+
+.form-action-btns a.dropdown-item:focus, .form-action-btns a.dropdown-item:active, .form-action-btns a.dropdown-item.active {
+    background-color: #f8f9fa;
+    color: #fc544b;
 }

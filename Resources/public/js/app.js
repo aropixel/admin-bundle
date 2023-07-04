@@ -133,7 +133,7 @@ $(function() {
     let status = document.querySelector(".form-status-switch input[type='hidden'][name$='[status]']");
     if (status) {
 
-        let offcanvas = status.closest('.offcanvas-body');
+        let offcanvas = document.querySelector('.offcanvas-body');
         let publishAtDate = offcanvas.querySelector("input[name$='[publishAt][date]']");
         let publishAtTime = offcanvas.querySelector("input[name$='[publishAt][time]']");
         let publishUntilDate = offcanvas.querySelector("input[name$='[publishUntil][date]']");

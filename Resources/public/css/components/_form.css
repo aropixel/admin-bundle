@@ -30,6 +30,12 @@
     width: 25%;
     padding-right: 10px;
 }
+.form-group .label-description {
+    margin-top: 10px;
+    color: #828282;
+    font-size: 13px;
+}
+
 .form-horizontal .form-group .col-form-content {
     flex: 0 0 auto;
     width: 75%;

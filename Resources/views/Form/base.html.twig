@@ -32,34 +32,23 @@
     <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/cropper/cropper.min.js') }}"></script>
 {% endblock %}
 
+
+{% set baseroute = get_baseroute() %}
+
+
 {% block header_elements %}
-    {% set baseroute = get_baseroute() %}
     {% if route_exists(baseroute ~ '_index')  %}
-        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Liste">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-list fa-stack-1x fa-inverse"></i>
+        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Liste">
+            <i class="fas fa-list me-2"></i> Liste
         </a>
     {% endif %}
     {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Nouveau">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Nouveau">
+            <i class="fas fa-plus me-2"></i> Créer
         </a>
     {% endif %}
-    {% if app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
-        {% if form.vars.data.id is defined and form.vars.data.id %}
-            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
-                <button type="button" id="delete_button" class="fa-stack danger" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Supprimer">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                </button>
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
-                <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
-            </form>
-        {% endif %}
-    {% endif %}
 {% endblock %}
+
 
 {% set has_tabs = block('tabbable') is defined %}
 {% if has_tabs %}{% set _navtabs = block('tabbable') %}{% endif %}
@@ -68,38 +57,37 @@
 {% block header %}
 
     <div class="section-header-left">
+
         <div class="d-flex align-items-center">
-            {#{% block header_image %}
+
+            {% block header_image %}
                 {% if form.image is defined %}
-                    <div class="section-header-left-image cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
+                    <div class="section-header-left-image">
                         <img src="{{ (form.image.vars.value ? form.image.vars.value.getWebPath() : null) | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
-                        <i class="fas fa-external-link-alt editable-indicator"></i>
                     </div>
                 {% endif %}
-            {% endblock %}#}
+            {% endblock %}
+
             <div class="section-header-left-content">
 
                 <div class="d-flex align-items-center{% if form.image is defined %}{% endif %}">
                     <h1 class="mt-0">{% block header_title %}{% endblock %}</h1>
-
-                    {#{% if block('header_elements') is defined %}
-                        {% set _elements = block('header_elements') %}
-                        <div class="heading-elements">
-                            {{ _elements|raw }}
-                        </div>
-                    {% endif %}#}
-
                 </div>
 
                 <div class="section-header-breadcrumb">
                     {% block header_breadcrumb %}{% endblock %}
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
     <div class="section-header-right">
+
         <div class="text-end">
+
             {% if block('header_elements') is defined %}
                 {% set _elements = block('header_elements') %}
                 <div class="heading-elements">
@@ -107,39 +95,6 @@
                 </div>
             {% endif %}
 
-            {#{% if has_tabs %}
-                {% set _navtabs = block('tabbable') %}
-                <div class="tabbable {% if tabbableCollapsed %}collapsed {% endif %}">
-                    <ul class="nav nav-pills justify-content-end" role="tablist">
-                        {% if _navtabs is defined %}
-                            {{ _navtabs|raw }}
-                        {% endif %}
-                        <li>
-                            {% block publishPillAction %}<button class="btn btn-secondary btn-small" form="aropixel_admin_form">Enregistrer</button>{% endblock %}
-                        </li>
-                    </ul>
-                </div>
-            {% else %}#}
-                {#{% block publishAction %}<button class="btn btn-secondary btn-small" form="aropixel_admin_form">Enregistrer</button>{% endblock %}#}
-            {#{% endif %}#}
-
-            {#<div class="section-entry-properties">
-                {% if form.vars.value.createdAt is defined and form.vars.value.createdAt  %}
-                    <div class="section-entry-property{% if form.createdAt is defined %}  cursor-pointer{% endif %}"{% if form.createdAt is defined %} data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"{% endif %}>Créé le : <strong{% if form.createdAt is defined %} class="text-underlined-dashed"{% endif %}>{{ form.vars.value.createdAt|date('d/m/Y') }}</strong></div>
-                {% endif %}
-                {% if form.vars.value.slug is defined and form.vars.value.slug  %}
-                    <div class="section-entry-property cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Permalien : <strong class="text-underlined-dashed">{{ form.vars.value.slug }}</strong></div>
-                {% endif %}
-                {% block publishState %}
-                    {% if form.status is defined and form.vars.value.isPublished is defined  %}
-                        <div class="section-entry-status cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">
-                            <div class="d-flex align-items-center">
-                                {% include '@AropixelAdmin/Form/status_indicator.html.twig' with {'publishable' : form.vars.value} %}
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endblock %}
-            </div>#}
         </div>
     </div>
 
@@ -162,7 +117,26 @@
         </div>
     {% endfor %}
 
-    {% include '@AropixelAdmin/Form/header_resume.html.twig' %}
+
+    <div class="d-flex {% if has_tabs %}justify-content-between{% else %}justify-content-end{% endif%} align-items-start mb-4">
+
+        {% block headerResumePanels %}
+
+            {% if has_tabs %}
+                <div class="tabbable tabbable-header mt-3">
+                    <ul class="nav" role="tablist">
+                        {% if _navtabs is defined %}
+                            {{ _navtabs|raw }}
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+
+        {% endblock %}
+
+        {% include '@AropixelAdmin/Form/form_actions.html.twig' %}
+
+    </div>
 
     {% block panels %}
 
@@ -193,8 +167,6 @@
             {% block offcanvas %}
 
                 {% if
-                    form.image is defined or
-                    form.files is defined or
                     form.slug is defined or
                     form.status is defined or
                     form.createdAt is defined or
@@ -208,7 +180,7 @@
                         </div>
                         <div class="offcanvas-body">
 
-                            {% block image %}
+                            {#{% block image %}
 
                                 {% if form.image is defined and not form.image.rendered  %}
                                     {% include '@AropixelAdmin/Form/sidebar_image.html.twig' %}
@@ -224,51 +196,40 @@
                                     <div class="h-rule h-rule-dashed mt-5 mb-5"></div>
                                 {% endif %}
 
+                            {% endblock %}#}
+
+                            <div class="d-flex justify-content-between">
+
+                                {% block publishTitle %}
+                                <div>
+                                    <h2 class="section-title mt-0">Publication</h2>
+                                    <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+                                </div>
+                                {% endblock %}
+
+                                {#<div>
+                                    {% block publishStatus %}
+                                        {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
+                                    {% endblock %}
+                                </div>#}
+
+                            </div>
+
+                            {% block publishSlug %}
+                                {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
                             {% endblock %}
 
-                            {% if
-                                form.slug is defined or
-                                form.status is defined or
-                                form.createdAt is defined or
-                                form.publishAt is defined or
-                                form.publishUntil is defined
-                            %}
+                            {% block publishCreated %}
+                                {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+                            {% endblock %}
 
-                                <div class="d-flex justify-content-between">
+                            {% if form.publishAt is defined or form.publishAt is defined %}
 
-                                    {% block publishTitle %}
-                                    <div>
-                                        <h2 class="section-title mt-0">Publication</h2>
-                                        <div class="section-lead mb-4">Paramétrez vos options de publication</div>
-                                    </div>
-                                    {% endblock %}
-
-                                    <div>
-                                        {% block publishStatus %}
-                                            {% include '@AropixelAdmin/Form/sidebar_status.html.twig' %}
-                                        {% endblock %}
-                                    </div>
-
-                                </div>
-
-                                {% block publishSlug %}
-                                    {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+                                {% block publishDates %}
+                                    {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
                                 {% endblock %}
-
-                                {% block publishCreated %}
-                                    {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                                {% endblock %}
-
-                                {% if form.publishAt is defined or form.publishAt is defined %}
-
-                                    {% block publishDates %}
-                                        {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                                    {% endblock %}
-
-                                {% endif %}
 
                             {% endif %}
-
 
                             <div class="d-flex justify-content-between w-100 m-t-60">
                                 <a class="btn btn-outline" data-bs-dismiss="offcanvas">Continuer mes modifications</a>
@@ -280,9 +241,6 @@
 
                     </div>
 
-                    {#<div class="offcanvas-buttons">
-                        <a class="offcanvas-btn offcanvas-btn-img btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm"><i class="fas fa-cog"></i></a>
-                    </div>#}
 
                 {% endif %}
 
