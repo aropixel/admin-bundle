@@ -131,7 +131,9 @@ $(function() {
     }
 
     let status = document.querySelector(".form-status-switch input[type='hidden'][name$='[status]']");
-    if (status) {
+    let switchStatus = document.querySelector('.form-status-switch .form-check-input');
+
+    if (status && switchStatus) {
 
         let offcanvas = document.querySelector('.offcanvas-body');
         let publishAtDate = offcanvas.querySelector("input[name$='[publishAt][date]']");
@@ -139,7 +141,7 @@ $(function() {
         let publishUntilDate = offcanvas.querySelector("input[name$='[publishUntil][date]']");
         let publishUntilTime = offcanvas.querySelector("input[name$='[publishUntil][time]']");
 
-        new SwitchStatus(status, {
+        new SwitchStatus(status, switchStatus, {
             'publishAtDate' : publishAtDate,
             'publishAtTime' : publishAtTime,
             'publishUntilDate' : publishUntilDate,
@@ -606,7 +608,7 @@ $(function() {
 
 
     let $form = $('form[data-form="form"]');
-    let $submitForm = $form.find('[data-form="submit"]');
+    let $submitForm = $('button[data-form="submit"]');
 
     if ($form.length) {
 
@@ -618,8 +620,8 @@ $(function() {
                 let $requiredFields = $form.find('[required="required"]');
 
                 let hasError = false;
-                let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Ce champs est obligatoire.</div></div>';
-                let messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention!</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
+                let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Ce champs est obligatoire.</div></div>';
+                let messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
 
                 $requiredFields.each(function() {
 

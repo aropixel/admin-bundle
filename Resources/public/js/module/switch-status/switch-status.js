@@ -1,8 +1,9 @@
 export class SwitchStatus {
 
-    constructor(statusField, config) {
+    constructor(statusField, switchStatus, config) {
 
         this.statusField = statusField;
+        this.switchStatus = switchStatus;
         this.labelField = null;
         this.checkboxField = null;
 
@@ -38,10 +39,8 @@ export class SwitchStatus {
             this.options = {...this.options, ...config}
         }
 
-
-        this.checkboxField = [...this.statusField.parentNode.children].filter((child) => child.classList.contains(this.options.componentClasses.checkbox)).shift();
-        this.labelField = [...this.statusField.parentNode.children].filter((child) => child.classList.contains(this.options.componentClasses.label)).shift();
-
+        this.checkboxField = [...this.switchStatus.parentNode.children].filter((child) => child.classList.contains(this.options.componentClasses.checkbox)).shift();
+        this.labelField = [...this.switchStatus.parentNode.children].filter((child) => child.classList.contains(this.options.componentClasses.label)).shift();
 
         this.checkboxField.addEventListener('change', (event) => { this.onChangeToggle(event) });
 

@@ -38,12 +38,12 @@
 
 {% block header_elements %}
     {% if route_exists(baseroute ~ '_index')  %}
-        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Liste">
+        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
             <i class="fas fa-list me-2"></i> Liste
         </a>
     {% endif %}
     {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Nouveau">
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary">
             <i class="fas fa-plus me-2"></i> Créer
         </a>
     {% endif %}
@@ -141,6 +141,14 @@
     {% block panels %}
 
         {{ form_start(form, {'attr': {'data-form': 'form', 'id' : 'aropixel_admin_form'}}) }}
+
+            {% if form.status is defined %}
+
+                <div class="form-status-switch">
+                    {{ form_widget(form.status) }}
+                </div>
+
+            {% endif %}
 
             {{ form_errors(form) }}
 

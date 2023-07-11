@@ -7,7 +7,6 @@
         <div class="form-switch form-status-switch">
             <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "Non publié") }}</label>
             <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
-            {{ form_widget(form.status) }}
         </div>
 
     {% endif %}
@@ -21,7 +20,7 @@
 
         <div class="btn-group">
 
-            <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form">
+            <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form" data-form="submit">
                 Enregistrer
             </button>
 
@@ -42,17 +41,33 @@
                         {% endif %}
 
                         {% if deleteRoute %}
+
                             {% if previewPath is defined or publicationOptions %}
                                 <div class="dropdown-divider"></div>
                             {% endif %}
-                            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
-                                <a id="delete_button" class="dropdown-item text-danger cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Supprimer">
-                                    Supprimer
-                                </a>
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
-                                <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
-                            </form>
+
+                            {% if delete_form is defined and delete_form %}
+
+                                {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
+                                    <a id="delete_button" href="#" class="dropdown-item text-danger">
+                                        Supprimer
+                                    </a>
+                                {{ form_widget(delete_form._token) }}
+                                {{ form_end(delete_form) }}
+
+                            {% else %}
+
+                                <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
+                                    <a id="delete_button" href="#" class="dropdown-item text-danger">
+                                        Supprimer
+                                    </a>
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
+                                    <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
+                                </form>
+
+                            {% endif %}
+
                         {% endif %}
 
                     </div>
