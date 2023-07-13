@@ -911,8 +911,8 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-header h4 + .card-header-form .btn {
   font-size: 12px;
   border-radius: 30px !important;
-  padding-left: 13px !important;
-  padding-right: 13px !important; }
+  padding-left: 15px !important;
+  padding-right: 15px !important; }
 .card .card-header h4 + .card-header-action .btn.active,
 .card .card-header h4 + .card-header-form .btn.active {
   box-shadow: 0 2px 6px #acb5f6;

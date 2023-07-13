@@ -29,7 +29,7 @@
                                 </div>
                             </div>
 
-                            <div class="text-center mb-3 mt-4">
+                            <div class="text-center mb-3">
                                 <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
                                     <img src="{{ user.image ? user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" alt="" class="w-50 rounded-circle"/>
                                 </a>
