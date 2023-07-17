@@ -252,7 +252,7 @@ $(function() {
         ],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
         language: {
-            search: '<span>Filtrer:</span> _INPUT_',
+            search: '<span>Filtrer :</span> _INPUT_',
             lengthMenu: '<span>Nombre par page:</span> _MENU_',
             sInfo: "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
             sInfoEmpty: "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",

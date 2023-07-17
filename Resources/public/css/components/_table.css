@@ -105,10 +105,10 @@ table.dataTable thead th, table.dataTable thead td {
 }
 
 table.dataTable td:first-child, table.dataTable th:first-child {
-    padding-left: 25px;
+    padding-left: 30px;
 }
 table.dataTable td:last-child, table.dataTable th:last-child {
-    padding-right: 25px;
+    padding-right: 30px;
 }
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting_asc:after,

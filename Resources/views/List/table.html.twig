@@ -1,23 +1,25 @@
 {% extends '@AropixelAdmin/base.html.twig' %}
 
 {% block header_elements %}
+
     {% set baseroute = get_baseroute() %}
+
     {% if route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary">
+            <i class="fas fa-plus me-2"></i>Créer
         </a>
     {% endif %}
+
     {% if route_exists(baseroute ~ '_order') %}
-        <a href="{{ path(baseroute ~ '_order') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Réorganiser">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-arrows-alt fa-stack-1x fa-inverse"></i>
+        <a href="{{ path(baseroute ~ '_order') }}" class="btn btn-small btn-default">
+            <i class="fas fa-arrows-alt me-2"></i>Organiser
         </a>
     {% endif %}
+
 {% endblock %}
 
-{% block body -%}
 
+{% block body %}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
 
@@ -28,25 +30,16 @@
 
     {% endfor %}
 
-    {% block filters %}
-    {% endblock %}
+    {% block filters %}{% endblock %}
 
     {% block panels %}
 
-	<!-- Form horizontal -->
-	<div class="card">
+        <div class="card">
 
-		{#<div class="card-header">
-			<h5 class="card-title">{% block paneltitle %}{% endblock %}</h5>
-		</div>#}
+            {% block panelbody %}{% endblock %}
 
-        {% block panelbody %}{% endblock %}
-
-
-    </div>
-
+        </div>
 
     {% endblock %}
-
 
 {% endblock %}

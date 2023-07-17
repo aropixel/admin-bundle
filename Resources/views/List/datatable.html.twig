@@ -1,21 +1,24 @@
 {% extends '@AropixelAdmin/base.html.twig' %}
 
 {% block header_elements %}
+
     {% set baseroute = get_baseroute() %}
+
     {% if route_exists(baseroute ~ '_order') %}
         <a href="{{ path(baseroute ~ '_order') }}" class="btn btn-small btn-default">
-            <i class="fas fa-arrows-alt me-2"></i>
+            <i class="fas fa-arrows-alt me-2"></i>Organiser
         </a>
     {% endif %}
+
     {% if route_exists(baseroute ~ '_new') %}
         <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary">
-            <i class="fas fa-plus"></i> Créer
+            <i class="fas fa-plus me-2"></i>Créer
         </a>
     {% endif %}
+
 {% endblock %}
 
-{% block body -%}
-
+{% block body %}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
 
@@ -26,25 +29,18 @@
 
     {% endfor %}
 
-    {% block filters %}
-    {% endblock %}
+    {% block filters %}{% endblock %}
 
     {% block panels %}
 
-        <!-- Form horizontal -->
         <div class="card">
 
-            {#<div class="card-header">
-                <h4 class="card-title">{% block paneltitle %}{% endblock %}</h4>
-            </div>#}
             <div class="table-responsive">
                 {% block paneldatatable %}{% endblock %}
             </div>
 
         </div>
 
-
     {% endblock %}
-
 
 {% endblock %}

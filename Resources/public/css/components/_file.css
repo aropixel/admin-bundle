@@ -280,11 +280,3 @@
 #libraryDataTable tr th:last-child {
     padding-right: 40px;
 }
-
-.form-horizontal .tab-pane-img .form-group .col-form-label {
-    width: 45%;
-    padding-right: 5%;
-}
-.form-horizontal .tab-pane-img .form-group .col-form-content {
-    width: 50%;
-}
