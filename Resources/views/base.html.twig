@@ -1,215 +1,225 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
 
-    {% block stylesheets %}
+    <head>
 
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/ionicons/css/ionicons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/izitoast/css/iziToast.min.css') }}">
-    <!-- CSS Libraries -->
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+        <title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
 
-    {% endblock %}
+        {% block stylesheets %}
 
-    {% block theme_stylesheets %}
+        <!-- General CSS Files -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/ionicons/css/ionicons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/izitoast/css/iziToast.min.css') }}">
+        <!-- CSS Libraries -->
 
-        <!-- Template CSS -->
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
-
-        <!-- Awesome Font -->
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
-
-    {% endblock %}
-
-</head>
-
-<body{% if admin_theme.menu_position == "top" %} class="layout-3" {% endif %}>
-<div id="app">
-    <div class="main-wrapper {{ admin_theme.menu_position=="top" ? "container" : "main-wrapper-1" }}">
-        <div class="navbar-bg"></div>
-
-        <nav class="navbar {% if admin_theme.menu_position == "top" %} justify-content-between{% endif %}">
-
-            <div class="container-fluid">
-
-                {% block topbar_left %}
-                    {% if admin_theme.menu_position == "left" %}
-                        <form class="form-inline mr-auto">
-                            <ul class="navbar-nav mr-3">
-                                <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-                                <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
-                            </ul>
-                        </form>
-                    {% else %}
-                        <a href="{{ url('_admin') }}" class="navbar-brand sidebar-gone-hide">{{ admin_client.name }}</a>
-                        <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
-                    {% endif %}
-                {% endblock %}
-
-                <div class="dropdown-center dropstart">
-
-                    {% block topbar_right %}
-                    {% endblock %}
-
-                    <a href="#" class="dropdown-toggle nav-link nav-link-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {% block navbar_nav_img %}
-                            <img alt="image" src="{{ app.user.image ? app.user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
-                        {% endblock %}
-                        <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
-                            <i class="far fa-user"></i> Mon profil
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
-                            <i class="fas fa-sign-out-alt"></i> Déconnexion
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </nav>
-
-        {% set adminMenu = aropixel_admin_render_menu() %}
-        {% if admin_theme.menu_position == 'left' %}
-
-        {% block main_sidebar %}
-            <div class="main-sidebar sidebar-style-2">
-                <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand">
-                        <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
-                    </div>
-                    <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
-                    </div>
-
-                    {{ adminMenu | raw }}
-
-                </aside>
-            </div>
         {% endblock %}
-        {% else %}
 
-            <nav class="navbar navbar-secondary navbar-expand-lg">
-                <div class="container">
+        {% block theme_stylesheets %}
 
-                    {{ adminMenu | raw }}
+            <!-- Template CSS -->
+            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
 
-                </div>
-            </nav>
+            <!-- Awesome Font -->
+            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
 
-        {% endif %}
+        {% endblock %}
 
-        <!-- Main Content -->
-        <div class="main-content">
+    </head>
 
-            <section class="section">
+    <body{% if admin_theme.menu_position == "top" %} class="layout-3" {% endif %}>
 
-                <div class="section-header">
+        <div id="app">
+            <div class="main-wrapper {{ admin_theme.menu_position=="top" ? "container" : "main-wrapper-1" }}">
+                <div class="navbar-bg"></div>
 
-                    {% block header %}
+                <nav class="navbar {% if admin_theme.menu_position == "top" %} justify-content-between{% endif %}">
 
-                        <div class="w-100">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h1>{% block header_title %}{% endblock %}</h1>
+                    <div class="container-fluid">
 
-                                {% if block('header_elements') is defined %}
-                                    {% set _elements = block('header_elements') %}
-                                    <div class="heading-elements">
-                                        {{ _elements|raw }}
-                                    </div>
-                                {% endif %}
+                        {% block topbar_left %}
+                            {% if admin_theme.menu_position == "left" %}
+                                <form class="form-inline mr-auto">
+                                    <ul class="navbar-nav mr-3">
+                                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                                    </ul>
+                                </form>
+                            {% else %}
+                                <a href="{{ url('_admin') }}" class="navbar-brand sidebar-gone-hide">{{ admin_client.name }}</a>
+                                <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
+                            {% endif %}
+                        {% endblock %}
 
+                        <div class="dropdown-center dropstart">
+
+                            {% block topbar_right %}
+                            {% endblock %}
+
+                            <a href="#" class="dropdown-toggle nav-link nav-link-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% block navbar_nav_img %}
+                                    <img alt="image" src="{{ app.user.image ? app.user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
+                                {% endblock %}
+                                <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
+                                    <i class="far fa-user"></i> Mon profil
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                </a>
                             </div>
 
-                            <div class="section-header-breadcrumb">
-                                {% block header_breadcrumb %}{% endblock %}
-                            </div>
                         </div>
 
-                        {% if block('tabbable') is defined %}
-                            {% set _navtabs = block('tabbable') %}
-                            <div class="tabbable">
-                                <ul class="nav nav-pills" role="tablist">
-                                    {{ _navtabs|raw }}
-                                </ul>
-                            </div>
-                        {% endif %}
+                    </div>
+                </nav>
 
+                {% set adminMenu = aropixel_admin_render_menu() %}
+                {% if admin_theme.menu_position == 'left' %}
+
+                {% block main_sidebar %}
+                    <div class="main-sidebar sidebar-style-2">
+                        <aside id="sidebar-wrapper">
+                            <div class="sidebar-brand">
+                                <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
+                            </div>
+                            <div class="sidebar-brand sidebar-brand-sm">
+                                <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
+                            </div>
+
+                            {{ adminMenu | raw }}
+
+                        </aside>
+                    </div>
+                {% endblock %}
+                {% else %}
+
+                    <nav class="navbar navbar-secondary navbar-expand-lg">
+                        <div class="container">
+
+                            {{ adminMenu | raw }}
+
+                        </div>
+                    </nav>
+
+                {% endif %}
+
+                <!-- Main Content -->
+                <div class="main-content">
+
+                    <section class="section-header mt-3">
+
+                        {% block header %}
+
+                            <div class="header-top">
+
+                                {% block header_top %}
+
+                                    <div class="d-flex align-items-center justify-content-between">
+
+                                        <div class="header-top-left">
+
+                                            {% block header_top_left %}
+
+                                                <h1>{% block header_title %}{% endblock %}</h1>
+
+                                                <div class="section-header-breadcrumb">
+                                                    {% block header_breadcrumb %}{% endblock %}
+                                                </div>
+
+                                            {% endblock %}
+
+                                        </div>
+
+                                        <div class="header-top-right">
+                                            {% block header_top_right %}{% endblock %}
+                                        </div>
+
+                                    </div>
+
+                                {% endblock %}
+
+                            </div>
+
+                            <div class="header-bottom">
+                                {% block header_bottom %}{% endblock %}
+                            </div>
+
+                        {% endblock %}
+
+                    </section>
+
+                    <section class="section-body">
+
+                        {% block body %}{% endblock %}
+
+                    </section>
+
+                </div>
+
+                <footer class="main-footer">
+
+                    {% block footer_left %}
+                        <div class="footer-left">
+                            {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
+                        </div>
                     {% endblock %}
 
-                </div>
+                    {% block footer_right %}
+                        <div class="footer-right"></div>
+                    {% endblock %}
 
-                <div class="section-body">
+                </footer>
 
-                    {% block body %}{% endblock %}
-
-                </div>
-
-            </section>
+            </div>
 
         </div>
 
-        <footer class="main-footer">
-            {% block footer_left %}
-            <div class="footer-left">
-                {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
-            </div>
-            {% endblock %}
-            {% block footer_right %}
-            <div class="footer-right">
+        {% block javascripts %}
+            <!-- General JS Scripts -->
+            <script src="{{ asset('bundles/aropixeladmin/modules/jquery.min.js') }}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/tooltip.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/moment.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/blockui.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/select2/dist/js/select2.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/datatables/plugins/date-euro.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.full.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.queue.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/stisla.js') }}"></script>
+        <!-- JS Libraies -->
+        {% endblock %}
 
-            </div>
-            {% endblock %}
-        </footer>
-    </div>
-</div>
+        <!-- Page Specific JS File -->
 
-{% block javascripts %}
-<!-- General JS Scripts -->
-<script src="{{ asset('bundles/aropixeladmin/modules/jquery.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/tooltip.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/moment.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/blockui.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/select2/dist/js/select2.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/datatables/plugins/date-euro.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.full.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.queue.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/js/stisla.js') }}"></script>
-<!-- JS Libraies -->
-{% endblock %}
+        {% block theme_javascripts %}
 
-<!-- Page Specific JS File -->
+            <!-- Template JS File -->
+            <script src="{{ asset('bundles/aropixeladmin/js/scripts.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
 
-{% block theme_javascripts %}
+        {% endblock %}
 
-<!-- Template JS File -->
-<script src="{{ asset('bundles/aropixeladmin/js/scripts.js') }}"></script>
-<script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
-<script type="module" src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
-<script type="module" src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
-<script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
+    </body>
 
-{% endblock %}
-
-</body>
 </html>

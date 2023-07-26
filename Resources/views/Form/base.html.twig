@@ -35,67 +35,162 @@
 
 {% set baseroute = get_baseroute() %}
 
-
-{% block header_elements %}
-    {% if route_exists(baseroute ~ '_index')  %}
-        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
-            <i class="fas fa-list me-2"></i> Liste
-        </a>
-    {% endif %}
-    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary">
-            <i class="fas fa-plus me-2"></i> Créer
-        </a>
-    {% endif %}
-{% endblock %}
-
-
 {% set has_tabs = block('tabbable') is defined %}
 {% if has_tabs %}{% set _navtabs = block('tabbable') %}{% endif %}
 {% set tabbableCollapsed = tabbableCollapsed is defined ? tabbableCollapsed : false %}
 
-{% block header %}
 
-    <div class="section-header-left">
+{% block header_top_left %}
 
-        <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center">
 
-            {% block header_image %}
-                {% if form.image is defined %}
-                    <div class="section-header-left-image">
-                        <img src="{{ (form.image.vars.value ? form.image.vars.value.getWebPath() : null) | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
-                    </div>
-                {% endif %}
-            {% endblock %}
-
-            <div class="section-header-left-content">
-
-                <div class="d-flex align-items-center{% if form.image is defined %}{% endif %}">
-                    <h1 class="mt-0">{% block header_title %}{% endblock %}</h1>
+        {% block header_image %}
+            {% if form.image is defined %}
+                <div class="header-image">
+                    <img src="{{ (form.image.vars.value ? form.image.vars.value.getWebPath() : null) | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
                 </div>
+            {% endif %}
+        {% endblock %}
 
-                <div class="section-header-breadcrumb">
-                    {% block header_breadcrumb %}{% endblock %}
-                </div>
+        <div>
 
+            <h1>{% block header_title %}{% endblock %}</h1>
+
+            <div class="header-breadcrumb">
+                {% block header_breadcrumb %}{% endblock %}
             </div>
 
         </div>
 
     </div>
 
-    <div class="section-header-right">
+{% endblock %}
 
-        <div class="text-end">
+{% block header_top_right %}
 
-            {% if block('header_elements') is defined %}
-                {% set _elements = block('header_elements') %}
-                <div class="heading-elements">
-                    {{ _elements|raw }}
+    {% if route_exists(baseroute ~ '_index')  %}
+        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
+            <i class="fas fa-list me-2"></i> Liste
+        </a>
+    {% endif %}
+    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
+            <i class="fas fa-plus me-2"></i> Créer
+        </a>
+    {% endif %}
+
+{% endblock %}
+
+{% block header_bottom %}
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+
+        {% block header_panels %}
+
+            {% if has_tabs %}
+                <div class="tabbable tabbable-header mt-3">
+                    <ul class="nav" role="tablist">
+                        {% if _navtabs is defined %}
+                            {{ _navtabs|raw }}
+                        {% endif %}
+                    </ul>
                 </div>
             {% endif %}
 
-        </div>
+        {% endblock %}
+
+        {% block header_actions %}
+
+            <div class="d-flex align-items-center form-action-btns">
+
+                {% block header_status_action %}
+
+                    {% if form.status is defined %}
+
+                        {% set publishable = form.vars.value %}
+
+                        <div class="form-switch form-status-switch">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "Non publié") }}</label>
+                            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
+                        </div>
+
+                    {% endif %}
+
+                {% endblock %}
+
+                {% block header_btn_actions %}
+
+                    {% set deleteRoute = app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
+                    {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
+
+                    {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined %}
+
+                    <div class="btn-group">
+
+                        <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form" data-form="submit">
+                            Enregistrer
+                        </button>
+
+                        {% block header_btn_dropdown_actions %}
+
+                            {% if previewPath is defined or form.createdAt is defined or deleteRoute %}
+
+                                <button type="button" class="btn btn-secondary btn-small dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+
+                                <div class="dropdown-menu">
+
+                                    {% if previewPath is defined %}
+                                        <a class="dropdown-item" href="#">Prévisualiser</a>
+                                    {% endif %}
+
+                                    {% if publicationOptions %}
+                                        <a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Options de publication</a>
+                                    {% endif %}
+
+                                    {% if deleteRoute %}
+
+                                        {% if previewPath is defined or publicationOptions %}
+                                            <div class="dropdown-divider"></div>
+                                        {% endif %}
+
+                                        {% if delete_form is defined and delete_form %}
+
+                                            {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
+                                            <a id="delete_button" href="#" class="dropdown-item text-danger">
+                                                Supprimer
+                                            </a>
+                                            {{ form_widget(delete_form._token) }}
+                                            {{ form_end(delete_form) }}
+
+                                        {% else %}
+
+                                            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
+                                                <a id="delete_button" href="#" class="dropdown-item text-danger">
+                                                    Supprimer
+                                                </a>
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
+                                                <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
+                                            </form>
+
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endblock %}
+
+                    </div>
+
+                {% endblock %}
+
+            </div>
+
+        {% endblock %}
+
     </div>
 
 {% endblock %}
@@ -117,109 +212,6 @@
         </div>
     {% endfor %}
 
-
-    <div class="d-flex {% if has_tabs %}justify-content-between{% else %}justify-content-end{% endif%} align-items-start mb-4">
-
-        {% block headerResumePanels %}
-
-            {% if has_tabs %}
-                <div class="tabbable tabbable-header mt-3">
-                    <ul class="nav" role="tablist">
-                        {% if _navtabs is defined %}
-                            {{ _navtabs|raw }}
-                        {% endif %}
-                    </ul>
-                </div>
-            {% endif %}
-
-        {% endblock %}
-
-        <div class="d-flex align-items-center form-action-btns">
-
-            {% if form.status is defined %}
-
-                {% set publishable = form.vars.value %}
-
-                <div class="form-switch form-status-switch">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "Non publié") }}</label>
-                    <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
-                </div>
-
-            {% endif %}
-
-            {% block publishAction %}
-
-                {% set deleteRoute = app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
-                {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
-
-                {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined %}
-
-                <div class="btn-group">
-
-                    <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form" data-form="submit">
-                        Enregistrer
-                    </button>
-
-                    {% block publishDropdownActions %}
-
-                        {% if previewPath is defined or form.createdAt is defined or deleteRoute %}
-
-                            <button type="button" class="btn btn-secondary btn-small dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-
-                            <div class="dropdown-menu">
-
-                                {% if previewPath is defined %}
-                                    <a class="dropdown-item" href="#">Prévisualiser</a>
-                                {% endif %}
-
-                                {% if publicationOptions %}
-                                    <a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Options de publication</a>
-                                {% endif %}
-
-                                {% if deleteRoute %}
-
-                                    {% if previewPath is defined or publicationOptions %}
-                                        <div class="dropdown-divider"></div>
-                                    {% endif %}
-
-                                    {% if delete_form is defined and delete_form %}
-
-                                        {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
-                                        <a id="delete_button" href="#" class="dropdown-item text-danger">
-                                            Supprimer
-                                        </a>
-                                        {{ form_widget(delete_form._token) }}
-                                        {{ form_end(delete_form) }}
-
-                                    {% else %}
-
-                                        <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
-                                            <a id="delete_button" href="#" class="dropdown-item text-danger">
-                                                Supprimer
-                                            </a>
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">
-                                            <input type="hidden" name="_token_prefix" value="{{ 'delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id }}">
-                                        </form>
-
-                                    {% endif %}
-
-                                {% endif %}
-
-                            </div>
-
-                        {% endif %}
-
-                    {% endblock %}
-
-                </div>
-
-            {% endblock %}
-
-        </div>
-
-    </div>
-
     {% block panels %}
 
         {{ form_start(form, {'attr': {'data-form': 'form', 'id' : 'aropixel_admin_form'}}) }}
@@ -234,11 +226,10 @@
 
             {{ form_errors(form) }}
 
-            <div{% if has_tabs %} class="panel-tab-content tab-content" {% endif %}>
-
+            <div {% if has_tabs %}class="panel-tab-content tab-content"{% endif %}>
 
                 {% block mainPanel %}
-                    <!-- Form horizontal -->
+
                     <div class="card">
 
                         <div class="card-body">
@@ -248,11 +239,10 @@
                         </div>
 
                     </div>
+
                 {% endblock %}
 
-
             </div>
-
 
             {% block offcanvas %}
 
@@ -302,11 +292,9 @@
                                 <button class="btn btn-primary" type="submit">Enregistrer</button>
                             </div>
 
-
                         </div>
 
                     </div>
-
 
                 {% endif %}
 
@@ -317,8 +305,7 @@
 
     {% endblock %}
 
-    {% block afterForm %}
-    {% endblock %}
+    {% block afterForm %}{% endblock %}
 
 
 {% endblock %}

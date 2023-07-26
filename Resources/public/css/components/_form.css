@@ -41,6 +41,10 @@
     width: 75%;
 }
 
+.form-horizontal .form-group .collection-content .col-form-content {
+    width: 100%;
+}
+
 .form-horizontal .form-check-inline {
     margin-top: 8px;
 }

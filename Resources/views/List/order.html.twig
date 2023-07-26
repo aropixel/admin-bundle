@@ -7,7 +7,7 @@
 
 {% endblock %}
 
-{% block header_elements %}
+{% block header_top_right %}
 
     {% set baseroute = get_baseroute() %}
 
@@ -17,8 +17,8 @@
         </a>
     {% endif %}
 
-    {% if route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary">
+    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
             <i class="fas fa-plus me-2"></i>Créer
         </a>
     {% endif %}

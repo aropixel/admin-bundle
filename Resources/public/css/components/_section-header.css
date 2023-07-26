@@ -1,28 +1,37 @@
-.section .section-header {
+.section-header {
     align-items: flex-start;
 }
 
-.section .section-header .section-header-breadcrumb {
+.header-top {
+    margin-bottom: 30px;
+}
+
+.header-top-left h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.header-breadcrumb {
     margin-top: 13px;
     color: #888;
 }
-.section .section-header .section-header-breadcrumb .breadcrumb {
+.header-breadcrumb .breadcrumb {
     margin: 0;
 }
 
-.section .section-header .section-header-left-image + .section-header-left-content h1 {
+.header-image + .header-left-content h1 {
     margin-top: 6px;
 }
 
-.section .section-header .section-header-right {
+.header-right {
     flex: 1;
 }
 
-.section-header-left-image {
+.header-image {
     position: relative;
 }
 
-.section-header-left-image img {
+.header-image img {
     width: 65px;
     height: 65px;
     border-radius: 50%;
@@ -32,7 +41,7 @@
     box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
 }
 
-.section-header-left-image .editable-indicator {
+.header-image .editable-indicator {
     position: absolute;
     bottom: 0;
     left: 0;
