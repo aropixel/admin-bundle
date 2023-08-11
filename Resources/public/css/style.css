@@ -395,9 +395,6 @@ p, ul:not(.list-unstyled), ol {
 .shadow {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03); }
 
-.text-muted {
-  color: #98a6ad !important; }
-
 /* 3.2 Form */
 .form-control,
 .input-group-text,

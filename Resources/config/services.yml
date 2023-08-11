@@ -96,15 +96,6 @@ services:
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
 
 
-
-    Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldPasswordEventListener:
-        tags:
-            - { name: kernel.event_listener, event: 'checkPassport'}
-
-    Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldLastLoginEventListener:
-        tags:
-            - { name: kernel.event_listener, event: 'checkPassport' }
-
     Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
         arguments: ['%aropixel_admin.entities%']
         tags:

@@ -485,9 +485,18 @@
   font-weight: 100;
 }
 .text-muted {
-  color: #999999 !important;
+  color: #99A1B7 !important;
 }
 
 .text-right {
   text-align: right;
 }
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.mw-1000px {
+  max-width: 1000px!important;
+}
+

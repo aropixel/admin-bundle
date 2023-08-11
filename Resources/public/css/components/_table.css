@@ -14,7 +14,7 @@
 
 .table:not(.table-sm):not(.table-md):not(.dataTable) td,
 .table:not(.table-sm):not(.table-md):not(.dataTable) th {
-    padding: 12px 20px;
+    padding: 15px 20px;
     line-height: 1.7;
     height: auto;
 }
@@ -30,6 +30,11 @@
 
 .table:not(.table-sm) thead th {
     background-color: #fff;
+}
+
+.table:not(.datatable) thead th {
+    border-top: 0 none!important;
+    border-bottom: 1px dashed var(--grey) !important;
 }
 
 .datatable-header {

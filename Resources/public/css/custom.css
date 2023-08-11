@@ -17,6 +17,7 @@
 @import "components/_section-header.css";
 @import "components/_table.css";
 @import "components/_wysiwyg.css";
+@import "components/_badge.css";
 
 :root {
     --main-bg-color: #0CABA8;
@@ -129,42 +130,6 @@ hr {
 }
 .img-state-icon--offline {
     background-color: #e7e7e7;
-}
-
-.badge {
-    text-transform: uppercase;
-    border: 1px solid transparent;
-    font-size: 10px;
-    letter-spacing: 0.4px;
-    line-height: 1.7;
-    font-weight: 500;
-    border-radius: 2px;
-    padding: 5px 12px;
-}
-.badge:hover {
-    color: #fff;
-}
-.badge-flat {
-    background-color: transparent;
-    border-width: 2px;
-    border-radius: 0;
-    padding: 1px 4px 0 4px;
-}
-.badge-sm {
-    padding: 3px 8px;
-}
-.badge-icon {
-    padding: 8px;
-    border-radius: 2px;
-    line-height: 1;
-}
-.badge-rounded {
-    border-radius: 100px;
-}
-.badge-default {
-    color: #fff;
-    background-color: #999999;
-    border-color: #999999;
 }
 
 .sp-replacer {
