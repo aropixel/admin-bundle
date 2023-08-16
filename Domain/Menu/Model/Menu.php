@@ -12,8 +12,25 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Menu implements IterableInterface
 {
+    private string $id;
     private array $items = [];
     private array $positions = [];
+
+    /**
+     * @param string $id
+     */
+    public function __construct(string $id = "menu")
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
 
     public function addItem(ItemInterface $item) : void

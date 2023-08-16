@@ -24,10 +24,10 @@ class MenuBuilder implements MenuBuilderInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function buildMenu(): Menu
+    public function buildMenu(string $id = "menu"): Menu
     {
         // Create the menu
-        $menu = new Menu();
+        $menu = new Menu($id);
 
         // Send an event, so event listeners, in app or in any bundle, can add items to the menu
         $buildMenuEvent = new BuildMenuEvent($menu);
