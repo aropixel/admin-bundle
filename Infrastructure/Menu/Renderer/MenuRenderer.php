@@ -14,13 +14,13 @@ use Twig\Environment;
 class MenuRenderer implements MenuRendererInterface
 {
     private Environment $twig;
-    private MenuMatcher $menuMatcher;
+    private MenuMatcherInterface $menuMatcher;
 
     /**
      * @param Environment $twig
-     * @param MenuMatcher $menuMatcher
+     * @param MenuMatcherInterface $menuMatcher
      */
-    public function __construct(Environment $twig, MenuMatcher $menuMatcher)
+    public function __construct(Environment $twig, MenuMatcherInterface $menuMatcher)
     {
         $this->twig = $twig;
         $this->menuMatcher = $menuMatcher;
