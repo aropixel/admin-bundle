@@ -10,19 +10,24 @@ namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 class MenuMatcher
 {
+    private RequestStack $requestStack;
     private RouterInterface $router;
 
     /**
+     * @param RequestStack $requestStack
      * @param RouterInterface $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
+        $this->requestStack = $requestStack;
         $this->router = $router;
     }
+
 
     public function matchActive(Menu $menu) : void
     {
@@ -40,7 +45,7 @@ class MenuMatcher
     }
 
 
-    private function matchActiveChildren(IterableInterface $iterable) : void
+    protected function matchActiveChildren(IterableInterface $iterable) : void
     {
         foreach ($iterable->getItems() as $item) {
 
@@ -55,9 +60,62 @@ class MenuMatcher
         }
     }
 
-    private function isActiveRoute(RoutableInterface $item) : bool
+    protected function isActiveRoute(RoutableInterface $item) : bool
     {
-        return $this->router->getContext()->getPathInfo() == $this->router->generate($item->getRouteName(), $item->getRouteParameters());
+        $isExactRoute = $this->compareRoute($item->getRouteName(), $item->getRouteParameters());
+        if ($isExactRoute) {
+            return true;
+        }
+
+        if ($this->isIndexRoute($item->getRouteName())) {
+
+            $baseRoute = $this->getBaseCrud($item->getRouteName());
+
+            $currentRouteName = $this->requestStack->getCurrentRequest()->get('_route');
+            $currentRouteParameters = $this->requestStack->getCurrentRequest()->get('_route_params');
+
+            if (array_key_exists('id', $currentRouteParameters)) {
+                unset($currentRouteParameters['id']);
+            }
+
+            $menuRouteParameters = $item->getRouteParameters();
+            if (array_key_exists('id', $menuRouteParameters)) {
+                unset($menuRouteParameters['id']);
+            }
+
+            $extensions = array('_new', '_edit');
+            foreach ($extensions as $extension) {
+                $routeName = $baseRoute . $extension;
+                if ($routeName == $currentRouteName && $menuRouteParameters == $currentRouteParameters) {
+                    return true;
+                }
+            }
+
+
+        }
+
+        return false;
+
+    }
+
+    protected function compareRoute(string $routeName, array $routeParameters) : bool
+    {
+        return $this->router->getContext()->getPathInfo() == $this->router->generate($routeName, $routeParameters);
+    }
+
+
+    protected function isIndexRoute(string $routeName) {
+        return (
+            strpos($routeName, '_index') !== false
+        );
+    }
+
+
+    protected function getBaseCrud(string $routeName) {
+        $i = strrpos($routeName, '_');
+        $racine = substr($routeName, 0, $i);
+
+        return $racine;
     }
 
 }
