@@ -15,8 +15,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class MenuMatcher implements MenuMatcherInterface
 {
-    private RequestStack $requestStack;
-    private RouterInterface $router;
+    protected RequestStack $requestStack;
+    protected RouterInterface $router;
 
     /**
      * @param RequestStack $requestStack
@@ -60,7 +60,7 @@ class MenuMatcher implements MenuMatcherInterface
         }
     }
 
-    protected function isActiveRoute(RoutableInterface $item) : bool
+    protected function isActiveRoute(RoutableInterface $item, $ignoreParameters=['id']) : bool
     {
         $isExactRoute = $this->compareRoute($item->getRouteName(), $item->getRouteParameters());
         if ($isExactRoute) {
@@ -74,13 +74,17 @@ class MenuMatcher implements MenuMatcherInterface
             $currentRouteName = $this->requestStack->getCurrentRequest()->get('_route');
             $currentRouteParameters = $this->requestStack->getCurrentRequest()->get('_route_params');
 
-            if (array_key_exists('id', $currentRouteParameters)) {
-                unset($currentRouteParameters['id']);
+            foreach ($ignoreParameters as $ignoreParameter) {
+                if (array_key_exists($ignoreParameter, $currentRouteParameters)) {
+                    unset($currentRouteParameters[$ignoreParameter]);
+                }
             }
 
             $menuRouteParameters = $item->getRouteParameters();
-            if (array_key_exists('id', $menuRouteParameters)) {
-                unset($menuRouteParameters['id']);
+            foreach ($ignoreParameters as $ignoreParameter) {
+                if (array_key_exists($ignoreParameter, $menuRouteParameters)) {
+                    unset($menuRouteParameters[$ignoreParameter]);
+                }
             }
 
             $extensions = array('_new', '_edit');
