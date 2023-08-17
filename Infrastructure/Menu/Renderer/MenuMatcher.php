@@ -13,7 +13,7 @@ use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
-class MenuMatcher
+class MenuMatcher implements MenuMatcherInterface
 {
     private RequestStack $requestStack;
     private RouterInterface $router;
