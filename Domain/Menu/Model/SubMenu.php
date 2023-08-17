@@ -115,6 +115,9 @@ class SubMenu implements ItemInterface, IterableInterface
     public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
+        if ($this->parent && $isActive) {
+            $this->parent->setIsActive($isActive);
+        }
     }
 
     public function isActive(): bool
