@@ -130,23 +130,29 @@ $(function() {
 
     }
 
-    let status = document.querySelector(".form-status-switch input[type='hidden'][name$='[status]']");
+
     let switchStatus = document.querySelector('.form-status-switch .form-check-input');
+    if (switchStatus) {
 
-    if (status && switchStatus) {
+        let statusField = switchStatus.getAttribute('data-status-field') ?? 'status';
+        let status = document.querySelector(".form-status-switch input[type='hidden'][name$='["+statusField+"]']");
 
-        let offcanvas = document.querySelector('.offcanvas-body');
-        let publishAtDate = offcanvas.querySelector("input[name$='[publishAt][date]']");
-        let publishAtTime = offcanvas.querySelector("input[name$='[publishAt][time]']");
-        let publishUntilDate = offcanvas.querySelector("input[name$='[publishUntil][date]']");
-        let publishUntilTime = offcanvas.querySelector("input[name$='[publishUntil][time]']");
+        if (status && switchStatus) {
 
-        new SwitchStatus(status, switchStatus, {
-            'publishAtDate' : publishAtDate,
-            'publishAtTime' : publishAtTime,
-            'publishUntilDate' : publishUntilDate,
-            'publishUntilTime' : publishUntilTime,
-        })
+            let offcanvas = document.querySelector('.offcanvas-body');
+            let publishAtDate = offcanvas ? offcanvas.querySelector("input[name$='[publishAt][date]']") : null;
+            let publishAtTime = offcanvas ? offcanvas.querySelector("input[name$='[publishAt][time]']") : null;
+            let publishUntilDate = offcanvas ? offcanvas.querySelector("input[name$='[publishUntil][date]']") : null;
+            let publishUntilTime = offcanvas ? offcanvas.querySelector("input[name$='[publishUntil][time]']") : null;
+
+            new SwitchStatus(status, switchStatus, {
+                'publishAtDate' : publishAtDate,
+                'publishAtTime' : publishAtTime,
+                'publishUntilDate' : publishUntilDate,
+                'publishUntilTime' : publishUntilTime,
+            })
+        }
+
     }
 
 
