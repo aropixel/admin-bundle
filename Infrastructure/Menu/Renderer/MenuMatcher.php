@@ -18,6 +18,9 @@ class MenuMatcher implements MenuMatcherInterface
     protected RequestStack $requestStack;
     protected RouterInterface $router;
 
+    protected ?string $mustMatchRoute = null;
+    protected array $mustMatchRouteParameters = [];
+
     /**
      * @param RequestStack $requestStack
      * @param RouterInterface $router
@@ -29,11 +32,18 @@ class MenuMatcher implements MenuMatcherInterface
     }
 
 
+    public function mustMatch(string $forceMatchRoute = null, array $forceMatchRouteParams = []): void
+    {
+        $this->mustMatchRoute = $forceMatchRoute;
+        $this->mustMatchRouteParameters = $forceMatchRouteParams;
+    }
+
+
     public function matchActive(Menu $menu) : void
     {
         foreach ($menu->getItems() as $item) {
 
-            if ($item instanceof RoutableInterface && $this->isActiveRoute($item)) {
+            if ($item instanceof RoutableInterface && ($this->isSetRoute($item) || $this->isActiveRoute($item))) {
                 $item->setIsActive(true);
             }
 
@@ -44,12 +54,18 @@ class MenuMatcher implements MenuMatcherInterface
         }
     }
 
+    protected function isSetRoute(RoutableInterface $item) : bool
+    {
+        return $item->getRouteName() == $this->mustMatchRoute &&
+            $this->mustMatchRouteParameters == $item->getRouteParameters()
+            ;
+    }
 
     protected function matchActiveChildren(IterableInterface $iterable) : void
     {
         foreach ($iterable->getItems() as $item) {
 
-            if ($item instanceof RoutableInterface && $this->isActiveRoute($item)) {
+            if ($item instanceof RoutableInterface&& ($this->isSetRoute($item) || $this->isActiveRoute($item))) {
                 $item->setIsActive(true);
             }
 

@@ -27,9 +27,9 @@ class MenuRenderer implements MenuRendererInterface
     }
 
 
-    public function renderMenu(Menu $menu, string $template = "@AropixelAdmin/Menu/menu.html.twig", $params=[]) : string
+    public function renderMenu(Menu $menu, string $template = "@AropixelAdmin/Menu/menu.html.twig", $params=[], ?string $forceMatchRoute = null) : string
     {
-        $this->menuMatcher->matchActive($menu);
+        $this->menuMatcher->matchActive($menu, $forceMatchRoute);
         $params['menu'] = $menu;
         return $this->twig->render($template, $params);
     }

@@ -944,9 +944,9 @@ $(function() {
         activateCkeditor($list.find('> [data-form-collection="item"]:nth-child('+count+') .ckeditor'));
         activateImManager($list.find('> [data-form-collection="item"]:nth-child('+count+') .im-manager'));
         activateSortable($list.find('> [data-form-collection="list"]'));
-        $list.find('> [data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
-            autoWidth: false
-        });
+        // $list.find('> [data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
+        //     autoWidth: false
+        // });
 
 
         // re-init select2 for new select 2 item in collection
