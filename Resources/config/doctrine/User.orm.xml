@@ -34,7 +34,7 @@
         </field>
         <field name="lastPasswordUpdate" type="datetime" nullable="true"/>
         <field name="lastLogin" type="datetime" nullable="true"/>
-        <one-to-one field="image" target-entity="UserImage" mapped-by="user">
+        <one-to-one field="image" target-entity="UserImageInterface" mapped-by="user">
             <cascade>
                 <cascade-persist />
                 <cascade-remove />
