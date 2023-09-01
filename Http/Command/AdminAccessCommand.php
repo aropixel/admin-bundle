@@ -12,7 +12,9 @@ use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,18 +41,18 @@ class AdminAccessCommand extends AbstractInstallCommand
 
     private PasswordUpdaterInterface $passwordUpdater;
     private UserFactoryInterface $userFactory;
-    private UserRepositoryInterface $userRepository;
 
-
-
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository)
+    /**
+     * @param ManagerRegistry $managerRegistry
+     * @param PasswordUpdaterInterface $passwordUpdater
+     * @param UserFactoryInterface $userFactory
+     */
+    public function __construct(ManagerRegistry $managerRegistry, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, ValidatorInterface $validator)
     {
-        parent::__construct($em, $validator);
+        parent::__construct($managerRegistry, $validator);
         $this->passwordUpdater = $passwordUpdater;
         $this->userFactory = $userFactory;
-        $this->userRepository = $userRepository;
     }
-
 
 
     protected function configure()
@@ -84,7 +86,9 @@ EOT
         $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setEnabled(true);
         $this->passwordUpdater->hashPlainPassword($admin);
-        $this->em->flush();
+
+        $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
+        $em->flush();
 
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
@@ -107,7 +111,9 @@ EOT
         $user->setFirstName($this->getAdministratorName('Prénom', $input, $output));
         $user->setLastName($this->getAdministratorName('Nom', $input, $output));
         $user->setPlainPassword($this->getAdministratorPassword($input, $output));
-        $this->em->persist($user);
+
+        $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
+        $em->persist($user);
 
         return $user;
     }
@@ -154,7 +160,9 @@ EOT
         do {
             $question = $this->createEmailQuestion();
             $email = $questionHelper->ask($input, $output, $question);
-            $exists = null !== $this->userRepository->findOneBy(array('email' => $email));
+
+            $repository = $this->managerRegistry->getRepository(UserInterface::class);
+            $exists = null !== $repository->findOneBy(array('email' => $email));
 
             if ($exists) {
                 $output->writeln('<error>Cet email est déjà utilisé!</error>');

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Aropixel\AdminBundle\Http\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
@@ -29,8 +30,8 @@ abstract class AbstractInstallCommand extends Command
     /** @var CommandExecutor */
     protected $commandExecutor;
 
-    /** @var EntityManagerInterface */
-    protected $em;
+    /** @var ManagerRegistry */
+    protected $managerRegistry;
 
     /** @var ValidatorInterface */
     protected $validator;
@@ -38,12 +39,12 @@ abstract class AbstractInstallCommand extends Command
 
     /**
      * AbstractInstallCommand constructor.
-     * @param EntityManagerInterface $em
+     * @param ManagerRegistry $em
      */
-    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator)
+    public function __construct(ManagerRegistry $managerRegistry, ValidatorInterface $validator)
     {
         parent::__construct();
-        $this->em = $em;
+        $this->managerRegistry = $managerRegistry;
         $this->validator = $validator;
     }
 
