@@ -23,12 +23,12 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         parent::__construct($registry, $entitiesClassNames[UserInterface::class]);
     }
 
-    public function findUserByEmail(string $email): ?User
+    public function findUserByEmail(string $email): ?UserInterface
     {
         return $this->findOneBy(['email' => $email]);
     }
 
-    public function remove(User $user, bool $flush = false) : void
+    public function remove(UserInterface $user, bool $flush = false) : void
     {
         $this->getEntityManager()->remove($user);
 

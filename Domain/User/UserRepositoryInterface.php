@@ -7,14 +7,14 @@
 
 namespace Aropixel\AdminBundle\Domain\User;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface UserRepositoryInterface
 {
-    public function findUserByEmail(string $email) : ?User;
+    public function findUserByEmail(string $email) : ?UserInterface;
     public function findOneBy(array $criteria, ?array $orderBy = null);
     public function find($id, $lockMode = null, $lockVersion = null);
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
-    public function remove(User $user, bool $flush = false) : void;
+    public function remove(UserInterface $user, bool $flush = false) : void;
 }
