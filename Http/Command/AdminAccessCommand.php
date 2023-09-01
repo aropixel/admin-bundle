@@ -161,7 +161,7 @@ EOT
             $question = $this->createEmailQuestion();
             $email = $questionHelper->ask($input, $output, $question);
 
-            $repository = $this->managerRegistry->getRepository(UserInterface::class);
+            $repository = $this->managerRegistry->getRepository(get_class($this->userFactory->createUser()));
             $exists = null !== $repository->findOneBy(array('email' => $email));
 
             if ($exists) {
