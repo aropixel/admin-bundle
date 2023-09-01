@@ -19,7 +19,7 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
-        <one-to-one field="user" target-entity="User" inversed-by="image">
+        <one-to-one field="user" target-entity="Aropixel\AdminBundle\Entity\UserInterface" inversed-by="image">
             <cascade>
                 <cascade-persist />
                 <cascade-remove />
