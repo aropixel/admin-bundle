@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -12,17 +13,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderInterface
 {
-    private EntityManagerInterface $em;
+    private ManagerRegistry $managerRegistry;
     private ParameterBagInterface $parameterBag;
 
 
     /**
-     * @param EntityManagerInterface $em
+     * @param ManagerRegistry $managerRegistry
      * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(EntityManagerInterface $em, ParameterBagInterface $parameterBag)
+    public function __construct(ManagerRegistry $managerRegistry, ParameterBagInterface $parameterBag)
     {
-        $this->em = $em;
+        $this->managerRegistry = $managerRegistry;
         $this->parameterBag = $parameterBag;
     }
 
@@ -38,7 +39,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
     {
         // set the new hashed password on the User object
         $user->setPassword($newHashedPassword);
-        $this->em->flush();
+        $this->managerRegistry->getManagerForClass($this->getUserClass())->flush();
     }
 
 
@@ -54,7 +55,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
             );
         }
 
-        $reloadedUser = $this->em->getRepository($this->getUserClass())->findOneBy(['email' => $user->getUserIdentifier()]);
+        $reloadedUser = $this->managerRegistry->getRepository($this->getUserClass())->findOneBy(['email' => $user->getUserIdentifier()]);
 
         if (null === $reloadedUser) {
             throw new UserNotFoundException(
@@ -78,7 +79,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $user = $this->em->getRepository($this->getUserClass())->findOneBy(['email' => $identifier]);
+        $user = $this->managerRegistry->getRepository($this->getUserClass())->findOneBy(['email' => $identifier]);
         if (is_null($user)) {
             throw new UserNotFoundException();
         }
