@@ -5,13 +5,14 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Exception;
 
 
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class TooOldPasswordException extends AuthenticationException
 {
     private $user;
 
-    public function __construct(User $user)
+    public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
