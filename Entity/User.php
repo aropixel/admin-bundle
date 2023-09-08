@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 /**
  * Admin user for AropixelAdminBundle
  */
