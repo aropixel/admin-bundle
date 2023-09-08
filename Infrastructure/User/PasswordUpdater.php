@@ -13,6 +13,7 @@ namespace Aropixel\AdminBundle\Infrastructure\User;
 
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -29,7 +30,7 @@ class PasswordUpdater implements PasswordUpdaterInterface
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function hashPlainPassword(User $user)
+    public function hashPlainPassword(UserInterface $user)
     {
         $plainPassword = $user->getPlainPassword();
 

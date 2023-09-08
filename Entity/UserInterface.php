@@ -7,14 +7,22 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 
-interface UserInterface extends SymfonyUserInterface
+interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, PasswordHasherAwareInterface
 {
 
     public function setPassword(string $password);
 
     public function getPlainPassword();
+
+    public function tooOldPassword(string $delay) : bool;
+
+    public function tooOldLastLogin() : bool;
+
+    public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void;
 
 }

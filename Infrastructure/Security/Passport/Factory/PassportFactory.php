@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory;
 
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
 use Aropixel\AdminBundle\Entity\User;
@@ -48,7 +49,7 @@ class PassportFactory implements PassportFactoryInterface
             [new RememberMeBadge()]
         );
 
-        /** @var User $user */
+        /** @var UserInterface $user */
         $user = $userBadge->getUser();
         $passport->addBadge(new TooOldPasswordBadge($user, $this->parameterBag->get('passwordPeriod')));
         $passport->addBadge(new TooOldLastLoginBadge($user));

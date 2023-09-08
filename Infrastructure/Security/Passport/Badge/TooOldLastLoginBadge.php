@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge;
 
 
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldLastLoginEventListener;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
@@ -15,14 +16,14 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 class TooOldLastLoginBadge implements BadgeInterface
 {
 
-    private $user;
+    private UserInterface $user;
 
-    public function __construct(User $user)
+    public function __construct(UserInterface $user)
     {
         $this->user = $user;
     }
 
-    public function getUser(): User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }

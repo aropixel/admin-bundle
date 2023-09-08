@@ -12,9 +12,10 @@
 namespace Aropixel\AdminBundle\Domain\User;
 
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface PasswordUpdaterInterface
 {
-    public function hashPlainPassword(User $user);
+    public function hashPlainPassword(UserInterface $user);
 
 }
