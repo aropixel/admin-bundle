@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Http\Action\User;
 
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
+use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Form\Type\UserType;
@@ -16,6 +17,7 @@ class CreateUserAction extends AbstractController
 
     private EntityManagerInterface $em;
     private PasswordUpdaterInterface $passwordUpdater;
+    private UserFactoryInterface $userFactory;
     private UserRepositoryInterface $userRepository;
 
 
@@ -26,19 +28,21 @@ class CreateUserAction extends AbstractController
     /**
      * @param EntityManagerInterface $em
      * @param PasswordUpdaterInterface $passwordUpdater
+     * @param UserFactoryInterface $userFactory
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(EntityManagerInterface $em, PasswordUpdaterInterface $passwordUpdater, UserRepositoryInterface $userRepository)
+    public function __construct(EntityManagerInterface $em, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository)
     {
         $this->em = $em;
         $this->passwordUpdater = $passwordUpdater;
+        $this->userFactory = $userFactory;
         $this->userRepository = $userRepository;
     }
 
 
     public function __invoke(Request $request) : Response
     {
-        $user = new $this->model();
+        $user = $this->userFactory->createUser();
 
         $form = $this->createForm($this->form, $user, [
             'new' => true,
