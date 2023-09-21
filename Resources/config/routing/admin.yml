@@ -5,6 +5,9 @@ sf_web_app_back_office_security:
 aropixel_reset:
     resource: "@AropixelAdminBundle/Resources/config/routing/reset.yml"
 
+aropixel_activation:
+    resource: "@AropixelAdminBundle/Resources/config/routing/activation.yml"
+
 _admin:
     path: /
     controller: Aropixel\AdminBundle\Http\Action\Dashboard\DashboardAction

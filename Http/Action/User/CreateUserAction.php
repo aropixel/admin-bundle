@@ -2,10 +2,14 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
+use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
+use Aropixel\AdminBundle\Domain\Activation\Request\ActivationLinkFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +17,39 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CreateUserAction extends AbstractController
 {
-    public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly PasswordUpdaterInterface $passwordUpdater,
-        private readonly UserFactoryInterface $userFactory,
-        private readonly UserRepositoryInterface $userRepository
-    ){}
 
+    private EntityManagerInterface $em;
+    private PasswordUpdaterInterface $passwordUpdater;
+    private UserFactoryInterface $userFactory;
+    private UserRepositoryInterface $userRepository;
+    private ActivationEmailSenderInterface $activationEmailSender;
+    private ActivationLinkFactoryInterface $activationLinkFactory;
+    private UniqueTokenGenerator $uniqueTokenGenerator;
+
+    private string $model = User::class;
     private string $form = UserType::class;
+
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param PasswordUpdaterInterface $passwordUpdater
+     * @param UserFactoryInterface $userFactory
+     * @param UserRepositoryInterface $userRepository
+     * @param ActivationEmailSenderInterface $activationEmailSender
+     * @param ActivationLinkFactoryInterface $activationLinkFactory
+     * @param UniqueTokenGenerator $uniqueTokenGenerator
+     */
+    public function __construct(EntityManagerInterface $em, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository, ActivationEmailSenderInterface $activationEmailSender, ActivationLinkFactoryInterface $activationLinkFactory, UniqueTokenGenerator $uniqueTokenGenerator)
+    {
+        $this->em = $em;
+        $this->passwordUpdater = $passwordUpdater;
+        $this->userFactory = $userFactory;
+        $this->userRepository = $userRepository;
+        $this->activationEmailSender = $activationEmailSender;
+        $this->activationLinkFactory = $activationLinkFactory;
+        $this->uniqueTokenGenerator = $uniqueTokenGenerator;
+    }
+
 
     public function __invoke(Request $request) : Response
     {
@@ -37,23 +66,27 @@ class CreateUserAction extends AbstractController
             $exists = $this->userRepository->findUserByEmail($user->getEmail());
             if ($exists) {
                 $this->addFlash('error','Cet email est déjà utilisé pour un utilisateur.');
-                return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
+                return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
                     'user' => $user,
                     'form' => $form->createView(),
-                ]);
+                ));
             }
 
             $this->passwordUpdater->hashPlainPassword($user);
+            $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
+            $user->setPasswordRequestedAt(new \DateTime());
             $this->em->persist($user);
             $this->em->flush();
 
+            $this->activationEmailSender->sendActivationEmail($user, $this->activationLinkFactory->createActivationLink($user));
+
             $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
-            return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);
+            return $this->redirectToRoute('aropixel_admin_user_edit', array('id' => $user->getId()));
         }
 
-        return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
+        return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
             'user' => $user,
-            'form' => $form->createView()
-        ]);
+            'form' => $form->createView(),
+        ));
     }
 }
