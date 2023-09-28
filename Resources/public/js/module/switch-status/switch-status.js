@@ -32,6 +32,10 @@ export class SwitchStatus {
                 'published' : 'Publié',
                 'scheduled' : 'Programmé',
                 'offline' : 'Non publié',
+            },
+            stateValues: {
+                'online' : 'online',
+                'offline' : 'offline'
             }
         }
 
@@ -92,7 +96,7 @@ export class SwitchStatus {
 
     isScheduled() {
 
-        if (this.statusField.value === 'offline') {
+        if (this.statusField.value === this.options.stateValues.offline) {
             return false;
         }
 
@@ -105,7 +109,7 @@ export class SwitchStatus {
 
     isPublished() {
 
-        if (this.statusField.value === 'offline') {
+        if (this.statusField.value === this.options.stateValues.offline) {
             return false;
         }
         return !this.isScheduled() || (!this.isOutdated() && this.isIncoming());
@@ -221,7 +225,7 @@ export class SwitchStatus {
     }
 
     updateStatus(event) {
-        this.statusField.value = this.checkboxField.checked ? 'online' : 'offline';
+        this.statusField.value = this.checkboxField.checked ? this.options.stateValues.online : this.options.stateValues.offline;
     }
 
 

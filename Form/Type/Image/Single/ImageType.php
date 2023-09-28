@@ -215,7 +215,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         }
 
         // If the crops to display was specified in the form configuration
-        if (array_key_exists('crops', $options) && count($options['crops'])) {
+        if ($form->has('crops')) {
             $view->vars['crops'] = $options['crops'];
         }
 
@@ -327,7 +327,7 @@ class ImageType extends AbstractType implements DataMapperInterface
             'data_value' => null,       // The field of the entity that store the file name value
             'crop_class' => null,       // The class that stores the crops of the image
             'crops_value' => 'crops',   // The field of the entity that store the crop value
-            'crops' => [],              // The crops defined in the form configuration
+            'crops' => null,              // The crops defined in the form configuration
             'library' => null,          // The entity for which to display the library
             'grid' => null,             // The description text of the widget image
             'description' => null,      // The description text of the widget image

@@ -134,8 +134,30 @@ $(function() {
     let switchStatus = document.querySelector('.form-status-switch .form-check-input');
     if (switchStatus) {
 
-        let statusField = switchStatus.getAttribute('data-status-field') ?? 'status';
-        let status = document.querySelector(".form-status-switch input[type='hidden'][name$='["+statusField+"]']");
+        let status = switchStatus.getAttribute('data-status-field') ?
+            document.getElementById(switchStatus.getAttribute('data-status-field')) :
+            document.querySelector(".form-status-switch input[type='hidden'][name$='[status]']")
+        ;
+
+        let activeValue = switchStatus.getAttribute('data-status-active-value') && switchStatus.getAttribute('data-status-active-value').length ?
+            switchStatus.getAttribute('data-status-active-value') :
+            'online'
+        ;
+
+        let unactiveValue = switchStatus.getAttribute('data-status-unactive-value') && switchStatus.getAttribute('data-status-unactive-value').length ?
+            switchStatus.getAttribute('data-status-unactive-value') :
+            'offline'
+        ;
+
+        let activeLabel = switchStatus.getAttribute('data-status-active-label') && switchStatus.getAttribute('data-status-active-label').length ?
+            switchStatus.getAttribute('data-status-active-label') :
+            'Publié'
+        ;
+
+        let unactiveLabel = switchStatus.getAttribute('data-status-unactive-label') && switchStatus.getAttribute('data-status-unactive-label').length ?
+            switchStatus.getAttribute('data-status-unactive-label') :
+            'Non publié'
+        ;
 
         if (status && switchStatus) {
 
@@ -150,6 +172,16 @@ $(function() {
                 'publishAtTime' : publishAtTime,
                 'publishUntilDate' : publishUntilDate,
                 'publishUntilTime' : publishUntilTime,
+                stateLabels: {
+                    'outdated' : 'Passé',
+                    'published' : activeLabel,
+                    'scheduled' : 'Programmé',
+                    'offline' : unactiveLabel,
+                },
+                'stateValues': {
+                    'offline' : unactiveValue,
+                    'online' : activeValue,
+                }
             })
         }
 
