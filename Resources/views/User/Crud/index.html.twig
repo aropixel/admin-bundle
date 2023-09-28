@@ -22,10 +22,12 @@
 
                             <div class="d-flex justify-content-end mb-3">
                                 <div class="btn-group">
-                                    <button type="button" data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="badge badge-danger badge-icon delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    {{ form(delete_forms[user.id]) }}
+                                    <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="badge badge-danger badge-icon delete cursor-pointer">
+                                        <i class="fas fa-trash ms-0"></i>
+                                    </a>
+                                    <form method="post" action="{{ path('aropixel_admin_user_delete', {'id': user.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete__user' ~ user.id) }}">
+                                    </form>
                                 </div>
                             </div>
 

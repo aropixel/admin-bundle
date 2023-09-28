@@ -3,44 +3,23 @@
 namespace Aropixel\AdminBundle\Http\Action\User;
 
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
-use Aropixel\AdminBundle\Http\Form\User\FormFactory;
+use Aropixel\AdminBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 class DeleteUserAction extends AbstractController
 {
-    private FormFactory $formFactory;
-    private RequestStack $request;
-    private UserRepositoryInterface $userRepository;
 
-    /**
-     * @param FormFactory $formFactory
-     * @param RequestStack $request
-     * @param UserRepositoryInterface $userRepository
-     */
-    public function __construct(FormFactory $formFactory, RequestStack $request, UserRepositoryInterface $userRepository)
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository
+    ){}
+
+    public function __invoke(Request $request, User $user) : Response
     {
-        $this->formFactory = $formFactory;
-        $this->request = $request;
-        $this->userRepository = $userRepository;
-    }
-
-
-    public function __invoke(int $id) : Response
-    {
-        $user = $this->userRepository->find($id);
-        if (is_null($user)) {
-            throw $this->createNotFoundException();
-        }
-
-        $form = $this->formFactory->createDeleteForm($user);
-        $form->handleRequest($this->request->getMainRequest());
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('notice', 'Votre utilisateur a bien été supprimé.');
+        if ($this->isCsrfTokenValid('delete__user'.$user->getId(), $request->request->get('_token'))) {
             $this->userRepository->remove($user, true);
+            $this->addFlash('notice', "L'utilisateur a bien été supprimée.");
         }
 
         return $this->redirect($this->generateUrl('aropixel_admin_user_index'));
