@@ -35,7 +35,7 @@ class Image implements ItemLibraryInterface
      * File object of the image
      * @Assert\File()
      */
-    public ?File $file;
+    public ?File $file = null;
 
     /**
      * Default title attribute (can be overrided in AttachImage)
@@ -264,7 +264,7 @@ class Image implements ItemLibraryInterface
     /**
      * Get file.
      */
-    public function getFile() : File
+    public function getFile() : ?File
     {
         return $this->file;
     }
