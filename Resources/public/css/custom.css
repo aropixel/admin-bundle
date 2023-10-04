@@ -313,8 +313,8 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice, .select2-container--default .select2-results__option[aria-selected=true], .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: var(--main-bg-color);
-    color: #fff;
+    background-color: #ebebeb;
+    color: #252F4A;
 }
 
 a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active span {
