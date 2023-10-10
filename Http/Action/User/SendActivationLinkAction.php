@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
+use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
@@ -11,13 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
-class EditUserAction extends AbstractController
+class SendActivationLinkAction extends AbstractController
 {
 
     public function __construct(
-        private readonly EntityManagerInterface $em,
+        private readonly ActivationEmailSenderInterface $activationEmailSender,
         private readonly PasswordInitializer $passwordInitializer,
-        private readonly PasswordUpdaterInterface $passwordUpdater,
         private readonly RequestStack $request,
         private readonly UserRepositoryInterface $userRepository
     ){}
@@ -36,19 +36,16 @@ class EditUserAction extends AbstractController
         $editForm = $this->createForm($this->form, $user);
         $editForm->handleRequest($this->request->getMainRequest());
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($this->passwordInitializer->stillPendingPasswordCreation($user)) {
 
-            $this->passwordUpdater->hashPlainPassword($user);
-            $this->em->flush();
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->activationEmailSender->sendActivationEmail($user);
+            $this->addFlash('notice', 'L\'email de création de compte a bien été renvoyé.');
 
-            return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);
+        }
+        else {
+            $this->addFlash('notice', 'Impossible de renvoyer le mail de création de compte. Le compte a déjà été initialisé.');
         }
 
-        return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
-            'user'   => $user,
-            'sendButton' => $this->passwordInitializer->stillPendingPasswordCreation($user),
-            'form'   => $editForm->createView()
-        ]);
+        return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);
     }
 }

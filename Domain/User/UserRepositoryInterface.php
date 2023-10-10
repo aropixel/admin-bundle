@@ -16,5 +16,6 @@ interface UserRepositoryInterface
     public function find($id, $lockMode = null, $lockVersion = null);
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
+    public function create(UserInterface $user) : void;
     public function remove(UserInterface $user, bool $flush = false) : void;
 }

@@ -3,14 +3,10 @@
 namespace Aropixel\AdminBundle\Http\Action\User;
 
 use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
-use Aropixel\AdminBundle\Domain\Activation\Request\ActivationLinkFactoryInterface;
-use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
-use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Form\Type\UserType;
-use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
-use Doctrine\ORM\EntityManagerInterface;
+use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,36 +14,22 @@ use Symfony\Component\HttpFoundation\Response;
 class CreateUserAction extends AbstractController
 {
 
-    private EntityManagerInterface $em;
-    private PasswordUpdaterInterface $passwordUpdater;
+    private ActivationEmailSenderInterface $activationEmailSender;
     private UserFactoryInterface $userFactory;
     private UserRepositoryInterface $userRepository;
-    private ActivationEmailSenderInterface $activationEmailSender;
-    private ActivationLinkFactoryInterface $activationLinkFactory;
-    private UniqueTokenGenerator $uniqueTokenGenerator;
-
-    private string $model = User::class;
     private string $form = UserType::class;
 
 
     /**
-     * @param EntityManagerInterface $em
-     * @param PasswordUpdaterInterface $passwordUpdater
+     * @param ActivationEmailSenderInterface $activationEmailSender
      * @param UserFactoryInterface $userFactory
      * @param UserRepositoryInterface $userRepository
-     * @param ActivationEmailSenderInterface $activationEmailSender
-     * @param ActivationLinkFactoryInterface $activationLinkFactory
-     * @param UniqueTokenGenerator $uniqueTokenGenerator
      */
-    public function __construct(EntityManagerInterface $em, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository, ActivationEmailSenderInterface $activationEmailSender, ActivationLinkFactoryInterface $activationLinkFactory, UniqueTokenGenerator $uniqueTokenGenerator)
+    public function __construct(ActivationEmailSenderInterface $activationEmailSender, UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository)
     {
-        $this->em = $em;
-        $this->passwordUpdater = $passwordUpdater;
+        $this->activationEmailSender = $activationEmailSender;
         $this->userFactory = $userFactory;
         $this->userRepository = $userRepository;
-        $this->activationEmailSender = $activationEmailSender;
-        $this->activationLinkFactory = $activationLinkFactory;
-        $this->uniqueTokenGenerator = $uniqueTokenGenerator;
     }
 
 
@@ -72,20 +54,17 @@ class CreateUserAction extends AbstractController
                 ));
             }
 
-            $this->passwordUpdater->hashPlainPassword($user);
-            $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
-            $user->setPasswordRequestedAt(new \DateTime());
-            $this->em->persist($user);
-            $this->em->flush();
+            $this->userRepository->create($user);
+            $this->activationEmailSender->sendActivationEmail($user);
 
-            $this->activationEmailSender->sendActivationEmail($user, $this->activationLinkFactory->createActivationLink($user));
 
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré. Un email lui a été envoyé pour qu\'il puisse finaliser l\'ouverture de son compte.');
             return $this->redirectToRoute('aropixel_admin_user_edit', array('id' => $user->getId()));
         }
 
         return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
             'user' => $user,
+            'sendButton' => false,
             'form' => $form->createView(),
         ));
     }

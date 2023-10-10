@@ -2,35 +2,26 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
-use Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
+
 
 class UserType extends AbstractType
 {
-    /** @var Security  */
-    private $security;
 
-    /**
-     * @param Security $security
-     */
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
+    public function __construct(
+        private readonly PasswordInitializer $passwordInitializer,
+        private readonly Security $security
+    ) {}
 
 
     /**
@@ -39,18 +30,13 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $userToEdit = $builder->getData();
 
         $builder
             ->add('email')
-            ->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'required' => $options['new'],
-                'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre.',
-                'first_options'  => array('label' => $options['new'] ? 'Mot de passe' : 'Changer le mot de passe'),
-                'second_options' => array('label' => 'Confirmer le mot de passe'),
-            ))
             ->add('enabled', ToggleSwitchType::class, array(
                 'label' => "Actif",
+                'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit),
             ))
             ->add('lastName', null, array('label' => 'Nom'))
             ->add('firstName', null, array('label' => 'Prénom'))
@@ -68,6 +54,20 @@ class UserType extends AbstractType
                 'years' => range(date('Y') - 50, date('Y') + 5)
             ))*/
         ;
+
+        $userLogged = $this->security->getUser();
+        if ($userLogged->getId() == $userToEdit->getId()) {
+
+            $builder
+                ->add('plainPassword', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'required' => false,
+                    'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre.',
+                    'first_options'  => array('label' => 'Changer le mot de passe'),
+                    'second_options' => array('label' => 'Confirmer le mot de passe'),
+                ))
+            ;
+        }
 
 
         // If the user is granted
