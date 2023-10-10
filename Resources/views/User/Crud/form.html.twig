@@ -38,8 +38,20 @@
                 {% endif %}
 
                 {{ form_row(form.email) }}
-                {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
-                {{ form_row(form.plainPassword.second) }}
+
+                {% if form.plainPassword is defined %}
+
+                    <hr />
+                    {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+                    {{ form_row(form.plainPassword.second) }}
+
+                {% endif %}
+
+                {% if sendButton %}
+
+                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">Renvoyer l'email de création de compte</a>
+
+                {% endif %}
 
             </div>
 

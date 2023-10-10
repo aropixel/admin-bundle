@@ -1,6 +1,8 @@
 parameters:
+    env(ACTIVATION_REQUEST_LIFETIME): 'P1D'
     passwordPeriod: '6 months'
     passwordAttempts: 6
+    activationRequestLifeTime: '%env(ACTIVATION_REQUEST_LIFETIME)%'
 
 services:
     _defaults:

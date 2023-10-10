@@ -14,5 +14,9 @@ aropixel_admin_user_edit:
   path: /user/{id}/edit
   controller: Aropixel\AdminBundle\Http\Action\User\EditUserAction
 
+aropixel_admin_user_send_activation_link:
+  path: /user/{id}/activation/send
+  controller: Aropixel\AdminBundle\Http\Action\User\SendActivationLinkAction
+
 
 

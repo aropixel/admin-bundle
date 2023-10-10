@@ -5,7 +5,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\DisabledUserBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -53,6 +53,7 @@ class PassportFactory implements PassportFactoryInterface
         $user = $userBadge->getUser();
         $passport->addBadge(new TooOldPasswordBadge($user, $this->parameterBag->get('passwordPeriod')));
         $passport->addBadge(new TooOldLastLoginBadge($user));
+        $passport->addBadge(new DisabledUserBadge($user));
 
         // Add Csrf token
         $passport->addBadge(new CsrfTokenBadge('authenticate', $credentials['csrf_token']));

@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, PasswordHasherAwareInterface
 {
 
+    public function setEnabled(bool $boolean);
+
     public function setPassword(string $password);
 
     public function getPlainPassword();

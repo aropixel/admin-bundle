@@ -37,17 +37,15 @@
                         <img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
                     </div>
 
-                    <div class="card">
-                        <div class="card-header"><h4>Renouvellement de votre mot de passe</h4></div>
+                    <div class="card mt-5">
+                        <div class="card-header"><h4>Votre lien d'activation a expiré !</h4></div>
 
                         <div class="card-body">
-                            <p>Vous n'avez pas modifié votre mot de passe depuis trop longtemps.</p>
-                            <p>
-                                Nous venons de vous adresser un mail qui vous permettra de choisir un nouveau mot de passe afin de sécuriser votre compte.<br>
-                                Vous pouvez consulter dès maintenant votre messagerie.
-                            </p>
+                            <p>Veuillez vous rapprocher d'un administrateur pour finaliser la création de votre compte.</p>
                         </div>
                     </div>
+                    <br />
+                    <br />
                     <div class="simple-footer">
                         Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
                     </div>
