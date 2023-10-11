@@ -1,6 +1,8 @@
 parameters:
+    env(ACTIVATION_REQUEST_LIFETIME): 'P1D'
     passwordPeriod: '6 months'
     passwordAttempts: 6
+    activationRequestLifeTime: '%env(ACTIVATION_REQUEST_LIFETIME)%'
 
 services:
     _defaults:
@@ -17,6 +19,12 @@ services:
     # as action arguments even if you don't extend any base controller class
     Aropixel\AdminBundle\Controller\:
         resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Aropixel\AdminBundle\Http\:
+        resource: '../../Http'
         tags: ['controller.service_arguments']
 
     # Autowire des services
@@ -37,6 +45,34 @@ services:
     # Autowire des services
     Aropixel\AdminBundle\Repository\UserRepository:
         tags: ['doctrine.repository_service']
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\ActivationEmailSender:
+        autowire: true
+
+    Aropixel\AdminBundle\Security\ActivationEmailSenderInterface:
+        alias: Aropixel\AdminBundle\Security\ActivationEmailSender
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\PasswordCreateHandler:
+        autowire: true
+
+    Aropixel\AdminBundle\Security\PasswordCreationHandlerInterface:
+        alias: Aropixel\AdminBundle\Security\PasswordCreateHandler
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\ActivationLinkFactory:
+        autowire: true
+
+    Aropixel\AdminBundle\Security\ActivationLinkFactoryInterface:
+        alias: Aropixel\AdminBundle\Security\ActivationLinkFactory
+
+    # Autowire des services
+    Aropixel\AdminBundle\Security\PasswordInitializer:
+        autowire: true
+
+    Aropixel\AdminBundle\Security\PasswordInitializerInterface:
+        alias: Aropixel\AdminBundle\Security\PasswordInitializer
 
     # Autowire des services
     Aropixel\AdminBundle\Security\PasswordUpdater:
@@ -61,6 +97,7 @@ services:
     # Autowire des formulaires
     Aropixel\AdminBundle\Form\Type\:
         resource: '../../Form/Type'
+        autowire: true
 
     # Autowire des extensions twig
     Aropixel\AdminBundle\Twig\:

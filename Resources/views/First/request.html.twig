@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
+
+    {% block stylesheets %}
+
+        <!-- General CSS Files -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+
+        <!-- CSS Libraries -->
+
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
+
+
+        <!-- Awesome Font -->
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
+
+    {% endblock %}
+
+</head>
+<body>
+
+<div id="app">
+    <section class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                    <div class="login-brand">
+                        <img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="100" class="shadow-light rounded-circle">
+                    </div>
+
+                    <div class="card card-primary">
+                        <div class="card-header"><h4>Première visite ?</h4></div>
+
+                        <div class="card-body">
+                            <p>Activez votre accès en créant votre mot de passe.</p>
+                            {{ form_start(form) }}
+                            <div class="form-group">
+                                <label for="email">Entrez l'email utilisé pour la création de votre compte :</label>
+                                {% if not_found %}<div class="alert alert-danger">Votre email n'a pas été trouvé.</div>{% endif %}
+                                {% if already_initialized %}<div class="alert alert-danger">Votre compte a déjà été activé. Veuillez vous authentifier, ou cliquer sur <a href="{{ path('aropixel_admin_reset_request') }}">mot de passe oublié</a>, pour changer votre mot de passe.</div>{% endif %}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                    Continuer
+                                </button>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                    <div class="simple-footer">
+                        Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+</body>
+</html>

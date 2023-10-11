@@ -10,3 +10,8 @@ aropixel_admin_security_check:
 aropixel_admin_security_logout:
     path:     /logout
     defaults: { _controller: Aropixel\AdminBundle\Controller\SecurityController::logout }
+
+aropixel_admin_user_send_activation_link:
+    path: /user/{id}/activation/send
+    controller: Aropixel\AdminBundle\Http\Action\User\SendActivationLinkAction
+
