@@ -4,6 +4,8 @@ namespace Aropixel\AdminBundle\Controller;
 
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Security\ActivationEmailSenderInterface;
+use Aropixel\AdminBundle\Security\PasswordInitializerInterface;
 use Aropixel\AdminBundle\Security\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -83,12 +85,11 @@ class UserController extends AbstractController
      *
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function create(Request $request, UserManager $userManager)
+    public function create(Request $request, ActivationEmailSenderInterface $activationEmailSender, UserManager $userManager)
     {
-        $user = new $this->model();
+        $user = $userManager->createUser();
 
         $form = $this->createForm($this->form, $user, array(
-            'security.authorization_checker' => $this->get('security.authorization_checker'),
             'new' => true,
         ));
         $form->handleRequest($request);
@@ -101,21 +102,23 @@ class UserController extends AbstractController
                 $this->addFlash('error', 'Cet email est déjà utilisé pour un utilisateur.');
                 return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
                     'user' => $user,
+                    'sendButton' => false,
                     'form' => $form->createView(),
                 ));
             }
 
-            //
             $userManager->updateUser($user, true);
+            $activationEmailSender->sendActivationEmail($user);
 
             //
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré. Un email lui a été envoyé pour qu\'il puisse finaliser l\'ouverture de son compte.');
 
             return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
         }
 
         return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
             'user' => $user,
+            'sendButton' => false,
             'form' => $form->createView(),
         ));
 
@@ -127,7 +130,7 @@ class UserController extends AbstractController
      *
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, UserManager $userManager, $id)
+    public function edit(Request $request, UserManager $userManager, PasswordInitializerInterface $passwordInitializer, $id)
     {
         //
         $em = $this->getDoctrine()->getManager();
@@ -139,9 +142,7 @@ class UserController extends AbstractController
         }
 
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm($this->form, $user, array(
-            'security.authorization_checker' => $this->get('security.authorization_checker')
-        ));
+        $editForm = $this->createForm($this->form, $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -158,6 +159,7 @@ class UserController extends AbstractController
         return $this->render('@AropixelAdmin/User/Crud/form.html.twig', array(
             'user'   => $user,
             'form'   => $editForm->createView(),
+            'sendButton' => $passwordInitializer->stillPendingPasswordCreation($user),
             'delete_form' => $deleteForm->createView(),
         ));
     }

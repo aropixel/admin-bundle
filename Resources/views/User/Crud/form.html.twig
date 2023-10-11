@@ -35,6 +35,7 @@
 
     </fieldset>
 
+    {% if form.plainPassword is defined %}
     <fieldset class="content-group">
 
         <div class="section-title m-t-10">Identifiant / Mot de passe</div>
@@ -48,9 +49,27 @@
                 {{ form_row(form.plainPassword.second) }}
             </div>
         </div>
+        {% if sendButton %}
 
+            <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">Renvoyer l'email de création de compte</a>
+
+        {% endif %}
 
     </fieldset>
+    {% else %}
+        <fieldset class="content-group">
+
+            <div class="section-title m-t-10">Identifiant</div>
+
+            {{ form_row(form.email) }}
+            {% if sendButton %}
+
+                <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">Renvoyer l'email de création de compte</a>
+
+            {% endif %}
+
+        </fieldset>
+    {% endif %}
 
 
 

@@ -338,6 +338,21 @@ class User implements UserInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isPasswordRequestExpired(\DateInterval $ttl): bool
+    {
+        if (null === $this->passwordRequestedAt) {
+            return false;
+        }
+
+        $threshold = new \DateTime();
+        $threshold->sub($ttl);
+
+        return $threshold > $this->passwordRequestedAt;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getPasswordRequestedAt()
@@ -346,7 +361,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param \DateTime $passwordRequestedAt
+     * @param ?\DateTime $passwordRequestedAt
      * @return User
      */
     public function setPasswordRequestedAt($passwordRequestedAt): self

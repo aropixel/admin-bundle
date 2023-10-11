@@ -20,6 +20,9 @@ class UserManager implements UserManagerInterface
     /** @var EntityManagerInterface $em */
     private $em;
 
+    /** @var PasswordInitializerInterface $passwordInitializer */
+    private $passwordInitializer;
+
     /** @var PasswordUpdater $passwordUpdater */
     private $passwordUpdater;
 
@@ -33,12 +36,14 @@ class UserManager implements UserManagerInterface
     /**
      * UserManager constructor.
      * @param EntityManagerInterface $em
+     * @param PasswordInitializerInterface $passwordInitializer
      * @param PasswordUpdater $passwordUpdater
      * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(EntityManagerInterface $em, PasswordUpdater $passwordUpdater, ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $em, PasswordInitializerInterface $passwordInitializer, PasswordUpdater $passwordUpdater, ParameterBagInterface $parameterBag)
     {
         $this->em = $em;
+        $this->passwordInitializer = $passwordInitializer;
         $this->passwordUpdater = $passwordUpdater;
         $this->parameterBag = $parameterBag;
 
@@ -60,7 +65,11 @@ class UserManager implements UserManagerInterface
      */
     public function createUser()
     {
-        return new $this->model();
+        $user = new $this->model();
+        $user->setEnabled(false);
+        $this->passwordInitializer->createPassword($user);
+
+        return $user;
     }
 
 
