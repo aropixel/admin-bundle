@@ -92,11 +92,17 @@ hr {
     background-color: #fff;
     border: 3px solid #0CABA8;
 }
+.state-icon-scheduled {
+    background-color: #fff;
+    border: 3px solid #ffc700;
+}
 
 .fa-circle--online {
     color: #0CABA8;
 }
-
+.fa-circle--scheduled {
+    color: #ffc700;
+}
 .fa-circle--offline {
     color: #c2c2c2;
 }
@@ -127,6 +133,9 @@ hr {
 
 .img-state-icon--online {
     background-color: #0CABA8;
+}
+.img-state-icon--scheduled {
+    background-color: #ffc700;
 }
 .img-state-icon--offline {
     background-color: #e7e7e7;
