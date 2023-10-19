@@ -28,7 +28,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
     }
 
 
-    private function getUserClass() : string
+    protected function getUserClass() : string
     {
         $entities = $this->parameterBag->get('aropixel_admin.entities');
         return $entities[\Aropixel\AdminBundle\Entity\UserInterface::class];
