@@ -1,7 +1,8 @@
+{% set href = link.routeName ? url(link.routeName, link.routeParameters) : (link.externalLink ? link.externalLink : '') %}
 {% if admin_theme.menu_position == "top" %}
 
     <li class="nav-item {{ link.isActive ? 'active' : '' }}">
-        <a href="{{ url(link.routeName, link.routeParameters) }}" class="nav-link" data-item="{{ link.id }}">
+        <a href="{{ href }}" class="nav-link" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
             {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
             <span>{{ link.label }}</span>
         </a>
@@ -10,7 +11,7 @@
 {% else %}
 
     <li class="accordion-item {{ link.isActive ? 'active' : '' }}">
-        <a href="{{ url(link.routeName, link.routeParameters) }}" class="nav-link" data-item="{{ link.id }}">
+        <a href="{{ href }}" class="nav-link" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
             {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
             <span>{{ link.label }}</span>
         </a>
