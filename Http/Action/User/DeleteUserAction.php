@@ -19,7 +19,7 @@ class DeleteUserAction extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete__user'.$user->getId(), $request->request->get('_token'))) {
             $this->userRepository->remove($user, true);
-            $this->addFlash('notice', "L'utilisateur a bien été supprimée.");
+            $this->addFlash('notice', "L'utilisateur a bien été supprimé.");
         }
 
         return $this->redirect($this->generateUrl('aropixel_admin_user_index'));
