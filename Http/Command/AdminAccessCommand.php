@@ -77,23 +77,20 @@ EOT
 
 
         try {
+
             $user = $this->userFactory->createUser();
-            $admin = $this->configureNewUser($user, $input, $output);
+            $user->setRoles(['ROLE_SUPER_ADMIN']);
+            $this->configureNewUser($user, $input, $output);
+
         } catch (\InvalidArgumentException $exception) {
             return;
         }
-
-        $admin->setRoles(['ROLE_SUPER_ADMIN']);
-        $admin->setEnabled(true);
-        $this->passwordUpdater->hashPlainPassword($admin);
 
         $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
         $em->flush();
 
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
-
-
 
         return defined( 'Command::SUCCESS' ) ? constant('Command::SUCCESS') : 0;
 
@@ -110,11 +107,10 @@ EOT
         $user->setEmail($email);
         $user->setFirstName($this->getAdministratorName('Prénom', $input, $output));
         $user->setLastName($this->getAdministratorName('Nom', $input, $output));
-        $user->setPlainPassword($this->getAdministratorPassword($input, $output));
 
-        $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
-        $em->persist($user);
-
+        $userClass = get_class($this->userFactory->createUser());
+        $em = $this->managerRegistry->getManagerForClass($userClass);
+        $em->getRepository($userClass)->create($user);
         return $user;
     }
 
@@ -181,50 +177,6 @@ EOT
         $name = $questionHelper->ask($input, $output, $question);
 
         return $name;
-    }
-
-    private function getAdministratorPassword(InputInterface $input, OutputInterface $output): string
-    {
-        /** @var QuestionHelper $questionHelper */
-        $questionHelper = $this->getHelper('question');
-        $validator = $this->getPasswordQuestionValidator();
-
-        do {
-            $passwordQuestion = $this->createPasswordQuestion('Entrez un mot de passe:', $validator);
-            $confirmPasswordQuestion = $this->createPasswordQuestion('Entrez de nouveau le mot de passe:', $validator);
-
-            $password = $questionHelper->ask($input, $output, $passwordQuestion);
-            $repeatedPassword = $questionHelper->ask($input, $output, $confirmPasswordQuestion);
-
-            if ($repeatedPassword !== $password) {
-                $output->writeln('<error>Les mots de passes sont différents!</error>');
-            }
-        } while ($repeatedPassword !== $password);
-
-        return $password;
-    }
-
-    private function getPasswordQuestionValidator(): \Closure
-    {
-        return function ($value) {
-            /** @var ConstraintViolationListInterface $errors */
-            $errors = $this->validator->validate($value, [new NotBlank()]);
-            foreach ($errors as $error) {
-                throw new \DomainException($error->getMessage());
-            }
-
-            return $value;
-        };
-    }
-
-    private function createPasswordQuestion(string $message, \Closure $validator): Question
-    {
-        return (new Question($message))
-            ->setValidator($validator)
-            ->setMaxAttempts(3)
-            ->setHidden(true)
-            ->setHiddenFallback(false)
-            ;
     }
 
 }

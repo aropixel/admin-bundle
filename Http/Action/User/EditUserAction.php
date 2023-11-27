@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Http\Action\User;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -15,6 +16,7 @@ class EditUserAction extends AbstractController
 
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly PasswordInitializer $passwordInitializer,
         private readonly PasswordUpdaterInterface $passwordUpdater,
         private readonly RequestStack $request,
         private readonly UserRepositoryInterface $userRepository
@@ -45,6 +47,7 @@ class EditUserAction extends AbstractController
 
         return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
             'user'   => $user,
+            'sendButton' => $this->passwordInitializer->stillPendingPasswordCreation($user),
             'form'   => $editForm->createView()
         ]);
     }

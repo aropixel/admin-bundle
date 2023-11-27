@@ -1,0 +1,8 @@
+
+aropixel_admin_create_password:
+  path: /activation/{token}/password
+  controller: Aropixel\AdminBundle\Http\Action\Activation\CreatePasswordAction
+
+aropixel_admin_activation_request_status:
+  path: /activation/request/{status}
+  controller: Aropixel\AdminBundle\Http\Action\Activation\RequestStatusAction

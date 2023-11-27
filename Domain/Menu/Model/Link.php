@@ -17,6 +17,8 @@ class Link implements ItemInterface, RoutableInterface
 
     private array $properties;
 
+    private ?string $externalLink = null;
+
     private ?string $id;
 
     private ?IterableInterface $parent = null;
@@ -129,6 +131,16 @@ class Link implements ItemInterface, RoutableInterface
     public function isActive(): bool
     {
         return $this->isActive;
+    }
+
+    public function getExternalLink(): ?string
+    {
+        return $this->externalLink;
+    }
+
+    public function setExternalLink(string $externalLink): void
+    {
+        $this->externalLink = $externalLink;
     }
 
 }

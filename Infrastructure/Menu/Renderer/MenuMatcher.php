@@ -56,6 +56,10 @@ class MenuMatcher implements MenuMatcherInterface
 
     protected function isSetRoute(RoutableInterface $item) : bool
     {
+        if (!strlen($item->getRouteName())) {
+            return false;
+        }
+
         return $item->getRouteName() == $this->mustMatchRoute &&
             $this->mustMatchRouteParameters == $item->getRouteParameters()
             ;
@@ -78,6 +82,10 @@ class MenuMatcher implements MenuMatcherInterface
 
     protected function isActiveRoute(RoutableInterface $item, $ignoreParameters=['id']) : bool
     {
+        if (!strlen($item->getRouteName())) {
+            return false;
+        }
+
         $isExactRoute = $this->compareRoute($item->getRouteName(), $item->getRouteParameters());
         if ($isExactRoute) {
             return true;
