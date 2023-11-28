@@ -824,12 +824,12 @@ $(function() {
     $(".main-content").on('click', 'a.status[data-confirm]', function() {
 
         let _button = $(this);
-        let _btn_group= _button.closest('.btn-group');
-        let _state_icon = $(this).closest('tr').find('.state-icon');
-        let _etat = _btn_group.find('button').hasClass('btn-default') ? 'offline' : 'online';
-        let _modalBgClass = (_etat == 'online' ? 'bg-default' : 'bg-primary');
-        let _buttonValidClass = (_etat == 'online' ? 'btn-default' : 'btn-primary');
-        let _message = _button.data('confirm').replace('%s', _etat=='online' ? 'hors ligne' : 'en ligne');
+        let _btn_group = _button.closest('.dropdown-menu');
+        let _state_icon = $(this).closest('tr').find('.img-state-icon');
+        let state = _state_icon.hasClass('img-state-icon--offline') ? 'offline' : 'online';
+        let _modalBgClass = (state === 'online' ? 'bg-default' : 'bg-primary');
+        let _buttonValidClass = (state === 'online' ? 'btn-default' : 'btn-primary');
+        let _message = _button.data('confirm').replace('%s', state === 'online' ? 'hors ligne' : 'en ligne');
 
         let _buttons = {
 
@@ -844,32 +844,26 @@ $(function() {
                 'class' : _buttonValidClass,
                 'callback' : function() {
 
-                    let suffix = document.URL.slice(-1)=='/' ? '' : '/';
+                    let suffix = document.URL.slice(-1) === '/' ? '' : '/';
                     let url = _button.attr("data-path") ? _button.attr("data-path") : document.URL+suffix+"state";
                     let button = $(this);
 
                     button.attr('disabled', 'disabled');
 
                     $.get(url, function(answer) {
-                        if (answer=='OK') {
+                        if (answer === 'OK') {
 
-                            let stateIconClass = _state_icon.hasClass('state-icon-online') ? 'state-icon-online' : 'state-icon-offline';
-
-                            _btn_group.children('a, button')
-                                .removeClass(_etat=='online' ? 'btn-primary' : 'btn-default')
-                                .addClass(_etat!='online' ? 'btn-primary' : 'btn-default');
                             _state_icon
-                                .removeClass(stateIconClass === 'state-icon-online' ? 'state-icon-online' : 'state-icon-offline')
-                                .addClass(stateIconClass === 'state-icon-offline' ? 'state-icon-online' : 'state-icon-offline');
+                                .removeClass(state === 'online' ? 'img-state-icon--online' : 'img-state-icon--offline')
+                                .addClass(state !== 'online' ? 'img-state-icon--online' : 'img-state-icon--offline');
 
-                            _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (_etat=='online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
+                            _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
 
                             button.removeAttr('disabled');
                             button.closest('.modal').modal('hide');
                             button.closest('.modal').on('hidden.bs.modal', function (e) {
                                 $(this).remove();
                             });
-                            // button.closest('.modal').fadeOut('300', function() { $(this).remove(); });
 
                         }
                     });
@@ -879,12 +873,7 @@ $(function() {
             },
         }
 
-
-
         new ModalDyn("Confirmation", _message, _buttons, {modalClass: 'modal_mini', headerClass: _modalBgClass});
-
-
-
 
     });
 
