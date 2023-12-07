@@ -21,6 +21,7 @@ class TimedType extends AbstractType
         if ($options['createdAt'] !== false) {
             $builder
                 ->add('createdAt', DateTimeType::class, array(
+                    'label' => "Créé le",
                     'required' => false,
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',

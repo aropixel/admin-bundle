@@ -1,30 +1,15 @@
+{% if form.publishAt is defined or form.publishAt is defined %}
 
-    {% if form.publishAt is defined %}
+    <div class="tab-pane {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" id="panel-tab-publish" role="tabpanel">
 
-        <hr>
+        {% if form.publishAt is defined %}
+            {{ form_row(form.publishAt) }}
+        {% endif %}
 
-        <div class="form-group row publish-date mb-2">
-            <label class="form-label">Publier le</label>
-            <div class="form-widget">
-                <div class="row">
-                    <div class="col-6">{{ form_widget(form.publishAt['date']) }}</div>
-                    <div class="col-6">{{ form_widget(form.publishAt['time']) }}</div>
-                </div>
-            </div>
-        </div>
+        {% if form.publishUntil is defined %}
+            {{ form_row(form.publishUntil) }}
+        {% endif %}
 
-    {% endif %}
+    </div>
 
-    {% if form.publishUntil is defined %}
-
-        <div class="form-group row publish-date mb-2">
-            <label class="form-label">Jusqu'au</label>
-            <div class="form-widget">
-                <div class="row">
-                    <div class="col-6">{{ form_widget(form.publishUntil['date']) }}</div>
-                    <div class="col-6">{{ form_widget(form.publishUntil['time']) }}</div>
-                </div>
-            </div>
-        </div>
-
-    {% endif %}
+{% endif %}

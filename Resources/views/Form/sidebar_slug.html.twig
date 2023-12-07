@@ -1,13 +1,5 @@
-
-    {% if form.slug is defined %}
-
-        <div class="form-group row mb-2">
-            <label class="form-label">Permalien</label>
-            <div class="form-widget">
-                {{ form_widget(form.slug) }}
-            </div>
-        </div>
-
-        <hr>
-
-    {% endif %}
+{% if form.slug is defined %}
+    <div class="tab-pane active" id="panel-tab-slug" role="tabpanel">
+        {{ form_row(form.slug) }}
+    </div>
+{% endif %}

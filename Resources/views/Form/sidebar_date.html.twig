@@ -1,14 +1,5 @@
-
-    {% if form.createdAt is defined %}
-
-        <div class="form-group row mb-2">
-            <label class="form-label">Créé le</label>
-            <div class="form-widget">
-                <div class="row">
-                    <div class="col-6">{{ form_widget(form.createdAt['date']) }}</div>
-                    <div class="col-6">{{ form_widget(form.createdAt['time']) }}</div>
-                </div>
-            </div>
-        </div>
-
-    {% endif %}
+{% if form.createdAt is defined %}
+    <div class="tab-pane {% if form.slug is not defined %}active{% endif %}" id="panel-tab-creation" role="tabpanel">
+        {{ form_row(form.createdAt) }}
+    </div>
+{% endif %}

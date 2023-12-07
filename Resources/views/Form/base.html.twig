@@ -144,7 +144,7 @@
                                     {% endif %}
 
                                     {% if publicationOptions %}
-                                        <a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasForm">Options de publication</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#publicationFormModal">Options de publication</a>
                                     {% endif %}
 
                                     {% if deleteRoute %}
@@ -244,7 +244,7 @@
 
             </div>
 
-            {% block offcanvas %}
+            {% block publicationModal %}
 
                 {% if
                     form.slug is defined or
@@ -254,42 +254,66 @@
                     form.publishUntil is defined
                 %}
 
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasForm" aria-labelledby="Réglages">
-                        <div class="offcanvas-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
+                    <div class="modal modal-publication fade" id="publicationFormModal" aria-hidden="true" tabindex="-1">
 
-                            <div class="d-flex justify-content-between">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
 
-                                {% block publishTitle %}
-                                <div>
-                                    <h2 class="section-title mt-0">Publication</h2>
-                                    <div class="section-lead mb-4">Paramétrez vos options de publication</div>
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    {% block publishTitle %}
+                                        <h5 class="modal-title">Paramétrez vos options de publication</h5>
+                                    {% endblock %}
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+
                                 </div>
-                                {% endblock %}
 
-                            </div>
+                                <div class="modal-body">
 
-                            {% block publishSlug %}
-                                {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
-                            {% endblock %}
+                                    <div class="tabbable tabbable-header mt-4">
+                                        <ul class="nav" role="tablist">
+                                            {% if form.slug is defined %}
+                                                <li class="nav-item" role="presentation">
+                                                    <a href="#panel-tab-slug" data-bs-toggle="pill" class="nav-link active" aria-selected="false" tabindex="-1" role="tab">Permalien</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if form.createdAt is defined %}
+                                                <li class="nav-item" role="presentation">
+                                                    <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">Date de création</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if form.publishAt is defined or form.publishAt is defined %}
+                                                <li class="nav-item" role="presentation">
+                                                    <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">Dates de publication</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
 
-                            {% block publishCreated %}
-                                {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                            {% endblock %}
+                                    <div class="panel-tab-content tab-content mt-5 px-3">
 
-                            {% if form.publishAt is defined or form.publishAt is defined %}
+                                        {% block publishSlug %}
+                                            {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
+                                        {% endblock %}
 
-                                {% block publishDates %}
-                                    {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                                {% endblock %}
+                                        {% block publishCreated %}
+                                            {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
+                                        {% endblock %}
 
-                            {% endif %}
+                                        {% block publishDates %}
+                                            {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
+                                        {% endblock %}
 
-                            <div class="d-flex justify-content-between w-100 m-t-60">
-                                <a class="btn btn-outline" data-bs-dismiss="offcanvas">Continuer mes modifications</a>
-                                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Continuer mes modifications</button>
+                                    <button class="btn btn-primary" type="submit">Enregistrer</button>
+                                </div>
+
                             </div>
 
                         </div>

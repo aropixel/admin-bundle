@@ -32,6 +32,7 @@ class PublishableType extends AbstractType
         if ($options['publishAt'] !== false) {
             $builder
                 ->add('publishAt', DateTimeType::class, array(
+                    'label' => "Publié le",
                     'required' => false,
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',
@@ -44,6 +45,7 @@ class PublishableType extends AbstractType
         if ($options['publishUntil'] !== false) {
             $builder
                 ->add('publishUntil', DateTimeType::class, array(
+                    'label' => "Jusqu'au",
                     'required' => false,
                     'date_widget' => 'single_text',
                     'time_widget' => 'single_text',
