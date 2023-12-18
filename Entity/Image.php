@@ -19,12 +19,12 @@ class Image implements ItemLibraryInterface
     /**
      * Image title
      */
-    protected string $title;
+    protected ?string $title = null;
 
     /**
      * Used in order to display image in his specific library
      */
-    protected string $category;
+    protected ?string $category = null;
 
     /**
      * Temporary path (not mapped)
@@ -40,32 +40,32 @@ class Image implements ItemLibraryInterface
     /**
      * Default title attribute (can be overrided in AttachImage)
      */
-    protected ?string $attrTitle;
+    protected ?string $attrTitle = null;
 
     /**
      * Default alt attribute (can be overrided by AttachImage)
      */
-    protected ?string $attrAlt;
+    protected ?string $attrAlt = null;
 
     /**
      * Description of the image
      */
-    protected ?string $description;
+    protected ?string $description = null;
 
     /**
      * Image filename
      */
-    protected ?string $filename;
+    protected ?string $filename = null;
 
     /**
      * Filename extension
      */
-    protected ?string $extension;
+    protected ?string $extension = null;
 
     /**
      * URL used of the imported image (if not uploaded)
      */
-    protected ?string $import;
+    protected ?string $import = null;
 
     /**
      * Is the image just created (not mapped)
@@ -73,8 +73,8 @@ class Image implements ItemLibraryInterface
     protected bool $isNew = false;
 
 
-    protected ?\DateTime $createdAt;
-    protected ?\DateTime $updatedAt;
+    protected ?\DateTime $createdAt = null;
+    protected ?\DateTime $updatedAt = null;
 
 
 
