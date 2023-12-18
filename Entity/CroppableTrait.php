@@ -7,6 +7,7 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 trait CroppableTrait
@@ -16,6 +17,10 @@ trait CroppableTrait
      */
     public function getCrops(): Collection
     {
+        if ($this->crops === null) {
+            $this->crops = new ArrayCollection((array) $this->crops);
+        }
+
         return $this->crops;
     }
 
