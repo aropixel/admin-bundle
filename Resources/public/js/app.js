@@ -161,11 +161,11 @@ $(function() {
 
         if (status && switchStatus) {
 
-            let offcanvas = document.querySelector('.offcanvas-body');
-            let publishAtDate = offcanvas ? offcanvas.querySelector("input[name$='[publishAt][date]']") : null;
-            let publishAtTime = offcanvas ? offcanvas.querySelector("input[name$='[publishAt][time]']") : null;
-            let publishUntilDate = offcanvas ? offcanvas.querySelector("input[name$='[publishUntil][date]']") : null;
-            let publishUntilTime = offcanvas ? offcanvas.querySelector("input[name$='[publishUntil][time]']") : null;
+            let publicationFields = document.getElementById('publicationFields');
+            let publishAtDate = publicationFields ? publicationFields.querySelector("input[name$='[publishAt][date]']") : null;
+            let publishAtTime = publicationFields ? publicationFields.querySelector("input[name$='[publishAt][time]']") : null;
+            let publishUntilDate = publicationFields ? publicationFields.querySelector("input[name$='[publishUntil][date]']") : null;
+            let publishUntilTime = publicationFields ? publicationFields.querySelector("input[name$='[publishUntil][time]']") : null;
 
             new SwitchStatus(status, switchStatus, {
                 'publishAtDate' : publishAtDate,

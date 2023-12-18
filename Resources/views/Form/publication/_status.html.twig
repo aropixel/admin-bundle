@@ -1,0 +1,11 @@
+{% if form.status is defined  %}
+
+    {% set publishable = form.vars.value %}
+
+    <div class="form-switch form-status-switch">
+        <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
+        <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Passé" : (publishable.isPublished ? "Publié" : "Programmé")) : (publishable.isPublished ? "Publié" : "Non publié") }}</label>
+        {{ form_widget(form.status) }}
+    </div>
+
+{% endif %}

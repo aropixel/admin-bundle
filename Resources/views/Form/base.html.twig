@@ -271,39 +271,43 @@
 
                                 <div class="modal-body">
 
-                                    <div class="tabbable tabbable-header mt-4">
-                                        <ul class="nav" role="tablist">
-                                            {% if form.slug is defined %}
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="#panel-tab-slug" data-bs-toggle="pill" class="nav-link active" aria-selected="false" tabindex="-1" role="tab">Permalien</a>
-                                                </li>
-                                            {% endif %}
-                                            {% if form.createdAt is defined %}
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">Date de création</a>
-                                                </li>
-                                            {% endif %}
-                                            {% if form.publishAt is defined or form.publishAt is defined %}
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">Dates de publication</a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
+                                    <div id="publicationFields">
 
-                                    <div class="panel-tab-content tab-content mt-5 px-3">
+                                        <div class="tabbable tabbable-header mt-4">
+                                            <ul class="nav" role="tablist">
+                                                {% if form.slug is defined %}
+                                                    <li class="nav-item" role="presentation">
+                                                        <a href="#panel-tab-slug" data-bs-toggle="pill" class="nav-link active" aria-selected="false" tabindex="-1" role="tab">Permalien</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if form.createdAt is defined %}
+                                                    <li class="nav-item" role="presentation">
+                                                        <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">Date de création</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if form.publishAt is defined or form.publishAt is defined %}
+                                                    <li class="nav-item" role="presentation">
+                                                        <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">Dates de publication</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
 
-                                        {% block publishSlug %}
-                                            {% include '@AropixelAdmin/Form/sidebar_slug.html.twig' %}
-                                        {% endblock %}
+                                        <div class="panel-tab-content tab-content mt-5 px-3">
 
-                                        {% block publishCreated %}
-                                            {% include '@AropixelAdmin/Form/sidebar_date.html.twig' %}
-                                        {% endblock %}
+                                            {% block publishSlug %}
+                                                {% include '@AropixelAdmin/Form/publication/_slug.html.twig' %}
+                                            {% endblock %}
 
-                                        {% block publishDates %}
-                                            {% include '@AropixelAdmin/Form/sidebar_publish.html.twig' %}
-                                        {% endblock %}
+                                            {% block publishCreated %}
+                                                {% include '@AropixelAdmin/Form/publication/_date.html.twig' %}
+                                            {% endblock %}
+
+                                            {% block publishDates %}
+                                                {% include '@AropixelAdmin/Form/publication/_publish.html.twig' %}
+                                            {% endblock %}
+
+                                        </div>
 
                                     </div>
 
