@@ -123,7 +123,7 @@
                     {% set deleteRoute = app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
                     {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
 
-                    {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined %}
+                    {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined or form.slug is defined %}
 
                     <div class="btn-group">
 
