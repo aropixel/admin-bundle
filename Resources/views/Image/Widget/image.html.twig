@@ -45,7 +45,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item btnUpload" href="#" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="Choisir une image"><i class="far fa-image me-2"></i> Modifier l'image</a>
                             {% if savedImage %}
-                                {% if form.crops is defined and get_available_crop_filters(form.vars.data, crops)|length > 0 %}
+                                {% if form.crops is defined and get_available_crop_filters(form.vars.data, form.vars.crops)|length > 0 %}
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt me-2"></i> Redimensionner l'image</a>
                                 {% endif %}
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> Modifier le texte alternatif</a>
