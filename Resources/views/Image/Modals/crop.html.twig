@@ -15,7 +15,7 @@
 				<div class="d-flex justify-content-start">
 
 					<div class="float-left" id="crop_zone">
-						<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.getImageUid() }}" />
+						{% if image.getWebPath() %}<img src="{{ image.getWebPath() | imagine_filter('admin_crop') }}" width="600" data-id="{{ image.getImageUid() }}" />{% endif %}
 					</div>
 
 					<div class="float-left full-with m-l-50" id="crop_options">
