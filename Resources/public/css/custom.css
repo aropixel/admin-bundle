@@ -84,14 +84,14 @@ hr {
     height: 15px;
     width: 15px;
 }
-.state-icon-offline {
+.state-icon--offline {
     background-color: #e7e7e7;
 }
-.state-icon-online {
+.state-icon--online {
     background-color: #fff;
     border: 3px solid #0CABA8;
 }
-.state-icon-scheduled {
+.state-icon--scheduled {
     background-color: #fff;
     border: 3px solid #ffc700;
 }
@@ -130,13 +130,13 @@ hr {
     right: -7px;
 }
 
-.img-state-icon--online {
+.img-state-icon.state-icon--online {
     background-color: #0CABA8;
 }
-.img-state-icon--scheduled {
+.img-state-icon.state-icon--scheduled {
     background-color: #ffc700;
 }
-.img-state-icon--offline {
+.img-state-icon.state-icon--offline {
     background-color: #e7e7e7;
 }
 

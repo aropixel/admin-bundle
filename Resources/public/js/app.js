@@ -825,8 +825,8 @@ $(function() {
 
         let _button = $(this);
         let _btn_group = _button.closest('.dropdown-menu');
-        let _state_icon = $(this).closest('tr').find('.img-state-icon');
-        let state = _state_icon.hasClass('img-state-icon--offline') ? 'offline' : 'online';
+        let _state_icon = $(this).closest('tr').find('.state-icon');
+        let state = _state_icon.hasClass('state-icon--offline') ? 'offline' : 'online';
         let _modalBgClass = (state === 'online' ? 'bg-default' : 'bg-primary');
         let _buttonValidClass = (state === 'online' ? 'btn-default' : 'btn-primary');
         let _message = _button.data('confirm').replace('%s', state === 'online' ? 'hors ligne' : 'en ligne');
@@ -854,8 +854,10 @@ $(function() {
                         if (answer === 'OK') {
 
                             _state_icon
-                                .removeClass(state === 'online' ? 'img-state-icon--online' : 'img-state-icon--offline')
-                                .addClass(state !== 'online' ? 'img-state-icon--online' : 'img-state-icon--offline');
+                                .removeClass(state === 'online' ? 'state-icon--online' : 'state-icon--offline')
+                                .addClass(state !== 'online' ? 'state-icon--online' : 'state-icon--offline')
+                                .attr('title', state === 'online' ? 'hors ligne' : 'en ligne')
+                                .attr('data-bs-original-title', state === 'online' ? 'hors ligne' : 'en ligne');
 
                             _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
 
