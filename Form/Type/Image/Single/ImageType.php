@@ -114,7 +114,7 @@ class ImageType extends AbstractType implements DataMapperInterface
                 'required' => $options['required']
             ))
             ->add('attrTitle', HiddenType::class)
-            ->add('attrAlt', HiddenType::class)
+            ->add('attrAlt')
         ;
 
         if (array_key_exists('crop_class', $options) && $options['crop_class']) {

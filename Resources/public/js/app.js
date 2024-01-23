@@ -660,7 +660,7 @@ $(function() {
                 let $requiredFields = $form.find('[required="required"]');
 
                 let hasError = false;
-                let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Ce champs est obligatoire.</div></div>';
+                let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Ce champ est obligatoire.</div></div>';
                 let messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
 
                 $requiredFields.each(function() {

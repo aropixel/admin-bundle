@@ -7,6 +7,12 @@
         {% else %}
             {{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}
         {% endif %}
-        {{ form_widget(form) }}
+        {% if form.attrAlt is defined %}
+            {{ form_row(form.image) }}
+            {{ form_row(form.attrTitle) }}
+            {% if form.crops is defined %}{{ form_row(form.crops) }}{% endif %}
+        {% else %}
+            {{ form_widget(form) }}
+        {% endif %}
     {% endblock %}
 </div>

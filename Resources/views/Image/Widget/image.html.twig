@@ -48,8 +48,10 @@
                                 {% if form.crops is defined and get_available_crop_filters(form.vars.data, form.vars.crops)|length > 0 %}
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="Recadrer l'image"><i class="fas fa-crop-alt me-2"></i> Redimensionner l'image</a>
                                 {% endif %}
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> Modifier le texte alternatif</a>
-                                <div class="dropdown-divider"></div>
+                                {% if form.attrAlt is defined %}
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> Modifier le texte alternatif</a>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
                                 <a class="dropdown-item text-danger btnUnlink" href="#"><i class="fas fa-unlink me-2"></i> Retirer l'image</a>
                             {% endif %}
                         </div>
@@ -62,7 +64,7 @@
 
     </div>
 
-    {% if form.vars.data %}
+    {% if form.vars.data and form.attrAlt is defined %}
 
         <div class="modal fade" id="modalAlt{{ form.vars.id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -73,7 +75,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-widget">
-                            <input type="text" value="" placeholder="" class="form-control" />
+                            {{ form_widget(form.attrAlt) }}
                         </div>
                     </div>
                     <div class="modal-footer">
