@@ -2,10 +2,9 @@
 
 namespace Aropixel\AdminBundle\Domain\Reset\Request;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ResetLinkFactoryInterface
 {
-    public function createResetLink(User $user) : string;
-
+    public function createResetLink(UserInterface $user) : string;
 }

@@ -5,7 +5,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Reset\Request;
 use Aropixel\AdminBundle\Domain\Reset\Email\ResetEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\ResetLinkFactoryInterface;
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -33,7 +33,7 @@ class RequestLauncher implements RequestLauncherInterface
     }
 
 
-    public function reset(User $user)
+    public function reset(UserInterface $user)
     {
         $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
@@ -42,7 +42,7 @@ class RequestLauncher implements RequestLauncherInterface
         $this->resetEmailSender->sendResetEmail($user, $this->resetLinkFactory->createResetLink($user));
     }
 
-    public function cancelRequest(User $user)
+    public function cancelRequest(UserInterface $user)
     {
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);

@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Domain\Activation\Request;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ActivationLinkFactoryInterface
 {
-    public function createActivationLink(User $user) : string;
+    public function createActivationLink(UserInterface $user) : string;
 }

@@ -2,10 +2,10 @@
 
 namespace Aropixel\AdminBundle\Domain\Reset\Request;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface RequestLauncherInterface
 {
-    public function reset(User $user);
-    public function cancelRequest(User $user);
+    public function reset(UserInterface $user);
+    public function cancelRequest(UserInterface $user);
 }

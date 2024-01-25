@@ -8,12 +8,10 @@
 namespace Aropixel\AdminBundle\Infrastructure\Reset\Email;
 
 use Aropixel\AdminBundle\Domain\Reset\Email\ResetEmailSenderInterface;
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 
 class ResetEmailSender implements ResetEmailSenderInterface
@@ -32,7 +30,7 @@ class ResetEmailSender implements ResetEmailSenderInterface
     }
 
 
-    public function sendResetEmail(User $user, string $resetLink)
+    public function sendResetEmail(UserInterface $user, string $resetLink)
     {
         $client = $this->parameterBag->get('aropixel_admin.client');
         $sender = array_key_exists('email', $client) && $client['email'] ? $client['email'] : $user->getEmail();

@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Domain\Activation\Email;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ActivationEmailSenderInterface
 {
-    public function sendActivationEmail(User $user);
+    public function sendActivationEmail(UserInterface $user);
 }

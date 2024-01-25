@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Domain\Reset;
 
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface PasswordResetHandlerInterface
 {
-    public function update(User $user, string $password);
+    public function update(UserInterface $user, string $password);
 }

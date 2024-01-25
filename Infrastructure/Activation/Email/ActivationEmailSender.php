@@ -5,7 +5,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Activation\Email;
 
 use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\Activation\Request\ActivationLinkFactoryInterface;
-use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -39,7 +39,7 @@ class ActivationEmailSender implements ActivationEmailSenderInterface
     }
 
 
-    public function sendActivationEmail(User $user)
+    public function sendActivationEmail(UserInterface $user)
     {
         $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
         $user->setPasswordRequestedAt(new \DateTime());

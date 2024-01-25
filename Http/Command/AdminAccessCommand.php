@@ -8,12 +8,10 @@
 
 namespace Aropixel\AdminBundle\Http\Command;
 
+use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +22,6 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Webmozart\Assert\Assert;
 
 
 /**
@@ -37,8 +34,7 @@ class AdminAccessCommand extends AbstractInstallCommand
 
 
     protected static $defaultName = 'aropixel:admin:setup';
-
-
+    private ActivationEmailSenderInterface $activationEmailSender;
     private PasswordUpdaterInterface $passwordUpdater;
     private UserFactoryInterface $userFactory;
 
@@ -47,11 +43,12 @@ class AdminAccessCommand extends AbstractInstallCommand
      * @param PasswordUpdaterInterface $passwordUpdater
      * @param UserFactoryInterface $userFactory
      */
-    public function __construct(ManagerRegistry $managerRegistry, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, ValidatorInterface $validator)
+    public function __construct(ManagerRegistry $managerRegistry, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, ValidatorInterface $validator, ActivationEmailSenderInterface $activationEmailSender)
     {
         parent::__construct($managerRegistry, $validator);
         $this->passwordUpdater = $passwordUpdater;
         $this->userFactory = $userFactory;
+        $this->activationEmailSender = $activationEmailSender;
     }
 
 
@@ -88,6 +85,8 @@ EOT
 
         $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
         $em->flush();
+
+        $this->activationEmailSender->sendActivationEmail($user);
 
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
