@@ -663,15 +663,28 @@ $(function() {
                 let messageField = '<div class="alert alert-form show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Ce champ est obligatoire.</div></div>';
                 let messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Un ou plusieurs champs obligatoires sont manquants.</div></div>';
 
+                let tabLabels = [];
                 $requiredFields.each(function() {
 
                     let $formGroup = $(this).closest('.form-group');
 
-                    // if (!$(this).hasClass('picker__input') && !$(this).val().length) {
                     if (!$(this).val().length) {
 
                         hasError = true;
-                        if ($formGroup.find('.alert').length == 0) {
+                        if ($formGroup.find('.alert').length === 0) {
+
+                            let panelId = $formGroup.closest('.tab-pane') ? $formGroup.closest('.tab-pane').attr('id') : null;
+                            if (panelId) {
+                                let panelLabel = $("[href$='#" + panelId + "']").text();
+                                panelLabel = '<a href="#" data-error-panel="#' + panelId +'">' + panelLabel + '</a>';
+
+                                if (panelLabel) {
+                                    if (!tabLabels.includes(panelLabel)) {
+                                        tabLabels.push(panelLabel);
+                                    }
+                                }
+                            }
+
                             $formGroup.append(messageField);
                         }
 
@@ -679,9 +692,20 @@ $(function() {
 
                 });
 
+                let navItem = $('.header-bottom .tabbable-header .nav-item');
+
+                if (navItem.length > 1 && tabLabels.length) {
+                    if (tabLabels.length === 1) {
+                        messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Un ou plusieurs champs obligatoires sont manquants dans l\'onglet ' + tabLabels[0] + '.</div></div>';
+                    } else {
+                        messageBox = '<div class="alert alert-danger show fade"><div class="alert-body"><span class="text-semibold">Attention !</span> Un ou plusieurs champs obligatoires sont manquants dans les onglets ' + tabLabels.join(", ") + '.</div></div>';
+                    }
+                }
+
+
                 if (hasError) {
 
-                    if ($form.prev('.alert').length == 0) {
+                    if ($form.prev('.alert').length === 0) {
                         $form.before(messageBox);
                     }
 
@@ -1077,7 +1101,6 @@ function activateTimePicker($element) {
 function activateCkeditor($elements) {
 
     $elements.each(function() {
-        console.log($(this));
         CKEDITOR.replace( this.id );
     })
 
@@ -1156,3 +1179,13 @@ function activateSortable($container) {
     });
 
 }
+
+
+document.addEventListener("click", function(e){
+
+    let panelId = e.target.getAttribute('data-error-panel');
+    if (panelId) {
+        document.querySelector('[href="' + panelId + '"]').click();
+    }
+
+});
