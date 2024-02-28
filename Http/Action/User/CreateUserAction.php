@@ -6,7 +6,6 @@ use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
-use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +42,16 @@ class CreateUserAction extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $email = $user->getEmail();
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->addFlash('error', "L'adresse email est invalide, veuillez vérifier son format.");
+                return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
+                    'user' => $user,
+                    'form' => $form->createView()
+                ]);
+            }
 
             // Vérifie si l'utilisateur n'existe pas déjà
             $exists = $this->userRepository->findUserByEmail($user->getEmail());

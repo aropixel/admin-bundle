@@ -8,6 +8,7 @@ use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,7 +34,7 @@ class UserType extends AbstractType
         $userToEdit = $builder->getData();
 
         $builder
-            ->add('email')
+            ->add('email', EmailType::class)
             ->add('enabled', ToggleSwitchType::class, array(
                 'label' => "Actif",
                 'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit),
@@ -45,14 +46,6 @@ class UserType extends AbstractType
                 'data_class' => UserImage::class,
                 'required' => false,
             ])
-            /*->add('createdAt', DateTimeType::class, array(
-                'disabled' => true,
-                'required' => false,
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-                'date_format' => 'yyyy-MM-dd',
-                'years' => range(date('Y') - 50, date('Y') + 5)
-            ))*/
         ;
 
         $userLogged = $this->security->getUser();

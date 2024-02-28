@@ -47,7 +47,7 @@
 
                 {% endif %}
 
-                {% if sendButton %}
+                {% if sendButton is defined and sendButton %}
 
                     <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">Renvoyer l'email de création de compte</a>
 
