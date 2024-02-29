@@ -35,9 +35,3 @@ file_attach:
   controller: Aropixel\AdminBundle\Http\Action\File\AttachAction
   defaults:
     expose: true
-
-file_download:
-  path: /download/{id}/{filename}
-  controller: Aropixel\AdminBundle\Http\Action\File\DownloadAction
-  defaults:
-    expose: true

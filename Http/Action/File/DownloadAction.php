@@ -25,7 +25,7 @@ class DownloadAction extends AbstractController
     public function __invoke(File $file) : Response
     {
 
-        $path = $this->pathResolver->getPublicAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
+        $path = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
         return $this->file($path, $file->getRewritedFileName());
 
     }

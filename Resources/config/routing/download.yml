@@ -1,0 +1,5 @@
+file_download:
+  path: /download/{id}/{filename}
+  controller: Aropixel\AdminBundle\Http\Action\File\DownloadAction
+  defaults:
+    expose: true
