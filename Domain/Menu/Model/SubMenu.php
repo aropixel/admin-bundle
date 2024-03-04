@@ -7,6 +7,8 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
+use Symfony\Component\String\Slugger\AsciiSlugger;
+
 class SubMenu implements ItemInterface, IterableInterface
 {
     private string $label;
@@ -108,6 +110,7 @@ class SubMenu implements ItemInterface, IterableInterface
 
     public function addItem(ItemInterface $item) : void
     {
+        $item->setId($item->getId() ?: $this->generateId($item->getLabel()));
         $item->setParent($this);
         $this->items[] = $item;
     }
@@ -123,6 +126,12 @@ class SubMenu implements ItemInterface, IterableInterface
     public function isActive(): bool
     {
         return $this->isActive;
+    }
+
+    private function generateId(string $label) : string
+    {
+        $slugger = new AsciiSlugger();
+        return strtolower($slugger->slug($label));
     }
 
 }
