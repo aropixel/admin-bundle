@@ -528,6 +528,12 @@ $(function() {
             params.allowClear = true;
         }
 
+        // Bugfix select2 in modal
+        let modal = _select.closest('.modal');
+        if (modal.length > 0) {
+            params.dropdownParent = modal;
+        }
+
         _select.select2(params);
     }
 
@@ -576,6 +582,11 @@ $(function() {
             params.allowClear = true;
         }
 
+        // Bugfix select2 in modal
+        let modal = _select.closest('.modal');
+        if (modal.length > 0) {
+            params.dropdownParent = modal;
+        }
 
         _select.select2(params);
     }
