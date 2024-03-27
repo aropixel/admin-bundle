@@ -481,7 +481,16 @@ $(function() {
             _params["order"] = [[ _column, _direction ]];
         }
 
-        $(this).DataTable(_params);
+        let table = $(this).DataTable(_params);
+
+        let input = $(this).parent().parent().find('.dataTables_filter input');
+
+        if (input) {
+            input.on( 'keyup', function (e) {
+                let regExSearch = '\\b' + this.value;
+                table.search(regExSearch, true, false).draw();
+            });
+        }
 
     });
 
