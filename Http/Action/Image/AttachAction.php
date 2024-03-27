@@ -36,6 +36,8 @@ class AttachAction extends AbstractController
         // Selected images
         $images = $request->get('images');
 
+        $multiple = $request->get('multiple');
+
         // Class name to use if data type is entity
         $attachClass = $request->get('attach_class');
 
@@ -87,30 +89,49 @@ class AttachAction extends AbstractController
 
 
         $html = '';
-        foreach ($images as $image_id) {
+        if (!$multiple && !empty($images)) {
 
-            $image = $this->imageRepository->find($image_id);
+            $image_id = $images[0];
 
-            // If attachValue is given, we just pass the filename
-            if ($attachValue) {
-                $data = new $attachClass();
-                $propertyAccessor = PropertyAccess::createPropertyAccessor();
-                $propertyAccessor->setValue($data, $attachValue, $image->getFilename());
+            $html = $this->getHtml($image_id, $attachValue, $attachClass, $data, $options, $html);
+
+        } else {
+
+            foreach ($images as $image_id) {
+
+                $html = $this->getHtml($image_id, $attachValue, $attachClass, $data, $options, $html);
+
             }
-            // Otherwise, datatype is entity, we give the image to the entity
-            else {
-                $data->setImage($image);
-            }
-
-            $form = $this->createForm(ImageType::class, $data, $options);
-
-            $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', [
-                'form' => $form->createView()
-            ]);
 
         }
 
         return new Response($html, Response::HTTP_OK);
+
+    }
+
+    private function getHtml($image_id, $attachValue, $attachClass, $data, $options, $html)
+    {
+
+        $image = $this->imageRepository->find($image_id);
+
+        // If attachValue is given, we just pass the filename
+        if ($attachValue) {
+            $data = new $attachClass();
+            $propertyAccessor = PropertyAccess::createPropertyAccessor();
+            $propertyAccessor->setValue($data, $attachValue, $image->getFilename());
+        }
+        // Otherwise, datatype is entity, we give the image to the entity
+        else {
+            $data->setImage($image);
+        }
+
+        $form = $this->createForm(ImageType::class, $data, $options);
+
+        $html.= $this->renderView('@AropixelAdmin/Image/Widget/image.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+        return $html;
 
     }
 
