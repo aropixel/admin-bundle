@@ -2,8 +2,9 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials;
 
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 class CredentialsResolver implements CredentialsResolverInterface
 {
@@ -18,7 +19,7 @@ class CredentialsResolver implements CredentialsResolverInterface
         ];
 
         $request->getSession()->set(
-            Security::LAST_USERNAME,
+            SecurityRequestAttributes::LAST_USERNAME,
             $credentials['email']
         );
 
