@@ -2,9 +2,10 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
-use App\Form\Subscriber\Translatable;
+use Aropixel\AdminBundle\Form\Subscriber\Translatable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -84,7 +85,7 @@ class TranslatableType extends AbstractType
         $options['locales'] = $this->locales; // the locales you wish to edit
         $options['required_locale'] = [$this->locale]; // the required locales cannot be blank
         $options['field'] = false; // the field that you wish to translate
-        $options['widget'] = 'text'; // change this to another widget like 'texarea' if needed
+        $options['widget'] = TextType::class; // change this to another widget like 'texarea' if needed
         $options['entity_manager_removal'] = true; // auto removes the Personal Translation thru entity manager
         $options['attr'] = [];
 

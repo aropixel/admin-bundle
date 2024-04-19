@@ -12,40 +12,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Translatable implements EventSubscriberInterface
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $factory;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected FormFactoryInterface $factory;
+    protected EntityManagerInterface $em;
+    protected ValidatorInterface $validator;
+    protected ?array $options = [];
 
-    /**
-     * @var ValidatorInterface
-     */
-    protected $validator;
-
-    /**
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * @param FormFactoryInterface $factory
-     * @param EntityManagerInterface $em
-     * @param ValidatorInterface $validator
-//     * @param array $options
-     */
     public function __construct(
         FormFactoryInterface $factory,
         EntityManagerInterface $em,
         ValidatorInterface $validator,
-//        array $options
+        ?array $options = null
     ) {
         $this->em = $em;
-//        $this->options = $options;
+        $this->options = $options;
         $this->factory = $factory;
         $this->validator = $validator;
     }
@@ -88,7 +68,7 @@ class Translatable implements EventSubscriberInterface
             if (isset($available_translations[strtolower($locale)])) {
                 $translation = $available_translations[strtolower($locale) ];
             } else {
-                $translation = $this->createPersonalTranslation($locale, $this->options['field'], null);
+                $translation = $this->createPersonalTranslation($locale, $this->options['field'], null, null);
             }
 
             $collection[] = [
@@ -109,25 +89,17 @@ class Translatable implements EventSubscriberInterface
         //helper function to generate all field names in format:
         // '<locale>' => '<field>:<locale>'
         $collection = [];
-        dump($this->options['locales']);
         foreach ($this->options['locales'] as $locale) {
             $collection[$locale] = $this->options['field'] . ':' . $locale;
         }
         return $collection;
     }
 
-    /**
-     * @param string $locale
-     * @param string $field
-     * @param string $content
-     *
-     * @return mixed
-     */
-    private function createPersonalTranslation($locale, $field, $content)
+    private function createPersonalTranslation($locale, $field, $content, $foreignKey)
     {
         // creates a new Personal Translation
         $class_name = $this->options['personal_translation'];
-        return new $class_name($locale, $field, $content);
+        return new $class_name($locale, $field, $content, $foreignKey);
     }
 
     /**
@@ -144,8 +116,8 @@ class Translatable implements EventSubscriberInterface
                 $form->addError($this->getCannotBeBlankException($this->options['field'], $locale));
             } else {
                 $errors = $this->validator->validate(
-                    $this->createPersonalTranslation($locale, $field_name, $content),
-                    [sprintf('%s:%s', $this->options['field'], $locale)]
+                    $this->createPersonalTranslation($locale, $field_name, $content, $form->getParent()->getData())
+                    /*[sprintf('%s:%s', $this->options['field'], $locale)]*/
                 );
                 foreach ($errors as $error) {
                     $form->addError(new FormError($error->getMessage()));
@@ -191,7 +163,7 @@ class Translatable implements EventSubscriberInterface
             } elseif (null !== $content) {
                 // add it to entity
                 $entity->addTranslation($translation);
-                if (! $data->contains($translation)) {
+                if (!$data->contains($translation)) {
                     $data->add($translation);
                 }
             }
@@ -199,7 +171,7 @@ class Translatable implements EventSubscriberInterface
 
         // remove string elements from "translations", we need only objects
         foreach ($data as $rec) {
-            if (! is_object($rec)){
+            if (!is_object($rec)){
                 $data->removeElement($rec);
             }
         }
@@ -239,5 +211,6 @@ class Translatable implements EventSubscriberInterface
                 ]
             ));
         }
+
     }
 }
