@@ -17,6 +17,7 @@
 @import "components/_section-header.css";
 @import "components/_table.css";
 @import "components/_wysiwyg.css";
+@import "components/_translation.css";
 
 :root {
     --main-bg-color: #0CABA8;

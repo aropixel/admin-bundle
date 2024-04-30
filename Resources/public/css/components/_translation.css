@@ -1,0 +1,6 @@
+.translatable-field {
+    display: none;
+}
+.translatable-field.active {
+    display: block;
+}

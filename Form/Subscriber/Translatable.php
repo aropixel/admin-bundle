@@ -30,10 +30,8 @@ class Translatable implements EventSubscriberInterface
         $this->validator = $validator;
     }
 
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
+
+    public static function getSubscribedEvents() : array
     {
         // Tells the dispatcher that we want to listen on the form.pre_set_data
         // , form.post_data and form.bind_norm_data event
@@ -44,12 +42,8 @@ class Translatable implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    private function bindTranslations($data)
+
+    private function bindTranslations(iterable $data) : array
     {
         // Small helper function to extract all Personal Translation
         // from the Entity for the field we are interested in
@@ -81,13 +75,10 @@ class Translatable implements EventSubscriberInterface
         return $collection;
     }
 
-    /**
-     * @return array
-     */
-    private function getFieldNames()
+
+    private function getFieldNames() : array
     {
         //helper function to generate all field names in format:
-        // '<locale>' => '<field>:<locale>'
         $collection = [];
         foreach ($this->options['locales'] as $locale) {
             $collection[$locale] = $this->options['field'] . ':' . $locale;
@@ -102,9 +93,7 @@ class Translatable implements EventSubscriberInterface
         return new $class_name($locale, $field, $content, $foreignKey);
     }
 
-    /**
-     * @param FormEvent $event
-     */
+
     public function submit(FormEvent $event)
     {
         // Validates the submitted form
@@ -117,7 +106,6 @@ class Translatable implements EventSubscriberInterface
             } else {
                 $errors = $this->validator->validate(
                     $this->createPersonalTranslation($locale, $field_name, $content, $form->getParent()->getData())
-                    /*[sprintf('%s:%s', $this->options['field'], $locale)]*/
                 );
                 foreach ($errors as $error) {
                     $form->addError(new FormError($error->getMessage()));
@@ -126,20 +114,13 @@ class Translatable implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param string $field
-     * @param string $locale
-     *
-     * @return FormError
-     */
-    public function getCannotBeBlankException($field, $locale)
+
+    public function getCannotBeBlankException(string $field, string $locale) : FormError
     {
         return new FormError(sprintf('Field "%s" for locale "%s" cannot be blank', $field, $locale));
     }
 
-    /**
-     * @param FormEvent $event
-     */
+
     public function postSubmit(FormEvent $event)
     {
         // if the form passed the validattion then set the corresponding Personal Translations
@@ -177,9 +158,7 @@ class Translatable implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param FormEvent $event
-     */
+
     public function preSetData(FormEvent $event)
     {
         // Builds the custom 'form' based on the provided locales
