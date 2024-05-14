@@ -124,11 +124,12 @@
 
                         <div class="w-100">
                             <div class="d-flex align-items-center justify-content-between">
+
                                 <h1>{% block header_title %}{% endblock %}</h1>
 
-                                {% if block('header_elements') is defined %}
-                                    {% set _elements = block('header_elements') %}
-                                    <div class="heading-elements">
+                                {% if block('header_top_right') is defined %}
+                                    {% set _elements = block('header_top_right') %}
+                                    <div class="header_top_right">
                                         {{ _elements|raw }}
                                     </div>
                                 {% endif %}

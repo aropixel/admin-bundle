@@ -9,18 +9,20 @@
 
 {% endblock %}
 
-{% block header_elements %}
+{% block header_top_right %}
+
     {% set baseroute = get_baseroute() %}
-    {% if route_exists(baseroute ~ '_index')  %}
-        <a href="{{ path(baseroute ~ '_index') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Liste">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-list fa-stack-1x fa-inverse"></i>
+
+    {% if route_exists(baseroute ~ '_index') %}
+        <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
+            <i class="fas fa-list me-2"></i> Liste
         </a>
     {% endif %}
-    {% if route_exists(baseroute ~ '_new') %}
-        <a href="{{ path(baseroute ~ '_new') }}" class="fa-stack" data-toggle="tooltip" data-placement="bottom" title="Nouveau">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+
+    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
+            <i class="fas fa-plus me-2"></i> Créer
         </a>
     {% endif %}
+
 {% endblock %}

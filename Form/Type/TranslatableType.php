@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Form\Type;
 
 use Aropixel\AdminBundle\Form\Subscriber\Translatable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,18 +15,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TranslatableType extends AbstractType
 {
 
-    protected array $locales;
-    protected string $locale;
-
     public function __construct(
         protected readonly EntityManagerInterface $em,
         protected readonly ValidatorInterface $validator,
-        array $locales,
-        string $locale
-    ){
-        $this->locales = $locales;
-        $this->locale = $locale;
-    }
+        protected readonly ParameterBagInterface $parameterBag,
+    ){}
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -47,11 +41,14 @@ class TranslatableType extends AbstractType
 
     public function getDefaultOptions(array $options = []) : array
     {
+        $locale = $this->parameterBag->get('locale');
+        $locales = $this->parameterBag->get('locales');
+
         $options['remove_empty'] = true; // Personal Translations without content are removed
         $options['csrf_protection'] = false;
         $options['personal_translation'] = false; // Personal Translation class
-        $options['locales'] = $this->locales; // the locales you wish to edit
-        $options['required_locale'] = [$this->locale]; // the required locales cannot be blank
+        $options['locales'] = $locales; // the locales you wish to edit
+        $options['required_locale'] = [$locale]; // the required locales cannot be blank
         $options['field'] = false; // the field that you wish to translate
         $options['widget'] = TextType::class; // change this to another widget like 'texarea' if needed
         $options['entity_manager_removal'] = true; // auto removes the Personal Translation thru entity manager
