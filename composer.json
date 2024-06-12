@@ -19,7 +19,7 @@
   },
   "require" : {
     "ext-intl": "*",
-    "doctrine/orm": "^2.14|^3.2|4.0.x-dev@dev",
+    "doctrine/orm": "^2.14|^3.2|^4.0.x-dev@dev",
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
     "symfony/mailer": "^6.0|^7.1",
