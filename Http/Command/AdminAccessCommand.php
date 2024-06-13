@@ -56,6 +56,7 @@ class AdminAccessCommand extends AbstractInstallCommand
     {
 
         $this
+            ->setName('aropixel:admin:setup')
             ->setDescription('Initialisation du bundle d\'admin.')
             ->setHelp(<<<EOT
 La commande <info>%command.name%</info> permet d'initialiser les données du bundle d'admin.
@@ -66,7 +67,7 @@ EOT
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
 
         $outputStyle = new SymfonyStyle($input, $output);
@@ -80,7 +81,7 @@ EOT
             $this->configureNewUser($user, $input, $output);
 
         } catch (\InvalidArgumentException $exception) {
-            return;
+            return 0;
         }
 
         $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));

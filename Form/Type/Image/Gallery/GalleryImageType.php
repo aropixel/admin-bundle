@@ -1,10 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2017.
- * Par: Joël Gomez Caballe
- * Date: 06/03/2017 à 15:31
- */
-
 namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
 
@@ -13,7 +7,6 @@ use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
@@ -23,6 +16,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Traversable;
+
 
 //class GalleryImageType extends ImageType
 class GalleryImageType extends AbstractType implements DataMapperInterface
@@ -122,9 +117,9 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
 
     /**
      * @param mixed $data
-     * @param iterable|FormInterface[] $forms
+     * @param \Traversable $forms
      */
-    public function mapDataToForms($data, $forms)
+    public function mapDataToForms($data, Traversable $forms) : void
     {
         // there is no data yet, so nothing to prepopulate
         if (null === $data) {
@@ -181,22 +176,17 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
     }
 
 
-    /**
-     * @param iterable|FormInterface[] $forms
-     * @param mixed $data
-     * @return mixed
-     */
-    public function mapFormsToData($forms, &$data)
+    public function mapFormsToData(Traversable $forms, &$viewData): void
     {
         /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
 
 //        $data = $this->filenameInstance;
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $propertyAccessor->setValue($data, $this->options['data_value'], $forms['file_name']->getData());
+        $propertyAccessor->setValue($viewData, $this->options['data_value'], $forms['file_name']->getData());
 
         if ($this->options['data_crops'] && array_key_exists($this->options['data_crops'], $forms) && !is_null($forms['crops']->getData())) {
-            $propertyAccessor->setValue($data, $this->options['data_crops'], $forms['crops']->getData());
+            $propertyAccessor->setValue($viewData, $this->options['data_crops'], $forms['crops']->getData());
         }
 
         if ($this->options['data_attributes']) {
@@ -227,10 +217,9 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
                 $attributes['attr_class'] = $forms['attr_class']->getData();
             }
 
-            $propertyAccessor->setValue($data, $this->options['data_attributes'], $attributes);
+            $propertyAccessor->setValue($viewData, $this->options['data_attributes'], $attributes);
         }
 
-        return $data;
     }
 
 

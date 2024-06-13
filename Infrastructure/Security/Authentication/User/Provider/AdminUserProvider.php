@@ -46,7 +46,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
     /**
      * @inheritDoc
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user) : UserInterface
     {
 
         if (!$this->supportsClass(get_class($user))) {

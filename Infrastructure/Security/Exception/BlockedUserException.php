@@ -21,7 +21,7 @@ class BlockedUserException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
+    public function getMessageKey() : string
     {
         return "Suite à de trop nombreuses tentatives de connexion échouées, votre compte a été désactivé.";
     }

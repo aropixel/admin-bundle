@@ -18,7 +18,7 @@ class TooOldLastLoginException extends AuthenticationException
         $this->user = $user;
     }
 
-    public function getMessageKey()
+    public function getMessageKey() : string
     {
         return "Après plusieurs mois d'inactivité, votre compte a été désactivé.";
     }

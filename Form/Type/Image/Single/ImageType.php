@@ -1,14 +1,7 @@
 <?php
-/**
- * Créé par Aropixel @2017.
- * Par: Joël Gomez Caballe
- * Date: 13/02/2017 à 17:15
- */
-
 namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 
-use Aropixel\AdminBundle\Entity\AttachImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
@@ -17,14 +10,14 @@ use Aropixel\AdminBundle\Services\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Exception;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Traversable;
+
 
 
 /**
@@ -247,75 +240,64 @@ class ImageType extends AbstractType implements DataMapperInterface
 
 
 
-    /**
-     * @param AttachImage|string $data
-     * @param iterable|FormInterface[] $forms
-     */
-    public function mapDataToForms($data, $forms)
+    public function mapDataToForms(mixed $viewData, Traversable $forms): void
     {
-        // there is no data yet, so nothing to prepopulate
-        if (null === $data) {
+        if (null === $viewData) {
             return;
         }
 
-        // invalid data type
-        if (!is_string($data) && is_null($this->filenameClass)) {
-            throw new Exception\UnexpectedTypeException($data, 'string');
+        $attributes = $this->instanceToData->getAttributes($viewData);
+        $forms = iterator_to_array($forms);
+        $forms['file_name']->setData($this->instanceToData->getFileName($viewData));
+
+        if (is_array($attributes)) {
+            if (array_key_exists('link', $attributes)) {
+                $forms['link']->setData($attributes['link']);
+            }
+            if (array_key_exists('title', $attributes)) {
+                $forms['title']->setData($attributes['title']);
+            }
+            if (array_key_exists('description', $attributes)) {
+                $forms['description']->setData($attributes['description']);
+            }
+            if (array_key_exists('attr_title', $attributes)) {
+                $forms['attr_title']->setData($attributes['attr_title']);
+            }
+            if (array_key_exists('attr_alt', $attributes)) {
+                $forms['attr_alt']->setData($attributes['attr_alt']);
+            }
+            if (array_key_exists('attr_class', $attributes)) {
+                $forms['attr_class']->setData($attributes['attr_class']);
+            }
         }
 
-        /** @var FormInterface[] $forms */
-        $forms = iterator_to_array($forms);
-
-        //
-        // Get the instance of the custom entity that store the file name and the crops info
-        $this->filenameInstance = $data;
-        $this->normalizedData = $this->instanceToData->getFileName($data);
-
-        $forms['file_name']->setData($this->instanceToData->getFileName($data));
-
         if (array_key_exists('crops', $forms)) {
-
-            $crops = $this->instanceToData->getCrops($data);
+            $crops = $this->instanceToData->getCrops($viewData);
             if ($crops) {
                 $forms['crops']->setData($crops);
             }
-
         }
-
     }
 
 
-    /**
-     * @param iterable|FormInterface[] $forms
-     * @param mixed $data
-     * @return mixed
-     */
-    public function mapFormsToData($forms, &$data)
+    public function mapFormsToData(Traversable $forms, mixed &$viewData): void
     {
-        /** @var FormInterface[] $forms */
         $forms = iterator_to_array($forms);
         $config = $forms['file_name']->getParent()->getConfig();
         $dataClass = $config->getDataClass();
 
         if (!is_null($dataClass)) {
-
-            if (!is_null($data)) {
-
+            if (!is_null($viewData)) {
                 $propertyAccessor = PropertyAccess::createPropertyAccessor();
-                $propertyAccessor->setValue($data, $config->getOption('data_value'), $forms['file_name']->getData());
+                $propertyAccessor->setValue($viewData, $config->getOption('data_value'), $forms['file_name']->getData());
 
                 if (array_key_exists('crops', $forms)) {
-                    $propertyAccessor->setValue($data, $config->getOption('crops_value'), $forms['crops']->getData());
+                    $propertyAccessor->setValue($viewData, $config->getOption('crops_value'), $forms['crops']->getData());
                 }
-
             }
-
+        } else {
+            $viewData = $forms['file_name']->getData();
         }
-        else {
-            $data = $forms['file_name']->getData();
-        }
-
-        return $data;
     }
 
 

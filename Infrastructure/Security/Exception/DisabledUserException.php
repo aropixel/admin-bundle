@@ -20,7 +20,7 @@ class DisabledUserException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
+    public function getMessageKey() : string
     {
         return "Votre compte est désactivé.";
     }

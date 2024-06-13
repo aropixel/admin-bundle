@@ -20,7 +20,7 @@ class TooOldPasswordException extends AuthenticationException
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
+    public function getMessageKey() : string
     {
         return "Vous n'avez pas modifié votre mot de passe depuis trop longtemps.";
     }
