@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

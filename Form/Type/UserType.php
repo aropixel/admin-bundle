@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Form\Type;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
+use Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
 use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Handler;
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
+use Aropixel\AdminBundle\Infrastructure\Security\Handler\AuthenticationFailureHandlerInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Exception\TooOldLastLoginException;
 use Aropixel\AdminBundle\Infrastructure\Security\Exception\TooOldPasswordException;
 use Doctrine\ORM\EntityManagerInterface;

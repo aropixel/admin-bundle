@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\DisabledUserBadge;
+use Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory\PassportFactoryInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

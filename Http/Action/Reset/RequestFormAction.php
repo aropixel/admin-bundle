@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Http\Action\Reset\RequestStatusAction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +26,7 @@ class RequestFormAction extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $form = $this->createForm(\Aropixel\AdminBundle\Http\Form\Reset\RequestType::class);
+        $form = $this->createForm(\AdminBundle\Http\Form\Reset\RequestType::class);
 
         $notFound = false;
         $form->handleRequest($request);

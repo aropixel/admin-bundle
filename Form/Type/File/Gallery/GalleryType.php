@@ -8,6 +8,7 @@
 namespace Aropixel\AdminBundle\Form\Type\File\Gallery;
 
 
+use Aropixel\AdminBundle\Form\Type\File\Gallery\GalleryFileType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;

@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Activation;
 
+use Aropixel\AdminBundle\Http\Action\Activation\RequestStatusAction;
 use Aropixel\AdminBundle\Domain\Activation\PasswordCreationHandlerInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;

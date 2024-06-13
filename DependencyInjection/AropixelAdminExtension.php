@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
+use Aropixel\AdminBundle\DependencyInjection\Configuration;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -44,6 +45,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         foreach ($config['filter_sets'] as $className => $filters) {
             $config['filter_sets'][$className]['admin_thumbnail'] = "Vignette d'administration";
         }
+
         $container->setParameter('aropixel_admin.filter_sets', $config['filter_sets']);
         $container->setParameter('aropixel_admin.editor_filter_sets', $config['editor_filter_sets']);
         $container->setParameter('aropixel_admin.copyright', $config['copyright']);

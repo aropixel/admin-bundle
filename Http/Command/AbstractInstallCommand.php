@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aropixel\AdminBundle\Http\Command;
 
+use Aropixel\AdminBundle\Http\Command\CommandExecutor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;

@@ -7,6 +7,8 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 

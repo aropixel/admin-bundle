@@ -7,6 +7,8 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Entity\ImageInterface;
+
 interface CroppableInterface extends ImageInterface
 {
     public function getImageUid() : string;

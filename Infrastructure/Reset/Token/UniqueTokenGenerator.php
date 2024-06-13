@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Aropixel\AdminBundle\Infrastructure\Reset\Token;
 
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Infrastructure\Reset\Token\GeneratorInterface;
+use Aropixel\AdminBundle\Infrastructure\Reset\Token\RandomnessGeneratorInterface;
 
 
 final class UniqueTokenGenerator implements GeneratorInterface

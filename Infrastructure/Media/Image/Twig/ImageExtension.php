@@ -28,7 +28,7 @@ class ImageExtension extends AbstractExtension
      * @param CacheManager $cacheManager
      * @param FilterService $filterService
      * @param ParameterBagInterface $parameterBag
-     * @param \Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
+     * @param \AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(CacheManager $cacheManager, FilterService $filterService, ParameterBagInterface $parameterBag, PathResolverInterface $pathResolver)
     {

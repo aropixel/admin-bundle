@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
 
 /**
- * @see \Aropixel\AdminBundle\Infrastructure\Security\EventListener\TooOldPasswordEventListener
+ * @see \AdminBundle\Infrastructure\Security\EventListener\TooOldPasswordEventListener
  *
  * @final
  */

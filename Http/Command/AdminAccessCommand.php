@@ -12,6 +12,7 @@ use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Entity\User;
+use Aropixel\AdminBundle\Http\Command\AbstractInstallCommand;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;

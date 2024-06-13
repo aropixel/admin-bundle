@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Domain\DataTable\DataTableContextFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRepositoryInterface;
+use Aropixel\AdminBundle\Infrastructure\DataTable\DataTable;
 use Aropixel\AdminBundle\Infrastructure\DataTable\Repository\Doctrine\DefaultDataTableRepository;
 
 class DataTableFactory implements DataTableFactoryInterface

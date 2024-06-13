@@ -2,6 +2,8 @@
 
 namespace Aropixel\AdminBundle\Domain\DataTable;
 
+use Aropixel\AdminBundle\Domain\DataTable\DataTableContext;
+use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 interface DataTableInterface

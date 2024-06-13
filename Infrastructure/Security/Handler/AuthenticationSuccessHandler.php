@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Handler;
 
+use Aropixel\AdminBundle\Infrastructure\Security\Handler\AuthenticationSuccessHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

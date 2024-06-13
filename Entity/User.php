@@ -2,45 +2,65 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-/**
- * Admin user for AropixelAdminBundle
- */
+use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "aropixel_admin_user")]
 class User implements UserInterface
 {
-
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     protected ?int $id = null;
 
+    #[ORM\Column(type: "string", length: 180, unique: true)]
     protected ?string $email = null;
 
+    #[ORM\Column(type: "boolean")]
     protected bool $enabled = false;
 
+    #[ORM\Column(type: "integer")]
     protected int $passwordAttempts = 0;
 
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     protected ?string $firstName = null;
 
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     protected ?string $lastName = null;
 
+    #[ORM\Column(type: "json")]
     protected array $roles = [];
 
+    #[ORM\Column(type: "string")]
     protected ?string $password = null;
 
     protected ?string $plainPassword = null;
 
+    #[ORM\Column(type: "string", nullable: true)]
     protected ?string $passwordResetToken = null;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
     protected ?\DateTime $passwordRequestedAt = null;
 
+    #[ORM\Column(type: "string", nullable: true)]
     protected ?string $emailVerificationToken = null;
 
+    #[ORM\Column(type: "datetime")]
+    #[Gedmo\Timestampable(on: "create")]
     protected ?\DateTime $createdAt = null;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
     protected ?\DateTime $lastPasswordUpdate = null;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
     protected ?\DateTime $lastLogin = null;
 
+    #[ORM\OneToOne(targetEntity: "Aropixel\AdminBundle\Entity\UserImage", mappedBy: "user", cascade: ["persist", "remove"])]
     protected ?UserImage $image = null;
 
 

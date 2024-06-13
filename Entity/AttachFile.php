@@ -9,6 +9,9 @@ namespace Aropixel\AdminBundle\Entity;
 
 
 
+use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\FileInterface;
+
 /**
  * Abstract class to handle file attachment
  */

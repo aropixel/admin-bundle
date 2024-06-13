@@ -20,7 +20,7 @@ class UploadImageListener
 
 
     /**
-     * @param \Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver $pathResolver
+     * @param \AdminBundle\Infrastructure\Media\Resolver\PathResolver $pathResolver
      * @param PreUploadHandler $preUploadHandler
      */
     public function __construct(PathResolver $pathResolver, PreUploadHandler $preUploadHandler)

@@ -2,11 +2,19 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials;
 
-use Symfony\Component\Security\Core\Security;
+use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 class CredentialsResolver implements CredentialsResolverInterface
 {
+    private $authenticationUtils;
+
+    public function __construct(AuthenticationUtils $authenticationUtils)
+    {
+        $this->authenticationUtils = $authenticationUtils;
+    }
+
 
     public function getCredentials(Request $request): array
     {
@@ -18,7 +26,7 @@ class CredentialsResolver implements CredentialsResolverInterface
         ];
 
         $request->getSession()->set(
-            Security::LAST_USERNAME,
+            $this->authenticationUtils->getLastUsername(),
             $credentials['email']
         );
 

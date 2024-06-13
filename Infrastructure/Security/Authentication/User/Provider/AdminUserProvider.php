@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider;
 
+use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

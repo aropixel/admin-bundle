@@ -7,6 +7,8 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
+use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
+
 interface ItemInterface
 {
     public function getId(): ?string;

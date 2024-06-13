@@ -2,6 +2,7 @@
 namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
 
+use Aropixel\AdminBundle\Form\Type\Image\Gallery\GalleryCropsType;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;

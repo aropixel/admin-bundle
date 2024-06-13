@@ -10,6 +10,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
+use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 

@@ -8,14 +8,13 @@
 namespace Aropixel\AdminBundle\EventListener;
 
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
-
-class MappedSuperClassSubscriber implements EventSubscriber
+class MappedSuperClassSubscriber
 {
 
     /** @var array */
@@ -30,23 +29,15 @@ class MappedSuperClassSubscriber implements EventSubscriber
     }
 
 
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::loadClassMetadata,
-        ];
-    }
-
-    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
+    public function loadClassMetadata(LoadClassMetadataEventArgs $args): void
     {
         // Get the metadata of the entity to check
-        $metadata = $eventArgs->getClassMetadata();
+        $metadata = $args->getClassMetadata();
 
         /**
          * Check if the reflection class is part of the customized entities
          */
         foreach ($this->entitiesNames as $interface => $model) {
-
             if ($metadata->getName() == $model) {
 
                 if ($metadata->isMappedSuperclass) {

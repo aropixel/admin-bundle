@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Aropixel\AdminBundle\Domain\Reset\PasswordResetHandlerInterface;
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
+use Aropixel\AdminBundle\Http\Action\Reset\RequestStatusAction;
 use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
@@ -48,7 +49,7 @@ class ResetPasswordAction extends AbstractController
         }
 
         $error = null;
-        $form = $this->createForm(\Aropixel\AdminBundle\Http\Form\Reset\ResetPasswordType::class);
+        $form = $this->createForm(\AdminBundle\Http\Form\Reset\ResetPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

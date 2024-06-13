@@ -7,6 +7,8 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
+use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
+use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 
