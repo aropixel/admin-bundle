@@ -29,7 +29,7 @@ class EntityToHiddenTransformer implements DataTransformerInterface
      *
      * @return integer
      */
-    public function transform($entity)
+    public function transform(mixed $entity) : mixed
     {
         return $entity ? $entity->getId() : false;
     }
@@ -41,7 +41,7 @@ class EntityToHiddenTransformer implements DataTransformerInterface
      *
      * @return mixed|object
      */
-    public function reverseTransform($id)
+    public function reverseTransform(mixed $id) : mixed
     {
         if (!$id) {
             return null;

@@ -2,349 +2,226 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\Repository\ImageRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * Image
- */
+#[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[ORM\Table(name: "aropixel_image")]
 class Image implements ItemLibraryInterface
 {
-
     const UPLOAD_DIR = 'images';
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     protected ?int $id;
 
-    /**
-     * Image title
-     */
+    #[ORM\Column(type: "string")]
     protected ?string $title = null;
 
-    /**
-     * Used in order to display image in his specific library
-     */
+    #[ORM\Column(type: "string")]
     protected ?string $category = null;
 
-    /**
-     * Temporary path (not mapped)
-     */
     protected ?string $temp = null;
 
     /**
-     * File object of the image
      * @Assert\File()
      */
     public ?File $file = null;
 
-    /**
-     * Default title attribute (can be overrided in AttachImage)
-     */
-    protected ?string $attrTitle = null;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $attrTitle = null;
 
-    /**
-     * Default alt attribute (can be overrided by AttachImage)
-     */
-    protected ?string $attrAlt = null;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $attrAlt = null;
 
-    /**
-     * Description of the image
-     */
-    protected ?string $description = null;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $description = null;
 
-    /**
-     * Image filename
-     */
-    protected ?string $filename = null;
+    #[ORM\Column(type: "string")]
+    private ?string $filename = null;
 
-    /**
-     * Filename extension
-     */
-    protected ?string $extension = null;
+    #[ORM\Column(type: "string", length: 20)]
+    private ?string $extension = null;
 
-    /**
-     * URL used of the imported image (if not uploaded)
-     */
-    protected ?string $import = null;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $import = null;
 
-    /**
-     * Is the image just created (not mapped)
-     */
-    protected bool $isNew = false;
+    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
+    private ?\DateTime $createdAt = null;
 
+    #[Gedmo\Timestampable(on: "update")]
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
-    protected ?\DateTime $createdAt = null;
-    protected ?\DateTime $updatedAt = null;
-
-
-
-    /**
-     * Get id
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * The image's title in the image library
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @deprecated
-     */
-    public function getTitre() : string
-    {
-        return $this->getTitle();
-    }
-
-    /**
-     * The image's title in the image library
-     */
-    public function setTitle(string $title): Image
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * @deprecated
-     */
-    public function setTitre(string $title) : Image
+    public function getCategory(): string
     {
-        return $this->setTitle($title);
+        return $this->category;
     }
 
-    /**
-     * Default title attribute
-     */
-    public function setDefaultAttrTitle(?string $attrTitle) : Image
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    public function getTemp(): ?string
+    {
+        return $this->temp;
+    }
+
+    public function setTemp(?string $temp): void
+    {
+        $this->temp = $temp;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?UploadedFile $file): void
+    {
+        $this->file = $file;
+    }
+
+    public function getAttrTitle(): ?string
+    {
+        return $this->attrTitle;
+    }
+
+    public function setAttrTitle(?string $attrTitle): self
     {
         $this->attrTitle = $attrTitle;
         return $this;
     }
 
-    /**
-     * Default title attribute
-     */
-    public function getDefaultAttrTitle() : ?string
-    {
-        return $this->attrTitle;
-    }
-
-    /**
-     * Default alt attribute
-     */
-    public function setDefaultAttrAlt(?string $attrAlt) : Image
-    {
-        $this->attrAlt = $attrAlt;
-
-        return $this;
-    }
-
-    /**
-     * Default alt attribute
-     */
-    public function getDefaultAttrAlt() : ?string
+    public function getAttrAlt(): ?string
     {
         return $this->attrAlt;
     }
 
-    /**
-     * Set image's description
-     */
-    public function setDescription($description) : Image
+    public function setAttrAlt(?string $attrAlt): self
+    {
+        $this->attrAlt = $attrAlt;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * Set image's description
-     */
-    public function getDescription() : ?string
+    public function getFilename(): ?string
     {
-        return $this->description;
+        return $this->filename;
     }
 
-    /**
-     * Set filename
-     */
-    public function setFilename($filename) : Image
+    public function setFilename(?string $filename): self
     {
         $this->filename = $filename;
         return $this;
     }
 
-    /**
-     * Get filename
-     */
-    public function getFilename() : ?string
+    public function getExtension(): ?string
     {
-        return $this->filename;
+        return $this->extension;
     }
 
-    /**
-     * Set extension
-     */
-    public function setExtension($extension) : Image
+    public function setExtension(?string $extension): self
     {
         $this->extension = $extension;
         return $this;
     }
 
-    /**
-     * Get extension
-     */
-    public function getExtension() : ?string
+    public function getImport(): ?string
     {
-        return $this->extension;
+        return $this->import;
     }
-
-    /**
-     * Set createdAt
-     */
-    public function setCreatedAt($createdAt) : Image
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     */
-    public function getCreatedAt() : ?\DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     */
-    public function setUpdatedAt($updatedAt) : Image
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     */
-    public function getUpdatedAt() : ?\DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Get image url
-     */
-    public function getWebPath() : ?string
-    {
-        return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
-    }
-
-
-    static function getFileNameWebPath(?string $fileName) : ?string
-    {
-        return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
-    }
-
-    /**
-     * Get image directory
-     */
-    protected function getUploadDir()
-    {
-        return self::UPLOAD_DIR;
-    }
-
-    /**
-     * Get file.
-     */
-    public function getFile() : ?File
-    {
-        return $this->file;
-    }
-
-
-    /**
-     * Sets file.
-     */
-    public function setFile(UploadedFile $file = null)
-    {
-        $this->file = $file;
-
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
-    }
-
 
     public function getTempPath() : ?string
     {
         return $this->temp;
     }
 
-
-    /**
-     * Set category
-     */
-    public function setCategory($category) : Image
-    {
-        $this->category = $category;
-        return $this;
-    }
-
-    /**
-     * Get category
-     */
-    public function getCategory() : string
-    {
-        return $this->category;
-    }
-
-    /**
-     * Set import
-     */
-    public function setImport(?string $import) : Image
+    public function setImport(?string $import): self
     {
         $this->import = $import;
         return $this;
     }
 
-    /**
-     * Get import
-     */
-    public function getImport() : ?string
+    public function getCreatedAt(): ?\DateTime
     {
-        return $this->import;
+        return $this->createdAt;
     }
 
-    /**
-     * Set isNew
-     */
-    public function setIsNew(bool $isNew) : Image
+    public function setCreatedAt(?\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function isNew(): bool
+    {
+        return $this->isNew;
+    }
+
+    public function setIsNew(bool $isNew): self
     {
         $this->isNew = $isNew;
         return $this;
     }
 
-    /**
-     * Get import
-     *
-     * @return string
-     */
-    public function isNew() : bool
+    public function getWebPath(): ?string
     {
-        return $this->isNew;
+        return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
+    }
+
+    public static function getFileNameWebPath(?string $fileName): ?string
+    {
+        return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
+    }
+
+    protected function getUploadDir(): string
+    {
+        return self::UPLOAD_DIR;
     }
 }

@@ -13,46 +13,42 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 
-/**
- * Abstract class to handle image attachment
- */
+#[ORM\MappedSuperclass]
 abstract class AttachImage implements ImageInterface
 {
 
-    protected ?string $title;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $title = null;
 
-    protected ?string $link;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $link = null;
 
-    protected ?string $description;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $description = null;
 
-    protected ?string $attrTitle;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $attrTitle = null;
 
-    protected ?string $attrAlt;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $attrAlt = null;
 
-    /**
-     * Specific class to give when rendering the image
-     */
-    protected ?string $attrClass;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $attrClass = null;
 
-    /**
-     * Position when the image is part of a set of images
-     */
-    protected int $position = 0;
+    #[ORM\Column(type: "integer")]
+    #[Gedmo\SortablePosition]
+    private int $position = 0;
 
-    /**
-     * Image library selected
-     */
-    protected ?ItemLibraryInterface $image = null;
+    #[ORM\ManyToOne(targetEntity: ImageInterface::class)]
+    private ?ImageInterface $image = null;
 
-    /**
-     * Used when image is changed
-     */
-    protected ?ItemLibraryInterface $oldImage = null;
+    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(name: "created_at", type: "datetime")]
+    private ?\DateTime $createdAt = null;
 
-
-    protected ?\DateTime $createdAt = null;
-
-    protected ?\DateTime $updatedAt = null;
+    #[Gedmo\Timestampable(on: "update")]
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
     /**
      * @return string|null

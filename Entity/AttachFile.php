@@ -11,42 +11,32 @@ namespace Aropixel\AdminBundle\Entity;
 
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * Abstract class to handle file attachment
- */
+#[ORM\MappedSuperclass]
 abstract class AttachFile
 {
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $title = null;
 
-    /**
-     * @var string  Html title attribute for the file link rendering
-     */
-    protected $title;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $alt = null;
 
-    /**
-     * @var string  Html alt attribute for the file link rendering
-     */
-    protected $alt;
+    #[ORM\Column(type: "integer")]
+    #[Gedmo\SortablePosition]
+    private int $position = 0;
 
-    /**
-     * @var integer Position when the file is part of a set of files
-     */
-    protected $position = 0;
+    #[ORM\ManyToOne(targetEntity: FileInterface::class)]
+    private ?FileInterface $file = null;
 
-    /**
-     * @var FileInterface  File entity that represent file source
-     */
-    protected $file;
+    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(name: "created_at", type: "datetime")]
+    private ?\DateTime $createdAt = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
+    #[Gedmo\Timestampable(on: "update")]
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
 
     /**

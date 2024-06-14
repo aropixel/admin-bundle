@@ -7,48 +7,24 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 
-/**
- * Crop informations for an image
- */
+#[ORM\MappedSuperclass]
 abstract class Crop implements CropInterface
 {
 
-    /**
-     * @var integer
-     */
-//    protected $id;
+    #[ORM\Column(type: "string")]
+    private string $filter;
 
-    /**
-     * @var string  Which filter was applied
-     */
-    private $filter;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $crop = null;
 
-    /**
-     * @var string  Coordonates of the crop
-     */
-    private $crop;
+    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(name: "created_at", type: "datetime")]
+    private ?\DateTime $createdAt = null;
 
-    /**
-     * @var \DateTime
-     */
-    private $createdAt;
+    #[Gedmo\Timestampable(on: "update")]
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
-    /**
-     * @var \DateTime
-     */
-    private $updatedAt;
-
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set filter

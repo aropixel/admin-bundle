@@ -2,77 +2,58 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\FileInterface;
+use Aropixel\AdminBundle\Infrastructure\Media\File\Library\Repository\FileRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
-/**
- * File
- */
+#[ORM\MappedSuperclass]
+#[ORM\Table(name: "aropixel_file")]
+#[ORM\Entity(repositoryClass: FileRepository::class)]
 class File implements FileInterface
 {
 
     const UPLOAD_DIR = 'files';
 
-    /**
-     * @var integer
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private int $id;
 
-    /**
-     * @var string  File title
-     */
-    protected $title;
+    #[ORM\Column(type: "string")]
+    private string $title;
 
-    /**
-     * @var string  Regroup files for displaying specific files libraries
-     */
-    protected $category;
+    #[ORM\Column(type: "string")]
+    private string $category;
 
-    /**
-     * @var string  Temporary path (not mapped)
-     */
-    protected $temp;
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $description = null;
 
-    /**
-     * @var boolean  Is the file public ?
-     */
-    protected $public;
+    #[ORM\Column(type: "string")]
+    private string $filename;
 
-    /**
-     * @Assert\File()
-     */
-    public $file;
+    #[ORM\Column(type: "string", length: 20)]
+    private string $extension;
 
-    /**
-     * @var string
-     */
-    protected $description;
+    #[ORM\Column(type: "boolean")]
+    private bool $public;
 
-    /**
-     * @var string
-     */
-    protected $filename;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $import = null;
 
-    /**
-     * @var string
-     */
-    protected $extension;
+    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(name: "created_at", type: "datetime")]
+    private ?\DateTime $createdAt = null;
 
-    /**
-     * @var string
-     */
-    protected $import;
+    #[Gedmo\Timestampable(on: "update")]
+    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    private ?\DateTime $updatedAt = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
+    #[Assert\File]
+    public ?SymfonyFile $file = null;
 
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
+    private ?string $temp = null;
 
     /**
      * Constructor
