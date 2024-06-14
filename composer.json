@@ -19,13 +19,16 @@
   },
   "require" : {
     "ext-intl": "*",
-    "doctrine/orm": "^2.14|^3.2|^4.0.x-dev@dev",
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
+    "symfony/orm-pack": "2.4.1",
     "symfony/mailer": "^6.0|^7.1",
+    "symfony/form": "^6.0|^7.1",
     "symfony/flex": "^1|^2",
     "symfony/framework-bundle": "^6.0|^7.1",
+    "symfony/security-bundle": "^6.0|^7.1",
     "symfony/string": "^6.0|^7.1",
+    "symfony/validator": "^6.0|^7.1",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
     "twig/intl-extra": "^2.12|^3.0"
