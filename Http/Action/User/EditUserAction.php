@@ -13,23 +13,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EditUserAction extends AbstractController
 {
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly PasswordInitializer $passwordInitializer,
         private readonly PasswordUpdaterInterface $passwordUpdater,
         private readonly RequestStack $request,
         private readonly UserRepositoryInterface $userRepository
-    ){}
+    ) {
+    }
 
     private string $form = UserType::class;
 
-
-    public function __invoke(int $id) : Response
+    public function __invoke(int $id): Response
     {
-         $user = $this->userRepository->find($id);
+        $user = $this->userRepository->find($id);
 
-        if (is_null($user)) {
+        if (null === $user) {
             throw $this->createNotFoundException();
         }
 
@@ -37,7 +36,6 @@ class EditUserAction extends AbstractController
         $editForm->handleRequest($this->request->getMainRequest());
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             $this->passwordUpdater->hashPlainPassword($user);
             $this->em->flush();
             $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
@@ -46,9 +44,9 @@ class EditUserAction extends AbstractController
         }
 
         return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
-            'user'   => $user,
+            'user' => $user,
             'sendButton' => $this->passwordInitializer->stillPendingPasswordCreation($user),
-            'form'   => $editForm->createView()
+            'form' => $editForm->createView(),
         ]);
     }
 }

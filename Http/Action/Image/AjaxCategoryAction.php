@@ -10,35 +10,21 @@ use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\DataTable\DataTableR
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class AjaxCategoryAction extends AbstractController
 {
-    private ClassNameResolverInterface $classNameResolver;
-    private DataTableFactoryInterface $dataTableFactory;
-    private DataTableRowFactory $dataTableRowFactory;
-    private DataTableRepository $imageDataTableRepository;
-
-    /**
-     * @param ClassNameResolverInterface $classNameResolver
-     * @param DataTableFactoryInterface $dataTableFactory
-     * @param DataTableRowFactory $dataTableRowFactory
-     * @param DataTableRepository $imageDataTableRepository
-     */
-    public function __construct(ClassNameResolverInterface $classNameResolver, DataTableFactoryInterface $dataTableFactory, DataTableRowFactory $dataTableRowFactory, DataTableRepository $imageDataTableRepository)
-    {
-        $this->classNameResolver = $classNameResolver;
-        $this->dataTableFactory = $dataTableFactory;
-        $this->dataTableRowFactory = $dataTableRowFactory;
-        $this->imageDataTableRepository = $imageDataTableRepository;
+    public function __construct(
+        private readonly ClassNameResolverInterface $classNameResolver,
+        private readonly DataTableFactoryInterface $dataTableFactory,
+        private readonly DataTableRowFactory $dataTableRowFactory,
+        private readonly DataTableRepository $imageDataTableRepository
+    ) {
     }
-
 
     /**
      * Lists all Image entities.
      */
-    public function __invoke(string $category) : Response
+    public function __invoke(string $category): Response
     {
-
         $dataTable = $this->dataTableFactory
             ->setRepository($this->imageDataTableRepository)
             ->create($this->classNameResolver->getImageClassName(), [
@@ -48,13 +34,11 @@ class AjaxCategoryAction extends AbstractController
                 new DataTableColumn('Date', 'createdAt'),
                 new DataTableColumn('Fichier', '', 'width:200px;'),
                 new DataTableColumn('', ''),
-            ]);
+            ])
+        ;
 
         $dataTable->getContext()->addParameters(['category' => $category]);
 
         return $dataTable->getResponse($this->dataTableRowFactory);
-
     }
-
-
 }

@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 10/02/2023 à 14:16
- */
 
 namespace Aropixel\AdminBundle\Infrastructure\Media;
 
@@ -18,7 +13,6 @@ class PreUploadHandler
         $media->setUpdatedAt($now);
 
         if (null !== $media->getFile()) {
-
             $ext = $media->getFile()->guessExtension();
             $media->setExtension($ext);
 
@@ -26,12 +20,10 @@ class PreUploadHandler
             $filename = sha1(uniqid(mt_rand(), true)) . '.' . $ext;
             $media->setFilename($filename);
 
-            //
-            $i = strrpos($media->getTitle(), '.');
-            if ($i!==false) {
-                $media->setTitle(substr($media->getTitle(), 0, $i));
+            $i = mb_strrpos($media->getTitle(), '.');
+            if (false !== $i) {
+                $media->setTitle(mb_substr($media->getTitle(), 0, $i));
             }
-
         }
     }
 }

@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IndexUserAction extends AbstractController
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    ){}
+    ) {
+    }
 
-    public function __invoke() : Response
+    public function __invoke(): Response
     {
         $users = $this->userRepository->findBy([], ['createdAt' => 'ASC']);
 
@@ -25,7 +25,7 @@ class IndexUserAction extends AbstractController
         return $this->render('@AropixelAdmin/User/Crud/index.html.twig', [
             'list_title' => 'Liste des administrateurs',
             'columns' => $columns,
-            'users' => $users
+            'users' => $users,
         ]);
     }
 }

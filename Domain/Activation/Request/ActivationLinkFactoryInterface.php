@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ActivationLinkFactoryInterface
 {
-    public function createActivationLink(UserInterface $user) : string;
+    public function createActivationLink(UserInterface $user): string;
 }

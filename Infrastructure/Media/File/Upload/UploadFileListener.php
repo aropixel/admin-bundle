@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2020.
- * Par: Joël Gomez Caballe
- * Date: 12/08/2020 à 13:55
- */
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\File\Upload;
 
@@ -14,43 +9,33 @@ use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver;
 
 class UploadFileListener
 {
-
-    private PathResolver $pathResolver;
-    private PreUploadHandler $preUploadHandler;
-
-
-    /**
-     * @param PathResolver $pathResolver
-     * @param PreUploadHandler $preUploadHandler
-     */
-    public function __construct(PathResolver $pathResolver, PreUploadHandler $preUploadHandler)
-    {
-        $this->pathResolver = $pathResolver;
-        $this->preUploadHandler = $preUploadHandler;
+    public function __construct(
+        private readonly PathResolver $pathResolver,
+        private readonly PreUploadHandler $preUploadHandler
+    ) {
     }
 
-
-    public function prePersist(FileInterface $file) : void
+    public function prePersist(FileInterface $file): void
     {
         $this->preUpload($file);
     }
 
-    public function preUpdate(FileInterface $file) : void
+    public function preUpdate(FileInterface $file): void
     {
         $this->preUpload($file);
     }
 
-    public function postPersist(FileInterface $file) : void
+    public function postPersist(FileInterface $file): void
     {
         $this->upload($file);
     }
 
-    public function postUpdate(FileInterface $file) : void
+    public function postUpdate(FileInterface $file): void
     {
         $this->upload($file);
     }
 
-    public function postRemove(FileInterface $file) : void
+    public function postRemove(FileInterface $file): void
     {
         $file = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
         if ($file && file_exists($file)) {
@@ -58,16 +43,12 @@ class UploadFileListener
         }
     }
 
-
-    /**
-     */
-    private function preUpload(FileInterface $file) : void
+    private function preUpload(FileInterface $file): void
     {
         $this->preUploadHandler->handlePreUpload($file);
     }
 
-
-    private function upload(FileInterface $file) : void
+    private function upload(FileInterface $file): void
     {
         if (null === $file->getFile()) {
             return;
@@ -81,9 +62,7 @@ class UploadFileListener
         // check if we have an old image
         if ($file->getTempPath()) {
             // delete the old image
-            unlink($this->pathResolver->getPrivateAbsolutePath(File::UPLOAD_DIR).'/'.$file->getTempPath());
+            unlink($this->pathResolver->getPrivateAbsolutePath(File::UPLOAD_DIR) . '/' . $file->getTempPath());
         }
     }
-
-
 }

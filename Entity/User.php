@@ -2,79 +2,75 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\MappedSuperclass]
-#[ORM\Table(name: "aropixel_admin_user")]
+#[ORM\Table(name: 'aropixel_admin_user')]
 class User implements UserInterface
 {
-    const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     protected ?string $email = null;
 
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(type: 'boolean')]
     protected bool $enabled = false;
 
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     protected int $passwordAttempts = 0;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $firstName = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $lastName = null;
 
-    #[ORM\Column(type: "json")]
+    #[ORM\Column(type: 'json')]
     protected array $roles = [];
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     protected ?string $password = null;
 
     protected ?string $plainPassword = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $passwordResetToken = null;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $passwordRequestedAt = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $emailVerificationToken = null;
 
-    #[ORM\Column(type: "datetime")]
-    #[Gedmo\Timestampable(on: "create")]
+    #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
     protected ?\DateTime $createdAt = null;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $lastPasswordUpdate = null;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $lastLogin = null;
 
-    #[ORM\OneToOne(mappedBy: "user", targetEntity: UserImage::class, cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: UserImage::class, cascade: ['persist', 'remove'])]
     protected ?UserImage $image = null;
-
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
 
     public function setEmail(string $email): self
     {
@@ -91,11 +87,7 @@ class User implements UserInterface
         return $this->firstName;
     }
 
-    /**
-     * @param mixed $firstName
-     * @return self
-     */
-    public function setFirstName($firstName): self
+    public function setFirstName(mixed $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -110,11 +102,7 @@ class User implements UserInterface
         return $this->lastName;
     }
 
-    /**
-     * @param mixed $lastName
-     * @return self
-     */
-    public function setLastName($lastName): self
+    public function setLastName(mixed $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -128,7 +116,7 @@ class User implements UserInterface
      */
     public function getFullName(): string
     {
-        return $this->firstName.' '.$this->lastName;
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -149,6 +137,7 @@ class User implements UserInterface
         // guarantee every user at least has ROLE_ADMIN
         $roles = $this->roles;
         $roles[] = self::ROLE_ADMIN;
+
         return array_unique($roles);
     }
 
@@ -160,46 +149,42 @@ class User implements UserInterface
     }
 
     /**
-     * Get prenom
+     * Get prenom.
      *
      * @return string
      */
     public function getCompleteName()
     {
         if ($this->firstName || $this->lastName) {
-            return $this->firstName." ".$this->lastName;
+            return $this->firstName . ' ' . $this->lastName;
         }
-        else {
-            return $this->email;
-        }
+
+        return $this->email;
     }
 
     /**
-     * Get prenom
+     * Get prenom.
      *
      * @return string
      */
     public function getSuperAdmin()
     {
-        return in_array(static::ROLE_SUPER_ADMIN, $this->roles);
+        return \in_array(static::ROLE_SUPER_ADMIN, $this->roles);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setSuperAdmin($boolean)
     {
         if ($boolean) {
             $this->roles[] = self::ROLE_ADMIN;
             $this->roles[] = self::ROLE_SUPER_ADMIN;
         } else {
-            $this->roles = array(self::ROLE_ADMIN);
+            $this->roles = [self::ROLE_ADMIN];
         }
 
         $this->roles = array_unique($this->roles);
+
         return $this;
     }
-
 
     /**
      * @see UserInterface
@@ -216,9 +201,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
@@ -230,7 +212,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
     public function isEnabled()
     {
@@ -244,44 +225,39 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPasswordAttempts(): int
     {
         return $this->passwordAttempts;
     }
 
-    /**
-     * @param int $passwordAttempts
-     */
     public function setPasswordAttempts(int $passwordAttempts): void
     {
         $this->passwordAttempts = $passwordAttempts;
     }
 
-    public function tooOldPassword(string $delay) : bool
+    public function tooOldPassword(string $delay): bool
     {
-        $now = new \Datetime('now');
+        $now = new \DateTime('now');
         $lastPasswordUpdate = $this->getLastPasswordUpdate() ?: $this->getCreatedAt();
 
-        $lastPasswordUpdate = clone($lastPasswordUpdate);
-        $lastPasswordUpdate = $lastPasswordUpdate->modify('+'. $delay);
+        $lastPasswordUpdate = clone $lastPasswordUpdate;
+        $lastPasswordUpdate = $lastPasswordUpdate->modify('+' . $delay);
 
         if ($now > $lastPasswordUpdate) {
             return true;
         }
+
         return false;
     }
 
-    public function tooOldLastLogin() : bool
+    public function tooOldLastLogin(): bool
     {
         $lastLogin = $this->getLastLogin();
 
-        $now = new \Datetime('now');
+        $now = new \DateTime('now');
 
         if ($lastLogin) {
-            $lastLoginAnd3Months = clone($lastLogin);
+            $lastLoginAnd3Months = clone $lastLogin;
             $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+3 month');
             $lastLoginAnd3Months = $lastLoginAnd3Months->modify('+1 day');
 
@@ -303,17 +279,14 @@ class User implements UserInterface
 
     /**
      * @param string $passwordResetToken
-     * @return User
      */
     public function setPasswordResetToken($passwordResetToken): self
     {
         $this->passwordResetToken = $passwordResetToken;
+
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPasswordRequestExpired(\DateInterval $ttl): bool
     {
         if (null === $this->passwordRequestedAt) {
@@ -336,11 +309,11 @@ class User implements UserInterface
 
     /**
      * @param ?\DateTime $passwordRequestedAt
-     * @return User
      */
     public function setPasswordRequestedAt($passwordRequestedAt): self
     {
         $this->passwordRequestedAt = $passwordRequestedAt;
+
         return $this;
     }
 
@@ -354,14 +327,13 @@ class User implements UserInterface
 
     /**
      * @param string $emailVerificationToken
-     * @return User
      */
     public function setEmailVerificationToken($emailVerificationToken): self
     {
         $this->emailVerificationToken = $emailVerificationToken;
+
         return $this;
     }
-
 
     /**
      * @see UserInterface
@@ -374,16 +346,17 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials() : void
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return self
      */
     public function setCreatedAt($createdAt)
@@ -394,7 +367,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -421,9 +394,6 @@ class User implements UserInterface
         return $this->lastPasswordUpdate;
     }
 
-    /**
-     * @param \DateTime $lastPasswordUpdate
-     */
     public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void
     {
         $this->lastPasswordUpdate = $lastPasswordUpdate;
@@ -453,12 +423,12 @@ class User implements UserInterface
     public function setImage(?UserImage $image): self
     {
         // unset the owning side of the relation if necessary
-        if ($image === null && $this->image !== null) {
+        if (null === $image && null !== $this->image) {
             $this->image->setUser(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($image !== null && $image->getUser() !== $this) {
+        if (null !== $image && $image->getUser() !== $this) {
             $image->setUser($this);
         }
 
@@ -466,7 +436,4 @@ class User implements UserInterface
 
         return $this;
     }
-
 }
-
-

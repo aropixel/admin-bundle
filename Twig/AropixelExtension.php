@@ -1,4 +1,5 @@
 <?php
+
 namespace Aropixel\AdminBundle\Twig;
 
 use Aropixel\AdminBundle\Domain\Seo\Seo;
@@ -10,38 +11,22 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-
 class AropixelExtension extends AbstractExtension
 {
-    private RequestStack $requestStack;
-    private RouterInterface $router;
-
-
-    public function __construct(RequestStack $requestStack, RouterInterface $router)
-    {
-        $this->requestStack = $requestStack;
-        $this->router = $router;
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly RouterInterface $router
+    ) {
     }
 
     public function getFilters()
     {
-        return array(
-            'datetime' => new TwigFilter('datetime', array($this, 'intl_date')),
-            'intl_date' => new TwigFilter('intl_date', array($this, 'intl_date')),
-            'seo' => new TwigFilter('seo', array($this, 'getSeo')),
-            'ucfirst' => new TwigFilter('ucfirst', array($this, 'myUcfirst')),
-        );
+        return ['datetime' => new TwigFilter('datetime', $this->intl_date(...)), 'intl_date' => new TwigFilter('intl_date', $this->intl_date(...)), 'seo' => new TwigFilter('seo', $this->getSeo(...)), 'ucfirst' => new TwigFilter('ucfirst', $this->myUcfirst(...))];
     }
-
 
     public function getFunctions()
     {
-        return array(
-            'route_exists' => new TwigFunction('route_exists', array($this, 'routeExists')),
-            'get_baseroute' => new TwigFunction('get_baseroute', array($this, 'getBaseRoute')),
-            'get_image_editor_route' => new TwigFunction('get_image_editor_route', array($this, 'getImageEditorRoute')),
-            'get_class' => new TwigFunction('get_class', array($this, 'getClass')),
-        );
+        return ['route_exists' => new TwigFunction('route_exists', $this->routeExists(...)), 'get_baseroute' => new TwigFunction('get_baseroute', $this->getBaseRoute(...)), 'get_image_editor_route' => new TwigFunction('get_image_editor_route', $this->getImageEditorRoute(...)), 'get_class' => new TwigFunction('get_class', $this->getClass(...))];
     }
 
     public function getName()
@@ -49,108 +34,90 @@ class AropixelExtension extends AbstractExtension
         return 'getclass';
     }
 
-
-    function getBaseRoute()
+    public function getBaseRoute()
     {
         $request = $this->requestStack->getCurrentRequest();
         $routeName = $request->get('_route');
-        $i = strrpos($routeName, '_');
-        $baseRoute = substr($routeName, 0, $i);
-        return $baseRoute;
+        $i = mb_strrpos((string) $routeName, '_');
+
+        return mb_substr((string) $routeName, 0, $i);
     }
 
-
-    function getImageEditorRoute()
+    public function getImageEditorRoute()
     {
-        $path = $this->router->generate('image_editor');
-        return $path;
+        return $this->router->generate('image_editor');
     }
-
 
     public function getClass($object)
     {
-        return $object && is_object($object) ? (new \ReflectionClass($object))->getName() : "";
+        return $object && \is_object($object) ? (new \ReflectionClass($object))->getName() : '';
     }
-
-
 
     public function myUcfirst($text)
     {
-        return ucfirst($text);
+        return ucfirst((string) $text);
     }
 
-
     /**
-     * @param mixed $entity         Objet dans lequel recupérer les infos
-     * @param string $seoField      Balise SEO à gérer (title, description, ou keywords)
-     * @param string $defaultField  Champs de l'objet à utiliser pour générer le contenu (par défaut, égal à $seoField)
-     * @param string $defaultText   Valeur par défaut si rien n'est trouvé
-     * @param string $appendText    Valeur à ajouter par défaut au texte généré
+     * @param string $seoField     Balise SEO à gérer (title, description, ou keywords)
+     * @param string $defaultField Champs de l'objet à utiliser pour générer le contenu (par défaut, égal à $seoField)
+     * @param string $defaultText  Valeur par défaut si rien n'est trouvé
+     * @param string $appendText   Valeur à ajouter par défaut au texte généré
+     *
      * @return string
      */
-    public function getSeo($entity, $seoField, $defaultField="", $defaultText="", $appendText="")
+    public function getSeo(mixed $entity, $seoField, $defaultField = '', $defaultText = '', $appendText = '')
     {
-        //
-        if (!$defaultField || !strlen($defaultField)) {
-            $defaultField = $seoField=='keywords' ? 'description' : $seoField;
+        if (!$defaultField || !mb_strlen($defaultField)) {
+            $defaultField = 'keywords' == $seoField ? 'description' : $seoField;
         }
 
-        //
         $accessor = PropertyAccess::createPropertyAccessor();
-
 
         // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
         try {
             $seoText = $accessor->getValue($entity, $seoField);
+        } catch (NoSuchPropertyException) {
+            $seoText = '';
         }
-        catch (NoSuchPropertyException $e) {
-            $seoText = "";
-        }
-
 
         // Si non trouvé, on cherche dans les champs get[NOM DU CHAMPS]
-        if (!strlen($seoText)) {
-
+        if (!mb_strlen((string) $seoText)) {
             // Par défaut on cherche dans les champs getMeta[NOM DU CHAMPS]
             try {
                 $seoText = $accessor->getValue($entity, $defaultField);
-            }
-            catch (NoSuchPropertyException $e) {
-                $seoText = "";
+            } catch (NoSuchPropertyException) {
+                $seoText = '';
             }
 
-            if (strlen($seoText)) {
-                $seoText.= $appendText;
+            if (mb_strlen((string) $seoText)) {
+                $seoText .= $appendText;
             }
         }
 
-
-        //
-        if ($seoField == 'title') {
+        if ('title' == $seoField) {
             return Seo::text($seoText ?: $defaultText, 70);
         }
-        elseif ($seoField == 'description') {
+        if ('description' == $seoField) {
             return Seo::text($seoText ?: $defaultText);
         }
-        elseif ($seoField == 'keywords') {
-            return Seo::keywords($seoText ?: $defaultText, 15, (bool)$seoText);
+        if ('keywords' == $seoField) {
+            return Seo::keywords($seoText ?: $defaultText, 15, (bool) $seoText);
         }
 
         return $seoText;
     }
 
-    function routeExists($name)
+    public function routeExists($name)
     {
-        return !((null === $this->router->getRouteCollection()->get($name)));
+        return !(null === $this->router->getRouteCollection()->get($name));
     }
 
-
-    public function intl_date($d, $format = "%B %e", $lang="fr_FR")
+    public function intl_date($d, $format = '%B %e', $lang = 'fr_FR')
     {
         $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);
+
         return $formatter->format($d);
     }
-
-
 }

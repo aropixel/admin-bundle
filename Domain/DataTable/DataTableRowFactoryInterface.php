@@ -4,5 +4,5 @@ namespace Aropixel\AdminBundle\Domain\DataTable;
 
 interface DataTableRowFactoryInterface
 {
-    public function createRow($subject) : array;
+    public function createRow($subject): array;
 }

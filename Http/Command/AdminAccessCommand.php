@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Joël Gomez Caballe
- * Date: 02/10/2018
- * Time: 13:55
- */
 
 namespace Aropixel\AdminBundle\Http\Command;
 
@@ -12,7 +6,6 @@ use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Http\Command\AbstractInstallCommand;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,68 +17,49 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
 /**
  * Commande de création du tout premier administrateur.
- *
- * @package Aropixel\AdminBundle\Command
  */
 class AdminAccessCommand extends AbstractInstallCommand
 {
-
-
     protected static $defaultName = 'aropixel:admin:setup';
-    private ActivationEmailSenderInterface $activationEmailSender;
-    private PasswordUpdaterInterface $passwordUpdater;
-    private UserFactoryInterface $userFactory;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param PasswordUpdaterInterface $passwordUpdater
-     * @param UserFactoryInterface $userFactory
-     */
-    public function __construct(ManagerRegistry $managerRegistry, PasswordUpdaterInterface $passwordUpdater, UserFactoryInterface $userFactory, ValidatorInterface $validator, ActivationEmailSenderInterface $activationEmailSender)
-    {
+    public function __construct(
+        protected ManagerRegistry $managerRegistry,
+        private readonly PasswordUpdaterInterface $passwordUpdater,
+        private readonly UserFactoryInterface $userFactory,
+        protected ValidatorInterface $validator,
+        private readonly ActivationEmailSenderInterface $activationEmailSender
+    ) {
         parent::__construct($managerRegistry, $validator);
-        $this->passwordUpdater = $passwordUpdater;
-        $this->userFactory = $userFactory;
-        $this->activationEmailSender = $activationEmailSender;
     }
-
 
     protected function configure()
     {
-
         $this
             ->setName('aropixel:admin:setup')
             ->setDescription('Initialisation du bundle d\'admin.')
-            ->setHelp(<<<EOT
-La commande <info>%command.name%</info> permet d'initialiser les données du bundle d'admin.
-EOT
+            ->setHelp(<<<'EOT'
+                La commande <info>%command.name%</info> permet d'initialiser les données du bundle d'admin.
+                EOT
             )
         ;
-
     }
 
-
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
         $outputStyle = new SymfonyStyle($input, $output);
         $outputStyle->writeln('Création du compte administrateur.');
 
-
         try {
-
             $user = $this->userFactory->createUser();
             $user->setRoles(['ROLE_SUPER_ADMIN']);
             $this->configureNewUser($user, $input, $output);
-
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             return 0;
         }
 
-        $em = $this->managerRegistry->getManagerForClass(get_class($this->userFactory->createUser()));
+        $em = $this->managerRegistry->getManagerForClass($this->userFactory->createUser()::class);
         $em->flush();
 
         $this->activationEmailSender->sendActivationEmail($user);
@@ -93,28 +67,25 @@ EOT
         $outputStyle->writeln('<info>Le compte administrateur a bien été créé.</info>');
         $outputStyle->newLine();
 
-        return defined( 'Command::SUCCESS' ) ? constant('Command::SUCCESS') : 0;
-
+        return \defined('Command::SUCCESS') ? \constant('Command::SUCCESS') : 0;
     }
-
 
     private function configureNewUser(
         User $user,
         InputInterface $input,
         OutputInterface $output
     ): User {
-
         $email = $this->getAdministratorEmail($input, $output);
         $user->setEmail($email);
         $user->setFirstName($this->getAdministratorName('Prénom', $input, $output));
         $user->setLastName($this->getAdministratorName('Nom', $input, $output));
 
-        $userClass = get_class($this->userFactory->createUser());
+        $userClass = $this->userFactory->createUser()::class;
         $em = $this->managerRegistry->getManagerForClass($userClass);
         $em->getRepository($userClass)->create($user);
+
         return $user;
     }
-
 
     private function createEmailQuestion(): Question
     {
@@ -129,13 +100,12 @@ EOT
                 return $value;
             })
             ->setMaxAttempts(3)
-            ;
+        ;
     }
-
 
     private function createNameQuestion($text): Question
     {
-        return (new Question($text.': '))
+        return (new Question($text . ': '))
             ->setValidator(function ($value) {
                 /** @var ConstraintViolationListInterface $errors */
                 $errors = $this->validator->validate((string) $value, [new NotBlank()]);
@@ -146,7 +116,7 @@ EOT
                 return $value;
             })
             ->setMaxAttempts(3)
-            ;
+        ;
     }
 
     private function getAdministratorEmail(InputInterface $input, OutputInterface $output): string
@@ -158,8 +128,8 @@ EOT
             $question = $this->createEmailQuestion();
             $email = $questionHelper->ask($input, $output, $question);
 
-            $repository = $this->managerRegistry->getRepository(get_class($this->userFactory->createUser()));
-            $exists = null !== $repository->findOneBy(array('email' => $email));
+            $repository = $this->managerRegistry->getRepository($this->userFactory->createUser()::class);
+            $exists = null !== $repository->findOneBy(['email' => $email]);
 
             if ($exists) {
                 $output->writeln('<error>Cet email est déjà utilisé!</error>');
@@ -175,9 +145,7 @@ EOT
         $questionHelper = $this->getHelper('question');
 
         $question = $this->createNameQuestion($questionText);
-        $name = $questionHelper->ask($input, $output, $question);
 
-        return $name;
+        return $questionHelper->ask($input, $output, $question);
     }
-
 }

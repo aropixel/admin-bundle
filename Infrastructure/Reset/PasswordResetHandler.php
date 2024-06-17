@@ -11,23 +11,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PasswordResetHandler implements PasswordResetHandlerInterface
 {
-    private EntityManagerInterface $em;
-    private ParameterBagInterface $parameterBag;
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param ParameterBagInterface $parameterBag
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     */
-    public function __construct(EntityManagerInterface $em, ParameterBagInterface $parameterBag, UserPasswordHasherInterface $userPasswordHasher)
-    {
-        $this->em = $em;
-        $this->parameterBag = $parameterBag;
-        $this->userPasswordHasher = $userPasswordHasher;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly UserPasswordHasherInterface $userPasswordHasher
+    ) {
     }
-
 
     public function update(UserInterface $user, string $password)
     {
@@ -46,7 +35,7 @@ class PasswordResetHandler implements PasswordResetHandlerInterface
         $this->em->flush();
     }
 
-    private function shouldChangePassword(UserInterface $user) : bool
+    private function shouldChangePassword(UserInterface $user): bool
     {
         return $user->tooOldLastLogin() || $user->tooOldPassword($this->parameterBag->get('passwordPeriod'));
     }

@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ResetLinkFactoryInterface
 {
-    public function createResetLink(UserInterface $user) : string;
+    public function createResetLink(UserInterface $user): string;
 }

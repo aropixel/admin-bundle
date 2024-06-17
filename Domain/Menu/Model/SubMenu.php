@@ -1,41 +1,22 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 09/02/2023 à 14:23
- */
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class SubMenu implements ItemInterface, IterableInterface
 {
-    private string $label;
-
-    private array $properties;
-
     private array $items = [];
-
-    private ?string $id;
 
     private bool $isActive = false;
 
     private ?IterableInterface $parent = null;
 
-
-    /**
-     * @param string $label
-     * @param array $properties
-     * @param string|null $id
-     */
-    public function __construct(string $label, array $properties, ?string $id=null)
-    {
-        $this->label = $label;
-        $this->properties = $properties;
-        $this->id = $id;
+    public function __construct(
+        private readonly string $label,
+        private array $properties,
+        private ?string $id = null
+    ) {
     }
 
     public function getType(): string
@@ -45,49 +26,34 @@ class SubMenu implements ItemInterface, IterableInterface
 
     public function hasChildren(): bool
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
-    /**
-     * @return IterableInterface|null
-     */
     public function getParent(): ?IterableInterface
     {
         return $this->parent;
     }
 
-    /**
-     * @param IterableInterface|null $parent
-     */
     public function setParent(?IterableInterface $parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return array
-     */
     public function getProperties(): array
     {
         return $this->properties;
     }
 
-    public function getProperty($property) : string
+    public function getProperty($property): string
     {
-        return array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
+        return \array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
@@ -109,8 +75,7 @@ class SubMenu implements ItemInterface, IterableInterface
         return $this->items;
     }
 
-
-    public function addItem(ItemInterface $item) : void
+    public function addItem(ItemInterface $item): void
     {
         $item->setId($item->getId() ?: $this->generateId($item->getLabel()));
         $item->setParent($this);
@@ -130,10 +95,10 @@ class SubMenu implements ItemInterface, IterableInterface
         return $this->isActive;
     }
 
-    private function generateId(string $label) : string
+    private function generateId(string $label): string
     {
         $slugger = new AsciiSlugger();
-        return strtolower($slugger->slug($label));
-    }
 
+        return mb_strtolower($slugger->slug($label));
+    }
 }

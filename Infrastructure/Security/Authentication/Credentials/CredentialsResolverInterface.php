@@ -6,5 +6,5 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface CredentialsResolverInterface
 {
-    public function getCredentials(Request $request) : array;
+    public function getCredentials(Request $request): array;
 }

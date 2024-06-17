@@ -8,6 +8,5 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 interface AuthenticationFailureHandlerInterface
 {
-    public function handleFailure(Request $request, AuthenticationException $exception) : Response;
-
+    public function handleFailure(Request $request, AuthenticationException $exception): Response;
 }

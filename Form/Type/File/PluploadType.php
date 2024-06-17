@@ -4,16 +4,12 @@ namespace Aropixel\AdminBundle\Form\Type\File;
 
 use Aropixel\AdminBundle\Entity\File;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PluploadType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,15 +20,9 @@ class PluploadType extends AbstractType
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => File::class,
-            'csrf_protection' => false,
-        ));
+        $resolver->setDefaults(['data_class' => File::class, 'csrf_protection' => false]);
     }
 
     /**

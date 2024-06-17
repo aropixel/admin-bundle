@@ -6,32 +6,22 @@ use Aropixel\AdminBundle\Domain\DataTable\DataTableContextFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRepositoryInterface;
-use Aropixel\AdminBundle\Infrastructure\DataTable\DataTable;
 use Aropixel\AdminBundle\Infrastructure\DataTable\Repository\Doctrine\DefaultDataTableRepository;
 
 class DataTableFactory implements DataTableFactoryInterface
 {
-
-    private DataTableContextFactoryInterface $dataTableContextFactory;
-    private DefaultDataTableRepository $doctrineDataTableRepository;
-
     private ?DataTableRepositoryInterface $dataTableRepository = null;
 
-
-    /**
-     * @param DataTableContextFactoryInterface $dataTableContextFactory
-     * @param DefaultDataTableRepository $doctrineDataTableRepository
-     */
-    public function __construct(DataTableContextFactoryInterface $dataTableContextFactory, DefaultDataTableRepository $doctrineDataTableRepository)
-    {
-        $this->dataTableContextFactory = $dataTableContextFactory;
-        $this->doctrineDataTableRepository = $doctrineDataTableRepository;
+    public function __construct(
+        private readonly DataTableContextFactoryInterface $dataTableContextFactory,
+        private readonly DefaultDataTableRepository $doctrineDataTableRepository
+    ) {
     }
 
-
-    public function setRepository(DataTableRepositoryInterface $dataTableRepository) : DataTableFactoryInterface
+    public function setRepository(DataTableRepositoryInterface $dataTableRepository): DataTableFactoryInterface
     {
         $this->dataTableRepository = $dataTableRepository;
+
         return $this;
     }
 
@@ -39,11 +29,10 @@ class DataTableFactory implements DataTableFactoryInterface
     {
         $context = $this->dataTableContextFactory->create();
 
-        if (is_null($this->dataTableRepository)) {
+        if (null === $this->dataTableRepository) {
             $this->setRepository($this->doctrineDataTableRepository);
         }
 
         return new DataTable($className, $columns, $context, $this->dataTableRepository);
     }
-
 }

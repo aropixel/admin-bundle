@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RequestStatusAction extends AbstractController
 {
-    const PENDING = 'pending';
-    const EXPIRED = 'expired';
-    const SUCCESS = 'success';
+    public const PENDING = 'pending';
+    public const EXPIRED = 'expired';
+    public const SUCCESS = 'success';
 
     public function __invoke(string $status)
     {
@@ -18,11 +18,10 @@ class RequestStatusAction extends AbstractController
             self::SUCCESS => '@AropixelAdmin/Reset/reset_success.html.twig',
         ];
 
-        if (!array_key_exists($status, $views)) {
+        if (!\array_key_exists($status, $views)) {
             throw $this->createNotFoundException();
         }
 
         return $this->render($views[$status]);
     }
-
 }

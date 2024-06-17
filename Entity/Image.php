@@ -2,28 +2,27 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
-#[ORM\Table(name: "aropixel_image")]
+#[ORM\Table(name: 'aropixel_image')]
 class Image implements ItemLibraryInterface
 {
-    const UPLOAD_DIR = 'images';
+    public const UPLOAD_DIR = 'images';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    protected ?int $id;
+    #[ORM\Column(type: 'integer')]
+    protected ?int $id = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     protected ?string $title = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     protected ?string $category = null;
 
     protected ?string $temp = null;
@@ -33,30 +32,30 @@ class Image implements ItemLibraryInterface
      */
     public ?File $file = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attrTitle = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attrAlt = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     private ?string $filename = null;
 
-    #[ORM\Column(type: "string", length: 20)]
+    #[ORM\Column(type: 'string', length: 20)]
     private ?string $extension = null;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $import = null;
 
-    #[Gedmo\Timestampable(on: "create")]
-    #[ORM\Column(name: "created_at", type: "datetime", nullable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: false)]
     private ?\DateTime $createdAt = null;
 
-    #[Gedmo\Timestampable(on: "update")]
-    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     private ?\DateTime $updatedAt = null;
 
     public function getId(): ?int
@@ -72,6 +71,7 @@ class Image implements ItemLibraryInterface
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -83,6 +83,7 @@ class Image implements ItemLibraryInterface
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -114,6 +115,7 @@ class Image implements ItemLibraryInterface
     public function setAttrTitle(?string $attrTitle): self
     {
         $this->attrTitle = $attrTitle;
+
         return $this;
     }
 
@@ -125,6 +127,7 @@ class Image implements ItemLibraryInterface
     public function setAttrAlt(?string $attrAlt): self
     {
         $this->attrAlt = $attrAlt;
+
         return $this;
     }
 
@@ -136,6 +139,7 @@ class Image implements ItemLibraryInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -147,6 +151,7 @@ class Image implements ItemLibraryInterface
     public function setFilename(?string $filename): self
     {
         $this->filename = $filename;
+
         return $this;
     }
 
@@ -158,6 +163,7 @@ class Image implements ItemLibraryInterface
     public function setExtension(?string $extension): self
     {
         $this->extension = $extension;
+
         return $this;
     }
 
@@ -166,7 +172,7 @@ class Image implements ItemLibraryInterface
         return $this->import;
     }
 
-    public function getTempPath() : ?string
+    public function getTempPath(): ?string
     {
         return $this->temp;
     }
@@ -174,6 +180,7 @@ class Image implements ItemLibraryInterface
     public function setImport(?string $import): self
     {
         $this->import = $import;
+
         return $this;
     }
 
@@ -185,6 +192,7 @@ class Image implements ItemLibraryInterface
     public function setCreatedAt(?\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -196,6 +204,7 @@ class Image implements ItemLibraryInterface
     public function setUpdatedAt(?\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 
@@ -207,17 +216,18 @@ class Image implements ItemLibraryInterface
     public function setIsNew(bool $isNew): self
     {
         $this->isNew = $isNew;
+
         return $this;
     }
 
     public function getWebPath(): ?string
     {
-        return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
+        return null === $this->filename ? null : $this->getUploadDir() . '/' . $this->filename;
     }
 
     public static function getFileNameWebPath(?string $fileName): ?string
     {
-        return null === $fileName ? null : self::UPLOAD_DIR.'/'.$fileName;
+        return null === $fileName ? null : self::UPLOAD_DIR . '/' . $fileName;
     }
 
     protected function getUploadDir(): string

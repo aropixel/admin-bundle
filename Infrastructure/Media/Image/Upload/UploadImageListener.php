@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2020.
- * Par: Joël Gomez Caballe
- * Date: 12/08/2020 à 13:55
- */
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Upload;
 
@@ -14,43 +9,36 @@ use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver;
 
 class UploadImageListener
 {
-
-    private PathResolver $pathResolver;
-    private PreUploadHandler $preUploadHandler;
-
-
     /**
      * @param \AdminBundle\Infrastructure\Media\Resolver\PathResolver $pathResolver
-     * @param PreUploadHandler $preUploadHandler
      */
-    public function __construct(PathResolver $pathResolver, PreUploadHandler $preUploadHandler)
-    {
-        $this->pathResolver = $pathResolver;
-        $this->preUploadHandler = $preUploadHandler;
+    public function __construct(
+        private readonly PathResolver $pathResolver,
+        private readonly PreUploadHandler $preUploadHandler
+    ) {
     }
 
-
-    public function prePersist(ItemLibraryInterface $image) : void
-    {
-        $this->preUpload($image);
-    }
-
-    public function preUpdate(ItemLibraryInterface $image) : void
+    public function prePersist(ItemLibraryInterface $image): void
     {
         $this->preUpload($image);
     }
 
-    public function postPersist(ItemLibraryInterface $image) : void
+    public function preUpdate(ItemLibraryInterface $image): void
+    {
+        $this->preUpload($image);
+    }
+
+    public function postPersist(ItemLibraryInterface $image): void
     {
         $this->upload($image);
     }
 
-    public function postUpdate(ItemLibraryInterface $image) : void
+    public function postUpdate(ItemLibraryInterface $image): void
     {
         $this->upload($image);
     }
 
-    public function postRemove(ItemLibraryInterface $image) : void
+    public function postRemove(ItemLibraryInterface $image): void
     {
         $file = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
         if ($file && file_exists($file)) {
@@ -58,15 +46,12 @@ class UploadImageListener
         }
     }
 
-
-    private function preUpload(ItemLibraryInterface $image) : void
+    private function preUpload(ItemLibraryInterface $image): void
     {
         $this->preUploadHandler->handlePreUpload($image);
     }
 
-    /**
-     */
-    private function upload(ItemLibraryInterface $image) : void
+    private function upload(ItemLibraryInterface $image): void
     {
         if (null === $image->getFile()) {
             return;
@@ -80,9 +65,7 @@ class UploadImageListener
         // check if we have an old image
         if ($image->getTempPath()) {
             // delete the old image
-            unlink($this->pathResolver->getPrivateAbsolutePath(Image::UPLOAD_DIR).'/'.$image->getTempPath());
+            unlink($this->pathResolver->getPrivateAbsolutePath(Image::UPLOAD_DIR) . '/' . $image->getTempPath());
         }
     }
-
-
 }

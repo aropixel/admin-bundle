@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AccountStatusAction extends AbstractController
 {
-    const ATTEMPTS = 'attempts';
-    const LOGIN = 'login';
-    const PASSWORD = 'password';
+    public const ATTEMPTS = 'attempts';
+    public const LOGIN = 'login';
+    public const PASSWORD = 'password';
 
     public function __invoke(string $status)
     {
@@ -18,11 +18,10 @@ class AccountStatusAction extends AbstractController
             self::PASSWORD => '@AropixelAdmin/Reset/too_old_password_request_info.html.twig',
         ];
 
-        if (!array_key_exists($status, $views)) {
+        if (!\array_key_exists($status, $views)) {
             throw $this->createNotFoundException();
         }
 
         return $this->render($views[$status]);
     }
-
 }

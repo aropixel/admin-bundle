@@ -17,19 +17,13 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-    private PasswordInitializerInterface $passwordInitializer;
-
-
     public function __construct(
         ManagerRegistry $registry,
         ParameterBagInterface $parameterBag,
-        PasswordInitializerInterface $passwordInitializer
-    )
-    {
+        private readonly PasswordInitializerInterface $passwordInitializer
+    ) {
         $entitiesClassNames = $parameterBag->get('aropixel_admin.entities');
         parent::__construct($registry, $entitiesClassNames[UserInterface::class]);
-
-        $this->passwordInitializer = $passwordInitializer;
     }
 
     public function findUserByEmail(string $email): ?UserInterface
@@ -47,7 +41,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $em->flush();
     }
 
-    public function remove(UserInterface $user, bool $flush = false) : void
+    public function remove(UserInterface $user, bool $flush = false): void
     {
         $this->getEntityManager()->remove($user);
 
@@ -55,5 +49,4 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             $this->getEntityManager()->flush();
         }
     }
-
 }

@@ -2,12 +2,11 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Activation;
 
-use Aropixel\AdminBundle\Http\Action\Activation\RequestStatusAction;
 use Aropixel\AdminBundle\Domain\Activation\PasswordCreationHandlerInterface;
-use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;
 use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Entity\UserInterface;
+use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,23 +14,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CreatePasswordAction extends AbstractController
 {
-    private PasswordCreationHandlerInterface $passwordCreationHandler;
-    private UserRepositoryInterface $userRepository;
-    private ParameterBagInterface $parameterBag;
-
-
-    /**
-     * @param PasswordCreationHandlerInterface $passwordCreationHandler
-     * @param UserRepositoryInterface $userRepository
-     * @param ParameterBagInterface $parameterBag
-     */
-    public function __construct(PasswordCreationHandlerInterface $passwordCreationHandler, UserRepositoryInterface $userRepository, ParameterBagInterface $parameterBag)
-    {
-        $this->passwordCreationHandler = $passwordCreationHandler;
-        $this->userRepository = $userRepository;
-        $this->parameterBag = $parameterBag;
+    public function __construct(
+        private readonly PasswordCreationHandlerInterface $passwordCreationHandler,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly ParameterBagInterface $parameterBag
+    ) {
     }
-
 
     public function __invoke(Request $request, string $token)
     {
@@ -53,26 +41,23 @@ class CreatePasswordAction extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $form->get('password')->get('first')->getViewData();
 
             try {
                 $this->passwordCreationHandler->create($user, $password);
-                return $this->redirectToRoute('aropixel_admin_activation_request_status', ['status' => RequestStatusAction::SUCCESS]);
-            }
-            catch (UnchangedPasswordException $e) {
-                $error = "Veuillez choisir un mot de passe différent du mot de passe actuel.";
-            }
 
+                return $this->redirectToRoute('aropixel_admin_activation_request_status', ['status' => RequestStatusAction::SUCCESS]);
+            } catch (UnchangedPasswordException) {
+                $error = 'Veuillez choisir un mot de passe différent du mot de passe actuel.';
+            }
         }
 
         return $this->render('@AropixelAdmin/Activation/create_password.html.twig',
             [
                 'form' => $form->createView(),
                 'user' => $user,
-                'error' => $error
+                'error' => $error,
             ]
         );
     }
-
 }

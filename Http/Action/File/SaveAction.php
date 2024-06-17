@@ -3,48 +3,33 @@
 namespace Aropixel\AdminBundle\Http\Action\File;
 
 use Aropixel\AdminBundle\Domain\Media\File\Library\Repository\FileRepositoryInterface;
-use Aropixel\AdminBundle\Services\FileManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 
 class SaveAction extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-    private FileRepositoryInterface $fileRepository;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param FileRepositoryInterface $fileRepository
-     */
-    public function __construct(EntityManagerInterface $entityManager, FileRepositoryInterface $fileRepository)
-    {
-        $this->entityManager = $entityManager;
-        $this->fileRepository = $fileRepository;
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FileRepositoryInterface $fileRepository
+    ) {
     }
-
 
     /**
      * Save crop info of an Image.
      */
-    public function __invoke(Request $request) : Response
+    public function __invoke(Request $request): Response
     {
-
         $entity_id = $request->request->get('id');
         $title = $request->request->get('title');
 
         $file = $this->fileRepository->find($entity_id);
         if ($file) {
-
             $file->setTitle($title);
             $this->entityManager->flush();
-
         }
 
         return new Response($title, Response::HTTP_OK);
-
     }
-
-
 }

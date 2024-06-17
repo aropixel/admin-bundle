@@ -9,14 +9,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ActivationLinkFactory implements ActivationLinkFactoryInterface
 {
-    private RouterInterface $router;
-
-    /**
-     * @param RouterInterface $router
-     */
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
+    public function __construct(
+        private readonly RouterInterface $router
+    ) {
     }
 
     public function createActivationLink(UserInterface $user): string

@@ -1,15 +1,8 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 20/02/2023 à 15:22
- */
 
 namespace Aropixel\AdminBundle\Domain\DataTable;
 
-use Aropixel\AdminBundle\Domain\DataTable\DataTableContext;
-
 interface DataTableContextFactoryInterface
 {
-    public function create() : DataTableContext;
+    public function create(): DataTableContext;
 }

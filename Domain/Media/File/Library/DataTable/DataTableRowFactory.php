@@ -10,23 +10,12 @@ use Twig\Environment;
 
 class DataTableRowFactory implements DataTableRowFactoryInterface
 {
-
-    private IconPathFactoryInterface $iconPathFactory;
-    private PathResolverInterface $pathResolver;
-    private Environment $twig;
-
-    /**
-     * @param IconPathFactoryInterface $iconPathFactory
-     * @param PathResolverInterface $pathResolver
-     * @param Environment $twig
-     */
-    public function __construct(IconPathFactoryInterface $iconPathFactory, PathResolverInterface $pathResolver, Environment $twig)
-    {
-        $this->iconPathFactory = $iconPathFactory;
-        $this->pathResolver = $pathResolver;
-        $this->twig = $twig;
+    public function __construct(
+        private readonly IconPathFactoryInterface $iconPathFactory,
+        private readonly PathResolverInterface $pathResolver,
+        private readonly Environment $twig
+    ) {
     }
-
 
     public function createRow($subject): array
     {
@@ -36,14 +25,14 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
 
         $bytes = @filesize($filePath);
         $sz = 'bkMGTP';
-        $factor = (int)floor((strlen($bytes) - 1) / 3);
+        $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
         $decimals = 2;
         $unite = @$sz[$factor];
-        if ($unite=='b' || $unite=='k') {
+        if ('b' == $unite || 'k' == $unite) {
             $decimals = 0;
         }
-        $filesize = sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-        list($width, $height) = getimagesize($filePath);
+        $filesize = sprintf("%.{$decimals}f", $bytes / 1024 ** $factor) . @$sz[$factor];
+        [$width, $height] = getimagesize($filePath);
 
         $icon = $this->iconPathFactory->getIconPath($subject->getExtension());
 
@@ -53,8 +42,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
             $this->twig->render('@AropixelAdmin/File/Datatabler/title.html.twig', ['file' => $file]),
             $file->getCreatedAt()->format('d/m/Y'),
             $this->twig->render('@AropixelAdmin/File/Datatabler/properties.html.twig', ['file' => $file, 'filesize' => $filesize, 'width' => $width, 'height' => $height]),
-            $this->twig->render('@AropixelAdmin/File/Datatabler/button.html.twig', ['file' => $file])
+            $this->twig->render('@AropixelAdmin/File/Datatabler/button.html.twig', ['file' => $file]),
         ];
-
     }
 }

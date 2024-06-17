@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RequestStatusAction extends AbstractController
 {
-    const EXPIRED = 'expired';
-    const SUCCESS = 'success';
+    public const EXPIRED = 'expired';
+    public const SUCCESS = 'success';
 
     public function __invoke(string $status)
     {
@@ -16,11 +16,10 @@ class RequestStatusAction extends AbstractController
             self::SUCCESS => '@AropixelAdmin/Activation/success.html.twig',
         ];
 
-        if (!array_key_exists($status, $views)) {
+        if (!\array_key_exists($status, $views)) {
             throw $this->createNotFoundException();
         }
 
         return $this->render($views[$status]);
     }
-
 }

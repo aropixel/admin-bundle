@@ -5,7 +5,6 @@ namespace Aropixel\AdminBundle\Form\DataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\ORM\EntityManager;
 
 class EntityToHiddenTransformer implements DataTransformerInterface
 {
@@ -15,9 +14,6 @@ class EntityToHiddenTransformer implements DataTransformerInterface
     private $em;
     private $repository;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em, $repository)
     {
         $this->em = $em;
@@ -25,39 +21,30 @@ class EntityToHiddenTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param mixed $entity
-     *
-     * @return integer
+     * @return int
      */
-    public function transform(mixed $entity) : mixed
+    public function transform(mixed $entity): mixed
     {
         return $entity ? $entity->getId() : false;
     }
 
     /**
-     * @param mixed $id
-     *
-     * @throws \Symfony\Component\Form\Exception\TransformationFailedException
-     *
      * @return mixed|object
+     *
+     * @throws TransformationFailedException
      */
-    public function reverseTransform(mixed $id) : mixed
+    public function reverseTransform(mixed $id): mixed
     {
         if (!$id) {
             return null;
         }
 
-        $entity = $this->em->getRepository($this->class)->findOneBy(array("id" => $id));
+        $entity = $this->em->getRepository($this->class)->findOneBy(['id' => $id]);
 
         if (null === $entity) {
-            throw new TransformationFailedException(sprintf(
-                'A %s with id "%s" does not exist!',
-                $this->repository,
-                $id
-            ));
+            throw new TransformationFailedException(sprintf('A %s with id "%s" does not exist!', $this->repository, $id));
         }
 
         return $entity;
     }
-
 }

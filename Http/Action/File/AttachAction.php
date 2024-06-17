@@ -3,64 +3,53 @@
 namespace Aropixel\AdminBundle\Http\Action\File;
 
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AttachAction extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     /**
-     * Attach a file
+     * Attach a file.
      */
-    public function __invoke(Request $request) : Response
+    public function __invoke(Request $request): Response
     {
-
         $files = $request->get('files');
         $attachClass = $request->get('attach_class');
         $attachId = $request->get('attach_id');
 
-        $t_entity = explode('\\', $attachClass);
-        $entity_name = array_pop($t_entity);    array_pop($t_entity);
+        $t_entity = explode('\\', (string) $attachClass);
+        $entity_name = array_pop($t_entity);
+        array_pop($t_entity);
         $short_namespace = implode('', $t_entity);
-        $attachRepositoryName = $short_namespace.':'.$entity_name;
+        $attachRepositoryName = $short_namespace . ':' . $entity_name;
         $em = $this->entityManager;
 
         if ($attachId) {
             $attachFile = $em->getRepository($attachRepositoryName)->find($attachId);
-        }
-        else {
+        } else {
             $attachFile = new $attachClass();
         }
 
         $html = '';
         foreach ($files as $fileId) {
-
             $file = $em->getRepository('AropixelAdminBundle:File')->find($fileId);
             $attachFile->setFile($file);
             $attachFile->setTitle($file->getTitle());
 
             $form = $this->createForm(FileType::class, $attachFile, ['data_class' => $attachClass]);
 
-            $html.= $this->renderView('@AropixelAdmin/File/Widget/file.html.twig', [
-                'form' => $form->createView()
+            $html .= $this->renderView('@AropixelAdmin/File/Widget/file.html.twig', [
+                'form' => $form->createView(),
             ]);
-
         }
 
         return new Response($html, Response::HTTP_OK);
-
     }
-
-
 }

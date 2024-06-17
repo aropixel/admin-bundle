@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Handler;
 
-use Aropixel\AdminBundle\Infrastructure\Security\Handler\AuthenticationSuccessHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,20 +12,12 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-    private EntityManagerInterface $em;
-    private RouterInterface $router;
-
     use TargetPathTrait;
 
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param RouterInterface $router
-     */
-    public function __construct(EntityManagerInterface $em, RouterInterface $router)
-    {
-        $this->em = $em;
-        $this->router = $router;
+    public function __construct(
+        private EntityManagerInterface $em,
+        private RouterInterface $router
+    ) {
     }
 
     public function handleSuccess(Request $request, TokenInterface $token, string $firewallName): Response
@@ -41,6 +32,5 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
         }
 
         return new RedirectResponse($this->router->generate('_admin'));
-
     }
 }

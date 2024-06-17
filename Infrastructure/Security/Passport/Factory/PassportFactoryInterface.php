@@ -7,6 +7,5 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 interface PassportFactoryInterface
 {
-    public function createPassport(Request $request) : Passport;
-
+    public function createPassport(Request $request): Passport;
 }

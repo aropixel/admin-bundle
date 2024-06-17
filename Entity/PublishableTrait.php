@@ -1,49 +1,39 @@
 <?php
-/**
- * Créé par Aropixel @2020.
- * Par: Joël Gomez Caballe
- * Date: 17/01/2020 à 17:42
- */
 
 namespace Aropixel\AdminBundle\Entity;
 
-
-use Aropixel\AdminBundle\Entity\Publishable;
-
 trait PublishableTrait
 {
-
-    function isPublished() : bool {
-
-        if (property_exists($this, 'status') && $this->status == Publishable::STATUS_OFFLINE) {
+    public function isPublished(): bool
+    {
+        if (property_exists($this, 'status') && Publishable::STATUS_OFFLINE == $this->status) {
             return false;
         }
 
         return !$this->isScheduled() || !$this->isScheduleOutdated() && !$this->isScheduleIncoming();
     }
 
-    function isScheduled() : bool {
-        return (
+    public function isScheduled(): bool
+    {
+        return
             (
-                (property_exists($this, 'publishAt') && !is_null($this->publishAt)) ||
-                (property_exists($this, 'publishUntil') && !is_null($this->publishUntil))
-            ) &&
-            (property_exists($this, 'status') && $this->status == Publishable::STATUS_ONLINE)
-
-        );
+                (property_exists($this, 'publishAt') && null !== $this->publishAt)
+                || (property_exists($this, 'publishUntil') && null !== $this->publishUntil)
+            )
+            && (property_exists($this, 'status') && Publishable::STATUS_ONLINE == $this->status);
     }
 
-    function isScheduleIncoming() : bool {
-
+    public function isScheduleIncoming(): bool
+    {
         $now = new \DateTime();
-        return (property_exists($this, 'publishAt') && !is_null($this->publishAt) && ($this->publishAt > $now));
 
+        return property_exists($this, 'publishAt') && null !== $this->publishAt && ($this->publishAt > $now);
     }
 
-    function isScheduleOutdated() : bool {
-
+    public function isScheduleOutdated(): bool
+    {
         $now = new \DateTime();
-        return (property_exists($this, 'publishUntil') && !is_null($this->publishUntil) && ($now > $this->publishUntil));
-    }
 
+        return property_exists($this, 'publishUntil') && null !== $this->publishUntil && ($now > $this->publishUntil);
+    }
 }

@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 09/02/2023 à 11:54
- */
 
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Builder;
 
@@ -14,17 +9,12 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MenuBuilder implements MenuBuilderInterface
 {
-    private EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
-    {
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher
+    ) {
     }
 
-    public function buildMenu(string $id = "menu"): Menu
+    public function buildMenu(string $id = 'menu'): Menu
     {
         // Create the menu
         $menu = new Menu($id);

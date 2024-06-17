@@ -9,11 +9,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ResetLinkFactory implements ResetLinkFactoryInterface
 {
-    private RouterInterface $router;
-
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
+    public function __construct(
+        private readonly RouterInterface $router
+    ) {
     }
 
     public function createResetLink(UserInterface $user): string

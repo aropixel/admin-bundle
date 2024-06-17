@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 
 interface FileFactoryInterface
 {
-    public function create() : ItemLibraryInterface;
+    public function create(): ItemLibraryInterface;
 }

@@ -2,51 +2,49 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Infrastructure\Media\File\Library\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
-#[ORM\Table(name: "aropixel_file")]
+#[ORM\Table(name: 'aropixel_file')]
 class File implements FileInterface
 {
-
-    const UPLOAD_DIR = 'files';
+    public const UPLOAD_DIR = 'files';
 
     #[ORM\Id]
-    #[ORM\Column(type: "integer")]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private ?int $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     private string $title;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     private ?string $category = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     private ?string $filename = null;
 
-    #[ORM\Column(type: "string", length: 20)]
+    #[ORM\Column(type: 'string', length: 20)]
     private string $extension;
 
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(type: 'boolean')]
     private bool $public;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $import = null;
 
-    #[Gedmo\Timestampable(on: "create")]
-    #[ORM\Column(name: "created_at", type: "datetime")]
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private ?\DateTime $createdAt = null;
 
-    #[Gedmo\Timestampable(on: "update")]
-    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     private ?\DateTime $updatedAt = null;
 
     #[Assert\File]
@@ -54,60 +52,59 @@ class File implements FileInterface
 
     private ?string $temp = null;
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    public function setTitle(string $title) : File
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-
-    public function setDescription(?string $attrDescription) : File
+    public function setDescription(?string $attrDescription): self
     {
         $this->description = $attrDescription;
 
         return $this;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setFilename(string $filename) : File
+    public function setFilename(string $filename): self
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
 
-    public function setExtension(string $extension) : File
+    public function setExtension(string $extension): self
     {
         $this->extension = $extension;
 
         return $this;
     }
 
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return $this->extension;
     }
@@ -117,9 +114,10 @@ class File implements FileInterface
         return $this->public;
     }
 
-    public function setPublic(?bool $public): File
+    public function setPublic(?bool $public): self
     {
         $this->public = $public;
+
         return $this;
     }
 
@@ -130,7 +128,7 @@ class File implements FileInterface
         return $this;
     }
 
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
@@ -142,14 +140,14 @@ class File implements FileInterface
         return $this;
     }
 
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function getWebPath() : ?string
+    public function getWebPath(): ?string
     {
-        return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
+        return null === $this->filename ? null : $this->getUploadDir() . '/' . $this->filename;
     }
 
     protected function getUploadDir()
@@ -159,12 +157,12 @@ class File implements FileInterface
         return self::UPLOAD_DIR;
     }
 
-    public function getFile() : ?SymfonyFile
+    public function getFile(): ?SymfonyFile
     {
         return $this->file;
     }
 
-    public function setFile(SymfonyFile $file = null) : void
+    public function setFile(?SymfonyFile $file = null): void
     {
         $this->file = $file;
         // check if we have an old image path
@@ -177,39 +175,37 @@ class File implements FileInterface
         }
     }
 
-    public function getTempPath() : ?string
+    public function getTempPath(): ?string
     {
         return $this->temp;
     }
 
-    public function setCategory(?string $category) : File
+    public function setCategory(?string $category): self
     {
         $this->category = $category;
 
         return $this;
     }
 
-    public function getCategory() : ?string
+    public function getCategory(): ?string
     {
         return $this->category;
     }
 
-
-    public function setImport(?string $import) : File
+    public function setImport(?string $import): self
     {
         $this->import = $import;
 
         return $this;
     }
 
-    public function getImport() : ?string
+    public function getImport(): ?string
     {
         return $this->import;
     }
 
-    public function getRewrittenFileName() : string
+    public function getRewrittenFileName(): string
     {
-        return $this->title.".".$this->getExtension();
+        return $this->title . '.' . $this->getExtension();
     }
-
 }

@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 13/02/2023 à 13:19
- */
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Crop\Provider;
 
@@ -14,14 +9,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AvailableCropProvider implements AvailableCropProviderInterface
 {
-    private ParameterBagInterface $parameterBag;
-
-    /**
-     * @param ParameterBagInterface $parameterBag
-     */
-    public function __construct(ParameterBagInterface $parameterBag)
-    {
-        $this->parameterBag = $parameterBag;
+    public function __construct(
+        private readonly ParameterBagInterface $parameterBag
+    ) {
     }
 
     public function getAvailableCropFilters(?CroppableInterface $croppable, ?array $configuredFilters = null): array
@@ -35,13 +25,12 @@ class AvailableCropProvider implements AvailableCropProviderInterface
         $liipFilters = $this->parameterBag->get('liip_imagine.filter_sets');
 
         // Get configured filters for given image type
-        if (is_null($configuredFilters)) {
-            $configuredFilters = !is_null($croppable) ? $this->findConfiguredFilters($croppable) : [];
+        if (null === $configuredFilters) {
+            $configuredFilters = null !== $croppable ? $this->findConfiguredFilters($croppable) : [];
         }
 
         foreach ($configuredFilters as $slug => $description) {
-
-            if (!array_key_exists($slug, $liipFilters)) {
+            if (!\array_key_exists($slug, $liipFilters)) {
                 continue;
             }
 
@@ -49,33 +38,33 @@ class AvailableCropProvider implements AvailableCropProviderInterface
 
             // Si ce filtre ne contient pas de miniature (juste un resize par exemple)
             // on ne le prend pas en compte
-            if (!isset($liipFilterConfiguration['filters']['thumbnail']))        continue;
-
+            if (!isset($liipFilterConfiguration['filters']['thumbnail'])) {
+                continue;
+            }
 
             // Calcule le ratio du filtre
             $ratio = $liipFilterConfiguration['filters']['thumbnail']['size'][0] / $liipFilterConfiguration['filters']['thumbnail']['size'][1];
 
-
             // Construit les infos de retour
             $filter = new AvailableCropFilter();
-            $filter->coordinates = array_key_exists($slug, $imageRegisteredCrops) ? $imageRegisteredCrops[$slug] : "";
+            $filter->coordinates = \array_key_exists($slug, $imageRegisteredCrops) ? $imageRegisteredCrops[$slug] : '';
             $filter->ratio = $ratio;
             $filter->slug = $slug;
             $filter->description = $description;
 
             $availableCropList[$slug] = $filter;
-
         }
 
         return $availableCropList;
     }
 
-    private function findConfiguredFilters(CroppableInterface $croppable) : array
+    private function findConfiguredFilters(CroppableInterface $croppable): array
     {
-        $imageClass = get_class($croppable);
+        $imageClass = $croppable::class;
         $imageClass = str_replace('Proxies\__CG__\\', '', $imageClass);
 
         $configuredFilters = $this->parameterBag->get('aropixel_admin.filter_sets');
-        return array_key_exists($imageClass, $configuredFilters) ? $configuredFilters[$imageClass] : [];
+
+        return \array_key_exists($imageClass, $configuredFilters) ? $configuredFilters[$imageClass] : [];
     }
 }

@@ -1,28 +1,20 @@
 <?php
 
-
 namespace Aropixel\AdminBundle\Infrastructure\Security\Exception;
-
 
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-
 class DisabledUserException extends AuthenticationException
 {
-    private $user;
-
-    public function __construct(UserInterface $user)
-    {
-        $this->user = $user;
+    public function __construct(
+        private readonly UserInterface $user
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMessageKey() : string
+    public function getMessageKey(): string
     {
-        return "Votre compte est désactivé.";
+        return 'Votre compte est désactivé.';
     }
 
     public function getUser()
@@ -34,5 +26,4 @@ class DisabledUserException extends AuthenticationException
     {
         return false;
     }
-
 }

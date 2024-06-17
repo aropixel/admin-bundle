@@ -6,7 +6,6 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\DisabledUserBadge;
-use Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory\PassportFactoryInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -21,27 +20,17 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 class PassportFactory implements PassportFactoryInterface
 {
-    private CredentialsResolverInterface $credentialsResolver;
-    private ParameterBagInterface $parameterBag;
-    private AdminUserProviderInterface $userProvider;
-
-    /**
-     * @param CredentialsResolverInterface $credentialsResolver
-     * @param ParameterBagInterface $parameterBag
-     * @param AdminUserProviderInterface $userProvider
-     */
-    public function __construct(CredentialsResolverInterface $credentialsResolver, ParameterBagInterface $parameterBag, AdminUserProviderInterface $userProvider)
-    {
-        $this->credentialsResolver = $credentialsResolver;
-        $this->parameterBag = $parameterBag;
-        $this->userProvider = $userProvider;
+    public function __construct(
+        private readonly CredentialsResolverInterface $credentialsResolver,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly AdminUserProviderInterface $userProvider
+    ) {
     }
 
-
-    public function createPassport(Request $request) : Passport
+    public function createPassport(Request $request): Passport
     {
         $credentials = $this->credentialsResolver->getCredentials($request);
-        $userBadge = new UserBadge($credentials['email'], [$this->userProvider, 'loadUserByIdentifier']);
+        $userBadge = new UserBadge($credentials['email'], $this->userProvider->loadUserByIdentifier(...));
         $passwordBadge = new PasswordCredentials($credentials['password']);
 
         $passport = new Passport(

@@ -8,14 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VideoType extends AbstractType
 {
-
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'attr' => array(
-                'rows' => 8
-            )
-        ));
+        $resolver->setDefaults(['attr' => ['rows' => 8]]);
     }
 
     public function getParent()

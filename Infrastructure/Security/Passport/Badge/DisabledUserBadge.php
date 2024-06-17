@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge;
 
-
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\EventListener\DisabledUserEventListener;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
@@ -14,12 +13,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
  */
 class DisabledUserBadge implements BadgeInterface
 {
-
-    private UserInterface $user;
-
-    public function __construct(UserInterface $user)
-    {
-        $this->user = $user;
+    public function __construct(
+        private readonly UserInterface $user
+    ) {
     }
 
     public function getUser(): UserInterface
@@ -31,5 +27,4 @@ class DisabledUserBadge implements BadgeInterface
     {
         return $this->user->isEnabled();
     }
-
 }

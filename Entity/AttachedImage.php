@@ -1,64 +1,57 @@
 <?php
-/**
- * Créé par Aropixel @2017.
- * Par: Joël Gomez Caballe
- * Date: 10/02/2017 à 16:27
- */
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\MappedSuperclass]
 class AttachedImage implements AttachedImageInterface
 {
-
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $link = null;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attrTitle = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attrAlt = null;
 
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attrClass = null;
 
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     #[Gedmo\SortablePosition]
     private int $position = 0;
 
     #[ORM\ManyToOne(targetEntity: ImageInterface::class)]
     private ?ImageInterface $image = null;
 
-    #[Gedmo\Timestampable(on: "create")]
-    #[ORM\Column(name: "created_at", type: "datetime")]
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private ?\DateTime $createdAt = null;
 
-    #[Gedmo\Timestampable(on: "update")]
-    #[ORM\Column(name: "updated_at", type: "datetime", nullable: true)]
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     private ?\DateTime $updatedAt = null;
 
     private ?ImageInterface $oldImage = null;
-
 
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): AttachedImage
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -67,9 +60,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->link;
     }
 
-    public function setLink(?string $link): AttachedImage
+    public function setLink(?string $link): self
     {
         $this->link = $link;
+
         return $this;
     }
 
@@ -78,9 +72,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->description;
     }
 
-    public function setDescription(?string $description): AttachedImage
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -89,9 +84,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->attrTitle;
     }
 
-    public function setAttrTitle(?string $attrTitle): AttachedImage
+    public function setAttrTitle(?string $attrTitle): self
     {
         $this->attrTitle = $attrTitle;
+
         return $this;
     }
 
@@ -100,9 +96,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->attrAlt;
     }
 
-    public function setAttrAlt(?string $attrAlt): AttachedImage
+    public function setAttrAlt(?string $attrAlt): self
     {
         $this->attrAlt = $attrAlt;
+
         return $this;
     }
 
@@ -111,9 +108,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->attrClass;
     }
 
-    public function setAttrClass(?string $attrClass): AttachedImage
+    public function setAttrClass(?string $attrClass): self
     {
         $this->attrClass = $attrClass;
+
         return $this;
     }
 
@@ -122,9 +120,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->position;
     }
 
-    public function setPosition(int $position): AttachedImage
+    public function setPosition(int $position): self
     {
         $this->position = $position;
+
         return $this;
     }
 
@@ -133,16 +132,16 @@ class AttachedImage implements AttachedImageInterface
         return $this->image;
     }
 
-    public function setImage(?ImageInterface $image): AttachedImage
+    public function setImage(?ImageInterface $image): self
     {
-        if (!is_null($this->image)) {
-            $this->oldImage = clone ($this->image);
-        }
-        else {
+        if (null !== $this->image) {
+            $this->oldImage = clone $this->image;
+        } else {
             $this->oldImage = null;
         }
 
         $this->image = $image;
+
         return $this;
     }
 
@@ -151,19 +150,19 @@ class AttachedImage implements AttachedImageInterface
         return $this->oldImage;
     }
 
-    public function setOldImage(?ImageInterface $oldImage): AttachedImage
+    public function setOldImage(?ImageInterface $oldImage): self
     {
         $this->oldImage = $oldImage;
+
         return $this;
     }
 
-    public function hasImageChanged() : bool
+    public function hasImageChanged(): bool
     {
-        return ($this->oldImage !== $this->image);
+        return $this->oldImage !== $this->image;
     }
 
-
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         return $this->image?->getFilename();
     }
@@ -178,9 +177,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): AttachedImage
+    public function setCreatedAt(?\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -189,11 +189,10 @@ class AttachedImage implements AttachedImageInterface
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): AttachedImage
+    public function setUpdatedAt(?\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
-
-
 }

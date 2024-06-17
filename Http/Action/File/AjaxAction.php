@@ -11,30 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AjaxAction extends AbstractController
 {
-
-    private ClassNameResolverInterface $classNameResolver;
-    private DataTableFactoryInterface $dataTableFactory;
-    private DataTableRowFactory $dataTableRowFactory;
-
-    /**
-     * @param ClassNameResolverInterface $classNameResolver
-     * @param DataTableFactoryInterface $dataTableFactory
-     * @param DataTableRowFactory $dataTableRowFactory
-     */
-    public function __construct(ClassNameResolverInterface $classNameResolver, DataTableFactoryInterface $dataTableFactory, DataTableRowFactory $dataTableRowFactory)
-    {
-        $this->classNameResolver = $classNameResolver;
-        $this->dataTableFactory = $dataTableFactory;
-        $this->dataTableRowFactory = $dataTableRowFactory;
+    public function __construct(
+        private readonly ClassNameResolverInterface $classNameResolver,
+        private readonly DataTableFactoryInterface $dataTableFactory,
+        private readonly DataTableRowFactory $dataTableRowFactory
+    ) {
     }
-
 
     /**
      * Lists all File entities.
      */
-    public function __invoke() : Response
+    public function __invoke(): Response
     {
-
         $dataTable = $this->dataTableFactory->create($this->classNameResolver->getFileclassName(), [
             new DataTableColumn('', '', 'width:50px;'),
             new DataTableColumn('Titre', 'title'),
@@ -44,8 +32,5 @@ class AjaxAction extends AbstractController
         ]);
 
         return $dataTable->getResponse($this->dataTableRowFactory);
-
     }
-
-
 }

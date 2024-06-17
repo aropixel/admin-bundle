@@ -13,14 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ThumbnailFilter implements LoaderInterface
 {
-
     /**
-     * @param ImageInterface $image
-     * @param array          $options
-     *
      * @return ImageInterface
      */
-    public function load(ImageInterface $image, array $options = array())
+    public function load(ImageInterface $image, array $options = [])
     {
         $optionsResolver = new OptionsResolver();
         $optionsResolver->setRequired(['width', 'height']);
@@ -43,24 +39,22 @@ class ThumbnailFilter implements LoaderInterface
 
         // apply filters to image
         $image = $resize->apply($image);
-        $image = $crop->apply($image);
 
-        return $image;
+        return $crop->apply($image);
     }
 
     /**
-     * @param BoxInterface $sourceBox
-     * @param BoxInterface $targetBox
      * @return BoxInterface
      */
-    private function fillBox(BoxInterface $sourceBox, BoxInterface $targetBox) {
+    private function fillBox(BoxInterface $sourceBox, BoxInterface $targetBox)
+    {
         $sourceAspect = $sourceBox->getWidth() / $sourceBox->getHeight();
         $targetAspect = $targetBox->getWidth() / $targetBox->getHeight();
 
         if ($sourceAspect > $targetAspect) {
             return $sourceBox->heighten($targetBox->getHeight());
         }
+
         return $sourceBox->widen($targetBox->getWidth());
     }
-
 }

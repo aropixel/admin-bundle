@@ -9,29 +9,15 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Infrastructure\Reset\Token\UniqueTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 
-
 class RequestLauncher implements RequestLauncherInterface
 {
-    private EntityManagerInterface $em;
-    private ResetLinkFactoryInterface $resetLinkFactory;
-    private ResetEmailSenderInterface $resetEmailSender;
-    private UniqueTokenGenerator $uniqueTokenGenerator;
-
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param ResetLinkFactoryInterface $resetLinkFactory
-     * @param ResetEmailSenderInterface $resetEmailSender
-     * @param UniqueTokenGenerator $uniqueTokenGenerator
-     */
-    public function __construct(EntityManagerInterface $em, ResetLinkFactoryInterface $resetLinkFactory, ResetEmailSenderInterface $resetEmailSender, UniqueTokenGenerator $uniqueTokenGenerator)
-    {
-        $this->em = $em;
-        $this->resetLinkFactory = $resetLinkFactory;
-        $this->resetEmailSender = $resetEmailSender;
-        $this->uniqueTokenGenerator = $uniqueTokenGenerator;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ResetLinkFactoryInterface $resetLinkFactory,
+        private readonly ResetEmailSenderInterface $resetEmailSender,
+        private readonly UniqueTokenGenerator $uniqueTokenGenerator
+    ) {
     }
-
 
     public function reset(UserInterface $user)
     {
@@ -48,6 +34,4 @@ class RequestLauncher implements RequestLauncherInterface
         $user->setPasswordRequestedAt(null);
         $this->em->flush();
     }
-
-
 }

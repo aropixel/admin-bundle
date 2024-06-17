@@ -9,7 +9,6 @@ use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
 class TooOldLastLoginEventListener implements EventSubscriberInterface
 {
-
     public function checkPassport(CheckPassportEvent $event): void
     {
         $passport = $event->getPassport();
@@ -25,12 +24,10 @@ class TooOldLastLoginEventListener implements EventSubscriberInterface
         if (!$badge->isResolved()) {
             throw new TooOldLastLoginException($user);
         }
-
     }
 
     public static function getSubscribedEvents(): array
     {
         return [CheckPassportEvent::class => 'checkPassport'];
     }
-
 }

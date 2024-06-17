@@ -10,14 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeleteUserAction extends AbstractController
 {
-
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
-    ){}
+    ) {
+    }
 
-    public function __invoke(Request $request, User $user) : Response
+    public function __invoke(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete_user'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete_user' . $user->getId(), $request->request->get('_token'))) {
             $this->userRepository->remove($user, true);
             $this->addFlash('notice', "L'utilisateur a bien été supprimé.");
         }

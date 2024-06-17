@@ -8,17 +8,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginAction extends AbstractController
 {
-    private AuthenticationUtils $authenticationUtils;
-
-    /**
-     * @param AuthenticationUtils $authenticationUtils
-     */
-    public function __construct(AuthenticationUtils $authenticationUtils)
-    {
-        $this->authenticationUtils = $authenticationUtils;
+    public function __construct(
+        private readonly AuthenticationUtils $authenticationUtils
+    ) {
     }
 
-    public function __invoke() : Response
+    public function __invoke(): Response
     {
         // get the login error if there is one
         $error = $this->authenticationUtils->getLastAuthenticationError();
@@ -31,5 +26,4 @@ class LoginAction extends AbstractController
             'error' => $error,
         ]);
     }
-
 }

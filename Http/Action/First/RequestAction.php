@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 10/10/2023 à 11:41
- */
 
 namespace Aropixel\AdminBundle\Http\Action\First;
 
@@ -14,7 +9,6 @@ use Aropixel\AdminBundle\Http\Form\Reset\FirstLoginType;
 use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RequestAction extends AbstractController
 {
@@ -22,7 +16,8 @@ class RequestAction extends AbstractController
         private readonly ActivationEmailSenderInterface $activationEmailSender,
         private readonly PasswordInitializer $passwordInitializer,
         private readonly UserRepositoryInterface $userRepository
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request)
     {
@@ -30,8 +25,6 @@ class RequestAction extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             /** @var UserInterface $user */
             $email = $form->get('email')->getData();
             $user = $this->userRepository->findOneBy(['email' => $email]);
@@ -57,6 +50,7 @@ class RequestAction extends AbstractController
             }
 
             $this->activationEmailSender->sendActivationEmail($user);
+
             return $this->redirectToRoute('aropixel_admin_security_first_login_sent');
         }
 
@@ -68,5 +62,4 @@ class RequestAction extends AbstractController
             ]
         );
     }
-
 }

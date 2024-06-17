@@ -9,20 +9,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PasswordCreateHandler implements PasswordCreationHandlerInterface
 {
-    private EntityManagerInterface $em;
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     */
-    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher)
-    {
-        $this->em = $em;
-        $this->userPasswordHasher = $userPasswordHasher;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UserPasswordHasherInterface $userPasswordHasher
+    ) {
     }
-
 
     public function create(UserInterface $user, string $password)
     {
@@ -36,5 +27,4 @@ class PasswordCreateHandler implements PasswordCreationHandlerInterface
 
         $this->em->flush();
     }
-
 }

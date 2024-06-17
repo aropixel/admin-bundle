@@ -5,7 +5,6 @@ namespace Aropixel\AdminBundle\Form\DataTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\ORM\EntityManager;
 
 class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 {
@@ -13,20 +12,16 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
      * @var \Doctrine\Common\Persistence\ObjectManager
      */
     private $em;
-    private $repository;
 
-    /**
-     */
-    public function __construct(EntityManagerInterface $em, $repository)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        private $repository
+    ) {
         $this->em = $em;
-        $this->repository = $repository;
     }
 
     /**
-     * @param mixed $entity
-     *
-     * @return integer
+     * @return int
      */
     public function transform($collection)
     {
@@ -35,37 +30,32 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
             return '';
         }
 
-        $ids = array();
+        $ids = [];
         foreach ($collection as $entity) {
             $ids[] = $entity->getId();
         }
 
         return $ids;
-
     }
 
     /**
-     * @param mixed $id
-     *
-     * @throws \Symfony\Component\Form\Exception\TransformationFailedException
-     *
      * @return mixed|object
+     *
+     * @throws TransformationFailedException
      */
     public function reverseTransform($array)
     {
-        if (!is_array($array)) {
-            //updated due to https://github.com/LRotherfield/Form/commit/2be11d1c239edf57de9f6e418a067ea9f1f8c2ed
-            return array();
+        if (!\is_array($array)) {
+            // updated due to https://github.com/LRotherfield/Form/commit/2be11d1c239edf57de9f6e418a067ea9f1f8c2ed
+            return [];
         }
 
-        $collection = array();
+        $collection = [];
         foreach ($array as $id) {
-            $entity = $this->em->getRepository($this->repository)->findOneBy(array("id" => $id));
+            $entity = $this->em->getRepository($this->repository)->findOneBy(['id' => $id]);
             $collection[] = $entity;
         }
 
         return $collection;
     }
-
-
 }

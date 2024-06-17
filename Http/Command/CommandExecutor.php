@@ -20,22 +20,13 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 
-final class CommandExecutor
+final readonly class CommandExecutor
 {
-    /** @var InputInterface */
-    private $input;
-
-    /** @var OutputInterface */
-    private $output;
-
-    /** @var Application */
-    private $application;
-
-    public function __construct(InputInterface $input, OutputInterface $output, Application $application)
-    {
-        $this->input = $input;
-        $this->output = $output;
-        $this->application = $application;
+    public function __construct(
+        private InputInterface $input,
+        private OutputInterface $output,
+        private Application $application
+    ) {
     }
 
     /**
@@ -60,7 +51,7 @@ final class CommandExecutor
             $this->application->setAutoExit(true);
 
             $errorMessage = sprintf('The command terminated with an error code: %u.', $exitCode);
-            $this->output->writeln("<error>$errorMessage</error>");
+            $this->output->writeln("<error>{$errorMessage}</error>");
 
             throw new \Exception($errorMessage, $exitCode);
         }

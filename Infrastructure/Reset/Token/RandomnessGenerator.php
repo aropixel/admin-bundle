@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Aropixel\AdminBundle\Infrastructure\Reset\Token;
 
-use Aropixel\AdminBundle\Infrastructure\Reset\Token\RandomnessGeneratorInterface;
-
 final class RandomnessGenerator implements RandomnessGeneratorInterface
 {
     /** @var string */
@@ -25,35 +23,25 @@ final class RandomnessGenerator implements RandomnessGeneratorInterface
 
     public function __construct()
     {
-        $this->digits = implode(range(0, 9));
+        $this->digits = implode('', range(0, 9));
 
         $this->uriSafeAlphabet =
-            implode(range(0, 9))
-            . implode(range('a', 'z'))
-            . implode(range('A', 'Z'))
-            . implode(['-', '_', '~'])
-        ;
+            implode('', range(0, 9))
+            . implode('', range('a', 'z'))
+            . implode('', range('A', 'Z'))
+            . implode('', ['-', '_', '~']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateUriSafeString(int $length): string
     {
         return $this->generateStringOfLength($length, $this->uriSafeAlphabet);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateNumeric(int $length): string
     {
         return $this->generateStringOfLength($length, $this->digits);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generateInt(int $min, int $max): int
     {
         return random_int($min, $max);
@@ -61,7 +49,7 @@ final class RandomnessGenerator implements RandomnessGeneratorInterface
 
     private function generateStringOfLength(int $length, string $alphabet): string
     {
-        $alphabetMaxIndex = strlen($alphabet) - 1;
+        $alphabetMaxIndex = mb_strlen($alphabet) - 1;
         $randomString = '';
 
         for ($i = 0; $i < $length; ++$i) {

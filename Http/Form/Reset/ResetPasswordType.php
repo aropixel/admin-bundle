@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2020.
- * Par: Joël Gomez Caballe
- * Date: 04/05/2020 à 14:48
- */
 
 namespace Aropixel\AdminBundle\Http\Form\Reset;
 
@@ -12,12 +7,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-
 class ResetPasswordType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -30,5 +21,4 @@ class ResetPasswordType extends AbstractType
             ])
         ;
     }
-
 }

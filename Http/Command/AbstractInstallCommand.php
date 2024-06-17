@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Aropixel\AdminBundle\Http\Command;
 
-use Aropixel\AdminBundle\Http\Command\CommandExecutor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
@@ -24,35 +23,20 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
 abstract class AbstractInstallCommand extends Command
 {
 
-    /** @var CommandExecutor */
-    protected $commandExecutor;
-
-    /** @var ManagerRegistry */
-    protected $managerRegistry;
-
-    /** @var ValidatorInterface */
-    protected $validator;
+    protected ?CommandExecutor $commandExecutor = null;
 
 
     /**
      * AbstractInstallCommand constructor.
-     * @param ManagerRegistry $em
      */
-    public function __construct(ManagerRegistry $managerRegistry, ValidatorInterface $validator)
+    public function __construct(protected ManagerRegistry $managerRegistry, protected ValidatorInterface $validator)
     {
         parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->validator = $validator;
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $application = $this->getApplication();
@@ -61,18 +45,15 @@ abstract class AbstractInstallCommand extends Command
         $this->commandExecutor = new CommandExecutor($input, $output, $application);
     }
 
-
     protected function getEnvironment(): string
     {
         return (string) getenv('APP_ENV');
     }
 
-
     protected function isDebug(): bool
     {
         return (bool) getenv('APP_DEBUG');
     }
-
 
     protected function renderTable(array $headers, array $rows, OutputInterface $output): void
     {
@@ -84,7 +65,6 @@ abstract class AbstractInstallCommand extends Command
             ->render()
         ;
     }
-
 
     protected function createProgressBar(OutputInterface $output, int $length = 10): ProgressBar
     {
@@ -98,13 +78,12 @@ abstract class AbstractInstallCommand extends Command
         return $progress;
     }
 
-
     protected function runCommands(array $commands, OutputInterface $output, bool $displayProgress = true): void
     {
-        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), count($commands));
+        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), \count($commands));
 
         foreach ($commands as $key => $value) {
-            if (is_string($key)) {
+            if (\is_string($key)) {
                 $command = $key;
                 $parameters = $value;
             } else {
@@ -116,7 +95,7 @@ abstract class AbstractInstallCommand extends Command
 
             // PDO does not always close the connection after Doctrine commands.
             // See https://github.com/symfony/symfony/issues/11750.
-            /** @var EntityManagerInterface $entityManager */
+            /* @var EntityManagerInterface $entityManager */
             $this->em->getConnection()->close();
 
             $progress->advance();
@@ -124,6 +103,4 @@ abstract class AbstractInstallCommand extends Command
 
         $progress->finish();
     }
-
-
 }

@@ -9,7 +9,6 @@ use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
 class DisabledUserEventListener implements EventSubscriberInterface
 {
-
     public function checkPassport(CheckPassportEvent $event): void
     {
         $passport = $event->getPassport();
@@ -25,12 +24,10 @@ class DisabledUserEventListener implements EventSubscriberInterface
         if (!$badge->isResolved()) {
             throw new DisabledUserException($user);
         }
-
     }
 
     public static function getSubscribedEvents(): array
     {
         return [CheckPassportEvent::class => 'checkPassport'];
     }
-
 }

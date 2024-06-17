@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Domain\Media\Image\Library\Factory\ImageFactoryInterface;
 use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
@@ -13,29 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UploadAction extends AbstractController
 {
-    private DataTableRowFactory $dataTableRowFactory;
-    private EntityManagerInterface $entityManager;
-    private ImageFactoryInterface $imageFactory;
-
-    /**
-     * @param DataTableRowFactory $dataTableRowFactory
-     * @param EntityManagerInterface $entityManager
-     * @param ImageFactoryInterface $imageFactory
-     */
-    public function __construct(DataTableRowFactory $dataTableRowFactory, EntityManagerInterface $entityManager, ImageFactoryInterface $imageFactory)
-    {
-        $this->dataTableRowFactory = $dataTableRowFactory;
-        $this->entityManager = $entityManager;
-        $this->imageFactory = $imageFactory;
+    public function __construct(
+        private readonly DataTableRowFactory $dataTableRowFactory,
+        private EntityManagerInterface $entityManager,
+        private readonly ImageFactoryInterface $imageFactory
+    ) {
     }
-
 
     /**
      * Upload an Image.
      */
-    public function __invoke(Request $request) : Response
+    public function __invoke(Request $request): Response
     {
-
         $image = $this->imageFactory->create();
         $form = $this->createForm(PluploadType::class, $image, [
             'action' => $this->generateUrl('image_upload'),
@@ -44,27 +32,22 @@ class UploadAction extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $em = $this->entityManager;
             $em->persist($image);
             $em->flush();
 
             $httpResponse = new Response(json_encode($this->dataTableRowFactory->createRow($image)));
             $httpResponse->headers->set('Content-Type', 'application/json');
+
             return $httpResponse;
-
-        }
-        else {
-
-            $errors = [];
-            $formErrors = $form->getErrors(true);
-            foreach ($formErrors as $formError) {
-                $errors[] = $formError->getMessage();
-            }
-
-            return new Response(implode('<br />', $errors), 500);
         }
 
+        $errors = [];
+        $formErrors = $form->getErrors(true);
+        foreach ($formErrors as $formError) {
+            $errors[] = $formError->getMessage();
+        }
+
+        return new Response(implode('<br />', $errors), 500);
     }
-
 }

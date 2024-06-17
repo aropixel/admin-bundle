@@ -10,29 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DataTable implements DataTableInterface
 {
-    private string $className;
-
-    private array $columns;
-
-    private DataTableContext $context;
-    private DataTableRepositoryInterface $dataTableRepository;
-
-    /**
-     * @param string $className
-     * @param array $columns
-     * @param DataTableContext $context
-     */
-    public function __construct(string $className, array $columns, DataTableContext $context, DataTableRepositoryInterface $dataTableRepository)
-    {
-        $this->className = $className;
-        $this->columns = $columns;
-        $this->context = $context;
-        $this->dataTableRepository = $dataTableRepository;
+    public function __construct(
+        private readonly string $className,
+        private readonly array $columns,
+        private readonly DataTableContext $context,
+        private readonly DataTableRepositoryInterface $dataTableRepository
+    ) {
     }
 
-    /**
-     * @return string
-     */
     public function getClassName(): string
     {
         return $this->className;
@@ -74,18 +59,16 @@ class DataTable implements DataTableInterface
     {
         $count = $this->getTotal();
 
-        $records = array();
-        $records["data"] = $this->getRows($dataTableRowFactory);
-        $records["order"] = array();
-        $records["draw"] = $this->context->getDraw();
-        $records["recordsTotal"] = $count;
-        $records["recordsFiltered"] = $count;
-
+        $records = [];
+        $records['data'] = $this->getRows($dataTableRowFactory);
+        $records['order'] = [];
+        $records['draw'] = $this->context->getDraw();
+        $records['recordsTotal'] = $count;
+        $records['recordsFiltered'] = $count;
 
         $http_response = new Response(json_encode($records));
         $http_response->headers->set('Content-Type', 'application/json');
+
         return $http_response;
     }
-
-
 }

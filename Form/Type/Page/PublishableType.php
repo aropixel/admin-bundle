@@ -1,9 +1,4 @@
 <?php
-/**
- * Créé par Aropixel @2020.
- * Par: Joël Gomez Caballe
- * Date: 04/07/2020 à 19:21
- */
 
 namespace Aropixel\AdminBundle\Form\Type\Page;
 
@@ -15,56 +10,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PublishableType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', ChoiceType::class, array(
-                'choices'  => array(
-                    'Oui' => 'online',
-                    'Non' => 'offline',
-                ),
-                'empty_data' => 'Non',
-                'expanded' => true
-            ))
+            ->add('status', ChoiceType::class, ['choices' => ['Oui' => 'online', 'Non' => 'offline'], 'empty_data' => 'Non', 'expanded' => true])
         ;
 
-        if ($options['publishAt'] !== false) {
+        if (false !== $options['publishAt']) {
             $builder
-                ->add('publishAt', DateTimeType::class, array(
-                    'label' => "Publié le",
-                    'required' => false,
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'years' => range(date('Y') - 50, date('Y') + 50),
-                ))
+                ->add('publishAt', DateTimeType::class, ['label' => 'Publié le', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
             ;
         }
 
-        if ($options['publishUntil'] !== false) {
+        if (false !== $options['publishUntil']) {
             $builder
-                ->add('publishUntil', DateTimeType::class, array(
-                    'label' => "Jusqu'au",
-                    'required' => false,
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-                    'date_format' => 'yyyy-MM-dd',
-                    'years' => range(date('Y') - 50, date('Y') + 50),
-                ))
+                ->add('publishUntil', DateTimeType::class, ['label' => "Jusqu'au", 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
             ;
         }
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
-                'publishAt' => false,
-                'publishUntil' => false,
-            ))
+            ->setDefaults(['publishAt' => false, 'publishUntil' => false])
         ;
     }
-
 }
