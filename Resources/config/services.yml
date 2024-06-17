@@ -52,10 +52,6 @@ services:
         resource: '../../Form/Type'
 
     # Autowire des extensions twig
-    Aropixel\AdminBundle\Services\:
-        resource: '../../Services'
-
-    # Autowire des extensions twig
     Aropixel\AdminBundle\Twig\:
         resource: '../../Twig'
 
