@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Entity\AttachFile;
+use Aropixel\AdminBundle\Entity\AttachedFile;
 use Aropixel\AdminBundle\Entity\File;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +38,7 @@ class DeleteAction extends AbstractController
         if ($file) {
 
             $libraryEntity = new \ReflectionClass($libraryClass);
-            if ($libraryEntity instanceof AttachFile) {
+            if ($libraryEntity instanceof AttachedFile) {
 
                 $attachedFiles = $em->getRepository($libraryClass)->findBy(['file' => $file]);
 

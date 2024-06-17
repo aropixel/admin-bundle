@@ -9,16 +9,25 @@ namespace Aropixel\AdminBundle\EventListener;
 
 
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\Bundle\DoctrineBundle\Mapping\MappingDriver;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\Mapping\ReflectionService;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
-class MappedSuperClassSubscriber
+#[AsEntityListener(event: Events::loadClassMetadata, method: 'loadClassMetadata')]
+class MappedSuperClassListener
 {
 
     /** @var array */
     private $entitiesNames;
+    private ?RuntimeReflectionService $reflectionService = null;
 
     /**
      * MapPageBundleSubscriber constructor.
@@ -38,7 +47,7 @@ class MappedSuperClassSubscriber
          * Check if the reflection class is part of the customized entities
          */
         foreach ($this->entitiesNames as $interface => $model) {
-            if ($metadata->getName() == $model) {
+            if ($metadata->getName() === $model) {
 
                 if ($metadata->isMappedSuperclass) {
 
@@ -51,6 +60,5 @@ class MappedSuperClassSubscriber
         }
 
     }
-
 
 }

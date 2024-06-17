@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\DependencyInjection;
 
 use Aropixel\AdminBundle\DependencyInjection\Configuration;
 use Aropixel\AdminBundle\Entity\FileInterface;
+use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

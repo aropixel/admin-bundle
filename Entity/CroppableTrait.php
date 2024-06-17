@@ -13,9 +13,6 @@ use Doctrine\Common\Collections\Collection;
 
 trait CroppableTrait
 {
-    /**
-     * @return Collection<Crop>
-     */
     public function getCrops(): Collection
     {
         if ($this->crops === null) {

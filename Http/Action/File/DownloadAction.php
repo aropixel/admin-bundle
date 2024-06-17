@@ -26,7 +26,7 @@ class DownloadAction extends AbstractController
     {
 
         $path = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
-        return $this->file($path, $file->getRewritedFileName());
+        return $this->file($path, $file->getRewrittenFileName());
 
     }
 

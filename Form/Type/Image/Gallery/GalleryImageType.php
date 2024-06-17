@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
 use Aropixel\AdminBundle\Form\Type\Image\Gallery\GalleryCropsType;
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -94,7 +94,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         else {
 
             //
-            $builder->add('image', EntityHiddenType::class, array('class' => ImageInterface::class));
+            $builder->add('image', EntityHiddenType::class, array('class' => AttachedImageInterface::class));
 
             //
             if ($options['crop_class']) {

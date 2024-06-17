@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 #[ORM\MappedSuperclass]
 #[ORM\Table(name: "aropixel_file")]
-#[ORM\Entity(repositoryClass: FileRepository::class)]
 class File implements FileInterface
 {
 
@@ -19,19 +18,19 @@ class File implements FileInterface
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    private ?int $id;
 
     #[ORM\Column(type: "string")]
     private string $title;
 
     #[ORM\Column(type: "string")]
-    private string $category;
+    private ?string $category = null;
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: "string")]
-    private string $filename;
+    private ?string $filename = null;
 
     #[ORM\Column(type: "string", length: 20)]
     private string $extension;
@@ -55,25 +54,16 @@ class File implements FileInterface
 
     private ?string $temp = null;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
+    public function __construct() {
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
 
-    public function setTitle(string $title) : self
+    public function setTitle(string $title) : File
     {
         $this->title = $title;
 
@@ -85,170 +75,83 @@ class File implements FileInterface
         return $this->title;
     }
 
-    /**
-     * @deprecated
-     */
-    public function setTitre(string $title) : self
-    {
-        return $this->setTitle($title);
-    }
 
-    /**
-     * @deprecated
-     */
-    public function getTitre() : string
-    {
-        return $this->getTitle();
-    }
-
-    /**
-     * Set attrDescription
-     *
-     * @param string $attrDescription
-     * @return self
-     */
-    public function setDescription($attrDescription)
+    public function setDescription(?string $attrDescription) : File
     {
         $this->description = $attrDescription;
 
         return $this;
     }
 
-    /**
-     * Get attrDescription
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    /**
-     * Set filename
-     *
-     * @param string $filename
-     * @return self
-     */
-    public function setFilename($filename)
+    public function setFilename(string $filename) : File
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    /**
-     * Get filename
-     *
-     * @return string
-     */
     public function getFilename() : ?string
     {
         return $this->filename;
     }
 
-    /**
-     * Set extension
-     *
-     * @param string $extension
-     * @return self
-     */
-    public function setExtension($extension)
+    public function setExtension(string $extension) : File
     {
         $this->extension = $extension;
 
         return $this;
     }
 
-    /**
-     * Get extension
-     *
-     * @return string
-     */
-    public function getExtension()
+    public function getExtension() : string
     {
         return $this->extension;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublic(): ?bool
     {
         return $this->public;
     }
 
-    /**
-     * @param bool $public
-     * @return File
-     */
     public function setPublic(?bool $public): File
     {
         $this->public = $public;
         return $this;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return self
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(?\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?\DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return self
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * Get image url
-     *
-     * @return string
-     */
-    public function getWebPath()
+    public function getWebPath() : ?string
     {
         return null === $this->filename ? null : $this->getUploadDir().'/'.$this->filename;
     }
 
-    /**
-     * Get image absolute path
-     *
-     * @return string
-     */
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
@@ -256,19 +159,12 @@ class File implements FileInterface
         return self::UPLOAD_DIR;
     }
 
-    /**
-     * Get file.
-     */
     public function getFile() : ?SymfonyFile
     {
         return $this->file;
     }
 
-
-    /**
-     * Sets file.
-     */
-    public function setFile(SymfonyFile $file = null)
+    public function setFile(SymfonyFile $file = null) : void
     {
         $this->file = $file;
         // check if we have an old image path
@@ -281,66 +177,37 @@ class File implements FileInterface
         }
     }
 
-
     public function getTempPath() : ?string
     {
         return $this->temp;
     }
 
-    /**
-     * Set category
-     *
-     * @param string $category
-     * @return self
-     */
-    public function setCategory($category)
+    public function setCategory(?string $category) : File
     {
         $this->category = $category;
 
         return $this;
     }
 
-    /**
-     * Get category
-     *
-     * @return string
-     */
-    public function getCategory()
+    public function getCategory() : ?string
     {
         return $this->category;
     }
 
 
-    /**
-     * Set import
-     *
-     * @param string $import
-     * @return self
-     */
-    public function setImport($import)
+    public function setImport(?string $import) : File
     {
         $this->import = $import;
 
         return $this;
     }
 
-    /**
-     * Get import
-     *
-     * @return string
-     */
-    public function getImport()
+    public function getImport() : ?string
     {
         return $this->import;
     }
 
-
-    /**
-     * Get rewritedFileName
-     *
-     * @return string
-     */
-    public function getRewritedFileName():string
+    public function getRewrittenFileName() : string
     {
         return $this->title.".".$this->getExtension();
     }

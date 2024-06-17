@@ -98,7 +98,7 @@ services:
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
 
 
-    Aropixel\AdminBundle\EventListener\MappedSuperClassSubscriber:
+    Aropixel\AdminBundle\EventListener\MappedSuperClassListener:
         arguments: ['%aropixel_admin.entities%']
         tags:
             - { name: doctrine.event_listener, event: 'loadClassMetadata', priority: 8192 }

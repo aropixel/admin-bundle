@@ -9,7 +9,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
-use Aropixel\AdminBundle\Entity\AttachImage;
+use Aropixel\AdminBundle\Entity\AttachedImage;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -50,7 +50,7 @@ class ImageExtension extends AbstractExtension
     public function customImagineFilter(?string $webPath, string $filter, array $config = [], $resolver = null)
     {
 
-        /** @var AttachImage $image */
+        /** @var AttachedImage $image */
 
         if (is_null($webPath) || !$this->pathResolver->privateFileExists($webPath)) {
 

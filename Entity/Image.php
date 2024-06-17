@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[ORM\MappedSuperclass]
 #[ORM\Table(name: "aropixel_image")]
 class Image implements ItemLibraryInterface
 {

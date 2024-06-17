@@ -6,7 +6,7 @@ use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\MappedSuperclass]
 #[ORM\Table(name: "aropixel_admin_user")]
 class User implements UserInterface
 {
@@ -60,7 +60,7 @@ class User implements UserInterface
     #[ORM\Column(type: "datetime", nullable: true)]
     protected ?\DateTime $lastLogin = null;
 
-    #[ORM\OneToOne(targetEntity: "Aropixel\AdminBundle\Entity\UserImage", mappedBy: "user", cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(mappedBy: "user", targetEntity: UserImage::class, cascade: ["persist", "remove"])]
     protected ?UserImage $image = null;
 
 

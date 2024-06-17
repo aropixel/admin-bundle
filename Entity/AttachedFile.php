@@ -8,14 +8,13 @@
 namespace Aropixel\AdminBundle\Entity;
 
 
-
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\MappedSuperclass]
-abstract class AttachFile
+abstract class AttachedFile
 {
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $title = null;
@@ -39,98 +38,50 @@ abstract class AttachFile
     private ?\DateTime $updatedAt = null;
 
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return AttachFile
-     */
-    public function setTitle($title)
+    public function setTitle(?string $title) : AttachedFile
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * Set alt
-     *
-     * @param string $alt
-     *
-     * @return AttachFile
-     */
-    public function setAlt($alt)
+    public function setAlt(?string $alt) : AttachedFile
     {
         $this->alt = $alt;
 
         return $this;
     }
 
-    /**
-     * Get alt
-     *
-     * @return string
-     */
-    public function getAlt()
+    public function getAlt() : ?string
     {
         return $this->alt;
     }
 
-    /**
-     * Set position
-     *
-     * @param integer $position
-     *
-     * @return AttachFile
-     */
-    public function setPosition($position)
+    public function setPosition(int $position) : AttachedFile
     {
         $this->position = $position;
 
         return $this;
     }
 
-    /**
-     * Get position
-     *
-     * @return integer
-     */
-    public function getPosition()
+    public function getPosition() : int
     {
         return $this->position;
     }
 
-    /**
-     * Set image
-     *
-     * @param File $file
-     *
-     * @return AttachFile
-     */
-    public function setFile(File $file = null)
+    public function setFile(File $file = null) : AttachedFile
     {
         $this->file = $file;
 
         return $this;
     }
 
-    /**
-     * Get image
-     *
-     * @return File
-     */
-    public function getFile()
+    public function getFile() : ?File
     {
         return $this->file;
     }
@@ -140,56 +91,32 @@ abstract class AttachFile
      *
      * @return string
      */
-    public function getWebPath()
+    public function getWebPath() : ?string
     {
-        return $this->file ? $this->file->getWebPath() : null;
+        return $this->file?->getWebPath();
     }
 
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return AttachFile
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(?\DateTime $createdAt) : AttachedFile
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?\DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return AttachFile
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt) : AttachedFile
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?\DateTime
     {
         return $this->updatedAt;
     }

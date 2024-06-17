@@ -7,6 +7,9 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-interface ImageInterface extends ItemLibraryInterface
+
+interface AttachedImageInterface
 {
+    public function getWebPath();
+
 }

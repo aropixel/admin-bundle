@@ -3,7 +3,7 @@
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
-use Aropixel\AdminBundle\Entity\AttachImage;
+use Aropixel\AdminBundle\Entity\AttachedImage;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ class DeleteAction extends AbstractController
             try {
 
                 $libraryEntity = new \ReflectionClass($libraryClass);
-                if ($libraryEntity instanceof AttachImage) {
+                if ($libraryEntity instanceof AttachedImage) {
 
                     $attachedImages = $this->entityManager->getRepository($libraryClass)->findBy(['image' => $image]);
                     if (count($attachedImages)) {

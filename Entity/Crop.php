@@ -26,105 +26,52 @@ abstract class Crop implements CropInterface
     private ?\DateTime $updatedAt = null;
 
 
-    /**
-     * Set filter
-     *
-     * @param string $filter
-     * @return Crop
-     */
-    public function setFilter($filter)
+    public function setFilter(string $filter) : CropInterface
     {
         $this->filter = $filter;
 
         return $this;
     }
 
-    /**
-     * Get filter
-     *
-     * @return string
-     */
-    public function getFilter()
+    public function getFilter() : string
     {
         return $this->filter;
     }
 
-    /**
-     * Set crop
-     *
-     * @param string $crop
-     * @return Crop
-     */
-    public function setCrop($crop)
+    public function setCrop(?string $crop) : CropInterface
     {
         $this->crop = $crop;
 
         return $this;
     }
 
-    /**
-     * Get crop
-     *
-     * @return string
-     */
-    public function getCrop()
+    public function getCrop() : ?string
     {
         return $this->crop;
     }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Crop
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(?\DateTime $createdAt) : CropInterface
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt() : ?\DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Crop
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt) : CropInterface
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : ?\DateTime
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function doCropFile()
-    {
-
     }
 
 

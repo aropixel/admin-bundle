@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\DependencyInjection;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;

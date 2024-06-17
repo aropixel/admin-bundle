@@ -13,8 +13,8 @@ interface CropInterface
 
     public function getImage();
 
-    public function getFilter();
+    public function getFilter() : string;
 
-    public function getCrop();
+    public function getCrop() : ?string;
 
 }
