@@ -25,15 +25,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractInstallCommand extends Command
 {
-
     protected ?CommandExecutor $commandExecutor = null;
-
 
     /**
      * AbstractInstallCommand constructor.
      */
-    public function __construct(protected ManagerRegistry $managerRegistry, protected ValidatorInterface $validator)
-    {
+    public function __construct(
+        protected ManagerRegistry $managerRegistry,
+        protected ValidatorInterface $validator
+    ) {
         parent::__construct();
     }
 
