@@ -16,7 +16,6 @@ class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
             return;
         }
         $entities = $container->getParameter('aropixel_admin.entities');
-        dump($entities);
         foreach ($entities as $interface => $model) {
             $resolveTargetEntityListener->addMethodCall('addResolveTargetEntity', [$interface, $model, []]);
         }
