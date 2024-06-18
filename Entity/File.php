@@ -2,12 +2,13 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Infrastructure\Media\File\Library\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\MappedSuperclass]
+#[ORM\MappedSuperclass(repositoryClass: FileRepository::class)]
 #[ORM\Table(name: 'aropixel_file')]
 class File implements FileInterface
 {

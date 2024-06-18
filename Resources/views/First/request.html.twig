@@ -40,8 +40,8 @@
                     {{ form_start(form) }}
                     <div class="card mt-5">
                         <div class="card-header d-flex flex-column justify-content-start align-items-start">
-                            <h4 class="mb-1">Première visite ?</h4>
-                            <p class="mb-0">Activez votre accès en créant votre mot de passe.</p>
+                            <h4 class="mb-1">{% trans %}First connexion ?{% endtrans %}</h4>
+                            <p class="mb-0">{% trans %}Choose your password and activate your account.{% endtrans %}</p>
                         </div>
 
                         <div class="card-body">
@@ -49,7 +49,7 @@
                             {% if already_initialized %}<div class="alert alert-danger">Votre compte a déjà été activé. Veuillez vous authentifier, ou cliquer sur <a href="{{ path('aropixel_admin_reset_request') }}">mot de passe oublié</a>, pour changer votre mot de passe.</div>{% endif %}
 
                             <div class="mt-4 mb-4">
-                                <label for="email" class="mb-2">Entrez l'email utilisé pour la création de votre compte :</label>
+                                <label for="email" class="mb-2">{% trans %}Fill the email used to create your account :{% endtrans %}</label>
                                 {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
                             </div>
 

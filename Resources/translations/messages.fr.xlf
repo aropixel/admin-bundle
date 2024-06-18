@@ -30,6 +30,18 @@
                 <source>Remember me</source>
                 <target>Se souvenir de moi</target>
             </trans-unit>
+            <trans-unit id="first_connexion">
+                <source>First connexion ?</source>
+                <target>Première visite ?</target>
+            </trans-unit>
+            <trans-unit id="first_connexion_description">
+                <source>Choose your password and activate your account.</source>
+                <target>Activez votre accès en créant votre mot de passe.</target>
+            </trans-unit>
+            <trans-unit id="first_connexion_instruction">
+                <source>Fill the email used to create your account :</source>
+                <target>Entrez l'email utilisé pour la création de votre compte :</target>
+            </trans-unit>
             <trans-unit id="login_submit">
                 <source>Submit</source>
                 <target>Se connecter</target>

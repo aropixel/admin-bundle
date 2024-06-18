@@ -26,7 +26,6 @@ class AdminAccessCommand extends AbstractInstallCommand
 
     public function __construct(
         protected ManagerRegistry $managerRegistry,
-        private readonly PasswordUpdaterInterface $passwordUpdater,
         private readonly UserFactoryInterface $userFactory,
         protected ValidatorInterface $validator,
         private readonly ActivationEmailSenderInterface $activationEmailSender

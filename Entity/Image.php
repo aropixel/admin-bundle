@@ -2,13 +2,14 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\MappedSuperclass]
+#[ORM\MappedSuperclass(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'aropixel_image')]
 class Image implements ItemLibraryInterface
 {

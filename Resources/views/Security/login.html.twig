@@ -100,7 +100,7 @@
 						</div>
 
 						<div class="text-center">
-							<a href="{{ path('aropixel_admin_security_first_login_request') }}">Première connexion ?</a>
+							<a href="{{ path('aropixel_admin_security_first_login_request') }}">{% trans %}First connexion ?{% endtrans %}</a>
 						</div>
 
 						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
