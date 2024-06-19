@@ -1,0 +1,109 @@
+parameters:
+    env(ACTIVATION_REQUEST_LIFETIME): 'P1D'
+    passwordPeriod: '6 months'
+    passwordAttempts: 6
+    activationRequestLifeTime: '%env(ACTIVATION_REQUEST_LIFETIME)%'
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+
+    Aropixel\AdminBundle\Http\:
+        resource: '../../Http'
+        tags: ['controller.service_arguments']
+
+    Aropixel\AdminBundle\Http\Command\CommandExecutor:
+        autowire: false
+
+    # Autowire des services
+    Aropixel\AdminBundle\Domain\:
+        resource: '../../Domain'
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Infrastructure\:
+        resource: '../../Infrastructure'
+        autowire: true
+
+    # Autowire des services
+    Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\:
+        resource: '../../Infrastructure/Security/Passport/Badge'
+        autowire: false
+
+
+    # Autowire des services
+    Aropixel\AdminBundle\Infrastructure\User\UserRepository:
+        tags: ['doctrine.repository_service']
+
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Library\ImageRepository:
+        tags: ['doctrine.repository_service']
+
+
+
+    # Autowire des formulaires
+    Aropixel\AdminBundle\Form\Type\:
+        resource: '../../Form/Type'
+
+    # Autowire des extensions twig
+    Aropixel\AdminBundle\Twig\:
+        resource: '../../Twig'
+
+
+    Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver:
+        arguments: ['@kernel']
+
+    Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver'
+
+
+    Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface:
+        class: Aropixel\AdminBundle\Infrastructure\Media\Image\Crop\CropApplier
+        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
+
+
+    Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener\DoFileCropListener:
+        arguments: ['@Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface']
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+
+
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Upload\UploadImageListener:
+        arguments: ['@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.image%' }
+            - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.image%' }
+
+
+    Aropixel\AdminBundle\Infrastructure\Media\File\Upload\UploadFileListener:
+        arguments: ['@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
+        tags:
+            - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.file%' }
+            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.file%' }
+            - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.file%' }
+            - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.file%' }
+            - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
+
+
+    Aropixel\AdminBundle\EventListener\MappedSuperClassListener:
+        arguments: ['%aropixel_admin.entities%']
+        tags:
+            - { name: doctrine.event_listener, event: 'loadClassMetadata', priority: 8192 }
+
+    Aropixel\AdminBundle\Infrastructure\Media\Image\Filter\ThumbnailFilter:
+        tags:
+            - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
+
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@security.user_providers'
+
+    Liip\ImagineBundle\Service\FilterService:
+        alias: 'liip_imagine.service.filter'
+
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: 'service_container'
+
+    #Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface: ~

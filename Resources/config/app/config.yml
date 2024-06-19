@@ -1,3 +1,0 @@
-imports:
-  - { resource: 'doctrine.yaml' }
-  - { resource: 'liip_imagine.yml' }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+ This file is part of the Sylius package.
+
+ (c) Paweł Jędrzejewski
+
+ For the full copyright and license information, please view the LICENSE
+ file that was distributed with this source code.
+
+-->
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+
+    <mapped-superclass name="Aropixel\AdminBundle\Entity\User" repository-class="Aropixel\AdminBundle\Infrastructure\User\UserRepository" table="aropixel_admin_user">
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="email" type="string" length="180" unique="true" />
+        <field name="enabled" type="boolean" />
+        <field name="passwordAttempts" type="integer" />
+        <field name="firstName" type="string" length="255" nullable="true" />
+        <field name="lastName" type="string" length="255" nullable="true" />
+        <field name="roles" type="json" />
+        <field name="password" type="string" />
+        <field name="passwordResetToken" nullable="true" />
+        <field name="passwordRequestedAt" type="datetime" nullable="true" />
+        <field name="emailVerificationToken" nullable="true" />
+        <field name="createdAt" column="created_at" type="datetime">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <field name="lastPasswordUpdate" type="datetime" nullable="true"/>
+        <field name="lastLogin" type="datetime" nullable="true"/>
+        <one-to-one field="image" target-entity="Aropixel\AdminBundle\Entity\UserImageInterface" mapped-by="user">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-one>
+
+    </mapped-superclass>
+
+</doctrine-mapping>

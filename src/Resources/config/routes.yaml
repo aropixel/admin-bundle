@@ -1,0 +1,25 @@
+# SECURITY
+sf_web_app_back_office_security:
+    resource: "@AropixelAdminBundle/Resources/config/routes/security.yaml"
+
+aropixel_reset:
+    resource: "@AropixelAdminBundle/Resources/config/routes/reset.yaml"
+
+aropixel_first:
+    resource: "@AropixelAdminBundle/Resources/config/routes/first.yaml"
+
+aropixel_activation:
+    resource: "@AropixelAdminBundle/Resources/config/routes/activation.yaml"
+
+_admin:
+    path: /
+    controller: Aropixel\AdminBundle\Http\Action\Dashboard\DashboardAction
+
+aropixel_admin_users:
+    resource: "@AropixelAdminBundle/Resources/config/routes/user.yaml"
+
+aropixel_admin_images:
+    resource: "@AropixelAdminBundle/Resources/config/routes/image.yaml"
+
+aropixel_admin_files:
+    resource: "@AropixelAdminBundle/Resources/config/routes/file.yaml"
