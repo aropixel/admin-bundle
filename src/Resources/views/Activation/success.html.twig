@@ -38,10 +38,12 @@
                     </div>
 
                     <div class="card mt-5">
-                        <div class="card-header"><h4>Et voilà !</h4></div>
+                        <div class="card-header"><h4>{% trans %}And There you go !{% endtrans %}</h4></div>
 
                         <div class="card-body">
-                            <p>Votre compte a été activé.<br /><a href="{{ path('_admin') }}">Cliquez ici</a> pour vous connecter.</p>
+                            <p>{% trans %}Your account has been activated.{% endtrans %}<br />
+                                {% trans with {'%link%': path('_admin')} %}<a href="%link%">Click here</a> to login.{% endtrans %}
+                            </p>
                         </div>
                     </div>
                     <br />

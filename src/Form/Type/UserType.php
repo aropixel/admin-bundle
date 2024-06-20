@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class UserType extends AbstractType
 {
@@ -30,11 +31,11 @@ class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class)
-            ->add('enabled', ToggleSwitchType::class, ['label' => 'Actif', 'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit)])
-            ->add('lastName', null, ['label' => 'Nom'])
-            ->add('firstName', null, ['label' => 'Prénom'])
+            ->add('enabled', ToggleSwitchType::class, ['label' => new TranslatableMessage('Enabled'), 'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit)])
+            ->add('lastName', null, ['label' => new TranslatableMessage('Last name')])
+            ->add('firstName', null, ['label' => new TranslatableMessage('First name')])
             ->add('image', ImageType::class, [
-                'label' => 'Avatar',
+                'label' => new TranslatableMessage('Avatar'),
                 'data_class' => UserImage::class,
                 'required' => false,
             ])
@@ -43,14 +44,14 @@ class UserType extends AbstractType
         $userLogged = $this->security->getUser();
         if ($userLogged->getId() == $userToEdit->getId()) {
             $builder
-                ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class, 'required' => false, 'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre.', 'first_options' => ['label' => 'Changer le mot de passe'], 'second_options' => ['label' => 'Confirmer le mot de passe']])
+                ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class, 'required' => false, 'invalid_message' => new TranslatableMessage('New password and confirmation must match.'), 'first_options' => ['label' => new TranslatableMessage('Change password')], 'second_options' => ['label' => new TranslatableMessage('Confirm new password')]])
             ;
         }
 
         // If the user is granted
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             $builder
-                ->add('superAdmin', ChoiceType::class, ['choices' => ['Oui' => '1', 'Non' => '0'], 'empty_data' => 'Non', 'label' => 'Super Administrateur', 'label_attr' => ['class' => 'radio-inline'], 'expanded' => true])
+                ->add('superAdmin', ChoiceType::class, ['choices' => ['Oui' => '1', 'Non' => '0'], 'empty_data' => 'Non', 'label' => new TranslatableMessage('Super Admin'), 'label_attr' => ['class' => 'radio-inline'], 'expanded' => true])
             ;
         }
     }

@@ -1,4 +1,4 @@
 <ul class="list-condensed list-unstyled no-margin">
-	<li><span class="text-semibold">Taille:</span> {{ filesize }}o</li>
-	<li><span class="text-semibold">Format:</span> .{{ file.getExtension() }}</li>
+	<li><span class="text-semibold">{% trans %}Size{% endtrans %}:</span> {{ filesize }}o</li>
+	<li><span class="text-semibold">{% trans %}Format{% endtrans %}:</span> .{{ file.getExtension() }}</li>
 </ul>

@@ -4,7 +4,7 @@
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Choisir des fichiers</h5>
+				<h5 class="modal-title">{% trans %}Choose files{% endtrans %}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 
@@ -16,9 +16,9 @@
 						<tr>
 							<th class="no-sort" style="width: 20px;"><input type="checkbox"></th>
 							<th class="no-sort" style="width: 50px;">&nbsp;</th>
-							<th>Titre</th>
-							<th>Date</th>
-							<th>Propriétés</th>
+							<th>{% trans %}Title{% endtrans %}</th>
+							<th>{% trans %}Date{% endtrans %}</th>
+							<th>{% trans %}Properties{% endtrans %}</th>
 							<th class="text-center no-sort" align="center"></th>
 						</tr>
 						</thead>
@@ -28,7 +28,7 @@
 			</div>
 
 			<div class="alert bg-info" style="border-radius: 0; display: none" id="alertNoImg">
-				<span class="text-semibold">Attention !</span> Veuillez sélectionner un ficher.
+				<span class="text-semibold">{% trans %}Warning{% endtrans %} !</span> {% trans %}Please select a file.{% endtrans %}
 			</div>
 			<div class="modal-footer d-flex justify-content-between">
 				<div>
@@ -36,8 +36,8 @@
 					<ul class="progress-upload d-inline-block"></ul>
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary attach-files">Ajouter les fichiers</button>
+					<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+					<button type="button" class="btn btn-primary attach-files">{% trans %}Add selected files{% endtrans %}</button>
 				</div>
 			</div>
 

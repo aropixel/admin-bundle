@@ -1,11 +1,11 @@
 <div class="caption card-footer">
     {% block caption %}
         {% if image is defined and image %}
-            <h6 class="no-margin-top text-semibold form-image{{ required is defined and required ? ' required' : '' }}">{{ image.title ? image.title : 'Sans titre' }}</h6>
-            <div>{{ description is defined and description|length ? description : 'Choisissez une image' }}</div>
+            <h6 class="no-margin-top text-semibold form-image{{ required is defined and required ? ' required' : '' }}">{{ image.title ? image.title : 'No title'|trans }}</h6>
+            <div>{{ description is defined and description|length ? description : 'Choose an image'|trans }}</div>
         {% else %}
-            <h6 class="no-margin-top text-semibold form-image{{ required is defined and required ? ' required' : '' }}">{{ label is defined and label|length ? label : 'Image à la une' }}</h6>
-            <div>{{ description is defined and description|length ? description : 'Choisissez une image' }}</div>
+            <h6 class="no-margin-top text-semibold form-image{{ required is defined and required ? ' required' : '' }}">{{ label is defined and label|length ? label : 'Featured image'|trans }}</h6>
+            <div>{{ description is defined and description|length ? description : 'Choose an image'|trans }}</div>
         {% endif %}
     {% endblock %}
 </div>

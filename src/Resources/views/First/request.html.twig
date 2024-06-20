@@ -45,8 +45,8 @@
                         </div>
 
                         <div class="card-body">
-                            {% if not_found %}<div class="alert alert-danger">Votre email n'a pas été trouvé.</div>{% endif %}
-                            {% if already_initialized %}<div class="alert alert-danger">Votre compte a déjà été activé. Veuillez vous authentifier, ou cliquer sur <a href="{{ path('aropixel_admin_reset_request') }}">mot de passe oublié</a>, pour changer votre mot de passe.</div>{% endif %}
+                            {% if not_found %}<div class="alert alert-danger">{% trans %}Your email was not found.{% endtrans %}</div>{% endif %}
+                            {% if already_initialized %}<div class="alert alert-danger">{% trans %}Your account has already been activated.{% endtrans %} {% trans with {'%link%' : path('aropixel_admin_reset_request')} %}Veuillez vous authentifier, ou cliquer sur <a href="%link%">mot de passe oublié</a>, pour changer votre mot de passe.{% endtrans %}</div>{% endif %}
 
                             <div class="mt-4 mb-4">
                                 <label for="email" class="mb-2">{% trans %}Fill the email used to create your account :{% endtrans %}</label>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">Continuer</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">{% trans %}Continue{% endtrans %}</button>
                     </div>
                     {{ form_end(form) }}
 

@@ -1,10 +1,10 @@
 {% extends '@AropixelAdmin/List/datatable.html.twig' %}
 
-{% block header_title %}Utilisateurs{% endblock %}
+{% block header_title %}{% trans %}Users{% endtrans %}{% endblock %}
 {% block header_breadcrumb %}
     <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
-        <li class="breadcrumb-item active">Utilisateurs</li>
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}Dashboard{% endtrans %}</a></li>
+        <li class="breadcrumb-item active">{% trans %}Users{% endtrans %}</li>
     </ul>
 {% endblock %}
 
@@ -22,7 +22,7 @@
 
                             <div class="d-flex justify-content-end mb-3">
                                 <div class="btn-group">
-                                    <a data-confirm="Êtes-vous certain de vouloir supprimer cet utilisateur ?" class="badge badge-danger badge-icon delete cursor-pointer">
+                                    <a data-confirm="{% trans %}Are you sure you want to delete this user?{% endtrans %}" class="badge badge-danger badge-icon delete cursor-pointer">
                                         <i class="fas fa-trash ms-0"></i>
                                     </a>
                                     <form method="post" action="{{ path('aropixel_admin_user_delete', {'id': user.id}) }}">

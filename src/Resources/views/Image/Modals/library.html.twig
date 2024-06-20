@@ -4,7 +4,7 @@
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Choisir une image</h5>
+				<h5 class="modal-title">{% trans %}Choose an image{% endtrans %}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
@@ -15,10 +15,10 @@
 						<thead>
 						<tr>
 							<th class="no-sort"><input type="checkbox"></th>
-							<th class="no-sort">Aperçu</th>
-							<th>Titre</th>
-							<th>Date</th>
-							<th>Propriétés</th>
+							<th class="no-sort">{% trans %}Aperçu{% endtrans %}</th>
+							<th>{% trans %}Titre{% endtrans %}</th>
+							<th>{% trans %}Date{% endtrans %}</th>
+							<th>{% trans %}Propriétés{% endtrans %}</th>
 							<th class="text-center no-sort" align="center"></th>
 						</tr>
 						</thead>
@@ -31,30 +31,30 @@
 
 						<div class="size-option m-t-15">
 
-							<h5 class="no-margin">Régler la taille de votre image</h5>
+							<h5 class="no-margin">{% trans %}Régler la taille de votre image{% endtrans %}</h5>
 							<p class="m-t-20">
-								Sélectionnez une taille pour les images à insérer dans l'éditeur.<br />
-								<strong>Attention à ne pas sélectionner une taille d'image supérieure à la taille originale.</strong> L'image insérée pourrait être de mauvaise qualité.
+								{% trans %}Sélectionnez une taille pour les images à insérer dans l'éditeur.{% endtrans %}<br />
+								<strong>{% trans %}Attention à ne pas sélectionner une taille d'image supérieure à la taille originale.{% endtrans %}</strong> {% trans %}L'image insérée pourrait être de mauvaise qualité.{% endtrans %}
 							</p>
 
 							{% set myfilters = get_editor_filters() %}
 							<div class="m-t-15">
-								<label>Largeur de l'image</label>
+								<label>{% trans %}Largeur de l'image{% endtrans %}</label>
 								<select class="bootstrap-select" data-width="100%" name="img_size" id="img_size">
-									<option value="auto">Largeur auto</option>
-									<option value="100">Largeur 100px</option>
-									<option value="200">Largeur 200px</option>
-									<option value="300" selected>Largeur 300px</option>
-									<option value="400">Largeur 400px</option>
-									<option value="600">Largeur 600px</option>
-									<option value="800">Largeur 800px</option>
-									<option value="100pc">Largeur 100%</option>
-									{% if myfilters|length %}<option value="customfilter">Découpe prédéfinie</option>{% endif %}
+									<option value="auto">{% trans %}Largeur auto{% endtrans %}</option>
+									<option value="100">{% trans %}Largeur 100px{% endtrans %}</option>
+									<option value="200">{% trans %}Largeur 200px{% endtrans %}</option>
+									<option value="300" selected>{% trans %}Largeur 300px{% endtrans %}</option>
+									<option value="400">{% trans %}Largeur 400px{% endtrans %}</option>
+									<option value="600">{% trans %}Largeur 600px{% endtrans %}</option>
+									<option value="800">{% trans %}Largeur 800px{% endtrans %}</option>
+									<option value="100pc">{% trans %}Largeur 100%{% endtrans %}</option>
+									{% if myfilters|length %}<option value="customfilter">{% trans %}Découpe prédéfinie{% endtrans %}</option>{% endif %}
 								</select>
 							</div>
 
 							<div class="m-t-15 size-filter-option" style="display: none">
-								<label><strong>Choisissez votre découpe</strong></label>
+								<label><strong>{% trans %}Choisissez votre découpe{% endtrans %}</strong></label>
 								<select class="bootstrap-select" data-width="100%" name="img_filter" id="img_filter">
 									{% for filterSlug,filterDescription in myfilters %}
 										<option value="{{ filterSlug }}">{{ filterDescription }}</option>
@@ -68,15 +68,15 @@
 
 						<div class="seo-option m-t-15">
 
-							<h5 class="no-margin">Référencement</h5>
+							<h5 class="no-margin">{% trans %}Référencement{% endtrans %}</h5>
 							<p class="m-t-20">
-								<strong>Renseignez l'attribut alt de votre balise image.</strong><br />
-								L'attribut <em>alt</em> est utilisée pour le référencement du site et de vos images.<br />
-								Elle permet d’associer des mots clés ou une expression à votre image.<br />
+								<strong>{% trans %}Renseignez l'attribut alt de votre balise image.{% endtrans %}</strong><br />
+								{% trans %}L'attribut <em>alt</em> est utilisée pour le référencement du site et de vos images.{% endtrans %}<br />
+								{% trans %}Elle permet d’associer des mots clés ou une expression à votre image.{% endtrans %}<br />
 							</p>
 
 							<div class="m-t-15">
-								<label>Attribut <em>alt</em> de votre balise image</label>
+								<label>{% trans %}Attribut <em>alt</em> de votre balise image{% endtrans %}</label>
 								<input type="text" name="img_alt" id="img_alt" value="" class="form-control">
 							</div>
 
@@ -89,17 +89,17 @@
 			</div>
 
 			<div class="alert bg-info" style="border-radius: 0px; display: none" id="alertNoImg">
-				<span class="text-semibold">Attention !</span> Veuillez sélectionner une image.
+				<span class="text-semibold">{% trans %}Warning !{% endtrans %}</span> {% trans %}You must select an image.{% endtrans %}
 			</div>
 			<div class="alert bg-danger" style="border-radius: 0px; display: none" id="alertUploadError"></div>
 			<div class="modal-footer d-flex justify-content-between">
 				<div>
-					<button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">Uploader une image <i class="icon-upload position-right"></i></button>
+					<button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}Upload images{% endtrans %} <i class="icon-upload position-right"></i></button>
 					<ul class="progress-upload d-inline-block"></ul>
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary attach-images">Ajouter l'image</button>
+					<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+					<button type="button" class="btn btn-primary attach-images">{% trans %}Select image(s){% endtrans %}</button>
 				</div>
 			</div>
 		</div>
