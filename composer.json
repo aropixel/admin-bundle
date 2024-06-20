@@ -36,14 +36,15 @@
     "twig/intl-extra": "^2.12|^3.0"
   },
   "scripts": {
-    "auto-scripts": {
-      "aropixel:admin:setup": "symfony-cmd"
-    },
+    "symfony-scripts": [
+      "rm -rf var/cache/*",
+      "php bin/console assets:install public --relative"
+    ],
     "post-install-cmd": [
-      "@auto-scripts"
+      "@symfony-scripts"
     ],
     "post-update-cmd": [
-      "@auto-scripts"
+      "@symfony-scripts"
     ]
   }
 }
