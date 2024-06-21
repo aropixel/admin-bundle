@@ -253,7 +253,7 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
                 $(selectors.modal.id).modal('hide');
 
                 // $.uniform.update($('.checkbox-library-thumb input').attr('checked',false));
-                _button.html("Ajouter l'image").attr('disabled', false);
+                _button.html(image_translations.select_image).attr('disabled', false);
 
             });
 

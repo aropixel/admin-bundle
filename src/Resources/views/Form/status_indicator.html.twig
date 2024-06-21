@@ -1,2 +1,2 @@
-<div class="text-underlined-dashed">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Outdated"|trans : (publishable.isPublished ? "Published"|trans : "Scheduled"|trans)) : (publishable.isPublished ? "Published"|trans : "Offline"|trans) }} </div>
+<div class="text-underlined-dashed">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "status.outdated"|trans : (publishable.isPublished ? "status.published"|trans : "status.scheduled"|trans)) : (publishable.isPublished ? "status.published"|trans : "status.offline"|trans) }} </div>
 <span class="status-indicator {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "" : (publishable.isPublished ? "checked" : "checked warning")) : (publishable.isPublished ? "checked" : "") }}"></span>

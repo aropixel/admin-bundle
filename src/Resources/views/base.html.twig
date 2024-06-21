@@ -68,16 +68,16 @@
                                 {% block navbar_nav_img %}
                                     <img alt="image" src="{{ app.user.image ? app.user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
                                 {% endblock %}
-                                <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
+                                <div class="d-sm-none d-lg-inline-block">{% block user_name %}{% endblock %}</div>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
-                                    <i class="far fa-user"></i> {% trans %}My account{% endtrans %}
+                                    <i class="far fa-user"></i> {% trans %}text.my_account{% endtrans %}
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
-                                    <i class="fas fa-sign-out-alt"></i> {% trans %}Logout{% endtrans %}
+                                    <i class="fas fa-sign-out-alt"></i> {% trans %}text.logout{% endtrans %}
                                 </a>
                             </div>
 
@@ -222,8 +222,11 @@
             <!-- Template JS File -->
             <script src="{{ asset('bundles/aropixeladmin/js/scripts.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/datatable.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/app.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
 
         {% endblock %}

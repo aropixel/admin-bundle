@@ -1,22 +1,22 @@
 {% extends '@AropixelAdmin/Form/base.html.twig' %}
 
-{% block header_title %}{% trans %}Users{% endtrans %}{% endblock %}
+{% block header_title %}{% trans %}users.title{% endtrans %}{% endblock %}
 {% block header_breadcrumb %}
     <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}Dashboard{% endtrans %}</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">{% trans %}Users{% endtrans %}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}text.dashboard{% endtrans %}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">{% trans %}users.title{% endtrans %}</a></li>
         {% if user and user.id %}
-            <li class="breadcrumb-item active">{% trans %}Edit{% endtrans %}</li>
+            <li class="breadcrumb-item active">{% trans %}text.edit{% endtrans %}</li>
         {% else %}
-            <li class="breadcrumb-item active">{% trans %}Create{% endtrans %}</li>
+            <li class="breadcrumb-item active">{% trans %}text.create{% endtrans %}</li>
         {% endif %}
     </ul>
 {% endblock %}
 
 
 {% block tabbable %}
-    <li class="nav-item"><a href="#panel-tab1" data-bs-toggle="pill" class="nav-link active">{% trans %}Configuration{% endtrans %}</a></li>
-    <li class="nav-item"><a href="#panel-tab2" data-bs-toggle="pill" class="nav-link">{% trans %}Avatar{% endtrans %}</a></li>
+    <li class="nav-item"><a href="#panel-tab1" data-bs-toggle="pill" class="nav-link active">{% trans %}users.form.configuration{% endtrans %}</a></li>
+    <li class="nav-item"><a href="#panel-tab2" data-bs-toggle="pill" class="nav-link">{% trans %}users.form.avatar{% endtrans %}</a></li>
 {% endblock %}
 
 
@@ -49,7 +49,7 @@
 
                 {% if sendButton is defined and sendButton %}
 
-                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">{% trans %}Resend account creation email{% endtrans %}</a>
+                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">{% trans %}users.form.send_activation_link_button{% endtrans %}</a>
 
                 {% endif %}
 

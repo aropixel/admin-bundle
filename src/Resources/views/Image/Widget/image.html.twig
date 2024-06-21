@@ -43,16 +43,16 @@
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item btnUpload" href="#" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="{% trans %}Edit image{% endtrans %}"><i class="far fa-image me-2"></i> {% trans %}Modifier l'image{% endtrans %}</a>
+                            <a class="dropdown-item btnUpload" href="#" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="{% trans %}images.widget.button.edit_image{% endtrans %}"><i class="far fa-image me-2"></i> {% trans %}images.widget.button.edit_image{% endtrans %}</a>
                             {% if savedImage %}
                                 {% if form.crops is defined and get_available_crop_filters(form.vars.data, form.vars.crops)|length > 0 %}
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="{% trans %}Redimensionner l'image{% endtrans %}"><i class="fas fa-crop-alt me-2"></i> {% trans %}Redimensionner l'image{% endtrans %}</a>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="{% trans %}images.widget.button.crop_image{% endtrans %}"><i class="fas fa-crop-alt me-2"></i> {% trans %}images.widget.button.crop_image{% endtrans %}</a>
                                 {% endif %}
                                 {% if form.attrAlt is defined %}
-                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> {% trans %}Modifier le texte alternatif{% endtrans %}</a>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> {% trans %}images.widget.button.edit_alt{% endtrans %}</a>
                                     <div class="dropdown-divider"></div>
                                 {% endif %}
-                                <a class="dropdown-item text-danger btnUnlink" href="#"><i class="fas fa-unlink me-2"></i> {% trans %}Retirer l'image{% endtrans %}</a>
+                                <a class="dropdown-item text-danger btnUnlink" href="#"><i class="fas fa-unlink me-2"></i> {% trans %}images.widget.button.unlink_image{% endtrans %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -70,7 +70,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Texte alternatif</h5>
+                        <h5 class="modal-title">{% trans %}images.widget.form.edit_alt.title{% endtrans %}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -79,8 +79,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Continuer mes modifications</button>
-                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans %}images.widget.form.edit_alt.abort{% endtrans %}</button>
+                        <button class="btn btn-primary" type="submit">{% trans %}images.widget.form.edit_alt.submit{% endtrans %}</button>
                     </div>
                 </div>
             </div>

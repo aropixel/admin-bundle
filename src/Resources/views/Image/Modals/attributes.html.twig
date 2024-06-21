@@ -4,7 +4,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{% trans %}Image properties{% endtrans %}</h5>
+					<h5 class="modal-title">{% trans %}library.images.modal.attributes.title{% endtrans %}</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal">&times;</button>
 				</div>
 
@@ -12,10 +12,10 @@
 
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link active" id="texts-tab" data-bs-toggle="tab" href="#gallery-image-texts" role="tab" aria-controls="gallery-image-texts" aria-selected="true">Textes & Liens</a>
+							<a class="nav-link active" id="texts-tab" data-bs-toggle="tab" href="#gallery-image-texts" role="tab" aria-controls="gallery-image-texts" aria-selected="true">{% trans %}library.images.modal.attributes.tab.links{% endtrans %}</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="attributes-tab" data-bs-toggle="tab" href="#gallery-image-attributes" role="tab" aria-controls="gallery-image-attributes" aria-selected="true">Attributs HTML</a>
+							<a class="nav-link" id="attributes-tab" data-bs-toggle="tab" href="#gallery-image-attributes" role="tab" aria-controls="gallery-image-attributes" aria-selected="true">{% trans %}library.images.modal.attributes.tab.attributes{% endtrans %}</a>
 						</li>
 					</ul>
 
@@ -24,39 +24,36 @@
 						<div class="tab-pane fade show active" id="gallery-image-texts" role="tabpanel" aria-labelledby="texts-tab">
 
 							<div id="img_title">
-								<label>{% trans %}Image title{% endtrans %}</label>
+								<label>{% trans %}library.images.modal.attributes.form.textlink.title{% endtrans %}</label>
 								<input type="text" name="title" value="" class="form-control">
 							</div>
 
 							<div class="m-t-15" id="img_description">
-								<label>{% trans %}Image description{% endtrans %}</label>
+								<label>{% trans %}library.images.modal.attributes.form.textlink.description{% endtrans %}</label>
 								<input type="text" name="description" value="" class="form-control">
 							</div>
 
 							<div class="m-t-15" id="img_link">
-								<label>{% trans %}Link{% endtrans %}</label>
+								<label>{% trans %}library.images.modal.attributes.form.textlink.link{% endtrans %}</label>
 								<input type="text" name="link" value="" class="form-control">
 							</div>
 						</div>
 
 						<div class="tab-pane" id="gallery-image-attributes" role="tabpanel" aria-labelledby="attributes-tab">
-							<p>
-								<strong>{% trans %}Fill in the HTML attributes of your image tag.{% endtrans %}</strong><br />
-								{% trans %}Attributes can be useful for SEO or for image management plugins (popups, filters, etc.).{% endtrans %}<br />
-							</p>
+							<p>{% trans %}library.images.modal.attributes.form.properties.description{% endtrans %}</p>
 
 							<div class="m-t-15" id="img_attr_title">
-								<label>{% trans with {'%target%' : '<em>title</em>'} %}%target% attribute of your image tag{% endtrans %}</label>
+								<label>{% trans with {'%target%' : '<em>title</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
 								<input type="text" name="attr_title" value="" class="form-control">
 							</div>
 
 							<div class="m-t-15" id="img_attr_alt">
-								<label>{% trans with {'%target%' : '<em>alt</em>'} %}%target% attribute of your image tag{% endtrans %}</label>
+								<label>{% trans with {'%target%' : '<em>alt</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
 								<input type="text" name="attr_alt" value="" class="form-control">
 							</div>
 
 							<div class="m-t-15" id="img_attr_class">
-								<label>{% trans with {'%target%' : '<em>class</em>'} %}%target% attribute of your image tag{% endtrans %}</label>
+								<label>{% trans with {'%target%' : '<em>class</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
 								<input type="text" name="attr_class" value="" class="form-control">
 							</div>
 						</div>
@@ -67,8 +64,8 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
-					<button type="button" class="btn btn-primary save-attributes">{% trans %}Submit{% endtrans %}</button>
+					<button type="button" class="btn btn-link" data-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+					<button type="button" class="btn btn-primary save-attributes">{% trans %}library.images.modal.attributes.submit{% endtrans %}</button>
 				</div>
 			</div>
 		</div>

@@ -6,7 +6,7 @@
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">{% trans %}Crop image{% endtrans %}</h5>
+				<h5 class="modal-title">{% trans %}library.images.modal.crop.title{% endtrans %}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
@@ -20,11 +20,11 @@
 
 					<div class="float-left full-with m-l-50" id="crop_options">
 
-						<h5 class="mb-3">{% trans %}Adjust your image crops{% endtrans %}</h5>
+						<h5 class="mb-3">{% trans %}library.images.modal.crop.subtitle{% endtrans %}</h5>
 
 						<p class="mb-5">
-							{% trans %}Optimize the display of images on your website, by adjusting the different cutouts of your images.{% endtrans %}<br />
-							<strong>{% trans %}Be careful, if you reduce your selection area a lot, the quality could be affected.{% endtrans %}</strong>
+							{% trans %}library.images.modal.crop.description{% endtrans %}<br />
+							<strong>{% trans %}library.images.modal.crop.warning{% endtrans %}</strong>
 						</p>
 
 						{% set class = 'checked="checked"' %}
@@ -47,8 +47,8 @@
 			</div>
 
 			<div class="modal-footer d-flex justify-content-between">
-				<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
-				<button type="button" class="btn btn-primary crop-file">{% trans %}Crop{% endtrans %}</button>
+				<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+				<button type="button" class="btn btn-primary crop-file">{% trans %}library.images.modal.crop.submit{% endtrans %}</button>
 			</div>
 		</div>
 	</div>

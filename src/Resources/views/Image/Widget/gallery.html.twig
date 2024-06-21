@@ -41,11 +41,11 @@
     	<div class="caption card-footer">
             {% block caption %}
             {% if image is defined and image %}
-    		<h6 class="no-margin-top text-semibold">{{ image.title ? image.title : 'No title'|trans }}</h6>
-    		<div>{% trans %}Choose an image{% endtrans %}</div>
+    		<h6 class="no-margin-top text-semibold">{{ image.title ? image.title : 'text.no_title'|trans }}</h6>
+    		<div>{% trans %}text.choose_image{% endtrans %}</div>
             {% else %}
-            <h6 class="no-margin-top text-semibold">{{ placeholder is defined ? placeholder : 'Featured image'|trans }}</h6>
-            <div>{% trans %}Choose an image{% endtrans %}</div>
+            <h6 class="no-margin-top text-semibold">{{ placeholder is defined ? placeholder : 'text.featured_image'|trans }}</h6>
+            <div>{% trans %}text.choose_image{% endtrans %}</div>
             {% endif %}
             {% endblock %}
     	</div>

@@ -6,13 +6,13 @@
 
     {% if route_exists(baseroute ~ '_order') %}
         <a href="{{ path(baseroute ~ '_order') }}" class="btn btn-small btn-default">
-            <i class="fas fa-arrows-alt me-2"></i>{% trans %}Reorder{% endtrans %}
+            <i class="fas fa-arrows-alt me-2"></i>{% trans %}text.reorder{% endtrans %}
         </a>
     {% endif %}
 
     {% if route_exists(baseroute ~ '_new') %}
         <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
-            <i class="fas fa-plus me-2"></i>{% trans %}Create{% endtrans %}
+            <i class="fas fa-plus me-2"></i>{% trans %}text.create{% endtrans %}
         </a>
     {% endif %}
 

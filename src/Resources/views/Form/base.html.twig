@@ -70,12 +70,12 @@
 
     {% if route_exists(baseroute ~ '_index')  %}
         <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
-            <i class="fas fa-list me-2"></i> {% trans %}List{% endtrans %}
+            <i class="fas fa-list me-2"></i> {% trans %}text.list{% endtrans %}
         </a>
     {% endif %}
     {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
         <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
-            <i class="fas fa-plus me-2"></i> {% trans %}Create{% endtrans %}
+            <i class="fas fa-plus me-2"></i> {% trans %}text.create{% endtrans %}
         </a>
     {% endif %}
 
@@ -110,7 +110,7 @@
                         {% set publishable = form.vars.value %}
 
                         <div class="form-switch form-status-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "Outdated"|trans : (publishable.isPublished ? "Published"|trans : "Scheduled"|trans)) : (publishable.isPublished ? "Published"|trans : "Offline"|trans) }}</label>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "status.outdated"|trans : (publishable.isPublished ? "status.published"|trans : "status.scheduled"|trans)) : (publishable.isPublished ? "status.published"|trans : "status.offline"|trans) }}</label>
                             <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
                         </div>
 
@@ -128,7 +128,7 @@
                     <div class="btn-group">
 
                         <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form" data-form="submit">
-                            {% trans %}Save{% endtrans %}
+                            {% trans %}form.submit{% endtrans %}
                         </button>
 
                         {% block header_btn_dropdown_actions %}
@@ -140,11 +140,11 @@
                                 <div class="dropdown-menu">
 
                                     {% if previewPath is defined %}
-                                        <a class="dropdown-item" href="{{ previewPath }}" target="_blank">{% trans %}Preview{% endtrans %}</a>
+                                        <a class="dropdown-item" href="{{ previewPath }}" target="_blank">{% trans %}form.preview{% endtrans %}</a>
                                     {% endif %}
 
                                     {% if publicationOptions %}
-                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#publicationFormModal">{% trans %}Publication options{% endtrans %}</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#publicationFormModal">{% trans %}form.publish_options{% endtrans %}</a>
                                     {% endif %}
 
                                     {% if deleteRoute %}
@@ -157,7 +157,7 @@
 
                                             {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
                                             <a id="delete_button" href="#" class="dropdown-item text-danger">
-                                                {% trans %}Delete{% endtrans %}
+                                                {% trans %}form.delete{% endtrans %}
                                             </a>
                                             {{ form_widget(delete_form._token) }}
                                             {{ form_end(delete_form) }}
@@ -166,7 +166,7 @@
 
                                             <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
                                                 <a id="delete_button" href="#" class="dropdown-item text-danger">
-                                                    {% trans %}Delete{% endtrans %}
+                                                    {% trans %}form.delete{% endtrans %}
                                                 </a>
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ form.vars.unique_block_prefix ~ form.vars.data.id) }}">

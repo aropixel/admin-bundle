@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="MEgEMng" resname="text.list">
+        <source>text.list</source>
+        <target>List</target>
+      </trans-unit>
+      <trans-unit id="7p1PCbD" resname="text.create">
+        <source>text.create</source>
+        <target>__text.create</target>
+      </trans-unit>
+      <trans-unit id="9jBDz2S" resname="status.outdated">
+        <source>status.outdated</source>
+        <target>__status.outdated</target>
+      </trans-unit>
+      <trans-unit id="uohJbCo" resname="status.published">
+        <source>status.published</source>
+        <target>__status.published</target>
+      </trans-unit>
+      <trans-unit id="jG45E4s" resname="status.scheduled">
+        <source>status.scheduled</source>
+        <target>__status.scheduled</target>
+      </trans-unit>
+      <trans-unit id="sIWTG7_" resname="status.offline">
+        <source>status.offline</source>
+        <target>__status.offline</target>
+      </trans-unit>
+      <trans-unit id="gbGyQYS" resname="form.submit">
+        <source>form.submit</source>
+        <target>__form.submit</target>
+      </trans-unit>
+      <trans-unit id="_K0qyd1" resname="form.preview">
+        <source>form.preview</source>
+        <target>__form.preview</target>
+      </trans-unit>
+      <trans-unit id="DQff.7h" resname="form.publish_options">
+        <source>form.publish_options</source>
+        <target>__form.publish_options</target>
+      </trans-unit>
+      <trans-unit id="NGuUr2n" resname="form.delete">
+        <source>form.delete</source>
+        <target>__form.delete</target>
+      </trans-unit>
+      <trans-unit id="DDY7yLk" resname="text.my_account">
+        <source>text.my_account</source>
+        <target>__text.my_account</target>
+      </trans-unit>
+      <trans-unit id="_YGA75f" resname="text.logout">
+        <source>text.logout</source>
+        <target>__text.logout</target>
+      </trans-unit>
+      <trans-unit id="1KgPIoi" resname="Select image">
+        <source>Select image</source>
+        <target>__Select image</target>
+      </trans-unit>
+      <trans-unit id="xxI2uyW" resname="first_connexion.email_sent.title">
+        <source>first_connexion.email_sent.title</source>
+        <target>__first_connexion.email_sent.title</target>
+      </trans-unit>
+      <trans-unit id="ItVJ_Vi" resname="first_connexion.email_sent.description">
+        <source>first_connexion.email_sent.description</source>
+        <target>__first_connexion.email_sent.description</target>
+      </trans-unit>
+      <trans-unit id="00Z5zw4" resname="first_connexion.request.title">
+        <source>first_connexion.request.title</source>
+        <target>__first_connexion.request.title</target>
+      </trans-unit>
+      <trans-unit id="u7hr4eB" resname="first_connexion.request.description">
+        <source>first_connexion.request.description</source>
+        <target>__first_connexion.request.description</target>
+      </trans-unit>
+      <trans-unit id="gVaCu69" resname="first_connexion.request.alert.not_found">
+        <source>first_connexion.request.alert.not_found</source>
+        <target>__first_connexion.request.alert.not_found</target>
+      </trans-unit>
+      <trans-unit id="ihxrXBb" resname="first_connexion.request.alert.already_initialized">
+        <source>first_connexion.request.alert.already_initialized</source>
+        <target>__first_connexion.request.alert.already_initialized</target>
+      </trans-unit>
+      <trans-unit id="GaweBlU" resname="first_connexion.request.form.email">
+        <source>first_connexion.request.form.email</source>
+        <target>__first_connexion.request.form.email</target>
+      </trans-unit>
+      <trans-unit id="Vz_A3J." resname="first_connexion.request.submit">
+        <source>first_connexion.request.submit</source>
+        <target>__first_connexion.request.submit</target>
+      </trans-unit>
+      <trans-unit id="igmwK8E" resname="text.dashboard">
+        <source>text.dashboard</source>
+        <target>__text.dashboard</target>
+      </trans-unit>
+      <trans-unit id="lFK87HZ" resname="reset.done.title">
+        <source>reset.done.title</source>
+        <target>__reset.done.title</target>
+      </trans-unit>
+      <trans-unit id="7EBe0rQ" resname="reset.done.description">
+        <source>reset.done.description</source>
+        <target>__reset.done.description</target>
+      </trans-unit>
+      <trans-unit id="Y38qAJb" resname="blocked.title">
+        <source>blocked.title</source>
+        <target>__blocked.title</target>
+      </trans-unit>
+      <trans-unit id="zcSn.Kb" resname="blocked_account.description">
+        <source>blocked_account.description</source>
+        <target>__blocked_account.description</target>
+      </trans-unit>
+      <trans-unit id="Rv1iGN4" resname="reset.email_sent.title">
+        <source>reset.email_sent.title</source>
+        <target>__reset.email_sent.title</target>
+      </trans-unit>
+      <trans-unit id="_80FCc8" resname="reset.email_sent.description">
+        <source>reset.email_sent.description</source>
+        <target>__reset.email_sent.description</target>
+      </trans-unit>
+      <trans-unit id="zxPhMeE" resname="too_old_password.title">
+        <source>too_old_password.title</source>
+        <target>__too_old_password.title</target>
+      </trans-unit>
+      <trans-unit id="cuaSh02" resname="too_old_password.description">
+        <source>too_old_password.description</source>
+        <target>__too_old_password.description</target>
+      </trans-unit>
+      <trans-unit id="wzXmNKO" resname="reset.proceed.title">
+        <source>reset.proceed.title</source>
+        <target>__reset.proceed.title</target>
+      </trans-unit>
+      <trans-unit id="9s5r8ls" resname="reset.proceed.submit">
+        <source>reset.proceed.submit</source>
+        <target>__reset.proceed.submit</target>
+      </trans-unit>
+      <trans-unit id="zfXbw.b" resname="too_old_login.title">
+        <source>too_old_login.title</source>
+        <target>__too_old_login.title</target>
+      </trans-unit>
+      <trans-unit id="d9SBD4G" resname="too_old_login.description">
+        <source>too_old_login.description</source>
+        <target>__too_old_login.description</target>
+      </trans-unit>
+      <trans-unit id="WoamraD" resname="reset.request.title">
+        <source>reset.request.title</source>
+        <target>__reset.request.title</target>
+      </trans-unit>
+      <trans-unit id="N653r69" resname="reset.request.subtitle">
+        <source>reset.request.subtitle</source>
+        <target>__reset.request.subtitle</target>
+      </trans-unit>
+      <trans-unit id="bFhzZKo" resname="reset.request.form">
+        <source>reset.request.form</source>
+        <target>__reset.request.form</target>
+      </trans-unit>
+      <trans-unit id="DMXo6T7" resname="reset.request.alert.not_found">
+        <source>reset.request.alert.not_found</source>
+        <target>__reset.request.alert.not_found</target>
+      </trans-unit>
+      <trans-unit id="Df_pOIB" resname="reset.request.submit">
+        <source>reset.request.submit</source>
+        <target>__reset.request.submit</target>
+      </trans-unit>
+      <trans-unit id="0s8fw_K" resname="activation.email.title">
+        <source>activation.email.title</source>
+        <target>__activation.email.title</target>
+      </trans-unit>
+      <trans-unit id="en29wLA" resname="activation.email.description">
+        <source>activation.email.description</source>
+        <target>__activation.email.description</target>
+      </trans-unit>
+      <trans-unit id="emZjgS8" resname="activation.email.button">
+        <source>activation.email.button</source>
+        <target>__activation.email.button</target>
+      </trans-unit>
+      <trans-unit id="UUFPoOn" resname="reset.email.title">
+        <source>reset.email.title</source>
+        <target>__reset.email.title</target>
+      </trans-unit>
+      <trans-unit id="alwzkBa" resname="reset.email.description">
+        <source>reset.email.description</source>
+        <target>__reset.email.description</target>
+      </trans-unit>
+      <trans-unit id="q5SnqGz" resname="reset.email.button">
+        <source>reset.email.button</source>
+        <target>__reset.email.button</target>
+      </trans-unit>
+      <trans-unit id="TAqAwE4" resname="login.greetings.hello">
+        <source>login.greetings.hello</source>
+        <target>__login.greetings.hello</target>
+      </trans-unit>
+      <trans-unit id="dnoZ46m" resname="login.greetings.good_evening">
+        <source>login.greetings.good_evening</source>
+        <target>__login.greetings.good_evening</target>
+      </trans-unit>
+      <trans-unit id="nbRXu.j" resname="login.greetings.good_night">
+        <source>login.greetings.good_night</source>
+        <target>__login.greetings.good_night</target>
+      </trans-unit>
+      <trans-unit id="bExDrRX" resname="login.form.login.label">
+        <source>login.form.login.label</source>
+        <target>__login.form.login.label</target>
+      </trans-unit>
+      <trans-unit id="o9XCysE" resname="login.form.login.alert">
+        <source>login.form.login.alert</source>
+        <target>__login.form.login.alert</target>
+      </trans-unit>
+      <trans-unit id="2YSNbQa" resname="login.form.password.label">
+        <source>login.form.password.label</source>
+        <target>__login.form.password.label</target>
+      </trans-unit>
+      <trans-unit id="W5EwJWG" resname="text.forgotten_password_question">
+        <source>text.forgotten_password_question</source>
+        <target>__text.forgotten_password_question</target>
+      </trans-unit>
+      <trans-unit id="T66nNEP" resname="login.form.password.alert">
+        <source>login.form.password.alert</source>
+        <target>__login.form.password.alert</target>
+      </trans-unit>
+      <trans-unit id="EDMYfps" resname="login.form.remember_me">
+        <source>login.form.remember_me</source>
+        <target>__login.form.remember_me</target>
+      </trans-unit>
+      <trans-unit id="rN2L9rX" resname="login.form.submit">
+        <source>login.form.submit</source>
+        <target>__login.form.submit</target>
+      </trans-unit>
+      <trans-unit id=".3xqvI." resname="login.first_connexion_link">
+        <source>login.first_connexion_link</source>
+        <target>__login.first_connexion_link</target>
+      </trans-unit>
+      <trans-unit id="PFZljUk" resname="activation.request_expired.title">
+        <source>activation.request_expired.title</source>
+        <target>__activation.request_expired.title</target>
+      </trans-unit>
+      <trans-unit id="TIDtCLu" resname="activation.request_expired.description">
+        <source>activation.request_expired.description</source>
+        <target>__activation.request_expired.description</target>
+      </trans-unit>
+      <trans-unit id="qwxaFiH" resname="activation.choose_password.title">
+        <source>activation.choose_password.title</source>
+        <target>__activation.choose_password.title</target>
+      </trans-unit>
+      <trans-unit id="WbK7noU" resname="activation.choose_password.submit">
+        <source>activation.choose_password.submit</source>
+        <target>__activation.choose_password.submit</target>
+      </trans-unit>
+      <trans-unit id="L5JxRg4" resname="activation.success.title">
+        <source>activation.success.title</source>
+        <target>__activation.success.title</target>
+      </trans-unit>
+      <trans-unit id="IOdPoMJ" resname="activation.success.description">
+        <source>activation.success.description</source>
+        <target>__activation.success.description</target>
+      </trans-unit>
+      <trans-unit id="J3odF5E" resname="library.datatabler.size">
+        <source>library.datatabler.size</source>
+        <target>__library.datatabler.size</target>
+      </trans-unit>
+      <trans-unit id="j.gm4ai" resname="library.datatabler.format">
+        <source>library.datatabler.format</source>
+        <target>__library.datatabler.format</target>
+      </trans-unit>
+      <trans-unit id="phpefr0" resname="library.datatabler.title">
+        <source>library.datatabler.title</source>
+        <target>__library.datatabler.title</target>
+      </trans-unit>
+      <trans-unit id="UqEjQk3" resname="files.widget.title">
+        <source>files.widget.title</source>
+        <target>__files.widget.title</target>
+      </trans-unit>
+      <trans-unit id="0vA.K9d" resname="files.widget.add_button">
+        <source>files.widget.add_button</source>
+        <target>__files.widget.add_button</target>
+      </trans-unit>
+      <trans-unit id="lhu38rm" resname="files.widget.no_selected_file">
+        <source>files.widget.no_selected_file</source>
+        <target>__files.widget.no_selected_file</target>
+      </trans-unit>
+      <trans-unit id="dhdGqSA" resname="library.files.modal.title">
+        <source>library.files.modal.title</source>
+        <target>__library.files.modal.title</target>
+      </trans-unit>
+      <trans-unit id="YB0uXmO" resname="library.datatabler.date">
+        <source>library.datatabler.date</source>
+        <target>__library.datatabler.date</target>
+      </trans-unit>
+      <trans-unit id="GKIih9M" resname="library.datatabler.properties">
+        <source>library.datatabler.properties</source>
+        <target>__library.datatabler.properties</target>
+      </trans-unit>
+      <trans-unit id="tbXOc.3" resname="text.warning">
+        <source>text.warning</source>
+        <target>__text.warning</target>
+      </trans-unit>
+      <trans-unit id="rwswXE8" resname="library.files.modal.warning_no_selection">
+        <source>library.files.modal.warning_no_selection</source>
+        <target>__library.files.modal.warning_no_selection</target>
+      </trans-unit>
+      <trans-unit id="T6jVkt6" resname="library.files.modal.upload_button">
+        <source>library.files.modal.upload_button</source>
+        <target>__library.files.modal.upload_button</target>
+      </trans-unit>
+      <trans-unit id="k4Yl23T" resname="text.close">
+        <source>text.close</source>
+        <target>__text.close</target>
+      </trans-unit>
+      <trans-unit id="8RcXac7" resname="library.files.modal.submit">
+        <source>library.files.modal.submit</source>
+        <target>__library.files.modal.submit</target>
+      </trans-unit>
+      <trans-unit id="lcmoyRF" resname="images.widget.button.edit_image">
+        <source>images.widget.button.edit_image</source>
+        <target>__images.widget.button.edit_image</target>
+      </trans-unit>
+      <trans-unit id="hwZ7Mjk" resname="images.widget.crop_image">
+        <source>images.widget.crop_image</source>
+        <target>__images.widget.crop_image</target>
+      </trans-unit>
+      <trans-unit id="cqt2vMv" resname="images.widget.button.crop_image">
+        <source>images.widget.button.crop_image</source>
+        <target>__images.widget.button.crop_image</target>
+      </trans-unit>
+      <trans-unit id="J6OSqSp" resname="images.widget.button.edit_alt">
+        <source>images.widget.button.edit_alt</source>
+        <target>__images.widget.button.edit_alt</target>
+      </trans-unit>
+      <trans-unit id="1l.CI4L" resname="images.widget.button.unlink_image">
+        <source>images.widget.button.unlink_image</source>
+        <target>__images.widget.button.unlink_image</target>
+      </trans-unit>
+      <trans-unit id="rfLm64M" resname="images.widget.form.edit_alt.title">
+        <source>images.widget.form.edit_alt.title</source>
+        <target>__images.widget.form.edit_alt.title</target>
+      </trans-unit>
+      <trans-unit id="gdzgJOd" resname="images.widget.form.edit_alt.abort">
+        <source>images.widget.form.edit_alt.abort</source>
+        <target>__images.widget.form.edit_alt.abort</target>
+      </trans-unit>
+      <trans-unit id="wQItSVk" resname="images.widget.form.edit_alt.submit">
+        <source>images.widget.form.edit_alt.submit</source>
+        <target>__images.widget.form.edit_alt.submit</target>
+      </trans-unit>
+      <trans-unit id="yep7N8E" resname="text.no_title">
+        <source>text.no_title</source>
+        <target>__text.no_title</target>
+      </trans-unit>
+      <trans-unit id="oIU8AWj" resname="text_choose_image">
+        <source>text_choose_image</source>
+        <target>__text_choose_image</target>
+      </trans-unit>
+      <trans-unit id="HOfGtpn" resname="text.featured_image">
+        <source>text.featured_image</source>
+        <target>__text.featured_image</target>
+      </trans-unit>
+      <trans-unit id="NeQmQTq" resname="library.images.modal.title">
+        <source>library.images.modal.title</source>
+        <target>__library.images.modal.title</target>
+      </trans-unit>
+      <trans-unit id="Du8_O1_" resname="library.datatabler.preview">
+        <source>library.datatabler.preview</source>
+        <target>__library.datatabler.preview</target>
+      </trans-unit>
+      <trans-unit id="CAvNyq7" resname="library.images.modal.editor_crop.title">
+        <source>library.images.modal.editor_crop.title</source>
+        <target>__library.images.modal.editor_crop.title</target>
+      </trans-unit>
+      <trans-unit id="duP5o3B" resname="library.images.modal.editor_crop.description">
+        <source>library.images.modal.editor_crop.description</source>
+        <target>__library.images.modal.editor_crop.description</target>
+      </trans-unit>
+      <trans-unit id="44nMvFE" resname="library.images.modal.editor_crop.description.size_warning">
+        <source>library.images.modal.editor_crop.description.size_warning</source>
+        <target>__library.images.modal.editor_crop.description.size_warning</target>
+      </trans-unit>
+      <trans-unit id="9lSYei1" resname="library.images.modal.editor_crop.description.size_warning_consequence">
+        <source>library.images.modal.editor_crop.description.size_warning_consequence</source>
+        <target>__library.images.modal.editor_crop.description.size_warning_consequence</target>
+      </trans-unit>
+      <trans-unit id="xmRAu5R" resname="library.images.modal.editor_crop.editor_filters.title">
+        <source>library.images.modal.editor_crop.editor_filters.title</source>
+        <target>__library.images.modal.editor_crop.editor_filters.title</target>
+      </trans-unit>
+      <trans-unit id="RYUHtAL" resname="library.images.modal.editor_crop.editor_filters.auto">
+        <source>library.images.modal.editor_crop.editor_filters.auto</source>
+        <target>__library.images.modal.editor_crop.editor_filters.auto</target>
+      </trans-unit>
+      <trans-unit id="DX68yRj" resname="library.images.modal.editor_crop.editor_filters.100">
+        <source>library.images.modal.editor_crop.editor_filters.100</source>
+        <target>__library.images.modal.editor_crop.editor_filters.100</target>
+      </trans-unit>
+      <trans-unit id="npT9tn8" resname="library.images.modal.editor_crop.editor_filters.200">
+        <source>library.images.modal.editor_crop.editor_filters.200</source>
+        <target>__library.images.modal.editor_crop.editor_filters.200</target>
+      </trans-unit>
+      <trans-unit id="qVDZrLI" resname="library.images.modal.editor_crop.editor_filters.300">
+        <source>library.images.modal.editor_crop.editor_filters.300</source>
+        <target>__library.images.modal.editor_crop.editor_filters.300</target>
+      </trans-unit>
+      <trans-unit id="4q3sgRm" resname="library.images.modal.editor_crop.editor_filters.400">
+        <source>library.images.modal.editor_crop.editor_filters.400</source>
+        <target>__library.images.modal.editor_crop.editor_filters.400</target>
+      </trans-unit>
+      <trans-unit id="HyLy_e8" resname="library.images.modal.editor_crop.editor_filters.600">
+        <source>library.images.modal.editor_crop.editor_filters.600</source>
+        <target>__library.images.modal.editor_crop.editor_filters.600</target>
+      </trans-unit>
+      <trans-unit id="._uEDis" resname="library.images.modal.editor_crop.editor_filters.800">
+        <source>library.images.modal.editor_crop.editor_filters.800</source>
+        <target>__library.images.modal.editor_crop.editor_filters.800</target>
+      </trans-unit>
+      <trans-unit id="1RGes_L" resname="library.images.modal.editor_crop.editor_filters.100pc">
+        <source>library.images.modal.editor_crop.editor_filters.100pc</source>
+        <target>__library.images.modal.editor_crop.editor_filters.100pc</target>
+      </trans-unit>
+      <trans-unit id="KXNHXza" resname="library.images.modal.editor_crop.editor_filters.custom">
+        <source>library.images.modal.editor_crop.editor_filters.custom</source>
+        <target>__library.images.modal.editor_crop.editor_filters.custom</target>
+      </trans-unit>
+      <trans-unit id="kx2DFbV" resname="library.images.modal.editor_crop.custom_filters.title">
+        <source>library.images.modal.editor_crop.custom_filters.title</source>
+        <target>__library.images.modal.editor_crop.custom_filters.title</target>
+      </trans-unit>
+      <trans-unit id="RtQ2Dpz" resname="library.images.modal.seo.title">
+        <source>library.images.modal.seo.title</source>
+        <target>__library.images.modal.seo.title</target>
+      </trans-unit>
+      <trans-unit id="uR.rs36" resname="library.images.modal.seo.alt_image_instruction1">
+        <source>library.images.modal.seo.alt_image_instruction1</source>
+        <target>__library.images.modal.seo.alt_image_instruction1</target>
+      </trans-unit>
+      <trans-unit id="6GzYNC7" resname="library.images.modal.seo.alt_image_instruction2">
+        <source>library.images.modal.seo.alt_image_instruction2</source>
+        <target>__library.images.modal.seo.alt_image_instruction2</target>
+      </trans-unit>
+      <trans-unit id="T41uXm4" resname="library.images.modal.seo.form">
+        <source>library.images.modal.seo.form</source>
+        <target>__library.images.modal.seo.form</target>
+      </trans-unit>
+      <trans-unit id="KYQOTmV" resname="library.images.modal.warning_no_selection">
+        <source>library.images.modal.warning_no_selection</source>
+        <target>__library.images.modal.warning_no_selection</target>
+      </trans-unit>
+      <trans-unit id="ddxY_O0" resname="library.images.modal.upload_button">
+        <source>library.images.modal.upload_button</source>
+        <target>__library.images.modal.upload_button</target>
+      </trans-unit>
+      <trans-unit id="g25yNSN" resname="library.images.modal.submit">
+        <source>library.images.modal.submit</source>
+        <target>__library.images.modal.submit</target>
+      </trans-unit>
+      <trans-unit id="udSZyaf" resname="library.images.modal.attributes.title">
+        <source>library.images.modal.attributes.title</source>
+        <target>__library.images.modal.attributes.title</target>
+      </trans-unit>
+      <trans-unit id="TQPtd2z" resname="library.images.modal.attributes.tab.links">
+        <source>library.images.modal.attributes.tab.links</source>
+        <target>__library.images.modal.attributes.tab.links</target>
+      </trans-unit>
+      <trans-unit id="a.LmdYE" resname="library.images.modal.attributes.tab.attributes">
+        <source>library.images.modal.attributes.tab.attributes</source>
+        <target>__library.images.modal.attributes.tab.attributes</target>
+      </trans-unit>
+      <trans-unit id="hOMexz6" resname="library.images.modal.attributes.form.textlink.title">
+        <source>library.images.modal.attributes.form.textlink.title</source>
+        <target>__library.images.modal.attributes.form.textlink.title</target>
+      </trans-unit>
+      <trans-unit id="Sin3lZH" resname="library.images.modal.attributes.form.textlink.description">
+        <source>library.images.modal.attributes.form.textlink.description</source>
+        <target>__library.images.modal.attributes.form.textlink.description</target>
+      </trans-unit>
+      <trans-unit id="aLiOA.3" resname="library.images.modal.attributes.form.textlink.link">
+        <source>library.images.modal.attributes.form.textlink.link</source>
+        <target>__library.images.modal.attributes.form.textlink.link</target>
+      </trans-unit>
+      <trans-unit id="RxzXvIU" resname="library.images.modal.attributes.form.properties.description">
+        <source>library.images.modal.attributes.form.properties.description</source>
+        <target>__library.images.modal.attributes.form.properties.description</target>
+      </trans-unit>
+      <trans-unit id="5Nqn0.c" resname="library.images.modal.attributes.form.properties.field">
+        <source>library.images.modal.attributes.form.properties.field</source>
+        <target>__library.images.modal.attributes.form.properties.field</target>
+      </trans-unit>
+      <trans-unit id="0AXO09L" resname="library.images.modal.attributes.submit">
+        <source>library.images.modal.attributes.submit</source>
+        <target>__library.images.modal.attributes.submit</target>
+      </trans-unit>
+      <trans-unit id="QBVt6Dt" resname="library.images.modal.crop.title">
+        <source>library.images.modal.crop.title</source>
+        <target>__library.images.modal.crop.title</target>
+      </trans-unit>
+      <trans-unit id="qt.bY4n" resname="library.images.modal.crop.subtitle">
+        <source>library.images.modal.crop.subtitle</source>
+        <target>__library.images.modal.crop.subtitle</target>
+      </trans-unit>
+      <trans-unit id="SNTV7b1" resname="library.images.modal.crop.description">
+        <source>library.images.modal.crop.description</source>
+        <target>__library.images.modal.crop.description</target>
+      </trans-unit>
+      <trans-unit id="XKB5ofZ" resname="library.images.modal.crop.warning">
+        <source>library.images.modal.crop.warning</source>
+        <target>__library.images.modal.crop.warning</target>
+      </trans-unit>
+      <trans-unit id="HCLe5XK" resname="library.images.modal.crop.submit">
+        <source>library.images.modal.crop.submit</source>
+        <target>__library.images.modal.crop.submit</target>
+      </trans-unit>
+      <trans-unit id="xHrbKiG" resname="text.reorder">
+        <source>text.reorder</source>
+        <target>__text.reorder</target>
+      </trans-unit>
+      <trans-unit id="8qLKJin" resname="button.list">
+        <source>button.list</source>
+        <target>__button.list</target>
+      </trans-unit>
+      <trans-unit id="2U2Q7jB" resname="button.create">
+        <source>button.create</source>
+        <target>__button.create</target>
+      </trans-unit>
+      <trans-unit id="cxHbS4R" resname="users.title">
+        <source>users.title</source>
+        <target>__users.title</target>
+      </trans-unit>
+      <trans-unit id=".cJ8GU_" resname="text.edit">
+        <source>text.edit</source>
+        <target>__text.edit</target>
+      </trans-unit>
+      <trans-unit id="WIC8khz" resname="users.form.configuration">
+        <source>users.form.configuration</source>
+        <target>__users.form.configuration</target>
+      </trans-unit>
+      <trans-unit id="tEsS1fq" resname="users.form.avatar">
+        <source>users.form.avatar</source>
+        <target>__users.form.avatar</target>
+      </trans-unit>
+      <trans-unit id="FjOOvMc" resname="users.form.send_activation_link_button">
+        <source>users.form.send_activation_link_button</source>
+        <target>__users.form.send_activation_link_button</target>
+      </trans-unit>
+      <trans-unit id="VqGIGJq" resname="users.list.delete_warning">
+        <source>users.list.delete_warning</source>
+        <target>__users.list.delete_warning</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

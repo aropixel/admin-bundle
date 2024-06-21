@@ -40,22 +40,22 @@
 						{{ form_start(form) }}
 						<div class="card mt-5">
 							<div class="card-header d-flex flex-column justify-content-start align-items-start">
-								<h4 class="mb-1">{% trans %}Forgot your password ?{% endtrans %}</h4>
-								<p class="mb-0">{% trans %}Do not panic ! We will guide you to reset it.{% endtrans %}</p>
+								<h4 class="mb-1">{% trans %}reset.request.title{% endtrans %}</h4>
+								<p class="mb-0">{% trans %}reset.request.subtitle{% endtrans %}</p>
 							</div>
 
 							<div class="card-body">
 
 								<div class="mt-4 mb-4">
-									<label for="email">{% trans %}Enter your e-mail :{% endtrans %}</label>
+									<label for="email">{% trans %}reset.request.form{% endtrans %}</label>
 									{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
 								</div>
-								{% if not_found %}<div class="alert alert-danger">{% trans %}Your email was not found.{% endtrans %}</div>{% endif %}
+								{% if not_found %}<div class="alert alert-danger">{% trans %}reset.request.alert.not_found{% endtrans %}</div>{% endif %}
 
 							</div>
 						</div>
 						<div class="d-flex justify-content-center">
-							<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">{% trans %}Continue{% endtrans %}</button>
+							<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">{% trans %}reset.request.submit{% endtrans %}</button>
 						</div>
 						{{ form_end(form) }}
 

@@ -48,11 +48,11 @@
 
 					<h4>
 						{% if hour >= 5 and hour < 19 %}
-							{% trans %}Hello{% endtrans %}
+							{% trans %}login.greetings.hello{% endtrans %}
 						{% elseif hour >= 19 and hour <=23  %}
-							{% trans %}Good evening{% endtrans %}
+							{% trans %}login.greetings.good_evening{% endtrans %}
 						{% else %}
-							{% trans %}Good night{% endtrans %}
+							{% trans %}login.greetings.good_night{% endtrans %}
 						{% endif %}
 					</h4>
 
@@ -66,41 +66,41 @@
 
 					<form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
 						<div class="form-group">
-							<label for="email" class="control-label">{% trans %}Login{% endtrans %}</label>
+							<label for="email" class="control-label">{% trans %}login.form.login.label{% endtrans %}</label>
 							<input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
 							<div class="invalid-feedback">
-								{% trans %}Please enter your email{% endtrans %}
+								{% trans %}login.form.login.alert{% endtrans %}
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="d-flex justify-content-between ">
-								<label for="password" class="control-label">{% trans %}Password{% endtrans %}</label>
+								<label for="password" class="control-label">{% trans %}login.form.password.label{% endtrans %}</label>
 								<a href="{{ path('aropixel_admin_reset_request') }}" class="text-small">
-									{% trans %}Forgotten password ?{% endtrans %}
+									{% trans %}text.forgotten_password_question{% endtrans %}
 								</a>
 							</div>
 							<input id="password" type="password" class="form-control" name="password" tabindex="2" required>
 							<div class="invalid-feedback">
-								{% trans %}Please enter your password{% endtrans %}
+								{% trans %}login.form.password.alert{% endtrans %}
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="form-check">
 								<input type="checkbox" name="_remember_me" class="form-check-input" tabindex="3" id="remember-me">
-								<label class="form-check-label" for="remember-me">{% trans %}Remember me{% endtrans %}</label>
+								<label class="form-check-label" for="remember-me">{% trans %}login.form.remember_me{% endtrans %}</label>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary w-100" tabindex="4">
-								{% trans %}Submit{% endtrans %}
+								{% trans %}login.form.submit{% endtrans %}
 							</button>
 						</div>
 
 						<div class="text-center">
-							<a href="{{ path('aropixel_admin_security_first_login_request') }}">{% trans %}First connexion ?{% endtrans %}</a>
+							<a href="{{ path('aropixel_admin_security_first_login_request') }}">{% trans %}login.first_connexion_link{% endtrans %}</a>
 						</div>
 
 						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
