@@ -331,7 +331,7 @@
       </trans-unit>
       <trans-unit id="wQItSVk" resname="images.widget.form.edit_alt.submit">
         <source>images.widget.form.edit_alt.submit</source>
-        <target>Texte alternatif</target>
+        <target>Submit</target>
       </trans-unit>
       <trans-unit id="yep7N8E" resname="text.no_title">
         <source>text.no_title</source>
@@ -343,195 +343,199 @@
       </trans-unit>
       <trans-unit id="HOfGtpn" resname="text.featured_image">
         <source>text.featured_image</source>
-        <target>__text.featured_image</target>
+        <target>Featured image</target>
       </trans-unit>
       <trans-unit id="NeQmQTq" resname="library.images.modal.title">
         <source>library.images.modal.title</source>
-        <target>__library.images.modal.title</target>
+        <target>Choose an image</target>
       </trans-unit>
       <trans-unit id="Du8_O1_" resname="library.datatabler.preview">
         <source>library.datatabler.preview</source>
-        <target>__library.datatabler.preview</target>
+        <target>Preview</target>
       </trans-unit>
       <trans-unit id="CAvNyq7" resname="library.images.modal.editor_crop.title">
         <source>library.images.modal.editor_crop.title</source>
-        <target>__library.images.modal.editor_crop.title</target>
+        <target>Adjust the size of your image</target>
       </trans-unit>
       <trans-unit id="duP5o3B" resname="library.images.modal.editor_crop.description">
         <source>library.images.modal.editor_crop.description</source>
-        <target>__library.images.modal.editor_crop.description</target>
+        <target>Select a size for the images to insert in the editor.</target>
       </trans-unit>
       <trans-unit id="44nMvFE" resname="library.images.modal.editor_crop.description.size_warning">
         <source>library.images.modal.editor_crop.description.size_warning</source>
-        <target>__library.images.modal.editor_crop.description.size_warning</target>
+        <target>Be careful not to select an image size larger than the original size.</target>
       </trans-unit>
       <trans-unit id="9lSYei1" resname="library.images.modal.editor_crop.description.size_warning_consequence">
         <source>library.images.modal.editor_crop.description.size_warning_consequence</source>
-        <target>__library.images.modal.editor_crop.description.size_warning_consequence</target>
+        <target>The inserted image may be of poor quality.</target>
       </trans-unit>
       <trans-unit id="xmRAu5R" resname="library.images.modal.editor_crop.editor_filters.title">
         <source>library.images.modal.editor_crop.editor_filters.title</source>
-        <target>__library.images.modal.editor_crop.editor_filters.title</target>
+        <target>Image width</target>
       </trans-unit>
       <trans-unit id="RYUHtAL" resname="library.images.modal.editor_crop.editor_filters.auto">
         <source>library.images.modal.editor_crop.editor_filters.auto</source>
-        <target>__library.images.modal.editor_crop.editor_filters.auto</target>
+        <target>Auto width</target>
       </trans-unit>
       <trans-unit id="DX68yRj" resname="library.images.modal.editor_crop.editor_filters.100">
         <source>library.images.modal.editor_crop.editor_filters.100</source>
-        <target>__library.images.modal.editor_crop.editor_filters.100</target>
+        <target>Width 100px</target>
       </trans-unit>
       <trans-unit id="npT9tn8" resname="library.images.modal.editor_crop.editor_filters.200">
         <source>library.images.modal.editor_crop.editor_filters.200</source>
-        <target>__library.images.modal.editor_crop.editor_filters.200</target>
+        <target>Width 200px</target>
       </trans-unit>
       <trans-unit id="qVDZrLI" resname="library.images.modal.editor_crop.editor_filters.300">
         <source>library.images.modal.editor_crop.editor_filters.300</source>
-        <target>__library.images.modal.editor_crop.editor_filters.300</target>
+        <target>Width 300px</target>
       </trans-unit>
       <trans-unit id="4q3sgRm" resname="library.images.modal.editor_crop.editor_filters.400">
         <source>library.images.modal.editor_crop.editor_filters.400</source>
-        <target>__library.images.modal.editor_crop.editor_filters.400</target>
+        <target>Width 400px</target>
       </trans-unit>
       <trans-unit id="HyLy_e8" resname="library.images.modal.editor_crop.editor_filters.600">
         <source>library.images.modal.editor_crop.editor_filters.600</source>
-        <target>__library.images.modal.editor_crop.editor_filters.600</target>
+        <target>Width 600px</target>
       </trans-unit>
       <trans-unit id="._uEDis" resname="library.images.modal.editor_crop.editor_filters.800">
         <source>library.images.modal.editor_crop.editor_filters.800</source>
-        <target>__library.images.modal.editor_crop.editor_filters.800</target>
+        <target>Width 800px</target>
       </trans-unit>
       <trans-unit id="1RGes_L" resname="library.images.modal.editor_crop.editor_filters.100pc">
         <source>library.images.modal.editor_crop.editor_filters.100pc</source>
-        <target>__library.images.modal.editor_crop.editor_filters.100pc</target>
+        <target>Width 100%</target>
       </trans-unit>
       <trans-unit id="KXNHXza" resname="library.images.modal.editor_crop.editor_filters.custom">
         <source>library.images.modal.editor_crop.editor_filters.custom</source>
-        <target>__library.images.modal.editor_crop.editor_filters.custom</target>
+        <target>Crop preset</target>
       </trans-unit>
       <trans-unit id="kx2DFbV" resname="library.images.modal.editor_crop.custom_filters.title">
         <source>library.images.modal.editor_crop.custom_filters.title</source>
-        <target>__library.images.modal.editor_crop.custom_filters.title</target>
+        <target>Choose your crop</target>
       </trans-unit>
       <trans-unit id="RtQ2Dpz" resname="library.images.modal.seo.title">
         <source>library.images.modal.seo.title</source>
-        <target>__library.images.modal.seo.title</target>
+        <target>SEO</target>
       </trans-unit>
       <trans-unit id="uR.rs36" resname="library.images.modal.seo.alt_image_instruction1">
         <source>library.images.modal.seo.alt_image_instruction1</source>
-        <target>__library.images.modal.seo.alt_image_instruction1</target>
+        <target>Enter the alt attribute of your image tag.</target>
       </trans-unit>
       <trans-unit id="6GzYNC7" resname="library.images.modal.seo.alt_image_instruction2">
         <source>library.images.modal.seo.alt_image_instruction2</source>
-        <target>__library.images.modal.seo.alt_image_instruction2</target>
+        <target><![CDATA[The <em>alt</em> attribute is used for referencing the site and your images.<br />It allows you to associate keywords or an expression with your image.]]></target>
       </trans-unit>
       <trans-unit id="T41uXm4" resname="library.images.modal.seo.form">
         <source>library.images.modal.seo.form</source>
-        <target>__library.images.modal.seo.form</target>
+        <target><![CDATA[<em>alt</em> attribute of your image tag]]></target>
       </trans-unit>
       <trans-unit id="KYQOTmV" resname="library.images.modal.warning_no_selection">
         <source>library.images.modal.warning_no_selection</source>
-        <target>__library.images.modal.warning_no_selection</target>
+        <target>You must select an image.</target>
       </trans-unit>
       <trans-unit id="ddxY_O0" resname="library.images.modal.upload_button">
         <source>library.images.modal.upload_button</source>
-        <target>__library.images.modal.upload_button</target>
+        <target>Upload images</target>
       </trans-unit>
       <trans-unit id="g25yNSN" resname="library.images.modal.submit">
         <source>library.images.modal.submit</source>
-        <target>__library.images.modal.submit</target>
+        <target>Select image(s)</target>
+      </trans-unit>
+      <trans-unit id="1KgPIoi" resname="Select image">
+        <source>Select image</source>
+        <target>Select image</target>
       </trans-unit>
       <trans-unit id="udSZyaf" resname="library.images.modal.attributes.title">
         <source>library.images.modal.attributes.title</source>
-        <target>__library.images.modal.attributes.title</target>
+        <target>Image properties</target>
       </trans-unit>
       <trans-unit id="TQPtd2z" resname="library.images.modal.attributes.tab.links">
         <source>library.images.modal.attributes.tab.links</source>
-        <target>__library.images.modal.attributes.tab.links</target>
+        <target>Texts and links</target>
       </trans-unit>
       <trans-unit id="a.LmdYE" resname="library.images.modal.attributes.tab.attributes">
         <source>library.images.modal.attributes.tab.attributes</source>
-        <target>__library.images.modal.attributes.tab.attributes</target>
+        <target>HTML properties</target>
       </trans-unit>
       <trans-unit id="hOMexz6" resname="library.images.modal.attributes.form.textlink.title">
         <source>library.images.modal.attributes.form.textlink.title</source>
-        <target>__library.images.modal.attributes.form.textlink.title</target>
+        <target>Image title</target>
       </trans-unit>
       <trans-unit id="Sin3lZH" resname="library.images.modal.attributes.form.textlink.description">
         <source>library.images.modal.attributes.form.textlink.description</source>
-        <target>__library.images.modal.attributes.form.textlink.description</target>
+        <target>Image description</target>
       </trans-unit>
       <trans-unit id="aLiOA.3" resname="library.images.modal.attributes.form.textlink.link">
         <source>library.images.modal.attributes.form.textlink.link</source>
-        <target>__library.images.modal.attributes.form.textlink.link</target>
+        <target>Link</target>
       </trans-unit>
       <trans-unit id="RxzXvIU" resname="library.images.modal.attributes.form.properties.description">
         <source>library.images.modal.attributes.form.properties.description</source>
-        <target>__library.images.modal.attributes.form.properties.description</target>
+        <target><![CDATA[<strong>Fill in the HTML attributes of your image tag.</strong><br />Attributes can be useful for SEO or for image management plugins (popups, filters, etc.).]]></target>
       </trans-unit>
       <trans-unit id="5Nqn0.c" resname="library.images.modal.attributes.form.properties.field">
         <source>library.images.modal.attributes.form.properties.field</source>
-        <target>__library.images.modal.attributes.form.properties.field</target>
+        <target><![CDATA[%target% attribute of your image tag]]></target>
       </trans-unit>
       <trans-unit id="0AXO09L" resname="library.images.modal.attributes.submit">
         <source>library.images.modal.attributes.submit</source>
-        <target>__library.images.modal.attributes.submit</target>
+        <target>Submit</target>
       </trans-unit>
       <trans-unit id="QBVt6Dt" resname="library.images.modal.crop.title">
         <source>library.images.modal.crop.title</source>
-        <target>__library.images.modal.crop.title</target>
+        <target>Crop image</target>
       </trans-unit>
       <trans-unit id="qt.bY4n" resname="library.images.modal.crop.subtitle">
         <source>library.images.modal.crop.subtitle</source>
-        <target>__library.images.modal.crop.subtitle</target>
+        <target>Adjust your image crops</target>
       </trans-unit>
       <trans-unit id="SNTV7b1" resname="library.images.modal.crop.description">
         <source>library.images.modal.crop.description</source>
-        <target>__library.images.modal.crop.description</target>
+        <target>Optimize the display of images on your website, by adjusting the different cutouts of your images.</target>
       </trans-unit>
       <trans-unit id="XKB5ofZ" resname="library.images.modal.crop.warning">
         <source>library.images.modal.crop.warning</source>
-        <target>__library.images.modal.crop.warning</target>
+        <target>Be careful, if you reduce your selection area a lot, the quality could be affected.</target>
       </trans-unit>
       <trans-unit id="HCLe5XK" resname="library.images.modal.crop.submit">
         <source>library.images.modal.crop.submit</source>
-        <target>__library.images.modal.crop.submit</target>
+        <target>Submit</target>
       </trans-unit>
       <trans-unit id="xHrbKiG" resname="text.reorder">
         <source>text.reorder</source>
-        <target>__text.reorder</target>
+        <target>Reorder</target>
       </trans-unit>
       <trans-unit id="8qLKJin" resname="button.list">
         <source>button.list</source>
-        <target>__button.list</target>
+        <target>List</target>
       </trans-unit>
       <trans-unit id="2U2Q7jB" resname="button.create">
         <source>button.create</source>
-        <target>__button.create</target>
+        <target>Create</target>
       </trans-unit>
       <trans-unit id="cxHbS4R" resname="users.title">
         <source>users.title</source>
-        <target>__users.title</target>
+        <target>Users</target>
       </trans-unit>
       <trans-unit id=".cJ8GU_" resname="text.edit">
         <source>text.edit</source>
-        <target>__text.edit</target>
+        <target>Edit</target>
       </trans-unit>
       <trans-unit id="WIC8khz" resname="users.form.configuration">
         <source>users.form.configuration</source>
-        <target>__users.form.configuration</target>
+        <target>Configuration</target>
       </trans-unit>
       <trans-unit id="tEsS1fq" resname="users.form.avatar">
         <source>users.form.avatar</source>
-        <target>__users.form.avatar</target>
+        <target>Avatar</target>
       </trans-unit>
       <trans-unit id="FjOOvMc" resname="users.form.send_activation_link_button">
         <source>users.form.send_activation_link_button</source>
-        <target>__users.form.send_activation_link_button</target>
+        <target>Resend account creation email</target>
       </trans-unit>
       <trans-unit id="VqGIGJq" resname="users.list.delete_warning">
         <source>users.list.delete_warning</source>
-        <target>__users.list.delete_warning</target>
+        <target>Are you sure you want to delete this user ?</target>
       </trans-unit>
     </body>
   </file>
