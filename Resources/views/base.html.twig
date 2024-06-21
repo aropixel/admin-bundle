@@ -35,89 +35,108 @@
 
     </head>
 
-    <body{% if admin_theme.menu_position == "top" %} class="layout-3" {% endif %}>
+    {% set menu_position = admin_theme.menu_position %}
+    {% set quickMenu = get_quick_menu() %}
+    {% set adminMenu = aropixel_admin_render_menu() %}
+
+    <body{% if menu_position == "top" %} class="layout-3" {% endif %}>
 
         <div id="app">
-            <div class="main-wrapper {{ admin_theme.menu_position=="top" ? "container" : "main-wrapper-1" }}">
-                <div class="navbar-bg"></div>
 
-                <nav class="navbar {% if admin_theme.menu_position == "top" %} justify-content-between{% endif %}">
+            <div class="main-wrapper {{ menu_position == "top" ? "container" : "main-wrapper-1" }}">
 
-                    <div class="container-fluid">
+                {% if menu_position == "fullscreen" %}
 
-                        {% block topbar_left %}
-                            {% if admin_theme.menu_position == "left" %}
-                                <form class="form-inline mr-auto">
-                                    <ul class="navbar-nav mr-3">
-                                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-                                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
-                                    </ul>
-                                </form>
-                            {% else %}
-                                <a href="{{ url('_admin') }}" class="navbar-brand sidebar-gone-hide">{{ admin_client.name }}</a>
-                                <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
-                            {% endif %}
-                        {% endblock %}
+                    {% include '@AropixelAdmin/Menu/fullscreen.html.twig' %}
 
-                        <div class="dropdown-center dropstart">
-
-                            {% block topbar_right %}
-                            {% endblock %}
-
-                            <a href="#" class="dropdown-toggle nav-link nav-link-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% block navbar_nav_img %}
-                                    <img alt="image" src="{{ app.user.image ? app.user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
-                                {% endblock %}
-                                <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
-                                    <i class="far fa-user"></i> Mon profil
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                                </a>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </nav>
-
-                {% set adminMenu = aropixel_admin_render_menu() %}
-                {% if admin_theme.menu_position == 'left' %}
-
-                {% block main_sidebar %}
-                    <div class="main-sidebar sidebar-style-2">
-                        <aside id="sidebar-wrapper">
-                            <div class="sidebar-brand">
-                                <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
-                            </div>
-                            <div class="sidebar-brand sidebar-brand-sm">
-                                <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
-                            </div>
-
-                            {{ adminMenu | raw }}
-
-                        </aside>
-                    </div>
-                {% endblock %}
                 {% else %}
 
-                    <nav class="navbar navbar-secondary navbar-expand-lg">
-                        <div class="container">
+                    <div class="navbar-bg"></div>
 
-                            {{ adminMenu | raw }}
+                    <nav class="navbar {% if menu_position == "top" %} justify-content-between{% endif %}">
+
+                        <div class="container-fluid">
+
+                            {% block topbar_left %}
+                                {% if menu_position == "left" %}
+                                    <form class="form-inline mr-auto">
+                                        <ul class="navbar-nav mr-3">
+                                            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                                            <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
+                                        </ul>
+                                    </form>
+                                {% elseif menu_position == "fullscreen" %}
+                                {% else %}
+                                    <a href="{{ url('_admin') }}" class="navbar-brand sidebar-gone-hide">{{ admin_client.name }}</a>
+                                    <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
+                                {% endif %}
+                            {% endblock %}
+
+                            <div class="dropdown-center dropstart">
+
+                                {% block topbar_right %}
+                                {% endblock %}
+
+                                <a href="#" class="dropdown-toggle nav-link nav-link-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% block navbar_nav_img %}
+                                        <img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" class="user-avatar mr-1">
+                                    {% endblock %}
+                                    <div class="d-sm-none d-lg-inline-block">{% block user_name %}{#{{app.user.firstName}} {{app.user.lastName}}#}{% endblock %}</div>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
+                                        <i class="far fa-user"></i> Mon profil
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
+                                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                    </a>
+                                </div>
+
+                            </div>
 
                         </div>
                     </nav>
 
+                    {% if menu_position == 'left' %}
+
+                        {% block main_sidebar %}
+                            <div class="main-sidebar sidebar-style-2">
+                                <aside id="sidebar-wrapper">
+                                    <div class="sidebar-brand">
+                                        <a href="{{ url('_admin') }}">{{ admin_client.name }}</a>
+                                    </div>
+                                    <div class="sidebar-brand sidebar-brand-sm">
+                                        <a href="{{ url('_admin') }}"><img alt="image" src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" height="20"></a>
+                                    </div>
+
+                                    {{ adminMenu | raw }}
+
+                                </aside>
+                            </div>
+                        {% endblock %}
+
+                    {% elseif menu_position == 'fullscreen' %}
+
+                        truc
+
+                    {% else %}
+
+                        <nav class="navbar navbar-secondary navbar-expand-lg">
+                            <div class="container">
+
+                                {{ adminMenu | raw }}
+
+                            </div>
+                        </nav>
+
+                    {% endif %}
+
                 {% endif %}
 
                 <!-- Main Content -->
-                <div class="main-content">
+                <div class="main-content {% if menu_position == "fullscreen" %}main-content-fullscreen{% endif %}">
 
                     <section class="section-header mt-3">
 
@@ -204,6 +223,7 @@
             <script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/stisla.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/fullscreen.js') }}"></script>
         <!-- JS Libraies -->
         {% endblock %}
 

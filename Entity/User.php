@@ -60,8 +60,8 @@ class User implements UserInterface
     #[ORM\Column(type: "datetime", nullable: true)]
     protected ?\DateTime $lastLogin = null;
 
-    #[ORM\OneToOne(targetEntity: "Aropixel\AdminBundle\Entity\UserImage", mappedBy: "user", cascade: ["persist", "remove"])]
-    protected ?UserImage $image = null;
+//    #[ORM\OneToOne(targetEntity: "Aropixel\AdminBundle\Entity\UserImage", mappedBy: "user", cascade: ["persist", "remove"])]
+//    protected ?UserImage $image = null;
 
 
     public function getId(): ?int

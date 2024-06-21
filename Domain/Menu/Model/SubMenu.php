@@ -1,14 +1,7 @@
 <?php
-/**
- * Créé par Aropixel @2023.
- * Par: Joël Gomez Caballe
- * Date: 09/02/2023 à 14:23
- */
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class SubMenu implements ItemInterface, IterableInterface
@@ -25,12 +18,9 @@ class SubMenu implements ItemInterface, IterableInterface
 
     private ?IterableInterface $parent = null;
 
+    private ?Link $defaultChild = null;
 
-    /**
-     * @param string $label
-     * @param array $properties
-     * @param string|null $id
-     */
+
     public function __construct(string $label, array $properties, ?string $id=null)
     {
         $this->label = $label;
@@ -48,33 +38,21 @@ class SubMenu implements ItemInterface, IterableInterface
         return count($this->items);
     }
 
-    /**
-     * @return IterableInterface|null
-     */
     public function getParent(): ?IterableInterface
     {
         return $this->parent;
     }
 
-    /**
-     * @param IterableInterface|null $parent
-     */
     public function setParent(?IterableInterface $parent): void
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return array
-     */
     public function getProperties(): array
     {
         return $this->properties;
@@ -85,30 +63,20 @@ class SubMenu implements ItemInterface, IterableInterface
         return array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     */
     public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return ItemInterface[]
-     */
     public function getItems(): array
     {
         return $this->items;
     }
-
 
     public function addItem(ItemInterface $item) : void
     {
@@ -134,6 +102,16 @@ class SubMenu implements ItemInterface, IterableInterface
     {
         $slugger = new AsciiSlugger();
         return strtolower($slugger->slug($label));
+    }
+
+    public function getDefaultChild(): ?Link
+    {
+        return $this->defaultChild;
+    }
+
+    public function setDefaultChild(?Link $defaultChild): void
+    {
+        $this->defaultChild = $defaultChild;
     }
 
 }

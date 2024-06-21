@@ -1,0 +1,87 @@
+{% include '@AropixelAdmin/Menu/_fullscreen-menu.html.twig' %}
+
+<nav class="fullscreen-navbar">
+
+    <div class="d-flex align-items-center">
+        <i class="fas fa-bars m-r-30" id="burgerMenu"></i>
+        <a href="" class="logo">
+            <img src="" alt="">
+        </a>
+    </div>
+
+    <ul class="navbar-links">
+
+        <li class="dropdown">
+
+            <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <svg data-tnl-toggle="tooltip" data-bs-placement="right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 24px" aria-label="Mon profil" data-bs-original-title="Mon profil">
+                    <path class="navbar-icon-blue" fill-rule="evenodd" clip-rule="evenodd" d="M6 8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8C18 11.3137 15.3137 14 12 14C8.68629 14 6 11.3137 6 8Z" fill="#424242"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.43094 16.9025C7.05587 16.2213 9.2233 16 12 16C14.771 16 16.9351 16.2204 18.5586 16.8981C20.3012 17.6255 21.3708 18.8613 21.941 20.6587C22.1528 21.3267 21.6518 22 20.9592 22H3.03459C2.34482 22 1.84679 21.3297 2.0569 20.6654C2.62537 18.8681 3.69119 17.6318 5.43094 16.9025Z" fill="#424242"></path>
+                </svg>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right dropdown-user">
+                <div class="user-header">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user m-r-20"></i>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="user-body d-flex">
+                    <a href="" class="user-link w-50">
+                        <i class="far fa-user"></i> Mon profil
+                    </a>
+                    <a href="" class="user-link w-50">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+
+        </li>
+
+        <li class="p-r-0 m-l-20">
+
+            <div class="d-flex">
+
+                <nav id="search-nav">
+
+                    <div class="header d-flex align-items-center">
+                        <div class="btn-group">
+                            <a href="" target="_blank" class="site-name d-flex justify-content-between align-items-center fw-semibold">
+                                <span>NOM DU SITE</span>
+                                <i class="fas fa-caret-right ms-2"></i>
+                            </a>
+                        </div>
+                        <div class="flex-1">
+                            <input type="search" placeholder="Explorer">
+                        </div>
+                    </div>
+
+                    <div class="body">
+
+                        <div class="section" id="no-result-section">
+                            <span><i class="fas fa-search"></i>Aucun élément trouvé.</span>
+                        </div>
+
+                        {% include '@AropixelAdmin/Menu/_search-nav-result.html.twig' %}
+
+                        <div class="section" id="quick-links-section">
+                            <div class="title">Liens rapides</div>
+                            {% for key, quickLink in quickMenu %}
+                                {% set url = url(quickLink.routeName, quickLink.routeParameters) %}
+                                <a href="{{ url }}"><i class="{{ quickLink.getProperty('icon') }}"></i>{{ quickLink.label }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </nav>
+
+            </div>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+{#{% include '@AropixelAdmin/Menu/_search-nav-modal.html.twig' %}#}

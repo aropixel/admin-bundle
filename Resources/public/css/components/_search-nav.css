@@ -1,0 +1,211 @@
+#search-nav {
+    width: 450px;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 4px 8px #eee;
+    border-radius: 5px 0 0 5px;
+}
+
+#search-nav i {
+    font-size: 14px !important;
+}
+
+#search-nav .site-name {
+    padding: 15px;
+    border-right: 1px solid #eee;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#search-nav .dropdown-item, #search-nav .dropdown-item i {
+    font-size: 12px !important;
+}
+
+/*#search-nav .dropdown-header {*/
+/*    text-transform: uppercase;*/
+/*    color: #ccc;*/
+/*    font-size: 13px;*/
+/*    font-weight: 400;*/
+/*    padding-top: 5px;*/
+/*    padding-bottom: 5px;*/
+/*}*/
+
+/*#search-nav .dropdown-menu {*/
+/*    width: auto;*/
+/*}*/
+
+#search-nav input {
+    background-color: #fff !important;
+    padding: 0 10px;
+    border: none;
+    width: 100%;
+}
+
+#search-nav input:focus-visible {
+    outline: none !important;
+}
+
+#search-nav input::placeholder {
+    font-style: italic;
+    color: #c4c3c3;
+}
+
+#search-nav .body {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    top: 45px;
+    z-index: 100;
+    box-shadow: 0 4px 8px #eee;
+    border-radius: 0 0 5px 5px;
+    max-height: 0;
+    transition: max-height 0.60s ease-in-out;
+    overflow: hidden;
+}
+
+#search-nav .body.active {
+    max-height: calc(100vh - 100px);
+    transition: max-height 0.60s ease-in-out;
+}
+
+#search-nav .section {
+    border-top: 1px solid #eee;
+    padding: 20px;
+}
+
+#search-nav .section a {
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+#search-nav .section a i {
+    font-size: 15px;
+    color: #e0e0e0;
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+#search-nav .section .title {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #b4b4b4;
+}
+
+#search-nav .section a {
+    display: block;
+}
+
+#search-nav .section a:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+#search-nav .section a:hover {
+    text-decoration: none;
+}
+
+#search-section {
+    display: none;
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+#search-section .sub-section {
+    display: none;
+}
+
+#search-section .sub-section:not(:last-of-type) {
+    margin-bottom: 20px;
+}
+
+#no-result-section {
+    display: none;
+    padding-bottom: 15px !important;
+}
+
+#no-result-section span {
+    color: #c7c7c7;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+}
+
+#no-result-section i {
+    font-size: 15px;
+    color: #e0e0e0;
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+#sub-sections {
+    padding-left: 0;
+}
+
+#sub-sections ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+#sub-sections ul li:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+#searchNavBody .modal-header, #impersonateModal .modal-header {
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+#searchNavBody .modal-body, #impersonateModal .modal-body {
+    padding: 0;
+}
+
+#searchNavBody .modal-body a, #impersonateModal .modal-body a {
+    font-size: 14px;
+    padding: 15px 20px;
+    text-transform: uppercase;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+
+#searchNavBody .modal-body a.hidden, #impersonateModal .modal-body a.hidden {
+    display: none !important;
+}
+
+#searchNavBody .modal-body a:hover, #impersonateModal .modal-body a:hover {
+    text-decoration: none;
+    background-color: #f5f8fa;
+}
+
+#searchNavBody .modal-body a:hover .fa-random, #impersonateModal .modal-body a:hover .fa-random {
+    opacity: 1;
+    transition: opacity 0.30s ease-in-out;
+}
+
+#searchNavBody .modal-body .fa-laptop,
+#searchNavBody .modal-body .fa-network-wired,
+#impersonateModal .modal-body .fa-laptop,
+#impersonateModal .modal-body.fa-network-wired {
+    margin-right: 20px;
+    width: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 10px;
+}
+
+#searchNavBody .modal-body .fa-laptop, #impersonateModal .modal-body .fa-laptop {
+    background-color: #bc007529;
+}
+
+#searchNavBody .modal-body .fa-network-wired, #impersonateModal .modal-body .fa-network-wired {
+    background-color: #d5edefb8;
+}
+
+#searchNavBody .modal-body .fa-random, #impersonateModal .modal-body .fa-random {
+    margin-right: 20px;
+    opacity: 0;
+    transition: opacity 0.30s ease-in-out;
+}
