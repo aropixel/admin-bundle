@@ -277,7 +277,7 @@
 {% block aropixel_admin_toggle_switch_row %}
 
     <div class="mb-3 form-group form-check form-switch">
-        <label for="{{ id }}" class="form-check-label col-form-label">{{ label }}</label>
+        <label for="{{ id }}" class="form-check-label col-form-label">{{ label|trans }}</label>
         <div class="col-form-content">
             <input type="checkbox" class="form-check-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
         </div>

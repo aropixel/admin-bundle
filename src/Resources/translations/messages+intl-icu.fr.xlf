@@ -541,6 +541,42 @@
         <source>users.list.delete_warning</source>
         <target>Êtes-vous certain de vouloir supprimer cet utilisateur ?</target>
       </trans-unit>
+      <trans-unit id="dfH8E2d" resname="users.form.field.enabled">
+        <source>users.form.field.enabled</source>
+        <target>Actif</target>
+      </trans-unit>
+      <trans-unit id="Lsd_5ZE" resname="users.form.field.last_name">
+        <source>users.form.field.last_name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="GklsPo_1" resname="users.form.field.first_name">
+        <source>users.form.field.first_name</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="Lc_ZLdq" resname="users.form.field.password.invalid_message">
+        <source>users.form.field.password.invalid_message</source>
+        <target>Le nouveau mot de passe et la confirmation doivent correspondre.</target>
+      </trans-unit>
+      <trans-unit id="sfO93_p" resname="users.form.field.password.change_password">
+        <source>users.form.field.password.change_password</source>
+        <target>Nouveau mot de passe</target>
+      </trans-unit>
+      <trans-unit id="s_Pz_23" resname="users.form.field.password.confirm_password">
+        <source>users.form.field.password.confirm_password</source>
+        <target>Confirmer le nouveau mot de passe</target>
+      </trans-unit>
+      <trans-unit id="8aPr_23" resname="users.form.field.super_admin">
+        <source>users.form.field.super_admin</source>
+        <target>Super Admin</target>
+      </trans-unit>
+      <trans-unit id="492_Zd1" resname="text.yes">
+        <source>text.yes</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="492_Zd2" resname="text.no">
+        <source>text.no</source>
+        <target>Non</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

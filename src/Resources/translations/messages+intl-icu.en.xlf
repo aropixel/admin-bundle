@@ -537,6 +537,42 @@
         <source>users.list.delete_warning</source>
         <target>Are you sure you want to delete this user ?</target>
       </trans-unit>
+      <trans-unit id="dfH8E2d" resname="users.form.field.enabled">
+        <source>users.form.field.enabled</source>
+        <target>Enabled</target>
+      </trans-unit>
+      <trans-unit id="Lsd_5ZE" resname="users.form.field.last_name">
+        <source>users.form.field.last_name</source>
+        <target>Last name</target>
+      </trans-unit>
+      <trans-unit id="GklsPo_1" resname="users.form.field.first_name">
+        <source>users.form.field.first_name</source>
+        <target>First name</target>
+      </trans-unit>
+      <trans-unit id="Lc_ZLdq" resname="users.form.field.password.invalid_message">
+        <source>users.form.field.password.invalid_message</source>
+        <target>New password and confirmation must match.</target>
+      </trans-unit>
+      <trans-unit id="sfO93_p" resname="users.form.field.password.change_password">
+        <source>users.form.field.password.change_password</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="s_Pz_23" resname="users.form.field.password.confirm_password">
+        <source>users.form.field.password.confirm_password</source>
+        <target>Confirm new password</target>
+      </trans-unit>
+      <trans-unit id="8aPr_23" resname="users.form.field.super_admin">
+        <source>users.form.field.super_admin</source>
+        <target>Super Admin</target>
+      </trans-unit>
+      <trans-unit id="492_Zd1" resname="text.yes">
+        <source>text.yes</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="492_Zd2" resname="text.no">
+        <source>text.no</source>
+        <target>No</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

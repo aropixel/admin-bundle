@@ -31,11 +31,11 @@ class UserType extends AbstractType
 
         $builder
             ->add('email', EmailType::class)
-            ->add('enabled', ToggleSwitchType::class, ['label' => new TranslatableMessage('Enabled'), 'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit)])
-            ->add('lastName', null, ['label' => new TranslatableMessage('Last name')])
-            ->add('firstName', null, ['label' => new TranslatableMessage('First name')])
+            ->add('enabled', ToggleSwitchType::class, ['label' => 'users.form.field.enabled', 'disabled' => !$userToEdit->getId() || $this->passwordInitializer->stillPendingPasswordCreation($userToEdit)])
+            ->add('lastName', null, ['label' => 'users.form.field.last_name'])
+            ->add('firstName', null, ['label' => 'users.form.field.first_name'])
             ->add('image', ImageType::class, [
-                'label' => new TranslatableMessage('Avatar'),
+                'label' => 'users.form.avatar',
                 'data_class' => UserImage::class,
                 'required' => false,
             ])
@@ -44,14 +44,14 @@ class UserType extends AbstractType
         $userLogged = $this->security->getUser();
         if ($userLogged->getId() == $userToEdit->getId()) {
             $builder
-                ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class, 'required' => false, 'invalid_message' => new TranslatableMessage('New password and confirmation must match.'), 'first_options' => ['label' => new TranslatableMessage('Change password')], 'second_options' => ['label' => new TranslatableMessage('Confirm new password')]])
+                ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class, 'required' => false, 'invalid_message' => 'users.form.field.password.invalid_message', 'first_options' => ['label' => 'users.form.field.password.change_password'], 'second_options' => ['label' => 'users.form.field.password.confirm_password']])
             ;
         }
 
         // If the user is granted
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             $builder
-                ->add('superAdmin', ChoiceType::class, ['choices' => ['Oui' => '1', 'Non' => '0'], 'empty_data' => 'Non', 'label' => new TranslatableMessage('Super Admin'), 'label_attr' => ['class' => 'radio-inline'], 'expanded' => true])
+                ->add('superAdmin', ChoiceType::class, ['choices' => ['text.yes' => '1', 'text.no' => '0'], 'empty_data' => 'text.no', 'label' => 'users.form.field.super_admin', 'label_attr' => ['class' => 'radio-inline'], 'expanded' => true])
             ;
         }
     }
@@ -61,8 +61,4 @@ class UserType extends AbstractType
         $resolver->setDefaults(['data_class' => User::class, 'new' => false]);
     }
 
-    public function getName()
-    {
-        return 'aropixel_adminbundle_user';
-    }
 }
