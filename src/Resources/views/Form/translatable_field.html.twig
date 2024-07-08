@@ -1,30 +1,6 @@
-{% macro form_row_translatable(translations, name) %}
-
-    {% if translations|length > 1 %}
-        <div class="translatable">
-            {% for translationsFields in translations %}
-                {% set loop_locale = translationsFields.vars.name %}
-                {% for translationsField in translationsFields %}
-                    {% if translationsField.vars.name == name  %}
-                        <div class="translatable-lang">
-                            <div class="form-group">
-                                {{ form_label(translationsField, translationsField.vars.label ~ ' ' ~ loop_locale) }}
-                                {{ form_widget(translationsField) }}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                {% endfor %}
-            {% endfor %}
-        </div>
-    {% else %}
-        {% for translationsFields in translations %}
-            {% for translationsField in translationsFields %}
-                {% if translationsField.vars.name == name  %}
-                    {{ form_row(translationsField) }}
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-
-{% endmacro %}
+{% for child in children %}
+    {% set label = child.parent.vars.label %}
+    <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == defaultLocale %}active{% endif %}">
+        {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
+    </div>
+{% endfor %}

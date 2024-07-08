@@ -29,6 +29,7 @@
 ## Table of contents
 
 - [Quick start](#quick-start)
+- [Translations](#translations)
 - [License](#license)
 
 
@@ -114,6 +115,195 @@ aropixel_admin:
 - Create your first admin access : php bin/console aropixel:admin:setup
 
 - Add the ConfigureMenuListener class in App Folder and register it as service
+
+
+## Translations
+
+- Configure translations
+
+````
+parameters:
+    locale: 'fr'
+    locales: ['fr', 'en']
+
+form.type.translatable:
+    class: Aropixel\AdminBundle\Form\Type\TranslatableType
+    arguments: [ '@doctrine.orm.default_entity_manager', '@validator', '@parameter_bag' ]
+    tags:
+        - { name: form.type, alias: translatable }
+````
+
+- Create Entity to translate:
+````
+<?php
+namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
+
+#[ORM\Table(name: 'article')]
+#[ORM\Entity]
+#[Gedmo\TranslationEntity(class: ArticleTranslation::class)]
+class Article implements Translatable
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+
+    #[Gedmo\Translatable]
+    #[ORM\Column(name: 'title', type: 'string', length: 128, nullable: true)]
+    private $title;
+
+    /**
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    #[Gedmo\Locale]
+    private $locale;
+
+    #[ORM\OneToMany(targetEntity: ArticleTranslation::class, mappedBy: 'object', cascade: ['persist', 'remove'])]
+    private $translations;
+
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(ArticleTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    ...
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    public function getLocales()
+    {
+        $languages = [];
+
+        foreach ($this->getTranslations() as $translation) {
+            if (!in_array($translation->getLocale(), $languages)) {
+                $languages[] = $translation->getLocale();
+            }
+        }
+
+        return implode(", ", $languages);
+    }
+
+}
+````
+
+````
+<?php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
+use Gedmo\Translatable\Entity\Repository\TranslationRepository;
+
+#[ORM\Table(name: 'article_translation')]
+#[ORM\Index(name: 'article_translation_idx', columns: ['locale', 'object_id', 'field'])]
+#[ORM\Entity(repositoryClass: TranslationRepository::class)]
+class ArticleTranslation extends AbstractPersonalTranslation
+{
+    public function __construct($locale, $field, $value)
+    {
+        $this->setLocale($locale);
+        $this->setField($field);
+        $this->setContent($value);
+    }
+
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations')]
+    #[ORM\JoinColumn(name: 'object_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected $object;
+}
+````
+
+- Add form:
+````
+<?php
+
+namespace App\Form;
+
+use App\Entity\Article;
+use App\Entity\ArticleTranslation;
+use Aropixel\AdminBundle\Form\Type\TranslatableType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('title', TranslatableType::class, [
+                'label'                => 'Titre',
+                'personal_translation' => ArticleTranslation::class,
+                'property_path'        => 'translations'
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Article::class,
+        ]);
+    }
+}
+````
+
+- Add a classic controller : 
+
+````
+ #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ArticleRepository $articleRepository): Response
+    {
+
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articleRepository->save($article, true);
+
+            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('article/form.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
+````
+
+- And include your form in twig, foreach field :
+
+````
+{% include '@AropixelAdmin/Form/translatable_field.html.twig' with {'children': form.title.children} %}
+````
 
 
 ## License

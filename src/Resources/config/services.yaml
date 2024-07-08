@@ -107,3 +107,8 @@ services:
         alias: 'service_container'
 
     #Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface: ~
+
+    Aropixel\AdminBundle\Form\Type\TranslatableType:
+        arguments: [ '@doctrine.orm.default_entity_manager', '@validator', '%locales%', '%locale%' ]
+        tags:
+            - { name: form.type, alias: translatable }
