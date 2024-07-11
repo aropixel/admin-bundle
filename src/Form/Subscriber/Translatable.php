@@ -13,21 +13,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Translatable implements EventSubscriberInterface
 {
 
-    protected FormFactoryInterface $factory;
-    protected EntityManagerInterface $em;
-    protected ValidatorInterface $validator;
-    protected ?array $options = [];
-
     public function __construct(
-        FormFactoryInterface $factory,
-        EntityManagerInterface $em,
-        ValidatorInterface $validator,
-        ?array $options = null
+        private readonly FormFactoryInterface $factory,
+        private readonly EntityManagerInterface $em,
+        private readonly ValidatorInterface $validator,
+        private readonly ?array $options = null
     ) {
-        $this->em = $em;
-        $this->options = $options;
-        $this->factory = $factory;
-        $this->validator = $validator;
     }
 
 
