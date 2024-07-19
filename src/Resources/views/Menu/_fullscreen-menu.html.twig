@@ -1,0 +1,27 @@
+<div id="fullscreen-menu" class="hide">
+
+    <div class="main-content {% if menu_position == "fullscreen" %}main-content-fullscreen{% endif %}">
+
+        <div class="header d-flex align-items-center justify-content-between">
+            <a href="{{ url('_admin') }}" class="logo">
+                <img src="{{ asset(logoPath) }}" alt="{{ admin_client.name }}" width="{{ logoWidth }}">
+            </a>
+            <div id="close-fullscreen-menu">
+                <i class="far fa-times-circle"></i>
+            </div>
+        </div>
+
+        <div class="body">
+
+            <div class="row">
+
+                {{ render_menu() }}
+                {% include '@AropixelAdmin/Menu/_quick-menu.html.twig' %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
