@@ -1,0 +1,52 @@
+<div class="col-12 col-md-4">
+    <div class="title sidemenu-title d-flex justify-content-between">
+        <h2>Liens rapides</h2>
+    </div>
+
+    <div class="quick-links m-t-15">
+
+        <div class="row g-2">
+
+            {% for key, quickLink in quickMenu %}
+
+                {% set url = url(quickLink.routeName, quickLink.routeParameters) %}
+
+                {% if key == 1 %}
+                    <div class="col-6">
+                        <a href="{{ url }}" class="quick-link lightBlue" data-position="1">
+                            <span class="quick-link-label">{{ quickLink.label }}</span>
+                        </a>
+                    </div>
+                {% elseif key == 2 %}
+                    <div class="col-6">
+                        <a href="{{ url }}" class="quick-link orange" data-position="2">
+                            <span class="quick-link-label">{{ quickLink.label }}</span>
+                        </a>
+                    </div>
+                {% elseif key == 3 %}
+                    <div class="col-12">
+                        <a href="{{ url }}" class="quick-link yellow" data-position="3">
+                            <span class="quick-link-label">{{ quickLink.label }}</span>
+                        </a>
+                    </div>
+                {% elseif key == 4 %}
+                    <div class="col-4">
+                        <a href="{{ url }}" class="quick-link green" data-position="4">
+                            <span class="quick-link-label">{{ quickLink.label }}</span>
+                        </a>
+                    </div>
+                {% elseif key == 5 %}
+                    <div class="col-8">
+                        <a href="{{ url }}" class="quick-link blue" data-position="5">
+                            <span class="quick-link-label">{{ quickLink.label }}</span>
+                        </a>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>

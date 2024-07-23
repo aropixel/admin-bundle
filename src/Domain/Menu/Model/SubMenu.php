@@ -13,6 +13,7 @@ class SubMenu implements ItemInterface, IterableInterface
     private bool $isActive = false;
 
     private ?IterableInterface $parent = null;
+    private ?Link $defaultChild = null;
 
     public function __construct(
         private readonly string $label,
@@ -61,17 +62,11 @@ class SubMenu implements ItemInterface, IterableInterface
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     */
     public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return ItemInterface[]
-     */
     public function getItems(): array
     {
         return $this->items;
@@ -95,6 +90,16 @@ class SubMenu implements ItemInterface, IterableInterface
     public function isActive(): bool
     {
         return $this->isActive;
+    }
+
+    public function getDefaultChild(): ?Link
+    {
+        return $this->defaultChild;
+    }
+
+    public function setDefaultChild(?Link $defaultChild): void
+    {
+        $this->defaultChild = $defaultChild;
     }
 
     private function generateId(string $label): string

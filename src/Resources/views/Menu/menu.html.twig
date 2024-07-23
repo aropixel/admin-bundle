@@ -1,4 +1,3 @@
-
 <ul class="sidebar-menu navbar-nav">
     {% for item in menu.items %}
         {% if item.type == 'link' %}{{ include('@AropixelAdmin/Menu/link.html.twig', {'link' : item})  }}{% endif %}

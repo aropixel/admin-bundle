@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Menu implements IterableInterface
@@ -12,13 +10,19 @@ class Menu implements IterableInterface
     private array $positions = [];
 
     public function __construct(
-        private readonly string $id = 'menu'
+        private readonly string $id = 'menu',
+        private readonly string $label = 'Administration'
     ) {
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label;
     }
 
     public function addItem(ItemInterface $item): void

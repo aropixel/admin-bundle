@@ -1,0 +1,2 @@
+{% if item.type == 'link' %}{{ include('@AropixelAdmin/Menu/Shortcut/link.html.twig', {'item' : item, 'icon': item.getProperty('icon')})  }}{% endif %}
+{% if item.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {'submenu' : item})  }}{% endif %}

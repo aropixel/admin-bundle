@@ -1,0 +1,16 @@
+<div class="col-12 col-md-8">
+
+    <div class="row">
+
+        {% for menu in menus %}
+
+            <div class="col-4">
+                <div class="title">{{ menu.label }}</div>
+                {{ render_admin_menu(menu) }}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>

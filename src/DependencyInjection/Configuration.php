@@ -72,6 +72,8 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('login_img')->defaultValue('')->end()
             ->scalarNode('menu_position')->defaultValue('top')->end()
+            ->scalarNode('logo_path')->defaultValue('aropixeladmin/img/logo.png')->end()
+            ->scalarNode('logo_width')->defaultValue('150')->end()
             ->arrayNode('classes')
             ->children()
             ->scalarNode('card')->defaultValue('card')->end()

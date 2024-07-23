@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Renderer\MenuRendererInterface;
-use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Twig\Environment;
 
 class MenuRenderer implements MenuRendererInterface
@@ -21,5 +20,15 @@ class MenuRenderer implements MenuRendererInterface
         $params['menu'] = $menu;
 
         return $this->twig->render($template, $params);
+    }
+
+    public function renderSearchMenu(array $menus, string $template): string
+    {
+        return $this->twig->render($template, ['menus' => $menus]);
+    }
+
+    public function renderFullMenu(array $menus, string $template): string
+    {
+        return $this->twig->render($template, ['menus' => $menus]);
     }
 }
