@@ -92,7 +92,8 @@ class Translatable implements EventSubscriberInterface
 
         foreach($this->getFieldNames() as $locale => $field_name) {
             $content = $form->get($field_name)->getData();
-            if (null === $content && in_array($locale, $this->options['required_locale'])) {
+            $required = $form->get($field_name)->getConfig()->getRequired();
+            if ($required && null === $content && in_array($locale, $this->options['required_locale'])) {
                 $form->addError($this->getCannotBeBlankException($this->options['field'], $locale));
             } else {
                 $errors = $this->validator->validate(
@@ -168,6 +169,8 @@ class Translatable implements EventSubscriberInterface
         foreach ($this->bindTranslations($data) as $binded) {
             $translation = $binded['translation'];
 
+            $required = $form->getConfig()->getRequired();
+
             $form->add($this->factory->createNamed(
                 $binded['fieldName'],
                 $this->options['widget'],
@@ -175,7 +178,7 @@ class Translatable implements EventSubscriberInterface
                 [
                     'auto_initialize'=> false,
                     'label' => $binded['locale'],
-                    'required' => in_array($binded['locale'], $this->options['required_locale']),
+                    'required' => $required && in_array($binded['locale'], $this->options['required_locale']),
                     'property_path' => null,
                     'attr' => $this->options['attr']
                 ]

@@ -34,6 +34,7 @@
 
 
 {% set baseroute = get_baseroute() %}
+{% set defaultLocale = app.request.defaultLocale %}
 
 {% set has_tabs = block('tabbable') is defined %}
 {% if has_tabs %}{% set _navtabs = block('tabbable') %}{% endif %}
@@ -124,6 +125,23 @@
                     {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
 
                     {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined or form.slug is defined %}
+
+                    {% block translation %}
+
+                        {% if form.vars.data.translations is defined %}
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-small ms-3" id="btnCurrentLocale">{{ app.request.defaultLocale|upper }}</button>
+                                <button class="btn btn-primary btn-small dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
+                                <div class="dropdown-menu" style="width:80px; min-width: 80px;">
+                                    {% for locale in get_locales() %}
+                                        <a class="dropdown-item btn-locale" href="#" data-locale="{{ locale }}">{{ locale|upper }}</a>
+                                        {% if not loop.last %}<div class="dropdown-divider"></div>{% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    {% endblock %}
 
                     <div class="btn-group">
 
