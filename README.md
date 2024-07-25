@@ -1,7 +1,7 @@
 # Aropixel Admin Bundle
 
 <div align="center">
-    <img width="200" height="200" src="doc/assets/logo-aro.png" alt="aropixel logo" />
+    <img width="100" height="100" src="doc/assets/logo-aro.png" alt="aropixel logo" />
 </div>
 
 ## Presentation
