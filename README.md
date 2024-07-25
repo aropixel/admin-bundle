@@ -1,310 +1,92 @@
-<p align="center">
-  <a href="http://www.aropixel.com/">
-    <img src="https://avatars1.githubusercontent.com/u/14820816?s=200&v=4" alt="Aropixel logo" width="75" height="75" style="border-radius:100px">
-  </a>
-</p>
+# Aropixel Admin Bundle
+
+<div align="center">
+    <img width="200" height="200" src="doc/assets/logo-aro.png" alt="aropixel logo" />
+</div>
+
+## Presentation
+
+Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 7 projects. 
+It provides a minimalist admin system with: login, logout, admin users crud, admin menu management.
 
 
-<h1 align="center">Aropixel Admin Bundle</h1>
+Our suite of tools consists of several modules, each dedicated to specific aspects of website administration:
 
-<p>
-  Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 4 projects. It provides a minimalist admin system with: login, logout, admin users crud, admin menu management.<br />
-  You can plug <a href="https://github.com/aropixel">compatible bundles</a> to manage:
-  <ul>
-    <li><a href="https://github.com/aropixel/blog-bundle">blog</a> content</li>
-    <li><a href="https://github.com/aropixel/page-bundle">pages</a> of your website</li>
-    <li><a href="https://github.com/aropixel/menu-bundle">menus</a> of your website</li>
-    <li>store and send incoming <a href="https://github.com/aropixel/menu-bundle">contacts</a> of your website</li>
-  </ul>  
-</p>
+* **AdminBundle**: Facilitates the publication and management of news, with advanced features such as publication scheduling and category management.
 
 
-![GitHub last commit](https://img.shields.io/github/last-commit/aropixel/admin-bundle.svg)
-[![GitHub issues](https://img.shields.io/github/issues/aropixel/admin-bundle.svg)](https://github.com/stisla/stisla/issues)
-[![License](https://img.shields.io/github/license/aropixel/admin-bundle.svg)](LICENSE)
-
-![Aropixel Admin Preview](./screenshot.png)
+* **BlogBundle**: Allows the construction of a custom administration interface tailored to the specific needs of the project. It also enables user management and adjustment of permissions according to defined profiles.
 
 
-## Table of contents
-
-- [Quick start](#quick-start)
-- [Translations](#translations)
-- [License](#license)
+* **PageBundle**: Offers the ability to intuitively create, modify, move, or delete pages and subpages, allowing for an evolving site structure.
 
 
-## Quick start
-
-- Create your symfony 4 project
-- Require Aropixel Admin Bundle : `composer require aropixel/admin-bundle`
-- If you get a "knplabs/knp-paginator-bundle" error, downgrade twig to version 2:  `composer require twig/twig ^2.0` and re-install the AdminBundle
-- Apply migrations
-- Create a "aropixel.yaml" file in config folder and configure according to you need:
-````
-aropixel_admin:
-    client:
-        name: "aropixel client"
-    copyright:
-        name: "Aropixel"
-        link: "http://www.aropixel.com"
-    theme:
-        menu_position: left
-````
-- Configure the security.yaml:
-````
-security:
-
-    providers:
-        admin_user_provider:
-            entity:
-                class: Aropixel\AdminBundle\Entity\User
-                property: email
-
-    encoders:
-        Aropixel\AdminBundle\Entity\User:
-            algorithm: argon2i
-            cost: 12
-
-    role_hierarchy:
-        ROLE_USER:        [ROLE_USER]
-        ROLE_ADMIN:       [ROLE_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-        ROLE_HYPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-
-    firewalls:
-        backoffice:
-            context: primary_auth
-            pattern:            ^/admin
-            form_login:
-                provider:       admin_user_provider
-                login_path:     aropixel_admin_security_login
-                use_forward:    true
-                use_referer:    true
-                check_path:     aropixel_admin_security_check
-                failure_path:   aropixel_admin_security_login
-                default_target_path: _admin
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 2592000 # 1 month in seconds
-                path:     /admin
-            logout:
-                path: aropixel_admin_security_logout
-                target: aropixel_admin_security_login
-            anonymous:    true
-            guard:
-                provider: admin_user_provider
-                authenticators:
-                    - Aropixel\AdminBundle\Security\LoginFormAuthenticator
-
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-    access_control:
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
-
-````
-- Include the routes:
-````
-aropixel_admin:
-    resource: '@AropixelAdminBundle/Resources/config/routing/aropixel.yml'
-    prefix: /admin
-
-````
-- Create your first admin access : php bin/console aropixel:admin:setup
-
-- Add the ConfigureMenuListener class in App Folder and register it as service
+* **ContactBundle**: Enables the management of a generic contact form, as well as the reception and processing of incoming messages.
 
 
-## Translations
-
-- Configure translations
-
-````
-parameters:
-    locale: 'fr'
-    locales: ['fr', 'en']
-
-form.type.translatable:
-    class: Aropixel\AdminBundle\Form\Type\TranslatableType
-    arguments: [ '@doctrine.orm.default_entity_manager', '@validator', '@parameter_bag' ]
-    tags:
-        - { name: form.type, alias: translatable }
-````
-
-- Create Entity to translate:
-````
-<?php
-namespace App\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Translatable;
-
-#[ORM\Table(name: 'article')]
-#[ORM\Entity]
-#[Gedmo\TranslationEntity(class: ArticleTranslation::class)]
-class Article implements Translatable
-{
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
-    #[Gedmo\Translatable]
-    #[ORM\Column(name: 'title', type: 'string', length: 128, nullable: true)]
-    private $title;
-
-    /**
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
-    #[Gedmo\Locale]
-    private $locale;
-
-    #[ORM\OneToMany(targetEntity: ArticleTranslation::class, mappedBy: 'object', cascade: ['persist', 'remove'])]
-    private $translations;
-
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
-
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
-
-    public function addTranslation(ArticleTranslation $t)
-    {
-        if (!$this->translations->contains($t)) {
-            $this->translations[] = $t;
-            $t->setObject($this);
-        }
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-    
-    ...
-
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    public function getLocales()
-    {
-        $languages = [];
-
-        foreach ($this->getTranslations() as $translation) {
-            if (!in_array($translation->getLocale(), $languages)) {
-                $languages[] = $translation->getLocale();
-            }
-        }
-
-        return implode(", ", $languages);
-    }
-
-}
-````
-
-````
-<?php
-namespace App\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
-
-#[ORM\Table(name: 'article_translation')]
-#[ORM\Index(name: 'article_translation_idx', columns: ['locale', 'object_id', 'field'])]
-#[ORM\Entity(repositoryClass: TranslationRepository::class)]
-class ArticleTranslation extends AbstractPersonalTranslation
-{
-    public function __construct($locale, $field, $value)
-    {
-        $this->setLocale($locale);
-        $this->setField($field);
-        $this->setContent($value);
-    }
-
-    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations')]
-    #[ORM\JoinColumn(name: 'object_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected $object;
-}
-````
-
-- Add form:
-````
-<?php
-
-namespace App\Form;
-
-use App\Entity\Article;
-use App\Entity\ArticleTranslation;
-use Aropixel\AdminBundle\Form\Type\TranslatableType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class ArticleType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('title', TranslatableType::class, [
-                'label'                => 'Titre',
-                'personal_translation' => ArticleTranslation::class,
-                'property_path'        => 'translations'
-            ])
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Article::class,
-        ]);
-    }
-}
-````
-
-- Add a classic controller : 
-
-````
- #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticleRepository $articleRepository): Response
-    {
-
-        $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $articleRepository->save($article, true);
-
-            return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('article/form.html.twig', [
-            'article' => $article,
-            'form' => $form,
-        ]);
-    }
-
-````
-
-- And include your form in twig, foreach field :
-
-````
-{% include '@AropixelAdmin/Form/translatable_field.html.twig' with {'children': form.title.children} %}
-````
 
 
-## License
-Aropixel Admin Bundle is under the [MIT License](LICENSE)
+> [NOTE] <br>
+AropixelAdminBundle is optimized to work with Symfony 6/7 and PHP 8.2 and above. <br>
+Using it with earlier versions is highly likely to cause errors or incompatibilities.
+
+
+## Key Features
+
+* **Easy Installation and Configuration**: 
+> **Seamless Integration**: Easily integrates with Symfony projects, ensuring a smooth setup process.
+<br> **Pre-configured Settings**: Out-of-the-box settings that can be customized to fit specific project requirements.   
+
+***
+
+* **User Management**: 
+> **Admin User CRUD**: Full create, read, update, and delete functionality for managing admin users.
+<br> **Role-Based Access Control**: Define and manage user roles and permissions to restrict access to specific sections of the admin panel.
+
+***
+
+* **Content Management**: 
+> **News Management**: Customizable administration interface for managing blog posts, news, and categories.
+Customizable administration interface for managing blog posts, comments, and categories
+
+***
+
+* **Page Management**: 
+> **Intuitive Page Editor**: Create, modify, move, and delete pages and subpages with a simple interface.
+
+
+***
+
+* **Contact Management**: 
+> **Message Handling**: View, and track messages received through the contact form.
+
+
+***
+
+* **Menu Management**: 
+> **Header and Footer Management**: Easily manage and organize the site’s navigation menus, including headers and footers.
+<br> **Dynamic Menu Links**: Add, edit, and rearrange menu links to reflect the site’s structure and content priorities.
+
+
+***
+
+* **Extensibility**: 
+> **Modular Architecture**: Each feature is encapsulated in a module, making it easy to extend or replace functionality.
+<br> **Customizable Workflows**: Tailor the admin interface and workflows to meet the specific needs of different projects.
+
+***
+
+* **Miscellaneous**: 
+> **Multi-language Support**: Easily add multiple languages to the admin panel to cater to a global audience.
+
+
+## Further documentation
+
+Discover more by reading the docs:
+
+* [Getting started with AropixelAdminBundle](installation.md)
+* [Discover the main tool](adminbundle.md)
+* [Manage blog content](blogbundle.md)
+* [Create and order pages](pagebundle.md)
+* [Store and send incoming messages](blogbundle.md)
+* [Manage header and footer](menubundle.md)
