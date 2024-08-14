@@ -98,7 +98,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         else {
 
             //
-            $builder->add('image', EntityHiddenType::class, array('class' => ImageInterface::class));
+            $builder->add('image', EntityHiddenType::class, array('class' => Image::class));
 
             //
             if ($options['crop_class']) {

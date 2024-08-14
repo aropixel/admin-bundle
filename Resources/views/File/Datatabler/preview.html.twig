@@ -1,4 +1,4 @@
-<a href="{{ url('file_download', { id:file.id, filename: file.rewritedFileName }) }}" data-popup="lightbox" style="text-decoration: none; display: flex; align-items: flex-end;">
-    <img class="file-type" data-src="{{ url('file_download', {id:file.id, filename: file.rewritedFileName}) }}" src="{{ icon }}" height="25" style="margin-bottom: -1px;">
+<a href="{{ url('file_download', { id:file.id, filename: file.rewrittenFileName }) }}" data-popup="lightbox" style="text-decoration: none; display: flex; align-items: flex-end;">
+    <img class="file-type" data-src="{{ url('file_download', {id:file.id, filename: file.rewrittenFileName}) }}" src="{{ icon }}" height="25" style="margin-bottom: -1px;">
     <i class="fas fa-download" style="font-size: 14px"></i>
 </a>
