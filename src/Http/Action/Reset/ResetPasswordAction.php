@@ -7,7 +7,7 @@ use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Http\Action\Reset\RequestStatusAction;
+use Aropixel\AdminBundle\Http\Form\Reset\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,7 +38,7 @@ class ResetPasswordAction extends AbstractController
         }
 
         $error = null;
-        $form = $this->createForm(\AdminBundle\Http\Form\Reset\ResetPasswordType::class);
+        $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
