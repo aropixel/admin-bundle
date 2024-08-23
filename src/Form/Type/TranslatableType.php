@@ -3,11 +3,13 @@
 namespace Aropixel\AdminBundle\Form\Type;
 
 use Aropixel\AdminBundle\Form\Subscriber\Translatable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -29,6 +31,9 @@ class TranslatableType extends AbstractType
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
+        $options['empty_data'] = function (FormInterface $form) {
+            return new ArrayCollection();
+        };
         $builder->addEventSubscriber(
             new Translatable($builder->getFormFactory(), $this->em, $this->validator, $options)
         );

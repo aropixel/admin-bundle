@@ -1,6 +1,0 @@
-{% for child in children %}
-    {% set label = child.parent.vars.label %}
-    <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == defaultLocale %}active{% endif %}">
-        {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
-    </div>
-{% endfor %}

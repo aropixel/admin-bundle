@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Subscriber;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormError;
@@ -118,7 +119,18 @@ class Translatable implements EventSubscriberInterface
         // if the form passed the validattion then set the corresponding Personal Translations
         $form = $event->getForm();
         $data = $form->getData();
+        if (is_array($data)) {
+            $data = new ArrayCollection($data);
+        }
+
         $entity = $form->getParent()->getData();
+
+        // in case of a type collection (add new only) create a new entity
+        if (empty($entity)) {
+            $class_name = str_replace('Translation', 'Translatable', $this->options['personal_translation']);
+            $entity = new $class_name();
+        }
+
         foreach ($this->bindTranslations($data) as $binded) {
             $content = $form->get($binded['fieldName'])->getData();
             $translation = $binded['translation'];
@@ -163,12 +175,34 @@ class Translatable implements EventSubscriberInterface
         // or fetched with Doctrine). This if statement let's us skip right
         // over the null condition.
         if (null === $data) {
+
+            // in case of a type collection (add new only) it's necessary to add fields for the data-prototype
+            foreach ($this->options['locales'] as $locale) {
+
+                $class_name = $this->options['personal_translation'];
+                $translation = new $class_name($locale, $this->options['field'], null);
+
+                $form->add($this->factory->createNamed(
+                    $this->options['field'].':'.$locale,
+                    $this->options['widget'],
+                    $translation->getContent(),
+                        [
+                            'auto_initialize' => false,
+                            'label' => $locale,
+                            'required' => in_array($locale, $this->options['required_locale']),
+                            'property_path' => null,
+                            'attr' => $this->options['attr']
+                        ]
+                    )
+                );
+            }
+
             return;
         }
 
         foreach ($this->bindTranslations($data) as $binded) {
-            $translation = $binded['translation'];
 
+            $translation = $binded['translation'];
             $required = $form->getConfig()->getRequired();
 
             $form->add($this->factory->createNamed(
@@ -183,6 +217,7 @@ class Translatable implements EventSubscriberInterface
                     'attr' => $this->options['attr']
                 ]
             ));
+
         }
 
     }

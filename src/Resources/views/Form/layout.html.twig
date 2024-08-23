@@ -771,3 +771,21 @@
         {%- endif -%}
     {%- endfor -%}
 {%- endblock widget_attributes -%}
+
+
+
+{% block translatable_row %}
+
+    {% set defaultLocale = app.request.defaultLocale %}
+
+    {% for child in form.children %}
+
+        {% set label = child.parent.vars.label %}
+
+        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == defaultLocale %}active{% endif %}">
+            {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
+        </div>
+
+    {% endfor %}
+
+{% endblock translatable_row %}
