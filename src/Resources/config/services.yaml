@@ -94,6 +94,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: 'loadClassMetadata', priority: 8192 }
 
+    Aropixel\AdminBundle\EventSubscriber\TranslatableEventSubscriber:
+        arguments: ['@Symfony\Component\HttpFoundation\RequestStack', '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface']
+        tags:
+            - { name: doctrine.event_listener, event: 'postLoad', priority: 8192 }
+
     Aropixel\AdminBundle\Infrastructure\Media\Image\Filter\ThumbnailFilter:
         tags:
             - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }

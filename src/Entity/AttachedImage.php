@@ -7,7 +7,7 @@ use Aropixel\AdminBundle\Entity\ImageInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-abstract class AttachedImage implements AttachedImageInterface
+class AttachedImage implements AttachedImageInterface
 {
     private ?string $title = null;
 
