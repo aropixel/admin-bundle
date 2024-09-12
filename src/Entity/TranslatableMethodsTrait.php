@@ -11,17 +11,13 @@ trait TranslatableMethodsTrait
 
     public function getTranslation(string $field): ?string
     {
-        if (!$this instanceof Translatable) {
-            return $this->$field;
-        }
-
         foreach ($this->getTranslations() as $translation) {
             if ($field === $translation->getField() && $translation->getLocale() === $this->getCurrentLocale()) {
                 return $translation->getContent();
             }
         }
 
-        return null;
+        return $this->$field;
     }
 
     public function getLocales()
@@ -54,7 +50,7 @@ trait TranslatableMethodsTrait
 
     public function addTranslation($t)
     {
-        if (!$this->translations->contains($t)) {
+        if (!$this->getTranslations()->contains($t)) {
             $this->translations[] = $t;
             $t->setObject($this);
         }
@@ -71,7 +67,7 @@ trait TranslatableMethodsTrait
 
     public function setTranslatableLocale($locale)
     {
-        $this->locale = $locale;
+        $this->currentLocale = $locale;
     }
 
     public function getCurrentLocale()

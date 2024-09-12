@@ -119,15 +119,18 @@ class Translatable implements EventSubscriberInterface
         // if the form passed the validattion then set the corresponding Personal Translations
         $form = $event->getForm();
         $data = $form->getData();
-        if (is_array($data)) {
-            $data = new ArrayCollection($data);
-        }
 
         $entity = $form->getParent()->getData();
 
+        if (is_array($data)) {
+            $data = new ArrayCollection($data);
+            $class_name = str_replace('Translation', '', $this->options['personal_translation']);
+            $entity = new $class_name();
+        }
+
         // in case of a type collection (add new only) create a new entity
         if (empty($entity)) {
-            $class_name = str_replace('Translation', 'Translatable', $this->options['personal_translation']);
+            $class_name = str_replace('Translation', '', $this->options['personal_translation']);
             $entity = new $class_name();
         }
 

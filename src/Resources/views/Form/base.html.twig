@@ -128,7 +128,7 @@
 
                     {% block translation %}
 
-                        {% if form.vars.data.translations is defined %}
+                        {% if is_translatable() and form.vars.data.translations is defined %}
                             <div class="btn-group">
                                 <button class="btn btn-primary btn-small ms-3" id="btnCurrentLocale">{{ app.request.defaultLocale|upper }}</button>
                                 <button class="btn btn-primary btn-small dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>

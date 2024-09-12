@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Aropixel\AdminBundle\Form\Type\Image\Single\CropsType;
@@ -60,7 +61,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     private function buildFormEntityMode(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('image', EntityHiddenType::class, ['class' => AttachedImageInterface::class, 'required' => $options['required']])
+            ->add('image', EntityHiddenType::class, ['class' => ImageInterface::class, 'required' => $options['required']])
             ->add('attrTitle', HiddenType::class)
             ->add('attrAlt')
         ;
