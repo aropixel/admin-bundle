@@ -280,3 +280,26 @@
 #libraryDataTable tr th:last-child {
     padding-right: 40px;
 }
+
+.add-gallery-image a {
+    height: 230px;
+    width: 230px;
+    border: 5px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.add-gallery-image a i {
+    font-size: 50px;
+    transition: all 0.4s;
+    color: #ddd;
+}
+
+.add-gallery-image a:hover i {
+    transform: scale(1.3);
+    transition: all 0.4s;
+}

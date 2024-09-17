@@ -6,7 +6,6 @@ use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
-use Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatableMessage;
 
 class UserType extends AbstractType
 {

@@ -747,6 +747,12 @@ import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
 
         });
 
+        let gallery =  document.querySelector('.galleryContent');
+
+        if (gallery) {
+            gallery.prepend(document.querySelector('.add-gallery-image'));
+        }
+
     });
 
 

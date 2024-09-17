@@ -1,6 +1,6 @@
 {% set crop_suffix = form.parent.vars.crop_suffix %}
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}
-<div class="thumbnail"
+<div class="thumbnail m-b-30"
          data-im-crop-path="{{ image_path ? image_path | imagine_filter('admin_crop') : '' }}"
 {#         data-im-attach-id="{{ form.vars.attachedImage is defined and form.vars.attachedImage ? form.vars.attachedImage.id : '' }}"#}
 {#         data-im-attach-class="{{ form.vars.attach_class }}"#}
@@ -17,36 +17,57 @@
         {% if thumbnailAttr is defined %}{% for name,value in thumbnailAttr %}{{name}}="{{value}}"{% endfor %}{% endif %} >
 
     	<div class="thumb">
-            <div class="preview" data-new="{{ prototype_new|e }}">
-            {% block preview %}
-            {% if image_path %}
-                <img src="{{ image_path | imagine_filter('admin_thumbnail') }}" alt="" />
-            {% else %}
-                {{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}
-            {% endif %}
-            {{ form_widget(form) }}
-            {% endblock %}
-            </div>
-            <div class="caption-overflow">
-    			<span>
-                    {% block captionOverflow %}
-                    <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconAttr" data-bs-toggle="modal" data-bs-target="#modalAttributes"><i class="far fa-file-alt"></i></a>
-                    <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconCrop" data-bs-toggle="modal" data-bs-target="#modalCrop{{ crop_suffix }}"><i class="fas fa-crop-alt"></i></a>
-                    <a class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5 iconUnlink"><i class="fas fa-unlink"></i></a>
-                    {% endblock %}
-    			</span>
-    		</div>
-    	</div>
 
-    	<div class="caption card-footer">
-            {% block caption %}
-            {% if image is defined and image %}
-    		<h6 class="no-margin-top text-semibold">{{ image.title ? image.title : 'text.no_title'|trans }}</h6>
-    		<div>{% trans %}text.choose_image{% endtrans %}</div>
-            {% else %}
-            <h6 class="no-margin-top text-semibold">{{ placeholder is defined ? placeholder : 'text.featured_image'|trans }}</h6>
-            <div>{% trans %}text.choose_image{% endtrans %}</div>
-            {% endif %}
-            {% endblock %}
-    	</div>
+            {{ include('@AropixelAdmin/Image/Widget/_preview.html.twig') }}
+            {{ include('@AropixelAdmin/Image/Widget/_caption.html.twig') }}
+
+            <div class="image-actions {% if not image_path %}visually-hidden{% endif %}">
+
+                <div class="btn-group">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item btnUpload" href="#" data-bs-toggle="modal" data-bs-target="#modalLibrary" title="{% trans %}images.widget.button.edit_image{% endtrans %}"><i class="far fa-image me-2"></i> {% trans %}images.widget.button.edit_image{% endtrans %}</a>
+                            {% if image_path %}
+                                {% if form.crops is defined and get_available_crop_filters(form.vars.data, form.vars.crops)|length > 0 %}
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalCrop{{ form.vars.data.getImageUid() }}" title="{% trans %}images.widget.button.crop_image{% endtrans %}"><i class="fas fa-crop-alt me-2"></i> {% trans %}images.widget.button.crop_image{% endtrans %}</a>
+                                {% endif %}
+                                {% if form.attrAlt is defined %}
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlt{{ form.vars.id }}"><i class="fas fa-pen me-2"></i> {% trans %}images.widget.button.edit_alt{% endtrans %}</a>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                                <a class="dropdown-item text-danger btnUnlink" href="#"><i class="fas fa-unlink me-2"></i> {% trans %}images.widget.button.unlink_image{% endtrans %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% if form.vars.data and form.attrAlt is defined %}
+
+            <div class="modal fade" id="modalAlt{{ form.vars.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{% trans %}images.widget.form.edit_alt.title{% endtrans %}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-widget">
+                                {{ form_widget(form.attrAlt) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans %}images.widget.form.edit_alt.abort{% endtrans %}</button>
+                            <button class="btn btn-primary" type="submit">{% trans %}images.widget.form.edit_alt.submit{% endtrans %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    {% endif %}
+
     </div>

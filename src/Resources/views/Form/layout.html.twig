@@ -346,6 +346,10 @@
 
         {{- block('form_widget') -}}
 
+        <div class="col-md-6 col-lg-4 m-b-30 add-gallery-image">
+            <a data-bs-toggle="modal" data-bs-target="#modalLibrary"><i class="fa fa-plus"></i></a>
+        </div>
+
         {#{{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {
             'image' : false,
             'image_class': image_class,
@@ -373,7 +377,7 @@
 {% block aropixel_gallery_image_row -%}
 
     <div
-            class="{{ grid }}"
+            class="col-md-6 col-lg-4"
             data-title-label="{{ title_label }}"
             data-title-enabled="{{ title_enabled }}"
             data-description-label="{{ description_label }}"
