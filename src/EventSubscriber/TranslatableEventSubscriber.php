@@ -42,13 +42,13 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if ($currentLocale = $this->provideCurrentLocale()) {
-            $entity->setTranslatableLocale($currentLocale);
-        }
-
         $fallbackLocale = $this->provideFallbackLocale();
         if ($fallbackLocale) {
             $entity->setTranslatableLocale($fallbackLocale);
+        }
+
+        if ($currentLocale = $this->provideCurrentLocale()) {
+            $entity->setTranslatableLocale($currentLocale);
         }
     }
 
