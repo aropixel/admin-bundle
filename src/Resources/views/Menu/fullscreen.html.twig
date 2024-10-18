@@ -4,9 +4,11 @@
 
     <div class="d-flex align-items-center">
         <i class="fas fa-bars m-r-30" id="burgerMenu"></i>
-        <a href="" class="logo">
-            <img src="{{ asset(logoPath) }}" alt="{{ admin_client.name }}" width="{{ logoWidth }}">
+        {% if logoPath %}
+        <a href="" class="logo" style="width: {{ logoWidth }}">
+            <img src="{{ asset(logoPath) }}" alt="{{ admin_client.name }}">
         </a>
+        {% endif %}
     </div>
 
     <ul class="navbar-links">
