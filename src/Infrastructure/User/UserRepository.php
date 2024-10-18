@@ -33,7 +33,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
     public function create(UserInterface $user): void
     {
-        $user->setEnabled(false);
+        $user->setEnabled((bool) $user->getPlainPassword());
         $this->passwordInitializer->createPassword($user);
 
         $em = $this->getEntityManager();
