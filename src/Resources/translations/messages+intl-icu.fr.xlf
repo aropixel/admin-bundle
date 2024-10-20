@@ -251,7 +251,7 @@
       </trans-unit>
       <trans-unit id="IOdPoMJ" resname="activation.success.description">
         <source>activation.success.description</source>
-        <target><![CDATA[Votre compte a été activé.<br /><a href="%link%">Cliquez ici</a> pour vous connecter.]]></target>
+        <target><![CDATA[Votre compte a été activé.<br /><a href="{link}">Cliquez ici</a> pour vous connecter.]]></target>
       </trans-unit>
       <trans-unit id="J3odF5E" resname="library.datatabler.size">
         <source>library.datatabler.size</source>
