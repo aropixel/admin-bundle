@@ -75,7 +75,7 @@
       </trans-unit>
       <trans-unit id="ihxrXBb" resname="first_connexion.request.alert.already_initialized">
         <source>first_connexion.request.alert.already_initialized</source>
-        <target><![CDATA[Your account has already been activated. Veuillez vous authentifier, ou cliquer sur <a href="%link%">mot de passe oublié</a>, pour changer votre mot de passe.]]></target>
+        <target><![CDATA[Your account has already been activated. Veuillez vous authentifier, ou cliquer sur <a href="{link}">mot de passe oublié</a>, pour changer votre mot de passe.]]></target>
       </trans-unit>
       <trans-unit id="GaweBlU" resname="first_connexion.request.form.email">
         <source>first_connexion.request.form.email</source>
@@ -95,7 +95,7 @@
       </trans-unit>
       <trans-unit id="7EBe0rQ" resname="reset.done.description">
         <source>reset.done.description</source>
-        <target><![CDATA[Your password has been changed.<br /><a href="%link%">Click here</a> to login.]]></target>
+        <target><![CDATA[Your password has been changed.<br /><a href="{link}">Click here</a> to login.]]></target>
       </trans-unit>
       <trans-unit id="Y38qAJb" resname="blocked_account.title">
         <source>blocked_account.title</source>
@@ -475,7 +475,7 @@
       </trans-unit>
       <trans-unit id="5Nqn0.c" resname="library.images.modal.attributes.form.properties.field">
         <source>library.images.modal.attributes.form.properties.field</source>
-        <target><![CDATA[%target% attribute of your image tag]]></target>
+        <target><![CDATA[{target} attribute of your image tag]]></target>
       </trans-unit>
       <trans-unit id="0AXO09L" resname="library.images.modal.attributes.submit">
         <source>library.images.modal.attributes.submit</source>
