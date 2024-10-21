@@ -22,12 +22,12 @@ class TranslationExtension extends AbstractExtension
 
     public function getLocales() : array
     {
-        return $this->params->get('locales');
+        return $this->params->get('aropixel_admin.locales');
     }
 
     public function isTranslatable() : bool
     {
-        return $this->params->get('translatable');
+        return 1 < \count($this->params->get('aropixel_admin.locales'));
     }
 
 

@@ -46,8 +46,8 @@ class TranslatableType extends AbstractType
 
     public function getDefaultOptions(array $options = []) : array
     {
-        $locale = $this->parameterBag->get('locale');
-        $locales = $this->parameterBag->get('locales');
+        $locale = $this->parameterBag->get('kernel.default_locale');
+        $locales = $this->parameterBag->get('aropixel_admin.locales');
 
         $options['remove_empty'] = true; // Personal Translations without content are removed
         $options['csrf_protection'] = false;

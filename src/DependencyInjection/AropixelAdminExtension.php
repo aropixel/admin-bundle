@@ -32,6 +32,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             $config['filter_sets'][$className]['admin_thumbnail'] = "Vignette d'administration";
         }
 
+        $container->setParameter('aropixel_admin.locales', $config['translations']['locales']);
         $container->setParameter('aropixel_admin.filter_sets', $config['filter_sets']);
         $container->setParameter('aropixel_admin.editor_filter_sets', $config['editor_filter_sets']);
         $container->setParameter('aropixel_admin.copyright', $config['copyright']);
@@ -41,13 +42,6 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.entities', $config['entities']);
         $container->setParameter('aropixel_admin.entity.image', $config['entities'][ImageInterface::class]);
         $container->setParameter('aropixel_admin.entity.file', $config['entities'][FileInterface::class]);
-
-        if (isset($config['form_translations'])) {
-            //            $container->setParameter('aropixel_admin.form_translations.locales', $config['form_translations']['locales']);
-            //            $container->setParameter('aropixel_admin.form_translations.default_locale', $config['form_translations']['default_locale'] ?: $container->getParameter('kernel.default_locale', 'fr'));
-        } else {
-            $container->setParameter('aropixel_admin.form_translations.locales', []);
-        }
     }
 
     public function prepend(ContainerBuilder $container)

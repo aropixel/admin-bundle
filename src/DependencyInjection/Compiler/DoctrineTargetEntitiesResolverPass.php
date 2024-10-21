@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection\Compiler;
 
+use Doctrine\ORM\Events;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -15,13 +16,16 @@ class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
         } catch (InvalidArgumentException) {
             return;
         }
+
         $entities = $container->getParameter('aropixel_admin.entities');
         foreach ($entities as $interface => $model) {
             $resolveTargetEntityListener->addMethodCall('addResolveTargetEntity', [$interface, $model, []]);
         }
 
         if (!$resolveTargetEntityListener->hasTag('doctrine.event_listener')) {
-            $resolveTargetEntityListener->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata']);
+            $resolveTargetEntityListener
+                ->addTag('doctrine.event_listener', ['event' => Events::loadClassMetadata])
+                ->addTag('doctrine.event_listener', ['event' => Events::onClassMetadataNotFound]);
         }
     }
 }
