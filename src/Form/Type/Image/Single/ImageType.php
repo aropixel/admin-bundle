@@ -174,14 +174,14 @@ class ImageType extends AbstractType implements DataMapperInterface
             if (\array_key_exists('description', $attributes)) {
                 $forms['description']->setData($attributes['description']);
             }
-            if (\array_key_exists('attr_title', $attributes)) {
-                $forms['attr_title']->setData($attributes['attr_title']);
+            if (\array_key_exists('attrTitle', $attributes)) {
+                $forms['attrTitle']->setData($attributes['attrTitle']);
             }
-            if (\array_key_exists('attr_alt', $attributes)) {
-                $forms['attr_alt']->setData($attributes['attr_alt']);
+            if (\array_key_exists('attrAlt', $attributes)) {
+                $forms['attrAlt']->setData($attributes['attrAlt']);
             }
-            if (\array_key_exists('attr_class', $attributes)) {
-                $forms['attr_class']->setData($attributes['attr_class']);
+            if (\array_key_exists('attrClass', $attributes)) {
+                $forms['attrClass']->setData($attributes['attrClass']);
             }
         }
 

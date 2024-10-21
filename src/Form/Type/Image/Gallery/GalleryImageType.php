@@ -37,9 +37,9 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
             ->add('title', HiddenType::class)
             ->add('description', HiddenType::class)
             ->add('link', HiddenType::class)
-            ->add('attr_title', HiddenType::class)
-            ->add('attr_alt', HiddenType::class)
-            ->add('attr_class', HiddenType::class)
+            ->add('attrTitle', HiddenType::class)
+            ->add('attrAlt')
+            ->add('attrClass', HiddenType::class)
         ;
 
         // If property was given, the image is store as a file_name in a custom entity
@@ -92,16 +92,16 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
             $forms['description']->setData($attributes['description']);
         }
 
-        if (\is_array($attributes) && \array_key_exists('attr_title', $attributes)) {
-            $forms['attr_title']->setData($attributes['attr_title']);
+        if (\is_array($attributes) && \array_key_exists('attrTitle', $attributes)) {
+            $forms['attrTitle']->setData($attributes['attrTitle']);
         }
 
-        if (\is_array($attributes) && \array_key_exists('attr_alt', $attributes)) {
-            $forms['attr_alt']->setData($attributes['attr_alt']);
+        if (\is_array($attributes) && \array_key_exists('attrAlt', $attributes)) {
+            $forms['attrAlt']->setData($attributes['attrAlt']);
         }
 
-        if (\is_array($attributes) && \array_key_exists('attr_class', $attributes)) {
-            $forms['attr_class']->setData($attributes['attr_class']);
+        if (\is_array($attributes) && \array_key_exists('attrClass', $attributes)) {
+            $forms['attrClass']->setData($attributes['attrClass']);
         }
 
         if (\array_key_exists('crops', $forms)) {
@@ -140,16 +140,16 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
                 $attributes['description'] = $forms['description']->getData();
             }
 
-            if (null !== $forms['attr_title']->getData()) {
-                $attributes['attr_title'] = $forms['attr_title']->getData();
+            if (null !== $forms['attrTitle']->getData()) {
+                $attributes['attrTitle'] = $forms['attrTitle']->getData();
             }
 
-            if (null !== $forms['attr_alt']->getData()) {
-                $attributes['attr_alt'] = $forms['attr_alt']->getData();
+            if (null !== $forms['attrAlt']->getData()) {
+                $attributes['attrAlt'] = $forms['attrAlt']->getData();
             }
 
-            if (null !== $forms['attr_class']->getData()) {
-                $attributes['attr_class'] = $forms['attr_class']->getData();
+            if (null !== $forms['attrClass']->getData()) {
+                $attributes['attrClass'] = $forms['attrClass']->getData();
             }
 
             $propertyAccessor->setValue($viewData, $this->options['data_attributes'], $attributes);
