@@ -30,12 +30,11 @@
                     </div>
                 </div>
                 <div class="user-body d-flex">
-                    <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="dropdown-item has-icon">
-                        <i class="far fa-user"></i> {% trans %}text.my_account{% endtrans %}
+                    <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="user-link w-50">
+                        <i class="far fa-user"></i> Mon profil
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ url('aropixel_admin_security_logout') }}" class="dropdown-item has-icon text-danger">
-                        <i class="fas fa-sign-out-alt"></i> {% trans %}text.logout{% endtrans %}
+                    <a href="{{ url('aropixel_admin_security_logout') }}" class="user-link w-50">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </a>
                 </div>
             </div>
