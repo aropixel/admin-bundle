@@ -5,7 +5,7 @@
     <div class="d-flex align-items-center">
         <i class="fas fa-bars m-r-30" id="burgerMenu"></i>
         {% if logoPath %}
-        <a href="" class="logo" style="width: {{ logoWidth }}">
+        <a href="{{ url('_admin') }}" class="logo" style="width: {{ logoWidth }}">
             <img src="{{ asset(logoPath) }}" alt="{{ admin_client.name }}">
         </a>
         {% endif %}
@@ -26,7 +26,7 @@
                 <div class="user-header">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-user m-r-20"></i>
-                        <div></div>
+                        <div>{% block user_name %}{% endblock %}</div>
                     </div>
                 </div>
                 <div class="user-body d-flex">
@@ -47,6 +47,7 @@
 
                 <nav id="search-nav">
 
+                    {% block fullscreen_explorer %}
                     <div class="header d-flex align-items-center">
                         <div class="btn-group">
                             <a href="{{ admin_client.link }}" target="_blank" class="site-name d-flex justify-content-between align-items-center fw-semibold">
@@ -58,6 +59,7 @@
                             <input type="search" placeholder="Explorer">
                         </div>
                     </div>
+                    {% endblock %}
 
                     <div class="body">
 
