@@ -26,7 +26,7 @@
                 <div class="user-header">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-user m-r-20"></i>
-                        <div>{% block user_name %}{% endblock %}</div>
+                        <div>{% block user_name %}{{ app.user.firstName }} {{ app.user.lastName }}{% endblock %}</div>
                     </div>
                 </div>
                 <div class="user-body d-flex">
