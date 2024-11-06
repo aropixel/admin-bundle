@@ -17,6 +17,13 @@ trait TranslatableMethodsTrait
             }
         }
 
+        // return first translation if no translation exists for currentLocale
+        foreach ($this->getTranslations() as $translation) {
+            if ($field === $translation->getField()) {
+                return $translation->getContent();
+            }
+        }
+
         return $this->$field;
     }
 

@@ -38,6 +38,11 @@
 
 .fullscreen-navbar .navbar-links a {
     line-height: 1;
+    text-decoration: none;
+}
+
+.fullscreen-navbar .navbar-links a:hover {
+    text-decoration: none;
 }
 
 .fullscreen-navbar .navbar-links a:hover .navbar-icon-blue {
@@ -93,11 +98,11 @@
 
 .dropdown-user .user-header i {
     font-size: 20px;
-    color: #fff;
+    color: var(--main-bg-color);
     width: 40px;
     text-align: center;
     line-height: 40px;
-    background-color: var(--second-bg-color);
+    background-color: #fff;
     border-radius: 15px;
 }
 

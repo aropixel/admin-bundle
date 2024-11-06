@@ -167,7 +167,7 @@
       </trans-unit>
       <trans-unit id="en29wLA" resname="activation.email.description">
         <source>activation.email.description</source>
-        <target><![CDATA[Bonjour %user_name%,<br /><br />Votre compte administrateur vient d'être créé pour le site "%website_name%".<br />Afin d'activer votre compte, veuillez cliquer sur le bouton ci-dessous afin de choisir votre mot de passe.]]></target>
+        <target><![CDATA[Bonjour {user_name},<br /><br />Votre compte administrateur vient d'être créé pour le site "{website_name}".<br />Afin d'activer votre compte, veuillez cliquer sur le bouton ci-dessous afin de choisir votre mot de passe.]]></target>
       </trans-unit>
       <trans-unit id="emZjgS8" resname="activation.email.button">
         <source>activation.email.button</source>
@@ -179,7 +179,7 @@
       </trans-unit>
       <trans-unit id="alwzkBa" resname="reset.email.description">
         <source>reset.email.description</source>
-        <target><![CDATA[Bonjour %user_name%,<br /><br />Vous avez demandé à modifier votre mot de passe administrateur pour le site "%website_name%".<br />Pour modifier le mot de passe, veuillez cliquer sur le bouton ci-dessous. Si cette demande ne provient pas de vous, veuillez tout simplement l'ignorer.]]></target>
+        <target><![CDATA[Bonjour {user_name},<br /><br />Vous avez demandé à modifier votre mot de passe administrateur pour le site "{website_name}".<br />Pour modifier le mot de passe, veuillez cliquer sur le bouton ci-dessous. Si cette demande ne provient pas de vous, veuillez tout simplement l'ignorer.]]></target>
       </trans-unit>
       <trans-unit id="q5SnqGz" resname="reset.email.button">
         <source>reset.email.button</source>

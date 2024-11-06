@@ -38,19 +38,18 @@
 .btn-primary, .btn-primary.disabled, .btn.disabled, .btn:disabled, fieldset:disabled .btn {
     box-shadow: 0 2px 6px var(--main-light-color);
     background-color: var(--main-bg-color);
-    border: 1px solid var(--main-bg-color);
+    border: none;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active,
 .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled:hover {
     background-color: var(--main-darker-bg-color) !important;
-    border-color: var(--main-darker-bg-color) !important;
     color: #fff !important;
 }
 
 .btn-secondary {
     background-color: var(--second-bg-color);
-    border-color: var(--second-bg-color);
+    border: none;
     color: #fff;
 }
 

@@ -33,7 +33,13 @@
 
                             <div class="text-center mb-3">
                                 <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
-                                    <img src="{{ user.image ? user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') : asset('bundles/aropixeladmin/img/logo.png') }}" alt="" class="w-50 rounded-circle"/>
+                                    {% if user.image %}
+                                        <img src="{{ user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') }}" alt="" class="w-50 rounded-circle"/>
+                                    {% else %}
+                                        <span class="missing-img">
+                                            <img src="{{ asset(missingImgPath) }}" alt="" class="w-100"/>
+                                        </span>
+                                    {% endif %}
                                 </a>
                             </div>
                             <div class="text-center">

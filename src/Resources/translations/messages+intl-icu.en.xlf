@@ -163,7 +163,7 @@
       </trans-unit>
       <trans-unit id="en29wLA" resname="activation.email.description">
         <source>activation.email.description</source>
-        <target><![CDATA[Hi %user_name%,<br /><br />Your administrator account has just been created for the website "%website_name%".<br />To activate your account, please click on the button below to choose your password.]]></target>
+        <target><![CDATA[Hi {user_name},<br /><br />Your administrator account has just been created for the website "{website_name}".<br />To activate your account, please click on the button below to choose your password.]]></target>
       </trans-unit>
       <trans-unit id="emZjgS8" resname="activation.email.button">
         <source>activation.email.button</source>
@@ -175,7 +175,7 @@
       </trans-unit>
       <trans-unit id="alwzkBa" resname="reset.email.description">
         <source>reset.email.description</source>
-        <target><![CDATA[Hi %user_name%,<br /><br />You have requested to change your administrator password for the website "%website_name%".<br />To change the password, please click the button below. If this request is not from you, please simply ignore it.]]></target>
+        <target><![CDATA[Hi {user_name},<br /><br />You have requested to change your administrator password for the website "{website_name}".<br />To change the password, please click the button below. If this request is not from you, please simply ignore it.]]></target>
       </trans-unit>
       <trans-unit id="q5SnqGz" resname="reset.email.button">
         <source>reset.email.button</source>
