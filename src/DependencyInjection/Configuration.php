@@ -88,6 +88,8 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('missing_img_path')->defaultValue('bundles/aropixeladmin/img/logo-vert.png')->end()
             ->scalarNode('logo_login_path')->defaultValue('bundles/aropixeladmin/img/sigle_fond-blanc_code-transparent.png')->end()
             ->scalarNode('background_color')->defaultValue('#0CABA8')->end()
+            ->scalarNode('btn_background_color')->defaultValue('#0CABA8')->end()
+            ->scalarNode('btn_color')->defaultValue('#fff')->end()
             ->arrayNode('classes')
             ->children()
             ->scalarNode('card')->defaultValue('card')->end()

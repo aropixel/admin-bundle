@@ -2,9 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\UserImage;
-use Aropixel\AdminBundle\Entity\UserInterface;
-
 class User implements UserInterface
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN';

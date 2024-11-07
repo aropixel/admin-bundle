@@ -117,7 +117,7 @@
 }
 
 .dropdown-user .user-link:hover {
-    color: var(--second-bg-color);
+    color: var(--main-bg-color);
     text-decoration: none;
 }
 

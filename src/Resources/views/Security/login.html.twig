@@ -33,6 +33,8 @@
 	{% set hour = "now"|date("H") %}
 
 	{% set backgroundColor = admin_theme.background_color %}
+	{% set btnColor = admin_theme.btn_color %}
+	{% set btnBgColor = admin_theme.btn_background_color %}
 	{% set logoPath = admin_theme.logo_path %}
 	{% set loginLogoPath = admin_theme.logo_login_path %}
 
@@ -100,7 +102,7 @@
 						</div>
 
 						<div class="form-group">
-							<button type="submit" class="btn btn-primary w-100" tabindex="4" style="background-color: {{ backgroundColor }}">
+							<button type="submit" class="btn btn-overriden w-100" tabindex="4" style="background-color: {{ btnBgColor }}; color: {{ btnColor }}">
 								{% trans %}login.form.submit{% endtrans %}
 							</button>
 						</div>

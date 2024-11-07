@@ -396,6 +396,9 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     margin: auto;
     align-items: center;
     justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .missing-img:after {

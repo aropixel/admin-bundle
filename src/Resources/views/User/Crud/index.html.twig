@@ -16,29 +16,27 @@
 
             {% for user in users %}
 
-                <div class="col-sm-6 col-md-3">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card" style="{% if not user.enabled %}opacity: 0.5;{% endif %}">
-                        <div class="pt-4 pb-4 ps-3 pe-3 d-block">
+                        <div class="pt-5 pb-4 ps-3 pe-3 d-block">
 
-                            <div class="d-flex justify-content-end mb-3">
-                                <div class="btn-group">
-                                    <a data-confirm="{% trans %}users.list.delete_warning{% endtrans %}" class="badge badge-danger badge-icon delete cursor-pointer">
-                                        <i class="fas fa-trash ms-0"></i>
-                                    </a>
-                                    <form method="post" action="{{ path('aropixel_admin_user_delete', {'id': user.id}) }}">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user' ~ user.id) }}">
-                                    </form>
-                                </div>
-                            </div>
+{#                            <div class="d-flex justify-content-end mb-3">#}
+{#                                <div class="btn-group">#}
+{#                                    <a data-confirm="{% trans %}users.list.delete_warning{% endtrans %}" class="badge badge-danger badge-icon delete cursor-pointer">#}
+{#                                        <i class="fas fa-trash ms-0"></i>#}
+{#                                    </a>#}
+{#                                    <form method="post" action="{{ path('aropixel_admin_user_delete', {'id': user.id}) }}">#}
+{#                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user' ~ user.id) }}">#}
+{#                                    </form>#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="text-center mb-3">
                                 <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
                                     {% if user.image %}
                                         <img src="{{ user.image.getWebPath() | aropixel_imagine_filter('admin_thumbnail') }}" alt="" class="w-50 rounded-circle"/>
                                     {% else %}
-                                        <span class="missing-img">
-                                            <img src="{{ asset(missingImgPath) }}" alt="" class="w-100"/>
-                                        </span>
+                                        <span class="missing-img" style="background-image: url('{{ asset(missingImgPath) }}')"></span>
                                     {% endif %}
                                 </a>
                             </div>
