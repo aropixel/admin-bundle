@@ -353,6 +353,9 @@ textarea.form-control {
 .dropdown.bootstrap-select.form-control.show .btn {
     border-color: #95a0f4!important;
 }
+.bootstrap-select {
+    width: 100% !important;
+}
 .bootstrap-select.form-control {
     margin-bottom: 0;
     padding: 0;
@@ -638,4 +641,12 @@ textarea.form-control {
 
 .alert-success {
     background-color: var(--success-color) !important;
+}
+
+#togglePassword {
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    line-height: 45px;
+    cursor: pointer;
 }

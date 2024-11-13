@@ -577,6 +577,10 @@
         <source>text.no</source>
         <target>Non</target>
       </trans-unit>
+      <trans-unit id="iR0aFU4" resname="login.form.password.show">
+        <source>login.form.password.show</source>
+        <target>Afficher le mot de passe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
