@@ -15,9 +15,13 @@
 
 {% block form_end -%}
     {{- parent() -}}
+    {% if is_image_library_modal_enabled() %}
     {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
     {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
+    {% endif %}
+    {% if is_file_library_modal_enabled() %}
     {{ include('@AropixelAdmin/File/Modals/library.html.twig', { 'category' : false }) }}
+    {% endif %}
 {%- endblock form_end %}
 
 
@@ -325,7 +329,7 @@
 
 {% block aropixel_gallery_widget -%}
 
-
+    {{ enable_image_library_modal() }}
     {% set type = type is defined ? type : 'gallery' %}
     {% set entityField = field is defined ? field : 'gallery' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
@@ -431,6 +435,7 @@
 
 {% block gallery_files_widget -%}
 
+    {{ enable_file_library_modal() }}
     {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
     {% if prototype is defined %}
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
@@ -477,6 +482,7 @@
 
 {% block aropixel_admin_file_row -%}
 
+    {{ enable_file_library_modal() }}
     {% set type = type is defined ? type : 'files' %}
     {% set entityField = field is defined ? field : 'files' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
@@ -540,6 +546,7 @@
 
 {% block aropixel_admin_image_widget -%}
 
+    {{ enable_image_library_modal() }}
     {% set type = type is defined ? type : 'image' %}
     {% set entityField = field is defined ? field : 'image' %}
     {% set entityClass = get_class(form.parent.vars.value) %}

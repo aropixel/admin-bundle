@@ -9,6 +9,7 @@ use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class ImageExtension extends AbstractExtension
 {
@@ -19,13 +20,29 @@ class ImageExtension extends AbstractExtension
         private readonly CacheManager $cacheManager,
         private readonly FilterService $filterService,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly PathResolverInterface $pathResolver
+        private readonly PathResolverInterface $pathResolver,
+        private bool $isLibraryEnabled = false,
     ) {
     }
 
     public function getFilters()
     {
         return [new TwigFilter('aropixel_imagine_filter', $this->customImagineFilter(...))];
+    }
+
+    public function getFunctions(): array
+    {
+        return [new TwigFunction('enable_image_library_modal', $this->enableImageLibraryModal(...)), new TwigFunction('is_image_library_modal_enabled', $this->isImageLibraryModalEnabled(...))];
+    }
+
+    public function enableImageLibraryModal(): void
+    {
+        $this->isLibraryEnabled = true;
+    }
+
+    public function isImageLibraryModalEnabled(): bool
+    {
+        return $this->isLibraryEnabled;
     }
 
     public function customImagineFilter(?string $webPath, string $filter, array $config = [], $resolver = null)
