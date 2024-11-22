@@ -35,7 +35,7 @@
     color: #acb7c2;
 }
 
-.btn-primary, .btn-primary.disabled, .btn.disabled, .btn:disabled, fieldset:disabled .btn {
+.btn-primary, .btn-primary.disabled, .btn-primary:disabled, fieldset:disabled .btn-primary {
     box-shadow: 0 2px 6px var(--main-light-color);
     background-color: var(--main-bg-color);
     border: none;

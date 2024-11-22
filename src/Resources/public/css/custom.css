@@ -5,6 +5,7 @@
  *
  */
 
+@import "components/_override.css";
 @import "components/_btn.css";
 @import "components/_card.css";
 @import "components/_file.css";
@@ -20,6 +21,7 @@
 @import "components/_table.css";
 @import "components/_wysiwyg.css";
 @import "components/_badge.css";
+@import "components/_text.css";
 @import "components/_translation.css";
 
 :root {
@@ -331,6 +333,10 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
 
 a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active span {
     color: #fff !important;
+}
+
+.nav.nav-underline .nav-link.active {
+    text-decoration: underline;
 }
 
 .nav-pills .nav-item .nav-link:hover {

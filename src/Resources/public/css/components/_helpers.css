@@ -466,7 +466,7 @@
   border-right: 3px solid;
 }
 
-.text-black {
+.text-bolder {
   font-weight: 900;
 }
 .text-bold {
@@ -487,7 +487,6 @@
 .text-muted {
   color: #99A1B7 !important;
 }
-
 .text-right {
   text-align: right;
 }
@@ -495,6 +494,37 @@
 .flex-center {
   justify-content: center;
   align-items: center;
+}
+
+.w-20px {
+  width: 20px;
+}
+.w-30px {
+  width: 30px;
+}
+.w-40px {
+  width: 40px;
+}
+.w-50px {
+  width: 50px;
+}
+.w-60px {
+  width: 60px;
+}
+.w-70px {
+  width: 70px;
+}
+.w-80px {
+  width: 80px;
+}
+.w-90px {
+  width: 90px;
+}
+.w-100px {
+  width: 100px;
+}
+.mw-600px {
+  max-width: 600px!important;
 }
 .mw-1000px {
   max-width: 1000px!important;
