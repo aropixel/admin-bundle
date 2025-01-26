@@ -5,24 +5,23 @@
  *
  */
 
-@import "components/_override.css";
-@import "components/_btn.css";
-@import "components/_card.css";
-@import "components/_file.css";
-@import "components/_form.css";
-@import "components/_helpers.css";
-@import "components/_menu.css";
-@import "components/_modal.css";
-/*@import "components/_offcanvas-form.css";*/
-@import "components/_picker.css";
-@import "components/_section-header.css";
-@import "components/_fullscreen.css";
-@import "components/_search-nav.css";
-@import "components/_table.css";
-@import "components/_wysiwyg.css";
-@import "components/_badge.css";
-@import "components/_text.css";
-@import "components/_translation.css";
+@import url("./components/_override.css");
+@import url("./components/_btn.css");
+@import url("./components/_card.css");
+@import url("./components/_file.css");
+@import url("./components/_form.css");
+@import url("./components/_helpers.css");
+@import url("./components/_menu.css");
+@import url("./components/_modal.css");
+@import url("./components/_picker.css");
+@import url("./components/_section-header.css");
+@import url("./components/_fullscreen.css");
+@import url("./components/_search-nav.css");
+@import url("./components/_table.css");
+@import url("./components/_wysiwyg.css");
+@import url("./components/_badge.css");
+@import url("./components/_text.css");
+@import url("./components/_translation.css");
 
 :root {
     --main-bg-color: #0CABA8;
@@ -411,4 +410,8 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     content: "";
     display: block;
     padding-bottom: 100%;
+}
+
+.main-footer {
+    padding: 20px 30px;
 }

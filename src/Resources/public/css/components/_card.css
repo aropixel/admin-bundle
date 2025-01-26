@@ -6,7 +6,6 @@
 .card .card-header {
     border-bottom-color: #ececec;
 }
-/*.card .card-title { font-family: 'Nunito', 'Segoe UI', arial; }*/
 .card .card-title:before {
     content: ' ';
     border-radius: 5px;

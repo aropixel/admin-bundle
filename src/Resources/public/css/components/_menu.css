@@ -23,10 +23,6 @@ body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
     color: #fff !important;
 }
 
-.main-sidebar .sidebar-menu li.menu-header {
-    font-family: 'Nunito', 'Segoe UI', arial;
-}
-
 .main-sidebar .sidebar-menu li.nav-item a {
     font-weight: 500;
 }
