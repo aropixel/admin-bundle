@@ -23,7 +23,6 @@
     "stof/doctrine-extensions-bundle": "^1.7",
     "symfony/orm-pack": "2.4.1",
     "symfony/asset": "^6.0|^7.1",
-    "symfony/asset-mapper": "^6.0|^7.1",
     "symfony/mailer": "^6.0|^7.1",
     "symfony/form": "^6.0|^7.1",
     "symfony/flex": "^1|^2",

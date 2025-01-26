@@ -5,24 +5,23 @@
  *
  */
 
-@import "/bundles/aropixeladmin/css/components/_override.css";
-@import "/bundles/aropixeladmin/css/components/_btn.css";
-@import "/bundles/aropixeladmin/css/components/_card.css";
-@import "/bundles/aropixeladmin/css/components/_file.css";
-@import "/bundles/aropixeladmin/css/components/_form.css";
-@import "/bundles/aropixeladmin/css/components/_helpers.css";
-@import "/bundles/aropixeladmin/css/components/_menu.css";
-@import "/bundles/aropixeladmin/css/components/_modal.css";
-/*@import "/bundles/aropixeladmin/css/components/_offcanvas-form.css";*/
-@import "/bundles/aropixeladmin/css/components/_picker.css";
-@import "/bundles/aropixeladmin/css/components/_section-header.css";
-@import "/bundles/aropixeladmin/css/components/_fullscreen.css";
-@import "/bundles/aropixeladmin/css/components/_search-nav.css";
-@import "/bundles/aropixeladmin/css/components/_table.css";
-@import "/bundles/aropixeladmin/css/components/_wysiwyg.css";
-@import "/bundles/aropixeladmin/css/components/_badge.css";
-@import "/bundles/aropixeladmin/css/components/_text.css";
-@import "/bundles/aropixeladmin/css/components/_translation.css";
+@import url("./components/_override.css");
+@import url("./components/_btn.css");
+@import url("./components/_card.css");
+@import url("./components/_file.css");
+@import url("./components/_form.css");
+@import url("./components/_helpers.css");
+@import url("./components/_menu.css");
+@import url("./components/_modal.css");
+@import url("./components/_picker.css");
+@import url("./components/_section-header.css");
+@import url("./components/_fullscreen.css");
+@import url("./components/_search-nav.css");
+@import url("./components/_table.css");
+@import url("./components/_wysiwyg.css");
+@import url("./components/_badge.css");
+@import url("./components/_text.css");
+@import url("./components/_translation.css");
 
 :root {
     --main-bg-color: #0CABA8;
@@ -411,4 +410,8 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     content: "";
     display: block;
     padding-bottom: 100%;
+}
+
+.main-footer {
+    padding: 20px 30px;
 }
