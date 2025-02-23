@@ -2,7 +2,9 @@
 
 namespace Aropixel\AdminBundle\Domain\Media\Image\Crop;
 
+use Aropixel\AdminBundle\Entity\ImageInterface;
+
 interface CropApplierInterface
 {
-    public function applyCrop(string $fileName, string $filterName, string $cropCoordinates): void;
+    public function applyCrop(ImageInterface $image, string $filterName, string $cropCoordinates): void;
 }
