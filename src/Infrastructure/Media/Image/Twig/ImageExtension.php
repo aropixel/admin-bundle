@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
+use League\Flysystem\FilesystemOperator;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -13,14 +13,11 @@ use Twig\TwigFunction;
 
 class ImageExtension extends AbstractExtension
 {
-    /**
-     * @param \AdminBundle\Domain\Media\Resolver\PathResolverInterface $pathResolver
-     */
     public function __construct(
         private readonly CacheManager $cacheManager,
         private readonly FilterService $filterService,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly PathResolverInterface $pathResolver,
+        private readonly FilesystemOperator $privateStorage,
         private bool $isLibraryEnabled = false,
     ) {
     }
@@ -48,8 +45,18 @@ class ImageExtension extends AbstractExtension
     public function customImagineFilter(?string $webPath, string $filter, array $config = [], $resolver = null)
     {
         /* @var AttachedImage $image */
+        try {
+            $shouldProducePlaceholder =
+                null === $webPath ||
+                !$this->privateStorage->fileExists($webPath)
+            ;
 
-        if (null === $webPath || !$this->pathResolver->privateFileExists($webPath)) {
+        }
+        catch (\Throwable) {
+            $shouldProducePlaceholder = true;
+        }
+
+        if ($shouldProducePlaceholder) {
             $filterSets = $this->parameterBag->get('liip_imagine.filter_sets');
             if (!\array_key_exists($filter, $filterSets)) {
                 throw new \Exception(sprintf('Le filtre "%s" n\'existe pas', $filter));

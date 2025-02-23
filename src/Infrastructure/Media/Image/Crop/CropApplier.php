@@ -3,7 +3,6 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Crop;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
