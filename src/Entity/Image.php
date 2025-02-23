@@ -30,6 +30,10 @@ class Image implements ImageInterface
 
     private ?string $filename = null;
 
+    private ?int $width = null;
+
+    private ?int $height = null;
+
     private ?string $extension = null;
 
     private ?string $import = null;
@@ -214,4 +218,25 @@ class Image implements ImageInterface
     {
         return self::UPLOAD_DIR;
     }
+
+    public function getWidth(): ?int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(?int $width): void
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?int $height): void
+    {
+        $this->height = $height;
+    }
+
 }

@@ -22,6 +22,8 @@
         <field name="attrAlt" type="string" nullable="true" />
         <field name="description" type="string" nullable="true" />
         <field name="filename" type="string" />
+        <field name="width" type="integer" nullable="true" />
+        <field name="height" type="integer" nullable="true" />
         <field name="extension" type="string" length="20" />
         <field name="import" type="text" nullable="true" />
         <field name="createdAt" column="created_at" type="datetime">

@@ -3,69 +3,51 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Upload;
 
 use Aropixel\AdminBundle\Entity\Image;
-use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
-use Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver;
+use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerInterface;
 
 class UploadImageListener
 {
-    /**
-     * @param \AdminBundle\Infrastructure\Media\Resolver\PathResolver $pathResolver
-     */
     public function __construct(
-        private readonly PathResolver $pathResolver,
-        private readonly PreUploadHandler $preUploadHandler
+        private readonly FilesystemOperator $privateStorage,
+        private readonly PreUploadHandler $preUploadHandler,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
-    public function prePersist(ItemLibraryInterface $image): void
-    {
-        $this->preUpload($image);
-    }
-
-    public function preUpdate(ItemLibraryInterface $image): void
-    {
-        $this->preUpload($image);
-    }
-
-    public function postPersist(ItemLibraryInterface $image): void
-    {
-        $this->upload($image);
-    }
-
-    public function postUpdate(ItemLibraryInterface $image): void
-    {
-        $this->upload($image);
-    }
-
-    public function postRemove(ItemLibraryInterface $image): void
-    {
-        $file = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
-        if ($file && file_exists($file)) {
-            unlink($file);
-        }
-    }
-
-    private function preUpload(ItemLibraryInterface $image): void
+    public function prePersist(ImageInterface $image): void
     {
         $this->preUploadHandler->handlePreUpload($image);
+
+        [$width, $height] = getimagesize($image->getFile()->getPathname());
+        $image->setWidth($width);
+        $image->setHeight($height);
+
     }
 
-    private function upload(ItemLibraryInterface $image): void
+    public function postPersist(ImageInterface $image): void
     {
         if (null === $image->getFile()) {
             return;
         }
 
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $image->getFile()->move($this->pathResolver->getPrivateAbsolutePath(Image::UPLOAD_DIR), $image->getFilename());
-
-        // check if we have an old image
-        if ($image->getTempPath()) {
-            // delete the old image
-            unlink($this->pathResolver->getPrivateAbsolutePath(Image::UPLOAD_DIR) . '/' . $image->getTempPath());
+        try {
+            $this->privateStorage->write(Image::UPLOAD_DIR.'/'.$image->getFilename(), file_get_contents($image->getFile()->getPathname()));
+            unlink($image->getFile()->getPathname());
+        }
+        catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
+
+    public function postRemove(ImageInterface $image): void
+    {
+        try {
+            $this->privateStorage->delete(Image::UPLOAD_DIR.'/'.$image->getFilename());
+        }
+        catch (\Throwable) {}
+    }
+
 }
