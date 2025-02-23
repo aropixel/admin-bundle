@@ -4,16 +4,18 @@ namespace Aropixel\AdminBundle\Domain\Media\File\Library\DataTable;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\File\Library\Factory\IconPathFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\Image;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
 class DataTableRowFactory implements DataTableRowFactoryInterface
 {
     public function __construct(
+        private readonly Environment $twig,
+        private readonly FilesystemOperator $privateStorage,
         private readonly IconPathFactoryInterface $iconPathFactory,
-        private readonly PathResolverInterface $pathResolver,
-        private readonly Environment $twig
     ) {
     }
 
@@ -21,9 +23,13 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     {
         /** @var File $file */
         $file = $subject;
-        $filePath = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
 
-        $bytes = @filesize($filePath);
+        try {
+            $bytes = $this->privateStorage->fileSize(Image::UPLOAD_DIR . '/' . $file->getFilename());
+        } catch (FilesystemException $e) {
+            $bytes = 0;
+        }
+
         $sz = 'bkMGTP';
         $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
         $decimals = 2;
@@ -32,7 +38,6 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
             $decimals = 0;
         }
         $filesize = sprintf("%.{$decimals}f", $bytes / 1024 ** $factor) . @$sz[$factor];
-        [$width, $height] = getimagesize($filePath);
 
         $icon = $this->iconPathFactory->getIconPath($subject->getExtension());
 
@@ -41,7 +46,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
             $this->twig->render('@AropixelAdmin/File/Datatabler/preview.html.twig', ['file' => $file, 'icon' => $icon]),
             $this->twig->render('@AropixelAdmin/File/Datatabler/title.html.twig', ['file' => $file]),
             $file->getCreatedAt()->format('d/m/Y'),
-            $this->twig->render('@AropixelAdmin/File/Datatabler/properties.html.twig', ['file' => $file, 'filesize' => $filesize, 'width' => $width, 'height' => $height]),
+            $this->twig->render('@AropixelAdmin/File/Datatabler/properties.html.twig', ['file' => $file, 'filesize' => $filesize]),
             $this->twig->render('@AropixelAdmin/File/Datatabler/button.html.twig', ['file' => $file]),
         ];
     }

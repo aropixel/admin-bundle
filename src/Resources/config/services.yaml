@@ -77,12 +77,9 @@ services:
 
 
     Aropixel\AdminBundle\Infrastructure\Media\File\Upload\UploadFileListener:
-        arguments: ['@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
         tags:
             - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.file%' }
-            - { name: doctrine.orm.entity_listener, event: preUpdate, entity: '%aropixel_admin.entity.file%' }
             - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.file%' }
-            - { name: doctrine.orm.entity_listener, event: postUpdate, entity: '%aropixel_admin.entity.file%' }
             - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
 
 
