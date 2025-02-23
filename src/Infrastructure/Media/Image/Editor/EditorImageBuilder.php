@@ -3,14 +3,12 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Editor;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Liip\ImagineBundle\Service\FilterService;
 
 class EditorImageBuilder implements EditorImageBuilderInterface
 {
     public function __construct(
-        private readonly PathResolverInterface $pathResolver,
         private readonly FilterService $filterService
     ) {
     }
@@ -26,12 +24,10 @@ class EditorImageBuilder implements EditorImageBuilderInterface
         if (null !== $filter) {
             $resourcePath = $this->filterService->getUrlOfFilteredImage($image->getWebPath(), $filter);
         } else {
-            $size = getimagesize($this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR));
-
             // Runtime configuration
             $runtimeConfig = [
                 'relative_resize' => [
-                    'widen' => $size[0],
+                    'widen' => $image->getWidth(),
                 ],
             ];
 

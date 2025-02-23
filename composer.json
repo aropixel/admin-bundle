@@ -19,6 +19,7 @@
   },
   "require" : {
     "ext-intl": "*",
+    "league/flysystem-bundle": "^3.4",
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
     "symfony/orm-pack": "2.4.1",

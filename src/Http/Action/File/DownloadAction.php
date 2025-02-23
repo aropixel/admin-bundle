@@ -2,25 +2,34 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadAction extends AbstractController
 {
     public function __construct(
-        private readonly PathResolverInterface $pathResolver
+        private readonly FilesystemOperator $privateStorage,
     ) {
     }
 
-    /**
-     * Upload a file.
-     */
     public function __invoke(File $file): Response
     {
-        $path = $this->pathResolver->getPrivateAbsolutePath($file->getFilename(), File::UPLOAD_DIR);
+        $stream = $this->privateStorage->readStream(File::UPLOAD_DIR.'/'.$file->getFilename());
 
-        return $this->file($path, $file->getRewrittenFileName());
+        return new StreamedResponse(
+            function () use ($stream) {
+                fpassthru($stream);
+            },
+            Response::HTTP_OK,
+            [
+                'Content-Transfer-Encoding', 'binary',
+                'Content-Type' => $file->getFile()->getMimeType(),
+                'Content-Disposition' => 'attachment; filename="'.$file->getFilename().'"',
+                'Content-Length' => fstat($stream)['size'],
+            ]
+        );
     }
 }

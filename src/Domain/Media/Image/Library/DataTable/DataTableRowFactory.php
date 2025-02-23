@@ -3,15 +3,20 @@
 namespace Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Doctrine\ORM\EntityManagerInterface;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
 class DataTableRowFactory implements DataTableRowFactoryInterface
 {
     public function __construct(
-        private readonly PathResolverInterface $pathResolver,
-        private readonly Environment $twig
+        private readonly EntityManagerInterface $em,
+        private readonly Environment $twig,
+        private readonly FilesystemOperator $privateStorage,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -19,9 +24,13 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     {
         /** @var Image $image */
         $image = $subject;
-        $imagePath = $this->pathResolver->getPrivateAbsolutePath($image->getFilename(), Image::UPLOAD_DIR);
 
-        $bytes = @filesize($imagePath);
+        try {
+            $bytes = $this->privateStorage->fileSize(Image::UPLOAD_DIR . '/' . $image->getFilename());
+        } catch (FilesystemException $e) {
+            $bytes = 0;
+        }
+
         $sz = 'bkMGTP';
         $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
         $decimals = 2;
@@ -30,7 +39,20 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
             $decimals = 0;
         }
         $filesize = sprintf("%.{$decimals}f", $bytes / 1024 ** $factor) . @$sz[$factor];
-        [$width, $height] = getimagesize($imagePath);
+
+        $width = $image->getWidth();
+        $height = $image->getHeight();
+        if (null === $width || null === $height) {
+            try {
+                $contents = $this->privateStorage->read(Image::UPLOAD_DIR . '/' . $image->getFilename());
+                [$width, $height] = getimagesizefromstring($contents);
+                $image->setWidth($width);
+                $image->setHeight($height);
+                $this->em->flush();
+            } catch (FilesystemException) {
+                $this->logger->error(sprintf('Unable to get image size: %s', Image::UPLOAD_DIR . '/' . $image->getFilename()));
+            }
+        }
 
         return [$this->twig->render('@AropixelAdmin/Image/Datatabler/checkbox.html.twig', ['image' => $image]), $this->twig->render('@AropixelAdmin/Image/Datatabler/preview.html.twig', ['image' => $image]), $this->twig->render('@AropixelAdmin/Image/Datatabler/title.html.twig', ['image' => $image]), $image->getCreatedAt()->format('d/m/Y'), $this->twig->render('@AropixelAdmin/Image/Datatabler/properties.html.twig', ['image' => $image, 'filesize' => $filesize, 'width' => $width, 'height' => $height]), $this->twig->render('@AropixelAdmin/Image/Datatabler/button.html.twig', ['image' => $image])];
     }

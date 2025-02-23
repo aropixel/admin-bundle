@@ -62,8 +62,8 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $liipConfig = [
             'loaders' => [
                 'default' => [
-                    'filesystem' => [
-                        'data_root' => '%kernel.project_dir%/private'
+                    'flysystem' => [
+                        'filesystem_service' => 'private.storage'
                     ]
                 ]
             ],
@@ -79,6 +79,19 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         ];
 
         $container->prependExtensionConfig('liip_imagine', $liipConfig);
+
+
+        $flySystemConfig = [
+            'storages' => [
+                'private.storage' => [
+                    'adapter' => 'local',
+                    'options' => [
+                        'directory' => '%kernel.project_dir%/private'
+                    ]
+                ]
+            ]
+        ];
+        $container->prependExtensionConfig('flysystem', $flySystemConfig);
 
 
         if (isset($bundles['DoctrineBundle'])) {

@@ -46,7 +46,7 @@ class DoFileCropListener
             }
 
             $filterName = $entity->getFilter();
-            $this->cropper->applyCrop($image->getFilename(), $filterName, $cropCoordinates);
+            $this->cropper->applyCrop($image->getImage(), $filterName, $cropCoordinates);
         }
     }
 }
