@@ -69,14 +69,6 @@ abstract class AttachedFile
         return $this->file;
     }
 
-    /**
-     * Get image url.
-     */
-    public function getWebPath(): ?string
-    {
-        return $this->file?->getWebPath();
-    }
-
     public function setCreatedAt(?\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;

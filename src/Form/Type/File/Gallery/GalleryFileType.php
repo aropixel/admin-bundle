@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type\File\Gallery;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +14,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GalleryFileType extends AbstractType
 {
+
+    public function __construct(
+        private readonly PathResolverInterface $pathResolver,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -31,7 +38,7 @@ class GalleryFileType extends AbstractType
 
         $fileUrl = null;
         if (null !== $data) {
-            $fileUrl = $data->getWebPath();
+            $fileUrl = $this->pathResolver->getFilePath($data);
         }
 
         // set an "image_url" variable that will be available when rendering this field

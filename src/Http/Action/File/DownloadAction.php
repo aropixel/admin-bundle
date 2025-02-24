@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,12 +13,13 @@ class DownloadAction extends AbstractController
 {
     public function __construct(
         private readonly FilesystemOperator $privateStorage,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
     public function __invoke(File $file): Response
     {
-        $stream = $this->privateStorage->readStream(File::UPLOAD_DIR.'/'.$file->getFilename());
+        $stream = $this->privateStorage->readStream($this->pathResolver->getFilePath($file));
 
         return new StreamedResponse(
             function () use ($stream) {

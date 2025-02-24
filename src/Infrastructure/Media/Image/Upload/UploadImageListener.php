@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Upload;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
@@ -14,6 +15,7 @@ class UploadImageListener
         private readonly FilesystemOperator $privateStorage,
         private readonly PreUploadHandler $preUploadHandler,
         private readonly LoggerInterface $logger,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
@@ -34,7 +36,11 @@ class UploadImageListener
         }
 
         try {
-            $this->privateStorage->write(Image::UPLOAD_DIR.'/'.$image->getFilename(), file_get_contents($image->getFile()->getPathname()));
+            $this->privateStorage->write(
+                $this->pathResolver->getImagePath($image),
+                file_get_contents($image->getFile()->getPathname())
+            );
+
             unlink($image->getFile()->getPathname());
         }
         catch (\Throwable $e) {
@@ -45,7 +51,7 @@ class UploadImageListener
     public function postRemove(ImageInterface $image): void
     {
         try {
-            $this->privateStorage->delete(Image::UPLOAD_DIR.'/'.$image->getFilename());
+            $this->privateStorage->delete($this->pathResolver->getImagePath($image));
         }
         catch (\Throwable) {}
     }

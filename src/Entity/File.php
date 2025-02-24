@@ -128,11 +128,6 @@ class File implements FileInterface
         return $this->updatedAt;
     }
 
-    public function getWebPath(): ?string
-    {
-        return null === $this->filename ? null : $this->getUploadDir() . '/' . $this->filename;
-    }
-
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche

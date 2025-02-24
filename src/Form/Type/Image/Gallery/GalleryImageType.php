@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
@@ -24,7 +25,8 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
 
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly InstanceToData $instanceToData
+        private readonly InstanceToData $instanceToData,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
@@ -168,7 +170,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         } else {
             $imageUrl = null;
             if (null !== $data) {
-                $imageUrl = $data->getWebPath();
+                $imageUrl = $this->pathResolver->getImagePath($data);
             }
 
             // set an "image_url" variable that will be available when rendering this field

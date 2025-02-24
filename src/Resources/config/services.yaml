@@ -50,12 +50,7 @@ services:
     Aropixel\AdminBundle\Twig\:
         resource: '../../Twig'
 
-
-    Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver:
-        arguments: ['@kernel']
-
     Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver'
-
 
     Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface:
         class: Aropixel\AdminBundle\Infrastructure\Media\Image\Crop\CropApplier

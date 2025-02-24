@@ -4,6 +4,5 @@ namespace Aropixel\AdminBundle\Entity;
 
 interface AttachedImageInterface
 {
-    public function getWebPath();
     public function getImage(): ?ImageInterface;
 }
