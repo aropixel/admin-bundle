@@ -84,13 +84,8 @@ class Seo
 
     /**
      * sort for uasort descendent numbers , compares values.
-     *
-     * @param int $a
-     * @param int $b
-     *
-     * @return int
      */
-    private static function cmp($a, $b): bool
+    private static function cmp(int $a, int $b): bool
     {
         return $b <=> $a;
     }

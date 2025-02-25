@@ -108,12 +108,12 @@ class AropixelExtension extends AbstractExtension
         return $seoText;
     }
 
-    public function routeExists($name)
+    public function routeExists(string $name)
     {
         return !(null === $this->router->getRouteCollection()->get($name));
     }
 
-    public function intl_date($d, $format = '%B %e', $lang = 'fr_FR')
+    public function intl_date(\DateTime $d, string $format = '%B %e', string $lang = 'fr_FR')
     {
         $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);

@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Handler;
 
+use Aropixel\AdminBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
 
     public function handleSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
+        /** @var User $user */
         $user = $token->getUser();
         $user->setPasswordAttempts(0);
         $user->setLastLogin(new \DateTime('now'));

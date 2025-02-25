@@ -25,7 +25,7 @@ class Select2 implements Select2Interface
     ) {
         $request = $this->requestStack->getCurrentRequest();
         $this->query = $request->query->get('q', '');
-        $this->offset = $request->query->get('page', 1) - 1;
+        $this->offset = (int) $request->query->get('page', 1) - 1;
     }
 
     public function setClass(string $fqClassName)

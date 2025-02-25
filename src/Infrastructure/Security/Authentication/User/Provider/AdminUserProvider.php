@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider;
 
+use Aropixel\AdminBundle\Entity\UserInterface as AropixelUserInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -22,18 +23,25 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
     {
         $entities = $this->parameterBag->get('aropixel_admin.entities');
 
-        return $entities[\Aropixel\AdminBundle\Entity\UserInterface::class];
+        return $entities[AropixelUserInterface::class];
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        // set the new hashed password on the User object
+        /**
+         * Set the new hashed password on the User object
+         * @var AropixelUserInterface $user
+         */
         $user->setPassword($newHashedPassword);
         $this->managerRegistry->getManagerForClass($this->getUserClass())->flush();
     }
 
     public function refreshUser(UserInterface $user): UserInterface
     {
+        /**
+         * @var AropixelUserInterface $user
+         */
+
         if (!$this->supportsClass($user::class)) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }

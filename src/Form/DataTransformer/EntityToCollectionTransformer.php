@@ -11,7 +11,7 @@ class EntityToCollectionTransformer implements DataTransformerInterface
     /**
      * @return int
      */
-    public function transform($entity)
+    public function transform($entity): mixed
     {
         $imageCollection = new ArrayCollection();
         $imageCollection->add($entity);
@@ -24,7 +24,7 @@ class EntityToCollectionTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException
      */
-    public function reverseTransform($collection)
+    public function reverseTransform($collection): mixed
     {
         return $collection->first();
     }

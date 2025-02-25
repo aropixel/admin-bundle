@@ -16,8 +16,8 @@ class TranslationExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_locales', [$this, 'getLocales']),
-            new TwigFunction('is_translatable', [$this, 'isTranslatable']),
+            new TwigFunction('get_locales', $this->getLocales(...)),
+            new TwigFunction('is_translatable', $this->isTranslatable(...)),
         ];
     }
 

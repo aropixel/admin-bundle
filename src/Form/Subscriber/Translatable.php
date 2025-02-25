@@ -41,15 +41,15 @@ class Translatable implements EventSubscriberInterface
         $available_translations = [];
         foreach ($data as $translation) {
             if (\is_object($translation)
-                && strtolower($translation->getField()) == strtolower($this->options['field'])
+                && mb_strtolower($translation->getField()) == mb_strtolower((string) $this->options['field'])
             ) {
-                $available_translations[strtolower($translation->getLocale())] = $translation;
+                $available_translations[mb_strtolower($translation->getLocale())] = $translation;
             }
         }
 
         foreach ($this->getFieldNames() as $locale => $field_name) {
-            if (isset($available_translations[strtolower($locale)])) {
-                $translation = $available_translations[strtolower($locale)];
+            if (isset($available_translations[mb_strtolower($locale)])) {
+                $translation = $available_translations[mb_strtolower($locale)];
             } else {
                 $translation = $this->createPersonalTranslation($locale, $this->options['field'], null, null);
             }

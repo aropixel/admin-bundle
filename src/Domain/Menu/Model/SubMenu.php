@@ -10,7 +10,7 @@ class SubMenu implements ItemInterface, IterableInterface
 
     private bool $isActive = false;
 
-    private ?IterableInterface $parent = null;
+    private ?ItemInterface $parent = null;
     private ?Link $defaultChild = null;
 
     public function __construct(
@@ -30,12 +30,12 @@ class SubMenu implements ItemInterface, IterableInterface
         return \count($this->items);
     }
 
-    public function getParent(): ?IterableInterface
+    public function getParent(): ?ItemInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?IterableInterface $parent): void
+    public function setParent(?ItemInterface $parent): void
     {
         $this->parent = $parent;
     }

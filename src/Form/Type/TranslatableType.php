@@ -29,9 +29,7 @@ class TranslatableType extends AbstractType
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
-        $options['empty_data'] = function (FormInterface $form) {
-            return new ArrayCollection();
-        };
+        $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
         $builder->addEventSubscriber(
             new Translatable($builder->getFormFactory(), $this->em, $this->validator, $options)
         );

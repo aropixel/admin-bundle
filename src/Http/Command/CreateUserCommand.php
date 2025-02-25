@@ -92,7 +92,7 @@ class CreateUserCommand extends Command
         if ('admin' !== $this->adminLogin) {
             try {
                 $this->activationEmailSender->sendActivationEmail($user);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $outputStyle = new SymfonyStyle($input, $output);
                 $outputStyle->writeln('<comment>The password creation email could not be sent.</comment>');
                 $outputStyle->newLine();

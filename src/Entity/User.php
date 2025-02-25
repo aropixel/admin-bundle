@@ -183,14 +183,12 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($password)
+    public function setPlainPassword(string $password): void
     {
         $this->plainPassword = $password;
-
-        return $this;
     }
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
@@ -249,19 +247,15 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPasswordResetToken()
+    public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
     }
 
-    /**
-     * @param string $passwordResetToken
-     */
-    public function setPasswordResetToken($passwordResetToken): self
+
+    public function setPasswordResetToken(string $passwordResetToken): void
     {
         $this->passwordResetToken = $passwordResetToken;
-
-        return $this;
     }
 
     public function isPasswordRequestExpired(\DateInterval $ttl): bool
@@ -284,14 +278,9 @@ class User implements UserInterface
         return $this->passwordRequestedAt;
     }
 
-    /**
-     * @param ?\DateTime $passwordRequestedAt
-     */
-    public function setPasswordRequestedAt($passwordRequestedAt): self
+    public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt): void
     {
         $this->passwordRequestedAt = $passwordRequestedAt;
-
-        return $this;
     }
 
     /**

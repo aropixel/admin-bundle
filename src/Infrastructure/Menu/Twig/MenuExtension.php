@@ -27,11 +27,11 @@ class MenuExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('aropixel_admin_render_menu', [$this, 'renderMenus'], [
+            new TwigFunction('aropixel_admin_render_menu', $this->renderMenus(...), [
                 'is_safe' => ['html'],
                 'needs_environment' => true,
             ]),
-            new TwigFunction('set_aropixel_menu_match_route', [$this, 'matchRoute']),
+            new TwigFunction('set_aropixel_menu_match_route', $this->matchRoute(...)),
             new TwigFunction('get_quick_menu', $this->getQuickMenu(...)),
             new TwigFunction('render_admin_menu', $this->renderMenu(...), ['is_safe' => ['html']]),
             new TwigFunction('render_search_menu', $this->renderSearchMenu(...), ['is_safe' => ['html']]),

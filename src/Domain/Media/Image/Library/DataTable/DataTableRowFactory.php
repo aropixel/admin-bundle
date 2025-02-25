@@ -30,7 +30,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
 
         try {
             $bytes = $this->privateStorage->fileSize($path);
-        } catch (FilesystemException $e) {
+        } catch (FilesystemException) {
             $bytes = 0;
         }
 

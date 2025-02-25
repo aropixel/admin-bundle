@@ -6,7 +6,7 @@ class Link implements ItemInterface, RoutableInterface
 {
     private ?string $externalLink = null;
 
-    private ?IterableInterface $parent = null;
+    private ?ItemInterface $parent = null;
 
     private bool $isActive = false;
 
@@ -24,12 +24,12 @@ class Link implements ItemInterface, RoutableInterface
         return 'link';
     }
 
-    public function getParent(): ?IterableInterface
+    public function getParent(): ?ItemInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?IterableInterface $parent): void
+    public function setParent(?ItemInterface $parent): void
     {
         $this->parent = $parent;
     }
