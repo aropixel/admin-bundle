@@ -155,11 +155,6 @@ class AttachedImage implements AttachedImageInterface
         return $this->image?->getFilename();
     }
 
-    public function getWebPath()
-    {
-        return $this->image?->getWebPath();
-    }
-
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;

@@ -4,8 +4,8 @@ namespace Aropixel\AdminBundle\Domain\Media\File\Library\DataTable;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\File\Library\Factory\IconPathFactoryInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Entity\Image;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
@@ -16,6 +16,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
         private readonly Environment $twig,
         private readonly FilesystemOperator $privateStorage,
         private readonly IconPathFactoryInterface $iconPathFactory,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
@@ -25,7 +26,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
         $file = $subject;
 
         try {
-            $bytes = $this->privateStorage->fileSize(Image::UPLOAD_DIR . '/' . $file->getFilename());
+            $bytes = $this->privateStorage->fileSize($this->pathResolver->getFilePath($file));
         } catch (FilesystemException $e) {
             $bytes = 0;
         }

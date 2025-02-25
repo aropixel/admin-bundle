@@ -204,11 +204,6 @@ class Image implements ImageInterface
         return $this;
     }
 
-    public function getWebPath(): ?string
-    {
-        return null === $this->filename ? null : $this->getUploadDir() . '/' . $this->filename;
-    }
-
     public static function getFileNameWebPath(?string $fileName): ?string
     {
         return null === $fileName ? null : self::UPLOAD_DIR . '/' . $fileName;

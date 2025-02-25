@@ -10,7 +10,5 @@ interface ItemLibraryInterface
 
     public function getTempPath(): ?string;
 
-    public function getWebPath(): ?string;
-
     public function getFile(): ?File;
 }

@@ -3,56 +3,22 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Resolver;
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\FileInterface;
+use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 
 class PathResolver implements PathResolverInterface
 {
-    public const PRIVATE_DIR = 'private';
-    public const PUBLIC_DIR = 'public';
+    public function getImagePath(ImageInterface $image): string
+    {
 
-    /**
-     * PathResolver constructor.
-     */
-    public function __construct(
-        private readonly KernelInterface $kernel
-    ) {
+        return Image::UPLOAD_DIR.'/'.$image->getFilename();
     }
 
-    public function getPublicAbsolutePath(string $fileName, ?string $directory = null): string
+    public function getFilePath(FileInterface $file): string
     {
-        $path = $this->kernel->getProjectDir();
-        $path .= '/' . self::PUBLIC_DIR;
 
-        if (null !== $directory) {
-            $path .= '/' . $directory;
-        }
-
-        $path .= '/' . $fileName;
-
-        return $path;
-    }
-
-    public function getPrivateAbsolutePath(string $fileName, ?string $directory = null): string
-    {
-        $path = $this->kernel->getProjectDir();
-        $path .= '/' . self::PRIVATE_DIR;
-
-        if (null !== $directory) {
-            $path .= '/' . $directory;
-        }
-
-        $path .= '/' . $fileName;
-
-        return $path;
-    }
-
-    public function publicFileExists(string $fileName, ?string $directory = null): bool
-    {
-        return file_exists($this->getPublicAbsolutePath($fileName, $directory));
-    }
-
-    public function privateFileExists(string $fileName, ?string $directory = null): bool
-    {
-        return file_exists($this->getPrivateAbsolutePath($fileName, $directory));
+        return File::UPLOAD_DIR.'/'.$file->getFilename();
     }
 }

@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable;
 
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
@@ -17,6 +18,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
         private readonly Environment $twig,
         private readonly FilesystemOperator $privateStorage,
         private readonly LoggerInterface $logger,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
@@ -24,9 +26,10 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     {
         /** @var Image $image */
         $image = $subject;
+        $path = $this->pathResolver->getImagePath($subject);
 
         try {
-            $bytes = $this->privateStorage->fileSize(Image::UPLOAD_DIR . '/' . $image->getFilename());
+            $bytes = $this->privateStorage->fileSize($path);
         } catch (FilesystemException $e) {
             $bytes = 0;
         }
@@ -44,13 +47,13 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
         $height = $image->getHeight();
         if (null === $width || null === $height) {
             try {
-                $contents = $this->privateStorage->read(Image::UPLOAD_DIR . '/' . $image->getFilename());
+                $contents = $this->privateStorage->read($path);
                 [$width, $height] = getimagesizefromstring($contents);
                 $image->setWidth($width);
                 $image->setHeight($height);
                 $this->em->flush();
             } catch (FilesystemException) {
-                $this->logger->error(sprintf('Unable to get image size: %s', Image::UPLOAD_DIR . '/' . $image->getFilename()));
+                $this->logger->error(sprintf('Unable to get image size: %s', $path));
             }
         }
 

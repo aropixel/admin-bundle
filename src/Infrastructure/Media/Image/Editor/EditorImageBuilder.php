@@ -3,13 +3,15 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Editor;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Editor\EditorImageBuilderInterface;
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Liip\ImagineBundle\Service\FilterService;
 
 class EditorImageBuilder implements EditorImageBuilderInterface
 {
     public function __construct(
-        private readonly FilterService $filterService
+        private readonly FilterService $filterService,
+        private readonly PathResolverInterface $pathResolver,
     ) {
     }
 
@@ -22,7 +24,7 @@ class EditorImageBuilder implements EditorImageBuilderInterface
         }
 
         if (null !== $filter) {
-            $resourcePath = $this->filterService->getUrlOfFilteredImage($image->getWebPath(), $filter);
+            $resourcePath = $this->filterService->getUrlOfFilteredImage($this->pathResolver->getImagePath($image), $filter);
         } else {
             // Runtime configuration
             $runtimeConfig = [
@@ -32,7 +34,7 @@ class EditorImageBuilder implements EditorImageBuilderInterface
             ];
 
             $resourcePath = $this->filterService->getUrlOfFilteredImageWithRuntimeFilters(
-                $image->getWebPath(),
+                $this->pathResolver->getImagePath($image),
                 'auto',
                 $runtimeConfig
             );

@@ -2,13 +2,12 @@
 
 namespace Aropixel\AdminBundle\Domain\Media\Resolver;
 
+use Aropixel\AdminBundle\Entity\FileInterface;
+use Aropixel\AdminBundle\Entity\ImageInterface;
+
 interface PathResolverInterface
 {
-    public function getPublicAbsolutePath(string $fileName, ?string $directory = null): string;
+    public function getImagePath(ImageInterface $image): string;
 
-    public function getPrivateAbsolutePath(string $fileName, ?string $directory = null): string;
-
-    public function publicFileExists(string $fileName, ?string $directory = null): bool;
-
-    public function privateFileExists(string $fileName, ?string $directory = null): bool;
+    public function getFilePath(FileInterface $file): string;
 }
