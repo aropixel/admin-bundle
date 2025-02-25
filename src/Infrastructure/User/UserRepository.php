@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * @method UserInterface|null findOneBy(array $criteria, array $orderBy = null)
  * @method UserInterface[]    findAll()
  * @method UserInterface[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<UserInterface>
  */
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {

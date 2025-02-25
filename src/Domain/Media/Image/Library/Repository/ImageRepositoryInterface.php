@@ -6,6 +6,8 @@ use Aropixel\AdminBundle\Domain\DataTable\DataTableContext;
 
 interface ImageRepositoryInterface
 {
+    public function find(mixed $id): object|null;
+
     public function getQueryDataTable(DataTableContext $context);
 
     public function getCategoryQueryDataTable(DataTableContext $context);

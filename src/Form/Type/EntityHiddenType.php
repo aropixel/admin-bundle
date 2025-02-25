@@ -12,14 +12,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntityHiddenType extends AbstractType
 {
-    private $configs;
-
     public function __construct(
         private readonly EntityManagerInterface $em
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
             $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['class']));
@@ -28,7 +26,7 @@ class EntityHiddenType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired(['class'])
@@ -40,7 +38,7 @@ class EntityHiddenType extends AbstractType
         return HiddenType::class;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'entity_hidden';
     }

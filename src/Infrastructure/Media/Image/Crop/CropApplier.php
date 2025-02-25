@@ -38,8 +38,8 @@ class CropApplier implements CropApplierInterface
         $coords = explode(',', $cropCoordinates);
         $cropConfiguration = [
             'crop' => [
-                'size' => [$coords[2] / $ratio, $coords[3] / $ratio],
-                'start' => [$coords[0] / $ratio, $coords[1] / $ratio],
+                'size' => [(float)$coords[2] / $ratio, (float)$coords[3] / $ratio],
+                'start' => [(float)$coords[0] / $ratio, (float)$coords[1] / $ratio],
             ],
         ];
 

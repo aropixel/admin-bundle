@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provi
 
 use Aropixel\AdminBundle\Entity\UserInterface as AropixelUserInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -46,7 +47,10 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
-        $reloadedUser = $this->managerRegistry->getRepository($this->getUserClass())->findOneBy(['email' => $user->getUserIdentifier()]);
+        /** @var class-string $userClass */
+        $userClass = $this->getUserClass();
+        $repository = $this->managerRegistry->getRepository($userClass);
+        $reloadedUser = $repository->findOneBy(['email' => $user->getUserIdentifier()]);
 
         if (null === $reloadedUser) {
             throw new UserNotFoundException(sprintf('User with ID "%d" could not be refreshed.', $user->getId()));
@@ -62,7 +66,10 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $user = $this->managerRegistry->getRepository($this->getUserClass())->findOneBy(['email' => $identifier]);
+        /** @var class-string $userClass */
+        $userClass = $this->getUserClass();
+        $repository = $this->managerRegistry->getRepository($userClass);
+        $user = $repository->findOneBy(['email' => $identifier]);
         if (null === $user) {
             throw new UserNotFoundException();
         }

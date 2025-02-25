@@ -39,6 +39,7 @@ class UserType extends AbstractType
             ])
         ;
 
+        /** @var User $userLogged */
         $userLogged = $this->security->getUser();
         if ($userLogged->getId() == $userToEdit->getId()) {
             $builder

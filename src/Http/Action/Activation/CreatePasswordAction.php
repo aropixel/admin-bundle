@@ -23,7 +23,7 @@ class CreatePasswordAction extends AbstractController
 
     public function __invoke(Request $request, string $token)
     {
-        /** @var UserInterface $user */
+        /** @var ?UserInterface $user */
         $user = $this->userRepository->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {
             throw new NotFoundHttpException('Token not found.');

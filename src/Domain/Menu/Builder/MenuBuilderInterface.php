@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 
 interface MenuBuilderInterface
 {
-    public function buildMenu(): Menu;
+    public function buildMenu(string $id = 'menu'): Menu;
 }

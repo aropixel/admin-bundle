@@ -15,8 +15,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class Select2Type extends AbstractType
 {
-    private $configs;
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly RouterInterface $router
@@ -69,16 +67,12 @@ class Select2Type extends AbstractType
         }
 
         $view->vars['choices'] = $choices;
-
-        // $view->vars['label'] = '';
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = $this->configs;
-
         $resolver
-            ->setDefaults(['configs' => $defaults, 'choice_label' => 'label', 'multiple' => false, 'placeholder' => null])
+            ->setDefaults(['choice_label' => 'label', 'multiple' => false, 'placeholder' => null])
             ->setRequired(['repository', 'route'])
         ;
     }
@@ -88,7 +82,7 @@ class Select2Type extends AbstractType
         return HiddenType::class;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'select2';
     }

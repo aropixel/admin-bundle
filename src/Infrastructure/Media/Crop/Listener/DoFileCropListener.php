@@ -38,10 +38,10 @@ class DoFileCropListener
              * If there is no image attached or no filename for the image,
              * we leave.
              *
-             * @var AttachedImageInterface $image
+             * @var ?AttachedImageInterface $image
              */
             $image = $entity->getImage();
-            if (!$image || !$image->getFilename()) {
+            if (null === $image || !$image->getFilename()) {
                 return;
             }
 

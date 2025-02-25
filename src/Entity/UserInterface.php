@@ -10,6 +10,8 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
 {
     public function getId(): ?int;
 
+    public function getEmail(): ?string;
+
     public function isEnabled(): bool;
 
     public function setEnabled(bool $boolean);
@@ -20,6 +22,8 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
 
     public function setPlainPassword(string $password): void;
 
+    public function setLastLogin(?\DateTime $lastLogin): void;
+
     public function tooOldPassword(string $delay): bool;
 
     public function tooOldLastLogin(): bool;
@@ -27,6 +31,10 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
     public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void;
 
     public function getPasswordResetToken(): ?string;
-    public function setPasswordResetToken(string $passwordResetToken): void;
+
+    public function setPasswordResetToken(?string $passwordResetToken): void;
+
     public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt): void;
+
+    public function isPasswordRequestExpired(\DateInterval $ttl): bool;
 }

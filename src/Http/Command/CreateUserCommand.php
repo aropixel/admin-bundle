@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Http\Command;
 
 use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
+use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -82,7 +83,10 @@ class CreateUserCommand extends Command
         }
 
         $em = $this->managerRegistry->getManagerForClass($this->userFactory->createUser()::class);
-        $em->getRepository($userClass)->create($user);
+
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = $em->getRepository($userClass);
+        $userRepository->create($user);
         $em->flush();
 
         $outputStyle = new SymfonyStyle($input, $output);
@@ -129,49 +133,6 @@ class CreateUserCommand extends Command
         $question = $this->createNameQuestion($questionLabel);
 
         return $questionHelper->ask($input, $output, $question);
-    }
-
-    private function askAdminPassword(InputInterface $input, OutputInterface $output): ?string
-    {
-        /** @var QuestionHelper $questionHelper */
-        $questionHelper = $this->getHelper('question');
-        $passwordQuestion = $this->createPasswordQuestion('Password:');
-        $confirmPasswordQuestion = $this->createPasswordQuestion('Password Confirmation:');
-
-        do {
-            $password = $questionHelper->ask($input, $output, $passwordQuestion);
-            $repeatedPassword = $questionHelper->ask($input, $output, $confirmPasswordQuestion);
-
-            if ($repeatedPassword !== $password && $input->isInteractive()) {
-                $output->writeln('<error>Password are differents !</error>');
-            }
-        } while ($repeatedPassword !== $password);
-
-        return $password;
-    }
-
-    private function createPasswordQuestion($questionLabel): Question
-    {
-        $validator = $this->getPasswordQuestionValidator();
-
-        return (new Question($questionLabel))
-            ->setValidator($validator)
-            ->setMaxAttempts(3)
-            ->setHidden(true)
-            ->setHiddenFallback(false)
-        ;
-    }
-
-    private function getPasswordQuestionValidator(): \Closure
-    {
-        return function ($value) {
-            $errors = $this->validator->validate($value, [new NotBlank()]);
-            foreach ($errors as $error) {
-                throw new \DomainException($error->getMessage());
-            }
-
-            return $value;
-        };
     }
 
     private function createEmailQuestion(): Question

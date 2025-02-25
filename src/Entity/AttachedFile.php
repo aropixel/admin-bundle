@@ -59,7 +59,7 @@ abstract class AttachedFile
         return $this;
     }
 
-    public function getFile(): ?File
+    public function getFile(): ?FileInterface
     {
         return $this->file;
     }

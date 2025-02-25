@@ -25,12 +25,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class ImageType extends AbstractType implements DataMapperInterface
 {
-    private $normalizedData;
-
-    private $cropSuffix = [];
-
-    private $filenameInstance;
-    private $filenameClass;
+    private array $cropSuffix = [];
     private $filenameValue;
     private $cropsValue;
 
@@ -86,7 +81,6 @@ class ImageType extends AbstractType implements DataMapperInterface
          * - The property name which store file name in the entity
          * - The property name which store crops applied to the image
          */
-        $this->filenameClass = $options['data_class'];
         $this->filenameValue = $options['data_value'];
         $this->cropsValue = $options['crops_value'];
 

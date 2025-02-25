@@ -21,6 +21,9 @@ class TranslationExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array<string>
+     */
     public function getLocales(): array
     {
         return $this->params->get('aropixel_admin.locales');

@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\EventSubscriber;
 
+use Aropixel\AdminBundle\Entity\TranslatableInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Gedmo\Translatable\Translatable;
@@ -31,11 +32,12 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        return [Events::postLoad, Events::prePersist];
+        return [Events::postLoad => Events::postLoad, Events::prePersist => Events::prePersist];
     }
 
     private function setLocales(LifecycleEventArgs $lifecycleEventArgs): void
     {
+        /** @var TranslatableInterface $entity */
         $entity = $lifecycleEventArgs->getObject();
         if (!$entity instanceof Translatable) {
             return;
@@ -74,9 +76,6 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
         }
 
         try {
-            if ($this->parameterBag->has('locale')) {
-                return (string) $this->parameterBag->get('locale');
-            }
 
             return (string) $this->parameterBag->get('kernel.default_locale');
         } catch (ParameterNotFoundException|\InvalidArgumentException) {

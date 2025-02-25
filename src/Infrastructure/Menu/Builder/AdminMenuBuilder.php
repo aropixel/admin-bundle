@@ -24,6 +24,9 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     ) {
     }
 
+    /**
+     * @return Menu[]
+     */
     public function buildMenu(): array
     {
         $menu = [];
@@ -93,7 +96,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
         return $menu;
     }
 
-    public function routeExists($name): bool
+    public function routeExists(string $name): bool
     {
         return !(null === $this->router->getRouteCollection()->get($name));
     }

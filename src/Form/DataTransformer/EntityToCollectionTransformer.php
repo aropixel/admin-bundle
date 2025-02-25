@@ -8,24 +8,17 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class EntityToCollectionTransformer implements DataTransformerInterface
 {
-    /**
-     * @return int
-     */
-    public function transform($entity): mixed
+    public function transform(mixed $value): mixed
     {
         $imageCollection = new ArrayCollection();
-        $imageCollection->add($entity);
+        $imageCollection->add($value);
 
         return $imageCollection;
     }
 
-    /**
-     * @return mixed|object
-     *
-     * @throws TransformationFailedException
-     */
-    public function reverseTransform($collection): mixed
+    public function reverseTransform(mixed $value): mixed
     {
-        return $collection->first();
+        /** @var ArrayCollection $value */
+        return $value->first();
     }
 }

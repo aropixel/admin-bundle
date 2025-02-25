@@ -8,24 +8,18 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class EntityToHiddenTransformer implements DataTransformerInterface
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
-    private $em;
-    private $repository;
-
-    public function __construct(EntityManagerInterface $em, $repository)
-    {
-        $this->em = $em;
-        $this->class = $repository;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly string $class
+    ) {
     }
 
     /**
      * @return int
      */
-    public function transform(mixed $entity): mixed
+    public function transform(mixed $value): mixed
     {
-        return $entity ? $entity->getId() : false;
+        return $value ? $value->getId() : false;
     }
 
     /**
@@ -33,16 +27,16 @@ class EntityToHiddenTransformer implements DataTransformerInterface
      *
      * @throws TransformationFailedException
      */
-    public function reverseTransform(mixed $id): mixed
+    public function reverseTransform(mixed $value): mixed
     {
-        if (!$id) {
+        if (!$value) {
             return null;
         }
 
-        $entity = $this->em->getRepository($this->class)->findOneBy(['id' => $id]);
+        $entity = $this->em->getRepository($this->class)->findOneBy(['id' => $value]);
 
         if (null === $entity) {
-            throw new TransformationFailedException(sprintf('A %s with id "%s" does not exist!', $this->repository, $id));
+            throw new TransformationFailedException(sprintf('A %s with id "%s" does not exist!', $this->class, $value));
         }
 
         return $entity;

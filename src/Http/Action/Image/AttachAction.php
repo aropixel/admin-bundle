@@ -56,10 +56,7 @@ class AttachAction extends AbstractController
         $data = null;
         if ($attachValue) {
             $options['data_class'] = $attachClass;
-
-            if ($attachValue) {
-                $options['data_value'] = $attachValue;
-            }
+            $options['data_value'] = $attachValue;
         } else {
             $options['data_class'] = $attachClass;
             $data = new $attachClass();

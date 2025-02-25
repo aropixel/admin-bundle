@@ -25,10 +25,10 @@ class RequestAction extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UserInterface $user */
             $email = $form->get('email')->getData();
-            $user = $this->userRepository->findOneBy(['email' => $email]);
 
+            /** @var ?UserInterface $user */
+            $user = $this->userRepository->findOneBy(['email' => $email]);
             if (null === $user) {
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [

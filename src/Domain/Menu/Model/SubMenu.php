@@ -27,7 +27,7 @@ class SubMenu implements ItemInterface, IterableInterface
 
     public function hasChildren(): bool
     {
-        return \count($this->items);
+        return \count($this->items) > 0;
     }
 
     public function getParent(): ?ItemInterface

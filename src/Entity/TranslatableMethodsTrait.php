@@ -70,12 +70,12 @@ trait TranslatableMethodsTrait
         return $this;
     }
 
-    public function setTranslatableLocale($locale)
+    public function setTranslatableLocale(string $locale)
     {
         $this->currentLocale = $locale;
     }
 
-    public function getCurrentLocale()
+    public function getCurrentLocale(): ?string
     {
         return $this->currentLocale;
     }

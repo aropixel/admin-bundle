@@ -20,6 +20,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 class PassportFactory implements PassportFactoryInterface
 {
+
     public function __construct(
         private readonly CredentialsResolverInterface $credentialsResolver,
         private readonly ParameterBagInterface $parameterBag,

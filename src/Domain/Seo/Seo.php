@@ -57,7 +57,7 @@ class Seo
             }
 
             // sort keywords from most repetitions to less
-            uasort($wordcount, ['self', 'cmp']);
+            uasort($wordcount, self::cmp(...));
 
             // keep only X keywords
             $wordcount = \array_slice($wordcount, 0, $max_keys);
@@ -85,7 +85,7 @@ class Seo
     /**
      * sort for uasort descendent numbers , compares values.
      */
-    private static function cmp(int $a, int $b): bool
+    private static function cmp(int $a, int $b): int
     {
         return $b <=> $a;
     }

@@ -44,7 +44,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
 
     public function prepend(ContainerBuilder $container)
     {
-        // get all bundles
+        /** @var array<mixed> $bundles */
         $bundles = $container->getParameter('kernel.bundles');
         $config = ['admin_thumbnail' => ['quality' => 75, 'filters' => ['upscale_thumbnail' => ['height' => 400, 'width' => 400]]], 'fallback_pixel' => ['quality' => 75, 'filters' => ['strip' => []]], 'admin_preview' => ['quality' => 75, 'filters' => ['relative_resize' => ['widen' => 800]]], 'admin_crop' => ['quality' => 75, 'filters' => ['relative_resize' => ['widen' => 600]]]];
 

@@ -18,7 +18,7 @@ class PasswordResetHandler implements PasswordResetHandlerInterface
     ) {
     }
 
-    public function update(UserInterface $user, string $password)
+    public function update(UserInterface $user, string $password): void
     {
         if ($this->shouldChangePassword($user) && $this->userPasswordHasher->isPasswordValid($user, $password)) {
             throw new UnchangedPasswordException();

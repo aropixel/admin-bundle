@@ -25,7 +25,7 @@ class ImageExtension extends AbstractExtension
     ) {
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [new TwigFilter('aropixel_imagine_filter', $this->customImagineFilter(...))];
     }
@@ -45,7 +45,7 @@ class ImageExtension extends AbstractExtension
         return $this->isLibraryEnabled;
     }
 
-    public function customImagineFilter(?ImageInterface $image, string $filter, array $config = [], $resolver = null)
+    public function customImagineFilter(?ImageInterface $image, string $filter): string
     {
         /* @var AttachedImage $image */
         try {
@@ -57,6 +57,8 @@ class ImageExtension extends AbstractExtension
         }
 
         if ($shouldProducePlaceholder) {
+
+            /** @var array<mixed> $filterSets */
             $filterSets = $this->parameterBag->get('liip_imagine.filter_sets');
             if (!\array_key_exists($filter, $filterSets)) {
                 throw new \Exception(sprintf('Le filtre "%s" n\'existe pas', $filter));

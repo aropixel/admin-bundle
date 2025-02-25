@@ -17,12 +17,12 @@ class TooOldPasswordException extends AuthenticationException
         return "Vous n'avez pas modifié votre mot de passe depuis trop longtemps.";
     }
 
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function toHide()
+    public function toHide(): bool
     {
         return true;
     }

@@ -34,6 +34,7 @@ class AvailableCropProvider implements AvailableCropProviderInterface
                 continue;
             }
 
+            /** @var array<mixed> $liipFilterConfiguration */
             $liipFilterConfiguration = $liipFilters[$slug];
 
             // Si ce filtre ne contient pas de miniature (juste un resize par exemple)

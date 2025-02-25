@@ -14,19 +14,37 @@ class MenuRenderer implements MenuRendererInterface
     ) {
     }
 
-    public function renderMenu(Menu $menu, string $template = '@AropixelAdmin/Menu/menu.html.twig', $params = [], ?string $forceMatchRoute = null): string
+    /**
+     * @param array<mixed> $params
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function renderMenu(Menu $menu, string $template = '@AropixelAdmin/Menu/menu.html.twig', array $params = []): string
     {
-        $this->menuMatcher->matchActive($menu, $forceMatchRoute);
+        $this->menuMatcher->matchActive($menu);
         $params['menu'] = $menu;
 
         return $this->twig->render($template, $params);
     }
 
+    /**
+     * @param array<mixed> $menus
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function renderSearchMenu(array $menus, string $template): string
     {
         return $this->twig->render($template, ['menus' => $menus]);
     }
 
+    /**
+     * @param array<mixed> $menus
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function renderFullMenu(array $menus, string $template): string
     {
         return $this->twig->render($template, ['menus' => $menus]);

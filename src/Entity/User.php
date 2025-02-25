@@ -56,9 +56,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -71,9 +68,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLastName(): ?string
     {
         return $this->lastName;
@@ -125,12 +119,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Get prenom.
-     *
-     * @return string
-     */
-    public function getCompleteName()
+    public function getCompleteName(): string
     {
         if ($this->firstName || $this->lastName) {
             return $this->firstName . ' ' . $this->lastName;
@@ -139,17 +128,12 @@ class User implements UserInterface
         return $this->email;
     }
 
-    /**
-     * Get prenom.
-     *
-     * @return string
-     */
-    public function getSuperAdmin()
+    public function isSuperAdmin(): bool
     {
         return \in_array(static::ROLE_SUPER_ADMIN, $this->roles);
     }
 
-    public function setSuperAdmin($boolean)
+    public function setSuperAdmin($boolean): self
     {
         if ($boolean) {
             $this->roles[] = self::ROLE_ADMIN;
@@ -253,7 +237,7 @@ class User implements UserInterface
     }
 
 
-    public function setPasswordResetToken(string $passwordResetToken): void
+    public function setPasswordResetToken(?string $passwordResetToken): void
     {
         $this->passwordResetToken = $passwordResetToken;
     }
@@ -352,9 +336,6 @@ class User implements UserInterface
         return 'harsh';
     }
 
-    /**
-     * @return mixed
-     */
     public function getLastPasswordUpdate(): ?\DateTime
     {
         return $this->lastPasswordUpdate;
@@ -365,17 +346,11 @@ class User implements UserInterface
         $this->lastPasswordUpdate = $lastPasswordUpdate;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLastLogin(): ?\DateTime
     {
         return $this->lastLogin;
     }
 
-    /**
-     * @param ?\DateTime $lastLogin
-     */
     public function setLastLogin(?\DateTime $lastLogin): void
     {
         $this->lastLogin = $lastLogin;

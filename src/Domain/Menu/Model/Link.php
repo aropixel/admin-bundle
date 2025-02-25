@@ -64,9 +64,6 @@ class Link implements ItemInterface, RoutableInterface
         return $this->id;
     }
 
-    /**
-     * @param string|null $id
-     */
     public function setId(string $id): void
     {
         $this->id = $id;

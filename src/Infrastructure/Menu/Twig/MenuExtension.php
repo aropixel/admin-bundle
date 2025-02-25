@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Twig;
 
 use Aropixel\AdminBundle\Domain\Menu\Builder\MenuBuilderInterface;
+use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Renderer\MenuRendererInterface;
 use Aropixel\AdminBundle\Infrastructure\Menu\Builder\AdminMenuBuilderInterface;
@@ -13,6 +14,7 @@ use Twig\TwigFunction;
 
 class MenuExtension extends AbstractExtension
 {
+    /** @var Menu[]  */
     public array $menu = [];
 
     public function __construct(
@@ -24,7 +26,7 @@ class MenuExtension extends AbstractExtension
     ) {
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('aropixel_admin_render_menu', $this->renderMenus(...), [
@@ -39,23 +41,29 @@ class MenuExtension extends AbstractExtension
         ];
     }
 
-    public function matchRoute(string $matchRoute, array $matchRouteParams = [])
+    /**
+     * @param array<mixed> $matchRouteParams
+     */
+    public function matchRoute(string $matchRoute, array $matchRouteParams = []): void
     {
         $this->menuMatcher->mustMatch($matchRoute, $matchRouteParams);
     }
 
     public function renderMenu(Menu $menu): string
     {
-        return $this->menuRenderer->renderMenu($menu, '@AropixelAdmin/Menu/menu.html.twig');
+        return $this->menuRenderer->renderMenu($menu);
     }
 
-    public function renderMenus()
+    public function renderMenus(): string
     {
         $menu = $this->menuBuilder->buildMenu('admin');
 
         return $this->menuRenderer->renderMenu($menu);
     }
 
+    /**
+     * @return Menu[]
+     */
     public function getMenu(): array
     {
         if (!empty($this->menu)) {
@@ -81,7 +89,10 @@ class MenuExtension extends AbstractExtension
         return $this->menuRenderer->renderSearchMenu($menus, '@AropixelAdmin/Menu/_search-nav-result.html.twig');
     }
 
-    public function getQuickMenu()
+    /**
+     * @return array<int,ItemInterface>
+     */
+    public function getQuickMenu(): array
     {
         return $this->quickMenuBuilder->buildMenu();
     }

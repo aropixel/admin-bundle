@@ -7,8 +7,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class QuickMenuBuilder implements QuickMenuBuilderInterface
 {
-    public ?array $menu = null;
-
     public function __construct(
         private readonly LinkMatcher $linkMatcher
     ) {

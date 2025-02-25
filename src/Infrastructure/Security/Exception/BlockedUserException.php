@@ -17,12 +17,12 @@ class BlockedUserException extends AuthenticationException
         return 'Suite à de trop nombreuses tentatives de connexion échouées, votre compte a été désactivé.';
     }
 
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function toHide()
+    public function toHide(): bool
     {
         return true;
     }

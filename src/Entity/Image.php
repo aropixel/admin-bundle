@@ -191,18 +191,6 @@ class Image implements ImageInterface
         return $this;
     }
 
-    public function isNew(): bool
-    {
-        return $this->isNew;
-    }
-
-    public function setIsNew(bool $isNew): self
-    {
-        $this->isNew = $isNew;
-
-        return $this;
-    }
-
     public static function getFileNameWebPath(?string $fileName): ?string
     {
         return null === $fileName ? null : self::UPLOAD_DIR . '/' . $fileName;

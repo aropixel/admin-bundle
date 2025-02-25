@@ -18,7 +18,7 @@ class ResetEmailSender implements ResetEmailSenderInterface
     ) {
     }
 
-    public function sendResetEmail(UserInterface $user, string $resetLink)
+    public function sendResetEmail(UserInterface $user, string $resetLink): void
     {
         $client = $this->parameterBag->get('aropixel_admin.client');
         $theme = $this->parameterBag->get('aropixel_admin.theme');

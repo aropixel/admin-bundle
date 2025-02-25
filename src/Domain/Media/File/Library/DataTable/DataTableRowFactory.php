@@ -32,7 +32,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
         }
 
         $sz = 'bkMGTP';
-        $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
+        $factor = (int) floor((mb_strlen((string)$bytes) - 1) / 3);
         $decimals = 2;
         $unite = @$sz[$factor];
         if ('b' == $unite || 'k' == $unite) {

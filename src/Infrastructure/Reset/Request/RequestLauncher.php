@@ -19,7 +19,7 @@ class RequestLauncher implements RequestLauncherInterface
     ) {
     }
 
-    public function reset(UserInterface $user)
+    public function reset(UserInterface $user): void
     {
         $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
         $user->setPasswordRequestedAt(new \DateTime());
@@ -28,7 +28,7 @@ class RequestLauncher implements RequestLauncherInterface
         $this->resetEmailSender->sendResetEmail($user, $this->resetLinkFactory->createResetLink($user));
     }
 
-    public function cancelRequest(UserInterface $user)
+    public function cancelRequest(UserInterface $user): void
     {
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);

@@ -7,15 +7,8 @@ use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 
 class MappedSuperClassListener
 {
-    private ?RuntimeReflectionService $reflectionService = null;
-
-    /**
-     * MapPageBundleSubscriber constructor.
-     *
-     * @param mixed[] $entitiesNames
-     */
     public function __construct(
-        private $entitiesNames
+        private readonly array $entitiesNames
     ) {
     }
 
