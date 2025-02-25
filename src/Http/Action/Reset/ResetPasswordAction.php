@@ -10,6 +10,7 @@ use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Http\Form\Reset\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ResetPasswordAction extends AbstractController
@@ -21,7 +22,7 @@ class ResetPasswordAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request, string $token)
+    public function __invoke(Request $request, string $token): Response
     {
         /** @var ?User $user */
         $user = $this->userRepository->findOneBy(['passwordResetToken' => $token]);

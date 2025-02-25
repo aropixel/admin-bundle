@@ -126,7 +126,7 @@ class CreateUserCommand extends Command
         return $email;
     }
 
-    private function askAdminName($questionLabel, InputInterface $input, OutputInterface $output): ?string
+    private function askAdminName(string $questionLabel, InputInterface $input, OutputInterface $output): ?string
     {
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
@@ -151,7 +151,7 @@ class CreateUserCommand extends Command
         ;
     }
 
-    private function createNameQuestion($text): Question
+    private function createNameQuestion(string $text): Question
     {
         return (new Question($text . ': '))
             ->setValidator(function ($value) {

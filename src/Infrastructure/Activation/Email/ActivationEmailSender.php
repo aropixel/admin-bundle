@@ -24,7 +24,7 @@ class ActivationEmailSender implements ActivationEmailSenderInterface
     ) {
     }
 
-    public function sendActivationEmail(UserInterface $user)
+    public function sendActivationEmail(UserInterface $user): void
     {
         $user->setPasswordResetToken($this->uniqueTokenGenerator->generate());
         $user->setPasswordRequestedAt(new \DateTime());

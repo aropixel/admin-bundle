@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequestStatusAction extends AbstractController
 {
@@ -10,7 +11,7 @@ class RequestStatusAction extends AbstractController
     public const EXPIRED = 'expired';
     public const SUCCESS = 'success';
 
-    public function __invoke(string $status)
+    public function __invoke(string $status): Response
     {
         $views = [
             self::PENDING => '@AropixelAdmin/Reset/request_info.html.twig',

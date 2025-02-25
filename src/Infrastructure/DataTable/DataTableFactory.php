@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\DataTable;
 
+use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableContextFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableInterface;
@@ -25,6 +26,9 @@ class DataTableFactory implements DataTableFactoryInterface
         return $this;
     }
 
+    /**
+     * @param DataTableColumn[] $columns
+     */
     public function create(string $className, array $columns): DataTableInterface
     {
         $context = $this->dataTableContextFactory->create();

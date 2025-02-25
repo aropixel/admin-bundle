@@ -14,6 +14,10 @@ class AvailableCropProvider implements AvailableCropProviderInterface
     ) {
     }
 
+    /**
+     * @param array<string,string>|null $configuredFilters
+     * @return array<string,AvailableCropFilter>
+     */
     public function getAvailableCropFilters(?CroppableInterface $croppable, ?array $configuredFilters = null): array
     {
         $availableCropList = [];
@@ -59,6 +63,9 @@ class AvailableCropProvider implements AvailableCropProviderInterface
         return $availableCropList;
     }
 
+    /**
+     * @return array<string,string>
+     */
     private function findConfiguredFilters(CroppableInterface $croppable): array
     {
         $imageClass = $croppable::class;

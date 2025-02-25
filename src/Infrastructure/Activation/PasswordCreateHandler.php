@@ -15,7 +15,7 @@ class PasswordCreateHandler implements PasswordCreationHandlerInterface
     ) {
     }
 
-    public function create(UserInterface $user, string $password)
+    public function create(UserInterface $user, string $password): void
     {
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
