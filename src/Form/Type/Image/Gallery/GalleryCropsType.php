@@ -38,12 +38,12 @@ class GalleryCropsType extends AbstractType
      *
      * @return string The name of the type being extended
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return CollectionType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'gallery_aropixel_admin_crops';
     }

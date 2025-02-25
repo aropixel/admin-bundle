@@ -13,7 +13,7 @@ class VideoType extends AbstractType
         $resolver->setDefaults(['attr' => ['rows' => 8]]);
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return TextareaType::class;
     }

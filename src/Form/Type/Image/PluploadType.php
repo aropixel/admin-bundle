@@ -27,7 +27,7 @@ class PluploadType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'plupload_image';
     }

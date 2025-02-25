@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SlideshowType extends AbstractType
 {
-    public function getParent()
+    public function getParent(): ?string
     {
         return CollectionType::class;
     }
@@ -39,7 +39,7 @@ class SlideshowType extends AbstractType
         });
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_admin_slideshow';
     }

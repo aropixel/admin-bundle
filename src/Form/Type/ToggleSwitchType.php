@@ -7,12 +7,12 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ToggleSwitchType extends AbstractType
 {
-    public function getParent()
+    public function getParent(): ?string
     {
         return CheckboxType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_admin_toggle_switch';
     }

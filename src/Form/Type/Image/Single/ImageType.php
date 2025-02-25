@@ -240,7 +240,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_admin_image';
     }

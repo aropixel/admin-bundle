@@ -53,7 +53,7 @@ class FileType extends AbstractType
         $resolver->setDefaults(['data_class' => null]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_admin_file';
     }

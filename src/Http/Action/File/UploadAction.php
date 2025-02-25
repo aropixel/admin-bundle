@@ -48,6 +48,6 @@ class UploadAction extends AbstractController
             $errors[] = $formError->getMessage();
         }
 
-        return new Response(implode('<br />', $errors), 500);
+        return new Response(implode('<br />', $errors), \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
