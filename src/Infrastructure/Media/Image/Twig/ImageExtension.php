@@ -2,7 +2,9 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Twig;
 
+use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use League\Flysystem\FilesystemOperator;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Service\FilterService;
@@ -15,9 +17,10 @@ class ImageExtension extends AbstractExtension
 {
     public function __construct(
         private readonly CacheManager $cacheManager,
+        private readonly FilesystemOperator $privateStorage,
         private readonly FilterService $filterService,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly FilesystemOperator $privateStorage,
+        private readonly PathResolverInterface $pathResolver,
         private bool $isLibraryEnabled = false,
     ) {
     }
@@ -42,13 +45,13 @@ class ImageExtension extends AbstractExtension
         return $this->isLibraryEnabled;
     }
 
-    public function customImagineFilter(?string $webPath, string $filter, array $config = [], $resolver = null)
+    public function customImagineFilter(?ImageInterface $image, string $filter, array $config = [], $resolver = null)
     {
         /* @var AttachedImage $image */
         try {
             $shouldProducePlaceholder =
-                null === $webPath ||
-                !$this->privateStorage->fileExists($webPath)
+                null === $image ||
+                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image))
             ;
 
         }
@@ -95,6 +98,6 @@ class ImageExtension extends AbstractExtension
             );
         }
 
-        return $this->cacheManager->getBrowserPath(parse_url($webPath, \PHP_URL_PATH), $filter, [], null);
+        return $this->cacheManager->getBrowserPath(parse_url($this->pathResolver->getImagePath($image), \PHP_URL_PATH), $filter, [], null);
     }
 }

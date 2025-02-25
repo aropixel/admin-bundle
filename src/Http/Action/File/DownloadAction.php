@@ -8,6 +8,7 @@ use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Mime\MimeTypes;
 
 class DownloadAction extends AbstractController
 {
@@ -21,17 +22,24 @@ class DownloadAction extends AbstractController
     {
         $stream = $this->privateStorage->readStream($this->pathResolver->getFilePath($file));
 
+        $properties = [
+            'Content-Transfer-Encoding', 'binary',
+            'Content-Disposition' => 'attachment; filename="'.$file->getFilename().'"',
+            'Content-Length' => fstat($stream)['size'],
+        ];
+
+        $mimeTypes = new MimeTypes();
+        $mimes = $mimeTypes->getMimeTypes($file->getExtension());
+        if (count($mimes) > 0) {
+            $properties['Content-Type'] = $mimes[0];
+        }
+
         return new StreamedResponse(
             function () use ($stream) {
                 fpassthru($stream);
             },
             Response::HTTP_OK,
-            [
-                'Content-Transfer-Encoding', 'binary',
-                'Content-Type' => $file->getFile()->getMimeType(),
-                'Content-Disposition' => 'attachment; filename="'.$file->getFilename().'"',
-                'Content-Length' => fstat($stream)['size'],
-            ]
+            $properties
         );
     }
 }

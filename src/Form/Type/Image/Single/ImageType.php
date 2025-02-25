@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
@@ -35,7 +36,6 @@ class ImageType extends AbstractType implements DataMapperInterface
     private $cropsValue;
 
     public function __construct(
-        private readonly EntityManagerInterface $em,
         private readonly InstanceToData $instanceToData,
         private readonly PathResolverInterface $pathResolver,
     ) {
@@ -113,6 +113,7 @@ class ImageType extends AbstractType implements DataMapperInterface
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        /** @var AttachedImage $data */
         $data = $form->getData();
 
         // Can be an AttachImage entity, or a file name as a string
@@ -144,7 +145,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         } else {
             $imageUrl = null;
             if (null !== $data) {
-                $imageUrl = $this->pathResolver->getImagePath($data);
+                $imageUrl = $this->pathResolver->getImagePath($data->getImage());
             }
 
             // set an "image_url" variable that will be available when rendering this field

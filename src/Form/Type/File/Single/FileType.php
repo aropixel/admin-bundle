@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Form\Type\File\Single;
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Entity\AttachedFile;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Symfony\Component\Form\AbstractType;
@@ -33,11 +34,12 @@ class FileType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        /** @var AttachedFile $data */
         $data = $form->getData();
 
         $fileUrl = null;
         if (null !== $data) {
-            $fileUrl = $this->pathResolver->getFilePath($data);
+            $fileUrl = $this->pathResolver->getFilePath($data->getFile());
         }
 
         // set an "image_url" variable that will be available when rendering this field

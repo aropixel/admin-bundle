@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
+use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Form\Type\File\Single\FileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class AttachAction extends AbstractController
 
         $html = '';
         foreach ($files as $fileId) {
-            $file = $em->getRepository('AropixelAdminBundle:File')->find($fileId);
+            $file = $em->getRepository(File::class)->find($fileId);
             $attachFile->setFile($file);
             $attachFile->setTitle($file->getTitle());
 
