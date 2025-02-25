@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Builder;
 
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Aropixel\AdminBundle\Infrastructure\Menu\LinkMatcher;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class QuickMenuBuilder implements QuickMenuBuilderInterface
 {
@@ -16,7 +16,6 @@ class QuickMenuBuilder implements QuickMenuBuilderInterface
 
     public function buildMenu(): array
     {
-
         $quickMenu = [
             [
                 'position' => 1,

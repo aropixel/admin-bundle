@@ -13,16 +13,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
 class TranslatableType extends AbstractType
 {
-
     public function __construct(
         protected readonly EntityManagerInterface $em,
         protected readonly ValidatorInterface $validator,
         protected readonly ParameterBagInterface $parameterBag,
-    ){}
-
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -44,7 +42,7 @@ class TranslatableType extends AbstractType
         $resolver->setDefaults($this->getDefaultOptions());
     }
 
-    public function getDefaultOptions(array $options = []) : array
+    public function getDefaultOptions(array $options = []): array
     {
         $locale = $this->parameterBag->get('kernel.default_locale');
         $locales = $this->parameterBag->get('aropixel_admin.locales');
@@ -62,14 +60,13 @@ class TranslatableType extends AbstractType
         return $options;
     }
 
-    public function getNoPersonalTranslationException(string $translation) : \InvalidArgumentException
+    public function getNoPersonalTranslationException(string $translation): \InvalidArgumentException
     {
         return new \InvalidArgumentException(sprintf('Unable to find personal translation class: "%s"', $translation));
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return 'translatable';
     }
-
 }

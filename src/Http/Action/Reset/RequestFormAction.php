@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
-use Aropixel\AdminBundle\Http\Action\Reset\RequestStatusAction;
 use Aropixel\AdminBundle\Http\Form\Reset\RequestType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Twig;
 
 use Aropixel\AdminBundle\Domain\Menu\Builder\MenuBuilderInterface;
@@ -10,10 +11,8 @@ use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-
 class MenuExtension extends AbstractExtension
 {
-
     public array $menu = [];
 
     public function __construct(
@@ -22,16 +21,15 @@ class MenuExtension extends AbstractExtension
         private readonly MenuRendererInterface $menuRenderer,
         private readonly AdminMenuBuilderInterface $adminMenuBuilder,
         private readonly QuickMenuBuilderInterface $quickMenuBuilder,
-    ){
+    ) {
     }
-
 
     public function getFunctions()
     {
         return [
             new TwigFunction('aropixel_admin_render_menu', [$this, 'renderMenus'], [
                 'is_safe' => ['html'],
-                'needs_environment' => true
+                'needs_environment' => true,
             ]),
             new TwigFunction('set_aropixel_menu_match_route', [$this, 'matchRoute']),
             new TwigFunction('get_quick_menu', $this->getQuickMenu(...)),
@@ -40,7 +38,6 @@ class MenuExtension extends AbstractExtension
             new TwigFunction('render_menu', $this->renderAllMenus(...), ['is_safe' => ['html']]),
         ];
     }
-
 
     public function matchRoute(string $matchRoute, array $matchRouteParams = [])
     {
@@ -55,6 +52,7 @@ class MenuExtension extends AbstractExtension
     public function renderMenus()
     {
         $menu = $this->menuBuilder->buildMenu('admin');
+
         return $this->menuRenderer->renderMenu($menu);
     }
 
@@ -87,5 +85,4 @@ class MenuExtension extends AbstractExtension
     {
         return $this->quickMenuBuilder->buildMenu();
     }
-
 }

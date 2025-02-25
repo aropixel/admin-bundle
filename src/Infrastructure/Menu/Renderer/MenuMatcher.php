@@ -5,7 +5,6 @@ namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
-use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -111,8 +110,7 @@ class MenuMatcher implements MenuMatcherInterface
 
     protected function isIndexRoute(string $routeName)
     {
-        return
-            str_contains($routeName, '_index');
+        return str_contains($routeName, '_index');
     }
 
     protected function getBaseCrud(string $routeName)

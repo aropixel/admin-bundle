@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Http\Command;
 
 use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
-use Aropixel\AdminBundle\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +17,6 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
 
 #[AsCommand(name: 'aropixel:admin:create-user', description: 'Create a new admin user')]
 class CreateUserCommand extends Command
@@ -67,7 +65,6 @@ class CreateUserCommand extends Command
         $this->adminLastName = $this->askAdminName('Last Name : ', $input, $output);
     }
 
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
@@ -80,7 +77,6 @@ class CreateUserCommand extends Command
             $user->setPlainPassword($this->adminPassword);
 
             $userClass = $this->userFactory->createUser()::class;
-
         } catch (\InvalidArgumentException) {
             return 0;
         }
@@ -93,11 +89,10 @@ class CreateUserCommand extends Command
         $outputStyle->writeln('<info>The admin user has been created successfully.</info>');
         $outputStyle->newLine();
 
-        if ("admin" !== $this->adminLogin) {
+        if ('admin' !== $this->adminLogin) {
             try {
                 $this->activationEmailSender->sendActivationEmail($user);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $outputStyle = new SymfonyStyle($input, $output);
                 $outputStyle->writeln('<comment>The password creation email could not be sent.</comment>');
                 $outputStyle->newLine();
@@ -164,7 +159,7 @@ class CreateUserCommand extends Command
             ->setMaxAttempts(3)
             ->setHidden(true)
             ->setHiddenFallback(false)
-            ;
+        ;
     }
 
     private function getPasswordQuestionValidator(): \Closure
@@ -192,7 +187,7 @@ class CreateUserCommand extends Command
                 return $value;
             })
             ->setMaxAttempts(3)
-            ;
+        ;
     }
 
     private function createNameQuestion($text): Question
@@ -208,7 +203,6 @@ class CreateUserCommand extends Command
                 return $value;
             })
             ->setMaxAttempts(3)
-            ;
+        ;
     }
-
 }

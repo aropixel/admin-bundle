@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 trait SeoTrait
 {
     private ?string $metaTitle;

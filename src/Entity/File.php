@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\FileInterface;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\Validator\Constraints as Assert;
 

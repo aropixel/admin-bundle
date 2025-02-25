@@ -7,7 +7,6 @@ use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\Cred
 use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\AdminUserProviderInterface;
 use Aropixel\AdminBundle\Infrastructure\Security\Exception\TooOldLastLoginException;
 use Aropixel\AdminBundle\Infrastructure\Security\Exception\TooOldPasswordException;
-use Aropixel\AdminBundle\Infrastructure\Security\Handler\AuthenticationFailureHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

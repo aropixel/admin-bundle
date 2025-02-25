@@ -12,13 +12,11 @@ class PathResolver implements PathResolverInterface
 {
     public function getImagePath(ImageInterface $image): string
     {
-
-        return Image::UPLOAD_DIR.'/'.$image->getFilename();
+        return Image::UPLOAD_DIR . '/' . $image->getFilename();
     }
 
     public function getFilePath(FileInterface $file): string
     {
-
-        return File::UPLOAD_DIR.'/'.$file->getFilename();
+        return File::UPLOAD_DIR . '/' . $file->getFilename();
     }
 }

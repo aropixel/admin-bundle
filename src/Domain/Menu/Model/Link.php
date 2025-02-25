@@ -2,10 +2,6 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
-
 class Link implements ItemInterface, RoutableInterface
 {
     private ?string $externalLink = null;

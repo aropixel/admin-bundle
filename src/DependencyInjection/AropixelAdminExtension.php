@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
-use Aropixel\AdminBundle\DependencyInjection\Configuration;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-
 
 class AropixelAdminExtension extends Extension implements PrependExtensionInterface
 {
@@ -63,55 +61,52 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             'loaders' => [
                 'default' => [
                     'flysystem' => [
-                        'filesystem_service' => 'private.storage'
-                    ]
-                ]
+                        'filesystem_service' => 'private.storage',
+                    ],
+                ],
             ],
             'resolvers' => [
                 'default' => [
                     'web_path' => [
                         'web_root' => '%kernel.project_dir%/public',
-                        'cache_prefix' => 'media/cache'
-                    ]
-                ]
+                        'cache_prefix' => 'media/cache',
+                    ],
+                ],
             ],
             'filter_sets' => $config,
         ];
 
         $container->prependExtensionConfig('liip_imagine', $liipConfig);
 
-
         $flySystemConfig = [
             'storages' => [
                 'private.storage' => [
                     'adapter' => 'local',
                     'options' => [
-                        'directory' => '%kernel.project_dir%/private'
-                    ]
-                ]
-            ]
+                        'directory' => '%kernel.project_dir%/private',
+                    ],
+                ],
+            ],
         ];
         $container->prependExtensionConfig('flysystem', $flySystemConfig);
-
 
         if (isset($bundles['DoctrineBundle'])) {
             $config = array_merge(...$container->getExtensionConfig('doctrine'));
 
             // do not register mappings if dbal not configured.
             if (!empty($config['dbal']) && !empty($config['orm'])) {
-                $container->prependExtensionConfig('doctrine', array(
-                    'orm' => array(
-                        'mappings' => array(
-                            'AropixelAdminBundle' => array(
+                $container->prependExtensionConfig('doctrine', [
+                    'orm' => [
+                        'mappings' => [
+                            'AropixelAdminBundle' => [
                                 'is_bundle' => true,
                                 'type' => 'xml',
-                            ),
-                        ),
-                    ),
-                ));
+                            ],
+                        ],
+                    ],
+                ]);
             }
         }
-
 
         if (isset($bundles['StofDoctrineExtensionsBundle'])) {
             // prepend the acme_something settings with the entity_manager_name

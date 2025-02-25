@@ -3,7 +3,6 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\File\Upload;
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
-use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
 use League\Flysystem\FilesystemOperator;
@@ -37,8 +36,7 @@ class UploadFileListener
             );
 
             unlink($file->getFile()->getPathname());
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
@@ -47,8 +45,7 @@ class UploadFileListener
     {
         try {
             $this->privateStorage->delete($this->pathResolver->getFilePath($file));
+        } catch (\Throwable) {
         }
-        catch (\Throwable) {}
     }
-
 }

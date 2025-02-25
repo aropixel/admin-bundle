@@ -8,7 +8,6 @@ use Aropixel\AdminBundle\Infrastructure\Security\Authentication\User\Provider\Ad
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\DisabledUserBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldLastLoginBadge;
 use Aropixel\AdminBundle\Infrastructure\Security\Passport\Badge\TooOldPasswordBadge;
-use Aropixel\AdminBundle\Infrastructure\Security\Passport\Factory\PassportFactoryInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;

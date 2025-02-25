@@ -3,7 +3,6 @@
 namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Upload;
 
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
-use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
 use League\Flysystem\FilesystemOperator;
@@ -26,7 +25,6 @@ class UploadImageListener
         [$width, $height] = getimagesize($image->getFile()->getPathname());
         $image->setWidth($width);
         $image->setHeight($height);
-
     }
 
     public function postPersist(ImageInterface $image): void
@@ -42,8 +40,7 @@ class UploadImageListener
             );
 
             unlink($image->getFile()->getPathname());
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
@@ -52,8 +49,7 @@ class UploadImageListener
     {
         try {
             $this->privateStorage->delete($this->pathResolver->getImagePath($image));
+        } catch (\Throwable) {
         }
-        catch (\Throwable) {}
     }
-
 }

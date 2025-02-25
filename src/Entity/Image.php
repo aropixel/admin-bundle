@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -233,5 +232,4 @@ class Image implements ImageInterface
     {
         $this->height = $height;
     }
-
 }

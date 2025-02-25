@@ -2,9 +2,7 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
-use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\ORM\Events;
 use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 
 class MappedSuperClassListener

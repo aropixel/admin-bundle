@@ -2,11 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\AttachedImage;
-use Aropixel\AdminBundle\Entity\User;
-use Aropixel\AdminBundle\Entity\UserImageInterface;
-use Doctrine\ORM\Mapping as ORM;
-
 class UserImage extends AttachedImage implements UserImageInterface
 {
     protected ?int $id = null;

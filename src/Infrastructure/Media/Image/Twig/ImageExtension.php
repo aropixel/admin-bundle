@@ -50,12 +50,9 @@ class ImageExtension extends AbstractExtension
         /* @var AttachedImage $image */
         try {
             $shouldProducePlaceholder =
-                null === $image ||
-                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image))
-            ;
-
-        }
-        catch (\Throwable) {
+                null === $image
+                || !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image));
+        } catch (\Throwable) {
             $shouldProducePlaceholder = true;
         }
 

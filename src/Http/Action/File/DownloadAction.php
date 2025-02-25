@@ -24,13 +24,13 @@ class DownloadAction extends AbstractController
 
         $properties = [
             'Content-Transfer-Encoding', 'binary',
-            'Content-Disposition' => 'attachment; filename="'.$file->getFilename().'"',
+            'Content-Disposition' => 'attachment; filename="' . $file->getFilename() . '"',
             'Content-Length' => fstat($stream)['size'],
         ];
 
         $mimeTypes = new MimeTypes();
         $mimes = $mimeTypes->getMimeTypes($file->getExtension());
-        if (count($mimes) > 0) {
+        if (\count($mimes) > 0) {
             $properties['Content-Type'] = $mimes[0];
         }
 

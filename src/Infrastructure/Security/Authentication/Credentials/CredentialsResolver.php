@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials;
 
-use Aropixel\AdminBundle\Infrastructure\Security\Authentication\Credentials\CredentialsResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 

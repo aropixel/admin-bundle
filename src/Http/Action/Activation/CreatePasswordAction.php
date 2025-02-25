@@ -7,7 +7,6 @@ use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;
-use Aropixel\AdminBundle\Http\Action\Activation\RequestStatusAction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;

@@ -13,12 +13,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class TranslatableEventSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly ParameterBagInterface $parameterBag,
-    ) {}
-
+    ) {
+    }
 
     public function postLoad(LifecycleEventArgs $lifecycleEventArgs): void
     {
@@ -55,12 +54,12 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
     private function provideCurrentLocale(): ?string
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        if (! $currentRequest instanceof Request) {
+        if (!$currentRequest instanceof Request) {
             return null;
         }
 
         $currentLocale = $currentRequest->getLocale();
-        if ($currentLocale !== '') {
+        if ('' !== $currentLocale) {
             return $currentLocale;
         }
 
@@ -70,7 +69,7 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
     public function provideFallbackLocale(): ?string
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        if ($currentRequest !== null) {
+        if (null !== $currentRequest) {
             return $currentRequest->getDefaultLocale();
         }
 
@@ -80,9 +79,8 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
             }
 
             return (string) $this->parameterBag->get('kernel.default_locale');
-        } catch (ParameterNotFoundException | \InvalidArgumentException) {
+        } catch (ParameterNotFoundException|\InvalidArgumentException) {
             return null;
         }
     }
-
 }
