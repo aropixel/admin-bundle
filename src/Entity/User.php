@@ -19,6 +19,7 @@ class User implements UserInterface
 
     protected ?string $lastName = null;
 
+    /** @var array<string>  */
     protected array $roles = [];
 
     protected ?string $password = null;
@@ -112,6 +113,9 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -133,7 +137,7 @@ class User implements UserInterface
         return \in_array(static::ROLE_SUPER_ADMIN, $this->roles);
     }
 
-    public function setSuperAdmin($boolean): self
+    public function setSuperAdmin(bool $boolean): self
     {
         if ($boolean) {
             $this->roles[] = self::ROLE_ADMIN;
@@ -155,21 +159,23 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(string $password): void
+    public function setPlainPassword(string $password): static
     {
         $this->plainPassword = $password;
+
+        return $this;
     }
 
     public function isEnabled(): bool
@@ -177,9 +183,9 @@ class User implements UserInterface
         return $this->enabled;
     }
 
-    public function setEnabled($boolean)
+    public function setEnabled(bool $boolean): static
     {
-        $this->enabled = (bool) $boolean;
+        $this->enabled = $boolean;
 
         return $this;
     }
@@ -283,14 +289,6 @@ class User implements UserInterface
         $this->emailVerificationToken = $emailVerificationToken;
 
         return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**

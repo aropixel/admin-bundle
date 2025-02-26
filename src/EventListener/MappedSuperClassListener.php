@@ -7,6 +7,9 @@ use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 
 class MappedSuperClassListener
 {
+    /**
+     * @param array<class-string,class-string> $entitiesNames
+     */
     public function __construct(
         private readonly array $entitiesNames
     ) {

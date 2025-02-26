@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GalleryCropsType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['entry_type' => CropType::class, 'allow_add' => true, 'allow_delete' => true, 'by_reference' => false, 'image_class' => null, 'image_value' => null, 'image_crops' => null, 'crops' => [], 'suffix' => null]);
     }
@@ -19,7 +19,7 @@ class GalleryCropsType extends AbstractType
     /**
      * Pass the image URL to the view.
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $data = $form->getParent()->getData();
 
@@ -33,11 +33,6 @@ class GalleryCropsType extends AbstractType
         $view->vars['imageShortClass'] = $shortClass;
     }
 
-    /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
-     */
     public function getParent(): ?string
     {
         return CollectionType::class;

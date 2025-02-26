@@ -80,7 +80,10 @@ class AttachAction extends AbstractController
         return new Response($html, Response::HTTP_OK);
     }
 
-    private function getHtml(mixed $image_id, string $attachValue, string $attachClass, mixed $data, array $options, string $html)
+    /**
+     * @param array<mixed> $options
+     */
+    private function getHtml(mixed $image_id, string $attachValue, string $attachClass, mixed $data, array $options, string $html): string
     {
         $image = $this->imageRepository->find($image_id);
 

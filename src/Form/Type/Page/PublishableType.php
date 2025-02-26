@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PublishableType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('status', ChoiceType::class, ['choices' => ['Oui' => 'online', 'Non' => 'offline'], 'empty_data' => 'Non', 'expanded' => true])
@@ -29,7 +29,7 @@ class PublishableType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults(['publishAt' => false, 'publishUntil' => false])

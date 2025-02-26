@@ -20,6 +20,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class GalleryImageType extends AbstractType implements DataMapperInterface
 {
+    /**
+     * @var array<mixed>
+     */
     private array $options;
 
     public function __construct(
@@ -28,7 +31,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Build a uniqid used to identify the crop modal
         $this->options = $options;

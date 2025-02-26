@@ -5,6 +5,9 @@ namespace Aropixel\AdminBundle\Domain\User;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\Persistence\ObjectRepository;
 
+/**
+ * @extends ObjectRepository<UserInterface>
+ */
 interface UserRepositoryInterface extends ObjectRepository
 {
     public function findUserByEmail(string $email): ?UserInterface;

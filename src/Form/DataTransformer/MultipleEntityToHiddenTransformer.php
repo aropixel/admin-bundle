@@ -6,16 +6,23 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * @implements DataTransformerInterface<mixed, mixed>
+ */
 class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 {
+    /**
+     * @param class-string $repository
+     */
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private $repository
+        private readonly string $repository
     ) {
     }
 
     /**
-     * @param null|iterable $value
+     * @param null|array<mixed> $value
+     * @return array<mixed>
      */
     public function transform(mixed $value): array
     {
@@ -33,6 +40,7 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
     }
 
     /**
+     * @return array<mixed>
      * @throws TransformationFailedException
      */
     public function reverseTransform(mixed $value): array

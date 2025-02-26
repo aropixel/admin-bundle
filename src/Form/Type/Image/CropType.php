@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CropType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('filter', HiddenType::class)
@@ -19,21 +19,20 @@ class CropType extends AbstractType
         ;
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         // If the crops to display was specified in the form configuration
         if (\array_key_exists('file_name', $options) && $options['file_name']) {
             $view->vars['file_name'] = $options['file_name'];
         }
-        //        parent::buildView($view, $form, $options);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => null, 'image_class' => null, 'file_name' => null, 'crops' => null]);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'aropixel_crop';
     }

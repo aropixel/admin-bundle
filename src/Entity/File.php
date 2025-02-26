@@ -103,7 +103,7 @@ class File implements FileInterface
         return $this;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt)
+    public function setCreatedAt(?\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -115,7 +115,7 @@ class File implements FileInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -125,13 +125,6 @@ class File implements FileInterface
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
-    }
-
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return self::UPLOAD_DIR;
     }
 
     public function getFile(): ?SymfonyFile

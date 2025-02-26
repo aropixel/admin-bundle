@@ -4,9 +4,9 @@ namespace Aropixel\AdminBundle\Entity;
 
 interface UploadableInterface
 {
-    public function preUpload();
+    public function preUpload(): void;
 
-    public function upload();
+    public function upload(): void;
 
-    public function removeUpload();
+    public function removeUpload(): void;
 }

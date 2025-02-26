@@ -22,7 +22,7 @@ class TranslatableType extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!class_exists($options['personal_translation'])) {
             throw $this->getNoPersonalTranslationException($options['personal_translation']);
@@ -35,11 +35,15 @@ class TranslatableType extends AbstractType
         );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults($this->getDefaultOptions());
     }
 
+    /**
+     * @param array<mixed> $options
+     * @return array<mixed>
+     */
     public function getDefaultOptions(array $options = []): array
     {
         $locale = $this->parameterBag->get('kernel.default_locale');

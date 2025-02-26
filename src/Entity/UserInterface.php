@@ -14,13 +14,13 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
 
     public function isEnabled(): bool;
 
-    public function setEnabled(bool $boolean);
+    public function setEnabled(bool $boolean): static;
 
-    public function setPassword(string $password);
+    public function setPassword(string $password): static;
 
-    public function getPlainPassword();
+    public function getPlainPassword(): ?string;
 
-    public function setPlainPassword(string $password): void;
+    public function setPlainPassword(string $password): static;
 
     public function setLastLogin(?\DateTime $lastLogin): void;
 

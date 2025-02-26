@@ -21,7 +21,7 @@ class Select2Type extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
             $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
@@ -30,7 +30,7 @@ class Select2Type extends AbstractType
         }
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         // Only add the empty value option if this is not the case
         // if (null !== $options['placeholder']) {
