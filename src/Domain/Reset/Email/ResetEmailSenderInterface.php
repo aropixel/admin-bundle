@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ResetEmailSenderInterface
 {
-    public function sendResetEmail(UserInterface $user, string $resetLink);
+    public function sendResetEmail(UserInterface $user, string $resetLink): void;
 }

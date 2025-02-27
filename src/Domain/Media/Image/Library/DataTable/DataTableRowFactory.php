@@ -5,6 +5,8 @@ namespace Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
@@ -22,9 +24,12 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     ) {
     }
 
-    public function createRow($subject): array
+    /**
+     * @return array<mixed>
+     */
+    public function createRow(ItemLibraryInterface $subject): array
     {
-        /** @var Image $image */
+        /** @var Image $subject */
         $image = $subject;
         $path = $this->pathResolver->getImagePath($subject);
 

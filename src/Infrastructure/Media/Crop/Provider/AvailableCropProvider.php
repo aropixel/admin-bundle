@@ -14,10 +14,6 @@ class AvailableCropProvider implements AvailableCropProviderInterface
     ) {
     }
 
-    /**
-     * @param array<string,string>|null $configuredFilters
-     * @return array<string,AvailableCropFilter>
-     */
     public function getAvailableCropFilters(?CroppableInterface $croppable, ?array $configuredFilters = null): array
     {
         $availableCropList = [];

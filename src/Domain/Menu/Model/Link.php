@@ -10,6 +10,10 @@ class Link implements ItemInterface, RoutableInterface
 
     private bool $isActive = false;
 
+    /**
+     * @param array<mixed> $routeParameters
+     * @param array<string,string> $properties
+     */
     public function __construct(
         private readonly string $label,
         private readonly string $routeName,
@@ -54,6 +58,9 @@ class Link implements ItemInterface, RoutableInterface
         return $this->routeParameters;
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getProperties(): array
     {
         return $this->properties;
@@ -69,12 +76,12 @@ class Link implements ItemInterface, RoutableInterface
         $this->id = $id;
     }
 
-    public function getProperty($property): string
+    public function getProperty(string $property): string
     {
         return \array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
     }
 
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
         if ($this->parent && $isActive) {

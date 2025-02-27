@@ -6,6 +6,9 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class SubMenu implements ItemInterface, IterableInterface
 {
+    /**
+     * @var ItemInterface[]
+     */
     private array $items = [];
 
     private bool $isActive = false;
@@ -13,6 +16,9 @@ class SubMenu implements ItemInterface, IterableInterface
     private ?ItemInterface $parent = null;
     private ?Link $defaultChild = null;
 
+    /**
+     * @param array<string,string> $properties
+     */
     public function __construct(
         private readonly string $label,
         private array $properties,
@@ -45,12 +51,15 @@ class SubMenu implements ItemInterface, IterableInterface
         return $this->label;
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getProperties(): array
     {
         return $this->properties;
     }
 
-    public function getProperty($property): string
+    public function getProperty(string $property): string
     {
         return \array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
     }
@@ -77,7 +86,7 @@ class SubMenu implements ItemInterface, IterableInterface
         $this->items[] = $item;
     }
 
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
         if ($this->parent && $isActive) {
