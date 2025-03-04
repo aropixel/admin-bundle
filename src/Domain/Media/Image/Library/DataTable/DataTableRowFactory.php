@@ -25,7 +25,7 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string>
      */
     public function createRow(ItemLibraryInterface $subject): array
     {

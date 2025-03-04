@@ -9,6 +9,9 @@ class DataTableColumn
      */
     private string $htmlClasses = '';
 
+    /**
+     * @param array<string,string> $data Custom html data attributes to add to column
+     */
     public function __construct(
         private readonly string $label,
         private readonly string $queryField,
@@ -32,6 +35,9 @@ class DataTableColumn
         return $this->style;
     }
 
+    /**
+     * @return string[]
+     */
     public function getData(): array
     {
         return $this->data;

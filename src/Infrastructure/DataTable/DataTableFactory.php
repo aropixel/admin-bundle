@@ -26,9 +26,6 @@ class DataTableFactory implements DataTableFactoryInterface
         return $this;
     }
 
-    /**
-     * @param DataTableColumn[] $columns
-     */
     public function create(string $className, array $columns): DataTableInterface
     {
         $context = $this->dataTableContextFactory->create();

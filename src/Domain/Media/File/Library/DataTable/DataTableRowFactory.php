@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\File\Library\Factory\IconPathFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
@@ -20,9 +21,12 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     ) {
     }
 
-    public function createRow($subject): array
+    /**
+     * @return array<string>
+     */
+    public function createRow(ItemLibraryInterface $subject): array
     {
-        /** @var File $file */
+        /** @var File $subject */
         $file = $subject;
 
         try {

@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class AropixelAdminExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
@@ -24,7 +24,10 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $loader->load('services/form.yaml');
     }
 
-    public function registerParameters(ContainerBuilder $container, array $config)
+    /**
+     * @param array<array<mixed>> $config
+     */
+    public function registerParameters(ContainerBuilder $container, array $config): void
     {
         foreach ($config['filter_sets'] as $className => $filters) {
             $config['filter_sets'][$className]['admin_thumbnail'] = "Vignette d'administration";
@@ -42,7 +45,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.entity.file', $config['entities'][FileInterface::class]);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         /** @var array<mixed> $bundles */
         $bundles = $container->getParameter('kernel.bundles');

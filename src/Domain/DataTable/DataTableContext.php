@@ -4,6 +4,9 @@ namespace Aropixel\AdminBundle\Domain\DataTable;
 
 class DataTableContext
 {
+    /**
+     * @var array<mixed>
+     */
     private array $additionalParameters = [];
 
     public function __construct(
@@ -46,17 +49,23 @@ class DataTableContext
         return $this->draw;
     }
 
-    public function addParameters(array $additionalParameters)
+    /**
+     * @param array<mixed> $additionalParameters
+     */
+    public function addParameters(array $additionalParameters): void
     {
         $this->additionalParameters = array_merge($this->additionalParameters, $additionalParameters);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAdditionalParameters(): array
     {
         return $this->additionalParameters;
     }
 
-    public function getAdditionalParameter(string $keyName)
+    public function getAdditionalParameter(string $keyName): mixed
     {
         return \array_key_exists($keyName, $this->additionalParameters) ? $this->additionalParameters[$keyName] : null;
     }

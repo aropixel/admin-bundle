@@ -50,7 +50,7 @@ class DataTable implements DataTableInterface
     }
 
     /**
-     * @return array<mixed>
+     * @return array<array<string>>
      */
     public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array
     {

@@ -10,10 +10,19 @@ interface DataTableInterface
 
     public function getContext(): DataTableContext;
 
+    /**
+     * @return DataTableColumn[]
+     */
     public function getColumns(): array;
 
+    /**
+     * @return mixed[]
+     */
     public function getRowsContent(): iterable;
 
+    /**
+     * @return array<array<string>>
+     */
     public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array;
 
     public function getResponse(DataTableRowFactoryInterface $dataTableRowFactory): Response;
