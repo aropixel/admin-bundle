@@ -3,7 +3,7 @@
  */
 
 
-import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
+import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
 
 (function($){
 

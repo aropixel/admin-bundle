@@ -2,7 +2,7 @@
  Tagger - Converts any text input box into an easy-to-edit multiple-tag interface.
  */
 
-import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
+import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
 
 (function($){
 

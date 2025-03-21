@@ -8,8 +8,8 @@
 *  Latest update: Oct 20, 2015
 *
 * ---------------------------------------------------------------------------- */
-import {SwitchStatus} from './module/switch-status/switch-status.js';
-import {ModalDyn} from './module/modal-dyn/modal-dyn.js';
+import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
+import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
 
 $(function() {
 
