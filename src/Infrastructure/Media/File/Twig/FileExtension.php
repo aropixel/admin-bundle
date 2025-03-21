@@ -8,7 +8,6 @@ use Twig\TwigFunction;
 class FileExtension extends AbstractExtension
 {
     public function __construct(
-
         private bool $isLibraryEnabled = false,
     ) {
     }
@@ -27,5 +26,4 @@ class FileExtension extends AbstractExtension
     {
         return $this->isLibraryEnabled;
     }
-
 }

@@ -9,6 +9,7 @@ use Aropixel\AdminBundle\Http\Form\Reset\FirstLoginType;
 use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequestAction extends AbstractController
 {
@@ -19,16 +20,16 @@ class RequestAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $form = $this->createForm(FirstLoginType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UserInterface $user */
             $email = $form->get('email')->getData();
-            $user = $this->userRepository->findOneBy(['email' => $email]);
 
+            /** @var ?UserInterface $user */
+            $user = $this->userRepository->findOneBy(['email' => $email]);
             if (null === $user) {
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [

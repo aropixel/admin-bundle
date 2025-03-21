@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener;
 use Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\CropInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class DoFileCropListener
@@ -14,16 +15,28 @@ class DoFileCropListener
     ) {
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManager> $args
+     * @return void
+     */
     public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->doCrop($args);
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManager> $args
+     * @return void
+     */
     public function postPersist(LifecycleEventArgs $args): void
     {
         $this->doCrop($args);
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManager> $args
+     * @return void
+     */
     public function doCrop(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -38,10 +51,10 @@ class DoFileCropListener
              * If there is no image attached or no filename for the image,
              * we leave.
              *
-             * @var AttachedImageInterface $image
+             * @var ?AttachedImageInterface $image
              */
             $image = $entity->getImage();
-            if (!$image || !$image->getFilename()) {
+            if (null === $image || !$image->getFilename()) {
                 return;
             }
 

@@ -8,7 +8,6 @@ use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -26,14 +25,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class ImageType extends AbstractType implements DataMapperInterface
 {
-    private $normalizedData;
-
-    private $cropSuffix = [];
-
-    private $filenameInstance;
-    private $filenameClass;
-    private $filenameValue;
-    private $cropsValue;
+    /** @var array<string,string>  */
+    private array $cropSuffix = [];
 
     public function __construct(
         private readonly InstanceToData $instanceToData,
@@ -41,7 +34,10 @@ class ImageType extends AbstractType implements DataMapperInterface
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @param array<mixed> $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Build a uniqid used to identify the crop modal
         $this->cropSuffix[$builder->getName()] = uniqid();
@@ -57,8 +53,10 @@ class ImageType extends AbstractType implements DataMapperInterface
      * Build form if ImageType is in "entity mode"
      * The entity mode is used when the image association (between an Image entity and a target entity)
      * is stored in an AttachEntity.
+
+     * @param array{data_class: string, crop_class?: string, required: bool, crops?: null|array<mixed>} $options
      */
-    private function buildFormEntityMode(FormBuilderInterface $builder, array $options)
+    private function buildFormEntityMode(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('image', EntityHiddenType::class, ['class' => ImageInterface::class, 'required' => $options['required']])
@@ -78,8 +76,10 @@ class ImageType extends AbstractType implements DataMapperInterface
      * The file name mode is used when the image association (between an Image entity and a target entity)
      * is stored in a field of the custom entity, as a file name.
      * Crops infos can be stored the same way as an array, in a different field of the custom entity.
+     *
+     * @param array{data_value: string, crops_value: string, required: bool, crops?: null|array<mixed>} $options
      */
-    private function buildFormFileNameMode(FormBuilderInterface $builder, array $options)
+    private function buildFormFileNameMode(FormBuilderInterface $builder, array $options): void
     {
         /*
          * Infos about the custom entity
@@ -87,9 +87,8 @@ class ImageType extends AbstractType implements DataMapperInterface
          * - The property name which store file name in the entity
          * - The property name which store crops applied to the image
          */
-        $this->filenameClass = $options['data_class'];
-        $this->filenameValue = $options['data_value'];
-        $this->cropsValue = $options['crops_value'];
+        $filenameValue = $options['data_value'];
+        $cropsValue = $options['crops_value'];
 
         $this->instanceToData->setFilenameValue($options['data_value']);
         $this->instanceToData->setCropsValue($options['crops_value']);
@@ -100,10 +99,10 @@ class ImageType extends AbstractType implements DataMapperInterface
         ;
 
         // Get requested crops
-        $crops = $options['crops'] && \is_array($options['crops']) ? $options['crops'] : [];
+        $crops = $options['crops'] ?: [];
         if (\count($crops)) {
             $builder
-                ->add('crops', CropsType::class, ['suffix' => $this->cropSuffix[$builder->getName()], 'image_value' => $this->filenameValue, 'crops_value' => $this->cropsValue, 'crops' => $crops])
+                ->add('crops', CropsType::class, ['suffix' => $this->cropSuffix[$builder->getName()], 'image_value' => $filenameValue, 'crops_value' => $cropsValue, 'crops' => $crops])
             ;
         }
     }
@@ -111,7 +110,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     /**
      * Pass the image URL to the view.
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         /** @var AttachedImage $data */
         $data = $form->getData();
@@ -216,7 +215,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => null,
@@ -241,7 +240,7 @@ class ImageType extends AbstractType implements DataMapperInterface
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_admin_image';
     }

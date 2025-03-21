@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface ActivationEmailSenderInterface
 {
-    public function sendActivationEmail(UserInterface $user);
+    public function sendActivationEmail(UserInterface $user): void;
 }

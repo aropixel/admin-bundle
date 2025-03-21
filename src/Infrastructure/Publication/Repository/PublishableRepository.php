@@ -3,16 +3,18 @@
 namespace Aropixel\AdminBundle\Infrastructure\Publication\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 /**
- * Class RepositoryManager.
- *
- * @author  Joel Gomez <joel.gomez@aropixel.com>
+ * @extends ServiceEntityRepository<object>
  */
 abstract class PublishableRepository extends ServiceEntityRepository
 {
-    public function qbPublished($letter, ?array $orderBy = null, $limit = null, $offset = null)
+    /**
+     * @param array<string,string>|null $orderBy
+     */
+    public function qbPublished(string $letter, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): QueryBuilder
     {
         $qb = $this->createQueryBuilder($letter);
 
@@ -47,7 +49,10 @@ abstract class PublishableRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function countPublished(?array $orderBy = null, $limit = null, $offset = null)
+    /**
+     * @param array<string,string>|null $orderBy
+     */
+    public function countPublished(?array $orderBy = null, ?int $limit = null, ?int $offset = null): mixed
     {
         $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
         $qb
@@ -57,7 +62,10 @@ abstract class PublishableRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findPublished(?array $orderBy = null, $limit = null, $offset = null)
+    /**
+     * @param array<string,string>|null $orderBy
+     */
+    public function findPublished(?array $orderBy = null, ?int $limit = null, ?int $offset = null): mixed
     {
         $qb = $this->qbPublished('q', $orderBy, $limit, $offset);
         if (1 == $limit) {
@@ -67,7 +75,11 @@ abstract class PublishableRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findPublishedBy($by, ?array $orderBy = null, $limit = null, $offset = null)
+    /**
+     * @param array<mixed> $by
+     * @param array<string,string>|null $orderBy
+     */
+    public function findPublishedBy(array $by, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): mixed
     {
         $converter = new CamelCaseToSnakeCaseNameConverter();
 
@@ -84,7 +96,7 @@ abstract class PublishableRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findOnePublished($criteria, $field = 'slug')
+    public function findOnePublished(mixed $criteria, string $field = 'slug'): mixed
     {
         $qb = $this->qbPublished('q');
 

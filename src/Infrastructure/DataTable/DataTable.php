@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Infrastructure\DataTable;
 
+use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableContext;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRepositoryInterface;
@@ -10,6 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DataTable implements DataTableInterface
 {
+    /**
+     * @param class-string $className
+     * @param DataTableColumn[] $columns
+     */
     public function __construct(
         private readonly string $className,
         private readonly array $columns,
@@ -28,16 +33,25 @@ class DataTable implements DataTableInterface
         return $this->context;
     }
 
+    /**
+     * @return DataTableColumn[]
+     */
     public function getColumns(): array
     {
         return $this->columns;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRowsContent(): iterable
     {
         return $this->dataTableRepository->getRowsContent($this);
     }
 
+    /**
+     * @return array<array<string>>
+     */
     public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array
     {
         $rows = [];

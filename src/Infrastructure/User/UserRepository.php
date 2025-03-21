@@ -10,10 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * @method UserInterface|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserInterface|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserInterface[]    findAll()
- * @method UserInterface[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<UserInterface>
  */
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
@@ -23,7 +20,16 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         private readonly PasswordInitializerInterface $passwordInitializer
     ) {
         $entitiesClassNames = $parameterBag->get('aropixel_admin.entities');
-        parent::__construct($registry, $entitiesClassNames[UserInterface::class]);
+
+        /** @var class-string<UserInterface> $className */
+        $className = $entitiesClassNames[UserInterface::class];
+
+        // Vérification stricte pour éviter l'erreur
+        if (!is_subclass_of($className, UserInterface::class)) {
+            throw new \InvalidArgumentException("$className doit implémenter UserInterface.");
+        }
+
+        parent::__construct($registry, $className);
     }
 
     public function findUserByEmail(string $email): ?UserInterface

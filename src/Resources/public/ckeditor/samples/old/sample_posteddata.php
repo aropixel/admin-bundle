@@ -1,1 +1,3 @@
-<?php  include 'assets/posteddata.php';
+<?php
+
+include 'assets/posteddata.php';

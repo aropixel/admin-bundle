@@ -11,4 +11,12 @@ interface ItemLibraryInterface
     public function getTempPath(): ?string;
 
     public function getFile(): ?File;
+
+    public function setTitle(string $title): self;
+
+    public function setFilename(string $filename): self;
+
+    public function setExtension(string $extension): self;
+
+
 }

@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Http\Action\Reset;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class AccountStatusAction extends AbstractController
 {
@@ -10,7 +11,7 @@ class AccountStatusAction extends AbstractController
     public const LOGIN = 'login';
     public const PASSWORD = 'password';
 
-    public function __invoke(string $status)
+    public function __invoke(string $status): Response
     {
         $views = [
             self::ATTEMPTS => '@AropixelAdmin/Reset/blocked_request_info.html.twig',

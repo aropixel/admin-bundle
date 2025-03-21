@@ -8,27 +8,29 @@ use Twig\TwigFunction;
 
 class TranslationExtension extends AbstractExtension
 {
+    public function __construct(
+        private readonly ParameterBagInterface $params
+    ) {
+    }
 
-    public function __construct(private readonly ParameterBagInterface $params){}
-
-    public function getFunctions() : array
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_locales', [$this, 'getLocales']),
-            new TwigFunction('is_translatable', [$this, 'isTranslatable']),
+            new TwigFunction('get_locales', $this->getLocales(...)),
+            new TwigFunction('is_translatable', $this->isTranslatable(...)),
         ];
     }
 
-
-    public function getLocales() : array
+    /**
+     * @return array<string>
+     */
+    public function getLocales(): array
     {
         return $this->params->get('aropixel_admin.locales');
     }
 
-    public function isTranslatable() : bool
+    public function isTranslatable(): bool
     {
         return 1 < \count($this->params->get('aropixel_admin.locales'));
     }
-
-
 }

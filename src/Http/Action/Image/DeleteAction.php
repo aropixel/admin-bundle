@@ -30,7 +30,7 @@ class DeleteAction extends AbstractController
         if ($image) {
             try {
                 $libraryEntity = new \ReflectionClass($libraryClass);
-                if ($libraryEntity instanceof AttachedImage) {
+                if ($libraryEntity->isSubclassOf(AttachedImage::class)) {
                     $attachedImages = $this->entityManager->getRepository($libraryClass)->findBy(['image' => $image]);
                     if (\count($attachedImages)) {
                         foreach ($attachedImages as $attachedImage) {

@@ -29,7 +29,7 @@ class DeleteAction extends AbstractController
 
         if ($file) {
             $libraryEntity = new \ReflectionClass($libraryClass);
-            if ($libraryEntity instanceof AttachedFile) {
+            if ($libraryEntity->isSubclassOf(AttachedFile::class)) {
                 $attachedFiles = $em->getRepository($libraryClass)->findBy(['file' => $file]);
 
                 if (\count($attachedFiles)) {

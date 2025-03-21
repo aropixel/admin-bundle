@@ -6,5 +6,5 @@ use Aropixel\AdminBundle\Infrastructure\DataTable\Repository\Doctrine\DefaultDat
 
 class DataTableRepository extends DefaultDataTableRepository
 {
-    protected $repositoryMethodName = 'getCategoryQueryDataTable';
+    protected string $repositoryMethodName = 'getCategoryQueryDataTable';
 }

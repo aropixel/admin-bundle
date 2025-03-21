@@ -56,10 +56,7 @@ class AttachAction extends AbstractController
         $data = null;
         if ($attachValue) {
             $options['data_class'] = $attachClass;
-
-            if ($attachValue) {
-                $options['data_value'] = $attachValue;
-            }
+            $options['data_value'] = $attachValue;
         } else {
             $options['data_class'] = $attachClass;
             $data = new $attachClass();
@@ -83,7 +80,10 @@ class AttachAction extends AbstractController
         return new Response($html, Response::HTTP_OK);
     }
 
-    private function getHtml($image_id, $attachValue, $attachClass, $data, $options, $html)
+    /**
+     * @param array<mixed> $options
+     */
+    private function getHtml(mixed $image_id, string $attachValue, string $attachClass, mixed $data, array $options, string $html): string
     {
         $image = $this->imageRepository->find($image_id);
 

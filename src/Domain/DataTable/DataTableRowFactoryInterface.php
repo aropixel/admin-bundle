@@ -2,7 +2,12 @@
 
 namespace Aropixel\AdminBundle\Domain\DataTable;
 
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
+
 interface DataTableRowFactoryInterface
 {
-    public function createRow($subject): array;
+    /**
+     * @return array<string>
+     */
+    public function createRow(ItemLibraryInterface $subject): array;
 }

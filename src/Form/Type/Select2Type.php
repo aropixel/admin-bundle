@@ -15,15 +15,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class Select2Type extends AbstractType
 {
-    private $configs;
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly RouterInterface $router
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
             $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
@@ -32,7 +30,7 @@ class Select2Type extends AbstractType
         }
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         // Only add the empty value option if this is not the case
         // if (null !== $options['placeholder']) {
@@ -69,26 +67,22 @@ class Select2Type extends AbstractType
         }
 
         $view->vars['choices'] = $choices;
-
-        // $view->vars['label'] = '';
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $defaults = $this->configs;
-
         $resolver
-            ->setDefaults(['configs' => $defaults, 'choice_label' => 'label', 'multiple' => false, 'placeholder' => null])
+            ->setDefaults(['choice_label' => 'label', 'multiple' => false, 'placeholder' => null])
             ->setRequired(['repository', 'route'])
         ;
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return HiddenType::class;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'select2';
     }

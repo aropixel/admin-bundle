@@ -6,7 +6,14 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class Menu implements IterableInterface
 {
+    /**
+     * @var ItemInterface[]
+     */
     private array $items = [];
+
+    /**
+     * @var array<string>
+     */
     private array $positions = [];
 
     public function __construct(

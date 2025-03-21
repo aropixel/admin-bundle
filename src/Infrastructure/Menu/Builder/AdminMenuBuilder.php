@@ -19,11 +19,14 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public const MENU_MENU_ID = 'menu';
     public const MENU_MENU_LABEL = 'Menus';
 
-
-    public function __construct(private readonly RouterInterface $router)
-    {
+    public function __construct(
+        private readonly RouterInterface $router
+    ) {
     }
 
+    /**
+     * @return Menu[]
+     */
     public function buildMenu(): array
     {
         $menu = [];
@@ -93,8 +96,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
         return $menu;
     }
 
-
-    public function routeExists($name): bool
+    public function routeExists(string $name): bool
     {
         return !(null === $this->router->getRouteCollection()->get($name));
     }

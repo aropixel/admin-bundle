@@ -2,6 +2,8 @@
 
 namespace Aropixel\AdminBundle\EventSubscriber;
 
+use Aropixel\AdminBundle\Entity\TranslatableInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Gedmo\Translatable\Translatable;
@@ -13,18 +15,25 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class TranslatableEventSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly ParameterBagInterface $parameterBag,
-    ) {}
+    ) {
+    }
 
-
+    /**
+     * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
+     * @return void
+     */
     public function postLoad(LifecycleEventArgs $lifecycleEventArgs): void
     {
         $this->setLocales($lifecycleEventArgs);
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
+     * @return void
+     */
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
         $this->setLocales($lifecycleEventArgs);
@@ -32,11 +41,16 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        return [Events::postLoad, Events::prePersist];
+        return [Events::postLoad => Events::postLoad, Events::prePersist => Events::prePersist];
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
+     * @return void
+     */
     private function setLocales(LifecycleEventArgs $lifecycleEventArgs): void
     {
+        /** @var TranslatableInterface $entity */
         $entity = $lifecycleEventArgs->getObject();
         if (!$entity instanceof Translatable) {
             return;
@@ -55,12 +69,12 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
     private function provideCurrentLocale(): ?string
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        if (! $currentRequest instanceof Request) {
+        if (!$currentRequest instanceof Request) {
             return null;
         }
 
         $currentLocale = $currentRequest->getLocale();
-        if ($currentLocale !== '') {
+        if ('' !== $currentLocale) {
             return $currentLocale;
         }
 
@@ -70,19 +84,15 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
     public function provideFallbackLocale(): ?string
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        if ($currentRequest !== null) {
+        if (null !== $currentRequest) {
             return $currentRequest->getDefaultLocale();
         }
 
         try {
-            if ($this->parameterBag->has('locale')) {
-                return (string) $this->parameterBag->get('locale');
-            }
 
             return (string) $this->parameterBag->get('kernel.default_locale');
-        } catch (ParameterNotFoundException | \InvalidArgumentException) {
+        } catch (ParameterNotFoundException|\InvalidArgumentException) {
             return null;
         }
     }
-
 }

@@ -17,7 +17,7 @@ class PasswordInitializer implements PasswordInitializerInterface
     ) {
     }
 
-    public function createPassword(UserInterface $user)
+    public function createPassword(UserInterface $user): void
     {
         if (!$user->getPlainPassword()) {
             $user->setPlainPassword(self::DEFAULT_PASSWORD);

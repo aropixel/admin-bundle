@@ -2,10 +2,11 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
-
 interface ImageInterface extends ItemLibraryInterface
 {
+    public function setWidth(int $width): void;
     public function getWidth(): ?int;
+
+    public function setHeight(int $height): void;
     public function getHeight(): ?int;
 }

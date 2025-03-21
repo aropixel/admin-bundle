@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Form\Subscriber;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -13,7 +14,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Translatable implements EventSubscriberInterface
 {
-
+    /**
+     * @param array<mixed>|null $options
+     */
     public function __construct(
         private readonly FormFactoryInterface $factory,
         private readonly EntityManagerInterface $em,
@@ -22,20 +25,22 @@ class Translatable implements EventSubscriberInterface
     ) {
     }
 
-
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         // Tells the dispatcher that we want to listen on the form.pre_set_data
         // , form.post_data and form.bind_norm_data event
         return [
             FormEvents::PRE_SET_DATA => 'preSetData',
-            FormEvents::POST_SUBMIT  => 'postSubmit',
-            FormEvents::SUBMIT       => 'submit'
+            FormEvents::POST_SUBMIT => 'postSubmit',
+            FormEvents::SUBMIT => 'submit',
         ];
     }
 
-
-    private function bindTranslations(iterable $data) : array
+    /**
+     * @param AbstractPersonalTranslation[] $data
+     * @return array<mixed>
+     */
+    private function bindTranslations(iterable $data): array
     {
         // Small helper function to extract all Personal Translation
         // from the Entity for the field we are interested in
@@ -43,23 +48,23 @@ class Translatable implements EventSubscriberInterface
         $collection = [];
         $available_translations = [];
         foreach ($data as $translation) {
-            if (is_object($translation) &&
-                strtolower($translation->getField()) == strtolower($this->options['field'])
+            if (\is_object($translation)
+                && mb_strtolower($translation->getField()) == mb_strtolower((string) $this->options['field'])
             ) {
-                $available_translations[strtolower($translation->getLocale())] = $translation;
+                $available_translations[mb_strtolower($translation->getLocale())] = $translation;
             }
         }
 
         foreach ($this->getFieldNames() as $locale => $field_name) {
-            if (isset($available_translations[strtolower($locale)])) {
-                $translation = $available_translations[strtolower($locale) ];
+            if (isset($available_translations[mb_strtolower($locale)])) {
+                $translation = $available_translations[mb_strtolower($locale)];
             } else {
                 $translation = $this->createPersonalTranslation($locale, $this->options['field'], null, null);
             }
 
             $collection[] = [
-                'locale'      => $locale,
-                'fieldName'   => $field_name,
+                'locale' => $locale,
+                'fieldName' => $field_name,
                 'translation' => $translation,
             ];
         }
@@ -67,34 +72,37 @@ class Translatable implements EventSubscriberInterface
         return $collection;
     }
 
-
-    private function getFieldNames() : array
+    /**
+     * @return array<string,string>
+     */
+    private function getFieldNames(): array
     {
-        //helper function to generate all field names in format:
+        // helper function to generate all field names in format:
         $collection = [];
         foreach ($this->options['locales'] as $locale) {
             $collection[$locale] = $this->options['field'] . ':' . $locale;
         }
+
         return $collection;
     }
 
-    private function createPersonalTranslation($locale, $field, $content, $foreignKey)
+    private function createPersonalTranslation(string $locale, string $field, mixed $content, mixed $foreignKey): AbstractPersonalTranslation
     {
         // creates a new Personal Translation
         $class_name = $this->options['personal_translation'];
+
         return new $class_name($locale, $field, $content, $foreignKey);
     }
 
-
-    public function submit(FormEvent $event)
+    public function submit(FormEvent $event): void
     {
         // Validates the submitted form
         $form = $event->getForm();
 
-        foreach($this->getFieldNames() as $locale => $field_name) {
+        foreach ($this->getFieldNames() as $locale => $field_name) {
             $content = $form->get($field_name)->getData();
             $required = $form->get($field_name)->getConfig()->getRequired();
-            if ($required && null === $content && in_array($locale, $this->options['required_locale'])) {
+            if ($required && null === $content && \in_array($locale, $this->options['required_locale'])) {
                 $form->addError($this->getCannotBeBlankException($this->options['field'], $locale));
             } else {
                 $errors = $this->validator->validate(
@@ -107,14 +115,12 @@ class Translatable implements EventSubscriberInterface
         }
     }
 
-
-    public function getCannotBeBlankException(string $field, string $locale) : FormError
+    public function getCannotBeBlankException(string $field, string $locale): FormError
     {
         return new FormError(sprintf('Field "%s" for locale "%s" cannot be blank', $field, $locale));
     }
 
-
-    public function postSubmit(FormEvent $event)
+    public function postSubmit(FormEvent $event): void
     {
         // if the form passed the validattion then set the corresponding Personal Translations
         $form = $event->getForm();
@@ -122,7 +128,7 @@ class Translatable implements EventSubscriberInterface
 
         $entity = $form->getParent()->getData();
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $data = new ArrayCollection($data);
             $class_name = str_replace('Translation', '', $this->options['personal_translation']);
             $entity = new $class_name();
@@ -141,7 +147,7 @@ class Translatable implements EventSubscriberInterface
             $translation->setContent($content);
             // test if its new
             if ($translation->getId()) {
-                //Delete the Personal Translation if its empty
+                // Delete the Personal Translation if its empty
                 if (null === $content && $this->options['remove_empty']) {
                     $data->removeElement($translation);
                     if ($this->options['entity_manager_removal']) {
@@ -159,14 +165,13 @@ class Translatable implements EventSubscriberInterface
 
         // remove string elements from "translations", we need only objects
         foreach ($data as $rec) {
-            if (!is_object($rec)){
+            if (!\is_object($rec)) {
                 $data->removeElement($rec);
             }
         }
     }
 
-
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         // Builds the custom 'form' based on the provided locales
         $data = $event->getData();
@@ -178,25 +183,26 @@ class Translatable implements EventSubscriberInterface
         // or fetched with Doctrine). This if statement let's us skip right
         // over the null condition.
         if (null === $data) {
-
             // in case of a type collection (add new only) it's necessary to add fields for the data-prototype
             foreach ($this->options['locales'] as $locale) {
-
                 $class_name = $this->options['personal_translation'];
+
+                /** @var AbstractPersonalTranslation $translation */
                 $translation = new $class_name($locale, $this->options['field'], null);
+                $object = $translation->getContent();
 
                 $form->add($this->factory->createNamed(
-                    $this->options['field'].':'.$locale,
+                    $this->options['field'] . ':' . $locale,
                     $this->options['widget'],
-                    $translation->getContent(),
-                        [
-                            'auto_initialize' => false,
-                            'label' => $locale,
-                            'required' => in_array($locale, $this->options['required_locale']),
-                            'property_path' => null,
-                            'attr' => $this->options['attr']
-                        ]
-                    )
+                    $object,
+                    [
+                        'auto_initialize' => false,
+                        'label' => $locale,
+                        'required' => \in_array($locale, $this->options['required_locale']),
+                        'property_path' => null,
+                        'attr' => $this->options['attr'],
+                    ]
+                )
                 );
             }
 
@@ -204,7 +210,6 @@ class Translatable implements EventSubscriberInterface
         }
 
         foreach ($this->bindTranslations($data) as $binded) {
-
             $translation = $binded['translation'];
             $required = $form->getConfig()->getRequired();
 
@@ -213,15 +218,13 @@ class Translatable implements EventSubscriberInterface
                 $this->options['widget'],
                 $translation->getContent(),
                 [
-                    'auto_initialize'=> false,
+                    'auto_initialize' => false,
                     'label' => $binded['locale'],
-                    'required' => $required && in_array($binded['locale'], $this->options['required_locale']),
+                    'required' => $required && \in_array($binded['locale'], $this->options['required_locale']),
                     'property_path' => null,
-                    'attr' => $this->options['attr']
+                    'attr' => $this->options['attr'],
                 ]
             ));
-
         }
-
     }
 }

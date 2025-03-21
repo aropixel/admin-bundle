@@ -2,19 +2,23 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class SubMenu implements ItemInterface, IterableInterface
 {
+    /**
+     * @var ItemInterface[]
+     */
     private array $items = [];
 
     private bool $isActive = false;
 
-    private ?IterableInterface $parent = null;
+    private ?ItemInterface $parent = null;
     private ?Link $defaultChild = null;
 
+    /**
+     * @param array<string,string> $properties
+     */
     public function __construct(
         private readonly string $label,
         private array $properties,
@@ -29,15 +33,15 @@ class SubMenu implements ItemInterface, IterableInterface
 
     public function hasChildren(): bool
     {
-        return \count($this->items);
+        return \count($this->items) > 0;
     }
 
-    public function getParent(): ?IterableInterface
+    public function getParent(): ?ItemInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?IterableInterface $parent): void
+    public function setParent(?ItemInterface $parent): void
     {
         $this->parent = $parent;
     }
@@ -47,12 +51,15 @@ class SubMenu implements ItemInterface, IterableInterface
         return $this->label;
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getProperties(): array
     {
         return $this->properties;
     }
 
-    public function getProperty($property): string
+    public function getProperty(string $property): string
     {
         return \array_key_exists($property, $this->properties) ? $this->properties[$property] : '';
     }
@@ -79,7 +86,7 @@ class SubMenu implements ItemInterface, IterableInterface
         $this->items[] = $item;
     }
 
-    public function setIsActive(bool $isActive)
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
         if ($this->parent && $isActive) {

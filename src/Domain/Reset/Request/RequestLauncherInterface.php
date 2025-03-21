@@ -6,7 +6,7 @@ use Aropixel\AdminBundle\Entity\UserInterface;
 
 interface RequestLauncherInterface
 {
-    public function reset(UserInterface $user);
+    public function reset(UserInterface $user): void;
 
-    public function cancelRequest(UserInterface $user);
+    public function cancelRequest(UserInterface $user): void;
 }

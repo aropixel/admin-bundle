@@ -11,6 +11,7 @@ class Seo
 
     /**
      * banned words in english feel free to change them.
+     * @var array<string>
      */
     public static array $bannedWords = [];
 
@@ -57,7 +58,7 @@ class Seo
             }
 
             // sort keywords from most repetitions to less
-            uasort($wordcount, ['self', 'cmp']);
+            uasort($wordcount, self::cmp(...));
 
             // keep only X keywords
             $wordcount = \array_slice($wordcount, 0, $max_keys);
@@ -84,13 +85,8 @@ class Seo
 
     /**
      * sort for uasort descendent numbers , compares values.
-     *
-     * @param int $a
-     * @param int $b
-     *
-     * @return int
      */
-    private static function cmp($a, $b): bool
+    private static function cmp(int $a, int $b): int
     {
         return $b <=> $a;
     }

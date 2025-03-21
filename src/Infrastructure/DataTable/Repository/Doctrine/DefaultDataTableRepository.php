@@ -5,20 +5,30 @@ namespace Aropixel\AdminBundle\Infrastructure\DataTable\Repository\Doctrine;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableInterface;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class DefaultDataTableRepository implements DataTableRepositoryInterface
 {
-    protected $repositoryMethodName = 'getQueryDataTable';
+    protected string $repositoryMethodName = 'getQueryDataTable';
 
     public function __construct(
         private readonly EntityManagerInterface $em
     ) {
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getRowsContent(DataTableInterface $dataTable): iterable
     {
         $context = $dataTable->getContext();
-        $qb = $this->em->getRepository($dataTable->getClassName())->{$this->repositoryMethodName}($context);
+
+        /** @var class-string $className */
+        $className = $dataTable->getClassName();
+        $repository = $this->em->getRepository($className);
+
+        /** @var QueryBuilder $qb */
+        $qb = $repository->{$this->repositoryMethodName}($context);
 
         $query = $qb->getQuery();
         $query->setFirstResult($context->getStart() ?: 0);

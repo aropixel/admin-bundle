@@ -2,13 +2,11 @@
 
 namespace Aropixel\AdminBundle\Domain\Menu\Model;
 
-use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
-
 interface ItemInterface
 {
     public function getId(): ?string;
 
-    public function setId(string $id);
+    public function setId(string $id): void;
 
     public function getLabel(): string;
 
@@ -16,11 +14,11 @@ interface ItemInterface
 
     public function hasChildren(): bool;
 
-    public function setIsActive(bool $isActive);
+    public function setIsActive(bool $isActive): void;
 
     public function isActive(): bool;
 
-    public function setParent(IterableInterface $parent);
+    public function setParent(ItemInterface $parent): void;
 
-    public function getParent(): ?IterableInterface;
+    public function getParent(): ?ItemInterface;
 }

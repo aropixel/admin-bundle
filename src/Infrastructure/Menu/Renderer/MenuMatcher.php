@@ -5,13 +5,14 @@ namespace Aropixel\AdminBundle\Infrastructure\Menu\Renderer;
 use Aropixel\AdminBundle\Domain\Menu\Model\IterableInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Model\RoutableInterface;
-use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
 class MenuMatcher implements MenuMatcherInterface
 {
     protected ?string $mustMatchRoute = null;
+
+    /** @var array<mixed>  */
     protected array $mustMatchRouteParameters = [];
 
     public function __construct(
@@ -62,7 +63,10 @@ class MenuMatcher implements MenuMatcherInterface
         }
     }
 
-    protected function isActiveRoute(RoutableInterface $item, $ignoreParameters = ['id']): bool
+    /**
+     * @param array<string> $ignoreParameters
+     */
+    protected function isActiveRoute(RoutableInterface $item, array $ignoreParameters = ['id']): bool
     {
         if (!mb_strlen($item->getRouteName())) {
             return false;
@@ -104,18 +108,20 @@ class MenuMatcher implements MenuMatcherInterface
         return false;
     }
 
+    /**
+     * @param array<mixed> $routeParameters
+     */
     protected function compareRoute(string $routeName, array $routeParameters): bool
     {
         return $this->router->getContext()->getPathInfo() == $this->router->generate($routeName, $routeParameters);
     }
 
-    protected function isIndexRoute(string $routeName)
+    protected function isIndexRoute(string $routeName): bool
     {
-        return
-            str_contains($routeName, '_index');
+        return str_contains($routeName, '_index');
     }
 
-    protected function getBaseCrud(string $routeName)
+    protected function getBaseCrud(string $routeName): string
     {
         $i = mb_strrpos($routeName, '_');
 

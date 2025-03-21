@@ -17,12 +17,12 @@ class DisabledUserException extends AuthenticationException
         return 'Votre compte est désactivé.';
     }
 
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function toHide()
+    public function toHide(): bool
     {
         return false;
     }

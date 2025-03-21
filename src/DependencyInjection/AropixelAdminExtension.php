@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\DependencyInjection;
 
-use Aropixel\AdminBundle\DependencyInjection\Configuration;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\Config\FileLocator;
@@ -11,10 +10,9 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-
 class AropixelAdminExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
@@ -26,7 +24,10 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $loader->load('services/form.yaml');
     }
 
-    public function registerParameters(ContainerBuilder $container, array $config)
+    /**
+     * @param array<array<mixed>> $config
+     */
+    public function registerParameters(ContainerBuilder $container, array $config): void
     {
         foreach ($config['filter_sets'] as $className => $filters) {
             $config['filter_sets'][$className]['admin_thumbnail'] = "Vignette d'administration";
@@ -44,9 +45,9 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $container->setParameter('aropixel_admin.entity.file', $config['entities'][FileInterface::class]);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
-        // get all bundles
+        /** @var array<mixed> $bundles */
         $bundles = $container->getParameter('kernel.bundles');
         $config = ['admin_thumbnail' => ['quality' => 75, 'filters' => ['upscale_thumbnail' => ['height' => 400, 'width' => 400]]], 'fallback_pixel' => ['quality' => 75, 'filters' => ['strip' => []]], 'admin_preview' => ['quality' => 75, 'filters' => ['relative_resize' => ['widen' => 800]]], 'admin_crop' => ['quality' => 75, 'filters' => ['relative_resize' => ['widen' => 600]]]];
 
@@ -63,55 +64,52 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             'loaders' => [
                 'default' => [
                     'flysystem' => [
-                        'filesystem_service' => 'private.storage'
-                    ]
-                ]
+                        'filesystem_service' => 'private.storage',
+                    ],
+                ],
             ],
             'resolvers' => [
                 'default' => [
                     'web_path' => [
                         'web_root' => '%kernel.project_dir%/public',
-                        'cache_prefix' => 'media/cache'
-                    ]
-                ]
+                        'cache_prefix' => 'media/cache',
+                    ],
+                ],
             ],
             'filter_sets' => $config,
         ];
 
         $container->prependExtensionConfig('liip_imagine', $liipConfig);
 
-
         $flySystemConfig = [
             'storages' => [
                 'private.storage' => [
                     'adapter' => 'local',
                     'options' => [
-                        'directory' => '%kernel.project_dir%/private'
-                    ]
-                ]
-            ]
+                        'directory' => '%kernel.project_dir%/private',
+                    ],
+                ],
+            ],
         ];
         $container->prependExtensionConfig('flysystem', $flySystemConfig);
-
 
         if (isset($bundles['DoctrineBundle'])) {
             $config = array_merge(...$container->getExtensionConfig('doctrine'));
 
             // do not register mappings if dbal not configured.
             if (!empty($config['dbal']) && !empty($config['orm'])) {
-                $container->prependExtensionConfig('doctrine', array(
-                    'orm' => array(
-                        'mappings' => array(
-                            'AropixelAdminBundle' => array(
+                $container->prependExtensionConfig('doctrine', [
+                    'orm' => [
+                        'mappings' => [
+                            'AropixelAdminBundle' => [
                                 'is_bundle' => true,
                                 'type' => 'xml',
-                            ),
-                        ),
-                    ),
-                ));
+                            ],
+                        ],
+                    ],
+                ]);
             }
         }
-
 
         if (isset($bundles['StofDoctrineExtensionsBundle'])) {
             // prepend the acme_something settings with the entity_manager_name

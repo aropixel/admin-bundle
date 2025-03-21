@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\File\Library\Factory\IconPathFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
@@ -20,19 +21,22 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     ) {
     }
 
-    public function createRow($subject): array
+    /**
+     * @return array<string>
+     */
+    public function createRow(ItemLibraryInterface $subject): array
     {
-        /** @var File $file */
+        /** @var File $subject */
         $file = $subject;
 
         try {
             $bytes = $this->privateStorage->fileSize($this->pathResolver->getFilePath($file));
-        } catch (FilesystemException $e) {
+        } catch (FilesystemException) {
             $bytes = 0;
         }
 
         $sz = 'bkMGTP';
-        $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
+        $factor = (int) floor((mb_strlen((string)$bytes) - 1) / 3);
         $decimals = 2;
         $unite = @$sz[$factor];
         if ('b' == $unite || 'k' == $unite) {

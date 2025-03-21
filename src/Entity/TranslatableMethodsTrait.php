@@ -2,13 +2,10 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Translatable\Translatable;
 
 trait TranslatableMethodsTrait
 {
-
     public function getTranslation(string $field): ?string
     {
         foreach ($this->getTranslations() as $translation) {
@@ -24,7 +21,7 @@ trait TranslatableMethodsTrait
             }
         }
 
-        return $this->$field;
+        return $this->{$field};
     }
 
     public function getLocales()
@@ -32,14 +29,13 @@ trait TranslatableMethodsTrait
         $languages = [];
 
         foreach ($this->getTranslations() as $translation) {
-            if (!in_array($translation->getLocale(), $languages)) {
+            if (!\in_array($translation->getLocale(), $languages)) {
                 $languages[] = $translation->getLocale();
             }
         }
 
-        return implode(", ", $languages);
+        return implode(', ', $languages);
     }
-
 
     public function removeTranslation($t)
     {
@@ -49,9 +45,10 @@ trait TranslatableMethodsTrait
 
     public function getTranslations()
     {
-        if ($this->translations === null) {
+        if (null === $this->translations) {
             $this->translations = new ArrayCollection();
         }
+
         return $this->translations;
     }
 
@@ -69,17 +66,17 @@ trait TranslatableMethodsTrait
         foreach ($at as $t) {
             $this->addTranslation($t);
         }
+
         return $this;
     }
 
-    public function setTranslatableLocale($locale)
+    public function setTranslatableLocale(string $locale)
     {
         $this->currentLocale = $locale;
     }
 
-    public function getCurrentLocale()
+    public function getCurrentLocale(): ?string
     {
         return $this->currentLocale;
     }
-
 }

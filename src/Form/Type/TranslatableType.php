@@ -13,38 +13,38 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-
 class TranslatableType extends AbstractType
 {
-
     public function __construct(
         protected readonly EntityManagerInterface $em,
         protected readonly ValidatorInterface $validator,
         protected readonly ParameterBagInterface $parameterBag,
-    ){}
+    ) {
+    }
 
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!class_exists($options['personal_translation'])) {
             throw $this->getNoPersonalTranslationException($options['personal_translation']);
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
-        $options['empty_data'] = function (FormInterface $form) {
-            return new ArrayCollection();
-        };
+        $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
         $builder->addEventSubscriber(
             new Translatable($builder->getFormFactory(), $this->em, $this->validator, $options)
         );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults($this->getDefaultOptions());
     }
 
-    public function getDefaultOptions(array $options = []) : array
+    /**
+     * @param array<mixed> $options
+     * @return array<mixed>
+     */
+    public function getDefaultOptions(array $options = []): array
     {
         $locale = $this->parameterBag->get('kernel.default_locale');
         $locales = $this->parameterBag->get('aropixel_admin.locales');
@@ -62,14 +62,13 @@ class TranslatableType extends AbstractType
         return $options;
     }
 
-    public function getNoPersonalTranslationException(string $translation) : \InvalidArgumentException
+    public function getNoPersonalTranslationException(string $translation): \InvalidArgumentException
     {
         return new \InvalidArgumentException(sprintf('Unable to find personal translation class: "%s"', $translation));
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return 'translatable';
     }
-
 }

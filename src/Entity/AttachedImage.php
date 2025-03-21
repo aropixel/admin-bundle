@@ -2,11 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\AttachedImageInterface;
-use Aropixel\AdminBundle\Entity\ImageInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-
 class AttachedImage implements AttachedImageInterface
 {
     private ?string $title = null;

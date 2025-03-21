@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Aropixel\AdminBundle\Infrastructure\Reset\Token;
 
-use Aropixel\AdminBundle\Infrastructure\Reset\Token\RandomnessGeneratorInterface;
-
 final class RandomnessGenerator implements RandomnessGeneratorInterface
 {
     /** @var string */

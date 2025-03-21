@@ -8,7 +8,6 @@ use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,11 +17,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-// class GalleryImageType extends ImageType
+
 class GalleryImageType extends AbstractType implements DataMapperInterface
 {
-    private $options;
-    private $cropSuffix;
+    /**
+     * @var array<mixed>
+     */
+    private array $options;
 
     public function __construct(
         private readonly InstanceToData $instanceToData,
@@ -30,7 +31,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Build a uniqid used to identify the crop modal
         $this->options = $options;
@@ -161,7 +162,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
     /**
      * Pass the image URL to the view.
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         /** @var AttachedImage $data */
         $data = $form->getData();
@@ -194,11 +195,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         //        $view->vars['library'] = $form->getConfig()->getDataClass();
     }
 
-    private function getFieldOption()
-    {
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => null,
@@ -219,7 +216,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_gallery_image';
     }

@@ -19,22 +19,22 @@ class AropixelExtension extends AbstractExtension
     ) {
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return ['datetime' => new TwigFilter('datetime', $this->intl_date(...)), 'intl_date' => new TwigFilter('intl_date', $this->intl_date(...)), 'seo' => new TwigFilter('seo', $this->getSeo(...)), 'ucfirst' => new TwigFilter('ucfirst', $this->myUcfirst(...))];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return ['route_exists' => new TwigFunction('route_exists', $this->routeExists(...)), 'get_baseroute' => new TwigFunction('get_baseroute', $this->getBaseRoute(...)), 'get_image_editor_route' => new TwigFunction('get_image_editor_route', $this->getImageEditorRoute(...)), 'get_class' => new TwigFunction('get_class', $this->getClass(...))];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'getclass';
     }
 
-    public function getBaseRoute()
+    public function getBaseRoute(): string
     {
         $request = $this->requestStack->getCurrentRequest();
         $routeName = $request->get('_route');
@@ -43,19 +43,19 @@ class AropixelExtension extends AbstractExtension
         return mb_substr((string) $routeName, 0, $i);
     }
 
-    public function getImageEditorRoute()
+    public function getImageEditorRoute(): string
     {
         return $this->router->generate('image_editor');
     }
 
-    public function getClass($object)
+    public function getClass(mixed $object): string
     {
         return $object && \is_object($object) ? (new \ReflectionClass($object))->getName() : '';
     }
 
-    public function myUcfirst($text)
+    public function myUcfirst(string $text): string
     {
-        return ucfirst((string) $text);
+        return ucfirst($text);
     }
 
     /**
@@ -63,12 +63,10 @@ class AropixelExtension extends AbstractExtension
      * @param string $defaultField Champs de l'objet à utiliser pour générer le contenu (par défaut, égal à $seoField)
      * @param string $defaultText  Valeur par défaut si rien n'est trouvé
      * @param string $appendText   Valeur à ajouter par défaut au texte généré
-     *
-     * @return string
      */
-    public function getSeo(mixed $entity, $seoField, $defaultField = '', $defaultText = '', $appendText = '')
+    public function getSeo(mixed $entity, string $seoField, string $defaultField = '', string $defaultText = '', string $appendText = ''): string
     {
-        if (!$defaultField || !mb_strlen($defaultField)) {
+        if (!mb_strlen($defaultField)) {
             $defaultField = 'keywords' == $seoField ? 'description' : $seoField;
         }
 
@@ -108,12 +106,12 @@ class AropixelExtension extends AbstractExtension
         return $seoText;
     }
 
-    public function routeExists($name)
+    public function routeExists(string $name): bool
     {
         return !(null === $this->router->getRouteCollection()->get($name));
     }
 
-    public function intl_date($d, $format = '%B %e', $lang = 'fr_FR')
+    public function intl_date(\DateTime $d, string $format = '%B %e', string $lang = 'fr_FR'): false|string
     {
         $formatter = new \IntlDateFormatter($lang, \IntlDateFormatter::NONE, \IntlDateFormatter::NONE);
         $formatter->setPattern($format);

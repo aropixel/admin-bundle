@@ -1,7 +1,9 @@
 <?php
+
 namespace Aropixel\AdminBundle\Infrastructure\Menu\Twig;
 
 use Aropixel\AdminBundle\Domain\Menu\Builder\MenuBuilderInterface;
+use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\Menu;
 use Aropixel\AdminBundle\Domain\Menu\Renderer\MenuRendererInterface;
 use Aropixel\AdminBundle\Infrastructure\Menu\Builder\AdminMenuBuilderInterface;
@@ -10,10 +12,9 @@ use Aropixel\AdminBundle\Infrastructure\Menu\Renderer\MenuMatcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-
 class MenuExtension extends AbstractExtension
 {
-
+    /** @var Menu[]  */
     public array $menu = [];
 
     public function __construct(
@@ -22,18 +23,17 @@ class MenuExtension extends AbstractExtension
         private readonly MenuRendererInterface $menuRenderer,
         private readonly AdminMenuBuilderInterface $adminMenuBuilder,
         private readonly QuickMenuBuilderInterface $quickMenuBuilder,
-    ){
+    ) {
     }
 
-
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('aropixel_admin_render_menu', [$this, 'renderMenus'], [
+            new TwigFunction('aropixel_admin_render_menu', $this->renderMenus(...), [
                 'is_safe' => ['html'],
-                'needs_environment' => true
+                'needs_environment' => true,
             ]),
-            new TwigFunction('set_aropixel_menu_match_route', [$this, 'matchRoute']),
+            new TwigFunction('set_aropixel_menu_match_route', $this->matchRoute(...)),
             new TwigFunction('get_quick_menu', $this->getQuickMenu(...)),
             new TwigFunction('render_admin_menu', $this->renderMenu(...), ['is_safe' => ['html']]),
             new TwigFunction('render_search_menu', $this->renderSearchMenu(...), ['is_safe' => ['html']]),
@@ -41,23 +41,29 @@ class MenuExtension extends AbstractExtension
         ];
     }
 
-
-    public function matchRoute(string $matchRoute, array $matchRouteParams = [])
+    /**
+     * @param array<mixed> $matchRouteParams
+     */
+    public function matchRoute(string $matchRoute, array $matchRouteParams = []): void
     {
         $this->menuMatcher->mustMatch($matchRoute, $matchRouteParams);
     }
 
     public function renderMenu(Menu $menu): string
     {
-        return $this->menuRenderer->renderMenu($menu, '@AropixelAdmin/Menu/menu.html.twig');
-    }
-
-    public function renderMenus()
-    {
-        $menu = $this->menuBuilder->buildMenu('admin');
         return $this->menuRenderer->renderMenu($menu);
     }
 
+    public function renderMenus(): string
+    {
+        $menu = $this->menuBuilder->buildMenu('admin');
+
+        return $this->menuRenderer->renderMenu($menu);
+    }
+
+    /**
+     * @return Menu[]
+     */
     public function getMenu(): array
     {
         if (!empty($this->menu)) {
@@ -83,9 +89,11 @@ class MenuExtension extends AbstractExtension
         return $this->menuRenderer->renderSearchMenu($menus, '@AropixelAdmin/Menu/_search-nav-result.html.twig');
     }
 
-    public function getQuickMenu()
+    /**
+     * @return array<int,ItemInterface>
+     */
+    public function getQuickMenu(): array
     {
         return $this->quickMenuBuilder->buildMenu();
     }
-
 }

@@ -7,10 +7,10 @@ use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;
-use Aropixel\AdminBundle\Http\Action\Activation\RequestStatusAction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CreatePasswordAction extends AbstractController
@@ -22,9 +22,9 @@ class CreatePasswordAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request, string $token)
+    public function __invoke(Request $request, string $token): Response
     {
-        /** @var UserInterface $user */
+        /** @var ?UserInterface $user */
         $user = $this->userRepository->findOneBy(['passwordResetToken' => $token]);
         if (null === $user) {
             throw new NotFoundHttpException('Token not found.');

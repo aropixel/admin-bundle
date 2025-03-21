@@ -17,15 +17,12 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CollectionHiddenType extends AbstractType
 {
-    private $configs;
-
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly RouterInterface $router
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
             $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
@@ -34,7 +31,7 @@ class CollectionHiddenType extends AbstractType
         }
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['multiple'] = $options['multiple'] ?: false;
 
@@ -65,28 +62,21 @@ class CollectionHiddenType extends AbstractType
         $view->vars['choices'] = $choices;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        // for BC with the "empty_value" option
-        //        $placeholder = function (Options $options) {
-        //            return $options['empty_value'];
-        //        };
-
-        $defaults = $this->configs;
-
         $resolver
-            ->setDefaults(['configs' => $defaults, 'choice_label' => 'label', 'multiple' => false])
+            ->setDefaults(['choice_label' => 'label', 'multiple' => false])
             ->setRequired(['repository'])
             ->setDefaults(['placeholder' => ''])
         ;
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         return HiddenType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'entity_collection_hidden';
     }

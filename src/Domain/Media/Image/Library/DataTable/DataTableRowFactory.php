@@ -5,6 +5,8 @@ namespace Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable;
 use Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\Image;
+use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
@@ -22,20 +24,23 @@ class DataTableRowFactory implements DataTableRowFactoryInterface
     ) {
     }
 
-    public function createRow($subject): array
+    /**
+     * @return array<string>
+     */
+    public function createRow(ItemLibraryInterface $subject): array
     {
-        /** @var Image $image */
+        /** @var Image $subject */
         $image = $subject;
         $path = $this->pathResolver->getImagePath($subject);
 
         try {
             $bytes = $this->privateStorage->fileSize($path);
-        } catch (FilesystemException $e) {
+        } catch (FilesystemException) {
             $bytes = 0;
         }
 
         $sz = 'bkMGTP';
-        $factor = (int) floor((mb_strlen($bytes) - 1) / 3);
+        $factor = (int) floor((mb_strlen((string)$bytes) - 1) / 3);
         $decimals = 2;
         $unite = @$sz[$factor];
         if ('b' == $unite || 'k' == $unite) {

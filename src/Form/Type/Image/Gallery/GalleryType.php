@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Image\Gallery;
 
-use Aropixel\AdminBundle\Form\Type\Image\Gallery\GalleryImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
@@ -12,9 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GalleryType extends AbstractType
 {
-    private $cropSuffix;
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             // Common propreties
@@ -110,10 +107,10 @@ class GalleryType extends AbstractType
     /**
      * Pass the image URL to the view.
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $this->cropSuffix = uniqid();
-        $view->vars['crop_suffix'] = $this->cropSuffix;
+        $cropSuffix = uniqid();
+        $view->vars['crop_suffix'] = $cropSuffix;
 
         $shortClassItems = explode('\\', (string) $options['entry_options']['data_class']);
         $shortClass = array_pop($shortClassItems);
@@ -129,17 +126,12 @@ class GalleryType extends AbstractType
         $view->vars['crops'] = $options['crops'];
     }
 
-    /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
-     */
-    public function getParent()
+    public function getParent(): ?string
     {
         return CollectionType::class;
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'aropixel_gallery';
     }

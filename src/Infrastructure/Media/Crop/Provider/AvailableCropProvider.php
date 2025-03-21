@@ -34,6 +34,7 @@ class AvailableCropProvider implements AvailableCropProviderInterface
                 continue;
             }
 
+            /** @var array<mixed> $liipFilterConfiguration */
             $liipFilterConfiguration = $liipFilters[$slug];
 
             // Si ce filtre ne contient pas de miniature (juste un resize par exemple)
@@ -58,6 +59,9 @@ class AvailableCropProvider implements AvailableCropProviderInterface
         return $availableCropList;
     }
 
+    /**
+     * @return array<string,string>
+     */
     private function findConfiguredFilters(CroppableInterface $croppable): array
     {
         $imageClass = $croppable::class;

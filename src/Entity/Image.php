@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\ImageInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -192,18 +191,6 @@ class Image implements ImageInterface
         return $this;
     }
 
-    public function isNew(): bool
-    {
-        return $this->isNew;
-    }
-
-    public function setIsNew(bool $isNew): self
-    {
-        $this->isNew = $isNew;
-
-        return $this;
-    }
-
     public static function getFileNameWebPath(?string $fileName): ?string
     {
         return null === $fileName ? null : self::UPLOAD_DIR . '/' . $fileName;
@@ -233,5 +220,4 @@ class Image implements ImageInterface
     {
         $this->height = $height;
     }
-
 }

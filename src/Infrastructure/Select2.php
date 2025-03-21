@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Infrastructure;
 
 use Aropixel\AdminBundle\Domain\Select2Interface;
+use Aropixel\AdminBundle\Infrastructure\Select2\Select2RepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,21 +26,24 @@ class Select2 implements Select2Interface
     ) {
         $request = $this->requestStack->getCurrentRequest();
         $this->query = $request->query->get('q', '');
-        $this->offset = $request->query->get('page', 1) - 1;
+        $this->offset = (int)$request->query->get('page', '1') - 1;
     }
 
-    public function setClass(string $fqClassName)
+    public function setClass(string $fqClassName): self
     {
         return $this->setRepository($fqClassName);
     }
 
-    public function setRepository(string $fqClassName): Select2Interface
+    public function setRepository(string $fqClassName): self
     {
         $reflection = new \ReflectionClass($fqClassName);
         $className = $reflection->getShortName();
 
         $this->tableAs = mb_strtolower(mb_substr($className, 0, 1));
-        $this->qb = $this->em->getRepository($fqClassName)->getQuerySelect2($this->query);
+
+        /** @var Select2RepositoryInterface $repository */
+        $repository = $this->em->getRepository($fqClassName);
+        $this->qb = $repository->getQuerySelect2($this->query);
 
         return $this;
     }
@@ -49,6 +53,9 @@ class Select2 implements Select2Interface
         return $this->qb;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getItems(): iterable
     {
         $query = $this->qb->getQuery();
@@ -59,6 +66,9 @@ class Select2 implements Select2Interface
         return $query->getResult();
     }
 
+    /**
+     * @param array<mixed> $items
+     */
     public function getResponse(array $items): Response
     {
         $count = $this->count();

@@ -8,15 +8,33 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface, PasswordHasherAwareInterface
 {
-    public function setEnabled(bool $boolean);
+    public function getId(): ?int;
 
-    public function setPassword(string $password);
+    public function getEmail(): ?string;
 
-    public function getPlainPassword();
+    public function isEnabled(): bool;
+
+    public function setEnabled(bool $boolean): static;
+
+    public function setPassword(string $password): static;
+
+    public function getPlainPassword(): ?string;
+
+    public function setPlainPassword(string $password): static;
+
+    public function setLastLogin(?\DateTime $lastLogin): void;
 
     public function tooOldPassword(string $delay): bool;
 
     public function tooOldLastLogin(): bool;
 
     public function setLastPasswordUpdate(\DateTime $lastPasswordUpdate): void;
+
+    public function getPasswordResetToken(): ?string;
+
+    public function setPasswordResetToken(?string $passwordResetToken): void;
+
+    public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt): void;
+
+    public function isPasswordRequestExpired(\DateInterval $ttl): bool;
 }

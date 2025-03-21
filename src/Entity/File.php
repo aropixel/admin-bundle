@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\FileInterface;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -104,7 +103,7 @@ class File implements FileInterface
         return $this;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt)
+    public function setCreatedAt(?\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -116,7 +115,7 @@ class File implements FileInterface
         return $this->createdAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt)
+    public function setUpdatedAt(?\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -128,13 +127,6 @@ class File implements FileInterface
         return $this->updatedAt;
     }
 
-    protected function getUploadDir()
-    {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return self::UPLOAD_DIR;
-    }
-
     public function getFile(): ?SymfonyFile
     {
         return $this->file;
@@ -143,14 +135,6 @@ class File implements FileInterface
     public function setFile(?SymfonyFile $file = null): void
     {
         $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
     }
 
     public function getTempPath(): ?string

@@ -6,26 +6,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * @implements DataTransformerInterface<mixed, ArrayCollection>
+ */
 class EntityToCollectionTransformer implements DataTransformerInterface
 {
     /**
-     * @return int
+     * @return ArrayCollection<int,mixed>
      */
-    public function transform($entity)
+    public function transform(mixed $value): ArrayCollection
     {
         $imageCollection = new ArrayCollection();
-        $imageCollection->add($entity);
+        $imageCollection->add($value);
 
         return $imageCollection;
     }
 
     /**
-     * @return mixed|object
-     *
-     * @throws TransformationFailedException
+     * @param ArrayCollection<int,mixed> $value
      */
-    public function reverseTransform($collection)
+    public function reverseTransform(mixed $value): mixed
     {
-        return $collection->first();
+        return $value->first();
     }
 }

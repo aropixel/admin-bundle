@@ -2,11 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\File;
-use Aropixel\AdminBundle\Entity\FileInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-
 abstract class AttachedFile
 {
     private ?string $title = null;
@@ -64,7 +59,7 @@ abstract class AttachedFile
         return $this;
     }
 
-    public function getFile(): ?File
+    public function getFile(): ?FileInterface
     {
         return $this->file;
     }

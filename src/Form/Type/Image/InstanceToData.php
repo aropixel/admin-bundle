@@ -6,38 +6,28 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class InstanceToData
 {
-    private $filenameValue = 'value';
+    private string $filenameValue = 'value';
 
-    private $attributesValue = 'attributes';
+    private string $attributesValue = 'attributes';
 
-    private $cropsValue = 'crops';
+    private string $cropsValue = 'crops';
 
-    /**
-     * @return InstanceToData
-     */
-    public function setFilenameValue(mixed $filenameValue)
+
+    public function setFilenameValue(mixed $filenameValue): static
     {
         $this->filenameValue = $filenameValue;
 
         return $this;
     }
 
-    /**
-     * @return InstanceToData
-     */
-    public function setCropsValue(mixed $cropsValue)
+    public function setCropsValue(mixed $cropsValue): static
     {
         $this->cropsValue = $cropsValue;
 
         return $this;
     }
 
-    /**
-     * Get file name from an entity.
-     *
-     * @return mixed|null
-     */
-    public function getFileName($data)
+    public function getFileName(mixed $data): mixed
     {
         $value = $data;
 
@@ -50,12 +40,7 @@ class InstanceToData
         return $value;
     }
 
-    /**
-     * Get attributes from an entity.
-     *
-     * @return mixed|null
-     */
-    public function getAttributes($data)
+    public function getAttributes(mixed $data): mixed
     {
         $value = $data;
 
@@ -68,10 +53,7 @@ class InstanceToData
         return $value;
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function getCrops($data)
+    public function getCrops(mixed $data): mixed
     {
         $value = null;
 

@@ -23,7 +23,7 @@ class UserType extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $userToEdit = $builder->getData();
 
@@ -39,6 +39,7 @@ class UserType extends AbstractType
             ])
         ;
 
+        /** @var User $userLogged */
         $userLogged = $this->security->getUser();
         if ($userLogged->getId() == $userToEdit->getId()) {
             $builder
@@ -54,9 +55,8 @@ class UserType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['data_class' => User::class, 'new' => false]);
     }
-
 }

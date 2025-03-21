@@ -3,8 +3,8 @@
 namespace Aropixel\AdminBundle\Infrastructure\Menu;
 
 use Aropixel\AdminBundle\Domain\Menu\Model\ItemInterface;
-use Aropixel\AdminBundle\Infrastructure\Menu\Builder\AdminMenuBuilderInterface;
 use Aropixel\AdminBundle\Domain\Menu\Model\SubMenu;
+use Aropixel\AdminBundle\Infrastructure\Menu\Builder\AdminMenuBuilderInterface;
 
 class LinkMatcher
 {
@@ -18,9 +18,7 @@ class LinkMatcher
         $menus = $this->adminMenuBuilder->buildMenu();
 
         foreach ($menus as $menu) {
-
             foreach ($menu->getItems() as $item) {
-
                 if ($item->getId() == $id) {
                     return $item;
                 }
@@ -32,9 +30,7 @@ class LinkMatcher
                         }
                     }
                 }
-
             }
-
         }
 
         return null;

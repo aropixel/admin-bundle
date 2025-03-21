@@ -17,12 +17,12 @@ class TooOldLastLoginException extends AuthenticationException
         return "Après plusieurs mois d'inactivité, votre compte a été désactivé.";
     }
 
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function toHide()
+    public function toHide(): bool
     {
         return true;
     }

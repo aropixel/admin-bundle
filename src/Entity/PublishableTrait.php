@@ -2,8 +2,6 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
-use Aropixel\AdminBundle\Entity\Publishable;
-
 trait PublishableTrait
 {
     public function isPublished(): bool
