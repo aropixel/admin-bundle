@@ -14,19 +14,21 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 $(function() {
 
     // Make CKEDITO works with webpack AND asset mapper
-    CKEDITOR.getUrl = function(path) {
-        const fixedBasePath = '/bundles/aropixeladmin/ckeditor/';
-        if (path.indexOf('://') !== -1 || path.startsWith('/')) {
-            return path;
-        }
+    if (typeof CKEDITOR !== 'undefined') {
+        CKEDITOR.getUrl = function (path) {
+            const fixedBasePath = '/bundles/aropixeladmin/ckeditor/';
+            if (path.indexOf('://') !== -1 || path.startsWith('/')) {
+                return path;
+            }
 
-        let url = fixedBasePath + path;
-        if (this.timestamp && !url.endsWith('/') && !/[&?]t=/.test(url)) {
-            url += (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + this.timestamp;
-        }
+            let url = fixedBasePath + path;
+            if (this.timestamp && !url.endsWith('/') && !/[&?]t=/.test(url)) {
+                url += (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + this.timestamp;
+            }
 
-        return url;
-    };
+            return url;
+        };
+    }
 
     let $pickadate = $('.pickadate');
     if ($pickadate.length) {

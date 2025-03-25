@@ -190,17 +190,17 @@
                 </div>
 
                 <footer class="main-footer">
+                    <div class="main-footer-fullscreen">
+                        {% block footer_left %}
+                            <div class="footer-left">
+                                {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
+                            </div>
+                        {% endblock %}
 
-                    {% block footer_left %}
-                        <div class="footer-left">
-                            {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
-                        </div>
-                    {% endblock %}
-
-                    {% block footer_right %}
-                        <div class="footer-right"></div>
-                    {% endblock %}
-
+                        {% block footer_right %}
+                            <div class="footer-right"></div>
+                        {% endblock %}
+                    </div>
                 </footer>
 
             </div>

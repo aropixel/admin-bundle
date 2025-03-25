@@ -382,7 +382,8 @@
     align-items: baseline;
 }
 
-.main-content-fullscreen {
+.main-content-fullscreen,
+.main-footer-fullscreen {
     padding: 0 30px;
     max-width: 1620px;
     margin: 0 auto;
