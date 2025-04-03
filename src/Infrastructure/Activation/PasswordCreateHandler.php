@@ -20,6 +20,7 @@ class PasswordCreateHandler implements PasswordCreationHandlerInterface
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
         $user->setLastPasswordUpdate(new \DateTime());
+        $user->setInitialized(true);
         $user->setEnabled(true);
 
         $hashPassword = $this->userPasswordHasher->hashPassword($user, $password);

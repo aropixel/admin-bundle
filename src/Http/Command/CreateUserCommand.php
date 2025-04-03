@@ -62,8 +62,8 @@ class CreateUserCommand extends Command
         $outputStyle->writeln('New admin user creation.');
 
         $this->adminLogin = $this->askAdminEmail($input, $output);
-        $this->adminFirstName = $this->askAdminName('First Name : ', $input, $output);
-        $this->adminLastName = $this->askAdminName('Last Name : ', $input, $output);
+        $this->adminFirstName = $this->askAdminName('First Name', $input, $output);
+        $this->adminLastName = $this->askAdminName('Last Name', $input, $output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -71,6 +71,7 @@ class CreateUserCommand extends Command
         try {
             $user = $this->userFactory->createUser();
 
+            $user->setInitialized(false);
             $user->setRoles(['ROLE_SUPER_ADMIN']);
             $user->setEmail($this->adminLogin);
             $user->setFirstName($this->adminFirstName);

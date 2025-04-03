@@ -13,6 +13,8 @@ class User implements UserInterface
 
     protected bool $enabled = false;
 
+    protected bool $initialized = false;
+
     protected int $passwordAttempts = 0;
 
     protected ?string $firstName = null;
@@ -159,11 +161,9 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     public function getPlainPassword(): ?string
@@ -171,11 +171,9 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(string $password): static
+    public function setPlainPassword(string $password): void
     {
         $this->plainPassword = $password;
-
-        return $this;
     }
 
     public function isEnabled(): bool
@@ -183,11 +181,19 @@ class User implements UserInterface
         return $this->enabled;
     }
 
-    public function setEnabled(bool $boolean): static
+    public function setEnabled(bool $boolean): void
     {
         $this->enabled = $boolean;
+    }
 
-        return $this;
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    public function setInitialized(bool $isInitialized): void
+    {
+        $this->initialized = $isInitialized;
     }
 
     public function getPasswordAttempts(): int
@@ -300,26 +306,12 @@ class User implements UserInterface
         $this->plainPassword = null;
     }
 
-    /**
-     * Set createdAt.
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return self
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
-    /**
-     * Get createdAt.
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }

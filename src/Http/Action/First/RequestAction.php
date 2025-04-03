@@ -40,7 +40,7 @@ class RequestAction extends AbstractController
                 );
             }
 
-            if (!$this->passwordInitializer->stillPendingPasswordCreation($user)) {
+            if ($user->isInitialized()) {
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [
                         'form' => $form->createView(),
