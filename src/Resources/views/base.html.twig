@@ -46,6 +46,7 @@
 
     <body{% if menu_position == "top" %} class="layout-3" {% endif %}>
 
+        {% block body_content %}
         <div id="app">
 
             <div class="main-wrapper {{ menu_position == "top" ? "container" : "main-wrapper-1" }}">
@@ -206,6 +207,7 @@
             </div>
 
         </div>
+        {% endblock %}
 
         {% block javascripts %}
             <!-- General JS Scripts -->
