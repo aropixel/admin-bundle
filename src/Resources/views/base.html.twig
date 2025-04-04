@@ -33,6 +33,9 @@
 
         {% endblock %}
 
+        {% block asset_manager %}
+        {% endblock %}
+
     </head>
 
     {% set menu_position = admin_theme.menu_position %}
@@ -227,7 +230,6 @@
             <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/fullscreen.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/security.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/js/turbo-csrf.js') }}"></script>
             <!-- JS Libraies -->
         {% endblock %}
 
