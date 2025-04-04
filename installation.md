@@ -84,4 +84,19 @@ aropixel_admin:
 
 - Add the ConfigureMenuListener class in Src Folder and register it as service
 
-- If you enabled Stateless CSRF protection with a Symfony 7.2+ project, add "vendor/aropixel/admin-bundle/assets" to your asset_map path, or use and override the "asset_manager" block of the base.html.twig template
+- If you enabled Stateless CSRF protection with a Symfony 7.2+ project, add "vendor/aropixel/admin-bundle/assets/" to your asset_map path
+````
+framework:
+    asset_mapper:
+        paths:
+            - assets/
+            - vendor/aropixel/admin-bundle/assets/
+
+````
+then add "@aropixel/admin-bundle" to your importmap.php
+````
+'@aropixel/admin-bundle' => [
+    'path' => './vendor/aropixel/admin-bundle/assets/loader.js',
+    'entrypoint' => true,
+]
+````
