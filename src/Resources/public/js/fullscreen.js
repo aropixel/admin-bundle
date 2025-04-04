@@ -17,83 +17,91 @@ const openSearchNav = () => {
   const input = document.querySelector('#search-nav input');
   const body = document.querySelector('#search-nav .body');
 
-  input.addEventListener('click', (event) => {
+  if (input) {
+    input.addEventListener('click', (event) => {
 
-    body.classList.add("active");
+      body.classList.add("active");
 
-  })
-
+    })
+  }
 }
 
 const closeSearchNav = () => {
 
-  const nav = document.getElementById('search-nav');
   const body = document.querySelector('#search-nav .body');
 
-  let lastMouseDownX = 0;
-  let lastMouseDownY = 0;
-  let lastMouseDownWasOutside = false;
 
-  const mouseDownListener = (event) => {
+  if (body) {
+    let lastMouseDownX = 0;
+    let lastMouseDownY = 0;
+    let lastMouseDownWasOutside = false;
+    const mouseDownListener = (event) => {
 
-    lastMouseDownX = event.offsetX;
-    lastMouseDownY = event.offsetY;
-    lastMouseDownWasOutside = !$(event.target).closest(nav).length;
+      const nav = document.getElementById('search-nav');
+      lastMouseDownX = event.offsetX;
+      lastMouseDownY = event.offsetY;
+      lastMouseDownWasOutside = !$(event.target).closest(nav).length;
 
-    if (lastMouseDownWasOutside) {
-      body.classList.remove("active");
+      if (lastMouseDownWasOutside) {
+        body.classList.remove("active");
+      }
+
     }
 
+    document.addEventListener('mousedown', mouseDownListener);
   }
-
-  document.addEventListener('mousedown', mouseDownListener);
 
 }
 
 const closeSearchNavOnEscape = () => {
 
-  const body = document.querySelector('#search-nav .body');
   let input = document.querySelector('#search-nav input');
+  if (input) {
+    input.addEventListener('keydown', function(event) {
 
-  input.addEventListener('keydown', function(event) {
+      if (event.key === "Escape" && input.value.length === 0) {
 
-    if (event.key === "Escape" && input.value.length === 0) {
+        const body = document.querySelector('#search-nav .body');
+        body.classList.remove("active");
 
-      body.classList.remove("active");
+      }
 
-    }
-
-  });
+    });
+  }
 
 }
 
 const openFullScreenMenu = () => {
 
-  const body = document.querySelector('body');
   const burger = document.getElementById('burgerMenu');
-  const menu = document.getElementById('fullscreen-menu');
 
-  burger.addEventListener('click', (event) => {
+  if (burger) {
+    burger.addEventListener('click', (event) => {
 
-    menu.classList.remove("hide");
-    body.style.overflowY = 'hidden';
+      const body = document.querySelector('body');
+      const menu = document.getElementById('fullscreen-menu');
+      menu.classList.remove("hide");
+      body.style.overflowY = 'hidden';
 
-  })
+    })
+  }
 
 }
 
 const closeFullScreenMenu = () => {
 
-  const body = document.querySelector('body');
   const closeBtn = document.getElementById('close-fullscreen-menu');
-  const menu = document.getElementById('fullscreen-menu');
 
-  closeBtn.addEventListener('click', (event) => {
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (event) => {
 
-    menu.classList.add("hide");
-    body.style.overflowY = 'scroll';
+      const body = document.querySelector('body');
+      const menu = document.getElementById('fullscreen-menu');
+      menu.classList.add("hide");
+      body.style.overflowY = 'scroll';
 
-  })
+    })
+  }
 
 }
 
@@ -165,25 +173,26 @@ const filterMenuItem = () => {
 const goToFirstMenuItem = () => {
 
   let input = document.querySelector('#search-nav input');
+  if (input) {
+    input.addEventListener('keypress', function(event) {
 
-  input.addEventListener('keypress', function(event) {
+      if (event.key === "Enter") {
 
-    if (event.key === "Enter") {
+        let subSections = document.querySelectorAll(".sub-section li");
 
-      let subSections = document.querySelectorAll(".sub-section li");
+        for (const section of subSections) {
+          if (window.getComputedStyle(section).display !== "none") {
 
-      for (const section of subSections) {
-        if (window.getComputedStyle(section).display !== "none") {
+            document.location = section.getElementsByTagName('a')[0].href;
+            break;
 
-          document.location = section.getElementsByTagName('a')[0].href;
-          break;
-
+          }
         }
+
       }
 
-    }
-
-  });
+    });
+  }
 
 }
 

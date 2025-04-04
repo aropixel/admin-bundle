@@ -80,6 +80,8 @@ aropixel_admin:
     prefix: /admin
 
 ````
-- Create your first admin access : php bin/console aropixel:admin:setup
+- Create your first admin access : php bin/console aropixel:admin:create-user
 
 - Add the ConfigureMenuListener class in Src Folder and register it as service
+
+- If you enabled Stateless CSRF protection with a Symfony 7.2+ project, add "vendor/aropixel/admin-bundle/assets" to your asset_map path, or use and override the "asset_manager" block of the base.html.twig template
