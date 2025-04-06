@@ -101,7 +101,7 @@
         <source>reset.done.description</source>
         <target><![CDATA[Votre mot de passe a été modifié.<br /><a href="{link}">Cliquez ici</a> pour vous connecter.]]></target>
       </trans-unit>
-      <trans-unit id="Y38qAJb" resname="blocked.title">
+      <trans-unit id="Y38qAJb" resname="blocked_account.title">
         <source>blocked_account.title</source>
         <target>Compte bloqué</target>
       </trans-unit>
