@@ -41,4 +41,6 @@ interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserI
     public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt): void;
 
     public function isPasswordRequestExpired(\DateInterval $ttl): bool;
+
+    public function setPasswordAttempts(int $passwordAttempts): void;
 }

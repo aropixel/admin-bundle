@@ -24,6 +24,7 @@ class PasswordResetHandler implements PasswordResetHandlerInterface
             throw new UnchangedPasswordException();
         }
 
+        $user->setPasswordAttempts(0);
         $user->setPasswordResetToken(null);
         $user->setPasswordRequestedAt(null);
         $user->setLastLogin(null);
