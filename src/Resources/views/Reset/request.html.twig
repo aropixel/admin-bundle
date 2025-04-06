@@ -1,33 +1,9 @@
-<!doctype html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-	<title>{% block meta_title %}{{ admin_client.name }} - Administration{% endblock %}</title>
+{% extends '@AropixelAdmin/base.html.twig' %}
 
-	{% block stylesheets %}
+{% block theme_javascripts %}
+{% endblock %}
 
-		<!-- General CSS Files -->
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
-
-		<!-- CSS Libraries -->
-
-		<!-- Template CSS -->
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
-
-
-		<!-- Awesome Font -->
-		<link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
-
-	{% endblock %}
-
-</head>
-<body>
-
+{% block body_content %}
 	<div id="app">
 		<section class="section">
 			<div class="container mt-5">
@@ -68,7 +44,4 @@
 			</div>
 		</section>
 	</div>
-
-
-</body>
-</html>
+{% endblock %}

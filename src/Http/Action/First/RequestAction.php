@@ -31,22 +31,28 @@ class RequestAction extends AbstractController
             /** @var ?UserInterface $user */
             $user = $this->userRepository->findOneBy(['email' => $email]);
             if (null === $user) {
+                $response = new Response();
+                $response->setStatusCode(Response::HTTP_SEE_OTHER);
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [
                         'form' => $form->createView(),
                         'not_found' => true,
                         'already_initialized' => false,
-                    ]
+                    ],
+                    $response
                 );
             }
 
             if ($user->isInitialized()) {
+                $response = new Response();
+                $response->setStatusCode(Response::HTTP_SEE_OTHER);
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [
                         'form' => $form->createView(),
                         'not_found' => false,
                         'already_initialized' => true,
-                    ]
+                    ],
+                    $response
                 );
             }
 
