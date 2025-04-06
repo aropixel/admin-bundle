@@ -1,5 +1,7 @@
-import { startStimulusApp } from '@symfony/stimulus-bundle';
-
-const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
+try {
+    import('@symfony/stimulus-bundle').then((app) => {
+        app.startStimulusApp();
+    });
+} catch (e) {
+    console.warn('Stimulus or UX-CSRF not available', e);
+}
