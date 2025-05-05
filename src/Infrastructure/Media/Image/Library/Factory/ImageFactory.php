@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Infrastructure\Media\Image\Library\Factory;
 
 use Aropixel\AdminBundle\Domain\Media\Image\Library\Factory\ImageFactoryInterface;
 use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
+use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Entity\ItemLibraryInterface;
 
 class ImageFactory implements ImageFactoryInterface
@@ -13,7 +14,7 @@ class ImageFactory implements ImageFactoryInterface
     ) {
     }
 
-    public function create(): ItemLibraryInterface
+    public function create(): ImageInterface
     {
         $imageClassName = $this->classNameResolver->getImageClassName();
 

@@ -71,7 +71,8 @@ class CreateUserCommand extends Command
         try {
             $user = $this->userFactory->createUser();
 
-            $user->setInitialized(false);
+            $user->setInitialized('admin' === $this->adminLogin);
+            $user->setEnabled('admin' === $this->adminLogin);
             $user->setRoles(['ROLE_SUPER_ADMIN']);
             $user->setEmail($this->adminLogin);
             $user->setFirstName($this->adminFirstName);

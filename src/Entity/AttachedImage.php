@@ -115,7 +115,7 @@ class AttachedImage implements AttachedImageInterface
         return $this->image;
     }
 
-    public function setImage(?ImageInterface $image): self
+    public function setImage(?ImageInterface $image): void
     {
         if (null !== $this->image) {
             $this->oldImage = clone $this->image;
@@ -124,8 +124,6 @@ class AttachedImage implements AttachedImageInterface
         }
 
         $this->image = $image;
-
-        return $this;
     }
 
     public function getOldImage(): ?ImageInterface

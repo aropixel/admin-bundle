@@ -18,5 +18,8 @@ interface ItemLibraryInterface
 
     public function setExtension(string $extension): self;
 
+    public function getCategory(): string;
+
+    public function setCategory(string $category): void;
 
 }

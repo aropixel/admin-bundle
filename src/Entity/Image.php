@@ -63,11 +63,9 @@ class Image implements ImageInterface
         return $this->category;
     }
 
-    public function setCategory(string $category): self
+    public function setCategory(string $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 
     public function getTemp(): ?string
