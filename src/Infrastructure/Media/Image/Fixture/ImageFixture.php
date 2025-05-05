@@ -27,8 +27,12 @@ class ImageFixture
             file_get_contents($relativePath)
         );
 
-        // Create the image entity in the library
+        /**
+         * Create the image entity in the library
+         * @var Image $image
+         */
         $image = $this->imageFactory->create();
+        $image->setFile($file);
         $image->setCategory(get_class($attachedImage));
         $image->setFilename(Image::UPLOAD_DIR . '/' . $file->getFilename());
         $image->setTitle($attachedImage->getTitle() ?? $file->getFilename());

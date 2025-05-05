@@ -7,6 +7,7 @@ use Aropixel\AdminBundle\Entity\ImageInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\PreUploadHandler;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageListener
 {
@@ -21,6 +22,10 @@ class UploadImageListener
     public function prePersist(ImageInterface $image): void
     {
         $this->preUploadHandler->handlePreUpload($image);
+
+        if (null === $image->getFile()) {
+            return;
+        }
 
         [$width, $height] = getimagesize($image->getFile()->getPathname());
         $image->setWidth($width);
@@ -39,7 +44,9 @@ class UploadImageListener
                 file_get_contents($image->getFile()->getPathname())
             );
 
-            unlink($image->getFile()->getPathname());
+            if ($image->getFile() instanceof UploadedFile) {
+                unlink($image->getFile()->getPathname());
+            }
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }

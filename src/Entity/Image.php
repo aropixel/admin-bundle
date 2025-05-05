@@ -83,7 +83,7 @@ class Image implements ImageInterface
         return $this->file;
     }
 
-    public function setFile(?UploadedFile $file): void
+    public function setFile(?File $file): void
     {
         $this->file = $file;
     }
