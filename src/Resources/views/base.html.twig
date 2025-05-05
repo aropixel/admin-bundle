@@ -231,8 +231,8 @@
             <script src="{{ asset('bundles/aropixeladmin/modules/plupload/plupload.queue.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/js/fullscreen.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/js/security.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/fullscreen.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/security.js') }}"></script>
             <!-- JS Libraies -->
         {% endblock %}
 
@@ -253,7 +253,7 @@
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/datatable.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/js/translation.js') }}"></script>
+            <script type="module" src="{{ asset('bundles/aropixeladmin/js/translation.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/app.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>

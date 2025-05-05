@@ -1,5 +1,6 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
+onDomReady(() => {
   openSearchNav();
   closeSearchNav();
   closeSearchNavOnEscape();
@@ -9,7 +10,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   filterMenuItem();
   goToFirstMenuItem();
-
 });
 
 const openSearchNav = () => {

@@ -142,11 +142,9 @@ class File implements FileInterface
         return $this->temp;
     }
 
-    public function setCategory(?string $category): self
+    public function setCategory(?string $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 
     public function getCategory(): ?string
