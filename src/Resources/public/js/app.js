@@ -10,8 +10,9 @@
 * ---------------------------------------------------------------------------- */
 import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
 import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
-$(function() {
+onDomReady(() => {
 
     // Make CKEDITO works with webpack AND asset mapper
     if (typeof CKEDITOR !== 'undefined') {

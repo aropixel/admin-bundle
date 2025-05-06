@@ -3,7 +3,7 @@ image_ajax:
   controller: Aropixel\AdminBundle\Http\Action\Image\AjaxAction
 
 image_ajax_category:
-  path: /image/list/ajax/{category}
+  path: /image/list/ajax/category
   controller: Aropixel\AdminBundle\Http\Action\Image\AjaxCategoryAction
 
 image_upload:

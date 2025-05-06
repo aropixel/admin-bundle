@@ -23,23 +23,25 @@ class AttachAction extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        // Selected images
-        $images = $request->get('images');
+        $json = json_decode($request->getContent());
 
-        $multiple = $request->get('multiple');
+        // Selected images
+        $images = $json->images;
+
+        $multiple = $json->multiple;
 
         // Class name to use if data type is entity
-        $attachClass = $request->get('attach_class');
+        $attachClass = $json->attach_class;
 
         // The property to store file name if needed
-        $attachValue = $request->get('attach_value');
+        $attachValue = $json->attach_value;
 
         // Id
-        $attachId = $request->get('attach_id');
+        $attachId = $json->attach_id;
 
         // Crops
-        $cropsSlugs = $request->get('crops_slugs', '');
-        $cropsLabels = $request->get('crops_labels', '');
+        $cropsSlugs = $json->crops_slugs ?? '';
+        $cropsLabels = $json->crops_labels ?? '';
         $em = $this->entityManager;
 
         $options = ['crops' => []];

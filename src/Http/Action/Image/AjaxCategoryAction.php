@@ -8,6 +8,7 @@ use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactor
 use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
 use Aropixel\AdminBundle\Infrastructure\Media\Image\Library\DataTable\DataTableRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AjaxCategoryAction extends AbstractController
@@ -23,8 +24,9 @@ class AjaxCategoryAction extends AbstractController
     /**
      * Lists all Image entities.
      */
-    public function __invoke(string $category): Response
+    public function __invoke(Request $request): Response
     {
+        $category = $request->get('category');
         $dataTable = $this->dataTableFactory
             ->setRepository($this->imageDataTableRepository)
             ->create($this->classNameResolver->getImageClassName(), [

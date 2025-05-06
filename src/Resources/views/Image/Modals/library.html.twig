@@ -11,7 +11,7 @@
 			<div class="row">
 
 				<div id="library_container" class="col-md-8">
-					<table id="libraryDataTable" class="table" data-src="{{ path('image_ajax') }}">
+					<table id="libraryDataTable" class="table" data-src="{{ path('image_ajax_category') }}">
 						<thead>
 						<tr>
 							<th class="no-sort"><input type="checkbox"></th>
@@ -98,7 +98,7 @@
 					<ul class="progress-upload d-inline-block"></ul>
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+					<button type="button" class="btn btn-outline m-r-15" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
 					<button type="button" class="btn btn-primary attach-images">{% trans %}library.images.modal.submit{% endtrans %}</button>
 				</div>
 			</div>
