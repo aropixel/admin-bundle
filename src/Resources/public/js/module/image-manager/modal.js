@@ -5,21 +5,25 @@ export class IM_Modal {
     constructor() {
         this._initialized = false;
         this.launcher = null;
-        this.modal = document.querySelector('#modalLibrary');
         if (!this.modal) return;
 
         this._boundOnShow = (e) => this.onShow(e);
         this._boundOnHide = () => this.onHide();
         this._boundValidate = () => this.validate();
 
-        this.attachButton = this.modal.querySelector('.attach-images');
-        this.checkboxes = this.modal.querySelectorAll('input[type="checkbox"][name^="image"]');
-
         this.init();
     }
 
+    loadElements() {
+        this.modal = document.querySelector('#modalLibrary');
+        if (!this.modal) return;
+
+        this.attachButton = this.modal.querySelector('.attach-images');
+        this.checkboxes = this.modal.querySelectorAll('input[type="checkbox"][name^="image"]');
+    }
+
     init() {
-        console.log('init modal');
+        this.loadElements();
 
         this.modal.removeEventListener('show.bs.modal', this._boundOnShow);
         this.modal.removeEventListener('hide.bs.modal', this._boundOnHide);
@@ -31,7 +35,7 @@ export class IM_Modal {
 
         this.modal.addEventListener('show.bs.modal', this._boundOnShow);
         this.modal.addEventListener('hide.bs.modal', this._boundOnHide);
-        this.attachButton.addEventListener('click', () => this._boundValidate);
+        this.attachButton.addEventListener('click', this._boundValidate);
     }
 
     setLauncher(launcher) {
@@ -39,14 +43,12 @@ export class IM_Modal {
     }
 
     onShow(event) {
-        console.log('on show modal');
+        this.loadElements();
+
         const button = this.modal.__relatedTarget;
         const root = button?.closest('[data-im-type]');
-        console.log(button);
-        console.log(root);
 
         this.launcher = root?.__imLauncher;
-        console.log(this.launcher);
         if (!this.launcher) return;
 
         this.modal.style.zIndex = 9996;
@@ -82,6 +84,7 @@ export class IM_Modal {
     }
 
     validPictures() {
+        console.log(this.launcher);
         if (!this.launcher) return;
 
         if (this.launcher.config.imType === 'editor') {
