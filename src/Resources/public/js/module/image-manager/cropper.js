@@ -2,6 +2,7 @@ export class IM_Cropper {
     constructor(launcher) {
         this.launcher = launcher;
         this.modal = launcher.element.querySelector('.modalCrop');
+        this.thumb = false;
         this.initialized = false;
 
         this.setup();
@@ -27,18 +28,17 @@ export class IM_Cropper {
 
             const defaultRatio = this.modal.querySelector('#crop_options input[type="radio"]:checked');
             const options = this.getCropperOptions(defaultRatio);
-            new Cropper(img, options);
+            $('#crop_zone > img').cropper('destroy').attr('src', imgSrc).cropper(options);
 
             this.modal.querySelectorAll('#crop_options input[type="radio"]').forEach(radio => {
                 radio.addEventListener('change', (e) => {
                     const newOptions = this.getCropperOptions(e.target);
-                    img.cropper?.destroy();
-                    new Cropper(img, newOptions);
+                    $('#crop_zone > img').cropper('destroy').cropper(newOptions);
                 });
             });
 
             this.modal.querySelector('.crop-file')?.addEventListener('click', () => {
-                this.saveCrops();
+                this.saveCrops(thumb);
             });
         });
 
@@ -55,22 +55,22 @@ export class IM_Cropper {
             aspectRatio: ratio,
             autoCropArea: 1,
             zoomable: false,
+            minContainerWidth: 200,
+            minContainerHeight: 200,
             data: data ? {
                 x: data[0],
                 y: data[1],
                 width: data[2],
                 height: data[3]
             } : undefined,
-            crop: (event) => {
-                const rect = event.detail;
-                button.dataset.crop = `${rect.x},${rect.y},${rect.width},${rect.height}`;
+            crop: (data) => {
+                button.dataset.crop = `${data.x},${data.y},${data.width},${data.height}`;
             }
         };
     }
 
-    saveCrops() {
-        const thumb = this.modal.querySelector('#crop_zone').dataset.thumb;
-        const collection = document.querySelector(`#${thumb}_crops`);
+    saveCrops(thumb) {
+        const collection = thumb.querySelector(`[id$="_crops"]`);
         const prototype = collection.dataset.prototype;
         collection.innerHTML = '';
 
@@ -85,6 +85,8 @@ export class IM_Cropper {
             collection.appendChild(container);
         });
 
-        this.modal.classList.remove('show');
+        const modal = document.querySelector('.modalCrop');
+        const instance = bootstrap.Modal.getOrCreateInstance(modal);
+        instance.hide();
     }
 }

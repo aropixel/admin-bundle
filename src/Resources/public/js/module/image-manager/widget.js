@@ -1,5 +1,6 @@
 // widget.js
 import { hideModal } from '/bundles/aropixeladmin/js/module/image-manager/ui.js';
+import { IM_Cropper } from '/bundles/aropixeladmin/js/module/image-manager/cropper.js';
 
 export class IM_Widget {
     constructor(launcher) {
@@ -13,6 +14,8 @@ export class IM_Widget {
         if (unlinkButton) {
             unlinkButton.addEventListener('click', () => this.detach());
         }
+
+        new IM_Cropper(this.launcher);
     }
 
     attach() {
