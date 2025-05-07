@@ -6,13 +6,11 @@ use Aropixel\AdminBundle\Domain\Media\Image\Library\Factory\ImageFactoryInterfac
 use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Doctrine\Persistence\ManagerRegistry;
-use League\Flysystem\FilesystemOperator;
 use Symfony\Component\HttpFoundation\File\File;
 
 class ImageFixture
 {
     public function __construct(
-        private readonly FilesystemOperator $privateStorage,
         private readonly ImageFactoryInterface $imageFactory,
         private readonly ManagerRegistry $managerRegistry,
     ) {
@@ -20,12 +18,7 @@ class ImageFixture
 
     public function createImage(AttachedImageInterface $attachedImage, string $relativePath): void
     {
-        // Copy the physical image
         $file = new File($relativePath);
-        $this->privateStorage->write(
-            Image::UPLOAD_DIR . '/' . $file->getFilename(),
-            file_get_contents($relativePath)
-        );
 
         /**
          * Create the image entity in the library
