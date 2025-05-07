@@ -21,7 +21,7 @@ onDomReady(() => {
             const direction = table.dataset.orderDirection || 'asc';
             params.order = [[column, direction]];
         }
-console.log(params);
+
         $(table).dataTable(params);
     });
 
@@ -34,11 +34,10 @@ console.log(params);
         const col = table.data('order-column');
         const dir = table.data('order-direction') || 'asc';
         if (col) params.order = [[col - 1, dir]];
-        console.log(params);
 
         const dt = table.dataTable(params);
 
-        const input = table.closest('.dataTables_wrapper')?.querySelector('.dataTables_filter input');
+        const input = table.closest('.dataTables_wrapper')[0]?.querySelector('.dataTables_filter input');
         if (input) {
             input.setAttribute('placeholder', $.fn.dataTable.defaults.language?.filterPlaceholder || 'Filtrer...');
             input.addEventListener('keyup', function () {

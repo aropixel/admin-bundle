@@ -1,12 +1,13 @@
 export class IM_Uploader {
-    constructor(buttonSelector, onComplete = null) {
+    constructor(buttonSelector, modal = null) {
         this.button = document.querySelector(buttonSelector);
         this.progress = this.button?.nextElementSibling;
         this.dataTable = document.querySelector('#libraryDataTable');
+        this.modal = modal;
         this.category = this.button?.dataset.category;
 
         if (this.button) {
-            this.initUploader(onComplete);
+            this.initUploader(() => { this.modal?.loadPictures?.() });
         }
     }
 
@@ -31,7 +32,7 @@ export class IM_Uploader {
                 },
                 BeforeUpload: (up, file) => {
                     up.settings.multipart_params = {
-                        'plupload_image[category]': this.category,
+                        'plupload_image[category]': this.modal?.getCategory(),
                         'plupload_image[title]': file.name
                     };
                 },

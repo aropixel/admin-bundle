@@ -5,7 +5,6 @@ export class IM_Modal {
     constructor() {
         this._initialized = false;
         this.launcher = null;
-        if (!this.modal) return;
 
         this._boundOnShow = (e) => this.onShow(e);
         this._boundOnHide = () => this.onHide();
@@ -24,6 +23,7 @@ export class IM_Modal {
 
     init() {
         this.loadElements();
+        if (!this.modal) return;
 
         this.modal.removeEventListener('show.bs.modal', this._boundOnShow);
         this.modal.removeEventListener('hide.bs.modal', this._boundOnHide);
@@ -84,7 +84,6 @@ export class IM_Modal {
     }
 
     validPictures() {
-        console.log(this.launcher);
         if (!this.launcher) return;
 
         if (this.launcher.config.imType === 'editor') {
@@ -96,10 +95,14 @@ export class IM_Modal {
         }
     }
 
+    getCategory() {
+        return this.launcher?.element?.dataset?.imLibrary;
+    }
+
     loadPictures() {
         const dataTable = this.modal.querySelector('#libraryDataTable');
         const src = dataTable?.getAttribute('data-src');
-        const library = this.launcher?.element?.dataset?.imLibrary;
+        const library = this.getCategory();
 
         if (!dataTable || !src || !library) return;
 

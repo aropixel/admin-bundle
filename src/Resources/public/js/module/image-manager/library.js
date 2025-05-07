@@ -5,8 +5,6 @@ import { IM_Uploader } from '/bundles/aropixeladmin/js/module/image-manager/uplo
 export class IM_Library {
     constructor() {
         this.modal = new IM_Modal();
-        this.uploader = new IM_Uploader('#modalLibrary .image-uploader', () => {
-            this.modal?.loadPictures?.(); // appeler rechargement s'il existe
-        });
+        this.uploader = new IM_Uploader('#modalLibrary .image-uploader', this.modal);
     }
 }
