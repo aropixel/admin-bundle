@@ -16,6 +16,54 @@ export class IM_Gallery_Widget {
 
         const edit = this.widget.querySelector('.iconEdit');
         if (edit) edit.addEventListener('click', () => this.edit());
+
+        const editImage = this.widget.querySelector('.btnEditImage');
+        if (editImage) editImage.addEventListener('click', (e) => this.editImage(e));
+    }
+
+    editImage(e) {
+        e.preventDefault();
+
+        // Stocker une référence au widget actuel dans la modale
+        const modal = document.getElementById('modalLibrary');
+        if (!modal) return;
+
+        modal.__editingWidget = this.widget;
+        modal.__isEditMode = true;
+
+        // Déclencher la modale comme pour ajouter une image
+        const instance = bootstrap.Modal.getOrCreateInstance(modal);
+        instance.show();
+
+        // La logique de modification sera gérée dans modal.js
+        if (window.imLibrary?.modal?.onShow) {
+            window.imLibrary.modal.onShow({ target: modal });
+        }
+    }
+
+    replaceImage(newImageData) {
+        // Remplace l'image actuelle avec les nouvelles données
+        const preview = this.widget.querySelector('.preview img');
+        if (preview && newImageData.src) {
+            preview.src = newImageData.src;
+        }
+
+        // Met à jour les champs cachés
+        const imageIdInput = this.widget.querySelector("[name$='[image]']");
+        if (imageIdInput && newImageData.id) {
+            imageIdInput.value = newImageData.id;
+        }
+
+        const fileNameInput = this.widget.querySelector("[name$='[file_name]']");
+        if (fileNameInput && newImageData.filename) {
+            fileNameInput.value = newImageData.filename;
+        }
+
+        // Met à jour la caption si nécessaire
+        const caption = this.widget.querySelector('.caption h6');
+        if (caption && newImageData.title) {
+            caption.textContent = newImageData.title;
+        }
     }
 
     detach() {

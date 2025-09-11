@@ -1,4 +1,5 @@
 // gallery.js
+import { hideModal } from '/bundles/aropixeladmin/js/module/image-manager/ui.js';
 import { IM_Gallery_Widget } from '/bundles/aropixeladmin/js/module/image-manager/gallery-widget.js';
 
 export class IM_Gallery {
@@ -42,9 +43,10 @@ export class IM_Gallery {
             if (fileNameInput) fileNameInput.value = img.src.split('/').pop();
 
             galleryContent.appendChild(newItem);
-            new IM_Gallery_Widget(this, newItem.querySelector('.thumbnail'));
+            const galleryWidget = new IM_Gallery_Widget(this, newItem.querySelector('.thumbnail'));
+            newItem.querySelector('.thumbnail').__imGalleryWidget = galleryWidget;
 
-            document.querySelector('#modalLibrary')?.classList.remove('show');
+            hideModal('#modalLibrary');
         });
     }
 

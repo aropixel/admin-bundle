@@ -34,7 +34,7 @@ export function initImageManager(element, options = {}) {
 }
 
 document.addEventListener('click', (e) => {
-    const trigger = e.target.closest('[data-im-library="modal"]');
+    const trigger = e.target.closest('[data-im-library-trigger="modal"]');
     if (!trigger) return;
 
     e.preventDefault();

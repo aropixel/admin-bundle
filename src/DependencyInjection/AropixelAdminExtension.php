@@ -75,6 +75,13 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
                         'cache_prefix' => 'media/cache',
                     ],
                 ],
+                'flysystem_resolver' => [
+                    'flysystem' => [
+                        'filesystem_service' => 'public.storage',
+                        'cache_prefix' => 'media/cache',
+                        'root_url' => '/',
+                    ],
+                ],
             ],
             'filter_sets' => $config,
         ];
@@ -87,6 +94,12 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
                     'adapter' => 'local',
                     'options' => [
                         'directory' => '%kernel.project_dir%/private',
+                    ],
+                ],
+                'public.storage' => [
+                    'adapter' => 'local',
+                    'options' => [
+                        'directory' => '%kernel.project_dir%/public',
                     ],
                 ],
             ],

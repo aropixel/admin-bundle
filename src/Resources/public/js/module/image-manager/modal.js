@@ -45,6 +45,7 @@ export class IM_Modal {
     onShow(event) {
         this.loadElements();
 
+        if (!this.modal) return;
         const button = this.modal.__relatedTarget;
         const root = button?.closest('[data-im-type]');
 
@@ -65,6 +66,13 @@ export class IM_Modal {
             library.classList.remove('col-md-8');
             library.classList.add('col-md-12');
             settings.style.display = 'none';
+        }
+
+        // Modifier le texte du bouton selon le mode
+        if (this.modal.__isEditMode) {
+            this.attachButton.textContent = 'Remplacer l\'image';
+        } else {
+            this.attachButton.textContent = 'Sélectionner une image';
         }
 
         this.loadPictures();
@@ -89,11 +97,69 @@ export class IM_Modal {
         if (this.launcher.config.imType === 'editor') {
             this.launcher.editor.insertImage();
         } else if (this.launcher.config.imType === 'gallery') {
-            this.launcher.gallery.attach();
+            // Vérifier si on est en mode édition
+            if (this.modal.__isEditMode && this.modal.__editingWidget) {
+                this.replaceGalleryImage();
+            } else {
+                this.launcher.gallery.attach();
+            }
         } else {
             this.launcher.widget.attach();
         }
     }
+
+    replaceGalleryImage() {
+        const modal = document.querySelector('#modalLibrary');
+        const checkbox = modal.querySelector('input[type="checkbox"][name^="image"]:checked');
+        const editingWidget = modal.__editingWidget;
+
+        if (!checkbox || !editingWidget) return;
+
+        // Récupérer les informations de la nouvelle image
+        const imgPreview = checkbox.closest('tr').querySelector('.img-preview');
+        const newImageData = {
+            id: checkbox.value,
+            src: imgPreview.src,
+            filename: imgPreview.src.split('/').pop()
+        };
+
+        // Trouver le widget correspondant dans la galerie et le remplacer
+        const galleryWidgets = this.launcher.element.querySelectorAll('.thumbnail');
+        for (const widget of galleryWidgets) {
+            if (widget === editingWidget) {
+                // Créer une instance de IM_Gallery_Widget pour ce widget
+                const galleryWidget = widget.__imGalleryWidget;
+                if (galleryWidget && galleryWidget.replaceImage) {
+                    galleryWidget.replaceImage(newImageData);
+                } else {
+                    // Fallback si l'instance n'existe pas
+                    this.directReplaceImage(widget, newImageData);
+                }
+                break;
+            }
+        }
+
+        hideModal('#modalLibrary');
+    }
+
+    directReplaceImage(widget, newImageData) {
+        // Remplacer directement l'image dans le DOM
+        const preview = widget.querySelector('.preview img');
+        if (preview && newImageData.src) {
+            preview.src = newImageData.src;
+        }
+
+        const imageIdInput = widget.querySelector("[name$='[image]']");
+        if (imageIdInput && newImageData.id) {
+            imageIdInput.value = newImageData.id;
+        }
+
+        const fileNameInput = widget.querySelector("[name$='[file_name]']");
+        if (fileNameInput && newImageData.filename) {
+            fileNameInput.value = newImageData.filename;
+        }
+    }
+
 
     getCategory() {
         return this.launcher?.element?.dataset?.imLibrary;
