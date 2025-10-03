@@ -320,6 +320,14 @@ a, a:hover, a:focus {
     color: var(--main-bg-color);
 }
 
+.page-link {
+    font-weight: 500!important;
+    font-size: 12px!important;
+}
+.page-item .page-link {
+    border-radius: 3px !important;
+}
+
 a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
     background-color: var(--main-bg-color);
     color: #fff !important;
@@ -340,6 +348,14 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 .nav-pills .nav-item .nav-link:hover {
     background-color: #fff;
+}
+
+.nav-tabs.tab-underlined .nav-link {
+    border: 0;
+}
+
+.nav-tabs.tab-underlined .nav-link.active {
+    border-bottom: 3px solid var(--main-bg-color);
 }
 
 .section-entry-settings {

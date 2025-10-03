@@ -465,30 +465,11 @@
 .border-right-xl {
   border-right: 3px solid;
 }
-
-.text-bolder {
-  font-weight: 900;
+.border-bottom-dashed {
+    border-bottom: 1px dashed var(--bs-border-color) !important;
 }
-.text-bold {
-  font-weight: 700;
-}
-.text-semibold {
-  font-weight: 600;
-}
-.text-regular {
-  font-weight: 400;
-}
-.text-light {
-  font-weight: 300;
-}
-.text-thin {
-  font-weight: 100;
-}
-.text-muted {
-  color: #99A1B7 !important;
-}
-.text-right {
-  text-align: right;
+.border-top-dashed {
+    border-top: 1px dashed var(--bs-border-color) !important;
 }
 
 .flex-center {

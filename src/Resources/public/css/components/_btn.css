@@ -15,7 +15,7 @@
 .btn-outline, .btn-outline.disabled {
     box-shadow: 0 1px 3px #e6ecf1;
     background-color: #fff;
-    border-color: var(--main-bg-color);
+    border: 2px solid #495057!important;
     color: #495057;
 }
 

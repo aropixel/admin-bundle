@@ -35,3 +35,20 @@
 a.badge:hover {
     cursor: pointer;
 }
+
+.img-state-icon.state-icon--online {
+    background-color: #0CABA8;
+}
+.img-state-icon.state-icon--offline {
+    background-color: #dcdcdc;
+}
+.img-state-icon {
+    border: 3px solid #fff;
+    border-radius: 50%;
+    bottom: 0;
+    display: block;
+    height: 15px;
+    position: absolute;
+    right: -7px;
+    width: 15px;
+}
