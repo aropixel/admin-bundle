@@ -6,17 +6,6 @@
 .card .card-header {
     border-bottom-color: #ececec;
 }
-.card .card-title:before {
-    content: ' ';
-    border-radius: 5px;
-    height: 8px;
-    width: 30px;
-    background-color: var(--main-bg-color);
-    display: inline-block;
-    float: left;
-    margin-top: 11px;
-    margin-right: 15px;
-}
 .card .card-body:first-child {
     padding-top: 25px;
 }

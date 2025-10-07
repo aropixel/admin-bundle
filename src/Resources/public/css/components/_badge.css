@@ -18,6 +18,11 @@
 .badge-sm {
     padding: 3px 8px;
 }
+.badge-xs {
+    padding: 4px 5px;
+    font-size: 9px;
+    line-height: 1;
+}
 .badge-icon {
     padding: 8px;
     border-radius: 2px;

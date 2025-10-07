@@ -5,6 +5,14 @@
     font-weight: 600 !important;
 }
 
+.btn-reset {
+    padding: 0;
+    box-shadow: none !important;
+    line-height: initial !important;
+    border: none;
+    background-color: transparent !important;
+}
+
 .btn-default, .btn-default.disabled {
     box-shadow: 0 1px 3px #e6ecf1;
     background-color: #fff;
