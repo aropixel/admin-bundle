@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
+use Aropixel\AdminBundle\Form\DataMapper\TranslatableMapper;
 use Aropixel\AdminBundle\Form\Subscriber\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +14,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Form Type for handling Gedmo Personal Translations.
+ *
+ * This type generates one input field per configured locale.
+ * It uses a custom DataMapper to handle the persistence logic within Doctrine Collections.
+ */
 class TranslatableType extends AbstractType
 {
     public function __construct(
@@ -29,9 +36,23 @@ class TranslatableType extends AbstractType
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
-        $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
+        $isPageFieldTranslation = $options['personal_translation'] === 'Aropixel\PageBundle\Entity\FieldTranslation';
+
+        if (!$isPageFieldTranslation) {
+            $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
+
+            // Use custom DataMapper to bypass Symfony's default mapping.
+            // This allows precise control over how translations are added to the collection
+            // and linked to the parent entity.
+            $builder->setDataMapper(new TranslatableMapper(
+                $options['personal_translation'],
+                $options['field']
+            ));
+        }
+
+        // Register subscriber to dynamically add fields for each locale.
         $builder->addEventSubscriber(
-            new Translatable($builder->getFormFactory(), $this->em, $this->validator, $options)
+            new Translatable($builder->getFormFactory(), $this->validator, $options)
         );
     }
 
@@ -51,12 +72,12 @@ class TranslatableType extends AbstractType
 
         $options['remove_empty'] = true; // Personal Translations without content are removed
         $options['csrf_protection'] = false;
-        $options['personal_translation'] = false; // Personal Translation class
-        $options['locales'] = $locales; // the locales you wish to edit
-        $options['required_locale'] = [$locale]; // the required locales cannot be blank
-        $options['field'] = false; // the field that you wish to translate
-        $options['widget'] = TextType::class; // change this to another widget like 'texarea' if needed
-        $options['entity_manager_removal'] = true; // auto removes the Personal Translation thru entity manager
+        $options['personal_translation'] = false; // Personal Translation class (e.g., ProductTranslation::class)
+        $options['locales'] = $locales; // The locales available for editing
+        $options['required_locale'] = [$locale]; // Locales that cannot be blank
+        $options['field'] = false; // The entity field being translated (e.g., "title")
+        $options['widget'] = TextType::class; // Underlying widget type (TextType, TextareaType, etc.)
+        $options['entity_manager_removal'] = true; // Auto removes the Personal Translation thru entity manager
         $options['attr'] = [];
 
         return $options;
