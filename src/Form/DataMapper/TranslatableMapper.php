@@ -77,10 +77,17 @@ class TranslatableMapper implements DataMapperInterface
      */
     public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
     {
-        // Ensure $viewData is a valid Collection.
-        // Symfony might pass null (new entity) or an array (if transformed upstream).
-        if (null === $viewData) {
-            $viewData = new ArrayCollection();
+        $formsArray = iterator_to_array($forms);
+
+        // 1. Initialize or recover the collection
+        if (null === $viewData || (is_array($viewData) && empty($viewData))) {
+            // Try to recover an existing collection from sibling forms (e.g., 'question' might have already initialized the collection for 'answer')
+            $viewData = $this->findExistingCollectionFromSiblings($formsArray);
+
+            // If still null, initialize a new collection
+            if (null === $viewData) {
+                $viewData = new ArrayCollection();
+            }
         } elseif (\is_array($viewData)) {
             $viewData = new ArrayCollection($viewData);
         }
@@ -89,65 +96,130 @@ class TranslatableMapper implements DataMapperInterface
             throw new UnexpectedTypeException($viewData, Collection::class);
         }
 
-        $forms = iterator_to_array($forms);
+        // 2. Retrieve the parent entity to correctly link the translation
+        $parentEntity = $this->getParentEntity($formsArray);
 
-        // Retrieve the parent entity (e.g., AccordionItem) to correctly link the new translation.
-        // We access it via the parent form of the first child.
-        $parentEntity = null;
-        if (count($forms) > 0) {
-            $firstForm = reset($forms);
-            // Child (field:locale) -> TranslatableType -> ParentType (e.g. AccordionItemType) -> getData()
-            $parentEntity = $firstForm->getParent()?->getParent()?->getData();
+        // 3. Process each form field (locale)
+        foreach ($formsArray as $form) {
+            $this->processTranslationForm($form, $viewData, $parentEntity);
+        }
+    }
+
+    /**
+     * Tries to find an existing Collection instance in sibling forms.
+     * This handles cases where multiple TranslatableFields (e.g. "question", "answer")
+     * are mapped to the same property "translations" on a new entity.
+     *
+     * @param array $formsArray The current form fields
+     * @return Collection|null
+     */
+    private function findExistingCollectionFromSiblings(array $formsArray): ?Collection
+    {
+        if (empty($formsArray)) {
+            return null;
         }
 
-        foreach ($forms as $form) {
-            /** @var FormInterface $form */
-            $content = $form->getData();
-            $formName = $form->getName();
+        $currentFieldForm = reset($formsArray);
+        $translatableForm = $currentFieldForm->getParent();
+        $parentForm = $translatableForm?->getParent();
 
-            // Extract locale from the field name "field:locale".
-            $parts = explode(':', $formName);
-            $locale = end($parts);
+        if (!$parentForm) {
+            return null;
+        }
 
-            // 1. Search for an existing translation in the collection.
-            $existingTranslation = null;
-            foreach ($viewData as $translation) {
-                if (is_object($translation) &&
-                    $translation->getLocale() === $locale &&
-                    $translation->getField() === $this->translationField
-                ) {
-                    $existingTranslation = $translation;
-                    break;
-                }
-            }
+        $currentPath = (string) $translatableForm->getPropertyPath();
 
-            // 2. Handle removal (if content is empty).
-            if ($content === null || $content === '') {
-                if ($existingTranslation) {
-                    $viewData->removeElement($existingTranslation);
-                    // Break the association for Doctrine.
-                    if (method_exists($existingTranslation, 'setObject')) {
-                        $existingTranslation->setObject(null);
-                    }
-                }
+        foreach ($parentForm->all() as $sibling) {
+            // Ignore self
+            if ($sibling === $translatableForm) {
                 continue;
             }
 
-            // 3. Update or Create translation.
-            if ($existingTranslation) {
-                $existingTranslation->setContent($content);
-            } else {
-                // Create new translation instance.
-                $newTranslation = new $this->translationClass($locale, $this->translationField, $content);
-
-                // CRITICAL: Explicitly set the owning side of the relation.
-                // This ensures that Doctrine persists the translation even if the parent entity is new (no ID yet).
-                if ($parentEntity && method_exists($newTranslation, 'setObject')) {
-                    $newTranslation->setObject($parentEntity);
+            // If a sibling points to the same property (e.g. "translations")
+            // and already holds data (Collection), reuse that instance.
+            if ((string) $sibling->getPropertyPath() === $currentPath) {
+                $siblingData = $sibling->getData();
+                if ($siblingData instanceof Collection) {
+                    return $siblingData;
                 }
-
-                $viewData->add($newTranslation);
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper to retrieve the parent entity (e.g. AccordionItem) from the form structure.
+     *
+     * @param array $formsArray
+     * @return object|null
+     */
+    private function getParentEntity(array $formsArray): ?object
+    {
+        if (empty($formsArray)) {
+            return null;
+        }
+
+        $firstForm = reset($formsArray);
+        // Child (field:locale) -> TranslatableType -> ParentType (e.g. AccordionItemType) -> getData()
+        return $firstForm->getParent()?->getParent()?->getData();
+    }
+
+    /**
+     * Process a single form field submission (one locale).
+     * Updates, creates, or removes the translation from the collection.
+     *
+     * @param FormInterface $form The specific form field (e.g. "title:en")
+     * @param Collection $viewData The collection of translations
+     * @param object|null $parentEntity The owner entity (for linking new translations)
+     */
+    private function processTranslationForm(FormInterface $form, Collection $viewData, ?object $parentEntity): void
+    {
+        $content = $form->getData();
+        $formName = $form->getName();
+
+        // Extract locale from the field name "field:locale".
+        $parts = explode(':', $formName);
+        $locale = end($parts);
+
+        // Find existing translation in the collection
+        $existingTranslation = null;
+        foreach ($viewData as $translation) {
+            if (is_object($translation) &&
+                $translation->getLocale() === $locale &&
+                $translation->getField() === $this->translationField
+            ) {
+                $existingTranslation = $translation;
+                break;
+            }
+        }
+
+        // Case: Content is empty -> Remove translation
+        if ($content === null || $content === '') {
+            if ($existingTranslation) {
+                $viewData->removeElement($existingTranslation);
+                // Break the association for Doctrine to ensure orphan removal/cleanup
+                if (method_exists($existingTranslation, 'setObject')) {
+                    $existingTranslation->setObject(null);
+                }
+            }
+            return;
+        }
+
+        // Case: Content exists -> Update or Create
+        if ($existingTranslation) {
+            $existingTranslation->setContent($content);
+        } else {
+            // Create new translation instance
+            $newTranslation = new $this->translationClass($locale, $this->translationField, $content);
+
+            // CRITICAL: Explicitly set the owning side of the relation.
+            // This ensures that Doctrine persists the translation even if the parent entity is new (no ID yet).
+            if ($parentEntity && method_exists($newTranslation, 'setObject')) {
+                $newTranslation->setObject($parentEntity);
+            }
+
+            $viewData->add($newTranslation);
         }
     }
 }
