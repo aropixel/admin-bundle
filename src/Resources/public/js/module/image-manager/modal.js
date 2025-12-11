@@ -49,7 +49,10 @@ export class IM_Modal {
         const button = this.modal.__relatedTarget;
         const root = button?.closest('[data-im-type]');
 
-        this.launcher = root?.__imLauncher;
+        if (!this.launcher) {
+            this.launcher = root?.__imLauncher;
+        }
+
         if (!this.launcher) return;
 
         this.modal.style.zIndex = 9996;
@@ -162,7 +165,9 @@ export class IM_Modal {
 
 
     getCategory() {
-        return this.launcher?.element?.dataset?.imLibrary;
+        return this.launcher.config.imLibrary ?
+            this.launcher.config.imLibrary :
+            this.launcher?.element?.dataset?.imLibrary;
     }
 
     loadPictures() {

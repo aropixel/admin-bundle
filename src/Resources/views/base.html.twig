@@ -258,7 +258,10 @@
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/app.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
-
+            <script type="module">
+                import { initImageManager } from '/bundles/aropixeladmin/js/module/image-manager/launcher.js';
+                window.initImageManager = initImageManager;
+            </script>
         {% endblock %}
 
     </body>

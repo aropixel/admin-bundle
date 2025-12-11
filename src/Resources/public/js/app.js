@@ -15,21 +15,6 @@ import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 onDomReady(() => {
 
     // Make CKEDITO works with webpack AND asset mapper
-    if (typeof CKEDITOR !== 'undefined') {
-        CKEDITOR.getUrl = function (path) {
-            const fixedBasePath = '/bundles/aropixeladmin/ckeditor/';
-            if (path.indexOf('://') !== -1 || path.startsWith('/')) {
-                return path;
-            }
-
-            let url = fixedBasePath + path;
-            if (this.timestamp && !url.endsWith('/') && !/[&?]t=/.test(url)) {
-                url += (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + this.timestamp;
-            }
-
-            return url;
-        };
-    }
 
     let $pickadate = $('.pickadate');
     if ($pickadate.length) {

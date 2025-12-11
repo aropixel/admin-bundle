@@ -1,4 +1,4 @@
-import { hideModal } from '/bundles/aropixeladmin/js/module/image-manager/ui.js';
+import { showModal,hideModal } from '/bundles/aropixeladmin/js/module/image-manager/ui.js';
 
 export class IM_Editor {
     constructor(launcher, editorInstance) {
@@ -8,10 +8,11 @@ export class IM_Editor {
         this.attachButton = this.modal.querySelector('.attach-images');
 
         this.init();
+        window.imLibrary.modal.setLauncher(launcher);
+        showModal('#modalLibrary');
     }
 
     init() {
-        this.attachButton.addEventListener('click', () => this.insertImage());
     }
 
     insertImage() {
@@ -39,7 +40,7 @@ export class IM_Editor {
             Object.assign(params, attachParams);
         }
 
-        fetch(this.launcher.element.dataset.imAttachEditor, {
+        fetch(this.launcher.config.imAttachEditor, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(params)

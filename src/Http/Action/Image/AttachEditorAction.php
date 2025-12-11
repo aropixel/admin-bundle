@@ -21,11 +21,12 @@ class AttachEditorAction
     public function __invoke(Request $request): Response
     {
         $html = '';
+        $json = json_decode($request->getContent());
 
-        $images_id = $request->get('images', []);
-        $width = $request->get('width', 300);
-        $filter = $request->get('filter', null);
-        $alt = $request->get('alt', '');
+        $images_id = $json->images ?? [];
+        $width = $json->width ?? '300';
+        $filter = $json->filter ?? null;
+        $alt = $json->alt ?? '';
 
         if ('customfilter' == $width) {
             $width = null;

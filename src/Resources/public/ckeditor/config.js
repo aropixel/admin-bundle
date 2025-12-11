@@ -96,10 +96,11 @@ CKEDITOR.on( 'dialogDefinition', function( ev )
                             // 	category : $(srcTextarea).data('category'),
                             //            });
 
-                            $(srcTextarea).ImageManager({
-                                editor : ev.editor,
-                                category : $(srcTextarea).attr('data-class'),
-                                attach_path : $(srcTextarea).attr('data-attach-path'),
+                            srcTextarea.setAttribute('data-im-type','editor');
+                            window.initImageManager(srcTextarea, {
+                                editor: ev.editor,
+                                category: $(srcTextarea).attr('data-class'),
+                                attach_path: $(srcTextarea).attr('data-attach-path')
                             });
 
                             return (false);
