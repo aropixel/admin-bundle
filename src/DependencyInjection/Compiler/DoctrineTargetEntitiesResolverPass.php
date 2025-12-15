@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         try {
             $resolveTargetEntityListener = $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');

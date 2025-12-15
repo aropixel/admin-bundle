@@ -15,7 +15,7 @@ class SlideshowType extends AbstractType
         return CollectionType::class;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults(['entry_type' => ImageType::class, 'entry_options' => [

@@ -35,7 +35,7 @@ class CreateUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'Login')
@@ -45,7 +45,7 @@ class CreateUserCommand extends Command
         ;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->adminLogin = $input->getOption('login') ?? 'admin';
         $this->adminPassword = $input->getOption('password') ?? null;
@@ -56,7 +56,7 @@ class CreateUserCommand extends Command
         }
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $outputStyle = new SymfonyStyle($input, $output);
         $outputStyle->writeln('New admin user creation.');
