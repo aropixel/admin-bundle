@@ -1,39 +1,41 @@
 {
-  "name" : "aropixel/admin-bundle",
-  "description" : "Admin Aropixel",
-  "type" : "symfony-bundle",
-  "authors" : [{
-    "name" : "Joël Gomez Caballe",
-    "email" : "joel.gomez@aropixel.com"
-  }],
-  "keywords" : [
+  "name": "aropixel/admin-bundle",
+  "description": "Admin Aropixel",
+  "type": "symfony-bundle",
+  "authors": [
+    {
+      "name": "Joël Gomez Caballe",
+      "email": "joel.gomez@aropixel.com"
+    }
+  ],
+  "keywords": [
     "aropixel admin bundle"
   ],
-  "license" : [
+  "license": [
     "MIT"
   ],
-  "autoload" : {
-    "psr-4" : {
-      "Aropixel\\AdminBundle\\" : "src/"
+  "autoload": {
+    "psr-4": {
+      "Aropixel\\AdminBundle\\": "src/"
     }
   },
-  "require" : {
+  "require": {
     "ext-intl": "*",
     "doctrine/doctrine-bundle": "^2.13",
     "league/flysystem-bundle": "^3.4",
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
     "symfony/orm-pack": "2.4.1",
-    "symfony/asset": "^6.0|^7.1",
-    "symfony/mailer": "^6.0|^7.1",
-    "symfony/form": "^6.0|^7.1",
+    "symfony/asset": "^6.0|^7.1|^8.0",
+    "symfony/mailer": "^6.0|^7.1|^8.0",
+    "symfony/form": "^6.0|^7.1|^8.0",
     "symfony/flex": "^1|^2",
-    "symfony/framework-bundle": "^6.0|^7.1",
-    "symfony/security-bundle": "^6.0|^7.1",
-    "symfony/serializer": "^6.0|^7.1",
-    "symfony/string": "^6.0|^7.1",
-    "symfony/translation": "^6.0|^7.1",
-    "symfony/validator": "^6.0|^7.1",
+    "symfony/framework-bundle": "^6.0|^7.1|^8.0",
+    "symfony/security-bundle": "^6.0|^7.1|^8.0",
+    "symfony/serializer": "^6.0|^7.1|^8.0",
+    "symfony/string": "^6.0|^7.1|^8.0",
+    "symfony/translation": "^6.0|^7.1|^8.0",
+    "symfony/validator": "^6.0|^7.1|^8.0",
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
     "twig/intl-extra": "^2.12|^3.0"
