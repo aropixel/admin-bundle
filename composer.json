@@ -21,7 +21,7 @@
   },
   "require": {
     "ext-intl": "*",
-    "doctrine/doctrine-bundle": "^2.13",
+    "doctrine/doctrine-bundle": "^2.13 || ^3.0",
     "league/flysystem-bundle": "^3.4",
     "liip/imagine-bundle": "^2.10",
     "stof/doctrine-extensions-bundle": "^1.7",
