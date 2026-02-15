@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Aropixel\AdminBundle\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
 
 #[ORM\MappedSuperclass(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'aropixel_admin_user')]

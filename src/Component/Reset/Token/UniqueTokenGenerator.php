@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Aropixel\AdminBundle\Component\Reset\Token;
 
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 
 final class UniqueTokenGenerator implements GeneratorInterface
 {

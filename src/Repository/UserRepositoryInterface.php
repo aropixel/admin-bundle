@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Component\User;
+namespace Aropixel\AdminBundle\Repository;
 
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\DBAL\LockMode;

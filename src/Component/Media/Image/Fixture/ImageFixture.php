@@ -3,7 +3,7 @@
 namespace Aropixel\AdminBundle\Component\Media\Image\Fixture;
 
 use Aropixel\AdminBundle\Component\Media\Image\Library\Factory\ImageFactoryInterface;
-use Aropixel\AdminBundle\Entity\AttachedImageInterface;
+use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\File\File;
@@ -16,7 +16,7 @@ class ImageFixture
     ) {
     }
 
-    public function createImage(AttachedImageInterface $attachedImage, string $relativePath): void
+    public function createImage(AttachedImage $attachedImage, string $relativePath): void
     {
         $file = new File($relativePath);
 

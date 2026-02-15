@@ -3,8 +3,8 @@
 namespace Aropixel\AdminBundle\Controller\Reset;
 
 use Aropixel\AdminBundle\Component\Reset\Request\RequestLauncherInterface;
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
-use Aropixel\AdminBundle\Form\Type\Form\Reset\RequestType;
+use Aropixel\AdminBundle\Form\Security\Reset\RequestType;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

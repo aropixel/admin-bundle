@@ -4,8 +4,8 @@ namespace Aropixel\AdminBundle\Controller\User;
 
 use Aropixel\AdminBundle\Component\User\PasswordInitializer;
 use Aropixel\AdminBundle\Component\User\PasswordUpdaterInterface;
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;

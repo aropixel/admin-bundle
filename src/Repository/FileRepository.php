@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Component\Media\File\Library\Repository;
+namespace Aropixel\AdminBundle\Repository;
 
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Aropixel\AdminBundle\Component\Media\Resolver\ClassNameResolverInterface;

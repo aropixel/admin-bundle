@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Command;
 
 use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterface;
 use Aropixel\AdminBundle\Component\User\UserFactoryInterface;
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

@@ -17,6 +17,9 @@ class Select2 implements Select2Interface
     /** @var callable|null */
     private $filterCallback = null;
 
+    /**
+     * @param iterable<Select2DataProviderInterface> $providers
+     */
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly iterable $providers
@@ -24,7 +27,7 @@ class Select2 implements Select2Interface
         $request = $this->requestStack->getCurrentRequest();
         if ($request) {
             $this->searchTerm = $request->query->get('q', '');
-            $this->page = max(1, (int)$request->query->get('page', 1));
+            $this->page = max(1, (int)$request->query->get('page', '1'));
         }
     }
 

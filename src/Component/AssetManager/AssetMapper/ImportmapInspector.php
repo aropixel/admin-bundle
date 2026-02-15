@@ -6,6 +6,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class ImportmapInspector
 {
+    /**
+     * @param array<string, array<mixed>> $importmap
+     */
     public function __construct(
         private readonly KernelInterface $kernel,
         private array $importmap = []

@@ -28,8 +28,8 @@ class TranslatableMapper implements DataMapperInterface
     /**
      * Maps the Entity data (Collection of translations) to the Form fields.
      *
-     * @param Collection|null $viewData The collection of Translation entities.
-     * @param \Traversable $forms The list of form fields (e.g., "title:en", "title:fr").
+     * @param Collection<int, object>|array<int, object>|null $viewData The collection of Translation entities.
+     * @param \Traversable<string, FormInterface> $forms The list of form fields (e.g., "title:en", "title:fr").
      */
     public function mapDataToForms(mixed $viewData, \Traversable $forms): void
     {
@@ -72,15 +72,15 @@ class TranslatableMapper implements DataMapperInterface
      * 4. Removal of empty translations.
      * 5. *Crucial*: Linking the Translation to its parent Entity (owning side) to ensure cascade persistence.
      *
-     * @param \Traversable $forms The submitted form fields.
-     * @param Collection|null $viewData The original collection from the entity (passed by reference).
+     * @param \Traversable<string, FormInterface> $forms The submitted form fields.
+     * @param Collection<int, object>|array<int, object>|null $viewData The original collection from the entity (passed by reference).
      */
     public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
     {
         $formsArray = iterator_to_array($forms);
 
         // 1. Initialize or recover the collection
-        if (null === $viewData || (is_array($viewData) && empty($viewData))) {
+        if (null === $viewData || (\is_array($viewData) && \count($viewData) === 0)) {
             // Try to recover an existing collection from sibling forms (e.g., 'question' might have already initialized the collection for 'answer')
             $viewData = $this->findExistingCollectionFromSiblings($formsArray);
 
@@ -110,8 +110,8 @@ class TranslatableMapper implements DataMapperInterface
      * This handles cases where multiple TranslatableFields (e.g. "question", "answer")
      * are mapped to the same property "translations" on a new entity.
      *
-     * @param array $formsArray The current form fields
-     * @return Collection|null
+     * @param array<string, FormInterface> $formsArray The current form fields
+     * @return Collection<int, object>|null
      */
     private function findExistingCollectionFromSiblings(array $formsArray): ?Collection
     {
@@ -151,7 +151,7 @@ class TranslatableMapper implements DataMapperInterface
     /**
      * Helper to retrieve the parent entity (e.g. AccordionItem) from the form structure.
      *
-     * @param array $formsArray
+     * @param array<string, FormInterface> $formsArray
      * @return object|null
      */
     private function getParentEntity(array $formsArray): ?object
@@ -170,7 +170,7 @@ class TranslatableMapper implements DataMapperInterface
      * Updates, creates, or removes the translation from the collection.
      *
      * @param FormInterface $form The specific form field (e.g. "title:en")
-     * @param Collection $viewData The collection of translations
+     * @param Collection<int, object> $viewData The collection of translations
      * @param object|null $parentEntity The owner entity (for linking new translations)
      */
     private function processTranslationForm(FormInterface $form, Collection $viewData, ?object $parentEntity): void

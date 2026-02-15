@@ -3,10 +3,9 @@
 namespace Aropixel\AdminBundle\Controller\First;
 
 use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterface;
-use Aropixel\AdminBundle\Component\User\PasswordInitializer;
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Form\Type\Form\Reset\FirstLoginType;
+use Aropixel\AdminBundle\Form\Security\Reset\FirstLoginType;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +14,6 @@ class RequestAction extends AbstractController
 {
     public function __construct(
         private readonly ActivationEmailSenderInterface $activationEmailSender,
-        private readonly PasswordInitializer $passwordInitializer,
         private readonly UserRepositoryInterface $userRepository
     ) {
     }

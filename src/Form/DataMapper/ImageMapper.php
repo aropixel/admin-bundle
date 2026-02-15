@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Form\DataMapper;
 
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -23,7 +24,7 @@ class ImageMapper implements DataMapperInterface
      * Maps the Data object to the Form fields.
      *
      * @param mixed $viewData The object or value to map from.
-     * @param \Traversable $forms The form fields to map to.
+     * @param \Traversable<string, FormInterface> $forms The form fields to map to.
      */
     public function mapDataToForms(mixed $viewData, \Traversable $forms): void
     {
@@ -58,7 +59,7 @@ class ImageMapper implements DataMapperInterface
     /**
      * Maps the Form fields back to the Data object.
      *
-     * @param \Traversable $forms The form fields to map from.
+     * @param \Traversable<string, FormInterface> $forms The form fields to map from.
      * @param mixed $viewData The object or value to map to.
      */
     public function mapFormsToData(\Traversable $forms, mixed &$viewData): void

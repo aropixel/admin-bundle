@@ -3,7 +3,7 @@
 namespace Aropixel\AdminBundle\Controller\Image;
 
 use Aropixel\AdminBundle\Component\Media\Image\Editor\EditorImageBuilderInterface;
-use Aropixel\AdminBundle\Component\Media\Image\Library\Repository\ImageRepositoryInterface;
+use Aropixel\AdminBundle\Repository\ImageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

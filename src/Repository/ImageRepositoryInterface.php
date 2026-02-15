@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\Component\Media\Image\Library\Repository;
+namespace Aropixel\AdminBundle\Repository;
 
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Doctrine\ORM\QueryBuilder;

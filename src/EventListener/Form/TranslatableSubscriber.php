@@ -125,7 +125,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
     /**
      * Helper to extract relevant translations from the collection for the current field.
      *
-     * @param iterable $data Collection of translations (from entity)
+     * @param iterable<int, object> $data Collection of translations (from entity)
      * @return array<mixed>
      */
     private function bindTranslations(iterable $data): array

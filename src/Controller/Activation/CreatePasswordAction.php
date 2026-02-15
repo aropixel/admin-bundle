@@ -4,9 +4,9 @@ namespace Aropixel\AdminBundle\Controller\Activation;
 
 use Aropixel\AdminBundle\Component\Activation\PasswordCreationHandlerInterface;
 use Aropixel\AdminBundle\Component\User\Exception\UnchangedPasswordException;
-use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
-use Aropixel\AdminBundle\Form\Type\Form\Activation\CreatePasswordType;
+use Aropixel\AdminBundle\Form\Security\Activation\CreatePasswordType;
+use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;

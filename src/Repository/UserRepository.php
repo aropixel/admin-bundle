@@ -1,7 +1,8 @@
 <?php
 
-namespace Aropixel\AdminBundle\Component\User;
+namespace Aropixel\AdminBundle\Repository;
 
+use Aropixel\AdminBundle\Component\User\PasswordInitializerInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
