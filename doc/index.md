@@ -91,3 +91,4 @@ Discover more by reading the docs:
 * [Store and send incoming messages](blogbundle.md)
 * [Manage header and footer](menubundle.md)
 * [Select2 Component](select2.md)
+* [Entity Customization](entities.md)

@@ -2,10 +2,18 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\MappedSuperclass]
+#[ORM\Table(name: 'aropixel_admin_user_image')]
 class UserImage extends AttachedImage implements UserImageInterface
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\OneToOne(targetEntity: UserInterface::class, inversedBy: 'image', cascade: ['persist', 'remove'])]
     protected ?User $user = null;
 
     public function getId(): ?int

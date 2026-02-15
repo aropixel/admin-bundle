@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Component\DataTable;
 
-use;
 use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepositoryInterface;

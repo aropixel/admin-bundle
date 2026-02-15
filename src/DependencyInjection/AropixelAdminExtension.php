@@ -116,7 +116,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
                         'mappings' => [
                             'AropixelAdminBundle' => [
                                 'is_bundle' => true,
-                                'type' => 'xml',
+                                'type' => 'attribute',
                             ],
                         ],
                     ],

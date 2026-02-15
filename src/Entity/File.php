@@ -2,31 +2,50 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Aropixel\AdminBundle\Infrastructure\Media\File\Library\Repository\FileRepository;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\MappedSuperclass(repositoryClass: FileRepository::class)]
+#[ORM\Table(name: 'aropixel_file')]
 class File implements FileInterface
 {
     public const UPLOAD_DIR = 'files';
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string')]
     private string $title;
 
+    #[ORM\Column(type: 'string')]
     private ?string $category = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(type: 'string')]
     private ?string $filename = null;
 
+    #[ORM\Column(type: 'string', length: 20)]
     private string $extension;
 
+    #[ORM\Column(type: 'boolean')]
     private bool $public;
 
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $import = null;
 
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     private ?\DateTime $createdAt = null;
 
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     private ?\DateTime $updatedAt = null;
 
     #[Assert\File]

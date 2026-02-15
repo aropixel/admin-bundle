@@ -2,44 +2,69 @@
 
 namespace Aropixel\AdminBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Aropixel\AdminBundle\Infrastructure\User\UserRepository;
+
+#[ORM\MappedSuperclass(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'aropixel_admin_user')]
 class User implements UserInterface
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     protected ?string $email = null;
 
+    #[ORM\Column(type: 'boolean')]
     protected bool $enabled = false;
 
+    #[ORM\Column(type: 'boolean')]
     protected bool $initialized = false;
 
+    #[ORM\Column(type: 'integer')]
     protected int $passwordAttempts = 0;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $firstName = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $lastName = null;
 
     /** @var array<string>  */
+    #[ORM\Column(type: 'json')]
     protected array $roles = [];
 
+    #[ORM\Column(type: 'string')]
     protected ?string $password = null;
 
     protected ?string $plainPassword = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $passwordResetToken = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $passwordRequestedAt = null;
 
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $emailVerificationToken = null;
 
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected ?\DateTime $createdAt = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $lastPasswordUpdate = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?\DateTime $lastLogin = null;
 
+    #[ORM\OneToOne(targetEntity: UserImageInterface::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     protected ?UserImage $image = null;
 
     public function getId(): ?int

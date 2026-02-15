@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Component\Security\Authentication\User\Provider;
 
-use;
 use Aropixel\AdminBundle\Entity\UserInterface as AropixelUserInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

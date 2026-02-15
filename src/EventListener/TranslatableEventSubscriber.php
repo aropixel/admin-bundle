@@ -1,6 +1,6 @@
 <?php
 
-namespace Aropixel\AdminBundle\EventSubscriber;
+namespace Aropixel\AdminBundle\EventListener;
 
 use Aropixel\AdminBundle\Entity\TranslatableInterface;
 use Doctrine\ORM\EntityManager;
