@@ -2,10 +2,10 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Domain\DataTable\DataTableColumn;
-use Aropixel\AdminBundle\Domain\DataTable\DataTableFactoryInterface;
-use Aropixel\AdminBundle\Domain\Media\Image\Library\DataTable\DataTableRowFactory;
-use Aropixel\AdminBundle\Domain\Media\Resolver\ClassNameResolverInterface;
+use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
+use Aropixel\AdminBundle\Component\DataTable\DataTableFactoryInterface;
+use Aropixel\AdminBundle\Component\Media\Image\Library\DataTable\DataTableRowFactory;
+use Aropixel\AdminBundle\Component\Media\Resolver\ClassNameResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

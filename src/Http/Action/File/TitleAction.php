@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Domain\Media\File\Library\Repository\FileRepositoryInterface;
+use Aropixel\AdminBundle\Component\Media\File\Library\Repository\FileRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Activation;
 
-use Aropixel\AdminBundle\Domain\Activation\PasswordCreationHandlerInterface;
-use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\Activation\PasswordCreationHandlerInterface;
+use Aropixel\AdminBundle\Component\User\Exception\UnchangedPasswordException;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Http\Form\Activation\CreatePasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

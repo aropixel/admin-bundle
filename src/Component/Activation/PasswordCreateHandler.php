@@ -1,0 +1,30 @@
+<?php
+
+namespace Aropixel\AdminBundle\Component\Activation;
+
+use Aropixel\AdminBundle\Entity\UserInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class PasswordCreateHandler implements PasswordCreationHandlerInterface
+{
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UserPasswordHasherInterface $userPasswordHasher
+    ) {
+    }
+
+    public function create(UserInterface $user, string $password): void
+    {
+        $user->setPasswordResetToken(null);
+        $user->setPasswordRequestedAt(null);
+        $user->setLastPasswordUpdate(new \DateTime());
+        $user->setInitialized(true);
+        $user->setEnabled(true);
+
+        $hashPassword = $this->userPasswordHasher->hashPassword($user, $password);
+        $user->setPassword($hashPassword);
+
+        $this->em->flush();
+    }
+}

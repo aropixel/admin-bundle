@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
-use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
-use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterface;
+use Aropixel\AdminBundle\Component\User\UserFactoryInterface;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type\File\Gallery;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedFile;
 use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;

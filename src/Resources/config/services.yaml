@@ -10,6 +10,10 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
 
+    _instanceof:
+        Aropixel\AdminBundle\Component\Select2\Select2DataProviderInterface:
+            tags: ['aropixel.select2_provider']
+
     Aropixel\AdminBundle\Http\:
         resource: '../../Http'
         tags: ['controller.service_arguments']
@@ -46,6 +50,15 @@ services:
     # Autowire des extensions twig
     Aropixel\AdminBundle\Twig\:
         resource: '../../Twig'
+
+    # Autowire du composant Select2
+    Aropixel\AdminBundle\Component\Select2\:
+        resource: '../../Component/Select2'
+        exclude: '../../Component/Select2/{Select2Interface.php,Select2DataProviderInterface.php,Select2RepositoryInterface.php}'
+
+    Aropixel\AdminBundle\Component\Select2\Select2:
+        arguments:
+            $providers: !tagged_iterator aropixel.select2_provider
 
     Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver'
 
@@ -96,8 +109,6 @@ services:
 
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: 'service_container'
-
-    #Aropixel\AdminBundle\Domain\DataTable\DataTableRowFactoryInterface: ~
 
     Aropixel\AdminBundle\Form\Type\TranslatableType:
         arguments: [ '@doctrine.orm.default_entity_manager', '@validator', '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface' ]

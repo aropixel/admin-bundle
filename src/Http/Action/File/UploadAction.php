@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Domain\Media\File\Library\DataTable\DataTableRowFactory;
-use Aropixel\AdminBundle\Domain\Media\File\Library\Factory\FileFactoryInterface;
+use Aropixel\AdminBundle\Component\Media\File\Library\DataTable\DataTableRowFactory;
+use Aropixel\AdminBundle\Component\Media\File\Library\Factory\FileFactoryInterface;
 use Aropixel\AdminBundle\Form\Type\File\PluploadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

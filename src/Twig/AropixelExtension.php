@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Twig;
 
-use Aropixel\AdminBundle\Domain\Seo\Seo;
+use Aropixel\AdminBundle\Component\Seo\Seo;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\PropertyAccess;

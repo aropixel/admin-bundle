@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\User;
 
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\File;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\File;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

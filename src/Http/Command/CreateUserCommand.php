@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Http\Command;
 
-use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
-use Aropixel\AdminBundle\Domain\User\UserFactoryInterface;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterface;
+use Aropixel\AdminBundle\Component\User\UserFactoryInterface;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

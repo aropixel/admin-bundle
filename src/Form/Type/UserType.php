@@ -2,10 +2,10 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
+use Aropixel\AdminBundle\Component\User\PasswordInitializer;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Entity\UserImage;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
-use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

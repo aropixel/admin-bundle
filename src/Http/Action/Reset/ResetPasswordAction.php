@@ -2,10 +2,10 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Reset;
 
-use Aropixel\AdminBundle\Domain\Reset\PasswordResetHandlerInterface;
-use Aropixel\AdminBundle\Domain\Reset\Request\RequestLauncherInterface;
-use Aropixel\AdminBundle\Domain\User\Exception\UnchangedPasswordException;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\Reset\PasswordResetHandlerInterface;
+use Aropixel\AdminBundle\Component\Reset\Request\RequestLauncherInterface;
+use Aropixel\AdminBundle\Component\User\Exception\UnchangedPasswordException;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Http\Form\Reset\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

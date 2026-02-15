@@ -90,3 +90,4 @@ Discover more by reading the docs:
 * [Create and order pages](pagebundle.md)
 * [Store and send incoming messages](blogbundle.md)
 * [Manage header and footer](menubundle.md)
+* [Select2 Component](select2.md)

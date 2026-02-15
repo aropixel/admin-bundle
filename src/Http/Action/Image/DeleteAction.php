@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
+use Aropixel\AdminBundle\Component\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;

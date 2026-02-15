@@ -2,11 +2,11 @@
 
 namespace Aropixel\AdminBundle\Http\Action\First;
 
-use Aropixel\AdminBundle\Domain\Activation\Email\ActivationEmailSenderInterface;
-use Aropixel\AdminBundle\Domain\User\UserRepositoryInterface;
+use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterface;
+use Aropixel\AdminBundle\Component\User\PasswordInitializer;
+use Aropixel\AdminBundle\Component\User\UserRepositoryInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Http\Form\Reset\FirstLoginType;
-use Aropixel\AdminBundle\Infrastructure\User\PasswordInitializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

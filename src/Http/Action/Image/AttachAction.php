@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Http\Action\Image;
 
-use Aropixel\AdminBundle\Domain\Media\Image\Library\Repository\ImageRepositoryInterface;
+use Aropixel\AdminBundle\Component\Media\Image\Library\Repository\ImageRepositoryInterface;
 use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

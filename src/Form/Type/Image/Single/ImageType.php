@@ -2,7 +2,7 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
-use Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
