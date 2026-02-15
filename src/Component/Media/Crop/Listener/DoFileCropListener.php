@@ -5,9 +5,13 @@ namespace Aropixel\AdminBundle\Component\Media\Crop\Listener;
 use Aropixel\AdminBundle\Component\Media\Image\Crop\CropApplierInterface;
 use Aropixel\AdminBundle\Entity\AttachedImageInterface;
 use Aropixel\AdminBundle\Entity\CropInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
 class DoFileCropListener
 {
     public function __construct(

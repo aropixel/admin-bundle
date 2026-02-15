@@ -2,7 +2,9 @@
 
 namespace Aropixel\AdminBundle\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 
 /**
@@ -13,6 +15,7 @@ use Doctrine\Persistence\Mapping\RuntimeReflectionService;
  * This allows the bundle to work "out-of-the-box" without configuration,
  * while remaining extensible via inheritance.
  */
+#[AsDoctrineListener(event: Events::loadClassMetadata, priority: 8192)]
 class MappedSuperClassListener
 {
     /**

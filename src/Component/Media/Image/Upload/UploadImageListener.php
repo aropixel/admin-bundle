@@ -5,10 +5,15 @@ namespace Aropixel\AdminBundle\Component\Media\Image\Upload;
 use Aropixel\AdminBundle\Component\Media\PreUploadHandler;
 use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\ImageInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+#[AsEntityListener(event: Events::prePersist, entity: '%aropixel_admin.entity.image%')]
+#[AsEntityListener(event: Events::postPersist, entity: '%aropixel_admin.entity.image%')]
+#[AsEntityListener(event: Events::postRemove, entity: '%aropixel_admin.entity.image%')]
 class UploadImageListener
 {
     public function __construct(

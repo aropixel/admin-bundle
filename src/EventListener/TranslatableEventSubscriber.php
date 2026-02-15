@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\EventListener;
 
 use Aropixel\AdminBundle\Entity\TranslatableInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -13,6 +14,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+#[AsDoctrineListener(event: Events::postLoad, priority: 8192)]
+#[AsDoctrineListener(event: Events::prePersist, priority: 8192)]
 class TranslatableEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(

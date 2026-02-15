@@ -60,47 +60,10 @@ services:
         arguments:
             $providers: !tagged_iterator aropixel.select2_provider
 
-    Aropixel\AdminBundle\Domain\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver'
+    Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface: '@Aropixel\AdminBundle\Component\Media\Resolver\PathResolver'
 
-    Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface:
-        class: Aropixel\AdminBundle\Infrastructure\Media\Image\Crop\CropApplier
-        arguments: ['@liip_imagine.cache.manager', '@liip_imagine.data.manager','@liip_imagine.filter.manager', '@Aropixel\AdminBundle\Infrastructure\Media\Resolver\PathResolver']
+    Aropixel\AdminBundle\Component\Media\Image\Crop\CropApplierInterface: '@Aropixel\AdminBundle\Component\Media\Image\Crop\CropApplier'
 
-
-    Aropixel\AdminBundle\Infrastructure\Media\Crop\Listener\DoFileCropListener:
-        arguments: ['@Aropixel\AdminBundle\Domain\Media\Image\Crop\CropApplierInterface']
-        tags:
-            - { name: doctrine.event_listener, event: postPersist }
-            - { name: doctrine.event_listener, event: postUpdate }
-
-
-    Aropixel\AdminBundle\Infrastructure\Media\Image\Upload\UploadImageListener:
-        tags:
-            - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.image%' }
-            - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.image%' }
-            - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.image%' }
-
-
-    Aropixel\AdminBundle\Infrastructure\Media\File\Upload\UploadFileListener:
-        tags:
-            - { name: doctrine.orm.entity_listener, event: prePersist, entity: '%aropixel_admin.entity.file%' }
-            - { name: doctrine.orm.entity_listener, event: postPersist, entity: '%aropixel_admin.entity.file%' }
-            - { name: doctrine.orm.entity_listener, event: postRemove, entity: '%aropixel_admin.entity.file%' }
-
-
-    Aropixel\AdminBundle\EventListener\MappedSuperClassListener:
-        arguments: ['%aropixel_admin.entities%']
-        tags:
-            - { name: doctrine.event_listener, event: 'loadClassMetadata', priority: 8192 }
-
-    Aropixel\AdminBundle\EventListener\TranslatableEventSubscriber:
-        arguments: ['@Symfony\Component\HttpFoundation\RequestStack', '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface']
-        tags:
-            - { name: doctrine.event_listener, event: 'postLoad', priority: 8192 }
-
-    Aropixel\AdminBundle\Infrastructure\Media\Image\Filter\ThumbnailFilter:
-        tags:
-            - { name: "liip_imagine.filter.loader", loader: upscale_thumbnail }
 
     Symfony\Component\Security\Core\User\UserProviderInterface: '@security.user_providers'
 
@@ -109,8 +72,3 @@ services:
 
     Symfony\Component\DependencyInjection\ContainerInterface:
         alias: 'service_container'
-
-    Aropixel\AdminBundle\Form\Type\TranslatableType:
-        arguments: [ '@doctrine.orm.default_entity_manager', '@validator', '@Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface' ]
-        tags:
-            - { name: form.type, alias: translatable }

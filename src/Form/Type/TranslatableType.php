@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Form\DataMapper\TranslatableMapper;
 use Aropixel\AdminBundle\Form\Subscriber\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * This type generates one input field per configured locale.
  * It uses a custom DataMapper to handle the persistence logic within Doctrine Collections.
  */
+#[AutoconfigureTag('form.type', attributes: ['alias' => 'translatable'])]
 class TranslatableType extends AbstractType
 {
     public function __construct(

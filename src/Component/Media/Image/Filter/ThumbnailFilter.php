@@ -9,8 +9,10 @@ use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Point;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+#[AutoconfigureTag('liip_imagine.filter.loader', attributes: ['loader' => 'upscale_thumbnail'])]
 class ThumbnailFilter implements LoaderInterface
 {
     /**

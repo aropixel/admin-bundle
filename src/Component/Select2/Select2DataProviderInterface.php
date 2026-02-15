@@ -3,7 +3,9 @@
 namespace Aropixel\AdminBundle\Component\Select2;
 
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
+#[AutoconfigureTag('aropixel.select2_provider')]
 interface Select2DataProviderInterface
 {
     /**
