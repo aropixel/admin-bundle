@@ -619,7 +619,7 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
             // Initialisation de l'uploader
             params = {
 
-                file_data_name : 'plupload_file[file]',
+                file_data_name : 'aropixel_admin_plupload_file[file]',
                 multipart: true,
                 multipart_params: {
                     '_http_accept': 'application/javascript'
@@ -645,7 +645,7 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
                     BeforeUpload: function(up, file) {
 
-                        up.settings.multipart_params = { 'plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'plupload_file[title]': file.name, 'plupload_file[public]': flcore.modal.launcher.editor ? true : false };
+                        up.settings.multipart_params = { 'aropixel_admin_plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'aropixel_admin_plupload_file[title]': file.name, 'aropixel_admin_plupload_file[public]': flcore.modal.launcher.editor ? true : false };
 
                     },
 

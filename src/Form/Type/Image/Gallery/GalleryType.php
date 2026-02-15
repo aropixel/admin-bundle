@@ -9,6 +9,27 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType used to display an image gallery widget.
+ *
+ * This type extends CollectionType and uses GalleryImageType for its entries.
+ * It manages a collection of images with a library modal and sorting capabilities.
+ *
+ * Twig block: aropixel_admin_gallery_widget
+ *
+ * Options:
+ * - image_class: The entity class for the images (required).
+ * - image_value: The property name storing the filename (in filename mode).
+ * - fields: Enabled additional fields for each image (e.g., ['title' => true, 'description' => true]).
+ * - crops: Array of available crops for the gallery images.
+ *
+ * Usage example:
+ * $builder->add('gallery', GalleryType::class, [
+ *     'image_class' => ProductImage::class,
+ *     'fields' => ['title' => true],
+ *     'crops' => ['gallery' => 'Gallery Crop'],
+ * ]);
+ */
 class GalleryType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
@@ -133,6 +154,6 @@ class GalleryType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'aropixel_gallery';
+        return 'aropixel_admin_gallery';
     }
 }

@@ -13,6 +13,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for each individual file in a gallery.
+ *
+ * Twig block: aropixel_admin_gallery_file_row
+ */
 class GalleryFileType extends AbstractType
 {
     public function __construct(
@@ -53,8 +58,8 @@ class GalleryFileType extends AbstractType
         $resolver->setDefaults(['data_class' => null]);
     }
 
-    public function getName(): string
+    public function getBlockPrefix(): string
     {
-        return 'aropixel_gallery_file';
+        return 'aropixel_admin_gallery_file';
     }
 }

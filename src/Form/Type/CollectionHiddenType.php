@@ -15,6 +15,22 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * FormType that stores a collection of entities in a hidden select field.
+ *
+ * Twig block: aropixel_admin_collection_hidden_row
+ *
+ * Options:
+ * - repository: The entity class for the repository (required).
+ * - choice_label: The property name or callback to display as label (default: 'label').
+ * - multiple: Whether to allow multiple selection (default: false).
+ *
+ * Usage example:
+ * $builder->add('tags', CollectionHiddenType::class, [
+ *     'repository' => Tag::class,
+ *     'multiple' => true,
+ * ]);
+ */
 class CollectionHiddenType extends AbstractType
 {
     public function __construct(
@@ -78,6 +94,6 @@ class CollectionHiddenType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'entity_collection_hidden';
+        return 'aropixel_admin_collection_hidden';
     }
 }

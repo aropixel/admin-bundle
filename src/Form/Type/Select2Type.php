@@ -13,6 +13,26 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * FormType providing a Select2 input with AJAX support.
+ *
+ * Twig block: aropixel_admin_select2_row
+ *
+ * Options:
+ * - repository: The entity class for the repository (required).
+ * - route: The AJAX route name to fetch results (required).
+ * - choice_label: The property name or callback to display as label (default: 'label').
+ * - multiple: Whether to allow multiple selection (default: false).
+ * - placeholder: The input placeholder.
+ *
+ * Usage example:
+ * $builder->add('category', Select2Type::class, [
+ *     'label' => 'Category',
+ *     'repository' => Category::class,
+ *     'route' => 'admin_category_ajax_search',
+ *     'choice_label' => 'title',
+ * ]);
+ */
 class Select2Type extends AbstractType
 {
     public function __construct(
@@ -82,8 +102,8 @@ class Select2Type extends AbstractType
         return HiddenType::class;
     }
 
-    public function getName(): string
+    public function getBlockPrefix(): string
     {
-        return 'select2';
+        return 'aropixel_admin_select2';
     }
 }

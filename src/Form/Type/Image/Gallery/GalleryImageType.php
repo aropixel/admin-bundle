@@ -6,36 +6,41 @@ use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Form\DataMapper\ImageMapper;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 
-class GalleryImageType extends AbstractType implements DataMapperInterface
+/**
+ * FormType used for each individual image in a gallery.
+ *
+ * This type is usually used as an 'entry_type' within GalleryType.
+ *
+ * Twig block: aropixel_admin_gallery_image_row
+ *
+ * Options:
+ * - data_class: The entity class for the image.
+ * - data_value: The property name storing the filename (in filename mode).
+ * - fields: Configuration for additional fields (title, description, link).
+ * - crop_class: The class that stores crop information.
+ */
+class GalleryImageType extends AbstractType
 {
-    /**
-     * @var array<mixed>
-     */
-    private array $options;
-
     public function __construct(
         private readonly InstanceToData $instanceToData,
         private readonly PathResolverInterface $pathResolver,
+        private readonly ImageMapper $imageMapper,
     ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Build a uniqid used to identify the crop modal
-        $this->options = $options;
-
         $builder
             ->add('title', HiddenType::class)
             ->add('description', HiddenType::class)
@@ -55,7 +60,7 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
                 ;
             }
 
-            $builder->setDataMapper($this);
+            $builder->setDataMapper($this->imageMapper);
         }
 
         // Otherwise, the image is stored in an AttachImage
@@ -70,94 +75,6 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
         }
     }
 
-    public function mapDataToForms($data, \Traversable $forms): void
-    {
-        // there is no data yet, so nothing to prepopulate
-        if (null === $data) {
-            return;
-        }
-
-        $attributes = $this->instanceToData->getAttributes($data);
-
-        /** @var FormInterface[] $forms */
-        $forms = iterator_to_array($forms);
-        $forms['file_name']->setData($this->instanceToData->getFileName($data));
-
-        if (\is_array($attributes) && \array_key_exists('link', $attributes)) {
-            $forms['link']->setData($attributes['link']);
-        }
-
-        if (\is_array($attributes) && \array_key_exists('title', $attributes)) {
-            $forms['title']->setData($attributes['title']);
-        }
-
-        if (\is_array($attributes) && \array_key_exists('description', $attributes)) {
-            $forms['description']->setData($attributes['description']);
-        }
-
-        if (\is_array($attributes) && \array_key_exists('attrTitle', $attributes)) {
-            $forms['attrTitle']->setData($attributes['attrTitle']);
-        }
-
-        if (\is_array($attributes) && \array_key_exists('attrAlt', $attributes)) {
-            $forms['attrAlt']->setData($attributes['attrAlt']);
-        }
-
-        if (\is_array($attributes) && \array_key_exists('attrClass', $attributes)) {
-            $forms['attrClass']->setData($attributes['attrClass']);
-        }
-
-        if (\array_key_exists('crops', $forms)) {
-            $crops = $this->instanceToData->getCrops($data);
-            if ($crops) {
-                $forms['crops']->setData($crops);
-            }
-        }
-    }
-
-    public function mapFormsToData(\Traversable $forms, &$viewData): void
-    {
-        /** @var FormInterface[] $forms */
-        $forms = iterator_to_array($forms);
-
-        //        $data = $this->filenameInstance;
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $propertyAccessor->setValue($viewData, $this->options['data_value'], $forms['file_name']->getData());
-
-        if ($this->options['data_crops'] && \array_key_exists($this->options['data_crops'], $forms) && null !== $forms['crops']->getData()) {
-            $propertyAccessor->setValue($viewData, $this->options['data_crops'], $forms['crops']->getData());
-        }
-
-        if ($this->options['data_attributes']) {
-            $attributes = [];
-
-            if (null !== $forms['title']->getData()) {
-                $attributes['title'] = $forms['title']->getData();
-            }
-
-            if (null !== $forms['link']->getData()) {
-                $attributes['link'] = $forms['link']->getData();
-            }
-
-            if (null !== $forms['description']->getData()) {
-                $attributes['description'] = $forms['description']->getData();
-            }
-
-            if (null !== $forms['attrTitle']->getData()) {
-                $attributes['attrTitle'] = $forms['attrTitle']->getData();
-            }
-
-            if (null !== $forms['attrAlt']->getData()) {
-                $attributes['attrAlt'] = $forms['attrAlt']->getData();
-            }
-
-            if (null !== $forms['attrClass']->getData()) {
-                $attributes['attrClass'] = $forms['attrClass']->getData();
-            }
-
-            $propertyAccessor->setValue($viewData, $this->options['data_attributes'], $attributes);
-        }
-    }
 
     /**
      * Pass the image URL to the view.
@@ -218,6 +135,6 @@ class GalleryImageType extends AbstractType implements DataMapperInterface
 
     public function getBlockPrefix(): string
     {
-        return 'aropixel_gallery_image';
+        return 'aropixel_admin_gallery_image';
     }
 }

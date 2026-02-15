@@ -8,6 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for a slideshow (collection of images).
+ *
+ * This type extends CollectionType and uses ImageType for its entries.
+ *
+ * Twig block: collection_widget (inherited)
+ */
 class SlideshowType extends AbstractType
 {
     public function getParent(): ?string

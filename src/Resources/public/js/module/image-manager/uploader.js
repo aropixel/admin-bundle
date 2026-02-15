@@ -18,7 +18,7 @@ export class IM_Uploader {
         this.uploader = new plupload.Uploader({
             browse_button: id,
             url: this.button.dataset.path,
-            file_data_name: 'plupload_image[file]',
+            file_data_name: 'aropixel_admin_plupload_image[file]',
             multipart_params: {
                 '_http_accept': 'application/javascript'
             },
@@ -32,8 +32,8 @@ export class IM_Uploader {
                 },
                 BeforeUpload: (up, file) => {
                     up.settings.multipart_params = {
-                        'plupload_image[category]': this.modal?.getCategory(),
-                        'plupload_image[title]': file.name
+                        'aropixel_admin_plupload_image[category]': this.modal?.getCategory(),
+                        'aropixel_admin_plupload_image[title]': file.name
                     };
                 },
                 UploadFile: (up, file) => {

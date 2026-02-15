@@ -290,7 +290,7 @@
 {% endblock %}
 
 
-{% block video_row -%}
+{% block aropixel_admin_video_row -%}
 
     <div class="row video-type">
         <div class="col-sm-5">
@@ -337,7 +337,7 @@
 
 
 
-{% block aropixel_gallery_widget -%}
+{% block aropixel_admin_gallery_widget -%}
 
     {{ enable_image_library_modal() }}
     {% set type = type is defined ? type : 'gallery' %}
@@ -379,16 +379,16 @@
 
 
 
-{% block aropixel_gallery_row -%}
+{% block aropixel_admin_gallery_row -%}
 
     {{- form_widget(form) -}}
 
-{%- endblock aropixel_gallery_row %}
+{%- endblock aropixel_admin_gallery_row %}
 
 
 
 
-{% block aropixel_gallery_image_row -%}
+{% block aropixel_admin_gallery_image_row -%}
 
     <div
             class="col-md-6 col-lg-4"
@@ -406,20 +406,20 @@
 
 
 
-{% block gallery_aropixel_admin_crops_widget -%}
+{% block aropixel_admin_gallery_crops_widget -%}
 
     {% if prototype is defined and not prototype.rendered %}
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
     {% endif %}
     {{- block('form_widget') -}}
 
-{%- endblock gallery_aropixel_admin_crops_widget %}
+{%- endblock aropixel_admin_gallery_crops_widget %}
 
 
 
 
 
-{% block gallery_files_row -%}
+{% block aropixel_admin_gallery_files_row -%}
 
     {% set type = type is defined ? type : 'files' %}
     {% set entityField = field is defined ? field : 'files' %}
@@ -443,7 +443,7 @@
 
 
 
-{% block gallery_files_widget -%}
+{% block aropixel_admin_gallery_files_widget -%}
 
     {{ enable_file_library_modal() }}
     {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
@@ -481,11 +481,11 @@
 
 
 
-{% block gallery_file_row -%}
+{% block aropixel_admin_gallery_file_row -%}
 
     {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
 
-{%- endblock gallery_file_row %}
+{%- endblock aropixel_admin_gallery_file_row %}
 
 
 
@@ -577,9 +577,9 @@
 
 
 
-{% block gallery_aropixel_admin_crops_row -%}
+{% block aropixel_admin_gallery_crops_row -%}
     {{- form_widget(form) -}}
-{%- endblock gallery_aropixel_admin_crops_row %}
+{%- endblock aropixel_admin_gallery_crops_row %}
 
 
 
@@ -601,9 +601,9 @@
 {%- endblock aropixel_admin_crops_widget %}
 
 
-{% block crop_row -%}
+{% block aropixel_admin_crop_row -%}
     {{- form_widget(form) -}}
-{%- endblock crop_row %}
+{%- endblock aropixel_admin_crop_row %}
 
 
 
@@ -716,7 +716,7 @@
 
 
 
-{% block select2_row -%}
+{% block aropixel_admin_select2_row -%}
     <div class="form-group form-group-select2{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
         <div class="col-form-content">
@@ -728,7 +728,7 @@
 
 
 
-{% block select2_widget -%}
+{% block aropixel_admin_select2_widget -%}
     {% set select2_multiple = multiple %}
     <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
         {% for choice in choices %}
@@ -739,16 +739,16 @@
 
 
 
-{% block entity_collection_hidden_row -%}
+{% block aropixel_admin_collection_hidden_row -%}
 
     {{- form_widget(form) -}}
     {{- form_errors(form) -}}
 
-{%- endblock entity_collection_hidden_row %}
+{%- endblock aropixel_admin_collection_hidden_row %}
 
 
 
-{% block entity_collection_hidden_widget -%}
+{% block aropixel_admin_collection_hidden_widget -%}
     {% set select2_multiple = multiple %}
     <select {{ block('widget_attributes') }} class="hidden d-none" {{multiple ? ' multiple' : ''}}>
         {% for choice in choices %}
@@ -795,7 +795,7 @@
 
 
 
-{% block translatable_row %}
+{% block aropixel_admin_translatable_row %}
 
     {% set defaultLocale = app.request.defaultLocale %}
 

@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for publishable entities (status and date ranges).
+ */
 class PublishableType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

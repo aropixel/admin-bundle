@@ -15,6 +15,12 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for the User entity.
+ *
+ * Handles standard user fields, profile image, password changes,
+ * and specific permissions for Super Admins.
+ */
 class UserType extends AbstractType
 {
     public function __construct(

@@ -8,6 +8,20 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for a color picker input.
+ *
+ * Twig block: aropixel_admin_color_widget
+ *
+ * Options:
+ * - format: The color format (hex, rgb, etc. Default: 'hex').
+ *
+ * Usage example:
+ * $builder->add('mainColor', ColorType::class, [
+ *     'label' => 'Brand Color',
+ *     'format' => 'hex',
+ * ]);
+ */
 class ColorType extends AbstractType
 {
     public function getParent(): ?string

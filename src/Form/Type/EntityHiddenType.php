@@ -10,6 +10,22 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType that stores an entity ID in a hidden field.
+ *
+ * It uses a DataTransformer to convert the entity to its ID and vice-versa.
+ *
+ * Twig block: hidden_widget (inherited from HiddenType)
+ *
+ * Options:
+ * - class: The entity class name (required).
+ * - multiple: Whether to handle a collection of entities (default: false).
+ *
+ * Usage example:
+ * $builder->add('category', EntityHiddenType::class, [
+ *     'class' => Category::class,
+ * ]);
+ */
 class EntityHiddenType extends AbstractType
 {
     public function __construct(
@@ -38,8 +54,8 @@ class EntityHiddenType extends AbstractType
         return HiddenType::class;
     }
 
-    public function getName(): string
+    public function getBlockPrefix(): string
     {
-        return 'entity_hidden';
+        return 'aropixel_admin_entity_hidden';
     }
 }

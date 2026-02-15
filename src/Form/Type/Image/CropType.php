@@ -9,6 +9,15 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType representing a single crop configuration (filter and coordinates).
+ *
+ * Twig block: aropixel_admin_crop_row
+ *
+ * Options:
+ * - filter: The LiipImagine filter name.
+ * - crop: The crop coordinates (json string).
+ */
 class CropType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -32,8 +41,8 @@ class CropType extends AbstractType
         $resolver->setDefaults(['data_class' => null, 'image_class' => null, 'file_name' => null, 'crops' => null]);
     }
 
-    public function getName(): string
+    public function getBlockPrefix(): string
     {
-        return 'aropixel_crop';
+        return 'aropixel_admin_crop';
     }
 }

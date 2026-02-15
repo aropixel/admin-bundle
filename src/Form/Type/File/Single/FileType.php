@@ -13,6 +13,20 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType used to display a single file widget with a library modal.
+ *
+ * Twig block: aropixel_admin_file_row
+ *
+ * Options:
+ * - data_class: The entity class storing the file association (e.g., AttachedFile).
+ *
+ * Usage example:
+ * $builder->add('document', FileType::class, [
+ *     'label' => 'Manual',
+ *     'data_class' => ProductFile::class,
+ * ]);
+ */
 class FileType extends AbstractType
 {
     public function __construct(

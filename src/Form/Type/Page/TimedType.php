@@ -7,6 +7,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType for timestamped entities (createdAt and updatedAt).
+ */
 class TimedType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

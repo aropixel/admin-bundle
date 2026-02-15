@@ -6,24 +6,41 @@ use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
 use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
+use Aropixel\AdminBundle\Form\DataMapper\ImageMapper;
 use Aropixel\AdminBundle\Form\Type\EntityHiddenType;
 use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
- * Class ImageType
- * FormType used to display an image Widget. The widget embed upload tool, library, and crops tool.
- * The image can be stored in an AttachImage entity or as a filename in a custom entity.
- * Crops infos can be stored in a dedicated entity, or as an array in the same custom entity than the image.
+ * FormType used to display an image Widget.
+ *
+ * This widget includes an upload tool, a media library, and a cropping tool.
+ * It can operate in two modes:
+ * 1. "Entity mode": The image association is stored in an AttachedImage entity.
+ * 2. "File name mode": The image is stored as a simple filename string in a custom entity field.
+ *
+ * Twig block: aropixel_admin_image_widget
+ *
+ * Options:
+ * - data_class: The class of the entity storing the image (required in entity mode).
+ * - data_value: The property name storing the filename (required in filename mode).
+ * - crop_class: The class that stores crop information.
+ * - crops: An array of available crops (e.g., ['main' => 'Main crop', 'thumbnail' => 'Thumbnail']).
+ * - library: The entity name for filtering the media library.
+ *
+ * Usage example:
+ * $builder->add('image', ImageType::class, [
+ *     'label' => 'Profile Picture',
+ *     'data_class' => UserImage::class,
+ *     'crops' => ['avatar' => 'Avatar'],
+ * ]);
  */
-class ImageType extends AbstractType implements DataMapperInterface
+class ImageType extends AbstractType
 {
     /** @var array<string,string>  */
     private array $cropSuffix = [];
@@ -31,6 +48,7 @@ class ImageType extends AbstractType implements DataMapperInterface
     public function __construct(
         private readonly InstanceToData $instanceToData,
         private readonly PathResolverInterface $pathResolver,
+        private readonly ImageMapper $imageMapper,
     ) {
     }
 
@@ -95,7 +113,7 @@ class ImageType extends AbstractType implements DataMapperInterface
 
         $builder
             ->add('file_name', HiddenType::class, ['required' => $options['required']])
-            ->setDataMapper($this)
+            ->setDataMapper($this->imageMapper)
         ;
 
         // Get requested crops
@@ -156,64 +174,6 @@ class ImageType extends AbstractType implements DataMapperInterface
         $view->vars['card_footer'] = $options['card_footer'];
     }
 
-    public function mapDataToForms(mixed $viewData, \Traversable $forms): void
-    {
-        if (null === $viewData) {
-            return;
-        }
-
-        $attributes = $this->instanceToData->getAttributes($viewData);
-        $forms = iterator_to_array($forms);
-        $forms['file_name']->setData($this->instanceToData->getFileName($viewData));
-
-        if (\is_array($attributes)) {
-            if (\array_key_exists('link', $attributes)) {
-                $forms['link']->setData($attributes['link']);
-            }
-            if (\array_key_exists('title', $attributes)) {
-                $forms['title']->setData($attributes['title']);
-            }
-            if (\array_key_exists('description', $attributes)) {
-                $forms['description']->setData($attributes['description']);
-            }
-            if (\array_key_exists('attrTitle', $attributes)) {
-                $forms['attrTitle']->setData($attributes['attrTitle']);
-            }
-            if (\array_key_exists('attrAlt', $attributes)) {
-                $forms['attrAlt']->setData($attributes['attrAlt']);
-            }
-            if (\array_key_exists('attrClass', $attributes)) {
-                $forms['attrClass']->setData($attributes['attrClass']);
-            }
-        }
-
-        if (\array_key_exists('crops', $forms)) {
-            $crops = $this->instanceToData->getCrops($viewData);
-            if ($crops) {
-                $forms['crops']->setData($crops);
-            }
-        }
-    }
-
-    public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
-    {
-        $forms = iterator_to_array($forms);
-        $config = $forms['file_name']->getParent()->getConfig();
-        $dataClass = $config->getDataClass();
-
-        if (null !== $dataClass) {
-            if (null !== $viewData) {
-                $propertyAccessor = PropertyAccess::createPropertyAccessor();
-                $propertyAccessor->setValue($viewData, $config->getOption('data_value'), $forms['file_name']->getData());
-
-                if (\array_key_exists('crops', $forms)) {
-                    $propertyAccessor->setValue($viewData, $config->getOption('crops_value'), $forms['crops']->getData());
-                }
-            }
-        } else {
-            $viewData = $forms['file_name']->getData();
-        }
-    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

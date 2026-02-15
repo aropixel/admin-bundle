@@ -9,6 +9,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType representing a collection of crops for an image in a gallery.
+ *
+ * Twig block: aropixel_admin_gallery_crops_row
+ */
 class GalleryCropsType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
@@ -40,6 +45,6 @@ class GalleryCropsType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'gallery_aropixel_admin_crops';
+        return 'aropixel_admin_gallery_crops';
     }
 }

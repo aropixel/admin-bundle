@@ -11,6 +11,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType representing a collection of crops for a single image.
+ *
+ * Twig block: aropixel_admin_crops_row
+ */
 class CropsType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void

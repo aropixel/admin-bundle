@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * FormType used for AJAX image uploads via Plupload.
+ */
 class PluploadType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -29,6 +32,6 @@ class PluploadType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'plupload_image';
+        return 'aropixel_admin_plupload_image';
     }
 }

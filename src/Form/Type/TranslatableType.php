@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Form\Type;
 
+use Aropixel\AdminBundle\EventListener\Form\TranslatableSubscriber;
 use Aropixel\AdminBundle\Form\DataMapper\TranslatableMapper;
-use Aropixel\AdminBundle\Form\Subscriber\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
@@ -16,10 +16,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Form Type for handling Gedmo Personal Translations.
+ * FormType for handling multi-language fields (Gedmo Personal Translations).
  *
- * This type generates one input field per configured locale.
- * It uses a custom DataMapper to handle the persistence logic within Doctrine Collections.
+ * This type generates one input field per configured locale and handles
+ * the persistence logic within Doctrine Collections using a custom DataMapper.
+ *
+ * Twig block: aropixel_admin_translatable_row
+ *
+ * Options:
+ * - personal_translation: The class name of the translation entity (required).
+ * - field: The name of the translated property in the entity (default: form name).
+ * - widget: The underlying form type to use for each locale (default: TextType).
+ * - locales: Array of locales to display (default: from configuration).
+ * - required_locale: Array of locales that are mandatory.
+ *
+ * Usage example:
+ * $builder->add('title', TranslatableType::class, [
+ *     'label' => 'Title',
+ *     'personal_translation' => ProductTranslation::class,
+ *     'widget' => TextType::class,
+ * ]);
  */
 #[AutoconfigureTag('form.type', attributes: ['alias' => 'translatable'])]
 class TranslatableType extends AbstractType
@@ -54,7 +70,7 @@ class TranslatableType extends AbstractType
 
         // Register subscriber to dynamically add fields for each locale.
         $builder->addEventSubscriber(
-            new Translatable($builder->getFormFactory(), $this->validator, $options)
+            new TranslatableSubscriber($builder->getFormFactory(), $this->validator, $options)
         );
     }
 
@@ -90,8 +106,8 @@ class TranslatableType extends AbstractType
         return new \InvalidArgumentException(sprintf('Unable to find personal translation class: "%s"', $translation));
     }
 
-    public function getName(): string
+    public function getBlockPrefix(): string
     {
-        return 'translatable';
+        return 'aropixel_admin_translatable';
     }
 }
