@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\EventListener\Doctrine;
 
-use;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
