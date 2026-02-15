@@ -92,4 +92,5 @@ Discover more by reading the docs:
 * [Manage header and footer](menubundle.md)
 * [Select2 Component](select2.md)
 * [Entity Customization](entities.md)
+* [Admin Menu Customization](admin_menu.md)
 * [Custom Form Types](forms.md)

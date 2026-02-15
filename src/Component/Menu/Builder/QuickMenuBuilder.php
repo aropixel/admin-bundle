@@ -2,56 +2,45 @@
 
 namespace Aropixel\AdminBundle\Component\Menu\Builder;
 
-use Aropixel\AdminBundle\Component\Menu\LinkMatcher;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Aropixel\AdminBundle\Component\Menu\Model\Link;
+use Symfony\Component\Routing\RouterInterface;
 
 class QuickMenuBuilder implements QuickMenuBuilderInterface
 {
     public function __construct(
-        private readonly LinkMatcher $linkMatcher
+        private readonly RouterInterface $router,
     ) {
     }
 
     public function buildMenu(): array
     {
-        $quickMenu = [
-            [
-                'position' => 1,
-                'id' => $this->generateId('Pages'),
-            ],
-            [
-                'position' => 2,
-                'id' => $this->generateId('Actualités'),
-            ],
-            [
-                'position' => 3,
-                'id' => $this->generateId('Messagerie'),
-            ],
-            [
-                'position' => 4,
-                'id' => $this->generateId('Menu'),
-            ],
-            [
-                'position' => 5,
-                'id' => $this->generateId('Administrateurs'),
-            ],
-        ];
+        $quickMenu = [];
 
-        $menu = [];
-        foreach ($quickMenu as $link) {
-            $id = $link['id'];
-            if ($match = $this->linkMatcher->getLink($id)) {
-                $menu[$link['position']] = $match;
-            }
+        if ($this->routeExists('aropixel_page_index')) {
+            $quickMenu[1] = new Link('Pages', 'aropixel_page_index', ['type' => 'default'], ['icon' => 'fas fa-pen']);
         }
 
-        return $menu;
+        if ($this->routeExists('aropixel_blog_post_index')) {
+            $quickMenu[2] = new Link('Actualités', 'aropixel_blog_post_index', [], ['icon' => 'fas fa-newspaper']);
+        }
+
+        if ($this->routeExists('aropixel_contact_index')) {
+            $quickMenu[3] = new Link('Messagerie', 'aropixel_contact_index', [], ['icon' => 'far fa-envelope']);
+        }
+
+        if ($this->routeExists('aropixel_menu_index')) {
+            $quickMenu[4] = new Link('Menu', 'aropixel_menu_index', ['type' => 'navbar'], ['icon' => 'fas fa-bars']);
+        }
+
+        if ($this->routeExists('aropixel_admin_user_index')) {
+            $quickMenu[5] = new Link('Administrateurs', 'aropixel_admin_user_index', [], ['icon' => 'fas fa-user-cog']);
+        }
+
+        return $quickMenu;
     }
 
-    private function generateId(string $label): string
+    private function routeExists(string $name): bool
     {
-        $slugger = new AsciiSlugger();
-
-        return mb_strtolower($slugger->slug($label));
+        return !(null === $this->router->getRouteCollection()->get($name));
     }
 }
