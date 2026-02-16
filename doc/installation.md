@@ -2,7 +2,7 @@
 
 We provide several ways to install our AdminBundle, depending on your needs:
 
-- Create your symfony 7 project
+- Create your symfony 7.* or 8.* project
 - Require Aropixel Admin Bundle
 ```bash
 composer require aropixel/admin-bundle
@@ -80,6 +80,6 @@ aropixel_admin:
     prefix: /admin
 
 ````
-- Create your first admin access : php bin/console aropixel:admin:setup
+- Create your first admin access : php bin/console aropixel:admin:create-user
 
 - Add the ConfigureMenuListener class in Src Folder and register it as service

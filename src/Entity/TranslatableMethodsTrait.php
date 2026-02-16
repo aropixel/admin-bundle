@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 trait TranslatableMethodsTrait
 {
@@ -24,7 +25,7 @@ trait TranslatableMethodsTrait
         return $this->{$field};
     }
 
-    public function getLocales()
+    public function getLocales(): string
     {
         $languages = [];
 
@@ -37,13 +38,20 @@ trait TranslatableMethodsTrait
         return implode(', ', $languages);
     }
 
-    public function removeTranslation($t)
+    public function removeTranslation(object $t): void
     {
-        $this->translations->removeElement($t);
+        /** @var \Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation $t */
+        /** @var \Doctrine\Common\Collections\Collection<int, mixed> $translations */
+        $translations = $this->translations;
+        $translations->removeElement($t);
+        /** @phpstan-ignore-next-line */
         $t->setObject(null);
     }
 
-    public function getTranslations()
+    /**
+     * @return Collection<int, mixed>
+     */
+    public function getTranslations(): Collection
     {
         if (null === $this->translations) {
             $this->translations = new ArrayCollection();
@@ -52,16 +60,21 @@ trait TranslatableMethodsTrait
         return $this->translations;
     }
 
-    public function addTranslation($t)
+    public function addTranslation(object $t): void
     {
         if (!$this->getTranslations()->contains($t)) {
-            $this->translations[] = $t;
+            /** @var \Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation $t */
+            /** @var \Doctrine\Common\Collections\Collection<int, mixed> $translations */
+            $translations = $this->translations;
+            $translations[] = $t;
             $t->setObject($this);
         }
     }
 
-    // method used when values is set throught a type collection (add new throught the data-prototype)
-    public function setTranslations($at)
+    /**
+     * @param iterable<mixed> $at
+     */
+    public function setTranslations(iterable $at): self
     {
         foreach ($at as $t) {
             $this->addTranslation($t);
@@ -70,7 +83,7 @@ trait TranslatableMethodsTrait
         return $this;
     }
 
-    public function setTranslatableLocale(string $locale)
+    public function setTranslatableLocale(string $locale): void
     {
         $this->currentLocale = $locale;
     }

@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('aropixel_admin');
         $rootNode = $treeBuilder->getRootNode();
-
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
         $rootNode
             ->children()
                 ->arrayNode('filter_sets')
