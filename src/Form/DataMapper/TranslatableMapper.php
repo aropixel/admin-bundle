@@ -51,6 +51,10 @@ class TranslatableMapper implements DataMapperInterface
                 continue;
             }
 
+            if ($this->translationField !== $translation->getField()) {
+                continue;
+            }
+
             // Construct the form field name based on the locale (e.g., "question:fr").
             $locale = $translation->getLocale();
             $formName = $this->translationField . ':' . $locale;
