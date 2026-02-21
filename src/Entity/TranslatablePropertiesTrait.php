@@ -6,6 +6,6 @@ use Doctrine\Common\Collections\Collection;
 
 trait TranslatablePropertiesTrait
 {
-    private ?string $currentLocale = null;
-    private ?Collection $translations = null;
+    protected ?string $currentLocale = null;
+    protected ?Collection $translations = null;
 }

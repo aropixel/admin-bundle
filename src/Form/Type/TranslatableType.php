@@ -54,19 +54,15 @@ class TranslatableType extends AbstractType
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
-        $isPageFieldTranslation = $options['personal_translation'] === 'Aropixel\PageBundle\Entity\FieldTranslation';
+        $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
 
-        if (!$isPageFieldTranslation) {
-            $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
-
-            // Use custom DataMapper to bypass Symfony's default mapping.
-            // This allows precise control over how translations are added to the collection
-            // and linked to the parent entity.
-            $builder->setDataMapper(new TranslatableMapper(
-                $options['personal_translation'],
-                $options['field']
-            ));
-        }
+        // Use custom DataMapper to bypass Symfony's default mapping.
+        // This allows precise control over how translations are added to the collection
+        // and linked to the parent entity.
+        $builder->setDataMapper(new TranslatableMapper(
+            $options['personal_translation'],
+            $options['field']
+        ));
 
         // Register subscriber to dynamically add fields for each locale.
         $builder->addEventSubscriber(
