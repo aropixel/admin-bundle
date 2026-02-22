@@ -215,58 +215,6 @@
 {% endmacro %}
 
 
-
-{% block a2lix_translations_widget %}
-
-    {{ form_errors(form) }}
-    <!-- Form horizontal -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6 class="panel-title">{{ form.vars.label is defined and form.vars.label ? form.vars.label : 'Traductions' }}</h6>
-            <div class="heading-elements panel-tabs">
-                <ul class="nav nav-tabs nav-tabs-bottom">
-                    {% for translationsFields in form %}
-                        {% set locale = translationsFields.vars.name %}
-
-                        <li {% if app.request.locale == locale %}class="active"{% endif %}>
-                            <a href="#" data-bs-toggle="tab" data-bs-target=".{{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }}">
-                                <img src="{{ asset('bundles/aropixeladmin/images/flags/' ~ locale ~ '.png') }}">
-                                {% if translationsFields.vars.required %}*{% endif %}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="panel-tab-content tab-content">
-
-            {% for translationsFields in form %}
-                {% set locale = translationsFields.vars.name %}
-
-                <div class="tab-pane has-padding {{ translationsFields.vars.id }}_a2lix_translationsFields-{{ locale }} tab-pane {% if app.request.locale == locale %}active{% endif %} {% if not form.vars.valid %}sonata-ba-field-error{% endif %}">
-                    {{ form_errors(translationsFields) }}
-                    {{ form_widget(translationsFields) }}
-                </div>
-            {% endfor %}
-        </div>
-
-    </div>
-
-
-{% endblock %}
-
-{% block a2lix_translationsForms_row %}
-    {{- form_widget(form) -}}
-{% endblock a2lix_translationsForms_row %}
-
-{% block a2lix_translationsForms_widget %}
-    {{ block('a2lix_translations_widget') }}
-{% endblock %}
-
-
-
-
 {% block aropixel_admin_color_widget %}
 
     {% set attr = attr|merge({class: ' color-picker', 'data-preferred-format': colorFormat}) %}
@@ -307,8 +255,7 @@
         </div>
     </div>
 
-
-{%- endblock video_row %}
+{%- endblock %}
 
 
 
@@ -352,7 +299,6 @@
          data-im-attach-short-class="{{ image_class_short }}"
          data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}">
 
-
         {% if prototype is defined and not prototype.rendered %}
             {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
         {% endif %}
@@ -363,33 +309,17 @@
         <div class="col-md-6 col-lg-4 m-b-30 add-gallery-image" data-im-library-trigger="modal">
             <a data-bs-toggle="modal" data-bs-target="#modalLibrary"><i class="fa fa-plus"></i></a>
         </div>
-
-        {#{{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {
-            'image' : false,
-            'image_class': image_class,
-            'image_value': form.vars.image_value,
-            'suffix': form.vars.crop_suffix,
-            'crops': form.vars.crops,
-        }) }}#}
-
     </div>
-
-{%- endblock aropixel_gallery_widget %}
-
+{% endblock %}
 
 
 
 {% block aropixel_admin_gallery_row -%}
-
     {{- form_widget(form) -}}
-
-{%- endblock aropixel_admin_gallery_row %}
-
-
+{% endblock %}
 
 
 {% block aropixel_admin_gallery_image_row -%}
-
     <div
             class="col-md-6 col-lg-4"
             data-title-label="{{ title_label }}"
@@ -400,27 +330,20 @@
             data-link-enabled="{{ link_enabled }}">
         {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
     </div>
-
-{%- endblock aropixel_gallery_image_row %}
-
+{% endblock %}
 
 
 
 {% block aropixel_admin_gallery_crops_widget -%}
-
     {% if prototype is defined and not prototype.rendered %}
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
     {% endif %}
     {{- block('form_widget') -}}
-
-{%- endblock aropixel_admin_gallery_crops_widget %}
-
-
+{% endblock %}
 
 
 
 {% block aropixel_admin_gallery_files_row -%}
-
     {% set type = type is defined ? type : 'files' %}
     {% set entityField = field is defined ? field : 'files' %}
     {% set entityClass = get_class(form.parent.vars.value) %}
@@ -434,11 +357,8 @@
          data-fl-multiple="{{ multiple }}">
 
         {{- form_widget(form) -}}
-
     </div>
-
-
-{%- endblock gallery_files_row %}
+{% endblock %}
 
 
 
@@ -477,7 +397,7 @@
 
     </div>
 
-{%- endblock gallery_files_widget %}
+{% endblock %}
 
 
 
@@ -485,7 +405,7 @@
 
     {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
 
-{%- endblock aropixel_admin_gallery_file_row %}
+{% endblock %}
 
 
 
@@ -549,7 +469,7 @@
     </div>
 
 
-{%- endblock aropixel_admin_file_row %}
+{%- endblock %}
 
 
 
@@ -573,13 +493,13 @@
 
     </div>
 
-{%- endblock aropixel_admin_image_widget %}
+{%- endblock %}
 
 
 
 {% block aropixel_admin_gallery_crops_row -%}
     {{- form_widget(form) -}}
-{%- endblock aropixel_admin_gallery_crops_row %}
+{%- endblock %}
 
 
 
@@ -588,7 +508,7 @@
         {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops is defined ? crops : null }) }}
     {% endif %}
     {{- form_widget(form) -}}
-{%- endblock aropixel_admin_crops_row %}
+{%- endblock %}
 
 
 {% block aropixel_admin_crops_widget -%}
@@ -598,14 +518,12 @@
     {% endif %}
     {{- block('form_widget') -}}
 
-{%- endblock aropixel_admin_crops_widget %}
+{%- endblock %}
 
 
 {% block aropixel_admin_crop_row -%}
     {{- form_widget(form) -}}
-{%- endblock aropixel_admin_crop_row %}
-
-
+{%- endblock %}
 
 
 
@@ -660,14 +578,14 @@
             {% endfor -%}
         </div>
     {%- endif %}
-{%- endblock choice_widget_expanded %}
+{%- endblock %}
 
 
 
 {% block datetime_widget -%}
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' d-flex')|trim}) -%}
     {{- parent() -}}
-{%- endblock datetime_widget %}
+{%- endblock %}
 
 
 {% block date_widget -%}
@@ -690,7 +608,7 @@
             </div>
         {%- endif -%}
     {% endif %}
-{%- endblock date_widget %}
+{%- endblock %}
 
 
 {% block time_widget -%}
@@ -709,10 +627,7 @@
             </div>
         {%- endif -%}
     {% endif %}
-{%- endblock time_widget %}
-
-
-
+{%- endblock %}
 
 
 
@@ -724,8 +639,7 @@
             {{- form_errors(form) -}}
         </div>
     </div>
-{%- endblock select2_row %}
-
+{%- endblock %}
 
 
 {% block aropixel_admin_select2_widget -%}
@@ -735,8 +649,7 @@
             <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
         {% endfor %}
     </select>
-{%- endblock select2_widget %}
-
+{%- endblock %}
 
 
 {% block aropixel_admin_collection_hidden_row -%}
@@ -744,7 +657,7 @@
     {{- form_widget(form) -}}
     {{- form_errors(form) -}}
 
-{%- endblock aropixel_admin_collection_hidden_row %}
+{%- endblock %}
 
 
 
@@ -755,9 +668,7 @@
             <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
         {% endfor %}
     </select>
-{%- endblock entity_collection_hidden_widget %}
-
-
+{%- endblock %}
 
 
 
@@ -809,4 +720,4 @@
 
     {% endfor %}
 
-{% endblock translatable_row %}
+{% endblock %}
