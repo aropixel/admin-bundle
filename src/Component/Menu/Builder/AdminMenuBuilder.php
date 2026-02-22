@@ -75,7 +75,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     {
         $menu = new Menu(self::MENU_PAGE_ID, self::MENU_PAGE_LABEL);
         $menu->addItem(new Link('menu.page.list', 'aropixel_page_index', ['type' => 'default'], ['icon' => 'fas fa-pen']));
-        $menu->addItem(new Link('menu.page.new', 'aropixel_page_new', ['type' => 'default'], ['icon' => 'fas fa-pen']));
+        $menu->addItem(new Link('menu.page.new', 'aropixel_default_page_new', [], ['icon' => 'fas fa-pen']));
 
         return $menu;
     }

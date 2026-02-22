@@ -45,13 +45,13 @@ class ImageExtension extends AbstractExtension
         return $this->isLibraryEnabled;
     }
 
-    public function customImagineFilter(?ImageInterface $image, string $filter): string
+    public function customImagineFilter(?AttachedImage $image, string $filter): string
     {
         /* @var AttachedImage $image */
         try {
             $shouldProducePlaceholder =
-                null === $image
-                || !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image));
+                null === $image?->getImage() ||
+                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image->getImage()));
         } catch (\Throwable) {
             $shouldProducePlaceholder = true;
         }
