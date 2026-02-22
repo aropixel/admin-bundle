@@ -7,7 +7,9 @@ use Aropixel\AdminBundle\Entity\ImageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(CropApplierInterface::class)]
 class CropApplier implements CropApplierInterface
 {
     public function __construct(

@@ -1,22 +1,22 @@
 aropixel_admin_user_index:
   path: /user/
-  controller: Aropixel\AdminBundle\Http\Action\User\IndexUserAction
+  controller: Aropixel\AdminBundle\Controller\User\IndexUserAction
 
 aropixel_admin_user_new:
   path: /user/new
-  controller: Aropixel\AdminBundle\Http\Action\User\CreateUserAction
+  controller: Aropixel\AdminBundle\Controller\User\CreateUserAction
 
 aropixel_admin_user_delete:
   path: /user/{id}
-  controller: Aropixel\AdminBundle\Http\Action\User\DeleteUserAction
+  controller: Aropixel\AdminBundle\Controller\User\DeleteUserAction
 
 aropixel_admin_user_edit:
   path: /user/{id}/edit
-  controller: Aropixel\AdminBundle\Http\Action\User\EditUserAction
+  controller: Aropixel\AdminBundle\Controller\User\EditUserAction
 
 aropixel_admin_user_send_activation_link:
   path: /user/{id}/activation/send
-  controller: Aropixel\AdminBundle\Http\Action\User\SendActivationLinkAction
+  controller: Aropixel\AdminBundle\Controller\User\SendActivationLinkAction
 
 
 

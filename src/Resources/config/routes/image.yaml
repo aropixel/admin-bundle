@@ -1,49 +1,49 @@
 image_ajax:
   path: /image/list/ajax
-  controller: Aropixel\AdminBundle\Http\Action\Image\AjaxAction
+  controller: Aropixel\AdminBundle\Controller\Image\AjaxAction
 
 image_ajax_category:
   path: /image/list/ajax/category
-  controller: Aropixel\AdminBundle\Http\Action\Image\AjaxCategoryAction
+  controller: Aropixel\AdminBundle\Controller\Image\AjaxCategoryAction
 
 image_upload:
   path: /image/upload
-  controller: Aropixel\AdminBundle\Http\Action\Image\UploadAction
+  controller: Aropixel\AdminBundle\Controller\Image\UploadAction
   defaults:
     expose: true
 
 image_attach:
   path: /image/attach/image
-  controller: Aropixel\AdminBundle\Http\Action\Image\AttachAction
+  controller: Aropixel\AdminBundle\Controller\Image\AttachAction
   defaults:
     expose: true
 
 gallery_attach:
   path: /image/attach/gallery
-  controller: Aropixel\AdminBundle\Http\Action\Image\AttachAction
+  controller: Aropixel\AdminBundle\Controller\Image\AttachAction
   defaults:
     expose: true
 
 image_editor:
   path: /image/editor
-  controller: Aropixel\AdminBundle\Http\Action\Image\AttachEditorAction
+  controller: Aropixel\AdminBundle\Controller\Image\AttachEditorAction
   defaults:
     expose: true
 
 image_delete:
   path: /image/remove
-  controller: Aropixel\AdminBundle\Http\Action\Image\DeleteAction
+  controller: Aropixel\AdminBundle\Controller\Image\DeleteAction
   defaults:
     expose: true
 
 image_crop:
   path: /image/crop
-  controller: Aropixel\AdminBundle\Http\Action\Image\CropAction
+  controller: Aropixel\AdminBundle\Controller\Image\CropAction
   defaults:
     expose: true
 
 image_title:
   path: /image/title
-  controller: Aropixel\AdminBundle\Http\Action\Image\TitleAction
+  controller: Aropixel\AdminBundle\Controller\Image\TitleAction
   defaults:
     expose: true

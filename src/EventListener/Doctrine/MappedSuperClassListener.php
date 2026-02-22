@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\EventListener\Doctrine;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * This listener intervenes at runtime when loading Doctrine class metadata.
@@ -21,6 +22,7 @@ class MappedSuperClassListener
      * @param array<class-string,class-string> $entitiesNames List of concrete classes (often indexed by interface)
      */
     public function __construct(
+        #[Autowire('%aropixel_admin.entities%')]
         private readonly array $entitiesNames
     ) {
     }

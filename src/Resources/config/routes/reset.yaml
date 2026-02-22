@@ -1,15 +1,15 @@
 aropixel_admin_reset_request:
     path:       /reset/request
-    controller: Aropixel\AdminBundle\Http\Action\Reset\RequestFormAction
+    controller: Aropixel\AdminBundle\Controller\Reset\RequestFormAction
 
 aropixel_admin_request_status:
     path:       /reset/request/status/{status}
-    controller: Aropixel\AdminBundle\Http\Action\Reset\RequestStatusAction
+    controller: Aropixel\AdminBundle\Controller\Reset\RequestStatusAction
 
 aropixel_admin_account_status:
     path:       /reset/account/status/{status}
-    controller: Aropixel\AdminBundle\Http\Action\Reset\AccountStatusAction
+    controller: Aropixel\AdminBundle\Controller\Reset\AccountStatusAction
 
 aropixel_admin_reset_password:
     path:     /reset/{token}/password
-    controller: Aropixel\AdminBundle\Http\Action\Reset\ResetPasswordAction
+    controller: Aropixel\AdminBundle\Controller\Reset\ResetPasswordAction

@@ -6,11 +6,15 @@ use Aropixel\AdminBundle\Component\User\PasswordInitializerInterface;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @extends ServiceEntityRepository<UserInterface>
  */
+#[AutoconfigureTag('doctrine.repository_service')]
+#[AsAlias(UserRepositoryInterface::class)]
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
     public function __construct(

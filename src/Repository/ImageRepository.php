@@ -8,10 +8,14 @@ use Aropixel\AdminBundle\Entity\ImageInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 /**
  * @extends ServiceEntityRepository<ImageInterface>
  */
+#[AutoconfigureTag('doctrine.repository_service')]
+#[AsAlias(ImageRepositoryInterface::class)]
 class ImageRepository extends ServiceEntityRepository implements ImageRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry, ClassNameResolverInterface $classNameResolver)

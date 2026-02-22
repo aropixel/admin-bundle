@@ -13,7 +13,7 @@ aropixel_activation:
 
 _admin:
     path: /
-    controller: Aropixel\AdminBundle\Http\Action\Dashboard\DashboardAction
+    controller: Aropixel\AdminBundle\Controller\Dashboard\DashboardAction
 
 aropixel_admin_users:
     resource: "@AropixelAdminBundle/Resources/config/routes/user.yaml"

@@ -1,8 +1,8 @@
 
 aropixel_admin_security_first_login_request:
     path:     /activation/first/login
-    controller: Aropixel\AdminBundle\Http\Action\First\RequestAction
+    controller: Aropixel\AdminBundle\Controller\First\RequestAction
 
 aropixel_admin_security_first_login_sent:
     path:     /activation/first/login/sent
-    controller: Aropixel\AdminBundle\Http\Action\First\EmailSentAction
+    controller: Aropixel\AdminBundle\Controller\First\EmailSentAction

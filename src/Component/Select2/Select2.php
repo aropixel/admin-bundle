@@ -3,6 +3,7 @@
 namespace Aropixel\AdminBundle\Component\Select2;
 
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,7 @@ class Select2 implements Select2Interface
      */
     public function __construct(
         private readonly RequestStack $requestStack,
+        #[TaggedIterator('aropixel.select2_provider')]
         private readonly iterable $providers
     ) {
         $request = $this->requestStack->getCurrentRequest();

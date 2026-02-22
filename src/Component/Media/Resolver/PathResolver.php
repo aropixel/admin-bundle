@@ -6,7 +6,9 @@ use Aropixel\AdminBundle\Entity\File;
 use Aropixel\AdminBundle\Entity\FileInterface;
 use Aropixel\AdminBundle\Entity\Image;
 use Aropixel\AdminBundle\Entity\ImageInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
+#[AsAlias(PathResolverInterface::class)]
 class PathResolver implements PathResolverInterface
 {
     public function getImagePath(ImageInterface $image): string

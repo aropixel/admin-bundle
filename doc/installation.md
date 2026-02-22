@@ -61,9 +61,9 @@ security:
                 path: aropixel_admin_security_logout
                 target: aropixel_admin_security_login
             #anonymous: true
-            entry_point: Aropixel\AdminBundle\Infrastructure\Security\LoginFormAuthenticator
+            entry_point: Aropixel\AdminBundle\Component\Security\LoginFormAuthenticator
             custom_authenticators:
-                - Aropixel\AdminBundle\Infrastructure\Security\LoginFormAuthenticator
+                - Aropixel\AdminBundle\Component\Security\LoginFormAuthenticator
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
