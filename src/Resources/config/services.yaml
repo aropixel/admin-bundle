@@ -23,6 +23,14 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    Aropixel\AdminBundle\Component\Menu\Builder\AdminMenuBuilder:
+        arguments:
+            $menusConfig: '%aropixel_menu.menus%'
+
+    Aropixel\AdminBundle\Component\Menu\Builder\QuickMenuBuilder:
+        arguments:
+            $menusConfig: '%aropixel_menu.menus%'
+
     # Autowire des services
     Aropixel\AdminBundle\Component\Security\Passport\Badge\:
         resource: '../../Component/Security/Passport/Badge'

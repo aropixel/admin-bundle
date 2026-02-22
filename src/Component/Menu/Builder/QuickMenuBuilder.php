@@ -9,6 +9,7 @@ class QuickMenuBuilder implements QuickMenuBuilderInterface
 {
     public function __construct(
         private readonly RouterInterface $router,
+        private readonly array $menusConfig
     ) {
     }
 
@@ -29,7 +30,10 @@ class QuickMenuBuilder implements QuickMenuBuilderInterface
         }
 
         if ($this->routeExists('aropixel_menu_index')) {
-            $quickMenu[4] = new Link('menu.menu.navbar', 'aropixel_menu_index', ['type' => 'navbar'], ['icon' => 'fas fa-bars']);
+            foreach ($this->menusConfig as $menuType => $config) {
+                $label = $config['name'] ?? 'menu.menu.'.$menuType;
+                $quickMenu[] = new Link($label, 'aropixel_menu_index', ['type' => $menuType], ['icon' => 'fas fa-bars']);
+            }
         }
 
         if ($this->routeExists('aropixel_admin_user_index')) {

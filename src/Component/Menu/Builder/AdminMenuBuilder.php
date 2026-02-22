@@ -20,7 +20,8 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public const MENU_MENU_LABEL = 'menu.menu.label';
 
     public function __construct(
-        private readonly RouterInterface $router
+        private readonly RouterInterface $router,
+        private readonly array $menusConfig
     ) {
     }
 
@@ -82,8 +83,11 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public function buildMenuMenu(): Menu
     {
         $menu = new Menu(self::MENU_MENU_ID, self::MENU_MENU_LABEL);
-        $menu->addItem(new Link('menu.menu.navbar', 'aropixel_menu_index', ['type' => 'navbar'], ['icon' => 'fas fa-bars']));
-        $menu->addItem(new Link('menu.menu.footer', 'aropixel_menu_index', ['type' => 'footer'], ['icon' => 'fas fa-bars']));
+
+        foreach ($this->menusConfig as $menuType => $config) {
+            $label = $config['name'] ?? 'menu.menu.'.$menuType;
+            $menu->addItem(new Link($label, 'aropixel_menu_index', ['type' => $menuType], ['icon' => 'fas fa-bars']));
+        }
 
         return $menu;
     }
