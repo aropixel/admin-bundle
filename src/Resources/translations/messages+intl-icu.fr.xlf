@@ -581,6 +581,166 @@
         <source>login.form.password.show</source>
         <target>Afficher le mot de passe</target>
       </trans-unit>
+      <trans-unit id="user.flash.saved" resname="user.flash.saved">
+        <source>user.flash.saved</source>
+        <target>Votre utilisateur a bien été enregistré.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.invalid_email" resname="user.flash.invalid_email">
+        <source>user.flash.invalid_email</source>
+        <target>L'adresse email est invalide, veuillez vérifier son format.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.email_used" resname="user.flash.email_used">
+        <source>user.flash.email_used</source>
+        <target>Cet email est déjà utilisé pour un utilisateur.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.created_with_email" resname="user.flash.created_with_email">
+        <source>user.flash.created_with_email</source>
+        <target>Votre utilisateur a bien été enregistré. Un email lui a été envoyé pour qu'il puisse finaliser l'ouverture de son compte.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.deleted" resname="user.flash.deleted">
+        <source>user.flash.deleted</source>
+        <target>L'utilisateur a bien été supprimé.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.activation_sent" resname="user.flash.activation_sent">
+        <source>user.flash.activation_sent</source>
+        <target>L'email de création de compte a bien été renvoyé.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.activation_already_initialized" resname="user.flash.activation_already_initialized">
+        <source>user.flash.activation_already_initialized</source>
+        <target>Impossible de renvoyer le mail de création de compte. Le compte a déjà été initialisé.</target>
+      </trans-unit>
+      <trans-unit id="user.list.title" resname="user.list.title">
+        <source>user.list.title</source>
+        <target>Liste des administrateurs</target>
+      </trans-unit>
+      <trans-unit id="reset.flash.different_password" resname="reset.flash.different_password">
+        <source>reset.flash.different_password</source>
+        <target>Veuillez choisir un mot de passe différent du mot de passe actuel.</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.preview" resname="datatable.column.preview">
+        <source>datatable.column.preview</source>
+        <target>Aperçu</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.title" resname="datatable.column.title">
+        <source>datatable.column.title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.date" resname="datatable.column.date">
+        <source>datatable.column.date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.file" resname="datatable.column.file">
+        <source>datatable.column.file</source>
+        <target>Fichier</target>
+      </trans-unit>
+      <trans-unit id="form.label.new_password" resname="form.label.new_password">
+        <source>form.label.new_password</source>
+        <target>Choisissez un nouveau mot de passe</target>
+      </trans-unit>
+      <trans-unit id="form.label.choose_password" resname="form.label.choose_password">
+        <source>form.label.choose_password</source>
+        <target>Choisissez votre mot de passe</target>
+      </trans-unit>
+      <trans-unit id="form.label.confirm_password" resname="form.label.confirm_password">
+        <source>form.label.confirm_password</source>
+        <target>Confirmez le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="form.label.created_at" resname="form.label.created_at">
+        <source>form.label.created_at</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit id="form.label.publish_at" resname="form.label.publish_at">
+        <source>form.label.publish_at</source>
+        <target>Publié le</target>
+      </trans-unit>
+      <trans-unit id="form.label.publish_until" resname="form.label.publish_until">
+        <source>form.label.publish_until</source>
+        <target>Jusqu'au</target>
+      </trans-unit>
+      <trans-unit id="form.title.publish_options" resname="form.title.publish_options">
+        <source>form.title.publish_options</source>
+        <target>Paramétrez vos options de publication</target>
+      </trans-unit>
+      <trans-unit id="form.tab.permalink" resname="form.tab.permalink">
+        <source>form.tab.permalink</source>
+        <target>Permalien</target>
+      </trans-unit>
+      <trans-unit id="video.preview" resname="video.preview">
+        <source>video.preview</source>
+        <target>Aperçu de votre vidéo</target>
+      </trans-unit>
+      <trans-unit id="menu.no_item_found" resname="menu.no_item_found">
+        <source>menu.no_item_found</source>
+        <target>Aucun élément trouvé.</target>
+      </trans-unit>
+      <trans-unit id="menu.quick_links" resname="menu.quick_links">
+        <source>menu.quick_links</source>
+        <target>Liens rapides</target>
+      </trans-unit>
+      <trans-unit id="menu.my_profile" resname="menu.my_profile">
+        <source>menu.my_profile</source>
+        <target>Mon profil</target>
+      </trans-unit>
+      <trans-unit id="menu.logout" resname="menu.logout">
+        <source>menu.logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+      <trans-unit id="menu.explorer_placeholder" resname="menu.explorer_placeholder">
+        <source>menu.explorer_placeholder</source>
+        <target>Explorer</target>
+      </trans-unit>
+      <trans-unit id="menu.user.label" resname="menu.user.label">
+        <source>menu.user.label</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="menu.user.list" resname="menu.user.list">
+        <source>menu.user.list</source>
+        <target>Administrateurs</target>
+      </trans-unit>
+      <trans-unit id="menu.user.new" resname="menu.user.new">
+        <source>menu.user.new</source>
+        <target>Créer un administrateur</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.label" resname="menu.blog.label">
+        <source>menu.blog.label</source>
+        <target>Actualités</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.list" resname="menu.blog.list">
+        <source>menu.blog.list</source>
+        <target>Actualités</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.new" resname="menu.blog.new">
+        <source>menu.blog.new</source>
+        <target>Créer une actualité</target>
+      </trans-unit>
+      <trans-unit id="menu.page.label" resname="menu.page.label">
+        <source>menu.page.label</source>
+        <target>Pages</target>
+      </trans-unit>
+      <trans-unit id="menu.page.list" resname="menu.page.list">
+        <source>menu.page.list</source>
+        <target>Pages</target>
+      </trans-unit>
+      <trans-unit id="menu.page.new" resname="menu.page.new">
+        <source>menu.page.new</source>
+        <target>Créer une page</target>
+      </trans-unit>
+      <trans-unit id="menu.contact.label" resname="menu.contact.label">
+        <source>menu.contact.label</source>
+        <target>Messagerie</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.label" resname="menu.menu.label">
+        <source>menu.menu.label</source>
+        <target>Menus</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.navbar" resname="menu.menu.navbar">
+        <source>menu.menu.navbar</source>
+        <target>Menu</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.footer" resname="menu.menu.footer">
+        <source>menu.menu.footer</source>
+        <target>Footer</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -4,6 +4,7 @@ namespace Aropixel\AdminBundle\Controller\User;
 
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 class DeleteUserAction extends AbstractController
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -19,7 +21,7 @@ class DeleteUserAction extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete__user' . $user->getId(), $request->request->get('_token'))) {
             $this->userRepository->remove($user, true);
-            $this->addFlash('notice', "L'utilisateur a bien été supprimé.");
+            $this->addFlash('notice', $this->translator->trans('user.flash.deleted'));
         }
 
         return $this->redirect($this->generateUrl('aropixel_admin_user_index'));

@@ -4,7 +4,7 @@
     <li class="nav-item {{ link.isActive ? 'active' : '' }}">
         <a href="{{ href }}" class="nav-link" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
             {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
-            <span>{{ link.label }}</span>
+            <span>{{ link.label|trans }}</span>
         </a>
     </li>
 
@@ -12,7 +12,7 @@
 
     <li class="accordion-item {{ link.isActive ? 'active' : '' }}">
         <a href="{{ href }}" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
-            <span>{{ link.label }}</span>
+            <span>{{ link.label|trans }}</span>
         </a>
     </li>
 

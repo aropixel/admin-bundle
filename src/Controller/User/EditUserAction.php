@@ -7,6 +7,7 @@ use Aropixel\AdminBundle\Component\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,8 @@ class EditUserAction extends AbstractController
         private readonly PasswordInitializer $passwordInitializer,
         private readonly PasswordUpdaterInterface $passwordUpdater,
         private readonly RequestStack $request,
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -38,7 +40,7 @@ class EditUserAction extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->passwordUpdater->hashPlainPassword($user);
             $this->em->flush();
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré.');
+            $this->addFlash('notice', $this->translator->trans('user.flash.saved'));
 
             return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);
         }

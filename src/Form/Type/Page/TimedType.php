@@ -16,7 +16,7 @@ class TimedType extends AbstractType
     {
         if (false !== $options['createdAt']) {
             $builder
-                ->add('createdAt', DateTimeType::class, ['label' => 'Créé le', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd'])
+                ->add('createdAt', DateTimeType::class, ['label' => 'form.label.created_at', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd'])
             ;
         }
 

@@ -5,7 +5,7 @@
         {% for menu in menus %}
 
             <div class="col-4">
-                <div class="title">{{ menu.label }}</div>
+                <div class="title">{{ menu.label|trans }}</div>
                 {{ render_admin_menu(menu) }}
             </div>
 

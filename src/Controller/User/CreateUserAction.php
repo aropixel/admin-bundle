@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterfa
 use Aropixel\AdminBundle\Component\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,8 @@ class CreateUserAction extends AbstractController
     public function __construct(
         private readonly ActivationEmailSenderInterface $activationEmailSender,
         private readonly UserFactoryInterface $userFactory,
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -34,7 +36,7 @@ class CreateUserAction extends AbstractController
             $email = $user->getEmail();
 
             if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
-                $this->addFlash('error', "L'adresse email est invalide, veuillez vérifier son format.");
+                $this->addFlash('error', $this->translator->trans('user.flash.invalid_email'));
 
                 return $this->render('@AropixelAdmin/User/Crud/form.html.twig', [
                     'user' => $user,
@@ -45,7 +47,7 @@ class CreateUserAction extends AbstractController
             // Vérifie si l'utilisateur n'existe pas déjà
             $exists = $this->userRepository->findUserByEmail($user->getEmail());
             if ($exists) {
-                $this->addFlash('error', 'Cet email est déjà utilisé pour un utilisateur.');
+                $this->addFlash('error', $this->translator->trans('user.flash.email_used'));
 
                 return $this->render('@AropixelAdmin/User/Crud/form.html.twig', ['user' => $user, 'form' => $form->createView()]);
             }
@@ -53,7 +55,7 @@ class CreateUserAction extends AbstractController
             $this->userRepository->create($user);
             $this->activationEmailSender->sendActivationEmail($user);
 
-            $this->addFlash('notice', 'Votre utilisateur a bien été enregistré. Un email lui a été envoyé pour qu\'il puisse finaliser l\'ouverture de son compte.');
+            $this->addFlash('notice', $this->translator->trans('user.flash.created_with_email'));
 
             return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);
         }

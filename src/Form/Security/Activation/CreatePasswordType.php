@@ -15,8 +15,8 @@ class CreatePasswordType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'required' => false,
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Choisissez votre mot de passe'],
-                'second_options' => ['label' => 'Confirmez le mot de passe'],
+                'first_options' => ['label' => 'form.label.choose_password'],
+                'second_options' => ['label' => 'form.label.confirm_password'],
                 'invalid_message' => 'Le mot de passe et la confirmation doivent correspondre',
             ])
         ;

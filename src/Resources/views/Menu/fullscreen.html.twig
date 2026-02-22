@@ -16,7 +16,7 @@
         <li class="dropdown">
 
             <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <svg data-tnl-toggle="tooltip" data-bs-placement="right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 24px" aria-label="Mon profil" data-bs-original-title="Mon profil">
+                <svg data-tnl-toggle="tooltip" data-bs-placement="right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 24px" aria-label="{% trans %}menu.my_profile{% endtrans %}" data-bs-original-title="{% trans %}menu.my_profile{% endtrans %}">
                     <path class="navbar-icon-blue" fill-rule="evenodd" clip-rule="evenodd" d="M6 8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8C18 11.3137 15.3137 14 12 14C8.68629 14 6 11.3137 6 8Z" fill="#424242"></path>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5.43094 16.9025C7.05587 16.2213 9.2233 16 12 16C14.771 16 16.9351 16.2204 18.5586 16.8981C20.3012 17.6255 21.3708 18.8613 21.941 20.6587C22.1528 21.3267 21.6518 22 20.9592 22H3.03459C2.34482 22 1.84679 21.3297 2.0569 20.6654C2.62537 18.8681 3.69119 17.6318 5.43094 16.9025Z" fill="#424242"></path>
                 </svg>
@@ -31,10 +31,10 @@
                 </div>
                 <div class="user-body d-flex">
                     <a href="{{ url('aropixel_admin_user_edit', {id: app.user.id}) }}" class="user-link w-50">
-                        <i class="far fa-user"></i> Mon profil
+                        <i class="far fa-user"></i> {% trans %}menu.my_profile{% endtrans %}
                     </a>
                     <a href="{{ url('aropixel_admin_security_logout') }}" class="user-link w-50">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        <i class="fas fa-sign-out-alt"></i> {% trans %}menu.logout{% endtrans %}
                     </a>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                             </a>
                         </div>
                         <div class="flex-1">
-                            <input type="search" placeholder="Explorer">
+                            <input type="search" placeholder="{% trans %}menu.explorer_placeholder{% endtrans %}">
                         </div>
                     </div>
                     {% endblock %}
@@ -64,13 +64,13 @@
                     <div class="body">
 
                         <div class="section" id="no-result-section">
-                            <span><i class="fas fa-search"></i>Aucun élément trouvé.</span>
+                            <span><i class="fas fa-search"></i>{% trans %}menu.no_item_found{% endtrans %}</span>
                         </div>
 
                         {{ render_search_menu() }}
 
                         <div class="section" id="quick-links-section">
-                            <div class="title">Liens rapides</div>
+                            <div class="title">{% trans %}menu.quick_links{% endtrans %}</div>
                             {% for key, quickLink in quickMenu %}
                                 {% set url = url(quickLink.routeName, quickLink.routeParameters) %}
                                 <a href="{{ url }}"><i class="{{ quickLink.getProperty('icon') }}"></i>{{ quickLink.label }}</a>

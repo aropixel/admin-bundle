@@ -6,6 +6,7 @@ use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterfa
 use Aropixel\AdminBundle\Component\User\PasswordInitializer;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,8 @@ class SendActivationLinkAction extends AbstractController
         private readonly ActivationEmailSenderInterface $activationEmailSender,
         private readonly PasswordInitializer $passwordInitializer,
         private readonly RequestStack $request,
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -35,9 +37,9 @@ class SendActivationLinkAction extends AbstractController
 
         if ($this->passwordInitializer->stillPendingPasswordCreation($user)) {
             $this->activationEmailSender->sendActivationEmail($user);
-            $this->addFlash('notice', 'L\'email de création de compte a bien été renvoyé.');
+            $this->addFlash('notice', $this->translator->trans('user.flash.activation_sent'));
         } else {
-            $this->addFlash('notice', 'Impossible de renvoyer le mail de création de compte. Le compte a déjà été initialisé.');
+            $this->addFlash('notice', $this->translator->trans('user.flash.activation_already_initialized'));
         }
 
         return $this->redirectToRoute('aropixel_admin_user_edit', ['id' => $user->getId()]);

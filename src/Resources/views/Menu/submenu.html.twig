@@ -1,7 +1,7 @@
 <li class="nav-item {{ submenu.isActive ? 'active' : '' }} {% if admin_theme.menu_position == "top" %}dropdown{% else %}mb-0 accordion{% endif %}">
     <a href="#" class="nav-link has-dropdown" {% if admin_theme.menu_position == "top" %}data-bs-toggle="dropdown"{% endif %}>
         {% if submenu.getProperty('icon') %}<i class="{{ submenu.getProperty('icon') }}"></i>{% endif %}
-        <span>{{ submenu.label }}</span>
+        <span>{{ submenu.label|trans }}</span>
     </a>
     <ul class="menu_level_1 dropdown-menu">
         {% for subitem in submenu.items %}
