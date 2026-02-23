@@ -1,3 +1,9 @@
+.text-primary {
+    color: var(--main-bg-color)!important;
+}
+.text-darker-primary {
+    color: var(--main-darker-bg-color)!important;
+}
 .text-title {
     font-size: 14px;
     font-weight: 600;
