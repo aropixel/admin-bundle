@@ -80,8 +80,8 @@ class MenuMatcher implements MenuMatcherInterface
         if ($this->isIndexRoute($item->getRouteName())) {
             $baseRoute = $this->getBaseCrud($item->getRouteName());
 
-            $currentRouteName = $this->requestStack->getMainRequest()->get('_route');
-            $currentRouteParameters = $this->requestStack->getMainRequest()->get('_route_params');
+            $currentRouteName = $this->requestStack->getMainRequest()->attributes->get('_route');
+            $currentRouteParameters = $this->requestStack->getMainRequest()->attributes->get('_route_params');
 
             foreach ($ignoreParameters as $ignoreParameter) {
                 if (\array_key_exists($ignoreParameter, $currentRouteParameters)) {
