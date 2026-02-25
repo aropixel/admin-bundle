@@ -139,6 +139,16 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             $container->prependExtensionConfig('stof_doctrine_extensions', $config);
         }
 
+        if (isset($bundles['FrameworkBundle'])) {
+            $container->prependExtensionConfig('framework', [
+                'asset_mapper' => [
+                    'paths' => [
+                        __DIR__.'/../../assets' => '@aropixel/admin-bundle',
+                    ],
+                ],
+            ]);
+        }
+
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 

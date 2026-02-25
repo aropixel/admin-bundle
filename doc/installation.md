@@ -81,5 +81,3 @@ aropixel_admin:
 
 ````
 - Create your first admin access : php bin/console aropixel:admin:create-user
-
-- Add the ConfigureMenuListener class in Src Folder and register it as service
