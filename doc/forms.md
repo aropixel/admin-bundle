@@ -15,6 +15,7 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [CollectionHiddenType](#collectionhiddentype)
     - [TranslatableType](#translatabletype)
 - [UI Types](#ui-types)
+    - [EditorType (QuillJS)](#editortype-quilljs)
     - [ColorType](#colortype)
     - [ToggleSwitchType](#toggleswitchtype)
     - [VideoType](#videotype)
@@ -177,6 +178,61 @@ $builder->add('title', TranslatableType::class, [
 ---
 
 ## UI Types
+
+### EditorType (QuillJS)
+
+A WYSIWYG editor using QuillJS.
+
+**Twig block:** `aropixel_editor_widget`
+
+**Options:**
+- `toolbar`: The toolbar configuration. Can be a string (`'full'`, `'simple'`, or a custom type name) or a JSON array of toolbar options. (Default: `'full'`).
+
+### ImageManager Integration
+
+The `EditorType` is automatically integrated with the `ImageManager`. When the 'image' button is clicked in the Quill toolbar, the media library modal opens, allowing you to select or upload images and insert them directly into the editor.
+
+To ensure this works correctly, the `EditorType` automatically handles the necessary metadata (`data-class` and `data-attach-path`) based on the form context.
+
+**Basic Usage:**
+```php
+$builder->add('content', EditorType::class, [
+    'toolbar' => 'simple',
+]);
+```
+
+**Advanced Usage (Custom configuration):**
+
+You can pass a custom toolbar array directly from PHP:
+
+```php
+$builder->add('content', EditorType::class, [
+    'toolbar' => [
+        ['bold', 'italic'],
+        ['link', 'image']
+    ],
+]);
+```
+
+Or you can register a named configuration in your JavaScript:
+
+```javascript
+window.aropixelQuillToolbars = {
+    'my_custom_toolbar': [
+        [{ 'header': [1, 2, false] }],
+        ['bold', 'italic'],
+        [{ 'color': [] }]
+    ]
+};
+```
+
+And use it in your FormType:
+
+```php
+$builder->add('content', EditorType::class, [
+    'toolbar' => 'my_custom_toolbar',
+]);
+```
 
 ### ColorType
 

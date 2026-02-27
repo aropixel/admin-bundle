@@ -47,8 +47,13 @@ export class IM_Editor {
         })
             .then(res => res.text())
             .then(html => {
-                this.editor.insertHtml(html);
-                this.editor.focusManager?.focus();
+                if (typeof this.editor.insertHtml === 'function') {
+                    this.editor.insertHtml(html);
+                    this.editor.focusManager?.focus();
+                } else if (this.editor.constructor.name === 'Quill') {
+                    const range = this.editor.getSelection(true);
+                    this.editor.clipboard.dangerouslyPasteHTML(range.index, html);
+                }
 
                 hideModal('#modalLibrary');
                 this.attachButton.innerHTML = "Ajouter l'image";

@@ -14,6 +14,13 @@ import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
 onDomReady(() => {
 
+    let $quillEditor = $('.quill-editor');
+    if ($quillEditor.length) {
+        $quillEditor.each(function() {
+            activateQuillEditor($(this));
+        });
+    }
+
     // Make CKEDITO works with webpack AND asset mapper
 
     let $pickadate = $('.pickadate');
@@ -664,7 +671,7 @@ onDomReady(() => {
 
         activateDatePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickadate'));
         activateTimePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickatime'));
-        activateCkeditor($list.find('> [data-form-collection="item"]:nth-child('+count+') .ckeditor'));
+        activateQuillEditor($list.find('> [data-form-collection="item"]:nth-child('+count+') .quill-editor'));
         activateImManager($list.find('> [data-form-collection="item"]:nth-child('+count+') .im-manager'));
         activateSortable($list.find('> [data-form-collection="list"]'));
         // $list.find('> [data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
@@ -772,12 +779,97 @@ function activateTimePicker($element) {
 }
 
 
-function activateCkeditor($elements) {
+function activateQuillEditor($elements) {
+
+    // On peut enregistrer des barres d'outils personnalisées via window.aropixelQuillToolbars
+    const defaultToolbars = {
+        'full': [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
+        ],
+        'simple': [
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['link', 'clean']
+        ]
+    };
 
     $elements.each(function() {
-        CKEDITOR.replace( this.id );
-    })
+        let $this = $(this);
+        console.log($this);
+        let targetSelector = $this.data('target');
+        let toolbarType = $this.data('toolbar');
+        let $target = $(targetSelector);
 
+        // Récupérer les barres d'outils personnalisées de l'utilisateur
+        const customToolbars = window.aropixelQuillToolbars || {};
+        const allToolbars = { ...defaultToolbars, ...customToolbars };
+
+        // Déterminer les options de la barre d'outils
+        let toolbarOptions = allToolbars[toolbarType] || allToolbars['full'];
+
+        // Si toolbarType ressemble à du JSON, on essaie de le parser
+        if (typeof toolbarType === 'string' && toolbarType.startsWith('[') && toolbarType.endsWith(']')) {
+            try {
+                toolbarOptions = JSON.parse(toolbarType);
+            } catch (e) {
+                console.error('Erreur lors du parsing de la barre d\'outils Quill custom :', e);
+            }
+        }
+
+        // Éviter la double initialisation
+        if ($this.data('quill-initialized')) {
+            return;
+        }
+
+        let quill = new Quill($this[0], {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions
+            }
+        });
+
+        $this.data('quill-initialized', true);
+
+        // Surcharge du handler image pour utiliser l'ImageManager si possible
+        if (quill.getModule('toolbar')) {
+            quill.getModule('toolbar').addHandler('image', function() {
+                if (window.initImageManager) {
+                    $target.attr('data-im-type', 'editor');
+                    window.initImageManager($target[0], {
+                        editor: quill,
+                        category: $target.attr('data-class'),
+                        attach_path: $target.attr('data-attach-path')
+                    });
+                } else {
+                    // Fallback to default image handler if initImageManager is not available
+                    const range = this.quill.getSelection();
+                    const value = prompt('Veuillez entrer l\'URL de l\'image :');
+                    if (value) {
+                        this.quill.insertEmbed(range.index, 'image', value, Quill.Sources.USER);
+                    }
+                }
+            });
+        }
+
+        // Initialize content
+        quill.root.innerHTML = $target.val();
+
+        quill.on('text-change', function() {
+            $target.val(quill.root.innerHTML);
+        });
+    });
 }
 
 
@@ -799,21 +891,18 @@ function activateSortable($container) {
         {
             $container.find('> [data-form-collection="item"] textarea').each(function(iItem) {
 
-                for(name in CKEDITOR.instances)
-                {
-                    if (this.id == name) {
-                        CKEDITOR.instances[name].destroy();
-                    }
+                if ($(this).hasClass('d-none') && $(this).next().hasClass('quill-editor')) {
+                    $(this).next().empty();
+                    $(this).next().data('quill-initialized', false);
                 }
 
             });
         },
         stop: function (event, ui)
         {
-            $container.find('> [data-form-collection="item"] textarea.ckeditor').each(function(iItem) {
+            $container.find('> [data-form-collection="item"] .quill-editor').each(function(iItem) {
 
-                let id_textarea = $(this).attr("id");
-                CKEDITOR.replace(id_textarea);
+                activateQuillEditor($(this));
 
             });
         },

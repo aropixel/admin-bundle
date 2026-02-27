@@ -261,9 +261,14 @@
 
 
 {% block textarea_widget -%}
-    {% if 'ckeditor' in attr.class|default('') or 'simple-ckeditor' in attr.class|default('') %}
-        {% set providedDataClass = attr['data-class'] is defined and attr['data-class'] ? attr['data-class'] : null %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
 
+
+{% block aropixel_editor_widget %}
+    <div class="quill-editor-container">
+        {% set providedDataClass = attr['data-class'] is defined and attr['data-class'] ? attr['data-class'] : null %}
         {% if providedDataClass %}
             {% set attr = attr|merge({
                 'data-class': providedDataClass,
@@ -277,10 +282,11 @@
         {% else %}
             {% set attr = attr|merge({'data-attach-path': get_image_editor_route()}) %}
         {% endif %}
-    {% endif %}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
-    {{- parent() -}}
-{%- endblock textarea_widget %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' d-none')|trim}) %}
+        {{- block('textarea_widget') -}}
+        <div class="quill-editor" id="{{ id }}_quill" data-target="#{{ id }}" data-toolbar="{{ toolbar }}"></div>
+    </div>
+{% endblock %}
 
 
 
