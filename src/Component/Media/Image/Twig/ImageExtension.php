@@ -45,13 +45,15 @@ class ImageExtension extends AbstractExtension
         return $this->isLibraryEnabled;
     }
 
-    public function customImagineFilter(?AttachedImage $image, string $filter): string
+    public function customImagineFilter(ImageInterface|AttachedImage|null $image, string $filter): string
     {
-        /* @var AttachedImage $image */
         try {
+            // Déterminer l'objet ImageInterface à utiliser
+            $imageObject = $image instanceof AttachedImage ? $image->getImage() : $image;
+
             $shouldProducePlaceholder =
-                null === $image?->getImage() ||
-                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($image->getImage()));
+                null === $imageObject ||
+                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($imageObject));
         } catch (\Throwable) {
             $shouldProducePlaceholder = true;
         }
@@ -97,6 +99,9 @@ class ImageExtension extends AbstractExtension
             );
         }
 
-        return $this->cacheManager->getBrowserPath(parse_url($this->pathResolver->getImagePath($image), \PHP_URL_PATH), $filter, [], null);
+        // Déterminer l'objet ImageInterface à utiliser pour le path
+        $imageObject = $image instanceof AttachedImage ? $image->getImage() : $image;
+
+        return $this->cacheManager->getBrowserPath(parse_url($this->pathResolver->getImagePath($imageObject), \PHP_URL_PATH), $filter, [], null);
     }
 }
