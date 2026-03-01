@@ -27,7 +27,7 @@ class EditorType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $toolbar = $options['toolbar'];
-        if (is_array($toolbar)) {
+        if (\is_array($toolbar)) {
             $toolbar = json_encode($toolbar);
         }
         $view->vars['toolbar'] = $toolbar;

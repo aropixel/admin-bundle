@@ -12,7 +12,7 @@ class MenuMatcher implements MenuMatcherInterface
 {
     protected ?string $mustMatchRoute = null;
 
-    /** @var array<mixed>  */
+    /** @var array<mixed> */
     protected array $mustMatchRouteParameters = [];
 
     public function __construct(

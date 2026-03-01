@@ -7,12 +7,12 @@ use Aropixel\AdminBundle\Component\User\Exception\UnchangedPasswordException;
 use Aropixel\AdminBundle\Entity\UserInterface;
 use Aropixel\AdminBundle\Form\Security\Activation\CreatePasswordType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreatePasswordAction extends AbstractController
 {

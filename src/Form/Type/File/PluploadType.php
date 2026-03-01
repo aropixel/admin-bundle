@@ -28,9 +28,6 @@ class PluploadType extends AbstractType
         $resolver->setDefaults(['data_class' => File::class, 'csrf_protection' => false]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'aropixel_admin_plupload_file';

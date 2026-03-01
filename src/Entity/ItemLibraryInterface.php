@@ -21,5 +21,4 @@ interface ItemLibraryInterface
     public function getCategory(): ?string;
 
     public function setCategory(string $category): void;
-
 }

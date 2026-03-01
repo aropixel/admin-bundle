@@ -76,7 +76,7 @@ abstract class PublishableRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array<mixed> $by
+     * @param array<mixed>              $by
      * @param array<string,string>|null $orderBy
      */
     public function findPublishedBy(array $by, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): mixed

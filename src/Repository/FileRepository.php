@@ -45,5 +45,4 @@ class FileRepository extends ServiceEntityRepository implements FileRepositoryIn
 
         return $qb;
     }
-
 }

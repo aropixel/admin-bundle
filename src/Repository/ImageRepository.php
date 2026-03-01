@@ -49,5 +49,4 @@ class ImageRepository extends ServiceEntityRepository implements ImageRepository
 
         return $qb;
     }
-
 }

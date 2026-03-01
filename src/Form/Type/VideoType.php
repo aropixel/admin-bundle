@@ -27,6 +27,7 @@ class VideoType extends AbstractType
     {
         return TextareaType::class;
     }
+
     public function getBlockPrefix(): string
     {
         return 'aropixel_admin_video';

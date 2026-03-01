@@ -4,10 +4,10 @@ namespace Aropixel\AdminBundle\Controller\User;
 
 use Aropixel\AdminBundle\Entity\User;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeleteUserAction extends AbstractController
 {

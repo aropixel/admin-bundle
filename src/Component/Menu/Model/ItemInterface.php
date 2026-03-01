@@ -18,7 +18,7 @@ interface ItemInterface
 
     public function isActive(): bool;
 
-    public function setParent(ItemInterface $parent): void;
+    public function setParent(self $parent): void;
 
-    public function getParent(): ?ItemInterface;
+    public function getParent(): ?self;
 }

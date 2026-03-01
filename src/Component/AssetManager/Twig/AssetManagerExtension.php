@@ -10,7 +10,8 @@ class AssetManagerExtension extends AbstractExtension implements GlobalsInterfac
 {
     public function __construct(
         private ImportmapInspector $importmapInspector,
-    ) {}
+    ) {
+    }
 
     public function getGlobals(): array
     {

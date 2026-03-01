@@ -26,7 +26,6 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
 
     /**
      * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
-     * @return void
      */
     public function postLoad(LifecycleEventArgs $lifecycleEventArgs): void
     {
@@ -35,7 +34,6 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
 
     /**
      * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
-     * @return void
      */
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
@@ -49,7 +47,6 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
 
     /**
      * @param LifecycleEventArgs<EntityManager> $lifecycleEventArgs
-     * @return void
      */
     private function setLocales(LifecycleEventArgs $lifecycleEventArgs): void
     {
@@ -92,7 +89,6 @@ class TranslatableEventSubscriber implements EventSubscriberInterface
         }
 
         try {
-
             return (string) $this->parameterBag->get('kernel.default_locale');
         } catch (ParameterNotFoundException|\InvalidArgumentException) {
             return null;

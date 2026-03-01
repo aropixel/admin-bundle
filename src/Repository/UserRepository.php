@@ -29,7 +29,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         // Vérification stricte pour éviter l'erreur
         if (!is_subclass_of($className, UserInterface::class)) {
-            throw new \InvalidArgumentException("$className doit implémenter UserInterface.");
+            throw new \InvalidArgumentException("{$className} doit implémenter UserInterface.");
         }
 
         parent::__construct($registry, $className);

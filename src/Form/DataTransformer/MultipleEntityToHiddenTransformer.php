@@ -21,7 +21,8 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param null|array<mixed> $value
+     * @param array<mixed>|null $value
+     *
      * @return array<mixed>
      */
     public function transform(mixed $value): array
@@ -41,6 +42,7 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 
     /**
      * @return array<mixed>
+     *
      * @throws TransformationFailedException
      */
     public function reverseTransform(mixed $value): array

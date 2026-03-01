@@ -14,9 +14,9 @@ class DataTableContextFactory implements DataTableContextFactoryInterface
     public function create(): DataTableContext
     {
         $request = $this->requestStack->getCurrentRequest();
-        $start = (int)$request->query->get('start', '0');
-        $length = (int)$request->query->get('length', '50');
-        $draw = (int)$request->query->get('draw', '0');
+        $start = (int) $request->query->get('start', '0');
+        $length = (int) $request->query->get('length', '50');
+        $draw = (int) $request->query->get('draw', '0');
 
         $all = $request->query->all();
         $order = \array_key_exists('order', $all) ? $all['order'] : [];

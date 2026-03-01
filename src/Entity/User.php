@@ -36,7 +36,7 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected ?string $lastName = null;
 
-    /** @var array<string>  */
+    /** @var array<string> */
     #[ORM\Column(type: 'json')]
     protected array $roles = [];
 
@@ -265,14 +265,10 @@ class User implements UserInterface
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
     }
-
 
     public function setPasswordResetToken(?string $passwordResetToken): void
     {

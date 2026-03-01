@@ -22,6 +22,7 @@ class CropExtension extends AbstractExtension
 
     /**
      * @param array<string,string>|null $availableCropList
+     *
      * @return array<string,AvailableCropFilter>
      */
     public function getAvailableCropFilters(?CroppableInterface $croppable, ?array $availableCropList = null): array

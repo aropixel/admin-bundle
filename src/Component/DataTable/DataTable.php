@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DataTable implements DataTableInterface
 {
     /**
-     * @param class-string $className
+     * @param class-string      $className
      * @param DataTableColumn[] $columns
      */
     public function __construct(

@@ -9,7 +9,6 @@ interface DataTableFactoryInterface
 {
     public function setRepository(DataTableRepositoryInterface $dataTableRepository): self;
 
-
     /**
      * @param DataTableColumn[] $columns
      */

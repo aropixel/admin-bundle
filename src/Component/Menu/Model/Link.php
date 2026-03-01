@@ -11,7 +11,7 @@ class Link implements ItemInterface, RoutableInterface
     private bool $isActive = false;
 
     /**
-     * @param array<mixed> $routeParameters
+     * @param array<mixed>         $routeParameters
      * @param array<string,string> $properties
      */
     public function __construct(

@@ -16,7 +16,7 @@ class Select2 implements Select2Interface
     private int $itemsPerPage = 20;
 
     /** @var callable|null */
-    private $filterCallback = null;
+    private $filterCallback;
 
     /**
      * @param iterable<Select2DataProviderInterface> $providers
@@ -29,7 +29,7 @@ class Select2 implements Select2Interface
         $request = $this->requestStack->getCurrentRequest();
         if ($request) {
             $this->searchTerm = $request->query->get('q', '');
-            $this->page = max(1, (int)$request->query->get('page', '1'));
+            $this->page = max(1, (int) $request->query->get('page', '1'));
         }
     }
 
@@ -38,6 +38,7 @@ class Select2 implements Select2Interface
         foreach ($this->providers as $provider) {
             if ($provider->supports($alias)) {
                 $this->provider = $provider;
+
                 return $this;
             }
         }
@@ -48,6 +49,7 @@ class Select2 implements Select2Interface
     public function filter(callable $callback): self
     {
         $this->filterCallback = $callback;
+
         return $this;
     }
 
@@ -73,7 +75,8 @@ class Select2 implements Select2Interface
             ->setFirstResult($offset)
             ->setMaxResults($this->itemsPerPage)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         // Transformer les entités en tableau de résultats
         $results = array_map($transformer, $items);
@@ -82,20 +85,22 @@ class Select2 implements Select2Interface
         return new JsonResponse([
             'results' => $results,
             'pagination' => [
-                'more' => ($this->page * $this->itemsPerPage) < $totalCount
+                'more' => ($this->page * $this->itemsPerPage) < $totalCount,
             ],
-            'total_count' => $totalCount
+            'total_count' => $totalCount,
         ]);
     }
 
     private function count(QueryBuilder $qb, string $alias): int
     {
         $qbCount = clone $qb;
+
         return (int) $qbCount
             ->select($qbCount->expr()->count($alias))
             ->setFirstResult(0)
             ->setMaxResults(null)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
 }

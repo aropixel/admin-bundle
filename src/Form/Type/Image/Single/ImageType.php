@@ -42,7 +42,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ImageType extends AbstractType
 {
-    /** @var array<string,string>  */
+    /** @var array<string,string> */
     private array $cropSuffix = [];
 
     public function __construct(
@@ -71,8 +71,8 @@ class ImageType extends AbstractType
      * Build form if ImageType is in "entity mode"
      * The entity mode is used when the image association (between an Image entity and a target entity)
      * is stored in an AttachEntity.
-
-     * @param array{data_class: string, crop_class?: string, required: bool, crops?: null|array<mixed>} $options
+     *
+     * @param array{data_class: string, crop_class?: string, required: bool, crops?: array<mixed>|null} $options
      */
     private function buildFormEntityMode(FormBuilderInterface $builder, array $options): void
     {
@@ -95,7 +95,7 @@ class ImageType extends AbstractType
      * is stored in a field of the custom entity, as a file name.
      * Crops infos can be stored the same way as an array, in a different field of the custom entity.
      *
-     * @param array{data_value: string, crops_value: string, required: bool, crops?: null|array<mixed>} $options
+     * @param array{data_value: string, crops_value: string, required: bool, crops?: array<mixed>|null} $options
      */
     private function buildFormFileNameMode(FormBuilderInterface $builder, array $options): void
     {
@@ -173,7 +173,6 @@ class ImageType extends AbstractType
         $view->vars['description'] = $options['description'];
         $view->vars['card_footer'] = $options['card_footer'];
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

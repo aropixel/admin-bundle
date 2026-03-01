@@ -143,7 +143,7 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
             $container->prependExtensionConfig('framework', [
                 'asset_mapper' => [
                     'paths' => [
-                        __DIR__.'/../../assets' => '@aropixel/admin-bundle',
+                        __DIR__ . '/../../assets' => '@aropixel/admin-bundle',
                     ],
                 ],
             ]);

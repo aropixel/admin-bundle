@@ -54,7 +54,7 @@ class TranslatableType extends AbstractType
         }
 
         $options['field'] = $options['field'] ?: $builder->getName();
-        $options['empty_data'] = fn(FormInterface $form) => new ArrayCollection();
+        $options['empty_data'] = fn (FormInterface $form) => new ArrayCollection();
 
         // Use custom DataMapper to bypass Symfony's default mapping.
         // This allows precise control over how translations are added to the collection
@@ -77,6 +77,7 @@ class TranslatableType extends AbstractType
 
     /**
      * @param array<mixed> $options
+     *
      * @return array<mixed>
      */
     public function getDefaultOptions(array $options = []): array

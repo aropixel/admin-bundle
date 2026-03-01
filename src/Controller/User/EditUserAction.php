@@ -7,10 +7,10 @@ use Aropixel\AdminBundle\Component\User\PasswordUpdaterInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditUserAction extends AbstractController
 {

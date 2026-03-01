@@ -86,7 +86,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
         $menu = new Menu(self::MENU_MENU_ID, self::MENU_MENU_LABEL);
 
         foreach ($this->menusConfig as $menuType => $config) {
-            $label = $config['name'] ?? 'menu.menu.'.$menuType;
+            $label = $config['name'] ?? 'menu.menu.' . $menuType;
             $menu->addItem(new Link($label, 'aropixel_menu_index', ['type' => $menuType], ['icon' => 'fas fa-bars']));
         }
 

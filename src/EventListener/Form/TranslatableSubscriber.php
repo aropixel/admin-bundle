@@ -71,6 +71,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
                     ]
                 ));
             }
+
             return;
         }
 
@@ -126,6 +127,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
      * Helper to extract relevant translations from the collection for the current field.
      *
      * @param iterable<int, object> $data Collection of translations (from entity)
+     *
      * @return array<mixed>
      */
     private function bindTranslations(iterable $data): array
@@ -159,6 +161,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
 
     /**
      * Generates field names like "title:en", "title:fr".
+     *
      * @return array<string,string>
      */
     private function getFieldNames(): array
@@ -167,12 +170,14 @@ class TranslatableSubscriber implements EventSubscriberInterface
         foreach ($this->options['locales'] as $locale) {
             $collection[$locale] = $this->options['field'] . ':' . $locale;
         }
+
         return $collection;
     }
 
     private function createPersonalTranslation(string $locale, string $field, mixed $content, mixed $foreignKey): AbstractPersonalTranslation
     {
         $class_name = $this->options['personal_translation'];
+
         return new $class_name($locale, $field, $content, $foreignKey);
     }
 

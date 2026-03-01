@@ -12,7 +12,6 @@ class InstanceToData
 
     private string $cropsValue = 'crops';
 
-
     public function setFilenameValue(mixed $filenameValue): static
     {
         $this->filenameValue = $filenameValue;

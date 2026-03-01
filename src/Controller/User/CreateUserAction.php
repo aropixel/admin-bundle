@@ -6,10 +6,10 @@ use Aropixel\AdminBundle\Component\Activation\Email\ActivationEmailSenderInterfa
 use Aropixel\AdminBundle\Component\User\UserFactoryInterface;
 use Aropixel\AdminBundle\Form\Type\UserType;
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateUserAction extends AbstractController
 {

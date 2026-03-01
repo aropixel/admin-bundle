@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
  * @implements DataTransformerInterface<mixed, ArrayCollection>

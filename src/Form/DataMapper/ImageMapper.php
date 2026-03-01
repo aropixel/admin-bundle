@@ -23,8 +23,8 @@ class ImageMapper implements DataMapperInterface
     /**
      * Maps the Data object to the Form fields.
      *
-     * @param mixed $viewData The object or value to map from.
-     * @param \Traversable<string, FormInterface> $forms The form fields to map to.
+     * @param mixed                               $viewData the object or value to map from
+     * @param \Traversable<string, FormInterface> $forms    the form fields to map to
      */
     public function mapDataToForms(mixed $viewData, \Traversable $forms): void
     {
@@ -59,8 +59,8 @@ class ImageMapper implements DataMapperInterface
     /**
      * Maps the Form fields back to the Data object.
      *
-     * @param \Traversable<string, FormInterface> $forms The form fields to map from.
-     * @param mixed $viewData The object or value to map to.
+     * @param \Traversable<string, FormInterface> $forms    the form fields to map from
+     * @param mixed                               $viewData the object or value to map to
      */
     public function mapFormsToData(\Traversable $forms, mixed &$viewData): void
     {

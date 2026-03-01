@@ -17,7 +17,6 @@ class ThumbnailFilter implements LoaderInterface
 {
     /**
      * @param array{'width'?: int, 'height'?: int} $options
-     * @return ImageInterface
      */
     public function load(ImageInterface $image, array $options = []): ImageInterface
     {
@@ -35,8 +34,8 @@ class ThumbnailFilter implements LoaderInterface
         // define filters
         $resize = new Resize($size);
         $origin = new Point(
-            (int)ceil(($size->getWidth() - $box->getWidth()) / 2),
-            (int)ceil(($size->getHeight() - $box->getHeight()) / 2)
+            (int) ceil(($size->getWidth() - $box->getWidth()) / 2),
+            (int) ceil(($size->getHeight() - $box->getHeight()) / 2)
         );
         $crop = new Crop($origin, $box);
 

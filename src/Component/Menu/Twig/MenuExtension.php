@@ -14,7 +14,7 @@ use Twig\TwigFunction;
 
 class MenuExtension extends AbstractExtension
 {
-    /** @var Menu[]  */
+    /** @var Menu[] */
     public array $menu = [];
 
     public function __construct(

@@ -3,9 +3,9 @@
 namespace Aropixel\AdminBundle\Controller\User;
 
 use Aropixel\AdminBundle\Repository\UserRepositoryInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IndexUserAction extends AbstractController
 {

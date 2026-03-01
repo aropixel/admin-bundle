@@ -31,7 +31,7 @@ class QuickMenuBuilder implements QuickMenuBuilderInterface
 
         if ($this->routeExists('aropixel_menu_index')) {
             foreach ($this->menusConfig as $menuType => $config) {
-                $label = $config['name'] ?? 'menu.menu.'.$menuType;
+                $label = $config['name'] ?? 'menu.menu.' . $menuType;
                 $quickMenu[] = new Link($label, 'aropixel_menu_index', ['type' => $menuType], ['icon' => 'fas fa-bars']);
             }
         }

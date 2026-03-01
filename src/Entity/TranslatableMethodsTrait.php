@@ -44,7 +44,7 @@ trait TranslatableMethodsTrait
         /** @var \Doctrine\Common\Collections\Collection<int, mixed> $translations */
         $translations = $this->translations;
         $translations->removeElement($t);
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         $t->setObject(null);
     }
 

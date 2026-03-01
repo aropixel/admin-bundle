@@ -21,7 +21,6 @@ class DoFileCropListener
 
     /**
      * @param LifecycleEventArgs<EntityManager> $args
-     * @return void
      */
     public function postUpdate(LifecycleEventArgs $args): void
     {
@@ -30,7 +29,6 @@ class DoFileCropListener
 
     /**
      * @param LifecycleEventArgs<EntityManager> $args
-     * @return void
      */
     public function postPersist(LifecycleEventArgs $args): void
     {
@@ -39,7 +37,6 @@ class DoFileCropListener
 
     /**
      * @param LifecycleEventArgs<EntityManager> $args
-     * @return void
      */
     public function doCrop(LifecycleEventArgs $args): void
     {

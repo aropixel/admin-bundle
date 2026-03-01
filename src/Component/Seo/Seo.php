@@ -11,6 +11,7 @@ class Seo
 
     /**
      * banned words in english feel free to change them.
+     *
      * @var array<string>
      */
     public static array $bannedWords = [];

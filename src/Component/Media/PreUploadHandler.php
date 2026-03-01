@@ -11,7 +11,6 @@ class PreUploadHandler
     public function handlePreUpload(ItemLibraryInterface $media): void
     {
         /** @var Image|File $media */
-
         $now = new \DateTime();
         $media->setCreatedAt($now);
         $media->setUpdatedAt($now);
@@ -21,7 +20,7 @@ class PreUploadHandler
             $media->setExtension($ext);
 
             // give a random name to the uploaded file
-            $filename = sha1(uniqid((string)mt_rand(), true)) . '.' . $ext;
+            $filename = sha1(uniqid((string) mt_rand(), true)) . '.' . $ext;
             $media->setFilename($filename);
 
             $i = mb_strrpos($media->getTitle(), '.');

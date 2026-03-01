@@ -3,7 +3,6 @@
 namespace Aropixel\AdminBundle\Form\Type\Image\Single;
 
 use Aropixel\AdminBundle\Form\Type\Image\CropType;
-use Aropixel\AdminBundle\Form\Type\Image\InstanceToData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Form;
@@ -36,7 +35,6 @@ class CropsType extends AbstractType
         $view->vars['suffix'] = $options['suffix'];
         $view->vars['optional_available_crop_list'] = \array_key_exists('crops', $options) ? $options['crops'] : null;
     }
-
 
     public function getParent(): ?string
     {

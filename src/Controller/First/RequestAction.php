@@ -31,6 +31,7 @@ class RequestAction extends AbstractController
             if (null === $user) {
                 $response = new Response();
                 $response->setStatusCode(Response::HTTP_SEE_OTHER);
+
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [
                         'form' => $form->createView(),
@@ -44,6 +45,7 @@ class RequestAction extends AbstractController
             if ($user->isInitialized()) {
                 $response = new Response();
                 $response->setStatusCode(Response::HTTP_SEE_OTHER);
+
                 return $this->render('@AropixelAdmin/First/request.html.twig',
                     [
                         'form' => $form->createView(),

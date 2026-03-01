@@ -16,7 +16,6 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 /**
  * FormType used for each individual image in a gallery.
  *
@@ -74,7 +73,6 @@ class GalleryImageType extends AbstractType
             }
         }
     }
-
 
     /**
      * Pass the image URL to the view.

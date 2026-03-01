@@ -52,14 +52,13 @@ class ImageExtension extends AbstractExtension
             $imageObject = $image instanceof AttachedImage ? $image->getImage() : $image;
 
             $shouldProducePlaceholder =
-                null === $imageObject ||
-                !$this->privateStorage->fileExists($this->pathResolver->getImagePath($imageObject));
+                null === $imageObject
+                || !$this->privateStorage->fileExists($this->pathResolver->getImagePath($imageObject));
         } catch (\Throwable) {
             $shouldProducePlaceholder = true;
         }
 
         if ($shouldProducePlaceholder) {
-
             /** @var array<mixed> $filterSets */
             $filterSets = $this->parameterBag->get('liip_imagine.filter_sets');
             if (!\array_key_exists($filter, $filterSets)) {

@@ -21,16 +21,17 @@ class ImageFixture
         $file = new File($relativePath);
 
         /**
-         * Create the image entity in the library
+         * Create the image entity in the library.
+         *
          * @var Image $image
          */
         $image = $this->imageFactory->create();
         $image->setFile($file);
-        $image->setCategory(get_class($attachedImage));
+        $image->setCategory($attachedImage::class);
         $image->setFilename(Image::UPLOAD_DIR . '/' . $file->getFilename());
         $image->setTitle($attachedImage->getTitle() ?? $file->getFilename());
         $image->setExtension($file->getFilename());
-        $this->managerRegistry->getManagerForClass(get_class($image))->persist($image);
+        $this->managerRegistry->getManagerForClass($image::class)->persist($image);
 
         // Attach the image to the attached image
         $attachedImage->setImage($image);

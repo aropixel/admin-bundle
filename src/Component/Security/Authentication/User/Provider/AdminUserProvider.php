@@ -28,7 +28,7 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        /**
+        /*
          * Set the new hashed password on the User object
          * @var AropixelUserInterface $user
          */
@@ -41,7 +41,6 @@ class AdminUserProvider implements AdminUserProviderInterface, PasswordUpgraderI
         /**
          * @var AropixelUserInterface $user
          */
-
         if (!$this->supportsClass($user::class)) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }

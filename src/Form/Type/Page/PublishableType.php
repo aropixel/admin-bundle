@@ -27,7 +27,7 @@ class PublishableType extends AbstractType
 
         if (false !== $options['publishUntil']) {
             $builder
-                ->add('publishUntil', DateTimeType::class, ['label' => "form.label.publish_until", 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
+                ->add('publishUntil', DateTimeType::class, ['label' => 'form.label.publish_until', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
             ;
         }
     }

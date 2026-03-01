@@ -13,7 +13,7 @@ class ImportmapInspector
         private readonly KernelInterface $kernel,
         private array $importmap = []
     ) {
-        $importmapPath = $this->kernel->getProjectDir().'/importmap.php';
+        $importmapPath = $this->kernel->getProjectDir() . '/importmap.php';
 
         if (file_exists($importmapPath)) {
             $this->importmap = include $importmapPath;
@@ -24,5 +24,4 @@ class ImportmapInspector
     {
         return isset($this->importmap[$entry]);
     }
-
 }

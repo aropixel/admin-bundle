@@ -7,7 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 
 interface FileRepositoryInterface
 {
-    public function find(mixed $id): object|null;
+    public function find(mixed $id): ?object;
 
     public function getQueryDataTable(DataTableContext $context): QueryBuilder;
 
