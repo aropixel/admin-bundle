@@ -71,7 +71,7 @@
             <i class="fas fa-list me-2"></i> {% trans %}text.list{% endtrans %}
         </a>
     {% endif %}
-    {% if app.request.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
+    {% if app.request.attributes.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
         <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
             <i class="fas fa-plus me-2"></i> {% trans %}text.create{% endtrans %}
         </a>
@@ -118,7 +118,7 @@
 
                 {% block header_btn_actions %}
 
-                    {% set deleteRoute = app.request.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
+                    {% set deleteRoute = app.request.attributes.get('_route') != baseroute ~ '_delete' and route_exists(baseroute ~ '_delete') %}
                     {% set deleteRoute = deleteRoute and form.vars.data.id is defined and form.vars.data.id %}
 
                     {% set publicationOptions = form.createdAt is defined or form.publishAt is defined or form.publishUntil is defined or form.slug is defined %}

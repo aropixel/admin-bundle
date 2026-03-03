@@ -493,7 +493,7 @@
          data-im-attach-class="{{ form.vars.attach_class }}"
          {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
          data-im-library="{{ form.vars.library }}"
-         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.get('_route')}}">
+         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route')}}">
 
         {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form, 'crops': crops is defined ? crops : null }) }}
 

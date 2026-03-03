@@ -26,7 +26,7 @@ class AjaxCategoryAction extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $category = $request->get('category');
+        $category = $request->attributes->get('category');
         $dataTable = $this->dataTableFactory
             ->setRepository($this->imageDataTableRepository)
             ->create($this->classNameResolver->getImageClassName(), [

@@ -37,7 +37,7 @@ class AropixelExtension extends AbstractExtension
     public function getBaseRoute(): string
     {
         $request = $this->requestStack->getCurrentRequest();
-        $routeName = $request->get('_route');
+        $routeName = $request->attributes->get('_route');
         $i = mb_strrpos((string) $routeName, '_');
 
         return mb_substr((string) $routeName, 0, $i);
