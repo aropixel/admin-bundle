@@ -1,19 +1,7 @@
 {% set href = link.routeName ? url(link.routeName, link.routeParameters) : (link.externalLink ? link.externalLink : '') %}
-{% if admin_theme.menu_position == "top" %}
 
-    <li class="nav-item {{ link.isActive ? 'active' : '' }}">
-        <a href="{{ href }}" class="nav-link" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
-            {% if link.getProperty('icon') %}<i class="{{ link.getProperty('icon') }}"></i>{% endif %}
-            <span>{{ link.label|trans }}</span>
-        </a>
-    </li>
-
-{% else %}
-
-    <li class="accordion-item {{ link.isActive ? 'active' : '' }}">
-        <a href="{{ href }}" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
-            <span>{{ link.label|trans }}</span>
-        </a>
-    </li>
-
-{% endif %}
+<li class="accordion-item {{ link.isActive ? 'active' : '' }}">
+    <a href="{{ href }}" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
+        <span>{{ link.label|trans }}</span>
+    </a>
+</li>

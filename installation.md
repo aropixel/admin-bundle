@@ -18,7 +18,7 @@ aropixel_admin:
         name: "Aropixel"
         link: "http://www.aropixel.com"
     theme:
-        menu_position: fullscreen
+        # login_img: bundles/aropixeladmin/img/login_bg.jpg
 ````
 - Configure the security.yaml:
 ````

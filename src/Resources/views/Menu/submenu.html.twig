@@ -1,5 +1,5 @@
-<li class="nav-item {{ submenu.isActive ? 'active' : '' }} {% if admin_theme.menu_position == "top" %}dropdown{% else %}mb-0 accordion{% endif %}">
-    <a href="#" class="nav-link has-dropdown" {% if admin_theme.menu_position == "top" %}data-bs-toggle="dropdown"{% endif %}>
+<li class="nav-item {{ submenu.isActive ? 'active' : '' }} mb-0 accordion">
+    <a href="#" class="nav-link has-dropdown">
         {% if submenu.getProperty('icon') %}<i class="{{ submenu.getProperty('icon') }}"></i>{% endif %}
         <span>{{ submenu.label|trans }}</span>
     </a>

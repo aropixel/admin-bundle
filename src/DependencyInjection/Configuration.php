@@ -81,7 +81,6 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('login_img')->defaultValue('')->end()
-            ->scalarNode('menu_position')->defaultValue('fullscreen')->end()
             ->scalarNode('logo_path')->defaultValue('bundles/aropixeladmin/img/logo.png')->end()
             ->scalarNode('logo_width')->defaultValue('150px')->end()
             ->scalarNode('logo_menu_path')->defaultValue('bundles/aropixeladmin/img/logo-opened-menu.gif')->end()
