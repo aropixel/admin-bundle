@@ -17,6 +17,10 @@ class AropixelAdminExtension extends Extension implements PrependExtensionInterf
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
+        if (!$container->hasParameter('aropixel_menu.menus')) {
+            $container->setParameter('aropixel_menu.menus', []);
+        }
+
         $this->registerParameters($container, $config);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
