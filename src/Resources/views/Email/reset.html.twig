@@ -31,7 +31,7 @@
 
                 <td align="center" style="text-align:center;">
 
-                    <a href="{{ url('_admin') }}" style="width: {{ admin_theme.logo_width }}; display: block; margin: 0 auto 30px">
+                    <a href="{{ url('_admin') }}" style="width: {{ admin_theme.logo.width }}; display: block; margin: 0 auto 30px">
                         <img src="cid:logo" alt="{{ admin_client.name }}" width="100%">
                     </a>
 
@@ -43,7 +43,7 @@
                     </div>
 
                     <div>
-                        <a href="{{ link }}" target="_blank" style="display: inline-block; background-color: {{ admin_theme.btn_background_color }}; border-radius: 6px; padding: 10px 20px; color: {{ admin_theme.btn_color }}; font-size: 14px; font-weight: 500; text-decoration: none">
+                        <a href="{{ link }}" target="_blank" style="display: inline-block; background-color: {{ admin_theme.colors.btn_background_color }}; border-radius: 6px; padding: 10px 20px; color: {{ admin_theme.colors.btn_color }}; font-size: 14px; font-weight: 500; text-decoration: none">
                             {% trans %}reset.email.button{% endtrans %}
                         </a>
                     </div>

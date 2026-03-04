@@ -39,11 +39,11 @@
 
     </head>
 
-    {% set missingImgPath = admin_theme.missing_img_path %}
-    {% set logoPath = admin_theme.logo_path %}
-    {% set logoWidth = admin_theme.logo_width %}
-    {% set logoMenuPath = admin_theme.logo_menu_path %}
-    {% set logoMenuWidth = admin_theme.logo_menu_width %}
+    {% set placeholderImgPath = admin_theme.images.placeholder_img_path %}
+    {% set logoPath = admin_theme.logo.path %}
+    {% set logoWidth = admin_theme.logo.width %}
+    {% set logoMenuPath = admin_theme.logo.menu.path %}
+    {% set logoMenuWidth = admin_theme.logo.menu.width %}
     {% set quickMenu = get_quick_menu() %}
     {% set adminMenu = aropixel_admin_render_menu() %}
 

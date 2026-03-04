@@ -38,11 +38,11 @@
 
 	{% set hour = "now"|date("H") %}
 
-	{% set backgroundColor = admin_theme.background_color %}
-	{% set btnColor = admin_theme.btn_color %}
-	{% set btnBgColor = admin_theme.btn_background_color %}
-	{% set logoPath = admin_theme.logo_path %}
-	{% set loginLogoPath = admin_theme.logo_login_path %}
+ {% set backgroundColor = admin_theme.colors.background_color %}
+ {% set btnColor = admin_theme.colors.btn_color %}
+ {% set btnBgColor = admin_theme.colors.btn_background_color %}
+ {% set logoPath = admin_theme.logo.path %}
+ {% set loginLogoPath = admin_theme.logo.login.path %}
 
 	<div id="app">
 

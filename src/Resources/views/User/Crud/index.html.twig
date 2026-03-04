@@ -36,7 +36,7 @@
                                     {% if user.image %}
                                         <img src="{{ user.image.image | aropixel_imagine_filter('admin_thumbnail') }}" alt="" class="w-50 rounded-circle"/>
                                     {% else %}
-                                        <span class="missing-img" style="background-image: url('{{ asset(missingImgPath) }}')"></span>
+                                        <span class="missing-img" style="background-image: url('{{ asset(placeholderImgPath) }}')"></span>
                                     {% endif %}
                                 </a>
                             </div>

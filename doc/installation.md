@@ -18,7 +18,21 @@ aropixel_admin:
         name: "Aropixel"
         link: "http://www.aropixel.com"
     theme:
-        # login_img: bundles/aropixeladmin/img/login_bg.jpg
+        logo:
+            path: "bundles/aropixeladmin/img/logo.png"
+            width: "150px"
+            menu:
+                path: "bundles/aropixeladmin/img/logo-opened-menu.gif"
+                width: "50px"
+            login:
+                path: "bundles/aropixeladmin/img/sigle_fond-blanc_code-transparent.png"
+        colors:
+            background_color: "#0CABA8"
+            btn_background_color: "#0CABA8"
+            btn_color: "#fff"
+        images:
+            placeholder_img_path: "bundles/aropixeladmin/img/logo-vert.png"
+            login_img: ""
 ````
 - Configure the security.yaml:
 ````

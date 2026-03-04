@@ -22,7 +22,7 @@ class ResetEmailSender implements ResetEmailSenderInterface
         $client = $this->parameterBag->get('aropixel_admin.client');
         $theme = $this->parameterBag->get('aropixel_admin.theme');
         $sender = \array_key_exists('email', $client) && $client['email'] ? $client['email'] : $user->getEmail();
-        $logoPath = \array_key_exists('logo_path', $theme) && $theme['logo_path'] ? $theme['logo_path'] : null;
+        $logoPath = $theme['logo']['path'] ?? null;
 
         $email = (new TemplatedEmail())
             ->from($sender)
