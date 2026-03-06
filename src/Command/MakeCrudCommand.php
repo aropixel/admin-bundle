@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(
     name: 'aropixel:make:crud',
-    description: 'Crée un CRUD basé sur un FormType existant pour AropixelAdminBundle',
+    description: 'Creates a CRUD based on an existing FormType for AropixelAdminBundle',
 )]
 class MakeCrudCommand extends Command
 {
@@ -25,15 +25,15 @@ class MakeCrudCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $entityClass = $io->ask('Classe de l\'entité (ex: App\Entity\Popin)');
+        $entityClass = $io->ask('Entity class (e.g. App\Entity\Popin)');
         if (!$entityClass) {
-            $io->error('La classe de l\'entité est requise.');
+            $io->error('The entity class is required.');
             return Command::FAILURE;
         }
 
-        $formClass = $io->ask('Classe du FormType (ex: App\Form\PopinType)');
+        $formClass = $io->ask('FormType class (e.g. App\Form\PopinType)');
         if (!$formClass) {
-            $io->error('La classe du FormType est requise.');
+            $io->error('The FormType class is required.');
             return Command::FAILURE;
         }
 
@@ -87,8 +87,8 @@ class MakeCrudCommand extends Command
         $this->generateFile('index.html.twig.template', $templateDir . '/index.html.twig', $params, $io);
         $this->generateFile('form.html.twig.template', $templateDir . '/form.html.twig', $params, $io);
 
-        $io->success('CRUD généré avec succès !');
-        $io->note('N\'oubliez pas de configurer les colonnes de la DataTable dans ' . $controllerName . '::index()');
+        $io->success('CRUD generated successfully!');
+        $io->note('Don\'t forget to configure the DataTable columns in ' . $controllerName . '::index()');
 
         return Command::SUCCESS;
     }
@@ -103,7 +103,7 @@ class MakeCrudCommand extends Command
         }
 
         file_put_contents($targetPath, $content);
-        $io->writeln(sprintf('  <fg=green>généré</> %s', str_replace($this->kernel->getProjectDir().'/', '', $targetPath)));
+        $io->writeln(sprintf('  <fg=green>generated</> %s', str_replace($this->kernel->getProjectDir().'/', '', $targetPath)));
     }
 
     private function getGeneratedContent(string $templateName, array $params): string

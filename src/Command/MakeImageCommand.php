@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(
     name: 'aropixel:make:image',
-    description: 'Crée une entité Image (et éventuellement Crop) pour une entité donnée',
+    description: 'Creates an Image entity (and optionally Crop) for a given entity',
 )]
 class MakeImageCommand extends Command
 {
@@ -25,14 +25,14 @@ class MakeImageCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $parentFullClassName = $io->ask('Classe de l\'entité parente (ex: App\Entity\Artist)');
+        $parentFullClassName = $io->ask('Parent entity class (e.g. App\Entity\Artist)');
         if (!$parentFullClassName) {
-            $io->error('La classe de l\'entité parente est requise.');
+            $io->error('The parent entity class is required.');
             return Command::FAILURE;
         }
 
-        $propertyName = $io->ask('Nom de la propriété image (ex: image)', 'image');
-        $isCroppable = $io->confirm('L\'image doit-elle être croppable ?', true);
+        $propertyName = $io->ask('Image property name (e.g. image)', 'image');
+        $isCroppable = $io->confirm('Should the image be croppable?', true);
 
         $parentParts = explode('\\', $parentFullClassName);
         $parentClassName = end($parentParts);
@@ -73,14 +73,14 @@ class MakeImageCommand extends Command
             $this->generateFile('CropEntity.php.template', $cropFile, $params, $io);
         }
 
-        $io->success('Entité(s) Image générée(s) avec succès !');
+        $io->success('Image entity(ies) generated successfully!');
 
-        $autoUpdate = $io->confirm('Voulez-vous mettre à jour automatiquement l\'entité parente ' . $parentClassName . ' ?', true);
+        $autoUpdate = $io->confirm('Do you want to automatically update the parent entity ' . $parentClassName . '?', true);
 
         if ($autoUpdate) {
             $this->updateParentEntity($parentFullClassName, $params, $io);
         } else {
-            $io->section('Code à ajouter dans ' . $parentClassName);
+            $io->section('Code to add in ' . $parentClassName);
             $parentCode = $this->getGeneratedContent('ParentEntityMethods.php.template', $params);
             $parentCode = preg_replace('/\{% block (.*?) %\}\n?|\{% endblock %\}\n?/', '', $parentCode);
             $io->writeln('<fg=yellow>' . $parentCode . '</>');
@@ -95,7 +95,7 @@ class MakeImageCommand extends Command
         $parentFilePath = $projectDir . '/src/' . str_replace(['App\\', '\\'], ['', '/'], $parentFullClassName) . '.php';
 
         if (!file_exists($parentFilePath)) {
-            $io->error('Impossible de trouver le fichier de l\'entité parente : ' . $parentFilePath);
+            $io->error('Could not find parent entity file: ' . $parentFilePath);
             return;
         }
 
@@ -138,7 +138,7 @@ class MakeImageCommand extends Command
         }
 
         file_put_contents($parentFilePath, $content);
-        $io->success('L\'entité parente ' . $parentFullClassName . ' a été mise à jour.');
+        $io->success('The parent entity ' . $parentFullClassName . ' has been updated.');
     }
 
     private function generateFile(string $templateName, string $targetPath, array $params, SymfonyStyle $io): void
@@ -151,7 +151,7 @@ class MakeImageCommand extends Command
         }
 
         file_put_contents($targetPath, $content);
-        $io->writeln(sprintf('  <fg=green>généré</> %s', str_replace($this->kernel->getProjectDir().'/', '', $targetPath)));
+        $io->writeln(sprintf('  <fg=green>generated</> %s', str_replace($this->kernel->getProjectDir().'/', '', $targetPath)));
     }
 
     private function getGeneratedContent(string $templateName, array $params): string
