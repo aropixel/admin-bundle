@@ -75,11 +75,70 @@ class MakeImageCommand extends Command
 
         $io->success('Entité(s) Image générée(s) avec succès !');
 
-        $io->section('Code à ajouter dans ' . $parentClassName);
-        $parentCode = $this->getGeneratedContent('ParentEntityMethods.php.template', $params);
-        $io->writeln('<fg=yellow>' . $parentCode . '</>');
+        $autoUpdate = $io->confirm('Voulez-vous mettre à jour automatiquement l\'entité parente ' . $parentClassName . ' ?', true);
+
+        if ($autoUpdate) {
+            $this->updateParentEntity($parentFullClassName, $params, $io);
+        } else {
+            $io->section('Code à ajouter dans ' . $parentClassName);
+            $parentCode = $this->getGeneratedContent('ParentEntityMethods.php.template', $params);
+            $parentCode = preg_replace('/\{% block (.*?) %\}\n?|\{% endblock %\}\n?/', '', $parentCode);
+            $io->writeln('<fg=yellow>' . $parentCode . '</>');
+        }
 
         return Command::SUCCESS;
+    }
+
+    private function updateParentEntity(string $parentFullClassName, array $params, SymfonyStyle $io): void
+    {
+        $projectDir = $this->kernel->getProjectDir();
+        $parentFilePath = $projectDir . '/src/' . str_replace(['App\\', '\\'], ['', '/'], $parentFullClassName) . '.php';
+
+        if (!file_exists($parentFilePath)) {
+            $io->error('Impossible de trouver le fichier de l\'entité parente : ' . $parentFilePath);
+            return;
+        }
+
+        $content = file_get_contents($parentFilePath);
+
+        // Add use statement for the image entity if not present
+        if (!str_contains($content, 'use ' . $params['entity_namespace'] . '\\' . $params['entity_class_name'] . ';') && $params['entity_namespace'] . '\\' . $params['entity_class_name'] !== $parentFullClassName) {
+            $content = preg_replace('/namespace .*?;/', "$0\n\nuse " . $params['entity_namespace'] . '\\' . $params['entity_class_name'] . ';', $content);
+        }
+
+        // Get property and methods from template
+        $templateContent = $this->getGeneratedContent('ParentEntityMethods.php.template', $params);
+        preg_match('/\{% block property %\}(.*?)\{% endblock %\}/s', $templateContent, $propertyMatches);
+        preg_match('/\{% block methods %\}(.*?)\{% endblock %\}/s', $templateContent, $methodsMatches);
+
+        $newProperty = $propertyMatches[1] ?? '';
+        $newMethods = $methodsMatches[1] ?? '';
+
+        // 1. Insert property after last property or before first method
+        if (!str_contains($content, 'private ?' . $params['entity_class_name'] . ' $' . $params['property_name'])) {
+            if (preg_match_all('/private .*?;/s', $content, $matches, PREG_OFFSET_CAPTURE)) {
+                $lastMatch = end($matches[0]);
+                $pos = $lastMatch[1] + strlen($lastMatch[0]);
+                $content = substr_replace($content, "\n" . $newProperty, $pos, 0);
+            } else {
+                // If no property found, try to find the class opening
+                if (preg_match('/class [^{]+{/s', $content, $match, PREG_OFFSET_CAPTURE)) {
+                    $pos = $match[0][1] + strlen($match[0][0]);
+                    $content = substr_replace($content, "\n" . $newProperty, $pos, 0);
+                }
+            }
+        }
+
+        // 2. Insert methods before the last closing brace
+        if (!str_contains($content, 'public function get' . $params['property_name_camel'] . '()')) {
+            $pos = strrpos($content, '}');
+            if ($pos !== false) {
+                $content = substr_replace($content, $newMethods . "\n", $pos, 0);
+            }
+        }
+
+        file_put_contents($parentFilePath, $content);
+        $io->success('L\'entité parente ' . $parentFullClassName . ' a été mise à jour.');
     }
 
     private function generateFile(string $templateName, string $targetPath, array $params, SymfonyStyle $io): void
@@ -108,6 +167,16 @@ class MakeImageCommand extends Command
         }
 
         // Simple handle {% if variable %} ... {% endif %}
+        $content = preg_replace_callback('/^\s*\{% if (.*?) %\}\n?(.*?)\n?^\s*\{% endif %\}\r?\n?/m', function($matches) use ($params) {
+            $condition = trim($matches[1]);
+            $innerContent = $matches[2];
+            if (isset($params[$condition]) && $params[$condition]) {
+                return $innerContent . "\n";
+            }
+            return '';
+        }, $content);
+
+        // Simple handle {% if variable %} (inline)
         $content = preg_replace_callback('/\{% if (.*?) %\}(.*?)\{% endif %\}/s', function($matches) use ($params) {
             $condition = trim($matches[1]);
             $innerContent = $matches[2];

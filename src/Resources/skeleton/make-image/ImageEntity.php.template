@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class {{ entity_class_name }} extends AttachedImage{% if is_croppable %} implements CroppableInterface{% endif %}
-
 {
 {% if is_croppable %}
     use CroppableTrait;

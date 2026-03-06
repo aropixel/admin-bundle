@@ -95,12 +95,7 @@ class MakeCrudCommand extends Command
 
     private function generateFile(string $templateName, string $targetPath, array $params, SymfonyStyle $io): void
     {
-        $templateContent = file_get_contents(__DIR__ . '/../Resources/skeleton/crud/' . $templateName);
-        
-        $content = $templateContent;
-        foreach ($params as $key => $value) {
-            $content = str_replace('{{ ' . $key . ' }}', $value, $content);
-        }
+        $content = $this->getGeneratedContent($templateName, $params);
 
         $dir = dirname($targetPath);
         if (!is_dir($dir)) {
@@ -109,5 +104,40 @@ class MakeCrudCommand extends Command
 
         file_put_contents($targetPath, $content);
         $io->writeln(sprintf('  <fg=green>généré</> %s', str_replace($this->kernel->getProjectDir().'/', '', $targetPath)));
+    }
+
+    private function getGeneratedContent(string $templateName, array $params): string
+    {
+        $templatePath = __DIR__ . '/../Resources/skeleton/crud/' . $templateName;
+        $content = file_get_contents($templatePath);
+
+        // Simple template engine: handle {{ variable }}
+        foreach ($params as $key => $value) {
+            if (is_string($value)) {
+                $content = str_replace('{{ ' . $key . ' }}', $value, $content);
+            }
+        }
+
+        // Simple handle {% if variable %} ... {% endif %}
+        $content = preg_replace_callback('/^\s*\{% if (.*?) %\}\n?(.*?)\n?^\s*\{% endif %\}\r?\n?/m', function($matches) use ($params) {
+            $condition = trim($matches[1]);
+            $innerContent = $matches[2];
+            if (isset($params[$condition]) && $params[$condition]) {
+                return $innerContent . "\n";
+            }
+            return '';
+        }, $content);
+
+        // Simple handle {% if variable %} (inline)
+        $content = preg_replace_callback('/\{% if (.*?) %\}(.*?)\{% endif %\}/s', function($matches) use ($params) {
+            $condition = trim($matches[1]);
+            $innerContent = $matches[2];
+            if (isset($params[$condition]) && $params[$condition]) {
+                return $innerContent;
+            }
+            return '';
+        }, $content);
+
+        return $content;
     }
 }
