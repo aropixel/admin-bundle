@@ -68,6 +68,13 @@ class CreateUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $outputStyle = new SymfonyStyle($input, $output);
+
+        if (!$input->isInteractive() && ('admin' === $this->adminLogin || null === $this->adminPassword)) {
+            $outputStyle->error('Non-interactive mode requires explicit options (--login, --first_name, --last_name, --password). Default values (admin/admin) are forbidden in this mode for security reasons.');
+            return Command::FAILURE;
+        }
+
         try {
             $user = $this->userFactory->createUser();
 

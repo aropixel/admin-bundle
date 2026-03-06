@@ -2,9 +2,9 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Page;
 
+use Aropixel\AdminBundle\Form\Type\DateTimeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,13 +21,13 @@ class PublishableType extends AbstractType
 
         if (false !== $options['publishAt']) {
             $builder
-                ->add('publishAt', DateTimeType::class, ['label' => 'form.label.publish_at', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
+                ->add('publishAt', DateTimeType::class, ['label' => 'form.label.publish_at', 'required' => false, 'years' => range(date('Y') - 50, date('Y') + 50)])
             ;
         }
 
         if (false !== $options['publishUntil']) {
             $builder
-                ->add('publishUntil', DateTimeType::class, ['label' => 'form.label.publish_until', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd', 'years' => range(date('Y') - 50, date('Y') + 50)])
+                ->add('publishUntil', DateTimeType::class, ['label' => 'form.label.publish_until', 'required' => false, 'years' => range(date('Y') - 50, date('Y') + 50)])
             ;
         }
     }

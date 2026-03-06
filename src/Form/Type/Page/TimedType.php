@@ -2,8 +2,8 @@
 
 namespace Aropixel\AdminBundle\Form\Type\Page;
 
+use Aropixel\AdminBundle\Form\Type\DateTimeType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,13 +16,13 @@ class TimedType extends AbstractType
     {
         if (false !== $options['createdAt']) {
             $builder
-                ->add('createdAt', DateTimeType::class, ['label' => 'form.label.created_at', 'required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd'])
+                ->add('createdAt', DateTimeType::class, ['label' => 'form.label.created_at', 'required' => false])
             ;
         }
 
         if (false !== $options['updatedAt']) {
             $builder
-                ->add('updatedAt', DateTimeType::class, ['required' => false, 'date_widget' => 'single_text', 'time_widget' => 'single_text', 'date_format' => 'yyyy-MM-dd'])
+                ->add('updatedAt', DateTimeType::class, ['required' => false])
             ;
         }
     }

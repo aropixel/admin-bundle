@@ -6,8 +6,9 @@
 
 ## Presentation
 
-Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 7 projects. 
-It provides a minimalist admin system with: login, logout, admin users crud, admin menu management.
+The `AropixelAdminBundle` is built with a specific philosophy: it is a **toolbox** for developers, not a black-box framework like `EasyAdminBundle`. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
+
+As a facilitator, it helps automate repetitive CRUD tasks through a custom `make:crud` generator that starts from your own `FormType`.
 
 
 Our suite of tools consists of several modules, each dedicated to specific aspects of website administration:
@@ -21,7 +22,7 @@ Our suite of tools consists of several modules, each dedicated to specific aspec
 * **PageBundle**: Offers the ability to intuitively create, modify, move, or delete pages and subpages, allowing for an evolving site structure.
 
 
-* **ContactBundle**: Enables the management of a generic contact form, as well as the reception and processing of incoming messages.
+* **MenuBundle**: Provides a comprehensive system for managing website navigation menus, including nested structures and different locations (header, footer, etc.).
 
 
 
@@ -53,12 +54,6 @@ Customizable administration interface for managing blog posts, comments, and cat
 
 * **Page Management**: 
 > **Intuitive Page Editor**: Create, modify, move, and delete pages and subpages with a simple interface.
-
-
-***
-
-* **Contact Management**: 
-> **Message Handling**: View, and track messages received through the contact form.
 
 
 ***

@@ -1,0 +1,88 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ entity_full_class_name }};
+use {{ form_full_class_name }};
+use {{ repository_full_class_name }};
+use Aropixel\AdminBundle\Component\DataTable\DataTableFactory;
+use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route("{{ route_path }}", name: "{{ route_name }}_")]
+class {{ controller_name }} extends AbstractController
+{
+    public function __construct(
+        private readonly {{ repository_name }} ${{ repository_var }},
+        private readonly EntityManagerInterface $em,
+    ) {
+    }
+
+    #[Route("/", name: "index", methods: ["GET"])]
+    public function index(DataTableFactory $dataTableFactory, DataTableRowFactoryInterface $rowFactory): Response
+    {
+        return $dataTableFactory
+            ->create({{ entity_class_name }}::class)
+            ->setColumns([
+                ['label' => 'ID', 'field' => 'id'],
+                // TODO: Add other columns here
+                ['label' => '', 'field' => '', 'class' => 'no-sort'],
+            ])
+            ->render($rowFactory);
+    }
+
+    #[Route("/new", name: "new", methods: ["GET", "POST"])]
+    public function new(Request $request): Response
+    {
+        ${{ entity_var }} = new {{ entity_class_name }}();
+        $form = $this->createForm({{ form_class_name }}::class, ${{ entity_var }});
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist(${{ entity_var }});
+            $this->em->flush();
+
+            $this->addFlash('notice', 'L\'élément a bien été enregistré.');
+            return $this->redirectToRoute('{{ route_name }}_edit', ['id' => ${{ entity_var }}->getId()]);
+        }
+
+        return $this->render('{{ template_path }}/form.html.twig', [
+            '{{ entity_var }}' => ${{ entity_var }},
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route("/{id}/edit", name: "edit", methods: ["GET", "POST"])]
+    public function edit(Request $request, {{ entity_class_name }} ${{ entity_var }}): Response
+    {
+        $form = $this->createForm({{ form_class_name }}::class, ${{ entity_var }});
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash('notice', 'L\'élément a bien été enregistré.');
+            return $this->redirectToRoute('{{ route_name }}_edit', ['id' => ${{ entity_var }}->getId()]);
+        }
+
+        return $this->render('{{ template_path }}/form.html.twig', [
+            '{{ entity_var }}' => ${{ entity_var }},
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route("/{id}", name: "delete", methods: ["POST", "DELETE"])]
+    public function delete(Request $request, {{ entity_class_name }} ${{ entity_var }}): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . ${{ entity_var }}->getId(), $request->request->get('_token'))) {
+            $this->em->remove(${{ entity_var }});
+            $this->em->flush();
+            $this->addFlash('notice', 'L\'élément a bien été supprimé.');
+        }
+
+        return $this->redirectToRoute('{{ route_name }}_index');
+    }
+}

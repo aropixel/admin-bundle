@@ -4,6 +4,14 @@
     <img width="100" height="100" src="assets/logo-aro.png" alt="aropixel logo" />
 </div>
 
+## Philosophy
+
+The philosophy of `AropixelAdminBundle` is not to offer a tool that does everything for you and can be fully customized, like `EasyAdminBundle`. Instead, it is a **toolbox** designed to build an administration interface very quickly while leaving the developer free to customize every detail. It acts as a facilitator: a framework with powerful tools.
+
+CRUD tasks are repetitive, so the bundle provides a `make:crud` command. However, instead of generating a CRUD from an entity, it uses a `FormType` already established by the developer as a starting point. This ensures that the developer stays in control of the data mapping and form logic.
+
+***
+
 ## Presentation
 
 Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 7 projects. 
@@ -21,7 +29,7 @@ Our suite of tools consists of several modules, each dedicated to specific aspec
 * **PageBundle**: Offers the ability to intuitively create, modify, move, or delete pages and subpages, allowing for an evolving site structure.
 
 
-* **ContactBundle**: Enables the management of a generic contact form, as well as the reception and processing of incoming messages.
+* **MenuBundle**: Provides a comprehensive system for managing website navigation menus, including nested structures and different locations (header, footer, etc.).
 
 
 
@@ -57,12 +65,6 @@ Customizable administration interface for managing blog posts, comments, and cat
 
 ***
 
-* **Contact Management**: 
-> **Message Handling**: View, and track messages received through the contact form.
-
-
-***
-
 * **Menu Management**: 
 > **Header and Footer Management**: Easily manage and organize the site’s navigation menus, including headers and footers.
 <br> **Dynamic Menu Links**: Add, edit, and rearrange menu links to reflect the site’s structure and content priorities.
@@ -82,15 +84,23 @@ Customizable administration interface for managing blog posts, comments, and cat
 
 ## Further documentation
 
-Discover more by reading the docs:
+### 🚀 Getting Started
+* [Installation](installation.md)
+* [Create User Command](create_user.md)
 
-* [Getting started with AropixelAdminBundle](installation.md)
-* [Discover the main tool](adminbundle.md)
-* [Manage blog content](blogbundle.md)
-* [Create and order pages](pagebundle.md)
-* [Store and send incoming messages](blogbundle.md)
-* [Manage header and footer](menubundle.md)
+### 🛠 Tools & Generators
+* [CRUD Generator (`make:crud`)](make_crud.md)
+* [DataTable Component](datatable.md)
+
+### 📝 Forms & Customization
+* [Custom Form Types](forms.md)
+* [Form Templates](form_templates.md)
 * [Select2 Component](select2.md)
 * [Entity Customization](entities.md)
 * [Admin Menu Customization](admin_menu.md)
-* [Custom Form Types](forms.md)
+
+### 📦 Bundles & Modules
+* [AdminBundle](adminbundle.md)
+* [BlogBundle](blogbundle.md)
+* [PageBundle](pagebundle.md)
+* [MenuBundle](menubundle.md)

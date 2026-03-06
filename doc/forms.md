@@ -10,6 +10,8 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [FileType](#filetype)
     - [GalleryType (Files)](#gallerytype-files)
 - [Technical Types](#technical-types)
+    - [DateTimeType](#datetimetype)
+    - [TimeType](#timetype)
     - [Select2Type](#select2type)
     - [EntityHiddenType](#entityhiddentype)
     - [CollectionHiddenType](#collectionhiddentype)
@@ -100,6 +102,37 @@ $builder->add('files', GalleryType::class, [
 ---
 
 ## Technical Types
+
+### DateTimeType
+
+An extension of the standard Symfony `DateTimeType` pre-configured to work with the bundle's date and time pickers. It sets the following options by default:
+- `date_widget`: `single_text`
+- `time_widget`: `single_text`
+- `date_format`: `yyyy-MM-dd`
+
+**Twig block:** `aropixel_admin_datetime_widget`
+
+**Usage:**
+```php
+$builder->add('publishAt', DateTimeType::class, [
+    'label' => 'Publish at',
+    'required' => false,
+]);
+```
+
+### TimeType
+
+An extension of the standard Symfony `TimeType` pre-configured to work with the bundle's time picker. It sets the following option by default:
+- `widget`: `single_text`
+
+**Twig block:** `aropixel_admin_time_widget`
+
+**Usage:**
+```php
+$builder->add('startAt', TimeType::class, [
+    'label' => 'Starts at',
+]);
+```
 
 ### Select2Type
 
