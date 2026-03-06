@@ -11,15 +11,129 @@ use Symfony\Component\HttpFoundation\Response;
 class DataTable implements DataTableInterface
 {
     /**
+     * @var array<mixed>
+     */
+    private array $items = [];
+
+    private string $mode = DataTableInterface::MODE_XHR;
+
+    private ?int $orderColumn = null;
+
+    private ?string $orderDirection = null;
+
+    /**
      * @param class-string      $className
      * @param DataTableColumn[] $columns
      */
     public function __construct(
         private readonly string $className,
-        private readonly array $columns,
+        private array $columns,
         private readonly DataTableContext $context,
         private readonly DataTableRepositoryInterface $dataTableRepository
     ) {
+    }
+
+    public function getMode(): string
+    {
+        return $this->mode;
+    }
+
+    public function setMode(string $mode): self
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function setItems(array $items): self
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function getOrderColumn(): ?int
+    {
+        return $this->orderColumn;
+    }
+
+    public function setOrderColumn(?int $orderColumn): self
+    {
+        $this->orderColumn = $orderColumn;
+
+        return $this;
+    }
+
+    public function getOrderDirection(): ?string
+    {
+        return $this->orderDirection;
+    }
+
+    public function setOrderDirection(?string $orderDirection): self
+    {
+        $this->orderDirection = $orderDirection;
+
+        return $this;
+    }
+
+    public function setColumns(array $columns): self
+    {
+        $this->columns = [];
+        foreach ($columns as $column) {
+            $this->addColumn($column);
+        }
+
+        return $this;
+    }
+
+    public function addColumn(array|DataTableColumn $column): self
+    {
+        if (is_array($column)) {
+            $column = DataTableColumn::fromArray($column);
+        }
+
+        $this->columns[] = $column;
+
+        return $this;
+    }
+
+    public function addColumnsIf(bool $condition, array $columns): self
+    {
+        if ($condition) {
+            foreach ($columns as $column) {
+                $this->addColumn($column);
+            }
+        }
+
+        return $this;
+    }
+
+    public function useRepositoryMethod(string $methodName): self
+    {
+        if ($this->dataTableRepository instanceof DefaultDataTableRepository) {
+            $this->dataTableRepository->setRepositoryMethod($methodName);
+        }
+
+        return $this;
+    }
+
+    public function filter(callable $filter): self
+    {
+        if ($this->dataTableRepository instanceof DefaultDataTableRepository) {
+            $this->dataTableRepository->addFilter($filter);
+        }
+
+        return $this;
+    }
+
+    public function render(DataTableRowFactoryInterface $dataTableRowFactory): Response
+    {
+        return $this->getResponse($dataTableRowFactory);
     }
 
     public function getClassName(): string

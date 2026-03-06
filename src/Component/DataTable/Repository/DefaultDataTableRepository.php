@@ -10,9 +10,26 @@ class DefaultDataTableRepository implements DataTableRepositoryInterface
 {
     protected string $repositoryMethodName = 'getQueryDataTable';
 
+    /** @var callable[] */
+    private array $filters = [];
+
     public function __construct(
         private readonly EntityManagerInterface $em
     ) {
+    }
+
+    public function setRepositoryMethod(string $methodName): self
+    {
+        $this->repositoryMethodName = $methodName;
+
+        return $this;
+    }
+
+    public function addFilter(callable $filter): self
+    {
+        $this->filters[] = $filter;
+
+        return $this;
     }
 
     /**
@@ -29,6 +46,10 @@ class DefaultDataTableRepository implements DataTableRepositoryInterface
         /** @var QueryBuilder $qb */
         $qb = $repository->{$this->repositoryMethodName}($context);
 
+        foreach ($this->filters as $filter) {
+            $filter($qb);
+        }
+
         $query = $qb->getQuery();
         $query->setFirstResult($context->getStart() ?: 0);
         $query->setMaxResults($context->getLength() ?: 50);
@@ -40,7 +61,12 @@ class DefaultDataTableRepository implements DataTableRepositoryInterface
     {
         $context = $dataTable->getContext();
 
+        /** @var QueryBuilder $qb */
         $qb = $this->em->getRepository($dataTable->getClassName())->{$this->repositoryMethodName}($context);
+
+        foreach ($this->filters as $filter) {
+            $filter($qb);
+        }
 
         $qb->select('COUNT(' . $this->getTableAs($dataTable) . ')');
 

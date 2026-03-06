@@ -20,6 +20,22 @@ class DataTableColumn
     ) {
     }
 
+    public static function fromArray(array $config): self
+    {
+        $column = new self(
+            $config['label'] ?? '',
+            $config['field'] ?? '',
+            $config['style'] ?? '',
+            $config['data'] ?? []
+        );
+
+        if (isset($config['class'])) {
+            $column->setClass($config['class']);
+        }
+
+        return $column;
+    }
+
     public function getLabel(): string
     {
         return $this->label;

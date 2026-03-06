@@ -9,24 +9,55 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface DataTableInterface
 {
+    public const MODE_XHR = 'xhr';
+    public const MODE_CLASSIC = 'classic';
+
     public function getClassName(): string;
 
     public function getContext(): DataTableContext;
 
-    /**
-     * @return DataTableColumn[]
-     */
-    public function getColumns(): array;
+    public function getMode(): string;
+
+    public function setMode(string $mode): self;
 
     /**
-     * @return mixed[]
+     * @param array<mixed> $items
      */
-    public function getRowsContent(): iterable;
+    public function setItems(array $items): self;
 
     /**
-     * @return array<array<string>>
+     * @return array<mixed>
      */
-    public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array;
+    public function getItems(): array;
+
+    public function getOrderColumn(): ?int;
+
+    public function setOrderColumn(?int $orderColumn): self;
+
+    public function getOrderDirection(): ?string;
+
+    public function setOrderDirection(?string $orderDirection): self;
+
+    /**
+     * @param DataTableColumn[] $columns
+     */
+    public function setColumns(array $columns): self;
+
+    /**
+     * @param array|DataTableColumn $column
+     */
+    public function addColumn(array|DataTableColumn $column): self;
+
+    /**
+     * @param DataTableColumn[] $columns
+     */
+    public function addColumnsIf(bool $condition, array $columns): self;
+
+    public function useRepositoryMethod(string $methodName): self;
+
+    public function filter(callable $filter): self;
+
+    public function render(DataTableRowFactoryInterface $dataTableRowFactory): Response;
 
     public function getResponse(DataTableRowFactoryInterface $dataTableRowFactory): Response;
 

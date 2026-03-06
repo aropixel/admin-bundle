@@ -12,5 +12,5 @@ interface DataTableFactoryInterface
     /**
      * @param DataTableColumn[] $columns
      */
-    public function create(string $className, array $columns): DataTableInterface;
+    public function create(string $className, array $columns = [], string $mode = DataTableInterface::MODE_XHR): DataTableInterface;
 }

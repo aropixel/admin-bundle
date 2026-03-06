@@ -1,4 +1,5 @@
 {% extends '@AropixelAdmin/base.html.twig' %}
+{% import '@AropixelAdmin/Macro/datatable.html.twig' as dt %}
 
 {% block header_top_right %}
 
@@ -36,7 +37,44 @@
         <div class="card">
 
             <div class="table-responsive">
-                {% block paneldatatable %}{% endblock %}
+                {% block paneldatatable %}
+                    {% set is_xhr = dataTable is defined and dataTable.mode == constant('Aropixel\\AdminBundle\\Component\\DataTable\\DataTableInterface::MODE_XHR') %}
+
+                    <table class="table {{ is_xhr ? 'datatable-ajax' : 'datatable' }}"
+                           {% if is_xhr and ajax_url is defined %}data-ajax-url="{{ ajax_url }}"{% endif %}
+                           {% if dataTable is defined and dataTable.orderColumn is not null %}data-order-column="{{ dataTable.orderColumn }}"{% endif %}
+                           {% if dataTable is defined and dataTable.orderDirection is not null %}data-order-direction="{{ dataTable.orderDirection }}"{% endif %}
+                    >
+                        <thead>
+                        <tr>
+                            {% if dataTable is defined %}
+                                {% for column in dataTable.columns %}
+                                    <th {% if column.class %}class="{{ column.class }}"{% endif %}
+                                        {% if column.style %}style="{{ column.style }}"{% endif %}
+                                        {% for key, val in column.data %}data-{{ key }}="{{ val }}"{% endfor %}>
+                                        {{ column.label|trans }}
+                                    </th>
+                                {% endfor %}
+                            {% else %}
+                                {% block datatable_header %}{% endblock %}
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if dataTable is defined and dataTable.mode == constant('Aropixel\\AdminBundle\\Component\\DataTable\\DataTableInterface::MODE_CLASSIC') %}
+                            {% for item in dataTable.items %}
+                                {% block datatable_row %}
+                                    <tr>
+                                        {% block datatable_body %}{% endblock %}
+                                    </tr>
+                                {% endblock %}
+                            {% endfor %}
+                        {% else %}
+                            {% block datatable_body_xhr %}{% endblock %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                {% endblock %}
             </div>
 
         </div>

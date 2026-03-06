@@ -23,7 +23,7 @@ class DataTableFactory implements DataTableFactoryInterface
         return $this;
     }
 
-    public function create(string $className, array $columns): DataTableInterface
+    public function create(string $className, array $columns = [], string $mode = DataTableInterface::MODE_XHR): DataTableInterface
     {
         $context = $this->dataTableContextFactory->create();
 
@@ -31,6 +31,9 @@ class DataTableFactory implements DataTableFactoryInterface
             $this->setRepository($this->doctrineDataTableRepository);
         }
 
-        return new DataTable($className, $columns, $context, $this->dataTableRepository);
+        $dataTable = new DataTable($className, $columns, $context, $this->dataTableRepository);
+        $dataTable->setMode($mode);
+
+        return $dataTable;
     }
 }

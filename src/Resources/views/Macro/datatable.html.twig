@@ -1,0 +1,21 @@
+{% macro dropdown(item, edit_path, delete_path, delete_confirm_msg) %}
+    <div class="btn-group dropstart">
+        <button type="button" class="badge badge-light badge-icon" data-bs-toggle="dropdown">
+            <i class="fas fa-ellipsis-h"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
+            {% if edit_path %}
+                <a href="{{ edit_path }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i> {{ 'text.edit'|trans }}</a>
+            {% endif %}
+            
+            {% if delete_path %}
+                {% if edit_path %}<div class="dropdown-divider"></div>{% endif %}
+                <a class="dropdown-item has-icon delete text-danger" data-confirm="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}"><i class="fas fa-trash"></i> {{ 'text.delete'|trans }}</a>
+                <form method="post" action="{{ delete_path }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
