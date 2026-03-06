@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ entity_namespace }};
+
+use Aropixel\AdminBundle\Entity\Crop;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class {{ crop_class_name }} extends Crop
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: {{ entity_class_name }}::class, inversedBy: "crops")]
+    protected {{ entity_class_name }} $image;
+
+    public function getId() : ?int
+    {
+        return $this->id;
+    }
+
+    public function setImage(?{{ entity_class_name }} $image = null) : self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImage() : {{ entity_class_name }}
+    {
+        return $this->image;
+    }
+}
