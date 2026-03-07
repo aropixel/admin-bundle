@@ -9,6 +9,18 @@
         <source>text.list</source>
         <target>List</target>
       </trans-unit>
+      <trans-unit id="generic.home" resname="text.home">
+        <source>text.home</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="generic.add" resname="text.add">
+        <source>text.add</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="generic.edit" resname="text.edit">
+        <source>text.edit</source>
+        <target>Edit</target>
+      </trans-unit>
       <trans-unit id="7p1PCbD" resname="text.create">
         <source>text.create</source>
         <target>Create</target>
@@ -596,6 +608,14 @@
       <trans-unit id="user.flash.deleted" resname="user.flash.deleted">
         <source>user.flash.deleted</source>
         <target>The user has been deleted.</target>
+      </trans-unit>
+      <trans-unit id="generic.flash.saved" resname="generic.flash.saved">
+        <source>generic.flash.saved</source>
+        <target>The item has been saved.</target>
+      </trans-unit>
+      <trans-unit id="generic.flash.deleted" resname="generic.flash.deleted">
+        <source>generic.flash.deleted</source>
+        <target>The item has been deleted.</target>
       </trans-unit>
       <trans-unit id="user.flash.activation_sent" resname="user.flash.activation_sent">
         <source>user.flash.activation_sent</source>

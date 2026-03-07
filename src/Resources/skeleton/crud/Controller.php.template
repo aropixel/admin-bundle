@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route("{{ route_path }}", name: "{{ route_name }}_")]
 class {{ controller_name }} extends AbstractController
@@ -19,6 +20,7 @@ class {{ controller_name }} extends AbstractController
     public function __construct(
         private readonly {{ repository_name }} ${{ repository_var }},
         private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -46,7 +48,7 @@ class {{ controller_name }} extends AbstractController
             $this->em->persist(${{ entity_var }});
             $this->em->flush();
 
-            $this->addFlash('notice', 'L\'élément a bien été enregistré.');
+            $this->addFlash('notice', $this->translator->trans('generic.flash.saved'));
             return $this->redirectToRoute('{{ route_name }}_edit', ['id' => ${{ entity_var }}->getId()]);
         }
 
@@ -64,7 +66,7 @@ class {{ controller_name }} extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
-            $this->addFlash('notice', 'L\'élément a bien été enregistré.');
+            $this->addFlash('notice', $this->translator->trans('generic.flash.saved'));
             return $this->redirectToRoute('{{ route_name }}_edit', ['id' => ${{ entity_var }}->getId()]);
         }
 
@@ -80,7 +82,7 @@ class {{ controller_name }} extends AbstractController
         if ($this->isCsrfTokenValid('delete' . ${{ entity_var }}->getId(), $request->request->get('_token'))) {
             $this->em->remove(${{ entity_var }});
             $this->em->flush();
-            $this->addFlash('notice', 'L\'élément a bien été supprimé.');
+            $this->addFlash('notice', $this->translator->trans('generic.flash.deleted'));
         }
 
         return $this->redirectToRoute('{{ route_name }}_index');
