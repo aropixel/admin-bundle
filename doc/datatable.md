@@ -2,34 +2,36 @@
 
 The `DataTable` component of the AdminBundle simplifies the creation of JSON responses compatible with the [DataTables](https://datatables.net/) jQuery plugin. It provides a Fluent Interface to configure columns, filters, and rendering.
 
-## Basic Usage
+## Basic Usage (Single Action)
 
-The component is primarily used via the `DataTableFactory` service. Here is a typical example in a controller:
+The recommended way to use the component is to handle both the HTML page and the JSON data in a single controller action. This avoids duplicating column definitions.
 
 ```php
 use App\Entity\Event;
 use Aropixel\AdminBundle\Component\DataTable\DataTableFactory;
-use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
 
-public function list(DataTableFactory $dataTableFactory, DataTableRowFactoryInterface $rowFactory): Response
+#[Route("/", name: "index", methods: ["GET"])]
+public function index(DataTableFactory $dataTableFactory): Response
 {
     return $dataTableFactory
         ->create(Event::class)
         ->setColumns([
-            ['label' => '', 'field' => '', 'class' => 'no-sort'],
-            ['label' => 'Date', 'field' => 'startDate', 'style' => 'width:200px;'],
             ['label' => 'Title', 'field' => 'title'],
-            ['label' => 'City', 'field' => 'place.city'],
-            ['label' => 'Location', 'field' => 'place.label', 'style' => 'width:200px;'],
-            ['label' => 'Status', 'field' => 'eventStatus'],
+            ['label' => 'Date', 'field' => 'startDate', 'style' => 'width:200px;'],
+            ['label' => '', 'field' => '', 'class' => 'no-sort'],
         ])
-        ->addColumnsIf($this->isMultiService(), [
-            ['label' => 'Service', 'field' => '', 'class' => 'no-sort']
+        ->renderJson(fn(Event $event) => [
+            $event->getTitle(),
+            $event->getStartDate()->format('d/m/Y'),
+            $this->renderView('admin/event/_actions.html.twig', ['item' => $event]),
         ])
-        ->addColumn(['label' => '', 'field' => '', 'class' => 'no-sort'])
-        ->render($rowFactory);
+        ->render('admin/event/index.html.twig');
 }
 ```
+
+### How it works:
+1. `renderJson()`: Detects if the current request is an AJAX request from DataTables. If so, it immediately returns a `JsonResponse` with the transformed data.
+2. `render()`: If it wasn't an AJAX request, it renders the specified Twig template, automatically passing the `dataTable` object to the view.
 
 ## Column Configuration
 
@@ -109,36 +111,28 @@ Sets the default column index for sorting.
 ### `setOrderDirection(?string $direction): self`
 Sets the default sorting direction (`asc` or `desc`).
 
-### `render(DataTableRowFactoryInterface $factory): Response`
-Generates the final JSON response. This is an alias for `getResponse()`.
+### `renderJson(callable $transformer): Response|self`
+If the request is an AJAX request, it returns a `JsonResponse`. Otherwise, it stores the transformer and returns `$this`.
+
+### `render(string $template, array $parameters = []): Response`
+Renders the Twig template and returns a `Response`.
 
 ## Choosing the Mode (XHR or Classic)
 
-By default, the `DataTableFactory` creates an object in XHR (AJAX) mode. You can specify the mode during creation or via the `setMode()` method.
+By default, the `DataTableFactory` creates an object in XHR (AJAX) mode.
 
 ### XHR Mode (Default)
-The table is loaded via AJAX. You must provide a URL for the data source.
+The table is loaded via AJAX. If you use the single-action approach, the AJAX URL is automatically the current URL.
+
+### Classic Mode (Pre-loaded Data)
+The table is rendered directly with provided data.
 
 ```php
 return $dataTableFactory
-    ->create(Event::class, [], DataTableInterface::MODE_XHR)
+    ->create(Event::class, mode: DataTableInterface::MODE_CLASSIC)
+    ->setItems($events)
     ->setColumns([...])
-    ->render($rowFactory);
-```
-
-### Classic Mode (Pre-loaded Data)
-The table is rendered directly with the provided data.
-
-```php
-return $this->render('admin/event/list.html.twig', [
-    'dataTable' => $dataTableFactory
-        ->create(Event::class, [], DataTableInterface::MODE_CLASSIC)
-        ->setColumns([
-            ['label' => 'Title', 'field' => 'title'],
-            ['label' => 'Actions', 'field' => '', 'class' => 'no-sort'],
-        ])
-        ->setItems($events)
-]);
+    ->render('admin/event/list.html.twig');
 ```
 
 ## Action Builder (Twig)
@@ -150,30 +144,26 @@ To simplify the creation of action menus in columns, a Twig macro is available.
 ```twig
 {% extends '@AropixelAdmin/List/datatable.html.twig' %}
 
-{% block datatable_body %}
-    <td>{{ item.title }}</td>
-    <td class="text-right">
-        {{ dt.dropdown(item, path('admin_event_edit', {id: item.id}), path('admin_event_delete', {id: item.id})) }}
-    </td>
+{% block datatable_row %}
+    <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.startDate|date('d/m/Y') }}</td>
+        <td class="text-right">
+            {{ dt.dropdown(item, path('admin_event_edit', {id: item.id}), path('admin_event_delete', {id: item.id})) }}
+        </td>
+    </tr>
 {% endblock %}
 ```
 
-The `dt.dropdown` macro accepts the following arguments:
-- `item`: The row object.
-- `edit_path`: (Optional) The edit URL.
-- `delete_path`: (Optional) The delete URL.
-- `delete_confirm_msg`: (Optional) Deletion confirmation message.
-
 ## Polymorphic Twig Integration
 
-The `@AropixelAdmin/List/datatable.html.twig` template automatically adapts whether you pass a `dataTable` object or not, and according to its mode.
+The `@AropixelAdmin/List/datatable.html.twig` template automatically adapts to the `dataTable` object and its mode.
 
 ### AJAX Mode (Simplified)
-If you use XHR mode, the template automatically generates the headers.
+If you use XHR mode with the single-action pattern, you don't even need to provide `ajax_url`.
 
 ```twig
 {% extends '@AropixelAdmin/List/datatable.html.twig' %}
-{% set ajax_url = path('admin_event_xhr') %}
 ```
 
 ### Manual Mode (Backward Compatibility)

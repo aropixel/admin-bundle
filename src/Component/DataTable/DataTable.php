@@ -7,6 +7,7 @@ use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepositoryInterface;
 use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class DataTable implements DataTableInterface
 {
@@ -19,7 +20,15 @@ class DataTable implements DataTableInterface
 
     private ?int $orderColumn = null;
 
-    private ?string $orderDirection = null;
+    /**
+     * @var callable|DataTableRowFactoryInterface|null
+     */
+    private $transformer = null;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private array $viewParameters = [];
 
     /**
      * @param class-string      $className
@@ -29,7 +38,8 @@ class DataTable implements DataTableInterface
         private readonly string $className,
         private array $columns,
         private readonly DataTableContext $context,
-        private readonly DataTableRepositoryInterface $dataTableRepository
+        private readonly DataTableRepositoryInterface $dataTableRepository,
+        private readonly Environment $twig
     ) {
     }
 
@@ -131,9 +141,25 @@ class DataTable implements DataTableInterface
         return $this;
     }
 
-    public function render(DataTableRowFactoryInterface $dataTableRowFactory): Response
+    public function renderJson(callable $transformer): Response|self
     {
-        return $this->getResponse($dataTableRowFactory);
+        if ($this->context->getDraw() > 0) {
+            return $this->getResponse($transformer);
+        }
+
+        $this->transformer = $transformer;
+
+        return $this;
+    }
+
+    public function render(string $template, array $parameters = []): Response
+    {
+        $this->viewParameters = array_merge($parameters, $this->viewParameters);
+        $this->viewParameters['dataTable'] = $this;
+
+        $content = $this->twig->render($template, $this->viewParameters);
+
+        return new Response($content);
     }
 
     public function getClassName(): string
@@ -163,15 +189,20 @@ class DataTable implements DataTableInterface
     }
 
     /**
+     * @param callable|DataTableRowFactoryInterface $transformer
      * @return array<array<string>>
      */
-    public function getRows(DataTableRowFactoryInterface $dataTableRowFactory): array
+    public function getRows(callable|DataTableRowFactoryInterface $transformer): array
     {
         $rows = [];
         $rowsContent = $this->getRowsContent();
 
         foreach ($rowsContent as $rowContent) {
-            $rows[] = $dataTableRowFactory->createRow($rowContent);
+            if ($transformer instanceof DataTableRowFactoryInterface) {
+                $rows[] = $transformer->createRow($rowContent);
+            } else {
+                $rows[] = $transformer($rowContent);
+            }
         }
 
         return $rows;
@@ -182,12 +213,12 @@ class DataTable implements DataTableInterface
         return $this->dataTableRepository->count($this);
     }
 
-    public function getResponse(DataTableRowFactoryInterface $dataTableRowFactory): Response
+    public function getResponse(callable|DataTableRowFactoryInterface $transformer): Response
     {
         $count = $this->getTotal();
 
         $records = [];
-        $records['data'] = $this->getRows($dataTableRowFactory);
+        $records['data'] = $this->getRows($transformer);
         $records['order'] = [];
         $records['draw'] = $this->context->getDraw();
         $records['recordsTotal'] = $count;

@@ -2,7 +2,7 @@ import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
 onDomReady(() => {
     document.querySelectorAll('.datatable-ajax').forEach((table) => {
-        const url = table.dataset.src || window.location.pathname + '/dataTable.json';
+        const url = table.dataset.src || table.dataset.ajaxUrl || window.location.pathname;
         if (typeof $.fn.dataTable.pipeline !== 'function') {
             console.warn('DataTables pipeline plugin is not loaded');
             return;

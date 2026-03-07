@@ -57,9 +57,18 @@ interface DataTableInterface
 
     public function filter(callable $filter): self;
 
-    public function render(DataTableRowFactoryInterface $dataTableRowFactory): Response;
+    public function renderJson(callable $transformer): Response|self;
 
-    public function getResponse(DataTableRowFactoryInterface $dataTableRowFactory): Response;
+    /**
+     * @param string $template
+     * @param array<string, mixed> $parameters
+     */
+    public function render(string $template, array $parameters = []): Response;
+
+    /**
+     * @param callable|DataTableRowFactoryInterface $transformer
+     */
+    public function getResponse(callable|DataTableRowFactoryInterface $transformer): Response;
 
     public function getTotal(): int;
 }
