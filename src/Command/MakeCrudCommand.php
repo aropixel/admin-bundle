@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -21,19 +22,33 @@ class MakeCrudCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption('entity-class', null, InputOption::VALUE_REQUIRED, 'Entity class (e.g. App\Entity\Popin)')
+            ->addOption('form-class', null, InputOption::VALUE_REQUIRED, 'FormType class (e.g. App\Form\PopinType)')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $entityClass = $io->ask('Entity class (e.g. App\Entity\Popin)');
+        $entityClass = $input->getOption('entity-class');
+        if (!$entityClass && $input->isInteractive()) {
+            $entityClass = $io->ask('Entity class (e.g. App\Entity\Popin)');
+        }
         if (!$entityClass) {
-            $io->error('The entity class is required.');
+            $io->error('The entity class is required (use --entity-class or run in interactive mode).');
             return Command::FAILURE;
         }
 
-        $formClass = $io->ask('FormType class (e.g. App\Form\PopinType)');
+        $formClass = $input->getOption('form-class');
+        if (!$formClass && $input->isInteractive()) {
+            $formClass = $io->ask('FormType class (e.g. App\Form\PopinType)');
+        }
         if (!$formClass) {
-            $io->error('The FormType class is required.');
+            $io->error('The FormType class is required (use --form-class or run in interactive mode).');
             return Command::FAILURE;
         }
 

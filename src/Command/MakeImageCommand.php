@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -21,18 +22,39 @@ class MakeImageCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption('parent-class', null, InputOption::VALUE_REQUIRED, 'Parent entity class (e.g. App\Entity\Artist)')
+            ->addOption('property', null, InputOption::VALUE_REQUIRED, 'Image property name (e.g. image)')
+            ->addOption('croppable', null, InputOption::VALUE_NONE, 'Should the image be croppable?')
+            ->addOption('auto-update', null, InputOption::VALUE_NONE, 'Automatically update the parent entity?')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $parentFullClassName = $io->ask('Parent entity class (e.g. App\Entity\Artist)');
+        $parentFullClassName = $input->getOption('parent-class');
+        if (!$parentFullClassName && $input->isInteractive()) {
+            $parentFullClassName = $io->ask('Parent entity class (e.g. App\Entity\Artist)');
+        }
         if (!$parentFullClassName) {
-            $io->error('The parent entity class is required.');
+            $io->error('The parent entity class is required (use --parent-class or run in interactive mode).');
             return Command::FAILURE;
         }
 
-        $propertyName = $io->ask('Image property name (e.g. image)', 'image');
-        $isCroppable = $io->confirm('Should the image be croppable?', true);
+        $propertyName = $input->getOption('property');
+        if (!$propertyName && $input->isInteractive()) {
+            $propertyName = $io->ask('Image property name (e.g. image)', 'image');
+        }
+        $propertyName = $propertyName ?: 'image';
+
+        $isCroppable = $input->getOption('croppable');
+        if (!$isCroppable && $input->isInteractive()) {
+            $isCroppable = $io->confirm('Should the image be croppable?', true);
+        }
 
         $parentParts = explode('\\', $parentFullClassName);
         $parentClassName = end($parentParts);
@@ -75,7 +97,10 @@ class MakeImageCommand extends Command
 
         $io->success('Image entity(ies) generated successfully!');
 
-        $autoUpdate = $io->confirm('Do you want to automatically update the parent entity ' . $parentClassName . '?', true);
+        $autoUpdate = $input->getOption('auto-update');
+        if (!$autoUpdate && $input->isInteractive()) {
+            $autoUpdate = $io->confirm('Do you want to automatically update the parent entity ' . $parentClassName . '?', true);
+        }
 
         if ($autoUpdate) {
             $this->updateParentEntity($parentFullClassName, $params, $io);
