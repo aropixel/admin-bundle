@@ -40,9 +40,15 @@ Available options:
 > **Never use the default `admin/admin` credentials in a production environment.**
 
 ### Non-Interactive Mode
-When running the command in non-interactive mode (e.g., in a CI/CD pipeline with `--no-interaction`), you **must** provide the required options (`--login`, `--first_name`, `--last_name`, `--password`).
+When running the command in non-interactive mode (e.g., in a CI/CD pipeline or setup script with `--no-interaction`), you **must** provide the required options (`--login`, `--first_name`, `--last_name`, `--password`).
 
-The command will fail if you try to use the default `admin/admin` credentials in non-interactive mode without explicitly specifying them, as a security measure.
+**Special case for Development:**
+In the `dev` environment (where `APP_ENV=dev`), you can run the command without any options in non-interactive mode to create a default `admin/admin` account:
+```bash
+# Works only in dev environment
+php bin/console aropixel:admin:create-user --no-interaction
+```
+In any other environment (e.g., `prod`), the command will fail if you try to use the default `admin/admin` credentials in non-interactive mode, as a security measure.
 
 ### Activation Email
 -   If the login provided is **not** "admin", the command will attempt to send an activation email to the user so they can set their own password and activate their account.

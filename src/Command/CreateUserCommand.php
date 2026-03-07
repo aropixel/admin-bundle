@@ -27,6 +27,7 @@ class CreateUserCommand extends Command
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly UserFactoryInterface $userFactory,
         protected readonly ValidatorInterface $validator,
+        protected string $appEnv,
         protected string $adminLogin = 'admin',
         protected ?string $adminPassword = null,
         protected string $adminFirstName = '',
@@ -70,9 +71,22 @@ class CreateUserCommand extends Command
     {
         $outputStyle = new SymfonyStyle($input, $output);
 
-        if (!$input->isInteractive() && ('admin' === $this->adminLogin || null === $this->adminPassword)) {
-            $outputStyle->error('Non-interactive mode requires explicit options (--login, --first_name, --last_name, --password). Default values (admin/admin) are forbidden in this mode for security reasons.');
-            return Command::FAILURE;
+        if (!$input->isInteractive()) {
+            $isDefaultAdmin = ('admin' === $this->adminLogin && 'admin' === $this->adminPassword);
+
+            if ($isDefaultAdmin) {
+                if ($this->appEnv !== 'dev') {
+                    $outputStyle->error('Security Error: Default credentials (admin/admin) are strictly forbidden outside of the "dev" environment.');
+                    return Command::FAILURE;
+                }
+
+                $outputStyle->warning('Development mode detected: Creating user with default credentials (admin/admin).');
+            }
+
+            if (null === $this->adminPassword) {
+                $outputStyle->error('Non-interactive mode requires an explicit password (--password) unless using default admin/admin in dev.');
+                return Command::FAILURE;
+            }
         }
 
         try {

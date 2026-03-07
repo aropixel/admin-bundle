@@ -23,6 +23,10 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    Aropixel\AdminBundle\Command\CreateUserCommand:
+        arguments:
+            $appEnv: '%kernel.environment%'
+
     Aropixel\AdminBundle\Component\Menu\Builder\AdminMenuBuilder:
         arguments:
             $menusConfig: '%aropixel_menu.menus%'
