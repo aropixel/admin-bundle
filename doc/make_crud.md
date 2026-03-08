@@ -65,7 +65,7 @@ And update the template accordingly:
     <td>{{ item.title }}</td>
     <td>{{ item.createdAt|date('d/m/Y') }}</td>
     <td class="text-right">
-        {{ dt.dropdown(item, path('admin_myentity_edit', {id: item.id}), path('admin_myentity_delete', {id: item.id})) }}
+        {{ list.actions(item, path('admin_myentity_edit', {id: item.id}), path('admin_myentity_delete', {id: item.id})) }}
     </td>
 {% endblock %}
 ```

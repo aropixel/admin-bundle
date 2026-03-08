@@ -12,6 +12,7 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
 
 ```twig
 {% extends '@AropixelAdmin/Form/base.html.twig' %}
+{% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
 
 {# 1. Meta and Titles #}
 {% block meta_title %}{% if artist.id %}Modifier{% else %}Ajouter{% endif %} un artiste{% endblock %}
@@ -20,11 +21,11 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
 
 {# 2. Breadcrumb #}
 {% block header_breadcrumb %}
-    <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">Accueil</a></li>
-        <li class="breadcrumb-item">Programmation</li>
-        <li class="breadcrumb-item active">{% if artist.id %}Modifier{% else %}Ajouter{% endif %} un artiste</li>
-    </ul>
+    {{ nav.breadcrumbs([
+        { label: 'text.home', url: url('_admin') },
+        { label: 'Programmation' },
+        { label: (artist.id ? 'Modifier' : 'Ajouter') ~ ' un artiste' }
+    ]) }}
 {% endblock %}
 
 {# 3. Tabs Navigation (Optional) #}

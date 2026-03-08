@@ -172,7 +172,7 @@ To simplify the creation of action menus in columns, a Twig macro is available.
         <td>{{ item.title }}</td>
         <td>{{ item.startDate|date('d/m/Y') }}</td>
         <td class="text-right">
-            {{ dt.dropdown(item, path('admin_event_edit', {id: item.id}), path('admin_event_delete', {id: item.id})) }}
+            {{ list.actions(item, path('admin_event_edit', {id: item.id}), path('admin_event_delete', {id: item.id})) }}
         </td>
     </tr>
 {% endblock %}

@@ -1,20 +1,21 @@
 {% extends '@AropixelAdmin/List/datatable.html.twig' %}
+{% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
 
 {% block meta_title %}{{ '{{' }} 'text.list'|trans {{ '}}' }}{% endblock %}
 
 {% block header_title %}{{ entity_class_name }}{% endblock %}
 
 {% block header_breadcrumb %}
-    <ul class="breadcrumb breadcrumb-caret position-right">
-        <li class="breadcrumb-item"><a href="{{ '{{' }} url('_admin') {{ '}}' }}">{{ '{{' }} 'text.home'|trans {{ '}}' }}</a></li>
-        <li class="breadcrumb-item active">{{ entity_class_name }}</li>
-    </ul>
+    {{ '{{' }} nav.breadcrumbs([
+        { label: 'text.home'|trans, url: url('_admin') },
+        { label: entity_class_name }
+    ]) {{ '}}' }}
 {% endblock %}
 
 {% block datatable_body %}
     <td>{{ '{{' }} item.id {{ '}}' }}</td>
     {# TODO: Add other columns here #}
     <td class="text-right">
-        {{ '{{' }} dt.dropdown(item, path('{{ route_name }}_edit', {id: item.id}), path('{{ route_name }}_delete', {id: item.id})) {{ '}}' }}
+        {{ '{{' }} list.actions(item, path('{{ route_name }}_edit', {id: item.id}), path('{{ route_name }}_delete', {id: item.id})) {{ '}}' }}
     </td>
 {% endblock %}
