@@ -31,8 +31,9 @@ public function index(DataTableFactory $dataTableFactory): Response
 ```
 
 ### How it works:
-1. `renderJson()`: Detects if the current request is an AJAX request from DataTables. If so, it immediately returns a `JsonResponse` with the transformed data.
-2. `render()`: If it wasn't an AJAX request, it renders the specified Twig template, automatically passing the `dataTable` object to the view.
+1. `renderJson()`: Stores the transformer. If it's an AJAX request, it sets the JSON content.
+2. `render()`: Stores the template and parameters. If it's not an AJAX request, it renders the Twig template.
+Both methods return the `DataTable` object itself, which extends Symfony's `Response`. This allows you to chain them in any order and return the result directly.
 
 ## Column Configuration
 
@@ -133,11 +134,11 @@ Sets the default column index for sorting.
 ### `setOrderDirection(?string $direction): self`
 Sets the default sorting direction (`asc` or `desc`).
 
-### `renderJson(callable $transformer): Response|self`
-If the request is an AJAX request, it returns a `JsonResponse`. Otherwise, it stores the transformer and returns `$this`.
+### `renderJson(callable $transformer): self`
+Configures the data transformer. If the current request is an AJAX request from DataTables, it will also prepare the JSON content for the response.
 
-### `render(string $template, array $parameters = []): Response`
-Renders the Twig template and returns a `Response`.
+### `render(string $template, array $parameters = []): self`
+Configures the template to use. If the current request is NOT an AJAX request, it will also render the template and prepare the HTML content for the response.
 
 ## Choosing the Mode (XHR or Classic)
 

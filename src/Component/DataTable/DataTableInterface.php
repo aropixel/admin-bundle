@@ -64,13 +64,13 @@ interface DataTableInterface
 
     public function getSearchFields(): array;
 
-    public function renderJson(callable $transformer): Response|self;
+    public function renderJson(callable $transformer): self;
 
     /**
      * @param string $template
      * @param array<string, mixed> $parameters
      */
-    public function render(string $template, array $parameters = []): Response;
+    public function render(string $template, array $parameters = []): self;
 
     /**
      * @param callable|DataTableRowFactoryInterface $transformer

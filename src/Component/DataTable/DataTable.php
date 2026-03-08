@@ -10,7 +10,7 @@ use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class DataTable implements DataTableInterface
+class DataTable extends Response implements DataTableInterface
 {
     /**
      * @var array<mixed>
@@ -38,6 +38,7 @@ class DataTable implements DataTableInterface
      */
     private array $viewParameters = [];
 
+
     /**
      * @param class-string      $className
      * @param DataTableColumn[] $columns
@@ -49,6 +50,7 @@ class DataTable implements DataTableInterface
         private readonly DataTableRepositoryInterface $dataTableRepository,
         private readonly Environment $twig
     ) {
+        parent::__construct();
     }
 
     public function getMode(): string
@@ -161,10 +163,21 @@ class DataTable implements DataTableInterface
         return $this->searchFields;
     }
 
-    public function renderJson(callable $transformer): Response|self
+    public function renderJson(callable $transformer): self
     {
         if ($this->context->getDraw() > 0) {
-            return $this->getResponse($transformer);
+
+            $count = $this->getTotal();
+
+            $records = [];
+            $records['data'] = $this->getRows($transformer);
+            $records['order'] = [];
+            $records['draw'] = $this->context->getDraw();
+            $records['recordsTotal'] = $count;
+            $records['recordsFiltered'] = $count;
+
+            $this->setContent(json_encode($records));
+            $this->headers->set('Content-Type', 'application/json');
         }
 
         $this->transformer = $transformer;
@@ -172,14 +185,19 @@ class DataTable implements DataTableInterface
         return $this;
     }
 
-    public function render(string $template, array $parameters = []): Response
+    public function render(string $template, array $parameters = []): self
     {
-        $this->viewParameters = array_merge($parameters, $this->viewParameters);
-        $this->viewParameters['dataTable'] = $this;
+        if ($this->context->getDraw() == 0) {
 
-        $content = $this->twig->render($template, $this->viewParameters);
+            $this->viewParameters = array_merge($parameters, $this->viewParameters);
+            $this->viewParameters['dataTable'] = $this;
 
-        return new Response($content);
+            $content = $this->twig->render($template, $this->viewParameters);
+
+            $this->setContent($content);
+        }
+
+        return $this;
     }
 
     public function getClassName(): string
