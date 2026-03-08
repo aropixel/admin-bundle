@@ -4,7 +4,6 @@ namespace Aropixel\AdminBundle\Controller\File;
 
 use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
 use Aropixel\AdminBundle\Component\DataTable\DataTableFactoryInterface;
-use Aropixel\AdminBundle\Component\Media\File\Library\DataTable\DataTableRepository;
 use Aropixel\AdminBundle\Component\Media\File\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Component\Media\Resolver\ClassNameResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +15,6 @@ class AjaxCategoryAction extends AbstractController
         private readonly ClassNameResolverInterface $classNameResolver,
         private readonly DataTableFactoryInterface $dataTableFactory,
         private readonly DataTableRowFactory $dataTableRowFactory,
-        private readonly DataTableRepository $fileDataTableRepository
     ) {
     }
 
@@ -26,7 +24,6 @@ class AjaxCategoryAction extends AbstractController
     public function __invoke(string $category): Response
     {
         $dataTable = $this->dataTableFactory
-            ->setRepository($this->fileDataTableRepository)
             ->create($this->classNameResolver->getFileClassName(), [
                 new DataTableColumn('', '', 'width:50px;'),
                 new DataTableColumn('Aperçu', '', 'width:100px;'),
@@ -35,6 +32,7 @@ class AjaxCategoryAction extends AbstractController
                 new DataTableColumn('Fichier', '', 'width:200px;'),
                 new DataTableColumn('', ''),
             ])
+            ->searchIn(['title'])
         ;
 
         $dataTable->getContext()->addParameters(['category' => $category]);

@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Controller\Image;
 
-use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
 use Aropixel\AdminBundle\Component\DataTable\DataTableFactoryInterface;
 use Aropixel\AdminBundle\Component\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Component\Media\Resolver\ClassNameResolverInterface;
@@ -23,15 +22,17 @@ class AjaxAction extends AbstractController
      */
     public function __invoke(): Response
     {
-        $dataTable = $this->dataTableFactory->create($this->classNameResolver->getImageClassName(), [
-            new DataTableColumn('', '', 'width:50px;'),
-            new DataTableColumn('Aperçu', '', 'width:100px;'),
-            new DataTableColumn('Titre', 'title'),
-            new DataTableColumn('Date', 'createdAt'),
-            new DataTableColumn('Fichier', '', 'width:200px;'),
-            new DataTableColumn('', ''),
-        ]);
-
-        return $dataTable->getResponse($this->dataTableRowFactory);
+        return $this->dataTableFactory->create($this->classNameResolver->getImageClassName())
+            ->setColumns([
+                ['label' => '', 'field' => '', 'style' => 'width:50px;'],
+                ['label' => 'Aperçu', 'field' => '', 'style' => 'width:100px;'],
+                ['label' => 'Titre', 'field' => 'title'],
+                ['label' => 'Date', 'field' => 'createdAt'],
+                ['label' => 'Fichier', 'field' => '', 'style' => 'width:200px;'],
+                ['label' => '', 'field' => ''],
+            ])
+            ->searchIn(['title'])
+            ->renderJson($this->dataTableRowFactory)
+        ;
     }
 }
