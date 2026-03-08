@@ -57,6 +57,13 @@ interface DataTableInterface
 
     public function filter(callable $filter): self;
 
+    /**
+     * @param string[] $fields
+     */
+    public function searchIn(array $fields): self;
+
+    public function getSearchFields(): array;
+
     public function renderJson(callable $transformer): Response|self;
 
     /**

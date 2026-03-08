@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Component\DataTable;
 
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContextFactoryInterface;
 use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepositoryInterface;
-use Aropixel\AdminBundle\Component\DataTable\Repository\DefaultDataTableRepository;
+use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepository;
 use Twig\Environment;
 
 class DataTableFactory implements DataTableFactoryInterface
@@ -13,8 +13,8 @@ class DataTableFactory implements DataTableFactoryInterface
 
     public function __construct(
         private readonly DataTableContextFactoryInterface $dataTableContextFactory,
-        private readonly DefaultDataTableRepository $doctrineDataTableRepository,
-        private readonly Environment $twig
+        private readonly DataTableRepository              $doctrineDataTableRepository,
+        private readonly Environment                      $twig
     ) {
     }
 

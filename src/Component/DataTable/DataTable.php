@@ -5,7 +5,7 @@ namespace Aropixel\AdminBundle\Component\DataTable;
 use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepositoryInterface;
-use Aropixel\AdminBundle\Component\DataTable\Repository\DefaultDataTableRepository;
+use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepository;
 use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -27,6 +27,11 @@ class DataTable implements DataTableInterface
      * @var callable|DataTableRowFactoryInterface|null
      */
     private $transformer = null;
+
+    /**
+     * @var string[]
+     */
+    private array $searchFields = [];
 
     /**
      * @var array<string, mixed>
@@ -128,7 +133,7 @@ class DataTable implements DataTableInterface
 
     public function useRepositoryMethod(string $methodName): self
     {
-        if ($this->dataTableRepository instanceof DefaultDataTableRepository) {
+        if ($this->dataTableRepository instanceof DataTableRepository) {
             $this->dataTableRepository->setRepositoryMethod($methodName);
         }
 
@@ -137,11 +142,23 @@ class DataTable implements DataTableInterface
 
     public function filter(callable $filter): self
     {
-        if ($this->dataTableRepository instanceof DefaultDataTableRepository) {
+        if ($this->dataTableRepository instanceof DataTableRepository) {
             $this->dataTableRepository->addFilter($filter);
         }
 
         return $this;
+    }
+
+    public function searchIn(array $fields): self
+    {
+        $this->searchFields = $fields;
+
+        return $this;
+    }
+
+    public function getSearchFields(): array
+    {
+        return $this->searchFields;
     }
 
     public function renderJson(callable $transformer): Response|self

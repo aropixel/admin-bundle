@@ -20,6 +20,7 @@ public function index(DataTableFactory $dataTableFactory): Response
             ['label' => 'Date', 'field' => 'startDate', 'style' => 'width:200px;'],
             ['label' => '', 'field' => '', 'class' => 'no-sort'],
         ])
+        ->searchIn(['title'])
         ->renderJson(fn(Event $event) => [
             $event->getTitle(),
             $event->getStartDate()->format('d/m/Y'),
@@ -64,10 +65,28 @@ These values are automatically rendered in the Twig template as `data-order-colu
 
 ## Repository Management
 
-By default, the component uses the `DefaultDataTableRepository` which looks for a `getQueryDataTable(DataTableContext $context)` method in the entity's Doctrine repository.
+### Automatic Search and Sort
+The component can automatically handle search (LIKE clauses) and sorting (ORDER BY) if you provide the searchable fields:
+
+```php
+$dataTableFactory
+    ->create(Event::class)
+    ->setColumns([
+        ['label' => 'Title', 'field' => 'title'],
+        ['label' => 'Date', 'field' => 'createdAt'],
+        ['label' => '', 'field' => '', 'class' => 'no-sort'],
+    ])
+    ->searchIn(['title', 'subTitle']) // Enable automatic search on these fields
+    // ...
+```
+
+By default, the component uses the `DefaultDataTableRepository`. If `searchIn()` is used or if no custom repository method is specified, it will:
+1. Automatically generate the `QueryBuilder` for the entity.
+2. Apply `LIKE` conditions on the fields specified in `searchIn()`.
+3. Apply `ORDER BY` based on the clicked column and its `field` configuration.
 
 ### Customizing the Method
-You can change the method called in your Doctrine repository:
+If you need complex logic, you can change the method called in your Doctrine repository:
 
 ```php
 $dataTableFactory
@@ -104,6 +123,9 @@ Defines the Doctrine repository method to call to retrieve the `QueryBuilder`.
 
 ### `filter(callable $filter): self`
 Adds a callback function to modify the `QueryBuilder` before executing the query.
+
+### `searchIn(array $fields): self`
+Enables automatic search on the specified entity fields.
 
 ### `setOrderColumn(?int $index): self`
 Sets the default column index for sorting.
