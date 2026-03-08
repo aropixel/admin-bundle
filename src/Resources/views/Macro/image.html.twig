@@ -2,7 +2,7 @@
     {% set image = attribute(item, image_field) %}
     {% set status = attribute(item, status_field) %}
     <a class="position-relative" href="{{ edit_path ?: '#' }}">
-        <img class="img-rounded rounded-3" src="{{ image|secured_imagine_filter(filter) }}" height="{{ height }}" />
+        <img class="img-rounded rounded-3" src="{{ image|aropixel_imagine_filter(filter) }}" height="{{ height }}" />
         <span class="state-icon img-state-icon state-icon--{{ status }}" title="{{ status == 'online' ? "text.online"|trans : "text.offline"|trans }}"></span>
     </a>
 {% endmacro %}
