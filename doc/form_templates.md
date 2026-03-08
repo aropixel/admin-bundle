@@ -13,6 +13,7 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
 ```twig
 {% extends '@AropixelAdmin/Form/base.html.twig' %}
 {% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
+{% import '@AropixelAdmin/Macro/forms.html.twig' as forms %}
 
 {# 1. Meta and Titles #}
 {% block meta_title %}{% if artist.id %}Modifier{% else %}Ajouter{% endif %} un artiste{% endblock %}
@@ -30,9 +31,11 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
 
 {# 3. Tabs Navigation (Optional) #}
 {% block tabbable %}
-    <li class="nav-item"><a href="#panel-tab-artist" data-bs-toggle="tab" class="nav-link active">Artiste</a></li>
-    <li class="nav-item"><a href="#panel-tab-badge" data-bs-toggle="tab" class="nav-link">Badge</a></li>
-    <li class="nav-item"><a href="#panel-tab-prog" data-bs-toggle="tab" class="nav-link">Programmation</a></li>
+    {{ forms.tabs([
+        { id: 'panel-tab-artist', label: 'Artiste' },
+        { id: 'panel-tab-badge', label: 'Badge' },
+        { id: 'panel-tab-prog', label: 'Programmation' }
+    ]) }}
 {% endblock %}
 
 {# 4. Form Custom Themes #}

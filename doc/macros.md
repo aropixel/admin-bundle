@@ -118,6 +118,44 @@ To use this macro, you first need to import it in your Twig template:
 | `filter` | `string` | (Optional) The LiipImagine filter to apply. Defaults to `'admin_thumbnail'`. |
 | `height` | `int` | (Optional) The height of the image in pixels. Defaults to `60`. |
  
+## Forms Macro
+ 
+The `forms` macro contains helpers for form-related components, such as tabbed navigation.
+ 
+### Location
+ 
+File: `@AropixelAdmin/Macro/forms.html.twig`
+ 
+### Usage
+ 
+To use this macro, you first need to import it in your Twig template:
+ 
+```twig
+{% import '@AropixelAdmin/Macro/forms.html.twig' as forms %}
+ 
+{# ... #}
+ 
+{% block tabbable %}
+    {{ forms.tabs([
+        { id: 'panel-tab-artist', label: 'Artiste' },
+        { id: 'panel-tab-badge', label: 'Badge' },
+        { id: 'panel-tab-prog', label: 'Programmation' }
+    ]) }}
+{% endblock %}
+```
+ 
+### Parameters
+ 
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `items` | `array` | An array of objects/associative arrays. Each item should have an `id` and a `label`. |
+ 
+Each item in the `items` array can have:
+- `id`: (Required) The ID of the target `tab-pane` (without the `#` prefix).
+- `label`: (Required) The text to display on the tab (it will be passed through the `|trans` filter).
+ 
+The macro automatically adds the `active` class to the first tab in the list.
+ 
 ## Adding New Macros
 
 When adding new macros to the bundle:
