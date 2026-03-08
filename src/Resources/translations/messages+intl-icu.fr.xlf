@@ -25,6 +25,14 @@
         <source>text.create</source>
         <target>Création</target>
       </trans-unit>
+      <trans-unit id="generic.delete" resname="text.delete">
+        <source>text.delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete" resname="text.confirm_delete">
+        <source>text.confirm_delete</source>
+        <target>Êtes-vous sûr de vouloir supprimer cet élément ?</target>
+      </trans-unit>
       <trans-unit id="9jBDz2S" resname="status.outdated">
         <source>status.outdated</source>
         <target>Passé</target>
