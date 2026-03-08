@@ -5,6 +5,7 @@ namespace Aropixel\AdminBundle\Component\DataTable;
 use Aropixel\AdminBundle\Component\DataTable\Column\DataTableColumn;
 use Aropixel\AdminBundle\Component\DataTable\Context\DataTableContext;
 use Aropixel\AdminBundle\Component\DataTable\Repository\DataTableRepositoryInterface;
+use Aropixel\AdminBundle\Component\DataTable\Repository\DefaultDataTableRepository;
 use Aropixel\AdminBundle\Component\DataTable\Row\DataTableRowFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -19,6 +20,8 @@ class DataTable implements DataTableInterface
     private string $mode = DataTableInterface::MODE_XHR;
 
     private ?int $orderColumn = null;
+
+    private ?string $orderDirection = null;
 
     /**
      * @var callable|DataTableRowFactoryInterface|null
