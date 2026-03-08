@@ -33,6 +33,14 @@
         <source>text.confirm_delete</source>
         <target>Are you sure you want to delete this item?</target>
       </trans-unit>
+      <trans-unit id="text.online" resname="text.online">
+        <source>text.online</source>
+        <target>Online</target>
+      </trans-unit>
+      <trans-unit id="text.offline" resname="text.offline">
+        <source>text.offline</source>
+        <target>Offline</target>
+      </trans-unit>
       <trans-unit id="9jBDz2S" resname="status.outdated">
         <source>status.outdated</source>
         <target>Outdated</target>

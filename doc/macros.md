@@ -86,7 +86,38 @@ Each item in the `items` array can have:
 - `url`: (Optional) The URL for the link. If omitted, the label will be displayed without a link.
 
 The macro automatically adds the `active` class to the last item in the list.
-
+ 
+## Image Macro
+ 
+The `image` macro allows displaying an image thumbnail with a status icon (online/offline), commonly used in list views.
+ 
+### Location
+ 
+File: `@AropixelAdmin/Macro/image.html.twig`
+ 
+### Usage
+ 
+To use this macro, you first need to import it in your Twig template:
+ 
+```twig
+{% import '@AropixelAdmin/Macro/image.html.twig' as media %}
+ 
+{# ... #}
+ 
+{{ media.thumbnail_with_status(item, 'image', 'status', path('admin_pack_edit', {'id': item.id})) }}
+```
+ 
+### Parameters
+ 
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `item` | `object` | The entity instance containing the image and status. |
+| `image_field` | `string` | (Optional) The name of the image property. Defaults to `'image'`. |
+| `status_field` | `string` | (Optional) The name of the status property. Defaults to `'status'`. |
+| `edit_path` | `string` | (Optional) The URL for the link around the thumbnail. |
+| `filter` | `string` | (Optional) The LiipImagine filter to apply. Defaults to `'admin_thumbnail'`. |
+| `height` | `int` | (Optional) The height of the image in pixels. Defaults to `60`. |
+ 
 ## Adding New Macros
 
 When adding new macros to the bundle:
