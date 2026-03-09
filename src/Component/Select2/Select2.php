@@ -119,10 +119,8 @@ class Select2 implements Select2Interface
 
         // Retourner la JsonResponse formatée pour Select2
         return new JsonResponse([
-            'results' => $results,
-            'pagination' => [
-                'more' => ($this->page * $this->itemsPerPage) < $totalCount,
-            ],
+            'items' => $results,
+            'incomplete_results' => ($this->page * $this->itemsPerPage) < $totalCount,
             'total_count' => $totalCount,
         ]);
     }
