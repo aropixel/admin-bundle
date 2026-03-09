@@ -232,9 +232,9 @@ onDomReady(() => {
                     // alter the remote JSON data
                     params.page = params.page || 1;
                     return {
-                        results: data.items,
+                        results: data.results,
                         pagination: {
-                            more: (params.page * 20) < data.total_count
+                            more: data.pagination.more
                         }
                     };
                 },

@@ -71,7 +71,7 @@ class Select2 implements Select2Interface
         return $this;
     }
 
-    public function render(callable $transformer): Response
+    public function render(callable $transformer = null): Response
     {
         if (!$this->provider && !$this->entityClassName) {
             throw new \LogicException("Aucun fournisseur ou entité n'a été défini. Appelez withProvider() ou withEntity() d'abord.");
@@ -115,12 +115,59 @@ class Select2 implements Select2Interface
         ;
 
         // Transformer les entités en tableau de résultats
-        $results = array_map($transformer, $items);
+        $results = array_map(function($item) use ($transformer) {
+
+            // Si un transformer est fourni, on l'appelle
+            if ($transformer) {
+
+                $result = $transformer($item);
+
+                // Si le transformer retourne déjà un tableau, on s'assure que full_name est présent
+                if (is_array($result)) {
+
+                    // Si c'est un tableau indexé (ex: [$id, $full_name])
+                    if (isset($result[0]) && isset($result[1])) {
+                        return [
+                            'id' => $result[0],
+                            'full_name' => $result[1],
+                        ];
+                    }
+
+                    // Si text est présent (ancien format), on le mappe vers full_name
+                    if (!isset($result['full_name']) && isset($result['text'])) {
+                        $result['full_name'] = $result['text'];
+                        unset($result['text']);
+                    }
+
+                    // Si id n'est pas présent, on met l'id par défaut
+                    if (!isset($result['id'])) {
+                        $result['id'] = $item->getId();
+                    }
+
+                    return $result;
+                }
+
+                // Si le transformer retourne une valeur simple, on l'utilise pour full_name
+                return [
+                    'id' => $item->getId(),
+                    'full_name' => (string)$result,
+                ];
+            }
+
+            // Par défaut, on utilise getId() et __toString()
+            return [
+                'id' => $item->getId(),
+                'full_name' => (string)$item,
+            ];
+
+        }, $items);
 
         // Retourner la JsonResponse formatée pour Select2
         return new JsonResponse([
-            'items' => $results,
-            'incomplete_results' => ($this->page * $this->itemsPerPage) < $totalCount,
+            'results' => $results,
+            'pagination' => [
+                'more' => ($this->page * $this->itemsPerPage) < $totalCount,
+            ],
             'total_count' => $totalCount,
         ]);
     }
