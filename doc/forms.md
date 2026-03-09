@@ -11,8 +11,11 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [GalleryType (Files)](#gallerytype-files)
 - [Technical Types](#technical-types)
     - [DateTimeType](#datetimetype)
+    - [DateType](#datetype)
     - [TimeType](#timetype)
     - [Select2Type](#select2type)
+    - [FilterableEntityType](#filterableentitytype)
+    - [FilterableEntitiesType](#filterableentitiestype)
     - [EntityHiddenType](#entityhiddentype)
     - [CollectionHiddenType](#collectionhiddentype)
     - [TranslatableType](#translatabletype)
@@ -120,6 +123,22 @@ $builder->add('publishAt', DateTimeType::class, [
 ]);
 ```
 
+### DateType
+
+An extension of the standard Symfony `DateType` pre-configured to work with the bundle's date picker. It sets the following options by default:
+- `widget`: `single_text`
+- `format`: `yyyy-MM-dd`
+
+**Twig block:** `aropixel_admin_date_widget`
+
+**Usage:**
+```php
+$builder->add('publishedAt', DateType::class, [
+    'label' => 'Published at',
+    'required' => false,
+]);
+```
+
 ### TimeType
 
 An extension of the standard Symfony `TimeType` pre-configured to work with the bundle's time picker. It sets the following option by default:
@@ -152,6 +171,46 @@ $builder->add('category', Select2Type::class, [
     'repository' => Category::class,
     'route' => 'admin_category_ajax_search',
     'choice_label' => 'title',
+]);
+```
+
+### FilterableEntityType
+
+An extension of `Select2Type` for single entity selection with AJAX search. It sets `multiple` to `false` and `required` to `false` by default.
+
+**Twig block:** `aropixel_admin_select2_row` (inherited from `Select2Type`)
+
+**Options:**
+- `repository`: The entity class (required).
+- `route`: The AJAX route name to fetch results (required).
+- `choice_label`: The property name to display as label (default: 'label').
+
+**Usage:**
+```php
+$builder->add('author', FilterableEntityType::class, [
+    'label'      => 'Author',
+    'repository' => Author::class,
+    'route'      => 'admin_author_ajax',
+]);
+```
+
+### FilterableEntitiesType
+
+An extension of `FilterableEntityType` for multiple entity selection (ManyToMany/OneToMany). It sets `multiple` to `true` by default.
+
+**Twig block:** `aropixel_admin_select2_row` (inherited from `Select2Type`)
+
+**Options:**
+- `repository`: The entity class (required).
+- `route`: The AJAX route name to fetch results (required).
+- `choice_label`: The property name to display as label (default: 'label').
+
+**Usage:**
+```php
+$builder->add('similarAlbums', FilterableEntitiesType::class, [
+    'label'      => 'Similar Albums',
+    'repository' => Album::class,
+    'route'      => 'admin_album_select2',
 ]);
 ```
 
