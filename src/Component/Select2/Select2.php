@@ -2,6 +2,7 @@
 
 namespace Aropixel\AdminBundle\Component\Select2;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 class Select2 implements Select2Interface
 {
     private ?Select2DataProviderInterface $provider = null;
+    private ?string $entityClassName = null;
+    private array $searchFields = [];
     private string $searchTerm = '';
     private int $page = 1;
     private int $itemsPerPage = 20;
@@ -23,6 +26,7 @@ class Select2 implements Select2Interface
      */
     public function __construct(
         private readonly RequestStack $requestStack,
+        private readonly EntityManagerInterface $em,
         #[TaggedIterator('aropixel.select2_provider')]
         private readonly iterable $providers
     ) {
@@ -46,6 +50,20 @@ class Select2 implements Select2Interface
         throw new \InvalidArgumentException(sprintf("Aucun fournisseur Select2 trouvé pour l'alias '%s'", $alias));
     }
 
+    public function withEntity(string $className): self
+    {
+        $this->entityClassName = $className;
+
+        return $this;
+    }
+
+    public function searchIn(array $fields): self
+    {
+        $this->searchFields = $fields;
+
+        return $this;
+    }
+
     public function filter(callable $callback): self
     {
         $this->filterCallback = $callback;
@@ -55,11 +73,29 @@ class Select2 implements Select2Interface
 
     public function render(callable $transformer): Response
     {
-        if (!$this->provider) {
-            throw new \LogicException("Aucun fournisseur n'a été défini. Appelez withProvider() d'abord.");
+        if (!$this->provider && !$this->entityClassName) {
+            throw new \LogicException("Aucun fournisseur ou entité n'a été défini. Appelez withProvider() ou withEntity() d'abord.");
         }
 
-        $qb = $this->provider->getQueryBuilder($this->searchTerm);
+        // Si on a un provider, on l'utilise pour récupérer le QueryBuilder de base
+        if ($this->provider) {
+            $qb = $this->provider->getQueryBuilder($this->searchTerm);
+            $rootAlias = $this->provider->getRootAlias();
+        } else {
+            // Sinon on crée un QueryBuilder par défaut à partir de l'entité
+            $rootAlias = 'e';
+            $qb = $this->em->getRepository($this->entityClassName)->createQueryBuilder($rootAlias);
+        }
+
+        // Gestion de la recherche automatique si searchIn est utilisé
+        if (mb_strlen($this->searchTerm) && count($this->searchFields)) {
+            $orX = $qb->expr()->orX();
+            foreach ($this->searchFields as $field) {
+                $orX->add($qb->expr()->like($rootAlias . '.' . $field, ':q'));
+            }
+            $qb->andWhere($orX);
+            $qb->setParameter('q', '%' . $this->searchTerm . '%');
+        }
 
         // Appliquer les filtres personnalisés si définis
         if ($this->filterCallback) {
@@ -67,7 +103,7 @@ class Select2 implements Select2Interface
         }
 
         // Calculer le total (avant pagination)
-        $totalCount = $this->count($qb, $this->provider->getRootAlias());
+        $totalCount = $this->count($qb, $rootAlias);
 
         // Récupérer les items paginés
         $offset = ($this->page - 1) * $this->itemsPerPage;

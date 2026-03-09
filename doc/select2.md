@@ -51,6 +51,8 @@ Thanks to autoconfiguration, this service will be automatically detected by the 
 
 ## Use in a Controller
 
+### With a Data Provider
+
 Once your provider is created, you can use it fluently in your controller.
 
 ```php
@@ -75,13 +77,62 @@ public function select2(Select2 $select2): Response
 }
 ```
 
+### With Automatic Search (`searchIn`)
+
+If you don't want to create a dedicated provider, you can use the automatic search on specific fields.
+
+```php
+use Aropixel\AdminBundle\Component\Select2\Select2;
+use App\Entity\Customer;
+
+public function select2(Select2 $select2): Response
+{
+    return $select2
+        ->withEntity(Customer::class)
+        ->searchIn(['firstName', 'lastName', 'email'])
+        ->render(fn(Customer $c) => [
+            'id'   => $c->getId(),
+            'text' => $c->getFullName(),
+        ]);
+}
+```
+
+### With Automatic Search and Filtering
+
+You can combine `searchIn` and `filter` for a flexible "out-of-the-box" experience.
+
+```php
+use Aropixel\AdminBundle\Component\Select2\Select2;
+use App\Entity\Customer;
+
+public function select2(Select2 $select2): Response
+{
+    return $select2
+        ->withEntity(Customer::class)
+        ->searchIn(['firstName', 'lastName', 'email'])
+        ->filter(function(QueryBuilder $qb) {
+            $qb->andWhere('e.active = :active')->setParameter('active', true);
+        })
+        ->render(fn(Customer $c) => [
+            'id'   => $c->getId(),
+            'text' => $c->getFullName(),
+        ]);
+}
+```
+
 ## Available Methods
 
 ### `withProvider(string $alias): self`
 Sets the data provider to use based on its alias.
 
+### `withEntity(string $className): self`
+Sets the entity class to use when no provider is defined.
+
+### `searchIn(array $fields): self`
+Enables automatic search on the specified fields (using `LIKE %search%`). Works both with `withEntity()` and `withProvider()`.
+
 ### `filter(callable $callback): self`
-Allows applying additional filters on the `QueryBuilder` provided by the Data Provider. The closure receives the `QueryBuilder` object as a parameter.
+Allows applying additional filters on the `QueryBuilder`. The closure receives the `QueryBuilder` object as a parameter. It can be used in combination with `searchIn()` for a mix of automatic search and custom filtering.
 
 ### `render(callable $transformer): Response`
 Executes the search (automatically handling pagination and counting) and returns a `JsonResponse`. The `$transformer` closure is called for each result to format the data.
