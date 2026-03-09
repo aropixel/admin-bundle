@@ -652,7 +652,7 @@
     {% set select2_multiple = multiple %}
     <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
         {% for choice in choices %}
-            <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
+            <option value="{{choice.value}}" data-full_name="{{choice.label}}" selected="selected">{{choice.label}}</option>
         {% endfor %}
     </select>
 {%- endblock %}

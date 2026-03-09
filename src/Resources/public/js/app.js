@@ -250,6 +250,8 @@ onDomReady(() => {
         if (_select[0].hasAttribute("data-placeholder")) {
             params.placeholder = _placeholder;
             params.allowClear = true;
+        } else {
+            params.placeholder = "";
         }
 
         // Bugfix select2 in modal
