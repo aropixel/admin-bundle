@@ -624,88 +624,52 @@ onDomReady(() => {
     });
 
 
-    $('.main-content').on('click', '[data-form-collection-add]', function() {
+    $('.main-content').on('click', '[data-form-collection-add]', function(e) {
 
-        let $collection = $('#'+$(this).attr('data-form-collection-add'));
-        let pattern_id_replace = $(this).attr('data-form-prototype-id-replace');
-        let pattern_name_replace = $(this).attr('data-form-prototype-name-replace');
+        e.preventDefault();
 
-        let $list = $collection.find('> [data-form-collection="list"]');
-        let $items = $list.find('> [data-form-collection="item"]');
+        const $addButton = $(this);
+        const $collection = $('#' + $addButton.attr('data-form-collection-add'));
+        const $list = $collection.find('> [data-form-collection="list"]');
+        const prototype = $collection.attr('data-prototype');
 
-        let count = $items.length + 1;
-        // $items.attr('data-form-collection-index', count);
-        let prototype = $collection.attr('data-prototype');
+        // Récupérer l'index le plus élevé pour éviter les doublons même si on supprime des éléments
+        let index = $collection.data('index') || $list.find('> [data-form-collection="item"]').length;
 
-        if (pattern_id_replace) {
+        // Remplacement du prototype
+        const newForm = prototype.replace(/__name__/g, index);
 
-            let replace_value = pattern_id_replace.replace(/__name__/g, count);
+        // Mise à jour de l'index pour le prochain ajout
+        $collection.data('index', index + 1);
 
-            let re = new RegExp(pattern_id_replace,"g");
-            prototype = prototype.replace(re, replace_value);
+        // Ajout au DOM
+        const $newElement = $(newForm);
+        $list.append($newElement);
 
-        }
-        else {
-            prototype = prototype.replace(/__name__/g, count);
-        }
+        // Initialisation des plugins sur le nouvel élément
+        activateDatePicker($newElement.find('.pickadate'));
+        activateTimePicker($newElement.find('.pickatime'));
+        activateQuillEditor($newElement.find('.quill-editor'));
+        activateImManager($newElement.find('.im-manager'));
+        activateSortable($list);
 
-        if (pattern_name_replace) {
-
-            pattern_name_replace = pattern_name_replace.replace(/\[/g, '\\[');
-            pattern_name_replace = pattern_name_replace.replace(/]/g, '\\]');
-
-            let replace_value = pattern_name_replace.replace(/__name__/g, count);
-            replace_value = replace_value.replace(/\\\[/g, '[')
-            replace_value = replace_value.replace(/\\]/g, ']')
-
-            let re = new RegExp(pattern_name_replace,"g");
-            prototype = prototype.replace(re, replace_value);
-
-        }
-        else {
-            prototype = prototype.replace(/__name__/g, count);
-        }
-
-
-        $list.append(prototype);
-        $list.find('> [data-form-collection="item"]:nth-child('+count+')').attr('data-form-collection-index', count);
-
-
-        activateDatePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickadate'));
-        activateTimePicker($list.find('> [data-form-collection="item"]:nth-child('+count+') .pickatime'));
-        activateQuillEditor($list.find('> [data-form-collection="item"]:nth-child('+count+') .quill-editor'));
-        activateImManager($list.find('> [data-form-collection="item"]:nth-child('+count+') .im-manager'));
-        activateSortable($list.find('> [data-form-collection="list"]'));
-        // $list.find('> [data-form-collection="item"]:nth-child('+count+') .bootstrap-select').selectpicker({
-        //     autoWidth: false
-        // });
-
-
-        // re-init select2 for new select 2 item in collection
-        $(".select2-ajax").each(function() {
-
-            if (!$(this).next().length || !$(this).next().hasClass('select2-container')) {
-                initializeSelect2Ajax($(this));
-            }
-
-        });
-
-        $(".select2").not('.select2-container').each(function() {
-
-            initializeSelect2($(this));
-
-        });
-
-        $(".select-multiple").not('.select2-container').each(function() {
-
-            if ($(this).parent('.duallistbox').length) {
-
-            }
-            else {
-                initializeSelect2($(this));
+        // Ré-initialisation de Select2
+        $newElement.find(".select2-ajax, .select2, .select-multiple").each(function() {
+            const $select = $(this);
+            if ($select.hasClass('select2-ajax')) {
+                if (!$select.next().hasClass('select2-container')) {
+                    initializeSelect2Ajax($select);
+                }
+            } else if ($select.hasClass('select-multiple')) {
+                if (!$select.parent('.duallistbox').length && !$select.next().hasClass('select2-container')) {
+                    initializeSelect2($select);
+                }
+            } else {
+                if (!$select.next().hasClass('select2-container')) {
+                    initializeSelect2($select);
+                }
             }
         });
-
 
     });
 
@@ -715,6 +679,19 @@ onDomReady(() => {
         });
         activateSortable($(this));
 
+    });
+
+    $(document).on('input', '.modal-body input', function (e) {
+        const inputName = $(this).attr('name');
+        const newValue = $(this).val();
+        const $label = $(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
+        if ($label.length) {
+            if (!newValue) {
+                $label.html('<em class="text-muted">Nouveau</em>');
+            } else {
+                $label.text(newValue);
+            }
+        }
     });
 
 });
@@ -809,7 +786,6 @@ function activateQuillEditor($elements) {
 
     $elements.each(function() {
         let $this = $(this);
-        console.log($this);
         let targetSelector = $this.data('target');
         let toolbarType = $this.data('toolbar');
         let $target = $(targetSelector);

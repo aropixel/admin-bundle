@@ -169,6 +169,7 @@
                 {% if prototype is defined and allow_add %}
                     data-prototype='{{ self.collection_item(prototype, allow_delete, '__name__')|e }}'
                 {%- endif -%}
+                data-index="{{ form|length }}"
         >
 
             {% if prototypes|default is iterable %}
@@ -186,6 +187,104 @@
         </div>
     {% endapply %}
 {%- endblock collection_widget %}
+
+
+{% block aropixel_admin_modal_collection_widget -%}
+    {% apply spaceless %}
+        {% set prototype_html = '' %}
+        {% if prototype is defined and allow_add %}
+            {% set item = prototype %}
+            {% set prototype_html = block('aropixel_admin_modal_collection_entry_row') %}
+        {% endif %}
+        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}">
+
+            <div class="mb-3">
+                <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> {{ button_add_label|trans }}
+                </a>
+            </div>
+
+            <table class="table table-striped table-hover mt-3" data-form-collection="list">
+                <thead>
+                <tr>
+                    <th style="width: 50px;"></th>
+                    {% for label, field in columns %}
+                        <th>{{ label|trans }}</th>
+                    {% endfor %}
+                    <th style="width: 150px;" class="text-end">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in form %}
+                    {{ block('aropixel_admin_modal_collection_entry_row') }}
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    {% endapply %}
+{%- endblock aropixel_admin_modal_collection_widget %}
+
+
+{% block aropixel_admin_modal_collection_entry_row %}
+    <tr class="collection-item" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}">
+        <td class="align-middle">
+            <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
+                <i class="fas fa-arrows-alt"></i>
+            </a>
+        </td>
+
+        {% for label, field in columns %}
+            <td class="align-middle">
+                {% if field == display_field %}
+                    <span class="modal-collection-display-label" data-display-field-name="{{ item[field].vars.full_name }}">
+                        {% if item[field].vars.value %}
+                            {{ item[field].vars.value }}
+                        {% else %}
+                            <em class="text-muted">Nouveau</em>
+                        {% endif %}
+                    </span>
+                {% else %}
+                    {{ form_widget(item[field], { 'attr': { 'class': 'form-control-sm' } }) }}
+                {% endif %}
+            </td>
+        {% endfor %}
+
+        <td class="align-middle text-end">
+            <div class="btn-group dropstart">
+                <button type="button" class="badge badge-light badge-icon" data-bs-toggle="dropdown">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-{{ item.vars.id }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i> {{ 'text.edit'|trans }}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item has-icon delete text-danger" href="#" data-form-collection="delete"><i class="fas fa-trash"></i> {{ 'text.delete'|trans }}</a>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-{{ item.vars.id }}" tabindex="-1" aria-labelledby="modal-label-{{ item.vars.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header text-start">
+                            <h5 class="modal-title" id="modal-label-{{ item.vars.id }}">{{ modal_title|trans }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            {% for child in item %}
+                                {% if child.vars.name not in columns|values %}
+                                    {{ form_row(child) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+{% endblock aropixel_admin_modal_collection_entry_row %}
 
 {% macro collection_item(form, allow_delete, index) %}
     {% apply spaceless %}

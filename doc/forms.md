@@ -18,6 +18,7 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [FilterableEntitiesType](#filterableentitiestype)
     - [EntityHiddenType](#entityhiddentype)
     - [CollectionHiddenType](#collectionhiddentype)
+    - [ModalCollectionType](#modalcollectiontype)
     - [TranslatableType](#translatabletype)
 - [UI Types](#ui-types)
     - [EditorType (QuillJS)](#editortype-quilljs)
@@ -247,6 +248,35 @@ $builder->add('tags', CollectionHiddenType::class, [
     'multiple' => true,
 ]);
 ```
+
+### ModalCollectionType
+
+Handles a collection of forms with a table view and a Bootstrap modal for editing each item.
+
+**Twig block:** `aropixel_admin_modal_collection_widget`
+
+**Options:**
+- `columns`: (array) Associative array of `label => field_name` to display in the table.
+- `display_field`: (string) The field name whose value should be displayed as a live-updating label in the table.
+- `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
+- `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
+
+**Usage:**
+```php
+$builder->add('tracklists', ModalCollectionType::class, [
+    'entry_type' => TrackType::class,
+    'columns' => [
+        'Pos.' => 'position',
+        'Titre' => 'title',
+    ],
+    'display_field' => 'title',
+    'button_add_label' => 'Ajouter un morceau',
+    'modal_title' => 'Détails du morceau',
+]);
+```
+
+**JavaScript Integration:**
+When an input field matching the `display_field` name is edited inside the modal, the corresponding label in the table is updated in real-time.
 
 ### TranslatableType
 
