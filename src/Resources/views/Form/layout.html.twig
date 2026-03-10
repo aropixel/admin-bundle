@@ -277,13 +277,23 @@
                         <div class="modal-body text-start">
                             {% set column_fields = [] %}
                             {% for cp in columns %}
-                                {% set column_fields = column_fields|merge([cp|split('.')|first]) %}
+                                {% set column_fields = column_fields|merge([cp]) %}
                             {% endfor %}
-                            {% for child in item %}
-                                {% if child.vars.name not in column_fields %}
-                                    {{ form_row(child) }}
-                                {% endif %}
-                            {% endfor %}
+
+                            {% macro render_modal_fields(form, column_fields, parent_path = '') %}
+                                {% for child in form %}
+                                    {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
+                                    {% if child_path not in column_fields %}
+                                        {% if child.children|length > 0 %}
+                                            {{ _self.render_modal_fields(child, column_fields, child_path) }}
+                                        {% else %}
+                                            {{ form_row(child) }}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endmacro %}
+
+                            {{ _self.render_modal_fields(item, column_fields) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
