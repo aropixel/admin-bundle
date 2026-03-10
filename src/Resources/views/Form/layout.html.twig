@@ -234,18 +234,23 @@
             </a>
         </td>
 
-        {% for label, field in columns %}
+        {% for label, field_path in columns %}
             <td class="align-middle">
-                {% if field == display_field %}
-                    <span class="modal-collection-display-label" data-display-field-name="{{ item[field].vars.full_name }}">
-                        {% if item[field].vars.value %}
-                            {{ item[field].vars.value }}
+                {% set field = item %}
+                {% for part in field_path|split('.') %}
+                    {% set field = field[part] %}
+                {% endfor %}
+
+                {% if field_path == display_field %}
+                    <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}">
+                        {% if field.vars.value %}
+                            {{ field.vars.value }}
                         {% else %}
                             <em class="text-muted">Nouveau</em>
                         {% endif %}
                     </span>
                 {% else %}
-                    {{ form_widget(item[field], { 'attr': { 'class': 'form-control-sm' } }) }}
+                    {{ form_widget(field, { 'attr': { 'class': 'form-control-sm' } }) }}
                 {% endif %}
             </td>
         {% endfor %}
@@ -270,8 +275,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body text-start">
+                            {% set column_fields = [] %}
+                            {% for cp in columns %}
+                                {% set column_fields = column_fields|merge([cp|split('.')|first]) %}
+                            {% endfor %}
                             {% for child in item %}
-                                {% if child.vars.name not in columns %}
+                                {% if child.vars.name not in column_fields %}
                                     {{ form_row(child) }}
                                 {% endif %}
                             {% endfor %}
