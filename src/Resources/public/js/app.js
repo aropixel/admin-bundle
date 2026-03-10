@@ -681,13 +681,14 @@ onDomReady(() => {
 
     });
 
-    $(document).on('input', '.modal-body input', function (e) {
+    $(document).on('input change', '.modal-body :input', function (e) {
         const inputName = $(this).attr('name');
         const newValue = $(this).val();
         const $label = $(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
         if ($label.length) {
             if (!newValue) {
-                $label.html('<em class="text-muted">Nouveau</em>');
+                const defaultLabel = $label.attr('data-display-field-default') || 'Nouveau';
+                $label.html(`<em class="text-muted">${defaultLabel}</em>`);
             } else {
                 $label.text(newValue);
             }
