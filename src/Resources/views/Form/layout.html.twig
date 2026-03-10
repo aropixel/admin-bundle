@@ -271,7 +271,7 @@
                         </div>
                         <div class="modal-body text-start">
                             {% for child in item %}
-                                {% if child.vars.name not in columns|values %}
+                                {% if child.vars.name not in columns %}
                                     {{ form_row(child) }}
                                 {% endif %}
                             {% endfor %}
