@@ -199,7 +199,7 @@
         <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %}>
 
             <div class="mb-3">
-                <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary btn-sm">
+                <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ button_add_label|trans }}
                 </a>
             </div>
