@@ -671,6 +671,15 @@ onDomReady(() => {
             }
         });
 
+        // Mise à jour de la position si nécessaire
+        $newElement.find('input, select, textarea').each(function() {
+            const name = $(this).attr('name');
+            if (name && name.endsWith('[position]')) {
+                const count = $list.find('> [data-form-collection="item"]').length;
+                $(this).val(count);
+            }
+        });
+
     });
 
     $('[data-form-collection="list"]').each(function() {
@@ -910,6 +919,11 @@ function activateSortable($container) {
 
 
                     $(this).attr('name', new_name);
+
+
+                    if (new_name.endsWith('[position]')) {
+                        $(this).val(iItem + 1);
+                    }
 
 
                     // let new_id = new_name.replace(/[\[\]]+/g,'_');
