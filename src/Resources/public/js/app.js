@@ -634,7 +634,7 @@ onDomReady(() => {
         const prototype = $collection.attr('data-prototype');
 
         // Récupérer l'index le plus élevé pour éviter les doublons même si on supprime des éléments
-        let index = $collection.data('index') || $list.find('> [data-form-collection="item"]').length;
+        let index = $collection.data('index') || $list.find('[data-form-collection="item"]').length;
 
         // Remplacement du prototype
         const newForm = prototype.replace(/__name__/g, index);
@@ -862,9 +862,16 @@ function activateImManager($elements) {
 
 
 function activateSortable($container) {
+    var fixHelper = function(e, ui) {
+        ui.children().each(function() {
+            $(this).width($(this).width());
+        });
+        return ui;
+    };
 
     $container.sortable({
-        items: '> [data-form-collection="item"]',
+        helper: fixHelper,
+        items: '[data-form-collection="item"]',
         handle: '[data-form-collection="move"]',
         start: function (event, ui)
         {
