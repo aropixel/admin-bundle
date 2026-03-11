@@ -675,7 +675,7 @@ onDomReady(() => {
         $newElement.find('input, select, textarea').each(function() {
             const name = $(this).attr('name');
             if (name && name.endsWith('[position]')) {
-                const count = $list.find('> [data-form-collection="item"]').length;
+                const count = $list.find('[data-form-collection="item"]').length;
                 $(this).val(count);
             }
         });
@@ -884,7 +884,7 @@ function activateSortable($container) {
         handle: '[data-form-collection="move"]',
         start: function (event, ui)
         {
-            $container.find('> [data-form-collection="item"] textarea').each(function(iItem) {
+            $container.find('[data-form-collection="item"] textarea').each(function(iItem) {
 
                 if ($(this).hasClass('d-none') && $(this).next().hasClass('quill-editor')) {
                     $(this).next().empty();
@@ -895,7 +895,7 @@ function activateSortable($container) {
         },
         stop: function (event, ui)
         {
-            $container.find('> [data-form-collection="item"] .quill-editor').each(function(iItem) {
+            $container.find('[data-form-collection="item"] .quill-editor').each(function(iItem) {
 
                 activateQuillEditor($(this));
 
@@ -904,11 +904,13 @@ function activateSortable($container) {
         update : function ()
         {
             let level = $container.parents('[data-form-collection="item"]').length * 2;
-            $container.find('> [data-form-collection="item"]').each(function(iItem) {
+            $container.find('[data-form-collection="item"]').each(function(iItem) {
 
                 let _inputs = $(this).find('input, select, textarea');
                 _inputs.each(function() {
-
+                    if (!$(this).attr('name')) {
+                        return;
+                    }
 
                     let re = /(\[[0-9]+\])/g;
                     let old_name = $(this).attr('name');
