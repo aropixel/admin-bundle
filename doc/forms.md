@@ -256,12 +256,13 @@ Handles a collection of forms with a table view and a Bootstrap modal for editin
 **Twig block:** `aropixel_admin_modal_collection_widget`
 
 **Options:**
-- `columns`: (array) Associative array of `label => field_name` to display in the table.
-- `display_field`: (string) The field name whose value should be displayed as a live-updating label in the table.
+- `columns`: (array) Associative array of `label => field_name` to display in the table. Supports nested fields using dot notation (e.g., `track.name`).
+- `display_field`: (string) The field name whose value should be displayed as a live-updating label in the table. Supports nested fields using dot notation.
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
+- `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
 
-**Usage:**
+**Basic Usage:**
 ```php
 $builder->add('tracklists', ModalCollectionType::class, [
     'entry_type' => TrackType::class,
@@ -275,8 +276,22 @@ $builder->add('tracklists', ModalCollectionType::class, [
 ]);
 ```
 
+**Advanced Usage (Nested Forms):**
+You can use dot notation to access fields in nested form types. For example, if `TracklistType` contains a `TrackType` field named `track`, which in turn contains a `name` field:
+
+```php
+$builder->add('tracklists', ModalCollectionType::class, [
+    'entry_type' => TracklistType::class,
+    'columns' => [
+        'Pos.' => 'position',
+        'Titre' => 'track.name',
+    ],
+    'display_field' => 'track.name',
+]);
+```
+
 **JavaScript Integration:**
-When an input field matching the `display_field` name is edited inside the modal, the corresponding label in the table is updated in real-time.
+When an input field matching the `display_field` name (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
 
 ### TranslatableType
 

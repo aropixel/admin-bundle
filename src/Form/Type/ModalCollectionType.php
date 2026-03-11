@@ -17,6 +17,7 @@ class ModalCollectionType extends AbstractType
         $view->vars['columns'] = $options['columns'];
         $view->vars['display_field'] = $options['display_field'];
         $view->vars['modal_title'] = $options['modal_title'];
+        $view->vars['sortable'] = $options['sortable'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -26,6 +27,7 @@ class ModalCollectionType extends AbstractType
             'columns' => [], // ['Titre' => 'title', 'Position' => 'position']
             'display_field' => null, // Le champ à afficher dans la colonne principale du tableau
             'modal_title' => 'Détails de l\'élément',
+            'sortable' => true,
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,

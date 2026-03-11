@@ -196,7 +196,7 @@
             {% set item = prototype %}
             {% set prototype_html = block('aropixel_admin_modal_collection_entry_row') %}
         {% endif %}
-        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}">
+        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %}>
 
             <div class="mb-3">
                 <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary btn-sm">
@@ -229,9 +229,11 @@
 {% block aropixel_admin_modal_collection_entry_row %}
     <tr class="collection-item" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}">
         <td class="align-middle">
-            <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
-                <i class="fas fa-arrows-alt"></i>
-            </a>
+            {% if sortable %}
+                <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
+                    <i class="fas fa-arrows-alt"></i>
+                </a>
+            {% endif %}
         </td>
 
         {% for label, field_path in columns %}
