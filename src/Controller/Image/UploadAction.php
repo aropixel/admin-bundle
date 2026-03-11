@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Controller\Image;
 
 use Aropixel\AdminBundle\Component\Media\Image\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Component\Media\Image\Library\Factory\ImageFactoryInterface;
-use Aropixel\AdminBundle\Form\Type\Image\PluploadType;
+use Aropixel\AdminBundle\Form\Type\Image\ImageUploadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class UploadAction extends AbstractController
     public function __invoke(Request $request): Response
     {
         $image = $this->imageFactory->create();
-        $form = $this->createForm(PluploadType::class, $image, [
+        $form = $this->createForm(ImageUploadType::class, $image, [
             'action' => $this->generateUrl('image_upload'),
             'method' => 'POST',
         ]);

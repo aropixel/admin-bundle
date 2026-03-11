@@ -12,58 +12,96 @@ export class IM_Uploader {
     }
 
     initUploader(onComplete) {
-        const id = 'upload-' + Math.random().toString(36).substring(2);
-        this.button.id = id;
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.multiple = true;
+        input.accept = 'image/jpeg,image/png,image/gif';
+        input.style.display = 'none';
+        document.body.appendChild(input);
 
-        this.uploader = new plupload.Uploader({
-            browse_button: id,
-            url: this.button.dataset.path,
-            file_data_name: 'aropixel_admin_plupload_image[file]',
-            multipart_params: {
-                '_http_accept': 'application/javascript'
-            },
-            filters: [
-                { title: 'Images', extensions: 'jpg,gif,png,jpeg' }
-            ],
-            init: {
-                FilesAdded: (up, files) => {
-                    this.clearErrors();
-                    this.uploader.start();
-                },
-                BeforeUpload: (up, file) => {
-                    up.settings.multipart_params = {
-                        'aropixel_admin_plupload_image[category]': this.modal?.getCategory(),
-                        'aropixel_admin_plupload_image[title]': file.name
-                    };
-                },
-                UploadFile: (up, file) => {
-                    this.progress.innerHTML = `<li id="${file.id}" class="width-200">
-            <div class="info">${file.name}</div>
-            <div class="progress"><div class="progress-bar" style="width: 0;"></div></div>
-          </li>`;
-                },
-                UploadProgress: (up, file) => {
-                    const bar = document.querySelector(`#${file.id} .progress-bar`);
-                    if (bar) bar.style.width = `${file.percent}%`;
-                },
-                UploadComplete: () => {
-                    this.progress.innerHTML = '';
-                    if (typeof onComplete === 'function') onComplete();
-                },
-                Error: (up, err) => {
-                    const alert = document.getElementById('alertUploadError');
-                    if (alert) {
-                        alert.innerHTML = err.response;
-                        alert.style.display = 'block';
-                    }
-                },
-                FileUploaded: () => {
-                    // Reload table or preview
-                }
-            }
+        this.button.addEventListener('click', (e) => {
+            e.preventDefault();
+            input.click();
         });
 
-        this.uploader.init();
+        input.addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files);
+            if (!files.length) return;
+
+            this.clearErrors();
+
+            for (const file of files) {
+                await this.uploadFile(file, onComplete);
+            }
+
+            input.value = ''; // Reset input for next selection
+        });
+    }
+
+    async uploadFile(file, onComplete) {
+        const formData = new FormData();
+        const category = this.modal?.getCategory() || this.category || '';
+
+        formData.append('aropixel_admin_library_image[file]', file);
+        formData.append('aropixel_admin_library_image[category]', category);
+        formData.append('aropixel_admin_library_image[title]', file.name);
+        formData.append('_http_accept', 'application/javascript');
+
+        const fileId = 'file-' + Math.random().toString(36).substring(2);
+        this.progress.insertAdjacentHTML('beforeend', `<li id="${fileId}" class="width-200">
+            <div class="info">${file.name}</div>
+            <div class="progress"><div class="progress-bar" style="width: 0;"></div></div>
+          </li>`);
+
+        const progressBar = document.querySelector(`#${fileId} .progress-bar`);
+
+        try {
+            const response = await this.xhrUpload(this.button.dataset.path, formData, (percent) => {
+                if (progressBar) progressBar.style.width = `${percent}%`;
+            });
+
+            if (response.status >= 200 && response.status < 300) {
+                // Succès
+                const listItem = document.getElementById(fileId);
+                if (listItem) listItem.remove();
+
+                if (this.progress.children.length === 0) {
+                    this.progress.innerHTML = '';
+                    if (typeof onComplete === 'function') onComplete();
+                }
+            } else {
+                throw new Error(response.responseText || 'Upload failed');
+            }
+
+        } catch (error) {
+            const alert = document.getElementById('alertUploadError');
+            if (alert) {
+                alert.innerHTML = error.message;
+                alert.style.display = 'block';
+            }
+        }
+    }
+
+    xhrUpload(url, formData, onProgress) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    onProgress(percent);
+                }
+            });
+
+            xhr.onload = () => resolve({
+                status: xhr.status,
+                responseText: xhr.responseText
+            });
+
+            xhr.onerror = () => reject(new Error('Network error'));
+            xhr.send(formData);
+        });
     }
 
     clearErrors() {

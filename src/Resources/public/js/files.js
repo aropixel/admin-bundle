@@ -587,111 +587,102 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
         this.category = this.element.data('category');
 
 
-        let params = {
-
-            runtimes : 'gears,html5,flash,silverlight,browserplus',
-            max_file_size : '20mb',
-            flash_swf_url : '../plugins/uploader/plupload.flash.swf',
-            silverlight_xap_url : '../plugins/uploader/plupload.silverlight.xap',
-            multi_selection : true,
-            filters : [
-                {title : "Fichiers documents", extensions : "pdf,rtf,doc,docx,jpg"}
-            ]
-
-        }
-
-
         this.init = function()
         {
-            if (!obj.element.data('plupload') || obj.element.data('plupload')=='undefined')
-            {
-                obj.init_plupload();
+            this.init_uploader();
+        };
+
+
+        this.init_uploader = function()
+        {
+            const button = this.element[0];
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.style.display = 'none';
+            document.body.appendChild(input);
+
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                input.click();
+            });
+
+            input.addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files);
+                if (!files.length) return;
+
+                for (const file of files) {
+                    await this.uploadFile(file);
+                }
+
+                input.value = '';
+            });
+        };
+
+        this.uploadFile = async function(file) {
+            const formData = new FormData();
+            const category = $(selectors.modal.id).data('flAttachClass');
+            const isPublic = flcore.modal.launcher.editor ? '1' : '0';
+
+            formData.append('aropixel_admin_library_file[file]', file);
+            formData.append('aropixel_admin_library_file[category]', category);
+            formData.append('aropixel_admin_library_file[title]', file.name);
+            formData.append('aropixel_admin_library_file[public]', isPublic);
+            formData.append('_http_accept', 'application/javascript');
+
+            const fileId = 'file-' + Math.random().toString(36).substring(2);
+            this.progress.append(`<li id="${fileId}" class="width-200">
+                <div class="info">${file.name}</div>
+                <div class="progress progress-striped active"><div class="progress-bar" style="width: 0;"></div></div>
+            </li>`);
+
+            const progressBar = document.querySelector(`#${fileId} .progress-bar`);
+
+            try {
+                const response = await this.xhrUpload(this.element.data('path'), formData, (percent) => {
+                    if (progressBar) progressBar.style.width = `${percent}%`;
+                });
+
+                if (response.status >= 200 && response.status < 300) {
+                    $(`#${fileId}`).remove();
+                    if (this.progress.children().length === 0) {
+                        this.progress.html('');
+                    }
+                    flcore.modal.load_files();
+                } else {
+                    throw new Error(response.responseText || 'Upload failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Erreur lors de l\'upload : ' + error.message);
             }
         };
 
+        this.xhrUpload = function(url, formData, onProgress) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', url);
 
-        this.init_plupload = function()
-        {
-            // Évènement de démarrage de l'upload (envoi des fichiers)
-            let button_upload_id = (Math.random() + '').replace('0.', '');
-            obj.element.attr("id", button_upload_id);
-
-            // Initialisation de l'uploader
-            params = {
-
-                file_data_name : 'aropixel_admin_plupload_file[file]',
-                multipart: true,
-                multipart_params: {
-                    '_http_accept': 'application/javascript'
-                },
-                browse_button : button_upload_id,
-                url: obj.element.data('path'),
-                runtimes : params.runtimes,
-                max_file_size : params.max_file_size,
-                flash_swf_url : params.flash_swf_url,
-                silverlight_xap_url : params.silverlight_xap_url,
-                filters : [
-                    {title : "Fichiers documents", extensions : "pdf,txt,rtf,doc,docx,xls,xlsx,ppt"}
-                ],
-
-                init: {
-                    FilesAdded: function(up, files) {
-
-                        // On démarre l'upload
-                        obj.uploader.start();
-                        up.refresh();
-
-                    },
-
-                    BeforeUpload: function(up, file) {
-
-                        up.settings.multipart_params = { 'aropixel_admin_plupload_file[category]': $(selectors.modal.id).data('flAttachClass'), 'aropixel_admin_plupload_file[title]': file.name, 'aropixel_admin_plupload_file[public]': flcore.modal.launcher.editor ? true : false };
-
-                    },
-
-                    UploadFile: function(up, file) {
-
-                        // On ajoute un élément à la liste des images, avec une barre de progression
-                        let new_item = '<li id="' + file.id + '" class="width-200">';
-                        new_item += '<div class="info">'+file.name+'</div>';
-                        new_item += '<div class="progress"><div class="progress-bar" style="width: 0;"></div></div>';
-                        new_item += '</li>';
-
-                        obj.progress.html(new_item);
-
-                    },
-
-                    UploadProgress: function(up, file) {
-
-                        $('#' + file.id + " .progress").addClass('progress-striped').addClass('active');
-                        $('#' + file.id + " .progress-bar").css('width', file.percent+"%");
-
-                    },
-
-                    UploadComplete: function(up, file) {
-
-                        obj.progress.html('');
-
-                    },
-
-                    FileUploaded: function(upload, file, response) {
-
-                        flcore.modal.load_files();
-
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        onProgress(percent);
                     }
+                });
 
-                }
+                xhr.onload = () => resolve({
+                    status: xhr.status,
+                    responseText: xhr.responseText
+                });
 
-            };
-
-            obj.uploader = new plupload.Uploader(params);
-            obj.uploader.init();
-            obj.element.data('plupload', obj.uploader);
-
+                xhr.onerror = () => reject(new Error('Network error'));
+                xhr.send(formData);
+            });
         };
 
+
         this.init();
-        return this.uploader;
+        return this;
     };
 
 

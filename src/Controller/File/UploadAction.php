@@ -4,7 +4,7 @@ namespace Aropixel\AdminBundle\Controller\File;
 
 use Aropixel\AdminBundle\Component\Media\File\Library\DataTable\DataTableRowFactory;
 use Aropixel\AdminBundle\Component\Media\File\Library\Factory\FileFactoryInterface;
-use Aropixel\AdminBundle\Form\Type\File\PluploadType;
+use Aropixel\AdminBundle\Form\Type\File\FileUploadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class UploadAction extends AbstractController
     public function __invoke(Request $request): Response
     {
         $file = $this->fileFactory->create();
-        $form = $this->createForm(PluploadType::class, $file, [
+        $form = $this->createForm(FileUploadType::class, $file, [
             'action' => $this->generateUrl('file_upload'),
             'method' => 'POST',
         ]);
