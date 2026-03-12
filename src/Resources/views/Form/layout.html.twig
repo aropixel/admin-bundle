@@ -287,7 +287,7 @@
                                 {% for child in form %}
                                     {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
                                     {% if child_path not in column_fields or child_path == display_field %}
-                                        {% if child.children|length > 0 %}
+                                        {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
                                             {{ _self.render_modal_fields(child, column_fields, display_field, child_path) }}
                                         {% else %}
                                             {{ form_row(child) }}
