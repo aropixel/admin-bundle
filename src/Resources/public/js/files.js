@@ -406,9 +406,12 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 let widget = button.closest('[data-fl-type]');
                 obj.launcher = widget.data('launcher');
 
-                // Transférer le accept au bouton d'upload de la modal
+                // Transférer le accept et maxSize au bouton d'upload de la modal
                 const accept = widget.attr('data-fl-accept');
                 $(selectors.modal.uploader).attr('data-fl-accept', accept || '');
+
+                const maxSize = widget.attr('data-fl-max-size');
+                $(selectors.modal.uploader).attr('data-fl-max-size', maxSize || '');
             }
 
             config = obj.launcher.config;
@@ -613,6 +616,14 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 if (accept) {
                     input.accept = accept;
                 }
+
+                const maxSize = this.element.data('flMaxSize');
+                if (maxSize) {
+                    input.dataset.maxSize = maxSize;
+                } else {
+                    delete input.dataset.maxSize;
+                }
+
                 input.click();
             });
 
@@ -620,12 +631,26 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 const files = Array.from(e.target.files);
                 if (!files.length) return;
 
+                const maxSize = input.dataset.maxSize;
                 for (const file of files) {
+                    if (maxSize && file.size > maxSize) {
+                        alert(`Le fichier ${file.name} est trop lourd. Taille maximum autorisée : ${this.formatBytes(maxSize)}.`);
+                        continue;
+                    }
                     await this.uploadFile(file);
                 }
 
                 input.value = '';
             });
+        };
+
+        this.formatBytes = function(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         };
 
         this.uploadFile = async function(file) {

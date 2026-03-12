@@ -56,6 +56,7 @@ class GalleryType extends AbstractType
             // The property where the attributes of the image (title, alt, css class) are stored in a custom entity
             'crops' => [],
             'accept' => null,
+            'max_size' => null,
         ]);
 
         $resolver->setNormalizer('image_library', static function (Options $options, $imageLibrary) {
@@ -147,6 +148,7 @@ class GalleryType extends AbstractType
         $view->vars['image_crops'] = $options['image_crops'];
         $view->vars['crops'] = $options['crops'];
         $view->vars['accept'] = $options['accept'];
+        $view->vars['max_size'] = $options['max_size'];
     }
 
     public function getParent(): ?string

@@ -24,6 +24,7 @@ class GalleryType extends AbstractType
             'by_reference' => false,
             'multiple' => true,
             'accept' => null,
+            'max_size' => null,
         ]);
     }
 
@@ -41,6 +42,7 @@ class GalleryType extends AbstractType
         $view->vars['imageShortClass'] = $shortClass;
         $view->vars['multiple'] = $options['multiple'];
         $view->vars['accept'] = $options['accept'];
+        $view->vars['max_size'] = $options['max_size'];
     }
 
     public function getParent(): ?string

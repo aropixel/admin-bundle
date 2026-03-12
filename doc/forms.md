@@ -43,6 +43,7 @@ Used to display an image widget with an upload tool, a media library, and a crop
 - `crops`: An array of available crops (e.g., `['main' => 'Main crop']`).
 - `library`: The entity name for filtering the media library.
 - `accept`: The file types to accept in the upload tool (e.g., `'image/png,image/jpeg'`).
+- `max_size`: The maximum file size allowed for upload in bytes (e.g., `2 * 1024 * 1024` for 2MB).
 
 **Usage:**
 ```php
@@ -64,6 +65,7 @@ Manages a collection of images with a library modal and sorting capabilities.
 - `fields`: Enabled additional fields for each image (`title`, `description`, `link`).
 - `crops`: Array of available crops for the gallery images.
 - `accept`: The file types to accept in the upload tool (e.g., `'image/png,image/jpeg'`).
+- `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
 ```php
@@ -83,6 +85,7 @@ Displays a single file widget with a library modal.
 **Options:**
 - `data_class`: The entity class storing the file association.
 - `accept`: The file types to accept in the upload tool (e.g., `'application/pdf'`).
+- `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
 ```php
@@ -100,6 +103,7 @@ Manages a collection of files.
 
 **Options:**
 - `accept`: The file types to accept in the upload tool (e.g., `'application/pdf,application/msword'`).
+- `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
 ```php

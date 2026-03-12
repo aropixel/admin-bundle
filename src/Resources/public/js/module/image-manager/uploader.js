@@ -21,7 +21,7 @@ export class IM_Uploader {
         this.button.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Set accept attribute from dataset if provided
+            // Set accept and max_size attributes from dataset if provided
             if (this.button.dataset.accept) {
                 input.accept = this.button.dataset.accept;
             } else if (this.modal?.launcher?.config?.flAccept) {
@@ -30,6 +30,16 @@ export class IM_Uploader {
                 input.accept = this.modal.launcher.config.imAccept;
             } else {
                 input.accept = 'image/jpeg,image/png,image/gif';
+            }
+
+            if (this.button.dataset.maxSize) {
+                input.dataset.maxSize = this.button.dataset.maxSize;
+            } else if (this.modal?.launcher?.config?.imMaxSize) {
+                input.dataset.maxSize = this.modal.launcher.config.imMaxSize;
+            } else if (this.modal?.launcher?.config?.flMaxSize) {
+                input.dataset.maxSize = this.modal.launcher.config.flMaxSize;
+            } else {
+                delete input.dataset.maxSize;
             }
 
             input.click();
@@ -41,7 +51,12 @@ export class IM_Uploader {
 
             this.clearErrors();
 
+            const maxSize = input.dataset.maxSize;
             for (const file of files) {
+                if (maxSize && file.size > maxSize) {
+                    this.showError(`Le fichier ${file.name} est trop lourd. Taille maximum autorisée : ${this.formatBytes(maxSize)}.`);
+                    continue;
+                }
                 await this.uploadFile(file, onComplete);
             }
 
@@ -121,5 +136,22 @@ export class IM_Uploader {
             alert.innerHTML = '';
             alert.style.display = 'none';
         }
+    }
+
+    showError(message) {
+        const alert = document.getElementById('alertUploadError');
+        if (alert) {
+            alert.innerHTML = message;
+            alert.style.display = 'block';
+        }
+    }
+
+    formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 }

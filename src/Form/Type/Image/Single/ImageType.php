@@ -173,6 +173,7 @@ class ImageType extends AbstractType
         $view->vars['description'] = $options['description'];
         $view->vars['card_footer'] = $options['card_footer'];
         $view->vars['accept'] = $options['accept'];
+        $view->vars['max_size'] = $options['max_size'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -198,6 +199,7 @@ class ImageType extends AbstractType
             // Display the footer of the widget ?
             'required' => false,
             'accept' => null,
+            'max_size' => null,
         ]);
     }
 

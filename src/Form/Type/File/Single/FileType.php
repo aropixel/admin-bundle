@@ -61,6 +61,7 @@ class FileType extends AbstractType
         $view->vars['file_url'] = $fileUrl;
         $view->vars['attachedFile'] = $data;
         $view->vars['accept'] = $options['accept'];
+        $view->vars['max_size'] = $options['max_size'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -68,6 +69,7 @@ class FileType extends AbstractType
         $resolver->setDefaults([
             'data_class' => null,
             'accept' => null,
+            'max_size' => null,
         ]);
     }
 

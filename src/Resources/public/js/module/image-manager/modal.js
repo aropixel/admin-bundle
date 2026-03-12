@@ -62,6 +62,13 @@ export class IM_Modal {
                 } else {
                     delete uploaderButton.dataset.accept;
                 }
+
+                const maxSize = root.dataset.imMaxSize || root.dataset.flMaxSize;
+                if (maxSize) {
+                    uploaderButton.dataset.maxSize = maxSize;
+                } else {
+                    delete uploaderButton.dataset.maxSize;
+                }
             }
         }
 
