@@ -403,7 +403,12 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
             let button = $(event.relatedTarget);
             if (button.length) {
-                obj.launcher = button.closest('[data-fl-type]').data('launcher');
+                let widget = button.closest('[data-fl-type]');
+                obj.launcher = widget.data('launcher');
+
+                // Transférer le accept au bouton d'upload de la modal
+                const accept = widget.attr('data-fl-accept');
+                $(selectors.modal.uploader).attr('data-fl-accept', accept || '');
             }
 
             config = obj.launcher.config;

@@ -22,12 +22,12 @@ export class IM_Uploader {
             e.preventDefault();
 
             // Set accept attribute from dataset if provided
-            if (this.modal?.launcher?.config?.flAccept) {
+            if (this.button.dataset.accept) {
+                input.accept = this.button.dataset.accept;
+            } else if (this.modal?.launcher?.config?.flAccept) {
                 input.accept = this.modal.launcher.config.flAccept;
             } else if (this.modal?.launcher?.config?.imAccept) {
                 input.accept = this.modal.launcher.config.imAccept;
-            } else if (this.button.dataset.accept) {
-                input.accept = this.button.dataset.accept;
             } else {
                 input.accept = 'image/jpeg,image/png,image/gif';
             }

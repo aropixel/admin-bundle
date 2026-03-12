@@ -46,11 +46,23 @@ export class IM_Modal {
         this.loadElements();
 
         if (!this.modal) return;
-        const button = this.modal.__relatedTarget;
+        const button = event.relatedTarget;
         const root = button?.closest('[data-im-type]');
 
         if (!this.launcher) {
             this.launcher = root?.__imLauncher;
+        }
+
+        if (root) {
+            const uploaderButton = this.modal.querySelector('.image-uploader');
+            if (uploaderButton) {
+                const accept = root.dataset.imAccept || root.dataset.flAccept;
+                if (accept) {
+                    uploaderButton.dataset.accept = accept;
+                } else {
+                    delete uploaderButton.dataset.accept;
+                }
+            }
         }
 
         if (!this.launcher) return;
