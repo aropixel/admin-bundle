@@ -60,11 +60,15 @@ class FileType extends AbstractType
         $view->vars['attach_class'] = $form->getConfig()->getDataClass();
         $view->vars['file_url'] = $fileUrl;
         $view->vars['attachedFile'] = $data;
+        $view->vars['accept'] = $options['accept'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => null]);
+        $resolver->setDefaults([
+            'data_class' => null,
+            'accept' => null,
+        ]);
     }
 
     public function getBlockPrefix(): string

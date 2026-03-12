@@ -15,12 +15,23 @@ export class IM_Uploader {
         const input = document.createElement('input');
         input.type = 'file';
         input.multiple = true;
-        input.accept = 'image/jpeg,image/png,image/gif';
         input.style.display = 'none';
         document.body.appendChild(input);
 
         this.button.addEventListener('click', (e) => {
             e.preventDefault();
+
+            // Set accept attribute from dataset if provided
+            if (this.modal?.launcher?.config?.flAccept) {
+                input.accept = this.modal.launcher.config.flAccept;
+            } else if (this.modal?.launcher?.config?.imAccept) {
+                input.accept = this.modal.launcher.config.imAccept;
+            } else if (this.button.dataset.accept) {
+                input.accept = this.button.dataset.accept;
+            } else {
+                input.accept = 'image/jpeg,image/png,image/gif';
+            }
+
             input.click();
         });
 

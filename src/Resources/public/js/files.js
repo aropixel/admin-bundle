@@ -604,6 +604,10 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
+                const accept = this.element.data('flAccept');
+                if (accept) {
+                    input.accept = accept;
+                }
                 input.click();
             });
 

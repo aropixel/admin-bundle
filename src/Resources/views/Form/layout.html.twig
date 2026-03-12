@@ -424,7 +424,8 @@
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ image_class }}"
          data-im-attach-short-class="{{ image_class_short }}"
-         data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}">
+         data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}"
+         {% if accept is defined and accept %}data-im-accept="{{ accept }}"{% endif %}>
 
         {% if prototype is defined and not prototype.rendered %}
             {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
@@ -481,7 +482,8 @@
          data-fl-entity-class="{{ entityClass }}"
          data-fl-attach-class="{{ imageLongClass }}"
          data-fl-attach-short-class="{{ imageShortClass }}"
-         data-fl-multiple="{{ multiple }}">
+         data-fl-multiple="{{ multiple }}"
+         {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}>
 
         {{- form_widget(form) -}}
     </div>
@@ -551,7 +553,8 @@
          data-fl-attach-id="{{ form.vars.attachedFile is defined and form.vars.attachedFile ? form.vars.attachedFile.id : '' }}"
          data-fl-attach-class="{{ attach_class }}"
          data-fl-entity-class="{{ entityClass }}"
-         data-fl-multiple="{{ multiple }}">
+         data-fl-multiple="{{ multiple }}"
+         {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}>
 
 
         {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
@@ -614,7 +617,8 @@
          data-im-attach-class="{{ form.vars.attach_class }}"
          {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
          data-im-library="{{ form.vars.library }}"
-         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route')}}">
+         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route')}}"
+         {% if form.vars.accept is defined and form.vars.accept %}data-im-accept="{{ form.vars.accept }}"{% endif %}>
 
         {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form, 'crops': crops is defined ? crops : null }) }}
 

@@ -17,7 +17,14 @@ class GalleryType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['entry_type' => GalleryFileType::class, 'allow_add' => true, 'allow_delete' => true, 'by_reference' => false, 'multiple' => true]);
+        $resolver->setDefaults([
+            'entry_type' => GalleryFileType::class,
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false,
+            'multiple' => true,
+            'accept' => null,
+        ]);
     }
 
     /**
@@ -33,6 +40,7 @@ class GalleryType extends AbstractType
         $view->vars['imageLongClass'] = $entryOptions['data_class'];
         $view->vars['imageShortClass'] = $shortClass;
         $view->vars['multiple'] = $options['multiple'];
+        $view->vars['accept'] = $options['accept'];
     }
 
     public function getParent(): ?string

@@ -172,6 +172,7 @@ class ImageType extends AbstractType
         $view->vars['library'] = $options['library'] ?: ($form->getConfig()->getDataClass() ?: '');
         $view->vars['description'] = $options['description'];
         $view->vars['card_footer'] = $options['card_footer'];
+        $view->vars['accept'] = $options['accept'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -196,6 +197,7 @@ class ImageType extends AbstractType
             'card_footer' => true,
             // Display the footer of the widget ?
             'required' => false,
+            'accept' => null,
         ]);
     }
 

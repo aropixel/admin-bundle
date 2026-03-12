@@ -42,6 +42,7 @@ Used to display an image widget with an upload tool, a media library, and a crop
 - `crop_class`: The class that stores crop information.
 - `crops`: An array of available crops (e.g., `['main' => 'Main crop']`).
 - `library`: The entity name for filtering the media library.
+- `accept`: The file types to accept in the upload tool (e.g., `'image/png,image/jpeg'`).
 
 **Usage:**
 ```php
@@ -62,6 +63,7 @@ Manages a collection of images with a library modal and sorting capabilities.
 - `image_class`: The entity class for the images (required).
 - `fields`: Enabled additional fields for each image (`title`, `description`, `link`).
 - `crops`: Array of available crops for the gallery images.
+- `accept`: The file types to accept in the upload tool (e.g., `'image/png,image/jpeg'`).
 
 **Usage:**
 ```php
@@ -80,6 +82,7 @@ Displays a single file widget with a library modal.
 
 **Options:**
 - `data_class`: The entity class storing the file association.
+- `accept`: The file types to accept in the upload tool (e.g., `'application/pdf'`).
 
 **Usage:**
 ```php
@@ -94,6 +97,9 @@ $builder->add('document', FileType::class, [
 Manages a collection of files.
 
 **Twig block:** `aropixel_admin_gallery_files_row`
+
+**Options:**
+- `accept`: The file types to accept in the upload tool (e.g., `'application/pdf,application/msword'`).
 
 **Usage:**
 ```php
