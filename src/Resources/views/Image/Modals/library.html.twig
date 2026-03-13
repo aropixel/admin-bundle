@@ -88,10 +88,12 @@
 
 			</div>
 
+			<div class="alert bg-danger" style="border-radius: 0px; display: none" id="alertUploadError">
+				<span class="text-semibold">{% trans %}text.error{% endtrans %} !</span> <span id="alertUploadErrorMessage"></span>
+			</div>
 			<div class="alert bg-info" style="border-radius: 0px; display: none" id="alertNoImg">
 				<span class="text-semibold">{% trans %}text.warning{% endtrans %} !</span> {% trans %}library.images.modal.warning_no_selection{% endtrans %}
 			</div>
-			<div class="alert bg-danger" style="border-radius: 0px; display: none" id="alertUploadError"></div>
 			<div class="modal-footer d-flex justify-content-between">
 				<div>
 					<button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.images.modal.upload_button{% endtrans %} <i class="icon-upload position-right"></i></button>

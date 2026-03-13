@@ -777,6 +777,14 @@
         <source>menu.menu.footer</source>
         <target>Footer</target>
       </trans-unit>
+      <trans-unit id="error.upload.title" resname="error.upload.title">
+        <source>error.upload.title</source>
+        <target>Erreur lors de l'upload</target>
+      </trans-unit>
+      <trans-unit id="text.close" resname="text.close">
+        <source>text.close</source>
+        <target>Fermer</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -631,10 +631,12 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 const files = Array.from(e.target.files);
                 if (!files.length) return;
 
+                this.clearErrors();
+
                 const maxSize = input.dataset.maxSize;
                 for (const file of files) {
                     if (maxSize && file.size > maxSize) {
-                        alert(`Le fichier ${file.name} est trop lourd. Taille maximum autorisée : ${this.formatBytes(maxSize)}.`);
+                        this.showError(`Le fichier ${file.name} est trop lourd. Taille maximum autorisée : ${this.formatBytes(maxSize)}.`);
                         continue;
                     }
                     await this.uploadFile(file);
@@ -642,6 +644,24 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
                 input.value = '';
             });
+        };
+
+        this.clearErrors = function() {
+            const alert = document.getElementById('alertUploadError');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        };
+
+        this.showError = function(message) {
+            const alert = document.getElementById('alertUploadError');
+            const messageElement = document.getElementById('alertUploadErrorMessage');
+            if (alert && messageElement) {
+                messageElement.innerHTML = message;
+                alert.style.display = 'block';
+            } else {
+                console.error(message);
+            }
         };
 
         this.formatBytes = function(bytes, decimals = 2) {
@@ -684,11 +704,37 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                     }
                     flcore.modal.load_files();
                 } else {
-                    throw new Error(response.responseText || 'Upload failed');
+                    let errorMessage = 'Upload failed';
+                    try {
+                        const errorData = JSON.parse(response.responseText);
+                        errorMessage = errorData.message || errorMessage;
+                    } catch (e) {
+                        errorMessage = response.status === 413 ? 'Le fichier est trop volumineux pour le serveur.' : (response.responseText || `Error ${response.status}`);
+                    }
+                    throw new Error(errorMessage);
                 }
             } catch (error) {
-                console.error(error);
-                alert('Erreur lors de l\'upload : ' + error.message);
+                const listItem = document.getElementById(fileId);
+                if (listItem) {
+                    const progressBarContainer = listItem.querySelector('.progress');
+                    if (progressBarContainer) {
+                        progressBarContainer.classList.remove('active', 'progress-striped');
+                        const bar = progressBarContainer.querySelector('.progress-bar');
+                        if (bar) {
+                            bar.classList.add('bg-danger');
+                            bar.style.width = '100%';
+                        }
+                    }
+                    listItem.insertAdjacentHTML('beforeend', `<div class="text-danger small">${error.message} <a href="#" class="remove-upload-item text-muted"><i class="fas fa-times"></i></a></div>`);
+                    listItem.querySelector('.remove-upload-item').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        listItem.remove();
+                        if (this.progress.children().length === 0) {
+                            this.progress.html('');
+                        }
+                    });
+                }
+                this.showError(error.message);
             }
         };
 

@@ -96,15 +96,38 @@ export class IM_Uploader {
                     if (typeof onComplete === 'function') onComplete();
                 }
             } else {
-                throw new Error(response.responseText || 'Upload failed');
+                let errorMessage = 'Upload failed';
+                try {
+                    const errorData = JSON.parse(response.responseText);
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    errorMessage = response.status === 413 ? 'Le fichier est trop volumineux.' : (response.responseText || `Error ${response.status}`);
+                }
+                throw new Error(errorMessage);
             }
 
         } catch (error) {
-            const alert = document.getElementById('alertUploadError');
-            if (alert) {
-                alert.innerHTML = error.message;
-                alert.style.display = 'block';
+            const listItem = document.getElementById(fileId);
+            if (listItem) {
+                const progressBarContainer = listItem.querySelector('.progress');
+                if (progressBarContainer) {
+                    progressBarContainer.classList.remove('active', 'progress-striped');
+                    const bar = progressBarContainer.querySelector('.progress-bar');
+                    if (bar) {
+                        bar.classList.add('bg-danger');
+                        bar.style.width = '100%';
+                    }
+                }
+                listItem.insertAdjacentHTML('beforeend', `<div class="text-danger small">${error.message} <a href="#" class="remove-upload-item text-muted"><i class="fas fa-times"></i></a></div>`);
+                listItem.querySelector('.remove-upload-item').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    listItem.remove();
+                    if (this.progress.children.length === 0) {
+                        this.progress.innerHTML = '';
+                    }
+                });
             }
+            this.showError(error.message);
         }
     }
 
@@ -133,16 +156,18 @@ export class IM_Uploader {
     clearErrors() {
         const alert = document.getElementById('alertUploadError');
         if (alert) {
-            alert.innerHTML = '';
             alert.style.display = 'none';
         }
     }
 
     showError(message) {
         const alert = document.getElementById('alertUploadError');
-        if (alert) {
-            alert.innerHTML = message;
+        const messageElement = document.getElementById('alertUploadErrorMessage');
+        if (alert && messageElement) {
+            messageElement.innerHTML = message;
             alert.style.display = 'block';
+        } else {
+            console.error(message);
         }
     }
 

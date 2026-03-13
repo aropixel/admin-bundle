@@ -82,6 +82,11 @@ Displays a single file widget with a library modal.
 
 **Twig block:** `aropixel_admin_file_row`
 
+**Twig function:** `aropixel_file_url(file)`
+Use this function to generate the public download URL for a file.
+
+> **Note:** For the download link to be publicly accessible, ensure the `download.yaml` routes are imported without a protected prefix (see [Installation](installation.md#include-the-routes)).
+
 **Options:**
 - `data_class`: The entity class storing the file association.
 - `accept`: The file types to accept in the upload tool (e.g., `'application/pdf'`).
@@ -100,6 +105,9 @@ $builder->add('document', FileType::class, [
 Manages a collection of files.
 
 **Twig block:** `aropixel_admin_gallery_files_row`
+
+**Twig function:** `aropixel_file_url(file)`
+Use this function to generate the public download URL for each file in the gallery.
 
 **Options:**
 - `accept`: The file types to accept in the upload tool (e.g., `'application/pdf,application/msword'`).

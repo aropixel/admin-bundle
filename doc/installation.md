@@ -88,10 +88,16 @@ security:
         - { path: ^/admin, role: ROLE_ADMIN }
 ````
 - Include the routes:
-````
+````yaml
+# config/routes.yaml
+
+# Administration routes
 aropixel_admin:
     resource: '@AropixelAdminBundle/Resources/config/routing/aropixel.yml'
     prefix: /admin
 
+# Public download route (must be outside of protected prefix)
+aropixel_admin_download:
+    resource: '@AropixelAdminBundle/Resources/config/routes/download.yaml'
 ````
 - Create your first admin access : php bin/console aropixel:admin:create-user
