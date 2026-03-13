@@ -15,7 +15,8 @@ class ModalCollectionType extends AbstractType
     {
         $view->vars['button_add_label'] = $options['button_add_label'];
         $view->vars['columns'] = $options['columns'];
-        $view->vars['display_field'] = $options['display_field'];
+        $view->vars['render_columns'] = $options['render_columns'];
+        $view->vars['display_columns'] = $options['display_columns'];
         $view->vars['modal_title'] = $options['modal_title'];
         $view->vars['sortable'] = $options['sortable'];
     }
@@ -25,7 +26,8 @@ class ModalCollectionType extends AbstractType
         $resolver->setDefaults([
             'button_add_label' => 'Ajouter un élément',
             'columns' => [], // ['Titre' => 'title', 'Position' => 'position']
-            'display_field' => null, // Le champ à afficher dans la colonne principale du tableau
+            'render_columns' => [], // ['title' => 'custom_block_name']
+            'display_columns' => [], // Les champs à afficher en valeur plutôt qu'en widget
             'modal_title' => 'Détails de l\'élément',
             'sortable' => true,
             'allow_add' => true,

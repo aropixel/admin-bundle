@@ -16,11 +16,11 @@
 {% block form_end -%}
     {{- parent() -}}
     {% if is_image_library_modal_enabled() %}
-    {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
-    {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
     {% endif %}
     {% if is_file_library_modal_enabled() %}
-    {{ include('@AropixelAdmin/File/Modals/library.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/File/Modals/library.html.twig', { 'category' : false }) }}
     {% endif %}
 {%- endblock form_end %}
 
@@ -169,7 +169,7 @@
                 {% if prototype is defined and allow_add %}
                     data-prototype='{{ self.collection_item(prototype, allow_delete, '__name__')|e }}'
                 {%- endif -%}
-                data-index="{{ form|length }}"
+             data-index="{{ form|length }}"
         >
 
             {% if prototypes|default is iterable %}
@@ -243,7 +243,16 @@
                     {% set field = field[part] %}
                 {% endfor %}
 
-                {% if field_path == display_field %}
+                {% if render_columns[field_path] is defined %}
+
+                    {% set custom_block_name = 'aropixel_admin_modal_collection_column_' ~ field_path|replace({'.': '_'}) %}
+                    {% if block(custom_block_name) is defined %}
+                        {{ block(custom_block_name) }}
+                    {% else %}
+                        {{ render_columns[field_path](field, item) }}
+                    {% endif %}
+
+                {% elseif field_path in display_columns %}
                     {% set default_label = 'Nouveau'|trans %}
                     <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
                         {% if field.vars.value %}
@@ -283,12 +292,12 @@
                                 {% set column_fields = column_fields|merge([cp]) %}
                             {% endfor %}
 
-                            {% macro render_modal_fields(form, column_fields, display_field, parent_path = '') %}
+                            {% macro render_modal_fields(form, column_fields, display_columns, parent_path = '') %}
                                 {% for child in form %}
                                     {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
-                                    {% if child_path not in column_fields or child_path == display_field %}
+                                    {% if child_path not in column_fields or child_path in display_columns %}
                                         {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
-                                            {{ _self.render_modal_fields(child, column_fields, display_field, child_path) }}
+                                            {{ _self.render_modal_fields(child, column_fields, display_columns, child_path) }}
                                         {% else %}
                                             {{ form_row(child) }}
                                         {% endif %}
@@ -296,7 +305,7 @@
                                 {% endfor %}
                             {% endmacro %}
 
-                            {{ _self.render_modal_fields(item, column_fields, display_field) }}
+                            {{ _self.render_modal_fields(item, column_fields, display_columns) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
@@ -485,7 +494,7 @@
          data-fl-attach-short-class="{{ imageShortClass }}"
          data-fl-multiple="{{ multiple }}"
          {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}
-         {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
+            {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
 
         {{- form_widget(form) -}}
     </div>
@@ -546,61 +555,63 @@
     {{ enable_file_library_modal() }}
     {% set type = type is defined ? type : 'files' %}
     {% set entityField = field is defined ? field : 'files' %}
-    {% set entityClass = get_class(form.parent.vars.value) %}
+    {% set value = form.parent.vars.value is defined ? form.parent.vars.value : null %}
+    {% set entityClass = value ? get_class(value) : '' %}
     {% set multiple = 0 %}
+    {% set attachedFile = form.vars.attachedFile is defined ? form.vars.attachedFile : null %}
 
-    <div class="panel-list fl-manager"
+    <div class="fl-manager"
          data-fl-type="{{ type }}"
          data-fl-attach-path="{{ path('file_attach') }}"
-         data-fl-attach-id="{{ form.vars.attachedFile is defined and form.vars.attachedFile ? form.vars.attachedFile.id : '' }}"
+         data-fl-attach-id="{{ attachedFile ? attachedFile.id : '' }}"
          data-fl-attach-class="{{ attach_class }}"
          data-fl-entity-class="{{ entityClass }}"
          data-fl-multiple="{{ multiple }}"
          {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}
-         {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
+            {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
 
+        <div class="form-group row d-flex align-items-center">
 
-        {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
-        {%- set attr = attr|merge({'class': 'table table-striped tableFiles'}) -%}
+            <label for="{{ id }}" class="form-check-label col-form-label">{{ label is defined and label|length ? label : 'Fichiers' }}</label>
+            <div class="col-form-content">
 
-        <div class="card card-default border-left-xlg border-left-info">
-            <div class="card-header">
-                <h6 class="card-title"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
-            </div>
+                <div class="tableFiles" data-placeholder='<div class="itemNew"><span class="text-muted">{% trans %}files.widget.no_selected_file{% endtrans %}</span></div>'>
 
-            <div class="table-responsive ">
-                <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
-                    <tbody>
-                    {%- if form.parent is empty -%}
-                        {{ form_errors(form) }}
-                    {%- endif -%}
+                    {%- if attachedFile and attachedFile.file -%}
 
-                    {%- if data|length -%}
-                        {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
+                        <div class="itemFile d-flex align-items-center">
+                            <span class="m-r-20">{{ attachedFile.title|raw }}</span>
+                            <a class="btn btn-primary btn-icon btn-xs m-r-10" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'Ajouter un fichier'|trans }}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-primary btn-icon btn-xs m-r-10" href="{{ aropixel_file_url(form.vars.attachedFile.file) }}">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile"><i class="fa fa-unlink"></i></a>
+
+                            {{ form_widget(form) }}
+                        </div>
+
                     {%- else -%}
-                        {{ prototype_new|raw }}
+
+                        <div class="itemNew d-flex align-items-center">
+                            <div class="d-none">
+                                {{ form_widget(form) }}
+                            </div>
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
+                                <i class="icon-files-empty2 mr-2"></i>
+                                {{ 'Ajouter un fichier'|trans }}
+                            </a>
+                        </div>
+
                     {%- endif -%}
 
-                    {{- form_rest(form) -}}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card-footer">
-                <div class="heading-elements">
-                    <div>
-                        <a class="btn btn-primary heading-btn pull-right" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
-                            <i class="icon-files-empty2 position-left"></i>
-                            {{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}
-                        </a>
-                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
 
     </div>
-
 
 {%- endblock %}
 
@@ -621,8 +632,8 @@
          {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
          data-im-library="{{ form.vars.library }}"
          data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route')}}"
-         {% if form.vars.accept is defined and form.vars.accept %}data-im-accept="{{ form.vars.accept }}"{% endif %}
-         {% if form.vars.max_size is defined and form.vars.max_size %}data-im-max-size="{{ form.vars.max_size }}"{% endif %}>
+            {% if form.vars.accept is defined and form.vars.accept %}data-im-accept="{{ form.vars.accept }}"{% endif %}
+            {% if form.vars.max_size is defined and form.vars.max_size %}data-im-max-size="{{ form.vars.max_size }}"{% endif %}>
 
         {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form, 'crops': crops is defined ? crops : null }) }}
 

@@ -275,7 +275,8 @@ Handles a collection of forms with a table view and a Bootstrap modal for editin
 
 **Options:**
 - `columns`: (array) Associative array of `label => field_name` to display in the table. Supports nested fields using dot notation (e.g., `track.name`).
-- `display_field`: (string) The field name whose value should be displayed as a live-updating label in the table. Supports nested fields using dot notation.
+- `display_columns`: (array) List of field names whose value should be displayed as a live-updating label in the table instead of a form widget. Supports nested fields using dot notation.
+- `render_columns`: (array) Associative array of `field_name => callback/block_name` for custom column rendering.
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
@@ -288,13 +289,13 @@ $builder->add('tracklists', ModalCollectionType::class, [
         'Pos.' => 'position',
         'Titre' => 'title',
     ],
-    'display_field' => 'title',
+    'display_columns' => ['title'],
     'button_add_label' => 'Ajouter un morceau',
     'modal_title' => 'Détails du morceau',
 ]);
 ```
 
-**Advanced Usage (Nested Forms):**
+**Advanced Usage (Nested Forms & Custom Rendering):**
 You can use dot notation to access fields in nested form types. For example, if `TracklistType` contains a `TrackType` field named `track`, which in turn contains a `name` field:
 
 ```php
@@ -303,13 +304,30 @@ $builder->add('tracklists', ModalCollectionType::class, [
     'columns' => [
         'Pos.' => 'position',
         'Titre' => 'track.name',
+        'Status' => 'track.status',
     ],
-    'display_field' => 'track.name',
+    'display_columns' => ['track.name'],
+    'render_columns' => [
+        'track.status' => 'my_custom_status_render',
+    ],
 ]);
 ```
 
+**Custom Rendering:**
+To customize a column rendering, you can define a specific Twig block in your local template following the pattern `aropixel_admin_modal_collection_column_{field_path}` (where dots are replaced by underscores):
+
+```twig
+{% block aropixel_admin_modal_collection_column_track_status %}
+    {% if field.vars.value == 'active' %}
+        <span class="badge badge-success">Active</span>
+    {% else %}
+        <span class="badge badge-secondary">Inactive</span>
+    {% endif %}
+{% endblock %}
+```
+
 **JavaScript Integration:**
-When an input field matching the `display_field` name (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
+When an input field matching one of the `display_columns` names (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
 
 ### TranslatableType
 
