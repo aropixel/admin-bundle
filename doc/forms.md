@@ -326,6 +326,19 @@ To customize a column rendering, you can define a specific Twig block in your lo
 {% endblock %}
 ```
 
+Alternatively, you can provide a PHP closure directly in the `render_columns` option:
+
+```php
+'render_columns' => [
+    'track.masterFile.file' => function($field, $item) {
+        if ($field->vars['value']) {
+            return '<span class="badge badge-success" title="Master présent"><i class="fas fa-check-circle"></i></span>';
+        }
+        return '<span class="badge badge-secondary" title="Aucun master"><i class="fas fa-times-circle"></i></span>';
+    },
+],
+```
+
 **JavaScript Integration:**
 When an input field matching one of the `display_columns` names (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
 

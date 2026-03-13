@@ -249,7 +249,7 @@
                     {% if block(custom_block_name) is defined %}
                         {{ block(custom_block_name) }}
                     {% else %}
-                        {{ render_columns[field_path](field, item) }}
+                        {{ render_columns[field_path](field, item)|raw }}
                     {% endif %}
 
                 {% elseif field_path in display_columns %}
