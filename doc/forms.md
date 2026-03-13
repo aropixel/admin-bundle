@@ -308,16 +308,17 @@ $builder->add('tracklists', ModalCollectionType::class, [
     ],
     'display_columns' => ['track.name'],
     'render_columns' => [
-        'track.status' => 'my_custom_status_render',
+        'track.status' => true, // La valeur importe peu si vous utilisez le bloc Twig ci-dessous
     ],
 ]);
 ```
 
 **Custom Rendering:**
-To customize a column rendering, you can define a specific Twig block in your local template following the pattern `aropixel_admin_modal_collection_column_{field_path}` (where dots are replaced by underscores):
+To customize a column rendering, you can define a specific Twig block in your local template following the pattern `aropixel_admin_modal_collection_column_{field_path}` (where dots are replaced by underscores). The presence of the key in `render_columns` triggers the search for this block:
 
 ```twig
 {% block aropixel_admin_modal_collection_column_track_status %}
+    {# "field" represents the field being rendered, "item" represents the whole entry form #}
     {% if field.vars.value == 'active' %}
         <span class="badge badge-success">Active</span>
     {% else %}
@@ -326,18 +327,17 @@ To customize a column rendering, you can define a specific Twig block in your lo
 {% endblock %}
 ```
 
-Alternatively, you can provide a PHP closure directly in the `render_columns` option:
+**Using a closure (alternative):**
+Alternatively, if you don't want to use the naming convention for the block, you can pass a closure to `render_columns` in your Form Type:
 
 ```php
-'render_columns' => [
-    'track.masterFile.file' => function($field, $item) {
-        if ($field->vars['value']) {
-            return '<span class="badge badge-success" title="Master présent"><i class="fas fa-check-circle"></i></span>';
-        }
-        return '<span class="badge badge-secondary" title="Aucun master"><i class="fas fa-times-circle"></i></span>';
-    },
-],
+    'render_columns' => [
+        'track.status' => function($field, $item) {
+             return $field->vars['value'] == 'active' ? 'Active' : 'Inactive';
+        },
+    ],
 ```
+*(Note: Closures are better suited for simple logic or when not using Twig blocks).*
 
 **JavaScript Integration:**
 When an input field matching one of the `display_columns` names (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.

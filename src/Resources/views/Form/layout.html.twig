@@ -244,14 +244,14 @@
                 {% endfor %}
 
                 {% if render_columns[field_path] is defined %}
-
                     {% set custom_block_name = 'aropixel_admin_modal_collection_column_' ~ field_path|replace({'.': '_'}) %}
                     {% if block(custom_block_name) is defined %}
                         {{ block(custom_block_name) }}
+                    {% elseif render_columns[field_path].call is defined %}
+                        {{ render_columns[field_path].call(field, item)|raw }}
                     {% else %}
-                        {{ render_columns[field_path](field, item)|raw }}
+                        {{ form_widget(field, { 'attr': { 'class': 'form-control-sm' } }) }}
                     {% endif %}
-
                 {% elseif field_path in display_columns %}
                     {% set default_label = 'Nouveau'|trans %}
                     <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">

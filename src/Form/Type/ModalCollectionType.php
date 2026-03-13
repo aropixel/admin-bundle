@@ -15,7 +15,21 @@ class ModalCollectionType extends AbstractType
     {
         $view->vars['button_add_label'] = $options['button_add_label'];
         $view->vars['columns'] = $options['columns'];
-        $view->vars['render_columns'] = $options['render_columns'];
+
+        // On enveloppe les closures pour qu'elles soient appelables dans Twig via .call()
+        $render_columns = [];
+        foreach ($options['render_columns'] as $column => $render) {
+            if (is_callable($render)) {
+                $render = new class($render) {
+                    private $callback;
+                    public function __construct($callback) { $this->callback = $callback; }
+                    public function call(...$args) { return ($this->callback)(...$args); }
+                };
+            }
+            $render_columns[$column] = $render;
+        }
+
+        $view->vars['render_columns'] = $render_columns;
         $view->vars['display_columns'] = $options['display_columns'];
         $view->vars['modal_title'] = $options['modal_title'];
         $view->vars['sortable'] = $options['sortable'];
