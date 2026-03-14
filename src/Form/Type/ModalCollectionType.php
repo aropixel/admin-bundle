@@ -40,7 +40,7 @@ class ModalCollectionType extends AbstractType
         $resolver->setDefaults([
             'button_add_label' => 'Ajouter un élément',
             'columns' => [], // ['Titre' => 'title', 'Position' => 'position']
-            'render_columns' => [], // ['title' => 'custom_block_name']
+            'render_columns' => [], // ['title' => function($field, $item) { ... }]
             'display_columns' => [], // Les champs à afficher en valeur plutôt qu'en widget
             'modal_title' => 'Détails de l\'élément',
             'sortable' => true,

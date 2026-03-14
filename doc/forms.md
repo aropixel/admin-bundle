@@ -276,7 +276,7 @@ Handles a collection of forms with a table view and a Bootstrap modal for editin
 **Options:**
 - `columns`: (array) Associative array of `label => field_name` to display in the table. Supports nested fields using dot notation (e.g., `track.name`).
 - `display_columns`: (array) List of field names whose value should be displayed as a live-updating label in the table instead of a form widget. Supports nested fields using dot notation.
-- `render_columns`: (array) Associative array of `field_name => callback/block_name` for custom column rendering.
+- `render_columns`: (array) Associative array of `field_name => closure` for custom column rendering.
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
@@ -308,36 +308,27 @@ $builder->add('tracklists', ModalCollectionType::class, [
     ],
     'display_columns' => ['track.name'],
     'render_columns' => [
-        'track.status' => true, // La valeur importe peu si vous utilisez le bloc Twig ci-dessous
+        'track.status' => function($field, $item) {
+             return $field->vars['value'] == 'active' ? 'Active' : 'Inactive';
+        },
     ],
 ]);
 ```
 
 **Custom Rendering:**
-To customize a column rendering, you can define a specific Twig block in your local template following the pattern `aropixel_admin_modal_collection_column_{field_path}` (where dots are replaced by underscores). The presence of the key in `render_columns` triggers the search for this block:
+If you need complex HTML rendering for a column, you should use a closure as shown above. The closure receives the specific `field` object and the whole `item` form object.
+
+Alternatively, you can use native Symfony form themes to override the widget of a specific field. For example, if your `ModalCollectionType` is named `tracklists`, you can override the widget of the `position` field of each entry by defining a block in your template:
 
 ```twig
-{% block aropixel_admin_modal_collection_column_track_status %}
-    {# "field" represents the field being rendered, "item" represents the whole entry form #}
-    {% if field.vars.value == 'active' %}
-        <span class="badge badge-success">Active</span>
-    {% else %}
-        <span class="badge badge-secondary">Inactive</span>
-    {% endif %}
+{% form_theme form.tracklists with _self %}
+
+{% block _album_tracklists_entry_position_widget %}
+    {# Custom rendering for the position field in the table #}
+    <span class="badge badge-info">{{ value }}</span>
+    {{ block('hidden_widget') }}
 {% endblock %}
 ```
-
-**Using a closure (alternative):**
-Alternatively, if you don't want to use the naming convention for the block, you can pass a closure to `render_columns` in your Form Type:
-
-```php
-    'render_columns' => [
-        'track.status' => function($field, $item) {
-             return $field->vars['value'] == 'active' ? 'Active' : 'Inactive';
-        },
-    ],
-```
-*(Note: Closures are better suited for simple logic or when not using Twig blocks).*
 
 **JavaScript Integration:**
 When an input field matching one of the `display_columns` names (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
