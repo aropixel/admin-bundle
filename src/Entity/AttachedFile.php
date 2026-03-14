@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\MappedSuperclass]
-abstract class AttachedFile
+abstract class AttachedFile implements AttachedFileInterface
 {
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $title = null;
@@ -28,6 +28,8 @@ abstract class AttachedFile
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     private ?\DateTime $updatedAt = null;
+
+    private ?FileInterface $oldFile = null;
 
     public function setTitle(?string $title): self
     {
@@ -65,8 +67,14 @@ abstract class AttachedFile
         return $this->position;
     }
 
-    public function setFile(?File $file = null): self
+    public function setFile(?FileInterface $file = null): self
     {
+        if (null !== $this->file) {
+            $this->oldFile = clone $this->file;
+        } else {
+            $this->oldFile = null;
+        }
+
         $this->file = $file;
 
         return $this;
@@ -75,6 +83,28 @@ abstract class AttachedFile
     public function getFile(): ?FileInterface
     {
         return $this->file;
+    }
+
+    public function getOldFile(): ?FileInterface
+    {
+        return $this->oldFile;
+    }
+
+    public function setOldFile(?FileInterface $oldFile): self
+    {
+        $this->oldFile = $oldFile;
+
+        return $this;
+    }
+
+    public function hasFileChanged(): bool
+    {
+        return $this->oldFile !== $this->file;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->file?->getFilename();
     }
 
     public function setCreatedAt(?\DateTime $createdAt): self
