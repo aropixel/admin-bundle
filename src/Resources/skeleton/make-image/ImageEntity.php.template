@@ -23,7 +23,7 @@ class {{ entity_class_name }} extends AttachedImage{% if is_croppable %} impleme
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: '{{ property_name }}')]
+    #[ORM\OneToOne(inversedBy: '{{ property_name }}')]
     private ?{{ parent_class_name }} ${{ parent_var }} = null;
 
 {% if is_croppable %}

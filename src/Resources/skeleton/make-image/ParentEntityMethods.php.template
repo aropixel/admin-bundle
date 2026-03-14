@@ -1,5 +1,5 @@
 {% block property %}
-    #[ORM\OneToOne(targetEntity: {{ entity_class_name }}::class, inversedBy: "{{ parent_var }}", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: {{ entity_class_name }}::class, mappedBy: "{{ parent_var }}", cascade: ["persist", "remove"], orphanRemoval: true)]
     #[ORM\JoinColumn(name: "{{ property_name }}_id", referencedColumnName: "id", onDelete: "SET NULL")]
     private ?{{ entity_class_name }} ${{ property_name }} = null;
 {% endblock %}
