@@ -59,10 +59,6 @@
     color: #20d489 !important;
 }
 
-.itemFile .fa-unlink {
-    color: var(--danger-color);
-}
-
 .itemFile .iconUnlinkFile {
     cursor : pointer;
 }
