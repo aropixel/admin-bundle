@@ -158,7 +158,7 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
             });
 
 
-            _attach_params['multiple']     = '0';
+            _attach_params['multiple']     = launcher.config.multiple ? '1' : '0';
             _attach_params['files']       = _attach;
             _attach_params['attach_id']    = _fileData.flAttachId;
             _attach_params['attach_class'] = _fileData.flAttachClass;
@@ -184,7 +184,10 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 launcher.element.find("input[name$='[file]']").val($(result).find("[name$='[file]']").val());
                 launcher.element.find("input[name$='[title]']").val($selectedFile.find('[data-modal-xeditable]').html());
                 launcher.element.find("input[name$='[alt]']").val($(result).find("[name$='[alt]']").val());
-                launcher.element.attr("data-fl-attach-id", $(result).attr('data-fl-attach-id'));
+
+                let $renderedItem = $(result);
+                let attachId = $renderedItem.attr('data-fl-attach-id') || $renderedItem.data('flAttachId');
+                launcher.element.attr("data-fl-attach-id", attachId);
 
                 new FL_File_Widget(filesWidget, $fileContainer.find('.itemFile'));
 

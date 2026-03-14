@@ -46,7 +46,8 @@ class AttachAction extends AbstractController
 
             $form = $this->createForm(FileType::class, $attachFile, ['data_class' => $attachClass]);
 
-            $html .= $this->renderView('@AropixelAdmin/File/Widget/file.html.twig', [
+            $template = $request->get('multiple') ? '@AropixelAdmin/File/Widget/file.html.twig' : '@AropixelAdmin/File/Widget/attach.html.twig';
+            $html .= $this->renderView($template, [
                 'form' => $form->createView(),
             ]);
         }

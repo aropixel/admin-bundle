@@ -1,0 +1,14 @@
+{% set attachedFile = form.vars.attachedFile is defined ? form.vars.attachedFile : null %}
+<div class="itemFile d-flex align-items-center" data-fl-attach-id="{{ attachedFile ? attachedFile.id : '' }}">
+    <span class="m-r-20">{{ attachedFile.title|raw }}</span>
+    <div class="d-none">
+        {{ form_widget(form) }}
+    </div>
+    <a class="btn btn-primary btn-icon btn-xs m-r-10" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'Ajouter un fichier'|trans }}">
+        <i class="fas fa-edit"></i>
+    </a>
+    <a class="btn btn-primary btn-icon btn-xs m-r-10" href="{{ aropixel_file_url(form.vars.attachedFile.file) }}">
+        <i class="fas fa-download"></i>
+    </a>
+    <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile"><i class="fa fa-unlink"></i></a>
+</div>
