@@ -21,7 +21,7 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
         },
 
         table: {
-            item: '.tableFiles tr.itemFile',
+            item: '.tableFiles .itemFile',
             unlink: '.iconUnlinkFile',
             edit: '.iconEditFile',
         },
@@ -173,20 +173,20 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 let formFieldAlt = launcher.element.find("input[name$='[alt]']");
 
                 let $filesContent = launcher.element.find('.tableFiles');
-                let $fileTbody = $filesContent.find('tbody');
+                let $fileContainer = $filesContent.is('table') ? $filesContent.find('tbody') : $filesContent;
 
-                $fileTbody.html($(result));
-                $fileTbody.find('div').empty();
-                $fileTbody.find('div').append(formFieldAlt);
-                $fileTbody.find('div').append(formFieldTitle);
-                $fileTbody.find('div').append(formFieldFile);
+                $fileContainer.html($(result));
+                $fileContainer.find('.d-none').empty();
+                $fileContainer.find('.d-none').append(formFieldAlt);
+                $fileContainer.find('.d-none').append(formFieldTitle);
+                $fileContainer.find('.d-none').append(formFieldFile);
 
                 launcher.element.find("input[name$='[file]']").val($(result).find("[name$='[file]']").val());
                 launcher.element.find("input[name$='[title]']").val($selectedFile.find('[data-modal-xeditable]').html());
                 launcher.element.find("input[name$='[alt]']").val($(result).find("[name$='[alt]']").val());
                 launcher.element.attr("data-fl-attach-id", $(result).attr('data-fl-attach-id'));
 
-                new FL_File_Widget(filesWidget, $fileTbody);
+                new FL_File_Widget(filesWidget, $fileContainer.find('.itemFile'));
 
                 // params.onAttach(launcher, result);
                 $(selectors.modal.id).modal('hide');
@@ -233,11 +233,11 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                 }
 
                 $filesContent.find('[name$="['+index+'][file]"]').val($(this).val());
-                $filesContent.find('[name$="['+index+'][file]"]').closest('td').find('span').data('src', $selectedFile.find('.file-type').data('src'));
-                $filesContent.find('[name$="['+index+'][file]"]').closest('td').find('span').html($selectedFile.find('[data-modal-xeditable]').html());
+                $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile').find('span:first').data('src', $selectedFile.find('.file-type').data('src'));
+                $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile').find('span:first').html($selectedFile.find('[data-modal-xeditable]').html());
                 $filesContent.find('[name$="['+index+'][title]"]').val($selectedFile.find('[data-modal-xeditable]').html());
 
-                let $fileRow = $filesContent.find('[name$="['+index+'][file]"]').closest('tr');
+                let $fileRow = $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile');
                 $fileRow.attr('data-fl-file-id', $(this).val());
 
                 new FL_File_Widget(filesWidget, $fileRow);
@@ -349,18 +349,24 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                     'class' : 'btn-danger',
                     'callback' : function() {
 
-                        let $filesTbody = button.closest('tbody');
-                        let placeholder = button.closest('table').data('placeholder');
+                        let $filesContainer = button.closest('.tableFiles');
+                        let $filesItemsContainer = $filesContainer.is('table') ? $filesContainer.find('tbody') : $filesContainer;
+                        let placeholder = $filesContainer.data('placeholder');
 
-                        button.closest('tr').fadeOut(400, function() {
-                            let formFields = $filesTbody.find('div');
+                        button.closest('.itemFile').fadeOut(400, function() {
+                            let formFields = $filesItemsContainer.find('.d-none');
                             $(this).remove();
-                            if ($filesTbody.children('tr').length == 0) {
+                            if ($filesItemsContainer.find('.itemFile').length == 0) {
 
                                 // if (launcher.config.multiple == 0) {
-                                $filesTbody.html(placeholder);
-                                $filesTbody.find('tr td:first').append(formFields);
-                                $filesTbody.find('input:hidden').removeAttr('value');
+                                $filesItemsContainer.html(placeholder);
+                                let $newPlaceholder = $filesItemsContainer.find('.itemNew');
+                                if ($filesContainer.is('table')) {
+                                    $newPlaceholder.find('td:first').append(formFields);
+                                } else {
+                                    $newPlaceholder.append(formFields);
+                                }
+                                $filesItemsContainer.find('input:hidden').removeAttr('value');
                                 // }
                                 // else {
                                 //     $filesTbody.html(placeholder);

@@ -285,12 +285,12 @@
                                 {% set column_fields = column_fields|merge([cp]) %}
                             {% endfor %}
 
-                            {% macro render_modal_fields(form, column_fields, display_columns, parent_path = '') %}
+                            {% macro render_modal_fields(form, column_fields, display_columns, render_columns, parent_path = '') %}
                                 {% for child in form %}
                                     {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
-                                    {% if child_path not in column_fields or child_path in display_columns %}
+                                    {% if child_path not in column_fields or child_path in display_columns or render_columns[child_path] is defined %}
                                         {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
-                                            {{ _self.render_modal_fields(child, column_fields, display_columns, child_path) }}
+                                            {{ _self.render_modal_fields(child, column_fields, display_columns, render_columns, child_path) }}
                                         {% else %}
                                             {{ form_row(child) }}
                                         {% endif %}
@@ -298,7 +298,7 @@
                                 {% endfor %}
                             {% endmacro %}
 
-                            {{ _self.render_modal_fields(item, column_fields, display_columns) }}
+                            {{ _self.render_modal_fields(item, column_fields, display_columns, render_columns) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
@@ -568,12 +568,15 @@
             <label for="{{ id }}" class="form-check-label col-form-label">{{ label is defined and label|length ? label : 'Fichiers' }}</label>
             <div class="col-form-content">
 
-                <div class="tableFiles" data-placeholder='<div class="itemNew"><span class="text-muted">{% trans %}files.widget.no_selected_file{% endtrans %}</span></div>'>
+                <div class="tableFiles" data-placeholder='<div class="itemNew d-flex align-items-center"><span class="text-muted">{% trans %}files.widget.no_selected_file{% endtrans %}</span></div>'>
 
                     {%- if attachedFile and attachedFile.file -%}
 
                         <div class="itemFile d-flex align-items-center">
                             <span class="m-r-20">{{ attachedFile.title|raw }}</span>
+                            <div class="d-none">
+                                {{ form_widget(form) }}
+                            </div>
                             <a class="btn btn-primary btn-icon btn-xs m-r-10" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'Ajouter un fichier'|trans }}">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -581,8 +584,6 @@
                                 <i class="fas fa-download"></i>
                             </a>
                             <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile"><i class="fa fa-unlink"></i></a>
-
-                            {{ form_widget(form) }}
                         </div>
 
                     {%- else -%}
