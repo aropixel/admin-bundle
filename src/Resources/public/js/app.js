@@ -671,6 +671,19 @@ onDomReady(() => {
             }
         });
 
+        // Initialize translatable fields
+        const currentLocale = $('#btnCurrentLocale').text().trim().toLowerCase();
+        if (currentLocale) {
+            $newElement.find('.translatable-field').each(function() {
+                const $field = $(this);
+                if ($field.attr('data-locale') === currentLocale) {
+                    $field.addClass('active');
+                } else {
+                    $field.removeClass('active');
+                }
+            });
+        }
+
         // Mise à jour de la position si nécessaire
         $newElement.find('input, select, textarea').each(function() {
             const name = $(this).attr('name');

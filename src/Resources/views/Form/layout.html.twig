@@ -874,13 +874,13 @@
 
 {% block aropixel_admin_translatable_row %}
 
-    {% set defaultLocale = app.request.defaultLocale %}
+    {% set currentLocale = app.request.defaultLocale %}
 
     {% for child in form.children %}
 
         {% set label = child.parent.vars.label %}
 
-        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == defaultLocale %}active{% endif %}">
+        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == currentLocale %}active{% endif %}" data-locale="{{ child.vars.label }}">
             {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
         </div>
 
