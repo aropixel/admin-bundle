@@ -874,14 +874,25 @@
 
 {% block aropixel_admin_translatable_row %}
 
-    {% set currentLocale = app.request.defaultLocale %}
-
     {% for child in form.children %}
 
         {% set label = child.parent.vars.label %}
 
-        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == currentLocale %}active{% endif %}" data-locale="{{ child.vars.label }}">
+        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == app.request.defaultLocale %}active{% endif %}" data-locale="{{ child.vars.label }}">
             {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
+        </div>
+
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block aropixel_admin_translatable_widget %}
+
+    {% for child in form.children %}
+
+        <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == app.request.defaultLocale %}active{% endif %}" data-locale="{{ child.vars.label }}">
+            {{ form_widget(child) }}
         </div>
 
     {% endfor %}
