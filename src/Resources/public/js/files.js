@@ -599,6 +599,11 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
         let obj = this;
         this.element = $(selectors.modal.uploader);
+
+        if (!this.element.length) {
+            return this;
+        }
+
         this.dataTable = $(selectors.modal.dataTable).DataTable();
         this.progress = this.element.next();
         this.category = this.element.data('category');
