@@ -18,7 +18,7 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [FilterableEntitiesType](#filterableentitiestype)
     - [EntityHiddenType](#entityhiddentype)
     - [CollectionHiddenType](#collectionhiddentype)
-    - [ModalCollectionType](#modalcollectiontype)
+    - [CollectionType](#collectiontype)
     - [TranslatableType](#translatabletype)
     - [SyliusTranslatableType](#syliustranslatabletype)
 - [UI Types](#ui-types)
@@ -268,11 +268,11 @@ $builder->add('tags', CollectionHiddenType::class, [
 ]);
 ```
 
-### ModalCollectionType
+### CollectionType
 
-Handles a collection of forms with a table view and a Bootstrap modal for editing each item.
+Handles a collection of forms with a table view and an optional Bootstrap modal for editing each item.
 
-**Twig block:** `aropixel_admin_modal_collection_widget`
+**Twig block:** `aropixel_admin_collection_widget`
 
 **Options:**
 - `columns`: (array) Associative array of `label => field_name` to display in the table. Supports nested fields using dot notation (e.g., `track.name`).
@@ -281,10 +281,11 @@ Handles a collection of forms with a table view and a Bootstrap modal for editin
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
+- `use_modal`: (boolean|null) Enable or disable the edit modal. If `null`, the modal is automatically added only if some fields are not rendered as columns (default: `null`).
 
 **Basic Usage:**
 ```php
-$builder->add('tracklists', ModalCollectionType::class, [
+$builder->add('tracklists', CollectionType::class, [
     'entry_type' => TrackType::class,
     'columns' => [
         'Pos.' => 'position',
@@ -300,7 +301,7 @@ $builder->add('tracklists', ModalCollectionType::class, [
 You can use dot notation to access fields in nested form types. For example, if `TracklistType` contains a `TrackType` field named `track`, which in turn contains a `name` field:
 
 ```php
-$builder->add('tracklists', ModalCollectionType::class, [
+$builder->add('tracklists', CollectionType::class, [
     'entry_type' => TracklistType::class,
     'columns' => [
         'Pos.' => 'position',
@@ -319,7 +320,7 @@ $builder->add('tracklists', ModalCollectionType::class, [
 **Custom Rendering:**
 If you need complex HTML rendering for a column, you should use a closure as shown above. The closure receives the specific `field` object and the whole `item` form object.
 
-Alternatively, you can use native Symfony form themes to override the widget of a specific field. For example, if your `ModalCollectionType` is named `tracklists`, you can override the widget of the `position` field of each entry by defining a block in your template:
+Alternatively, you can use native Symfony form themes to override the widget of a specific field. For example, if your `CollectionType` is named `tracklists`, you can override the widget of the `position` field of each entry by defining a block in your template:
 
 ```twig
 {% form_theme form.tracklists with _self %}

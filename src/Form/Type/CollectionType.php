@@ -3,13 +3,12 @@
 namespace Aropixel\AdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ModalCollectionType extends AbstractType
+class CollectionType extends AbstractType
 {
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
@@ -33,6 +32,29 @@ class ModalCollectionType extends AbstractType
         $view->vars['display_columns'] = $options['display_columns'];
         $view->vars['modal_title'] = $options['modal_title'];
         $view->vars['sortable'] = $options['sortable'];
+
+        // On détermine si on doit afficher la modale
+        $use_modal = $options['use_modal'];
+        if ($use_modal === null) {
+            // Si c'est auto, on vérifie si des champs ne sont pas rendus en colonne
+            $use_modal = false;
+            $prototype = $form->getConfig()->getAttribute('prototype');
+            if ($prototype) {
+                foreach ($prototype as $child) {
+                    $childName = $child->getName();
+                    // On vérifie si ce champ est dans les colonnes (et n'est pas display_only ou render_custom)
+                    $is_in_columns = in_array($childName, $options['columns']);
+                    $is_displayed_as_value = in_array($childName, $options['display_columns']);
+                    $has_custom_render = isset($options['render_columns'][$childName]);
+
+                    if (!$is_in_columns || $is_displayed_as_value || $has_custom_render) {
+                        $use_modal = true;
+                        break;
+                    }
+                }
+            }
+        }
+        $view->vars['use_modal'] = $use_modal;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -44,6 +66,7 @@ class ModalCollectionType extends AbstractType
             'display_columns' => [], // Les champs à afficher en valeur plutôt qu'en widget
             'modal_title' => 'Détails de l\'élément',
             'sortable' => true,
+            'use_modal' => null, // null = auto, true = force, false = disable
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
@@ -53,11 +76,11 @@ class ModalCollectionType extends AbstractType
 
     public function getParent(): string
     {
-        return CollectionType::class;
+        return \Symfony\Component\Form\Extension\Core\Type\CollectionType::class;
     }
 
     public function getBlockPrefix(): string
     {
-        return 'aropixel_admin_modal_collection';
+        return 'aropixel_admin_collection';
     }
 }

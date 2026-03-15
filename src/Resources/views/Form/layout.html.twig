@@ -189,12 +189,12 @@
 {%- endblock collection_widget %}
 
 
-{% block aropixel_admin_modal_collection_widget -%}
+{% block aropixel_admin_collection_widget -%}
     {% apply spaceless %}
         {% set prototype_html = '' %}
         {% if prototype is defined and allow_add %}
             {% set item = prototype %}
-            {% set prototype_html = block('aropixel_admin_modal_collection_entry_row') %}
+            {% set prototype_html = block('aropixel_admin_collection_entry_row') %}
         {% endif %}
         <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %}>
 
@@ -216,17 +216,17 @@
                 </thead>
                 <tbody>
                 {% for item in form %}
-                    {{ block('aropixel_admin_modal_collection_entry_row') }}
+                    {{ block('aropixel_admin_collection_entry_row') }}
                 {% endfor %}
                 </tbody>
             </table>
 
         </div>
     {% endapply %}
-{%- endblock aropixel_admin_modal_collection_widget %}
+{%- endblock aropixel_admin_collection_widget %}
 
 
-{% block aropixel_admin_modal_collection_entry_row %}
+{% block aropixel_admin_collection_entry_row %}
     <tr class="collection-item" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}">
         <td class="align-middle">
             {% if sortable %}
@@ -266,49 +266,75 @@
                     <i class="fas fa-ellipsis-h"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-{{ item.vars.id }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i> {{ 'text.edit'|trans }}</a>
-                    <div class="dropdown-divider"></div>
+                    {% if use_modal %}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-{{ item.vars.id }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i> {{ 'text.edit'|trans }}</a>
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
                     <a class="dropdown-item has-icon delete text-danger" href="#" data-form-collection="delete"><i class="fas fa-trash"></i> {{ 'text.delete'|trans }}</a>
                 </div>
             </div>
 
-            <div class="modal fade" id="modal-{{ item.vars.id }}" tabindex="-1" aria-labelledby="modal-label-{{ item.vars.id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header text-start">
-                            <h5 class="modal-title" id="modal-label-{{ item.vars.id }}">{{ modal_title|trans }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body text-start">
-                            {% set column_fields = [] %}
-                            {% for cp in columns %}
-                                {% set column_fields = column_fields|merge([cp]) %}
-                            {% endfor %}
-
-                            {% macro render_modal_fields(form, column_fields, display_columns, render_columns, parent_path = '') %}
-                                {% for child in form %}
-                                    {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
-                                    {% if child_path not in column_fields or child_path in display_columns or render_columns[child_path] is defined %}
-                                        {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
-                                            {{ _self.render_modal_fields(child, column_fields, display_columns, render_columns, child_path) }}
-                                        {% else %}
-                                            {{ form_row(child) }}
-                                        {% endif %}
-                                    {% endif %}
+            {% if use_modal %}
+                <div class="modal fade" id="modal-{{ item.vars.id }}" tabindex="-1" aria-labelledby="modal-label-{{ item.vars.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header text-start">
+                                <h5 class="modal-title" id="modal-label-{{ item.vars.id }}">{{ modal_title|trans }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start">
+                                {% set column_fields = [] %}
+                                {% for cp in columns %}
+                                    {% set column_fields = column_fields|merge([cp]) %}
                                 {% endfor %}
-                            {% endmacro %}
 
-                            {{ _self.render_modal_fields(item, column_fields, display_columns, render_columns) }}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
+                                {% macro render_modal_fields(form, column_fields, display_columns, render_columns, parent_path = '') %}
+                                    {% for child in form %}
+                                        {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
+                                        {% if child_path not in column_fields or child_path in display_columns or render_columns[child_path] is defined %}
+                                            {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
+                                                {{ _self.render_modal_fields(child, column_fields, display_columns, render_columns, child_path) }}
+                                            {% else %}
+                                                {{ form_row(child) }}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endmacro %}
+
+                                {{ _self.render_modal_fields(item, column_fields, display_columns, render_columns) }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-modal-collection-close data-bs-dismiss="modal">Fermer</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="d-none">
+                    {% set column_fields = [] %}
+                    {% for cp in columns %}
+                        {% set column_fields = column_fields|merge([cp]) %}
+                    {% endfor %}
+
+                    {% macro render_hidden_fields(form, column_fields, parent_path = '') %}
+                        {% for child in form %}
+                            {% set child_path = parent_path ? parent_path ~ '.' ~ child.vars.name : child.vars.name %}
+                            {% if child_path not in column_fields %}
+                                {% if child.children|length > 0 and 'aropixel_admin_file' not in child.vars.block_prefixes %}
+                                    {{ _self.render_hidden_fields(child, column_fields, child_path) }}
+                                {% else %}
+                                    {{ form_row(child) }}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endmacro %}
+
+                    {{ _self.render_hidden_fields(item, column_fields) }}
+                </div>
+            {% endif %}
         </td>
     </tr>
-{% endblock aropixel_admin_modal_collection_entry_row %}
+{% endblock aropixel_admin_collection_entry_row %}
 
 {% macro collection_item(form, allow_delete, index) %}
     {% apply spaceless %}

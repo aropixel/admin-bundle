@@ -690,10 +690,11 @@ onDomReady(() => {
 
     });
 
-    $(document).on('input change', '.modal-body :input', function (e) {
+    $(document).on('input change', '[data-form-collection="item"] :input', function (e) {
         const inputName = $(this).attr('name');
         const newValue = $(this).val();
-        const $label = $(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
+        const $item = $(this).closest('[data-form-collection="item"]');
+        const $label = $item.find(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
         if ($label.length) {
             if (!newValue) {
                 const defaultLabel = $label.attr('data-display-field-default') || 'Nouveau';
