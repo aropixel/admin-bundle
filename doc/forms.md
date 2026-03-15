@@ -20,6 +20,7 @@ AropixelAdminBundle provides several custom Symfony Form Types to simplify the c
     - [CollectionHiddenType](#collectionhiddentype)
     - [ModalCollectionType](#modalcollectiontype)
     - [TranslatableType](#translatabletype)
+    - [SyliusTranslatableType](#syliustranslatabletype)
 - [UI Types](#ui-types)
     - [EditorType (QuillJS)](#editortype-quilljs)
     - [ColorType](#colortype)
@@ -348,6 +349,28 @@ Handles multi-language fields (Gedmo Personal Translations). Generates one input
 ```php
 $builder->add('title', TranslatableType::class, [
     'personal_translation' => ProductTranslation::class,
+    'widget' => TextType::class,
+]);
+```
+
+### SyliusTranslatableType
+
+Handles multi-language fields for entities implementing Sylius Translatable interface. It manages a collection of translations and is compatible with the Sylius Resource Bundle.
+
+**Twig block:** `aropixel_admin_translatable_row` (Uses the same block as `TranslatableType`)
+
+**Options:**
+- `field`: The name of the translated property (defaults to the form field name).
+- `widget`: The underlying form type to use for each translation (default: `TextType`).
+- `locales`: Array of locales to display (default: configured in `aropixel_admin.locales`).
+- `required_locale`: Array of locales that are mandatory (default: `kernel.default_locale`).
+- `remove_empty`: Whether to remove empty translations from the collection on submit (default: `true`).
+- `personal_translation`: Whether the entity uses personal translations (default: `false`).
+
+**Usage:**
+```php
+$builder->add('name', SyliusTranslatableType::class, [
+    'label' => 'Product Name',
     'widget' => TextType::class,
 ]);
 ```
