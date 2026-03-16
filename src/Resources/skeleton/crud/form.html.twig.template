@@ -1,21 +1,11 @@
 {% extends '@AropixelAdmin/Form/base.html.twig' %}
 {% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
 
-{% block meta_title %}
-    {% if {{ entity_var }}.id {{ '%}' }}
-        {{ '{{' }} 'text.edit'|trans {{ '}}' }} {{ entity_class_name }}
-    {{ '{% else %}' }}
-        {{ '{{' }} 'text.add'|trans {{ '}}' }} {{ entity_class_name }}
-    {{ '{% endif %}' }}
-{% endblock %}
+{% set is_edit = {{ entity_var }}.id is not null %}
+{% set title = is_edit ? 'text.edit'|trans ~ ' : ' ~ {{ entity_var }}.name : 'text.add'|trans %}
 
-{% block header_title %}
-    {% if {{ entity_var }}.id %}
-        {{ 'text.edit'|trans }} {{ entity_class_name }}
-    {% else %}
-        {{ 'text.add'|trans }} {{ entity_class_name }}
-    {% endif %}
-{% endblock %}
+{% block meta_title %}{{ title }}{% endblock %}
+{% block header_title %}{{ title }}{% endblock %}
 
 {% block header_breadcrumb %}
     {{ nav.breadcrumbs([
