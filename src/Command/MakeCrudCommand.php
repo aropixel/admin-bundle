@@ -101,6 +101,7 @@ class MakeCrudCommand extends Command
 
         $this->generateFile('index.html.twig.template', $templateDir . '/index.html.twig', $params, $io);
         $this->generateFile('form.html.twig.template', $templateDir . '/form.html.twig', $params, $io);
+        $this->generateFile('_actions.html.twig.template', $templateDir . '/_actions.html.twig', $params, $io);
 
         $io->success('CRUD generated successfully!');
         $io->note('Don\'t forget to configure the DataTable columns in ' . $controllerName . '::index()');
