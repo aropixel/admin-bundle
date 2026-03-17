@@ -358,7 +358,7 @@ onDomReady(() => {
 
                             let panelId = $formGroup.closest('.tab-pane') ? $formGroup.closest('.tab-pane').attr('id') : null;
                             if (panelId) {
-                                let panelLabel = $("[href$='#" + panelId + "']").text();
+                                let panelLabel = $("[href$='#" + panelId.replace(/(:)/g, "\\$1") + "']").text();
                                 panelLabel = '<a href="#" data-error-panel="#' + panelId +'">' + panelLabel + '</a>';
 
                                 if (panelLabel) {
@@ -629,7 +629,8 @@ onDomReady(() => {
         e.preventDefault();
 
         const $addButton = $(this);
-        const $collection = $('#' + $addButton.attr('data-form-collection-add'));
+        const collectionId = $addButton.attr('data-form-collection-add');
+        const $collection = $('#' + collectionId.replace(/(:)/g, "\\$1"));
         const $list = $collection.find('> [data-form-collection="list"]');
         const prototype = $collection.attr('data-prototype');
 
@@ -812,7 +813,7 @@ function activateQuillEditor($elements) {
         let $this = $(this);
         let targetSelector = $this.data('target');
         let toolbarType = $this.data('toolbar');
-        let $target = $(targetSelector);
+        let $target = $(targetSelector.replace(/(:)/g, "\\$1"));
 
         // Récupérer les barres d'outils personnalisées de l'utilisateur
         const customToolbars = window.aropixelQuillToolbars || {};
