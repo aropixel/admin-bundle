@@ -64,6 +64,13 @@ interface DataTableInterface
 
     public function getSearchFields(): array;
 
+    public function join(string $property, string $alias): self;
+
+    /**
+     * @return array<string, string>
+     */
+    public function getJoins(): array;
+
     public function renderJson(callable $transformer): self;
 
     /**

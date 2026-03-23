@@ -24,12 +24,12 @@ class AjaxAction extends AbstractController
     {
         return $this->dataTableFactory->create($this->classNameResolver->getImageClassName())
             ->setColumns([
-                ['label' => '', 'field' => '', 'style' => 'width:50px;'],
-                ['label' => 'Aperçu', 'field' => '', 'style' => 'width:100px;'],
-                ['label' => 'Titre', 'field' => 'title'],
-                ['label' => 'Date', 'field' => 'createdAt'],
-                ['label' => 'Fichier', 'field' => '', 'style' => 'width:200px;'],
-                ['label' => '', 'field' => ''],
+                ['label' => '', 'orderBy' => '', 'style' => 'width:50px;'],
+                ['label' => 'Aperçu', 'orderBy' => '', 'style' => 'width:100px;'],
+                ['label' => 'Titre', 'orderBy' => 'title'],
+                ['label' => 'Date', 'orderBy' => 'createdAt'],
+                ['label' => 'Fichier', 'orderBy' => '', 'style' => 'width:200px;'],
+                ['label' => '', 'orderBy' => ''],
             ])
             ->searchIn(['title'])
             ->renderJson($this->dataTableRowFactory)

@@ -34,6 +34,11 @@ class DataTable extends Response implements DataTableInterface
     private array $searchFields = [];
 
     /**
+     * @var array<string, string>
+     */
+    private array $joins = [];
+
+    /**
      * @var array<string, mixed>
      */
     private array $viewParameters = [];
@@ -161,6 +166,21 @@ class DataTable extends Response implements DataTableInterface
     public function getSearchFields(): array
     {
         return $this->searchFields;
+    }
+
+    public function join(string $property, string $alias): self
+    {
+        $this->joins[$property] = $alias;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getJoins(): array
+    {
+        return $this->joins;
     }
 
     public function renderJson(callable $transformer): self

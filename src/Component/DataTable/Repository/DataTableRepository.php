@@ -75,6 +75,16 @@ class DataTableRepository implements DataTableRepositoryInterface
             $alias = $this->getTableAs($dataTable);
             $qb = $repository->createQueryBuilder($alias);
 
+            // Gestion des jointures
+            $joins = $dataTable->getJoins();
+            foreach ($joins as $property => $joinAlias) {
+                if (str_contains($property, '.')) {
+                    $qb->leftJoin($property, $joinAlias);
+                } else {
+                    $qb->leftJoin($alias . '.' . $property, $joinAlias);
+                }
+            }
+
             // Gestion de la recherche automatique
             $search = $context->getSearch();
             $searchFields = $dataTable->getSearchFields();
@@ -82,7 +92,11 @@ class DataTableRepository implements DataTableRepositoryInterface
             if (mb_strlen($search) && count($searchFields)) {
                 $orX = $qb->expr()->orX();
                 foreach ($searchFields as $field) {
-                    $orX->add($qb->expr()->like($alias . '.' . $field, ':search'));
+                    if (str_contains($field, '.')) {
+                        $orX->add($qb->expr()->like($field, ':search'));
+                    } else {
+                        $orX->add($qb->expr()->like($alias . '.' . $field, ':search'));
+                    }
                 }
                 $qb->andWhere($orX);
                 $qb->setParameter('search', '%' . $search . '%');
@@ -94,11 +108,15 @@ class DataTableRepository implements DataTableRepositoryInterface
 
             if (isset($columns[$orderColumnIndex])) {
                 $column = $columns[$orderColumnIndex];
-                $queryField = $column->getQueryField();
+                $orderBy = $column->getOrderBy();
 
-                if ($queryField) {
+                if ($orderBy) {
                     $direction = $context->getOrderDirection() ?: 'ASC';
-                    $qb->orderBy($alias . '.' . $queryField, $direction);
+                    if (str_contains($orderBy, '.')) {
+                        $qb->orderBy($orderBy, $direction);
+                    } else {
+                        $qb->orderBy($alias . '.' . $orderBy, $direction);
+                    }
                 }
             }
         }

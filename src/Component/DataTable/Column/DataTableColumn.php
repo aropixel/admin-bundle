@@ -14,7 +14,7 @@ class DataTableColumn
      */
     public function __construct(
         private readonly string $label,
-        private readonly string $queryField,
+        private readonly string $orderBy,
         private readonly string $style = '',
         private readonly array $data = []
     ) {
@@ -24,7 +24,7 @@ class DataTableColumn
     {
         $column = new self(
             $config['label'] ?? '',
-            $config['field'] ?? '',
+            $config['orderBy'] ?? $config['field'] ?? '',
             $config['style'] ?? '',
             $config['data'] ?? []
         );
@@ -41,9 +41,9 @@ class DataTableColumn
         return $this->label;
     }
 
-    public function getQueryField(): string
+    public function getOrderBy(): string
     {
-        return $this->queryField;
+        return $this->orderBy;
     }
 
     public function getStyle(): string

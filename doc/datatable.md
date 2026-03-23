@@ -16,9 +16,9 @@ public function index(DataTableFactory $dataTableFactory): Response
     return $dataTableFactory
         ->create(Event::class)
         ->setColumns([
-            ['label' => 'Title', 'field' => 'title'],
-            ['label' => 'Date', 'field' => 'startDate', 'style' => 'width:200px;'],
-            ['label' => '', 'field' => '', 'class' => 'no-sort'],
+            ['label' => 'Title', 'orderBy' => 'title'],
+            ['label' => 'Date', 'orderBy' => 'startDate', 'style' => 'width:200px;'],
+            ['label' => '', 'orderBy' => '', 'class' => 'no-sort'],
         ])
         ->searchIn(['title'])
         ->renderJson(fn(Event $event) => [
@@ -45,7 +45,7 @@ Columns can be defined in three ways:
 ### Configuration Array Format
 The array can contain the following keys:
 - `label`: Label displayed in the header.
-- `field`: Entity field used for sorting (if applicable).
+- `orderBy`: Entity field used for sorting (if applicable). Supports aliases if joins are used.
 - `style`: CSS `style` attribute to add to the cell.
 - `class`: CSS classes to add to the cell (e.g., `no-sort` to disable sorting on a column).
 - `data`: Associative array of custom `data-` attributes to add to the `<th>` tag (e.g., `['type' => 'date-euro']` becomes `data-type="date-euro"`).
@@ -84,7 +84,25 @@ $dataTableFactory
 By default, the component uses the `DefaultDataTableRepository`. If `searchIn()` is used or if no custom repository method is specified, it will:
 1. Automatically generate the `QueryBuilder` for the entity.
 2. Apply `LIKE` conditions on the fields specified in `searchIn()`.
-3. Apply `ORDER BY` based on the clicked column and its `field` configuration.
+3. Apply `ORDER BY` based on the clicked column and its `orderBy` configuration.
+
+### Joins and Aliases
+The component supports easy joins and the use of aliases in `searchIn()` and `orderBy`.
+
+```php
+$dataTableFactory
+    ->create(Event::class)
+    ->join('category', 'c') // Left join event.category with alias 'c'
+    ->setColumns([
+        ['label' => 'Title', 'orderBy' => 'title'],
+        ['label' => 'Category', 'orderBy' => 'c.name'], // Use alias in orderBy
+        ['label' => '', 'orderBy' => '', 'class' => 'no-sort'],
+    ])
+    ->searchIn(['title', 'c.name']) // Use alias in searchIn
+    // ...
+```
+
+When using `join(property, alias)`, the component will automatically perform a `leftJoin`. You can then use the alias in any `orderBy` column or in the `searchIn()` array.
 
 ### Customizing the Method
 If you need complex logic, you can change the method called in your Doctrine repository:
@@ -126,7 +144,10 @@ Defines the Doctrine repository method to call to retrieve the `QueryBuilder`.
 Adds a callback function to modify the `QueryBuilder` before executing the query.
 
 ### `searchIn(array $fields): self`
-Enables automatic search on the specified entity fields.
+Enables automatic search on the specified entity fields. Supports aliases if joins are used.
+
+### `join(string $property, string $alias): self`
+Adds a `leftJoin` to the `QueryBuilder`. The `property` is the relation name on the main entity, and `alias` is the alias to use in `orderBy` and `searchIn`.
 
 ### `setOrderColumn(?int $index): self`
 Sets the default column index for sorting.

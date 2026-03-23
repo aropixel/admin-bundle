@@ -46,10 +46,10 @@ public function index(DataTableFactory $dataTableFactory, DataTableRowFactoryInt
     return $dataTableFactory
         ->create(MyEntity::class)
         ->setColumns([
-            ['label' => 'ID', 'field' => 'id'],
-            ['label' => 'Title', 'field' => 'title'],
-            ['label' => 'Created At', 'field' => 'createdAt'],
-            ['label' => '', 'field' => '', 'class' => 'no-sort'],
+            ['label' => 'ID', 'orderBy' => 'id'],
+            ['label' => 'Title', 'orderBy' => 'title'],
+            ['label' => 'Created At', 'orderBy' => 'createdAt'],
+            ['label' => '', 'orderBy' => '', 'class' => 'no-sort'],
         ])
         ->render($rowFactory);
 }
