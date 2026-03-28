@@ -21,6 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Options:
  * - repository: The entity class for the repository (required).
  * - route: The AJAX route name to fetch results (required).
+ * - route_params: The AJAX route parameters (default: []).
  * - choice_label: The property name or callback to display as label (default: 'label').
  * - multiple: Whether to allow multiple selection (default: false).
  * - placeholder: The input placeholder.
@@ -56,7 +57,7 @@ class Select2Type extends AbstractType
         // if (null !== $options['placeholder']) {
         //     $view->vars['placeholder'] = $options['placeholder'];
         // }
-        $view->vars['url'] = $this->router->generate($options['route']);
+        $view->vars['url'] = $this->router->generate($options['route'], $options['route_params']);
         $view->vars['multiple'] = $options['multiple'] ?: false;
         $view->vars['placeholder'] = $options['placeholder'] ?: false;
 
@@ -92,7 +93,7 @@ class Select2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults(['choice_label' => 'label', 'multiple' => false, 'placeholder' => null])
+            ->setDefaults(['choice_label' => 'label', 'multiple' => false, 'placeholder' => null, 'route_params' => []])
             ->setRequired(['repository', 'route'])
         ;
     }

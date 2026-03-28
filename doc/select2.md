@@ -135,6 +135,34 @@ public function select2(Select2 $select2): Response
 }
 ```
 
+### Use in a Form (Select2Type)
+
+The `Select2Type` form type allows you to easily integrate a Select2 input in your Symfony forms.
+
+```php
+use Aropixel\AdminBundle\Form\Type\Select2Type;
+use App\Entity\Category;
+
+$builder->add('category', Select2Type::class, [
+    'label' => 'Category',
+    'repository' => Category::class,
+    'route' => 'admin_category_ajax_search',
+    'route_params' => ['active' => 1], // Optional route parameters
+    'choice_label' => 'title',
+    'multiple' => false, // Set to true for multiple selection
+    'placeholder' => 'Select a category',
+]);
+```
+
+#### Available Options
+
+- `repository` (required): The entity class for the repository.
+- `route` (required): The AJAX route name to fetch results.
+- `route_params` (default: `[]`): The AJAX route parameters.
+- `choice_label` (default: `'label'`): The property name or callback to display as label.
+- `multiple` (default: `false`): Whether to allow multiple selection.
+- `placeholder` (default: `null`): The input placeholder.
+
 ## Available Methods
 
 ### `withProvider(string $alias): self`
