@@ -36,6 +36,8 @@ class CollectionType extends AbstractType
         $view->vars['columns'] = $columns;
         $view->vars['modal_title'] = $options['modal_title'];
         $view->vars['sortable'] = $options['sortable'];
+        $view->vars['list_template'] = $options['list_template'];
+        $view->vars['entry_row_template'] = $options['entry_row_template'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -49,6 +51,8 @@ class CollectionType extends AbstractType
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false,
+            'list_template' => null,
+            'entry_row_template' => null,
         ]);
     }
 

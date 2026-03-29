@@ -284,6 +284,8 @@ Handles a collection of forms with a table view and a centralized Bootstrap offc
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `modal_title`: (string) Title for the edit offcanvas (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
+- `list_template`: (string) Path to a custom Twig template for rendering the collection list.
+- `entry_row_template`: (string) Path to a custom Twig template for rendering each item row.
 
 **Basic Usage:**
 ```php
@@ -321,6 +323,46 @@ $builder->add('tracklists', CollectionType::class, [
         ],
     ],
 ]);
+```
+
+**Ultra-customizable List Rendering:**
+If the standard table doesn't fit your needs, you can provide your own templates. This is useful for matrix views, grouped lists, or any complex layout.
+
+```php
+$builder->add('variants', CollectionType::class, [
+    'entry_type' => VariantType::class,
+    'list_template' => 'admin/product/variants/_matrix.html.twig',
+    'entry_row_template' => 'admin/product/variants/_matrix_row.html.twig',
+]);
+```
+
+In your `list_template`, you must wrap your items with `data-form-collection="list"`.
+In your `entry_row_template`, you must use the following attributes for the JavaScript to work:
+- `data-form-collection="item"`: on the item container.
+- `data-form-collection-edit`: to make the item (or a part of it) clickable to open the Offcanvas.
+- A hidden `.collection-form-container` containing `{{ form_widget(item) }}` and the action buttons.
+
+Example of `entry_row_template`:
+```twig
+<div class="custom-item clickable" data-form-collection="item" data-form-collection-edit>
+    <!-- Your custom display logic -->
+    <div class="name">{{ item.vars.data.name }}</div>
+
+    <!-- Mandatory hidden form for Offcanvas -->
+    <div class="collection-form-container d-none">
+        <div class="collection-form-content">
+            {{ form_widget(item) }}
+        </div>
+        <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
+            <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
+                <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
+            </a>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
+                {{ 'text.close'|trans }}
+            </button>
+        </div>
+    </div>
+</div>
 ```
 
 **Custom Rendering:**

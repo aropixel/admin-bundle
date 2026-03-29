@@ -204,22 +204,26 @@
                 </a>
             </div>
 
-            <table class="table table-striped table-hover mt-3" data-form-collection="list">
-                <thead>
-                <tr>
-                    <th style="width: 50px;"></th>
-                    {% for label, config in columns %}
-                        <th>{{ label|trans }}</th>
+            {% if list_template %}
+                {{ include(list_template) }}
+            {% else %}
+                <table class="table table-striped table-hover mt-3" data-form-collection="list">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px;"></th>
+                        {% for label, config in columns %}
+                            <th>{{ label|trans }}</th>
+                        {% endfor %}
+                        <th style="width: 150px;" class="text-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in form %}
+                        {{ block('aropixel_admin_collection_entry_row') }}
                     {% endfor %}
-                    <th style="width: 150px;" class="text-end">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in form %}
-                    {{ block('aropixel_admin_collection_entry_row') }}
-                {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            {% endif %}
 
         </div>
     {% endapply %}
@@ -227,60 +231,58 @@
 
 
 {% block aropixel_admin_collection_entry_row %}
-    <tr class="collection-item clickable" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}" data-form-collection-edit>
-        <td class="align-middle">
-            {% if sortable %}
-                <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
-                    <i class="fas fa-arrows-alt"></i>
-                </a>
-            {% endif %}
-        </td>
-
-        {% for label, config in columns %}
-            {% set field_path = config.field %}
+    {% if entry_row_template %}
+        {{ include(entry_row_template) }}
+    {% else %}
+        <tr class="collection-item clickable" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}" data-form-collection-edit>
             <td class="align-middle">
-                {% set field = item %}
-                {% for part in field_path|split('.') %}
-                    {% set field = field[part] %}
-                {% endfor %}
-
-                {% if config.render is defined and config.render.call is defined %}
-                    {{ config.render.call(field, item)|raw }}
-                {% else %}
-                    {% set default_label = 'Nouveau'|trans %}
-                    <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
-                        {% if field.vars.value %}
-                            {{ field.vars.value }}
-                        {% else %}
-                            <em class="text-muted">{{ default_label }}</em>
-                        {% endif %}
-                    </span>
+                {% if sortable %}
+                    <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
+                        <i class="fas fa-arrows-alt"></i>
+                    </a>
                 {% endif %}
             </td>
-        {% endfor %}
 
-        <td class="align-middle text-end">
-            {% if sortable %}
-                <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
-                    <i class="fas fa-arrows-alt"></i>
-                </a>
-            {% endif %}
+            {% for label, config in columns %}
+                {% set field_path = config.field %}
+                <td class="align-middle">
+                    {% set field = item %}
+                    {% for part in field_path|split('.') %}
+                        {% set field = field[part] %}
+                    {% endfor %}
 
-            <div class="collection-form-container d-none">
-                <div class="collection-form-content">
-                    {{ form_widget(item) }}
+                    {% if config.render is defined and config.render.call is defined %}
+                        {{ config.render.call(field, item)|raw }}
+                    {% else %}
+                        {% set default_label = 'Nouveau'|trans %}
+                        <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
+                            {% if field.vars.value %}
+                                {{ field.vars.value }}
+                            {% else %}
+                                <em class="text-muted">{{ default_label }}</em>
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </td>
+            {% endfor %}
+
+            <td class="align-middle text-end">
+                <div class="collection-form-container d-none">
+                    <div class="collection-form-content">
+                        {{ form_widget(item) }}
+                    </div>
+                    <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
+                        <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
+                            <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
+                        </a>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
+                            {{ 'text.close'|trans }}
+                        </button>
+                    </div>
                 </div>
-                <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
-                    <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
-                        <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
-                    </a>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
-                        {{ 'text.close'|trans }}
-                    </button>
-                </div>
-            </div>
-        </td>
-    </tr>
+            </td>
+        </tr>
+    {% endif %}
 {% endblock aropixel_admin_collection_entry_row %}
 
 {% macro collection_item(form, allow_delete, index) %}
