@@ -710,6 +710,12 @@ onDomReady(() => {
     }
 
     $(document).on('click', '[data-form-collection-edit]', function(e) {
+
+        // Si on a cliqué sur un bouton d'action spécifique (supprimer, déplacer, etc.), on ne fait rien ici
+        if ($(e.target).closest('[data-form-collection="delete"], [data-form-collection="move"], .dropdown-toggle').length) {
+            return;
+        }
+
         e.preventDefault();
         const $item = $(this).closest('[data-form-collection="item"]');
         const $collection = $item.closest('[data-form-type="collection"]');
@@ -745,6 +751,41 @@ onDomReady(() => {
                 }
             });
         }
+    });
+
+    // Gestion de la suppression depuis l'offcanvas
+    $(document).on('click', '#offcanvasCollection [data-form-collection="delete"]', function(e) {
+        e.preventDefault();
+
+        const _button = $(this);
+        const _buttons = {
+            confirm: {
+                label: 'Supprimer',
+                className: 'btn-danger',
+                callback: function(){
+
+                    const $item = $('.collection-form-container').filter(function() {
+                        return $(this).contents().length === 0;
+                    }).closest('[data-form-collection="item"]');
+
+                    if ($item.length) {
+                        if (bsOffcanvas) {
+                            bsOffcanvas.hide();
+                        }
+                        $item.remove();
+                    }
+                }
+            },
+            cancel: {
+                label: 'Annuler',
+                className: 'btn-default',
+                callback: function(){
+                }
+            }
+        };
+
+        new ModalDyn("Confirmation", "Êtes-vous sûr de vouloir supprimer cet élément ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+
     });
 
     if (offcanvasElement) {
