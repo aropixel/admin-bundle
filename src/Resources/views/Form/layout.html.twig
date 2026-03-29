@@ -261,14 +261,9 @@
 
         <td class="align-middle text-end">
             {% if sortable %}
-                <div class="btn-group dropstart">
-                    <button type="button" class="badge badge-light badge-icon" data-bs-toggle="dropdown">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                        <a href="#" data-form-collection="move" class="dropdown-item has-icon"><i class="fas fa-arrows-alt"></i> {{ 'text.move'|trans }}</a>
-                    </div>
-                </div>
+                <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
+                    <i class="fas fa-arrows-alt"></i>
+                </a>
             {% endif %}
 
             <div class="collection-form-container d-none">
