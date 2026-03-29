@@ -24,10 +24,12 @@
 .form-horizontal .form-group {
     display: flex;
     flex-wrap: wrap;
+    --label-width: 25%;
+    --content-width: 75%;
 }
 .form-horizontal .form-group .col-form-label {
     flex: 0 0 auto;
-    width: 25%;
+    width: var(--label-width);
     padding-right: 10px;
 }
 .form-group .label-description {
@@ -38,8 +40,14 @@
 
 .form-horizontal .form-group .col-form-content {
     flex: 0 0 auto;
-    width: 75%;
+    width: var(--content-width);
 }
+
+.form-horizontal-20-80 { --label-width: 20%; --content-width: 80%; }
+.form-horizontal-30-70 { --label-width: 30%; --content-width: 70%; }
+.form-horizontal-33-66 { --label-width: 33.333%; --content-width: 66.666%; }
+.form-horizontal-40-60 { --label-width: 40%; --content-width: 60%; }
+.form-horizontal-50-50 { --label-width: 50%; --content-width: 50%; }
 
 .form-horizontal .form-group .collection-content .col-form-content {
     width: 100%;

@@ -123,6 +123,45 @@ To keep a consistent look, use the following CSS classes:
 - `.card.card-centered.card-centered-large`: Wraps the form in a centered container.
 - `.card-body`: Standard card padding.
 
+## Customizing Horizontal Form Ratios
+
+By default, horizontal forms in `AropixelAdminBundle` use a **25% / 75%** ratio for the label and the form element. You can customize this ratio globally for a form or specifically for a single row using utility classes.
+
+### Available Ratio Classes
+
+The following classes are available:
+- `.form-horizontal-20-80`
+- `.form-horizontal-30-70`
+- `.form-horizontal-33-66`
+- `.form-horizontal-40-60`
+- `.form-horizontal-50-50`
+
+### Usage
+
+#### Global for a Form (Twig)
+
+Apply the class in `form_start`:
+
+```twig
+{{ form_start(form, {'attr': {'class': 'form-horizontal-30-70'}}) }}
+```
+
+#### Specifically for a Row (FormType)
+
+Apply the class via `row_attr`:
+
+```php
+$builder->add('name', TextType::class, [
+    'row_attr' => ['class' => 'form-horizontal-40-60'],
+]);
+```
+
+#### Specifically for a Row (Twig)
+
+```twig
+{{ form_row(form.name, {'row_attr': {'class': 'form-horizontal-50-50'}}) }}
+```
+
 ## Collections Handling
 
 To manage Symfony collections in your templates:
