@@ -21,11 +21,14 @@
     width: 100%;
 }
 
+.form-horizontal {
+    --label-width: 25%;
+    --content-width: 75%;
+}
+
 .form-horizontal .form-group {
     display: flex;
     flex-wrap: wrap;
-    --label-width: 25%;
-    --content-width: 75%;
 }
 .form-horizontal .form-group .col-form-label {
     flex: 0 0 auto;
