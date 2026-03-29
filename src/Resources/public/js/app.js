@@ -654,7 +654,7 @@ onDomReady(() => {
         activateImManager($newElement.find('.im-manager'));
         activateSortable($list);
 
-        // Ré-initialisation de Select2
+        // Initialize Select2 using global helper functions
         $newElement.find(".select2-ajax, .select2, .select-multiple").each(function() {
             const $select = $(this);
             if ($select.hasClass('select2-ajax')) {
@@ -701,26 +701,149 @@ onDomReady(() => {
             $(this).closest('[data-form-collection="item"]').remove();
         });
         activateSortable($(this));
-
     });
 
-    $(document).on('input change', '[data-form-collection="item"] :input', function (e) {
+    const offcanvasElement = document.getElementById('offcanvasCollection');
+    let bsOffcanvas = null;
+    if (offcanvasElement) {
+        bsOffcanvas = new bootstrap.Offcanvas(offcanvasElement);
+    }
+
+    $(document).on('click', '[data-form-collection-edit]', function(e) {
+        e.preventDefault();
+        const $item = $(this).closest('[data-form-collection="item"]');
+        const $collection = $item.closest('[data-form-type="collection"]');
+        const $container = $item.find('.collection-form-container');
+        const modalTitle = $collection.attr('data-modal-title') || 'Edition';
+
+        if (bsOffcanvas) {
+            $('#offcanvasCollectionLabel').text(modalTitle);
+            const $offcanvasBody = $('#offcanvasCollection .offcanvas-body');
+
+            // Move form to offcanvas
+            $offcanvasBody.empty().append($container.contents());
+            $container.data('active-item', $item);
+
+            bsOffcanvas.show();
+
+            // Initialize plugins in offcanvas
+            activateDatePicker($offcanvasBody.find('.pickadate'));
+            activateTimePicker($offcanvasBody.find('.pickatime'));
+            activateQuillEditor($offcanvasBody.find('.quill-editor'));
+            activateImManager($offcanvasBody.find('.im-manager'));
+
+            $offcanvasBody.find(".select2-ajax, .select2, .select-multiple").each(function() {
+                const $select = $(this);
+                if ($select.hasClass('select2-ajax')) {
+                    initializeSelect2Ajax($select);
+                } else if ($select.hasClass('select-multiple')) {
+                    if (!$select.parent('.duallistbox').length) {
+                        initializeSelect2($select);
+                    }
+                } else {
+                    initializeSelect2($select);
+                }
+            });
+        }
+    });
+
+    if (offcanvasElement) {
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', function () {
+            const $offcanvasBody = $(this).find('.offcanvas-body');
+            const $item = $('.collection-form-container').filter(function() {
+                return $(this).contents().length === 0;
+            }).first();
+
+            if ($item.length) {
+                $item.append($offcanvasBody.contents());
+            }
+        });
+    }
+
+    $(document).on('input change', '[data-form-collection="item"] :input, #offcanvasCollection :input', function (e) {
         const inputName = $(this).attr('name');
         const newValue = $(this).val();
-        const $item = $(this).closest('[data-form-collection="item"]');
-        const $label = $item.find(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
-        if ($label.length) {
-            if (!newValue) {
-                const defaultLabel = $label.attr('data-display-field-default') || 'Nouveau';
-                $label.html(`<em class="text-muted">${defaultLabel}</em>`);
-            } else {
-                $label.text(newValue);
+        let $item;
+
+        if ($(this).closest('#offcanvasCollection').length) {
+            // Find the item that is currently being edited
+            $item = $('.collection-form-container').filter(function() {
+                return $(this).contents().length === 0;
+            }).closest('[data-form-collection="item"]');
+        } else {
+            $item = $(this).closest('[data-form-collection="item"]');
+        }
+
+        if ($item && $item.length) {
+            const $label = $item.find(`.modal-collection-display-label[data-display-field-name="${inputName}"]`);
+            if ($label.length) {
+                if (!newValue) {
+                    const defaultLabel = $label.attr('data-display-field-default') || 'Nouveau';
+                    $label.html(`<em class="text-muted">${defaultLabel}</em>`);
+                } else {
+                    $label.text(newValue);
+                }
             }
         }
     });
 
 });
 
+
+function initializeSelect2($select) {
+    let params = {};
+    let width = $select.prop('style')['width'];
+    if (width && width.length) {
+        params.width = width;
+    }
+    if ($select[0].hasAttribute("data-placeholder")) {
+        params.allowClear = true;
+    }
+    $select.select2(params);
+}
+
+function initializeSelect2Ajax($select) {
+    let _url = $select.attr('data-url');
+    let _placeholder = $select.attr('data-placeholder');
+    let _multiple = $select.attr('data-multiple') ? true : false;
+
+    let params = {
+        multiple: _multiple,
+        ajax: {
+            url: _url,
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.results,
+                    pagination: {
+                        more: data.pagination.more
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; },
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
+    };
+
+    if ($select[0].hasAttribute("data-placeholder")) {
+        params.placeholder = _placeholder;
+        params.allowClear = true;
+    } else {
+        params.placeholder = "";
+    }
+
+    $select.select2(params);
+}
 
 function formatRepo (repo) {
 

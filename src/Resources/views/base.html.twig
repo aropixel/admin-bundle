@@ -149,6 +149,18 @@
             <!-- JS Libraies -->
         {% endblock %}
 
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCollection" aria-labelledby="offcanvasCollectionLabel" style="width: 600px;">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasCollectionLabel">Edition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+            </div>
+            <div class="offcanvas-footer p-3 border-top text-end">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">Fermer</button>
+            </div>
+        </div>
+
         <!-- Page Specific JS File -->
 
         {% block theme_javascripts %}

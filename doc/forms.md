@@ -270,70 +270,66 @@ $builder->add('tags', CollectionHiddenType::class, [
 
 ### CollectionType
 
-Handles a collection of forms with a table view and an optional Bootstrap modal for editing each item.
+Handles a collection of forms with a table view and a centralized Bootstrap offcanvas for editing each item.
 
 **Twig block:** `aropixel_admin_collection_widget`
 
 **Options:**
-- `columns`: (array) Associative array of `label => field_name` to display in the table. Supports nested fields using dot notation (e.g., `track.name`).
-- `display_columns`: (array) List of field names whose value should be displayed as a live-updating label in the table instead of a form widget. Supports nested fields using dot notation.
-- `render_columns`: (array) Associative array of `field_name => closure` for custom column rendering.
+- `columns`: (array) Associative array of `label => config` to display in the table.
+    - If `config` is a string, it represents the `field_path`.
+    - If `config` is an array, it can contain:
+        - `field`: (string) The path to the field (e.g., `track.name`).
+        - `display`: (string) Set to `'label'` to display the field value as a live-updating text instead of a form widget.
+        - `render`: (closure) A function for custom HTML rendering: `function($field, $item) { return '...'; }`.
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
-- `modal_title`: (string) Title for the edit modal (default: "Détails de l'élément").
+- `modal_title`: (string) Title for the edit offcanvas (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
-- `use_modal`: (boolean|null) Enable or disable the edit modal. If `null`, the modal is automatically added only if some fields are not rendered as columns (default: `null`).
 
 **Basic Usage:**
 ```php
-$builder->add('tracklists', CollectionType::class, [
-    'entry_type' => TrackType::class,
+$builder->add('variants', CollectionType::class, [
+    'entry_type' => VariantType::class,
     'columns' => [
-        'Pos.' => 'position',
-        'Titre' => 'title',
+        'Nom' => [
+            'field' => 'name',
+            'display' => 'label', // Displays as text and updates live when edited in offcanvas
+        ],
+        'Prix' => 'price', // Displays the default form widget
     ],
-    'display_columns' => ['title'],
-    'button_add_label' => 'Ajouter un morceau',
-    'modal_title' => 'Détails du morceau',
+    'button_add_label' => 'Ajouter une variante',
+    'modal_title' => 'Édition de la variante',
 ]);
 ```
 
-**Advanced Usage (Nested Forms & Custom Rendering):**
-You can use dot notation to access fields in nested form types. For example, if `TracklistType` contains a `TrackType` field named `track`, which in turn contains a `name` field:
+**Advanced Usage (Nested Fields & Custom Rendering):**
+You can use dot notation to access fields in nested form types and provide custom HTML rendering.
 
 ```php
 $builder->add('tracklists', CollectionType::class, [
     'entry_type' => TracklistType::class,
     'columns' => [
         'Pos.' => 'position',
-        'Titre' => 'track.name',
-        'Status' => 'track.status',
-    ],
-    'display_columns' => ['track.name'],
-    'render_columns' => [
-        'track.status' => function($field, $item) {
-             return $field->vars['value'] == 'active' ? 'Active' : 'Inactive';
-        },
+        'Titre' => [
+            'field' => 'track.name',
+            'display' => 'label',
+        ],
+        'Status' => [
+            'field' => 'track.status',
+            'render' => function($field, $item) {
+                 return $field->vars['value'] == 'active' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-secondary">Inactive</span>';
+            },
+        ],
     ],
 ]);
 ```
 
 **Custom Rendering:**
-If you need complex HTML rendering for a column, you should use a closure as shown above. The closure receives the specific `field` object and the whole `item` form object.
-
-Alternatively, you can use native Symfony form themes to override the widget of a specific field. For example, if your `CollectionType` is named `tracklists`, you can override the widget of the `position` field of each entry by defining a block in your template:
-
-```twig
-{% form_theme form.tracklists with _self %}
-
-{% block _album_tracklists_entry_position_widget %}
-    {# Custom rendering for the position field in the table #}
-    <span class="badge badge-info">{{ value }}</span>
-    {{ block('hidden_widget') }}
-{% endblock %}
-```
+The `render` closure receives the specific `field` object (FormView) and the whole `item` form object (FormView).
 
 **JavaScript Integration:**
-When an input field matching one of the `display_columns` names (even nested ones) is edited inside the modal, the corresponding label in the table is updated in real-time.
+The system uses a centralized Offcanvas (on the right side of the screen) to edit each item. When an item is opened for editing, all its form fields are physically moved into the Offcanvas. When the Offcanvas is closed, the fields are moved back to their original position in the table.
+
+If a column uses `'display' => 'label'`, the text in the table updates automatically in real-time as the user types in the Offcanvas.
 
 ### TranslatableType
 
