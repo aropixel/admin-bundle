@@ -18,11 +18,11 @@ class EntityToHiddenTransformer implements DataTransformerInterface
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function transform(mixed $value): mixed
+    public function transform(mixed $value): ?string
     {
-        return $value ? $value->getId() : false;
+        return $value ? (string)$value->getId() : null;
     }
 
     /**
@@ -32,7 +32,7 @@ class EntityToHiddenTransformer implements DataTransformerInterface
      */
     public function reverseTransform(mixed $value): mixed
     {
-        if (!$value) {
+        if (null === $value || '' === $value) {
             return null;
         }
 

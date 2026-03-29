@@ -23,7 +23,7 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
     /**
      * @param array<mixed>|null $value
      *
-     * @return array<mixed>
+     * @return array<string>
      */
     public function transform(mixed $value): array
     {
@@ -34,7 +34,7 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 
         $ids = [];
         foreach ($value as $entity) {
-            $ids[] = $entity->getId();
+            $ids[] = (string)$entity->getId();
         }
 
         return $ids;

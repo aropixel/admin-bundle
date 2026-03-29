@@ -45,9 +45,9 @@ class Select2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
-            $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addViewTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
         } else {
-            $builder->addModelTransformer(new EntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addViewTransformer(new EntityToHiddenTransformer($this->em, $options['repository']));
         }
     }
 
@@ -64,18 +64,15 @@ class Select2Type extends AbstractType
         $entity = $form->getData();
         $choices = [];
         if ($entity) {
-            // if (is_callable($options['choice_label'])) {
-            //     $view->vars['choice_label'] = $options['choice_label']($entity);
-            // }
-            // elseif ($entity instanceof \Doctrine\ORM\PersistentCollection || $entity instanceof \Doctrine\Common\Collections\ArrayCollection) {
-            if ($entity instanceof \Doctrine\ORM\PersistentCollection || $entity instanceof \Doctrine\Common\Collections\ArrayCollection) {
-                foreach ($entity as $_entity) {
+            $value = $form->getViewData();
+            if ($entity instanceof \Doctrine\ORM\PersistentCollection || $entity instanceof \Doctrine\Common\Collections\ArrayCollection || is_array($entity)) {
+                foreach ($entity as $idx => $_entity) {
                     if (\is_callable($options['choice_label'])) {
                         $label = $options['choice_label']($_entity);
                     } else {
                         $label = $_entity->{'get' . ucfirst((string) $options['choice_label'])}();
                     }
-                    $choices[] = ['value' => $_entity->getId(), 'label' => $label];
+                    $choices[] = ['value' => (is_array($value) ? ($value[$idx] ?? $_entity->getId()) : $_entity->getId()), 'label' => $label];
                 }
             } else {
                 if (\is_callable($options['choice_label'])) {
@@ -83,7 +80,7 @@ class Select2Type extends AbstractType
                 } else {
                     $label = $entity->{'get' . ucfirst((string) $options['choice_label'])}();
                 }
-                $choices[] = ['value' => $entity->getId(), 'label' => $label];
+                $choices[] = ['value' => $value ?: $entity->getId(), 'label' => $label];
             }
         }
 
@@ -93,7 +90,13 @@ class Select2Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefaults(['choice_label' => 'label', 'multiple' => false, 'placeholder' => null, 'route_params' => []])
+            ->setDefaults([
+                'choice_label' => 'label',
+                'multiple' => false,
+                'placeholder' => null,
+                'route_params' => [],
+                'data_class' => null,
+            ])
             ->setRequired(['repository', 'route'])
         ;
     }
