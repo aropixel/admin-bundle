@@ -694,6 +694,11 @@ onDomReady(() => {
             }
         });
 
+        // Ouverture automatique de l'offcanvas pour le nouvel élément
+        if ($collection.data('use-offcanvas')) {
+            $newElement.trigger('click');
+        }
+
     });
 
     $('[data-form-collection="list"]').each(function() {
