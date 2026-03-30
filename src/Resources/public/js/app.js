@@ -808,7 +808,14 @@ onDomReady(() => {
 
     $(document).on('input change', '[data-form-collection="item"] :input, #offcanvasCollection :input', function (e) {
         const inputName = $(this).attr('name');
-        const newValue = $(this).val();
+        let newValue;
+
+        if ($(this).is('select')) {
+            newValue = $(this).find('option:selected').text();
+        } else {
+            newValue = $(this).val();
+        }
+
         let $item;
 
         if ($(this).closest('#offcanvasCollection').length) {

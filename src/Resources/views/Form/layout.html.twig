@@ -214,7 +214,6 @@
                         {% for label, config in columns %}
                             <th>{{ label|trans }}</th>
                         {% endfor %}
-                        <th style="width: 150px;" class="text-end">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -254,10 +253,19 @@
                     {% if config.render is defined and config.render.call is defined %}
                         {{ config.render.call(field, item)|raw }}
                     {% else %}
+                        {% set field_value = field.vars.value %}
+                        {% if field.vars.choices is defined %}
+                            {% for choice in field.vars.choices %}
+                                {% if choice.value == field.vars.value %}
+                                    {% set field_value = choice.label|trans %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
                         {% set default_label = 'Nouveau'|trans %}
                         <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
-                            {% if field.vars.value %}
-                                {{ field.vars.value }}
+                            {% if field_value %}
+                                {{ field_value }}
                             {% else %}
                                 <em class="text-muted">{{ default_label }}</em>
                             {% endif %}
@@ -266,21 +274,27 @@
                 </td>
             {% endfor %}
 
-            <td class="align-middle text-end">
-                <div class="collection-form-container d-none">
-                    <div class="collection-form-content">
-                        {{ form_widget(item) }}
+            {% if allow_delete %}
+                <td class="align-middle text-end d-none">
+                    <div class="collection-form-container">
+                        <div class="collection-form-content">
+                            {{ form_widget(item) }}
+                        </div>
+                        <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
+                            <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
+                                <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
+                            </a>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
+                                {{ 'text.close'|trans }}
+                            </button>
+                        </div>
                     </div>
-                    <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
-                        <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
-                            <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
-                        </a>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
-                            {{ 'text.close'|trans }}
-                        </button>
-                    </div>
-                </div>
-            </td>
+                </td>
+            {% else %}
+                <td class="d-none">
+                    {{ form_widget(item) }}
+                </td>
+            {% endif %}
         </tr>
     {% endif %}
 {% endblock aropixel_admin_collection_entry_row %}
@@ -403,7 +417,7 @@
          data-im-attach-short-class="{{ image_class_short }}"
          data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}"
          {% if accept is defined and accept %}data-im-accept="{{ accept }}"{% endif %}
-         {% if max_size is defined and max_size %}data-im-max-size="{{ max_size }}"{% endif %}>
+            {% if max_size is defined and max_size %}data-im-max-size="{{ max_size }}"{% endif %}>
 
         {% if prototype is defined and not prototype.rendered %}
             {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
