@@ -196,7 +196,7 @@
             {% set item = prototype %}
             {% set prototype_html = block('aropixel_admin_collection_entry_row') %}
         {% endif %}
-        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %} data-use-offcanvas="true" data-modal-title="{{ modal_title|trans }}">
+        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %} data-use-offcanvas="true" data-form-title="{{ form_title|trans }}">
 
             <div class="mb-3">
                 <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary">

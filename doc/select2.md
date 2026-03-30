@@ -145,7 +145,7 @@ use App\Entity\Category;
 
 $builder->add('category', Select2Type::class, [
     'label' => 'Category',
-    'repository' => Category::class,
+    'class' => Category::class,
     'route' => 'admin_category_ajax_search',
     'route_params' => ['active' => 1], // Optional route parameters
     'choice_label' => 'title',
@@ -156,7 +156,7 @@ $builder->add('category', Select2Type::class, [
 
 #### Available Options
 
-- `repository` (required): The entity class for the repository.
+- `class` (required): The entity class.
 - `route` (required): The AJAX route name to fetch results.
 - `route_params` (default: `[]`): The AJAX route parameters.
 - `choice_label` (default: `'label'`): The property name or callback to display as label.

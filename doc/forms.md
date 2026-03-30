@@ -180,7 +180,7 @@ Provides a Select2 input with AJAX support for entity selection.
 **Twig block:** `aropixel_admin_select2_row`
 
 **Options:**
-- `repository`: The entity class (required).
+- `class`: The entity class (required).
 - `route`: The AJAX route name to fetch results (required).
 - `choice_label`: The property name to display as label.
 - `multiple`: Whether to allow multiple selection.
@@ -188,7 +188,7 @@ Provides a Select2 input with AJAX support for entity selection.
 **Usage:**
 ```php
 $builder->add('category', Select2Type::class, [
-    'repository' => Category::class,
+    'class' => Category::class,
     'route' => 'admin_category_ajax_search',
     'choice_label' => 'title',
 ]);
@@ -201,7 +201,7 @@ An extension of `Select2Type` for single entity selection with AJAX search. It s
 **Twig block:** `aropixel_admin_select2_row` (inherited from `Select2Type`)
 
 **Options:**
-- `repository`: The entity class (required).
+- `class`: The entity class (required).
 - `route`: The AJAX route name to fetch results (required).
 - `choice_label`: The property name to display as label (default: 'label').
 
@@ -209,7 +209,7 @@ An extension of `Select2Type` for single entity selection with AJAX search. It s
 ```php
 $builder->add('author', FilterableEntityType::class, [
     'label'      => 'Author',
-    'repository' => Author::class,
+    'class'      => Author::class,
     'route'      => 'admin_author_ajax',
 ]);
 ```
@@ -221,7 +221,7 @@ An extension of `FilterableEntityType` for multiple entity selection (ManyToMany
 **Twig block:** `aropixel_admin_select2_row` (inherited from `Select2Type`)
 
 **Options:**
-- `repository`: The entity class (required).
+- `class`: The entity class (required).
 - `route`: The AJAX route name to fetch results (required).
 - `choice_label`: The property name to display as label (default: 'label').
 
@@ -229,7 +229,7 @@ An extension of `FilterableEntityType` for multiple entity selection (ManyToMany
 ```php
 $builder->add('similarAlbums', FilterableEntitiesType::class, [
     'label'      => 'Similar Albums',
-    'repository' => Album::class,
+    'class'      => Album::class,
     'route'      => 'admin_album_select2',
 ]);
 ```
@@ -257,13 +257,13 @@ Stores a collection of entities in a hidden select field.
 **Twig block:** `aropixel_admin_collection_hidden_row`
 
 **Options:**
-- `repository`: The entity class (required).
+- `class`: The entity class (required).
 - `multiple`: true.
 
 **Usage:**
 ```php
 $builder->add('tags', CollectionHiddenType::class, [
-    'repository' => Tag::class,
+    'class' => Tag::class,
     'multiple' => true,
 ]);
 ```
@@ -282,7 +282,7 @@ Handles a collection of forms with a table view and a centralized Bootstrap offc
         - `display`: (string) Set to `'label'` to display the field value as a live-updating text instead of a form widget.
         - `render`: (closure) A function for custom HTML rendering: `function($field, $item) { return '...'; }`.
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
-- `modal_title`: (string) Title for the edit offcanvas (default: "Détails de l'élément").
+- `form_title`: (string) Title for the edit offcanvas (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
 - `list_template`: (string) Path to a custom Twig template for rendering the collection list.
 - `entry_row_template`: (string) Path to a custom Twig template for rendering each item row.
@@ -298,8 +298,7 @@ $builder->add('variants', CollectionType::class, [
         ],
         'Prix' => 'price', // Displays the default form widget
     ],
-    'button_add_label' => 'Ajouter une variante',
-    'modal_title' => 'Édition de la variante',
+    'form_title' => 'Édition de la variante',
 ]);
 ```
 

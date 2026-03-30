@@ -19,7 +19,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Twig block: aropixel_admin_select2_row
  *
  * Options:
- * - repository: The entity class for the repository (required).
+ * - class: The entity class (required).
  * - route: The AJAX route name to fetch results (required).
  * - route_params: The AJAX route parameters (default: []).
  * - choice_label: The property name or callback to display as label (default: 'label').
@@ -29,7 +29,7 @@ use Symfony\Component\Routing\RouterInterface;
  * Usage example:
  * $builder->add('category', Select2Type::class, [
  *     'label' => 'Category',
- *     'repository' => Category::class,
+ *     'class' => Category::class,
  *     'route' => 'admin_category_ajax_search',
  *     'choice_label' => 'title',
  * ]);
@@ -45,9 +45,9 @@ class Select2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
-            $builder->addViewTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addViewTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['class']));
         } else {
-            $builder->addViewTransformer(new EntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addViewTransformer(new EntityToHiddenTransformer($this->em, $options['class']));
         }
     }
 
@@ -97,7 +97,7 @@ class Select2Type extends AbstractType
                 'route_params' => [],
                 'data_class' => null,
             ])
-            ->setRequired(['repository', 'route'])
+            ->setRequired(['class', 'route'])
         ;
     }
 

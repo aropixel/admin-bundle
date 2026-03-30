@@ -20,13 +20,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Twig block: aropixel_admin_collection_hidden_row
  *
  * Options:
- * - repository: The entity class for the repository (required).
+ * - class: The entity class (required).
  * - choice_label: The property name or callback to display as label (default: 'label').
  * - multiple: Whether to allow multiple selection (default: false).
  *
  * Usage example:
  * $builder->add('tags', CollectionHiddenType::class, [
- *     'repository' => Tag::class,
+ *     'class' => Tag::class,
  *     'multiple' => true,
  * ]);
  */
@@ -40,9 +40,9 @@ class CollectionHiddenType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!empty($options['multiple']) && true == $options['multiple']) {
-            $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addModelTransformer(new MultipleEntityToHiddenTransformer($this->em, $options['class']));
         } else {
-            $builder->addModelTransformer(new EntityToHiddenTransformer($this->em, $options['repository']));
+            $builder->addModelTransformer(new EntityToHiddenTransformer($this->em, $options['class']));
         }
     }
 
@@ -81,7 +81,7 @@ class CollectionHiddenType extends AbstractType
     {
         $resolver
             ->setDefaults(['choice_label' => 'label', 'multiple' => false])
-            ->setRequired(['repository'])
+            ->setRequired(['class'])
             ->setDefaults(['placeholder' => ''])
         ;
     }

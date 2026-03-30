@@ -93,6 +93,7 @@ class TranslatableType extends AbstractType
         $options['field'] = false; // The entity field being translated (e.g., "title")
         $options['widget'] = TextType::class; // Underlying widget type (TextType, TextareaType, etc.)
         $options['entity_manager_removal'] = true; // Auto removes the Personal Translation thru entity manager
+        $options['help'] = null;
         $options['attr'] = [];
 
         return $options;

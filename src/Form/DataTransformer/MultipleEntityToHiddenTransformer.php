@@ -12,11 +12,11 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 {
     /**
-     * @param class-string $repository
+     * @param class-string $class
      */
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly string $repository
+        private readonly string $class
     ) {
     }
 
@@ -54,7 +54,7 @@ class MultipleEntityToHiddenTransformer implements DataTransformerInterface
 
         $collection = [];
         foreach ($value as $id) {
-            $entity = $this->em->getRepository($this->repository)->findOneBy(['id' => $id]);
+            $entity = $this->em->getRepository($this->class)->findOneBy(['id' => $id]);
             $collection[] = $entity;
         }
 

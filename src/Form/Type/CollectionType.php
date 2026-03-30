@@ -34,7 +34,7 @@ class CollectionType extends AbstractType
         }
 
         $view->vars['columns'] = $columns;
-        $view->vars['modal_title'] = $options['modal_title'];
+        $view->vars['form_title'] = $options['form_title'];
         $view->vars['sortable'] = $options['sortable'];
         $view->vars['list_template'] = $options['list_template'];
         $view->vars['entry_row_template'] = $options['entry_row_template'];
@@ -45,7 +45,7 @@ class CollectionType extends AbstractType
         $resolver->setDefaults([
             'button_add_label' => 'Ajouter un élément',
             'columns' => [], // ['Label' => 'field_path', 'Label' => ['field' => 'field_path', 'display' => 'label', 'render' => function($field, $item) { ... }]]
-            'modal_title' => 'Détails de l\'élément',
+            'form_title' => 'Détails de l\'élément',
             'sortable' => true,
             'allow_add' => true,
             'allow_delete' => true,

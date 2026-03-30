@@ -67,6 +67,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
                         'label' => $locale,
                         'required' => \in_array($locale, $this->options['required_locale']),
                         'property_path' => null, // Mapping is handled manually by TranslatableMapper
+                        'help' => $this->options['help'],
                         'attr' => $this->options['attr'],
                     ]
                 ));
@@ -89,6 +90,7 @@ class TranslatableSubscriber implements EventSubscriberInterface
                     'label' => $binded['locale'],
                     'required' => $required && \in_array($binded['locale'], $this->options['required_locale']),
                     'property_path' => null,
+                    'help' => $this->options['help'],
                     'attr' => $this->options['attr'],
                 ]
             ));

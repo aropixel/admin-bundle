@@ -725,10 +725,10 @@ onDomReady(() => {
         const $item = $(this).closest('[data-form-collection="item"]');
         const $collection = $item.closest('[data-form-type="collection"]');
         const $container = $item.find('.collection-form-container');
-        const modalTitle = $collection.attr('data-modal-title') || 'Edition';
+        const formTitle = $collection.attr('data-form-title') || 'Edition';
 
         if (bsOffcanvas) {
-            $('#offcanvasCollectionLabel').text(modalTitle);
+            $('#offcanvasCollectionLabel').text(formTitle);
             const $offcanvasBody = $('#offcanvasCollection .offcanvas-body');
 
             // Move form to offcanvas
