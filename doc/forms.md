@@ -281,6 +281,8 @@ Handles a collection of forms with a table view and a centralized Bootstrap offc
         - `field`: (string) The path to the field (e.g., `track.name`).
         - `display`: (string) Set to `'label'` to display the field value as a live-updating text instead of a form widget.
         - `render`: (closure) A function for custom HTML rendering: `function($field, $item) { return '...'; }`.
+            - `$field`: (FormView) The specific field object (or the whole item if no field is specified).
+            - `$item`: (FormView) The whole item form object (the entry).
 - `button_add_label`: (string) Label for the add button (default: "Ajouter un élément").
 - `form_title`: (string) Title for the edit offcanvas (default: "Détails de l'élément").
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
@@ -365,7 +367,19 @@ Example of `entry_row_template`:
 ```
 
 **Custom Rendering:**
-The `render` closure receives the specific `field` object (FormView) and the whole `item` form object (FormView).
+
+The `render` closure receives two parameters, both of which are of type `Symfony\Component\Form\FormView`:
+- `$field`: The specific field object corresponding to the `field` path defined in the column configuration.
+- `$item`: The whole item form object (the collection entry).
+
+Example:
+```php
+'render' => function(FormView $field, FormView $item) {
+     $value = $field->vars['value'];
+     $data = $item->vars['data']; // The underlying entity or array
+     return "<strong>$value</strong>";
+},
+```
 
 **JavaScript Integration:**
 The system uses a centralized Offcanvas (on the right side of the screen) to edit each item. When an item is opened for editing, all its form fields are physically moved into the Offcanvas. When the Offcanvas is closed, the fields are moved back to their original position in the table.
