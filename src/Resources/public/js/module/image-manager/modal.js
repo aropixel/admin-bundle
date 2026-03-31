@@ -46,11 +46,12 @@ export class IM_Modal {
         this.loadElements();
 
         if (!this.modal) return;
-        const button = event.relatedTarget;
+
+        const button = event.relatedTarget || this.modal.__relatedTarget;
         const root = button?.closest('[data-im-type]');
 
-        if (!this.launcher) {
-            this.launcher = root?.__imLauncher;
+        if (root) {
+            this.launcher = root.__imLauncher;
         }
 
         if (root) {
@@ -101,6 +102,7 @@ export class IM_Modal {
     }
 
     onHide() {
+        this.launcher = null;
         document.getElementById('alertUploadError')?.classList.add('hidden');
     }
 
