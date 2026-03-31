@@ -101,6 +101,9 @@
     margin-left: 10px;
 }
 
+.im-manager.form-group {
+    margin-top: 10px;
+}
 
 .image-widget {
     display: flex;
