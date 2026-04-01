@@ -1,0 +1,115 @@
+# CSS Customization
+
+This documentation lists the utility classes and custom components available to style your Twig views within the administration interface.
+
+---
+
+## 1. Cards (`.card`)
+Cards are the primary containers of the interface.
+
+### Standard Structure
+```twig
+<div class="card">
+    <div class="card-header">
+        <h5>Section Title</h5>
+        <div class="card-header-action">
+            <!-- Action buttons or links -->
+            <a href="#" class="btn btn-sm btn-primary">Action</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <p>Card content...</p>
+    </div>
+</div>
+```
+
+### Card Variants
+*   `.card-primary`: Adds a colored top border (main theme color).
+*   `.card-body:first-child`: Automatically applies a 25px top padding if no header is present.
+
+---
+
+## 2. Typography (`_text.css`)
+Harmonize your text with the bundle's scale and weight.
+
+### Font Sizes
+| Class | Size | Description |
+| :--- | :--- | :--- |
+| `.ts-xs` | 8px | Extra small |
+| `.ts-sm` | 10px | Small |
+| `.ts-normal`| 12px | Default size |
+| `.ts-1` | 14px | |
+| `.ts-2` | 16px | |
+| `.ts-3` | 18px | |
+| `.ts-4` | 22px | |
+| `.ts-5` | 26px | Extra large |
+
+### Font Weights
+*   `.text-light` / `.tw-300`: Light
+*   `.text-regular` / `.tw-400`: Normal
+*   `.text-semibold` / `.tw-600`: Semi-bold
+*   `.text-bold` / `.tw-700`: Bold
+*   `.text-bolder`: Extra bold (900)
+
+### Text Colors
+*   `.text-primary`: Main theme color.
+*   `.text-muted`: Subtle grey (`#99A1B7`).
+*   `.text-title`: 14px, semi-bold.
+*   `.text-label`: 14px, medium (500).
+
+---
+
+## 3. Spacing (`_helpers.css`)
+Use utility classes to manage margins and paddings in 5px increments (from 0 to 100).
+
+**Format:** `{type}-{side}-{value}`
+
+*   **Types:** `m` (margin), `p` (padding)
+*   **Sides:** `t` (top), `b` (bottom), `l` (left), `r` (right)
+*   **Examples:**
+    *   `.m-t-20`: 20px top margin.
+    *   `.p-b-10`: 10px bottom padding.
+    *   `.no-margin`: Removes all margins.
+
+---
+
+## 4. Borders and Dimensions (`_helpers.css`)
+
+### Borders
+*   `.border-top`, `.border-bottom`, `.border-left`, `.border-right`: Simple border (1px).
+*   Add `-lg` (2px) or `-xl` (3px) for more thickness (e.g., `.border-bottom-lg`).
+*   `.border-top-dashed`, `.border-bottom-dashed`: Dashed borders for separators.
+
+### Fixed Widths and Heights
+Useful for icons or small elements:
+*   `.w-20px` to `.w-100px` (increments of 10).
+*   `.h-20px` to `.h-100px` (increments of 10).
+*   `.mw-600px`, `.mw-1000px`: Maximum width.
+
+---
+
+## 5. Buttons (`_btn.css`)
+
+### Base Styles
+*   `.btn-primary`: Main button with box shadow.
+*   `.btn-secondary`: Secondary button.
+*   `.btn-outline`: Outlined button.
+
+### Sizes
+*   `.btn-xs`: Extra small (reduced padding, normal text).
+*   `.btn-sm`: Small.
+*   `.btn-small`: Intermediate size (8px 15px padding).
+
+### Shapes
+*   `.btn-rounded`: Rounded button (pill shape).
+*   `.btn-icon`: For buttons containing only an icon.
+```twig
+<button class="btn btn-sm btn-primary btn-rounded">
+    <i class="fas fa-plus"></i>
+</button>
+```
+
+---
+
+## 6. Layout Utilities
+*   `.flex-center`: Centers content horizontally and vertically (Flexbox).

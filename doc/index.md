@@ -95,6 +95,7 @@ Customizable administration interface for managing blog posts, comments, and cat
 ### 📝 Forms & Customization
 * [Custom Form Types](forms.md)
 * [Form Templates](form_templates.md)
+* [CSS Customization](css_customization.md)
 * [Select2 Component](select2.md)
 * [Entity Customization](entities.md)
 * [Admin Menu Customization](admin_menu.md)
