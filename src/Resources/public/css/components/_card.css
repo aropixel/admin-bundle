@@ -22,6 +22,9 @@
 .card .card-body > .table-responsive:first-child > .table tbody tr:first-child th {
     border-top: none !important;
 }
+.card .card-body > .table-bordered>:not(caption)>* {
+    border-width: 0;
+}
 .card .card-body > .table:last-child,
 .card .card-body > .table-responsive:last-child > .table {
     margin-bottom: 0;
