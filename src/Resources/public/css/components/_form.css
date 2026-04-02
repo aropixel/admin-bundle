@@ -1,25 +1,7 @@
-.form-layout .card {
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-.form-layout .card.align-left {
-    align-items: flex-start!important; }
-.form-layout .card .card-body {
-    max-width: 800px!important; }
-.form-layout .card.card-centered-large .card-body {
-    max-width: 1000px!important; }
 .form-layout .card-body:first-child {
     padding-top: 60px; }
 .form-layout .card-body:last-child {
     padding-bottom: 60px; }
-.form-layout .card.card-large .card-body {
-    padding: 60px 40px;
-    max-width: 100% !important;
-}
-.form-layout .card-body {
-    flex: 1 1 auto;
-    width: 100%;
-}
 
 .form-horizontal {
     --label-width: 25%;

@@ -6,10 +6,16 @@
 .card .card-header {
     border-bottom-color: #ececec;
 }
+.card .card-body {
+    flex: 1 1 auto;
+    width: 100%;
+}
 .card .card-body:first-child {
     padding-top: 25px;
 }
 .card .card-header h5,
+.card .card-header h3,
+.card .card-header .card-title,
 .card .card-body h4,
 .card .card-body h5 {
     font-size: 16px;
@@ -19,6 +25,10 @@
 }
 .card .card-header h5 + .card-header-action,
 .card .card-header h5 + .card-header-form,
+.card .card-header h3 + .card-header-action,
+.card .card-header h3 + .card-header-form,
+.card .card-header .card-title + .card-header-action,
+.card .card-header .card-title + .card-header-form,
 .card .card-header h6 + .card-header-action,
 .card .card-header h6 + .card-header-form {
     margin-left: auto; }
@@ -31,6 +41,38 @@
 
 .card.card-primary {
     border-top: 2px solid var(--main-bg-color);
+}
+
+.card.card-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+.card.card-centered.align-left {
+    align-items: flex-start!important;
+}
+.card.card-centered .card-body {
+    max-width: 800px!important;
+}
+
+.card.card-centered-large {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+}
+.card.card-centered-large .card-body {
+    max-width: 1000px!important;
+}
+
+.card.card-large .card-body {
+    padding: 60px 40px;
+    max-width: 100% !important;
 }
 
 .im-manager .card {
