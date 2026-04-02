@@ -13,6 +13,26 @@
 .card .card-body:first-child {
     padding-top: 25px;
 }
+
+.card .card-body > .table:first-child thead th,
+.card .card-body > .table:first-child tbody tr:first-child td,
+.card .card-body > .table:first-child tbody tr:first-child th,
+.card .card-body > .table-responsive:first-child > .table thead th,
+.card .card-body > .table-responsive:first-child > .table tbody tr:first-child td,
+.card .card-body > .table-responsive:first-child > .table tbody tr:first-child th {
+    border-top: none !important;
+}
+.card .card-body > .table:last-child,
+.card .card-body > .table-responsive:last-child > .table {
+    margin-bottom: 0;
+}
+.card .card-body > .table:last-child tbody tr:last-child td,
+.card .card-body > .table:last-child tbody tr:last-child th,
+.card .card-body > .table-responsive:last-child > .table tbody tr:last-child td,
+.card .card-body > .table-responsive:last-child > .table tbody tr:last-child th {
+    border-bottom: none !important;
+}
+
 .card .card-header h5,
 .card .card-header h3,
 .card .card-header .card-title,
