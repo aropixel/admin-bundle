@@ -3,11 +3,11 @@
 
 {% block meta_title %}{{ 'text.list'|trans }}{% endblock %}
 
-{% block header_title %}{{ entity_class_name }}{% endblock %}
+{% block header_title %}{{ 'admin.' ~ entity_snake_case ~ '.title'|trans }}{% endblock %}
 
 {% block header_breadcrumb %}
     {{ nav.breadcrumbs([
         { label: 'text.home'|trans, url: url('_admin') },
-        { label: '{{ entity_class_name }}'|trans }
+        { label: 'admin.' ~ entity_snake_case ~ '.title'|trans }
     ]) }}
 {% endblock %}

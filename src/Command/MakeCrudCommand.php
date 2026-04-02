@@ -62,9 +62,10 @@ class MakeCrudCommand extends Command
         $controllerName = $entityName . 'Controller';
         $namespace = 'App\\Controller\\Admin';
         
-        $routePath = '/' . strtolower($entityName);
-        $routeName = 'admin_' . strtolower($entityName);
-        $templatePath = 'admin/' . strtolower($entityName);
+        $entitySnakeCase = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $entityName));
+        $routePath = '/' . str_replace('_', '-', $entitySnakeCase);
+        $routeName = 'admin_' . $entitySnakeCase;
+        $templatePath = 'admin/' . $entitySnakeCase;
 
         $repositoryClass = str_replace('\\Entity\\', '\\Repository\\', $entityClass) . 'Repository';
         $repositoryParts = explode('\\', $repositoryClass);
@@ -76,6 +77,7 @@ class MakeCrudCommand extends Command
             'entity_full_class_name' => $entityClass,
             'entity_class_name' => $entityName,
             'entity_var' => $entityVar,
+            'entity_snake_case' => $entitySnakeCase,
             'form_full_class_name' => $formClass,
             'form_class_name' => $formName,
             'repository_full_class_name' => $repositoryClass,
@@ -127,13 +129,6 @@ class MakeCrudCommand extends Command
         $templatePath = __DIR__ . '/../Resources/skeleton/crud/' . $templateName;
         $content = file_get_contents($templatePath);
 
-        // Simple template engine: handle {{ variable }}
-        foreach ($params as $key => $value) {
-            if (is_string($value)) {
-                $content = str_replace('{{ ' . $key . ' }}', $value, $content);
-            }
-        }
-
         // Simple handle {% if variable %} ... {% endif %}
         $content = preg_replace_callback('/^\s*\{% if (.*?) %\}\n?(.*?)\n?^\s*\{% endif %\}\r?\n?/m', function($matches) use ($params) {
             $condition = trim($matches[1]);
@@ -152,6 +147,36 @@ class MakeCrudCommand extends Command
                 return $innerContent;
             }
             return '';
+        }, $content);
+
+        // Simple handle {{ 'string' ~ variable ~ 'string' }}
+        $content = preg_replace_callback('/\{\{ (.*?) \}\}/', function($matches) use ($params) {
+            $expression = trim($matches[1]);
+            
+            // Handle concatenation with ~
+            if (str_contains($expression, '~')) {
+                $parts = explode('~', $expression);
+                $result = '';
+                foreach ($parts as $part) {
+                    $part = trim($part);
+                    if ((str_starts_with($part, "'") && str_ends_with($part, "'")) || (str_starts_with($part, '"') && str_ends_with($part, '"'))) {
+                        $result .= substr($part, 1, -1);
+                    } elseif (isset($params[$part])) {
+                        $result .= $params[$part];
+                    } else {
+                        // If we can't resolve it, return the original expression with delimiters
+                        return '{{ ' . $expression . ' }}';
+                    }
+                }
+                return $result;
+            }
+            
+            // Handle simple variable replacement
+            if (isset($params[$expression])) {
+                return $params[$expression];
+            }
+            
+            return $matches[0];
         }, $content);
 
         return $content;
