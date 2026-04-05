@@ -48,7 +48,7 @@ interface DataTableInterface
     public function setOrderDirection(?string $orderDirection): self;
 
     /**
-     * @param DataTableColumn[] $columns
+     * @param array|DataTableColumn[] $columns
      * @return DataTableInterface&Response
      */
     public function setColumns(array $columns): self;
