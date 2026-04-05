@@ -18,10 +18,13 @@ interface DataTableInterface
 
     public function getMode(): string;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function setMode(string $mode): self;
 
     /**
-     * @param array<mixed> $items
+     * @return DataTableInterface&Response
      */
     public function setItems(array $items): self;
 
@@ -32,38 +35,57 @@ interface DataTableInterface
 
     public function getOrderColumn(): ?int;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function setOrderColumn(?int $orderColumn): self;
 
     public function getOrderDirection(): ?string;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function setOrderDirection(?string $orderDirection): self;
 
     /**
      * @param DataTableColumn[] $columns
+     * @return DataTableInterface&Response
      */
     public function setColumns(array $columns): self;
 
     /**
      * @param array|DataTableColumn $column
+     * @return DataTableInterface&Response
      */
     public function addColumn(array|DataTableColumn $column): self;
 
     /**
      * @param DataTableColumn[] $columns
+     * @return DataTableInterface&Response
      */
     public function addColumnsIf(bool $condition, array $columns): self;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function useRepositoryMethod(string $methodName): self;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function filter(callable $filter): self;
 
     /**
      * @param string[] $fields
+     * @return DataTableInterface&Response
      */
     public function searchIn(array $fields): self;
 
     public function getSearchFields(): array;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function join(string $property, string $alias): self;
 
     /**
@@ -71,11 +93,15 @@ interface DataTableInterface
      */
     public function getJoins(): array;
 
+    /**
+     * @return DataTableInterface&Response
+     */
     public function renderJson(callable $transformer): self;
 
     /**
      * @param string $template
      * @param array<string, mixed> $parameters
+     * @return DataTableInterface&Response
      */
     public function render(string $template, array $parameters = []): self;
 

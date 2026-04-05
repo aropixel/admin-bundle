@@ -1,5 +1,5 @@
 # SECURITY
-sf_web_app_back_office_security:
+aropixel_security:
     resource: "@AropixelAdminBundle/Resources/config/routes/security.yaml"
 
 aropixel_reset:

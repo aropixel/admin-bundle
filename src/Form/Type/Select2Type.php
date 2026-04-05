@@ -61,7 +61,7 @@ class Select2Type extends AbstractType
         $view->vars['multiple'] = $options['multiple'] ?: false;
         $view->vars['placeholder'] = $options['placeholder'] ?: false;
 
-        $entity = $form->getData();
+        $entity = $form->getNormData();
         $choices = [];
         if ($entity) {
             $value = $form->getViewData();
