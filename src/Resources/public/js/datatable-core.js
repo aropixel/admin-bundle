@@ -16,6 +16,18 @@
             {
                 className: 'position',
                 targets: [ 'position' ]
+            },
+            {
+                className: 'text-start',
+                targets: [ 'text-start' ]
+            },
+            {
+                className: 'text-center',
+                targets: [ 'text-center' ]
+            },
+            {
+                className: 'text-end',
+                targets: [ 'text-end' ]
             }
         ],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',

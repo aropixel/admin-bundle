@@ -47,7 +47,7 @@ The array can contain the following keys:
 - `label`: Label displayed in the header.
 - `orderBy`: Entity field used for sorting (if applicable). Supports aliases if joins are used.
 - `style`: CSS `style` attribute to add to the cell.
-- `class`: CSS classes to add to the cell (e.g., `no-sort` to disable sorting on a column).
+- `class`: CSS classes to add to the cell (e.g., `no-sort` to disable sorting on a column). You can also use alignment classes like `text-start`, `text-center`, or `text-end`.
 - `data`: Associative array of custom `data-` attributes to add to the `<th>` tag (e.g., `['type' => 'date-euro']` becomes `data-type="date-euro"`).
 
 ## Sorting Configuration
