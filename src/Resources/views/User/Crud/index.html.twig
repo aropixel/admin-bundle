@@ -1,0 +1,58 @@
+{% extends '@AropixelAdmin/List/datatable.html.twig' %}
+
+{% block header_title %}{% trans %}users.title{% endtrans %}{% endblock %}
+{% block header_breadcrumb %}
+    <ul class="breadcrumb breadcrumb-caret position-right">
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}text.dashboard{% endtrans %}</a></li>
+        <li class="breadcrumb-item active">{% trans %}users.title{% endtrans %}</li>
+    </ul>
+{% endblock %}
+
+{% block panels %}
+
+    {% block paneldatatable %}
+
+        <div class="row">
+
+            {% for user in users %}
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card" style="{% if not user.enabled %}opacity: 0.5;{% endif %}">
+                        <div class="pt-5 pb-4 ps-3 pe-3 d-block">
+
+{#                            <div class="d-flex justify-content-end mb-3">#}
+{#                                <div class="btn-group">#}
+{#                                    <a data-confirm="{% trans %}users.list.delete_warning{% endtrans %}" class="badge badge-danger badge-icon delete cursor-pointer">#}
+{#                                        <i class="fas fa-trash ms-0"></i>#}
+{#                                    </a>#}
+{#                                    <form method="post" action="{{ path('aropixel_admin_user_delete', {'id': user.id}) }}">#}
+{#                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user' ~ user.id) }}">#}
+{#                                    </form>#}
+{#                                </div>#}
+{#                            </div>#}
+
+                            <div class="text-center mb-3">
+                                <a href="{{ path('aropixel_admin_user_edit', {'id': user.id}) }}">
+                                    {% if user.image %}
+                                        <img src="{{ user.image.image | aropixel_imagine_filter('admin_thumbnail') }}" alt="" class="w-50 rounded-circle"/>
+                                    {% else %}
+                                        <span class="missing-img" style="background-image: url('{{ asset(placeholderImgPath) }}')"></span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="text-center">
+                                <strong>{{ user.completeName }}</strong>
+                                <div class="text-muted lh-1 mt-2 mb-3">{{ user.email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endblock %}
+
+{% endblock %}
+

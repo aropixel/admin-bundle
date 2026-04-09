@@ -1,0 +1,110 @@
+
+<!-- Full width modal -->
+<div id="modalLibrary" class="modal fade">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{% trans %}library.images.modal.title{% endtrans %}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="row">
+
+				<div id="library_container" class="col-md-8">
+					<table id="libraryDataTable" class="table" data-src="{{ path('image_ajax_category') }}">
+						<thead>
+						<tr>
+							<th class="no-sort"><input type="checkbox"></th>
+							<th class="no-sort">{% trans %}library.datatabler.preview{% endtrans %}</th>
+							<th>{% trans %}library.datatabler.title{% endtrans %}</th>
+							<th>{% trans %}library.datatabler.date{% endtrans %}</th>
+							<th>{% trans %}library.datatabler.properties{% endtrans %}</th>
+							<th class="text-center no-sort" align="center"></th>
+						</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div id="image_options" class="col-md-4">
+
+					<div class="m-l-30">
+
+						<div class="size-option m-t-15">
+
+							<h5 class="no-margin">{% trans %}library.images.modal.editor_crop.title{% endtrans %}</h5>
+							<p class="m-t-20">
+								{% trans %}library.images.modal.editor_crop.description{% endtrans %}<br />
+								<strong>{% trans %}library.images.modal.editor_crop.description.size_warning{% endtrans %}</strong>
+								{% trans %}library.images.modal.editor_crop.description.size_warning_consequence{% endtrans %}
+							</p>
+
+							{% set myfilters = get_editor_filters() %}
+							<div class="m-t-15">
+								<label>{% trans %}library.images.modal.editor_crop.editor_filters.title{% endtrans %}</label>
+								<select class="bootstrap-select" data-width="100%" name="img_size" id="img_size">
+									<option value="auto">{% trans %}library.images.modal.editor_crop.editor_filters.auto{% endtrans %}</option>
+									<option value="100">{% trans %}library.images.modal.editor_crop.editor_filters.100{% endtrans %}</option>
+									<option value="200">{% trans %}library.images.modal.editor_crop.editor_filters.200{% endtrans %}</option>
+									<option value="300" selected>{% trans %}library.images.modal.editor_crop.editor_filters.300{% endtrans %}</option>
+									<option value="400">{% trans %}library.images.modal.editor_crop.editor_filters.400{% endtrans %}</option>
+									<option value="600">{% trans %}library.images.modal.editor_crop.editor_filters.600{% endtrans %}</option>
+									<option value="800">{% trans %}library.images.modal.editor_crop.editor_filters.800{% endtrans %}</option>
+									<option value="100pc">{% trans %}library.images.modal.editor_crop.editor_filters.100pc{% endtrans %}</option>
+									{% if myfilters|length %}<option value="customfilter">{% trans %}library.images.modal.editor_crop.editor_filters.custom{% endtrans %}</option>{% endif %}
+								</select>
+							</div>
+
+							<div class="m-t-15 size-filter-option" style="display: none">
+								<label><strong>{% trans %}library.images.modal.editor_crop.custom_filters.title{% endtrans %}</strong></label>
+								<select class="bootstrap-select" data-width="100%" name="img_filter" id="img_filter">
+									{% for filterSlug,filterDescription in myfilters %}
+										<option value="{{ filterSlug }}">{{ filterDescription }}</option>
+									{% endfor %}
+								</select>
+							</div>
+
+							<hr class="m-t-50 m-b-35" />
+
+						</div>
+
+						<div class="seo-option m-t-15">
+
+							<h5 class="no-margin">{% trans %}library.images.modal.seo.title{% endtrans %}</h5>
+							<p class="m-t-20">
+								<strong>{% trans %}library.images.modal.seo.alt_image_instruction1{% endtrans %}</strong><br />
+								{% trans %}library.images.modal.seo.alt_image_instruction2{% endtrans %}<br />
+							</p>
+
+							<div class="m-t-15">
+								<label>{% trans %}library.images.modal.seo.form{% endtrans %}</label>
+								<input type="text" name="img_alt" id="img_alt" value="" class="form-control">
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="alert bg-danger" style="border-radius: 0px; display: none" id="alertUploadError">
+				<span class="text-semibold">{% trans %}text.error{% endtrans %} !</span> <span id="alertUploadErrorMessage"></span>
+			</div>
+			<div class="alert bg-info" style="border-radius: 0px; display: none" id="alertNoImg">
+				<span class="text-semibold">{% trans %}text.warning{% endtrans %} !</span> {% trans %}library.images.modal.warning_no_selection{% endtrans %}
+			</div>
+			<div class="modal-footer d-flex justify-content-between">
+				<div>
+					<button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.images.modal.upload_button{% endtrans %} <i class="icon-upload position-right"></i></button>
+					<ul class="progress-upload d-inline-block"></ul>
+				</div>
+				<div>
+					<button type="button" class="btn btn-outline m-r-15" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+					<button type="button" class="btn btn-primary attach-images">{% trans %}library.images.modal.submit{% endtrans %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /full width modal -->

@@ -1,0 +1,18 @@
+<div class="preview" data-new="{{ prototype_new|e }}">
+    {% block preview %}
+        {% if form.vars.attachedImage is defined and form.vars.attachedImage and form.vars.attachedImage.image %}
+            <img src="{{ form.vars.attachedImage|aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+        {% elseif form.vars.image_path is defined and form.vars.image_path|length %}
+            <img src="{{ form.vars.image_path | imagine_filter('admin_thumbnail') }}" alt="" />
+        {% else %}
+            {{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}
+        {% endif %}
+        {% if form.image is defined %}
+            {{ form_row(form.image) }}
+            {{ form_row(form.attrTitle) }}
+            {% if form.crops is defined %}{{ form_row(form.crops) }}{% endif %}
+        {% elseif form.file_name is defined %}
+            {{ form_widget(form.file_name) }}
+        {% endif %}
+    {% endblock %}
+</div>

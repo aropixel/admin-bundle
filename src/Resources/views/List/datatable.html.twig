@@ -1,0 +1,84 @@
+{% extends '@AropixelAdmin/base.html.twig' %}
+{% import '@AropixelAdmin/Macro/actions.html.twig' as list %}
+
+{% block header_top_right %}
+
+    {% set baseroute = get_baseroute() %}
+
+    {% if route_exists(baseroute ~ '_order') %}
+        <a href="{{ path(baseroute ~ '_order') }}" class="btn btn-small btn-default">
+            <i class="fas fa-arrows-alt me-2"></i>{% trans %}text.reorder{% endtrans %}
+        </a>
+    {% endif %}
+
+    {% if route_exists(baseroute ~ '_new') %}
+        <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
+            <i class="fas fa-plus me-2"></i>{% trans %}text.create{% endtrans %}
+        </a>
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+    {% for flash_message in app.session.flashbag.get('notice') %}
+
+        <div class="alert alert-success no-border alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <p>{{ flash_message }}</p>
+        </div>
+
+    {% endfor %}
+
+    {% block filters %}{% endblock %}
+
+    {% block panels %}
+
+        <div class="card">
+
+            <div class="table-responsive">
+                {% block paneldatatable %}
+                    {% set is_xhr = dataTable is defined and dataTable.mode == constant('Aropixel\\AdminBundle\\Component\\DataTable\\DataTableInterface::MODE_XHR') %}
+
+                    <table class="table {{ is_xhr ? 'datatable-ajax' : 'datatable' }}"
+                           {% if is_xhr and ajax_url is defined %}data-ajax-url="{{ ajax_url }}"{% endif %}
+                           {% if dataTable is defined and dataTable.orderColumn is not null %}data-order-column="{{ dataTable.orderColumn }}"{% endif %}
+                           {% if dataTable is defined and dataTable.orderDirection is not null %}data-order-direction="{{ dataTable.orderDirection }}"{% endif %}
+                    >
+                        <thead>
+                        <tr>
+                            {% if dataTable is defined %}
+                                {% for column in dataTable.columns %}
+                                    <th {% if column.class %}class="{{ column.class }}"{% endif %}
+                                        {% if column.style %}style="{{ column.style }}"{% endif %}
+                                        {% for key, val in column.data %}data-{{ key }}="{{ val }}"{% endfor %}>
+                                        {{ column.label|trans }}
+                                    </th>
+                                {% endfor %}
+                            {% else %}
+                                {% block datatable_header %}{% endblock %}
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if dataTable is defined and dataTable.mode == constant('Aropixel\\AdminBundle\\Component\\DataTable\\DataTableInterface::MODE_CLASSIC') %}
+                            {% for item in dataTable.items %}
+                                {% block datatable_row %}
+                                    <tr>
+                                        {% block datatable_body %}{% endblock %}
+                                    </tr>
+                                {% endblock %}
+                            {% endfor %}
+                        {% else %}
+                            {% block datatable_body_xhr %}{% endblock %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                {% endblock %}
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+{% endblock %}

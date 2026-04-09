@@ -1,0 +1,56 @@
+{# Get available crop filters for this image #}
+{% set myfilters = get_available_crop_filters(image, optional_available_crop_list) %}
+
+<!-- Full width modal -->
+<div id="modalCrop{{ image.getImageUid() }}" data-bs-backdrop="false" class="modalCrop modal fade" tabindex="-1" role='dialog' style="background-color: rgba(0, 0, 0, 0.5);">
+	<div class="modal-dialog modal-full">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{% trans %}library.images.modal.crop.title{% endtrans %}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="d-flex justify-content-start">
+
+					<div class="float-left" id="crop_zone">
+						{% if image.image %}<img src="{{ image.image | aropixel_imagine_filter('admin_crop') }}" width="600" data-id="{{ image.getImageUid() }}" />{% endif %}
+					</div>
+
+					<div class="float-left full-with m-l-50" id="crop_options">
+
+						<h5 class="mb-3">{% trans %}library.images.modal.crop.subtitle{% endtrans %}</h5>
+
+						<p class="mb-5">
+							{% trans %}library.images.modal.crop.description{% endtrans %}<br />
+							<strong>{% trans %}library.images.modal.crop.warning{% endtrans %}</strong>
+						</p>
+
+						{% set class = 'checked="checked"' %}
+						{% for filter in myfilters %}
+
+							<div class="form-check">
+								<input id="ratio_{{ filter.slug }}" class="form-check-input" {{ class }} type="radio" name="ratio{{ suffix }}" value="{{ filter.slug }}" data-ratio="{{ filter.ratio }}" data-crop="{{ filter.coordinates }}">
+								<label for="ratio_{{ filter.slug }}" class="form-check-label">{{ filter.description }}</label><br />
+							</div>
+
+							{% set class = '' %}
+						{% endfor %}
+
+
+					</div>
+					<div class="clearfix"></div>
+
+				</div>
+
+			</div>
+
+			<div class="modal-footer d-flex justify-content-between">
+				<button type="button" class="btn btn-outline m-r-15" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+				<button type="button" class="btn btn-primary crop-file">{% trans %}library.images.modal.crop.submit{% endtrans %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /full width modal -->

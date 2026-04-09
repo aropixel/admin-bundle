@@ -1,0 +1,20 @@
+{% extends '@AropixelAdmin/Form/base.html.twig' %}
+{% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
+
+{% set is_edit = {{ entity_var }}.id is not null %}
+{% set title = is_edit ? 'text.edit'|trans ~ ' : ' ~ {{ entity_var }}.name : 'text.add'|trans %}
+
+{% block meta_title %}{{ title }}{% endblock %}
+{% block header_title %}{{ title }}{% endblock %}
+
+{% block header_breadcrumb %}
+    {{ nav.breadcrumbs([
+        { label: 'text.home'|trans, url: url('_admin') },
+        { label: 'admin.' ~ entity_snake_case ~ '.title'|trans, url: path('{{ route_name }}_index') },
+        { label: ({{ entity_var }}.id ? 'text.edit'|trans : 'text.add'|trans) }
+    ]) }}
+{% endblock %}
+
+{% block formbody %}
+    {{ form_rest(form) }}
+{% endblock %}

@@ -1,0 +1,153 @@
+.section-header {
+    align-items: flex-start;
+}
+
+.header-top {
+    margin-bottom: 30px;
+}
+
+.header-top-left h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.header-breadcrumb {
+    margin-top: 13px;
+    color: #888;
+}
+.header-breadcrumb .breadcrumb {
+    margin: 0;
+}
+
+.header-image + .header-left-content h1 {
+    margin-top: 6px;
+}
+
+.header-right {
+    flex: 1;
+}
+
+.header-image {
+    position: relative;
+}
+
+.header-image img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    margin-right: 14px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
+}
+
+.header-image .editable-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 0 2px 2px;
+}
+
+.btn-animate-collapse span {
+    margin-left: 0;
+}
+
+.section-entry-properties {
+    margin-bottom: 30px;
+    padding-right: 10px;
+}
+
+.section-entry-properties strong {
+    font-weight: 500;
+    color: #181c32!important;
+}
+
+.section-entry-property::before {
+    color: #a1a5b7!important;
+    content: " - ";
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.section-entry-property:first-child::before {
+    content: "";
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.section-entry-property + .section-entry-status > div::before {
+    color: #a1a5b7!important;
+    content: " - ";
+    padding-left: 15px;
+    padding-right: 12px;
+}
+
+.section-entry-property {
+    font-size: 12px;
+    color: #7b7d86 !important;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.tabbable.tabbable-header li {
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 20px;
+}
+
+.tabbable.tabbable-header li a {
+    border-bottom: 2px solid transparent;
+    font-weight: 600;
+    font-size: 13px;
+    color: #a1a5b7;
+    padding: 0 0.5rem 0.9rem;
+}
+
+.tabbable.tabbable-header li a.active {
+    border-bottom: 2px solid var(--main-bg-color);
+    color: var(--main-bg-color);
+}
+
+.form-action-btns .form-switch.form-status-switch {
+    align-items: center;
+    flex-direction: inherit;
+}
+
+.form-action-btns .form-switch.form-status-switch .form-check-label {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 10px;
+    font-size: 12px;
+}
+
+.form-action-btns .form-switch.form-status-switch .form-check-input {
+    margin-left: 0 !important;
+}
+
+.form-action-btns .dropdown-toggle, .form-action-btns:hover {
+    border-left: 1px solid #f6f8fa !important;
+}
+
+.form-action-btns .dropdown-toggle.btn:hover {
+    border-left: 1px solid #f6f8fa !important;
+}
+
+.form-action-btns .dropdown-toggle::after {
+    border: none;
+    content: '...';
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.form-action-btns .dropdown-menu form {
+    width: 100%;
+}
+
+.form-action-btns .dropdown-menu form {
+    width: 100%;
+}
+
+.form-action-btns a.dropdown-item:focus, .form-action-btns a.dropdown-item:active, .form-action-btns a.dropdown-item.active {
+    background-color: #f8f9fa;
+    color: #fc544b;
+}

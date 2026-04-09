@@ -1,0 +1,101 @@
+.card {
+    color: #333333;
+    border: 1px solid #f1f1f2;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.03);
+}
+.card .card-header {
+    border-bottom-color: #ececec;
+}
+.card .card-body {
+    flex: 1 1 auto;
+    width: 100%;
+}
+.card .card-body:first-child {
+    padding-top: 25px;
+}
+
+.card .card-body > .table:first-child thead th,
+.card .card-body > .table:first-child tbody tr:first-child td,
+.card .card-body > .table:first-child tbody tr:first-child th,
+.card .card-body > .table-responsive:first-child > .table thead th,
+.card .card-body > .table-responsive:first-child > .table tbody tr:first-child td,
+.card .card-body > .table-responsive:first-child > .table tbody tr:first-child th {
+    border-top: none !important;
+}
+.card .card-body > .table-bordered>:not(caption)>* {
+    border-width: 0;
+}
+.card .card-body > .table:last-child,
+.card .card-body > .table-responsive:last-child > .table {
+    margin-bottom: 0;
+}
+.card .card-body > .table:last-child tbody tr:last-child td,
+.card .card-body > .table:last-child tbody tr:last-child th,
+.card .card-body > .table-responsive:last-child > .table tbody tr:last-child td,
+.card .card-body > .table-responsive:last-child > .table tbody tr:last-child th {
+    border-bottom: none !important;
+}
+
+.card .card-header h5,
+.card .card-header h3,
+.card .card-header .card-title,
+.card .card-body h4,
+.card .card-body h5 {
+    font-size: 16px;
+    line-height: 28px;
+    padding-right: 10px;
+    margin-bottom: 0;
+}
+.card .card-header h5 + .card-header-action,
+.card .card-header h5 + .card-header-form,
+.card .card-header h3 + .card-header-action,
+.card .card-header h3 + .card-header-form,
+.card .card-header .card-title + .card-header-action,
+.card .card-header .card-title + .card-header-form,
+.card .card-header h6 + .card-header-action,
+.card .card-header h6 + .card-header-form {
+    margin-left: auto; }
+.card > .table-responsive > .table, .card > .table {
+    margin-bottom: 0;
+}
+.card > .table-responsive {
+    overflow-y: visible !important;
+}
+
+.card.card-primary {
+    border-top: 2px solid var(--main-bg-color);
+}
+
+.card.card-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card.card-centered.align-left {
+    align-items: flex-start!important;
+}
+.card.card-centered .card-body {
+    max-width: 800px!important;
+}
+
+.card.card-centered-large {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card.card-centered-large .card-body {
+    max-width: 1000px!important;
+}
+
+.card.card-large .card-body {
+    padding: 60px 40px;
+    max-width: 100% !important;
+}
+
+.im-manager .card {
+    margin-bottom: 0;
+}

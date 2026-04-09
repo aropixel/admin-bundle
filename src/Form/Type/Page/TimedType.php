@@ -1,0 +1,36 @@
+<?php
+
+namespace Aropixel\AdminBundle\Form\Type\Page;
+
+use Aropixel\AdminBundle\Form\Type\DateTimeType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * FormType for timestamped entities (createdAt and updatedAt).
+ */
+class TimedType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        if (false !== $options['createdAt']) {
+            $builder
+                ->add('createdAt', DateTimeType::class, ['label' => 'form.label.created_at', 'required' => false])
+            ;
+        }
+
+        if (false !== $options['updatedAt']) {
+            $builder
+                ->add('updatedAt', DateTimeType::class, ['required' => false])
+            ;
+        }
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver
+            ->setDefaults(['createdAt' => true, 'updatedAt' => false])
+        ;
+    }
+}

@@ -1,0 +1,7 @@
+aropixel_admin_security_login:
+    path: /login
+    controller: Aropixel\AdminBundle\Controller\Security\LoginAction
+
+aropixel_admin_security_logout:
+    path:     /logout
+    controller: Aropixel\AdminBundle\Controller\Security\LogoutAction

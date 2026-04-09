@@ -1,0 +1,35 @@
+<?php
+
+namespace Aropixel\AdminBundle\Form\Type\File;
+
+use Aropixel\AdminBundle\Entity\File;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * FormType used for AJAX file uploads.
+ */
+class FileUploadType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('title')
+            ->add('file', FileType::class)
+            ->add('category')
+            ->add('public')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(['data_class' => File::class, 'csrf_protection' => false]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'aropixel_admin_library_file';
+    }
+}

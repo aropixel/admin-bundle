@@ -1,0 +1,76 @@
+{% extends '@AropixelAdmin/Form/base.html.twig' %}
+
+{% block header_title %}{% trans %}users.title{% endtrans %}{% endblock %}
+{% block header_breadcrumb %}
+    <ul class="breadcrumb breadcrumb-caret position-right">
+        <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}text.dashboard{% endtrans %}</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('aropixel_admin_user_index') }}">{% trans %}users.title{% endtrans %}</a></li>
+        {% if user and user.id %}
+            <li class="breadcrumb-item active">{% trans %}text.edit{% endtrans %}</li>
+        {% else %}
+            <li class="breadcrumb-item active">{% trans %}text.create{% endtrans %}</li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+
+{% block tabbable %}
+    <li class="nav-item"><a href="#panel-tab1" data-bs-toggle="pill" class="nav-link active">{% trans %}users.form.configuration{% endtrans %}</a></li>
+    <li class="nav-item"><a href="#panel-tab2" data-bs-toggle="pill" class="nav-link">{% trans %}users.form.avatar{% endtrans %}</a></li>
+{% endblock %}
+
+
+{% block mainPanel %}
+
+    <div class="tab-pane active" id="panel-tab1">
+
+        <div class="card card-centered-large">
+
+            <div class="card-body">
+
+                {{ form_row(form.enabled) }}
+
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.firstName) }}
+
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {{ form_row(form.superAdmin) }}
+                {% endif %}
+
+                {{ form_row(form.email) }}
+
+                {% if form.plainPassword is defined %}
+
+                    <hr />
+                    {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+                    {{ form_row(form.plainPassword.second) }}
+
+                {% endif %}
+
+                {% if sendButton is defined and sendButton %}
+
+                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">{% trans %}users.form.send_activation_link_button{% endtrans %}</a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="tab-pane tab-pane-img" id="panel-tab2">
+
+        <div class="card card-centered-large">
+
+            <div class="card-body">
+
+                {{ form_row(form.image) }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

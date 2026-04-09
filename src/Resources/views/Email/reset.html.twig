@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% trans %}reset.email.title{% endtrans %}</title>
+    <style type="text/css">
+        /* ----- Custom Font Import ----- */
+        @import url(https://fonts.googleapis.com/css?family=Poppins:400,600,700,400italic,700italic&subset=latin,latin-ext);
+
+        * {
+            font-family:'Poppins', sans-serif;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div style="background-color:#f5f5f5; line-height: 1.5; min-height: 100%; font-weight: normal; font-size: 15px; color: #2F3044; margin:0; padding: 20px 0; width:100%;">
+
+    <div style="background-color:#ffffff; padding: 50px 30px; border-radius: 24px; margin: 50px auto; max-width: 600px;">
+
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="auto" style="border-collapse:collapse">
+
+            <tbody>
+
+            <tr>
+
+                <td align="center" style="text-align:center;">
+
+                    <a href="{{ url('_admin') }}" style="width: {{ admin_theme.logo.width }}; display: block; margin: 0 auto 30px">
+                        <img src="cid:logo" alt="{{ admin_client.name }}" width="100%">
+                    </a>
+
+                    <div style="font-size: 14px; margin: 0 auto 50px; max-width: 500px">
+                        <p style="margin-bottom: 25px; color: #000; font-size: 22px; font-weight:600">{% trans %}reset.email.title{% endtrans %}</p>
+                        <p style="color: #787878; line-height: 1.7">
+                            {% trans with {'website_name' : admin_client.name, 'user_name' : user.fullName} %}reset.email.description{% endtrans %}
+                        </p>
+                    </div>
+
+                    <div>
+                        <a href="{{ link }}" target="_blank" style="display: inline-block; background-color: {{ admin_theme.colors.btn_background_color }}; border-radius: 6px; padding: 10px 20px; color: {{ admin_theme.colors.btn_color }}; font-size: 14px; font-weight: 500; text-decoration: none">
+                            {% trans %}reset.email.button{% endtrans %}
+                        </a>
+                    </div>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

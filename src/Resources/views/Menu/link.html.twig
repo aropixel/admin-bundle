@@ -1,0 +1,7 @@
+{% set href = link.routeName ? url(link.routeName, link.routeParameters) : (link.externalLink ? link.externalLink : '') %}
+
+<li class="accordion-item {{ link.isActive ? 'active' : '' }}">
+    <a href="{{ href }}" data-item="{{ link.id }}"{% if link.getProperty('target') %} target="{{ link.getProperty('target') }}"{% endif %}>
+        <span>{{ link.label|trans }}</span>
+    </a>
+</li>

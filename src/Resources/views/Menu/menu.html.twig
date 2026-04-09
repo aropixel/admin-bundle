@@ -1,0 +1,7 @@
+<ul class="sidebar-menu navbar-nav">
+    {% for item in menu.items %}
+        {% if item.type == 'link' %}{{ include('@AropixelAdmin/Menu/link.html.twig', {'link' : item})  }}{% endif %}
+        {% if item.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {'submenu' : item})  }}{% endif %}
+    {% endfor %}
+</ul>
+

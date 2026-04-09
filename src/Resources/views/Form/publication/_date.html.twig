@@ -1,0 +1,5 @@
+{% if form.createdAt is defined %}
+    <div class="tab-pane {% if form.slug is not defined %}active{% endif %}" id="panel-tab-creation" role="tabpanel">
+        {{ form_row(form.createdAt) }}
+    </div>
+{% endif %}

@@ -1,0 +1,15 @@
+/.idea/php.xml
+/.idea/admin-bundle.iml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

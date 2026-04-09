@@ -1,0 +1,133 @@
+<?php
+
+namespace Aropixel\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+#[ORM\MappedSuperclass]
+abstract class AttachedFile implements AttachedFileInterface
+{
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $title = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $alt = null;
+
+    #[Gedmo\SortablePosition]
+    #[ORM\Column(type: 'integer')]
+    private int $position = 0;
+
+    #[ORM\ManyToOne(targetEntity: FileInterface::class)]
+    private ?FileInterface $file = null;
+
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
+    private ?\DateTime $createdAt = null;
+
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
+    private ?\DateTime $updatedAt = null;
+
+    private ?FileInterface $oldFile = null;
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setAlt(?string $alt): self
+    {
+        $this->alt = $alt;
+
+        return $this;
+    }
+
+    public function getAlt(): ?string
+    {
+        return $this->alt;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    public function setFile(?FileInterface $file = null): self
+    {
+        if (null !== $this->file) {
+            $this->oldFile = clone $this->file;
+        } else {
+            $this->oldFile = null;
+        }
+
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function getFile(): ?FileInterface
+    {
+        return $this->file;
+    }
+
+    public function getOldFile(): ?FileInterface
+    {
+        return $this->oldFile;
+    }
+
+    public function setOldFile(?FileInterface $oldFile): self
+    {
+        $this->oldFile = $oldFile;
+
+        return $this;
+    }
+
+    public function hasFileChanged(): bool
+    {
+        return $this->oldFile !== $this->file;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->file?->getFilename();
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+}

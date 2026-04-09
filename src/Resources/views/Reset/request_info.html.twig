@@ -1,0 +1,32 @@
+{% extends '@AropixelAdmin/base.html.twig' %}
+
+{% block theme_javascripts %}
+{% endblock %}
+
+{% block body_content %}
+    <div id="app">
+        <section class="section">
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
+                        <div class="login-brand">
+                            <img src="{{ asset('bundles/aropixeladmin/img/logo.png') }}" alt="{{ admin_client.name }}" width="180">
+                        </div>
+
+                        <div class="card mt-5">
+                            <div class="card-header"><h4>{% trans %}reset.email_sent.title{% endtrans %}</h4></div>
+
+                            <div class="card-body">
+                                <p class="mt-4 mb-4">{% trans %}reset.email_sent.description{% endtrans %}</p>
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        <div class="simple-footer">
+                            Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

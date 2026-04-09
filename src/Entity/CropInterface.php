@@ -1,0 +1,12 @@
+<?php
+
+namespace Aropixel\AdminBundle\Entity;
+
+interface CropInterface
+{
+    public function getImage(): AttachedImageInterface;
+
+    public function getFilter(): string;
+
+    public function getCrop(): ?string;
+}

@@ -1,0 +1,22 @@
+{% block property %}
+    #[ORM\OneToOne(targetEntity: {{ entity_class_name }}::class, mappedBy: "{{ parent_var }}", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private ?{{ entity_class_name }} ${{ property_name }} = null;
+{% endblock %}
+{% block methods %}
+
+    public function get{{ property_name_camel }}(): ?{{ entity_class_name }}
+    {
+        return $this->{{ property_name }};
+    }
+
+    public function set{{ property_name_camel }}(?{{ entity_class_name }} ${{ property_name }}): self
+    {
+        if (${{ property_name }} === null || ${{ property_name }}->getImage() === null) {
+            $this->{{ property_name }} = null;
+        } else {
+            $this->{{ property_name }} = ${{ property_name }};
+            $this->{{ property_name }}->set{{ parent_class_name }}($this);
+        }
+        return $this;
+    }
+{% endblock %}

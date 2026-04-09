@@ -1,0 +1,56 @@
+{
+  "name": "aropixel/admin-bundle",
+  "description": "Admin Aropixel",
+  "type": "symfony-bundle",
+  "authors": [
+    {
+      "name": "Joël Gomez Caballe",
+      "email": "joel.gomez@aropixel.com"
+    }
+  ],
+  "keywords": [
+    "aropixel admin bundle"
+  ],
+  "license": [
+    "MIT"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Aropixel\\AdminBundle\\": "src/"
+    }
+  },
+  "require": {
+    "ext-intl": "*",
+    "doctrine/doctrine-bundle": "^2.13 || ^3.0",
+    "league/flysystem-bundle": "^3",
+    "liip/imagine-bundle": "^2.10",
+    "stof/doctrine-extensions-bundle": "^1.7",
+    "symfony/orm-pack": "2.4.1|2.5.0",
+    "symfony/asset": "^7.0 || ^8.0",
+    "symfony/mailer": "^7.0 || ^8.0",
+    "symfony/form": "^7.0 || ^8.0",
+    "symfony/flex": "^1|^2",
+    "symfony/framework-bundle": "^7.0 || ^8.0",
+    "symfony/security-bundle": "^7.0 || ^8.0",
+    "symfony/serializer": "^7.0 || ^8.0",
+    "symfony/stimulus-bundle": "^2.32",
+    "symfony/string": "^7.0 || ^8.0",
+    "symfony/translation": "^7.0 || ^8.0",
+    "symfony/validator": "^7.0 || ^8.0",
+    "twig/extra-bundle": "^2.12|^3.0",
+    "twig/twig": "^2.12|^3.0",
+    "twig/intl-extra": "^2.12|^3.0"
+  },
+  "scripts": {
+    "symfony-scripts": [
+      "rm -rf var/cache/*",
+      "php bin/console assets:install public --relative"
+    ],
+    "post-install-cmd": [
+      "@symfony-scripts"
+    ],
+    "post-update-cmd": [
+      "@symfony-scripts"
+    ]
+  }
+}

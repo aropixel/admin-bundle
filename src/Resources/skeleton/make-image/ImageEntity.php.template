@@ -1,0 +1,75 @@
+<?php
+
+namespace {{ entity_namespace }};
+
+use {{ parent_full_class_name }};
+use Aropixel\AdminBundle\Entity\AttachedImage;
+{% if is_croppable %}
+use Aropixel\AdminBundle\Entity\CroppableInterface;
+use Aropixel\AdminBundle\Entity\CroppableTrait;
+{% endif %}
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class {{ entity_class_name }} extends AttachedImage{% if is_croppable %} implements CroppableInterface{% endif %}
+{
+{% if is_croppable %}
+    use CroppableTrait;
+{% endif %}
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\OneToOne(inversedBy: '{{ property_name }}')]
+    private ?{{ parent_class_name }} ${{ parent_var }} = null;
+
+{% if is_croppable %}
+    #[ORM\OneToMany(mappedBy: "image", targetEntity: {{ crop_class_name }}::class, cascade: ["remove", "persist"])]
+    protected ?Collection $crops = null;
+{% endif %}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function get{{ parent_class_name }}(): ?{{ parent_class_name }}
+    {
+        return $this->{{ parent_var }};
+    }
+
+    public function set{{ parent_class_name }}(?{{ parent_class_name }} ${{ parent_var }}): self
+    {
+        $this->{{ parent_var }} = ${{ parent_var }};
+
+        return $this;
+    }
+
+{% if is_croppable %}
+    public function addCrop({{ crop_class_name }} $crop): self
+    {
+        if (!$this->crops->contains($crop)) {
+            $this->crops[] = $crop;
+            $crop->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCrop({{ crop_class_name }} $crop): self
+    {
+        if ($this->crops->contains($crop)) {
+            $this->crops->removeElement($crop);
+            // set the owning side to null (unless already changed)
+            if ($crop->getImage() === $this) {
+                $crop->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+{% endif %}
+}

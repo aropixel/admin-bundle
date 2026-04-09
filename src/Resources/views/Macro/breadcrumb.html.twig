@@ -1,0 +1,23 @@
+{% macro breadcrumbs(items) %}
+    <ul class="breadcrumb breadcrumb-caret position-right">
+        {% for item in items %}
+            {% if loop.last %}
+                <li class="breadcrumb-item active">
+                    {% if item.url is defined and item.url %}
+                        <a href="{{ item.url }}">{{ item.label|trans }}</a>
+                    {% else %}
+                        {{ item.label|trans }}
+                    {% endif %}
+                </li>
+            {% else %}
+                <li class="breadcrumb-item">
+                    {% if item.url is defined and item.url %}
+                        <a href="{{ item.url }}">{{ item.label|trans }}</a>
+                    {% else %}
+                        {{ item.label|trans }}
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endmacro %}

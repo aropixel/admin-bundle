@@ -1,0 +1,49 @@
+parameters:
+    env(ACTIVATION_REQUEST_LIFETIME): 'P1D'
+    passwordPeriod: '6 months'
+    passwordAttempts: 6
+    activationRequestLifeTime: '%env(ACTIVATION_REQUEST_LIFETIME)%'
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+
+    Aropixel\AdminBundle\:
+        resource: '../../*'
+        exclude:
+            - '../../DependencyInjection/'
+            - '../../Entity/'
+            - '../../AropixelAdminBundle.php'
+            - '../../Component/Select2/{Select2Interface.php,Select2DataProviderInterface.php,Select2RepositoryInterface.php}'
+            - '../../Resources/'
+
+    Aropixel\AdminBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    Aropixel\AdminBundle\Command\CreateUserCommand:
+        arguments:
+            $appEnv: '%kernel.environment%'
+
+    Aropixel\AdminBundle\Component\Menu\Builder\AdminMenuBuilder:
+        arguments:
+            $menusConfig: '%aropixel_menu.menus%'
+
+    Aropixel\AdminBundle\Component\Menu\Builder\QuickMenuBuilder:
+        arguments:
+            $menusConfig: '%aropixel_menu.menus%'
+
+    # Autowire des services
+    Aropixel\AdminBundle\Component\Security\Passport\Badge\:
+        resource: '../../Component/Security/Passport/Badge'
+        autowire: false
+
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@security.user_providers'
+
+    Liip\ImagineBundle\Service\FilterService:
+        alias: 'liip_imagine.service.filter'
+
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: 'service_container'

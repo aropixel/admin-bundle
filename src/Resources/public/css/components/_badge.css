@@ -1,0 +1,59 @@
+
+.badge {
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    line-height: 1.7;
+    font-weight: 500;
+    border-radius: 2px;
+    padding: 5px 12px;
+}
+.badge-flat {
+    background-color: transparent;
+    border-width: 2px;
+    border-radius: 0;
+    padding: 1px 4px 0 4px;
+}
+.badge-sm {
+    padding: 3px 8px;
+}
+.badge-xs {
+    padding: 4px 5px;
+    font-size: 9px;
+    line-height: 1;
+}
+.badge-icon {
+    padding: 8px;
+    border-radius: 2px;
+    line-height: 1;
+}
+.badge-rounded {
+    border-radius: 100px;
+}
+.badge-default {
+    color: #fff;
+    background-color: #999999;
+    border-color: #999999;
+}
+
+a.badge:hover {
+    cursor: pointer;
+}
+
+.img-state-icon.state-icon--online {
+    background-color: #0CABA8;
+}
+.img-state-icon.state-icon--offline {
+    background-color: #dcdcdc;
+}
+.img-state-icon {
+    border: 3px solid #fff;
+    border-radius: 50%;
+    bottom: 0;
+    display: block;
+    height: 15px;
+    position: absolute;
+    right: -7px;
+    width: 15px;
+}

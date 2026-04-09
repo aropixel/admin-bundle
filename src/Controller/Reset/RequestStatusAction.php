@@ -1,0 +1,28 @@
+<?php
+
+namespace Aropixel\AdminBundle\Controller\Reset;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+
+class RequestStatusAction extends AbstractController
+{
+    public const PENDING = 'pending';
+    public const EXPIRED = 'expired';
+    public const SUCCESS = 'success';
+
+    public function __invoke(string $status): Response
+    {
+        $views = [
+            self::PENDING => '@AropixelAdmin/Reset/request_info.html.twig',
+            self::EXPIRED => '@AropixelAdmin/Reset/request_expired.html.twig',
+            self::SUCCESS => '@AropixelAdmin/Reset/reset_success.html.twig',
+        ];
+
+        if (!\array_key_exists($status, $views)) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render($views[$status]);
+    }
+}

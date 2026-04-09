@@ -1,0 +1,13 @@
+{% extends '@AropixelAdmin/List/datatable.html.twig' %}
+{% import '@AropixelAdmin/Macro/breadcrumb.html.twig' as nav %}
+
+{% block meta_title %}{{ 'text.list'|trans }}{% endblock %}
+
+{% block header_title %}{{ 'admin.' ~ entity_snake_case ~ '.title'|trans }}{% endblock %}
+
+{% block header_breadcrumb %}
+    {{ nav.breadcrumbs([
+        { label: 'text.home'|trans, url: url('_admin') },
+        { label: 'admin.' ~ entity_snake_case ~ '.title'|trans }
+    ]) }}
+{% endblock %}

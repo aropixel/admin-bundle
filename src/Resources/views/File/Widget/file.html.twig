@@ -1,0 +1,22 @@
+
+<tr class="itemFile">
+    <td>
+        {% if form.vars.attachedFile is defined and form.vars.attachedFile and form.vars.attachedFile.file %}
+            <span>{{ form.vars.attachedFile.title|raw }}</span>
+        {% else %}
+            <span class="text-size-mini"></span>
+        {% endif %}
+        <div class="d-none">
+            {{ form_widget(form) }}
+        </div>
+    </td>
+
+    <td class="text-right">
+        {% if form.vars.attachedFile is defined and form.vars.attachedFile and form.vars.attachedFile.file %}
+            <a href="{{ aropixel_file_url(form.vars.attachedFile.file) }}" class="m-r-30">
+                <i class="fas fa-download"></i>
+            </a>
+        {% endif %}
+        <a class="text-default text-size-mini iconUnlinkFile"><i class="fa fa-unlink"></i></a>
+    </td>
+</tr>

@@ -1,0 +1,56 @@
+<?php
+
+namespace Aropixel\AdminBundle\Component\Media\File\Upload;
+
+use Aropixel\AdminBundle\Component\Media\PreUploadHandler;
+use Aropixel\AdminBundle\Component\Media\Resolver\PathResolverInterface;
+use Aropixel\AdminBundle\Entity\FileInterface;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
+use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerInterface;
+
+#[AsEntityListener(event: Events::prePersist, entity: '%aropixel_admin.entity.file%')]
+#[AsEntityListener(event: Events::postPersist, entity: '%aropixel_admin.entity.file%')]
+#[AsEntityListener(event: Events::postRemove, entity: '%aropixel_admin.entity.file%')]
+class UploadFileListener
+{
+    public function __construct(
+        private readonly FilesystemOperator $privateStorage,
+        private readonly PreUploadHandler $preUploadHandler,
+        private readonly LoggerInterface $logger,
+        private readonly PathResolverInterface $pathResolver,
+    ) {
+    }
+
+    public function prePersist(FileInterface $file): void
+    {
+        $this->preUploadHandler->handlePreUpload($file);
+    }
+
+    public function postPersist(FileInterface $file): void
+    {
+        if (null === $file->getFile()) {
+            return;
+        }
+
+        try {
+            $this->privateStorage->write(
+                $this->pathResolver->getFilePath($file),
+                file_get_contents($file->getFile()->getPathname())
+            );
+
+            unlink($file->getFile()->getPathname());
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), $e->getTrace());
+        }
+    }
+
+    public function postRemove(FileInterface $file): void
+    {
+        try {
+            $this->privateStorage->delete($this->pathResolver->getFilePath($file));
+        } catch (\Throwable) {
+        }
+    }
+}

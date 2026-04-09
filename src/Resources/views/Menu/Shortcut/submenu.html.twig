@@ -1,0 +1,3 @@
+{% for subitem in submenu.items %}
+    {% if subitem.type == 'link' %}{{ include('@AropixelAdmin/Menu/Shortcut/link.html.twig', {'item' : subitem}) }}{% endif %}
+{% endfor %}
