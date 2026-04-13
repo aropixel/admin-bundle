@@ -56,15 +56,10 @@ onDomReady(() => {
             'offline'
         ;
 
-        let activeLabel = switchStatus.getAttribute('data-status-active-label') && switchStatus.getAttribute('data-status-active-label').length ?
-            switchStatus.getAttribute('data-status-active-label') :
-            'Publié'
-        ;
-
-        let unactiveLabel = switchStatus.getAttribute('data-status-unactive-label') && switchStatus.getAttribute('data-status-unactive-label').length ?
-            switchStatus.getAttribute('data-status-unactive-label') :
-            'Non publié'
-        ;
+        let activeLabel = switchStatus.getAttribute('data-status-active-label') || '';
+        let unactiveLabel = switchStatus.getAttribute('data-status-unactive-label') || '';
+        let outdatedLabel = switchStatus.getAttribute('data-status-outdated-label') || '';
+        let scheduledLabel = switchStatus.getAttribute('data-status-scheduled-label') || '';
 
         if (status && switchStatus) {
 
@@ -80,9 +75,9 @@ onDomReady(() => {
                 'publishUntilDate' : publishUntilDate,
                 'publishUntilTime' : publishUntilTime,
                 stateLabels: {
-                    'outdated' : 'Passé',
+                    'outdated' : outdatedLabel,
                     'published' : activeLabel,
-                    'scheduled' : 'Programmé',
+                    'scheduled' : scheduledLabel,
                     'offline' : unactiveLabel,
                 },
                 'stateValues': {

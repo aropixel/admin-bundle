@@ -111,7 +111,7 @@
 
                         <div class="form-switch form-status-switch">
                             <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "status.outdated"|trans : (publishable.isPublished ? "status.published"|trans : "status.scheduled"|trans)) : (publishable.isPublished ? "status.published"|trans : "status.offline"|trans) }}</label>
-                            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }}>
+                            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }} data-status-active-label="{{ 'status.published'|trans }}" data-status-unactive-label="{{ 'status.offline'|trans }}" data-status-outdated-label="{{ 'status.outdated'|trans }}" data-status-scheduled-label="{{ 'status.scheduled'|trans }}">
                         </div>
 
                     {% endif %}
