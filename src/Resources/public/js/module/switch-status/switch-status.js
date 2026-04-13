@@ -28,10 +28,10 @@ export class SwitchStatus {
                 'published' : 'published',
             },
             stateLabels: {
-                'outdated' : 'Passé',
-                'published' : 'Publié',
-                'scheduled' : 'Programmé',
-                'offline' : 'Non publié',
+                'outdated' : '',
+                'published' : '',
+                'scheduled' : '',
+                'offline' : '',
             },
             stateValues: {
                 'online' : 'online',
