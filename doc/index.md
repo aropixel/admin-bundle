@@ -87,6 +87,7 @@ Customizable administration interface for managing blog posts, comments, and cat
 ### 🚀 Getting Started
 * [Installation](installation.md)
 * [Create User Command](create_user.md)
+* [Internationalisation (i18n)](i18n.md)
 
 ### 🛠 Tools & Generators
 * [CRUD Generator (`make:crud`)](make_crud.md)
