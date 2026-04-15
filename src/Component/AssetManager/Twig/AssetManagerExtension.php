@@ -16,7 +16,7 @@ class AssetManagerExtension extends AbstractExtension implements GlobalsInterfac
     public function getGlobals(): array
     {
         return [
-            'aropixel_admin_entry_available' => $this->importmapInspector->hasEntry('@aropixel/admin-bundle'),
+            'aropixel_asset_mapper_enabled' => $this->importmapInspector->isEnabled(),
         ];
     }
 }

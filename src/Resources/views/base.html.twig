@@ -35,6 +35,9 @@
         {% endblock %}
 
         {% block asset_manager %}
+            {% if aropixel_asset_mapper_enabled %}
+                {{ importmap() }}
+            {% endif %}
         {% endblock %}
 
     </head>
