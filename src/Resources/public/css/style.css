@@ -318,13 +318,6 @@ a {
   -webkit-transition: color .5s;
   -o-transition: color .5s; }
 
-a:not(.btn-social-icon):not(.btn-social):not(.page-link) .ion,
-a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fas,
-a:not(.btn-social-icon):not(.btn-social):not(.page-link) .far,
-a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fal,
-a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
-  margin-left: 4px; }
-
 .bg-primary {
   background-color: #6777ef !important; }
 
