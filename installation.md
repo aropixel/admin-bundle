@@ -1,5 +1,17 @@
 # Installation
 
+## Quick start with Castor Starter
+
+If you use [aropixel/castor-starter](https://github.com/aropixel/castor-starter), you can bootstrap a full Symfony project with the AdminBundle already installed and configured in a single command — no manual setup required:
+
+```bash
+castor-starter aropixel:new:admin
+```
+
+---
+
+## Manual installation
+
 We provide several ways to install our AdminBundle, depending on your needs:
 
 - Create your symfony 7 project
