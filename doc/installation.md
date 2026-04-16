@@ -1,5 +1,17 @@
 # Installation
 
+## Quick start with Castor Starter
+
+If you use [aropixel/castor-starter](https://github.com/aropixel/castor-starter), you can bootstrap a full Symfony project with the AdminBundle already installed and configured in a single command — no manual setup required:
+
+```bash
+castor-starter aropixel:new:admin
+```
+
+---
+
+## Manual installation
+
 We provide several ways to install our AdminBundle, depending on your needs:
 
 - Create your symfony 7.* or 8.* project
@@ -101,3 +113,22 @@ aropixel_admin_download:
     resource: '@AropixelAdminBundle/Resources/config/routes/download.yaml'
 ````
 - Create your first admin access : php bin/console aropixel:admin:create-user
+
+- Add the ConfigureMenuListener class in Src Folder and register it as service
+
+- If you enabled Stateless CSRF protection with a Symfony 7.2+ project, add "vendor/aropixel/admin-bundle/assets/" to your asset_map path
+````
+framework:
+    asset_mapper:
+        paths:
+            - assets/
+            - vendor/aropixel/admin-bundle/assets/
+
+````
+then add "@aropixel/admin-bundle" to your importmap.php
+````
+'@aropixel/admin-bundle' => [
+    'path' => './vendor/aropixel/admin-bundle/assets/loader.js',
+    'entrypoint' => true,
+]
+````
