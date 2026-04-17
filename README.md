@@ -6,7 +6,7 @@
 
 ## Presentation
 
-The `AropixelAdminBundle` is built with a specific philosophy: it is a **toolbox** for developers, not a black-box framework like `EasyAdminBundle`. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
+The `AropixelAdminBundle` is a **developer-friendly streamlined administration framework** for Symfony applications. It is a designed to provide essential tools and a solid foundation without getting in the developer's way. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
 
 As a facilitator, it helps automate repetitive CRUD tasks through a custom `make:crud` generator that starts from your own `FormType`.
 
