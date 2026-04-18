@@ -28,7 +28,7 @@
 	{% endblock %}
 
 	{% block asset_manager %}
-		{% if aropixel_admin_entry_available %}
+		{% if aropixel_asset_mapper_enabled %}
 			{{ importmap('@aropixel/admin-bundle') }}
 		{% endif %}
 	{% endblock %}

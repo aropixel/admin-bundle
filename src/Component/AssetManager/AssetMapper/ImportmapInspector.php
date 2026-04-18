@@ -11,17 +11,11 @@ class ImportmapInspector
      */
     public function __construct(
         private readonly KernelInterface $kernel,
-        private array $importmap = []
     ) {
-        $importmapPath = $this->kernel->getProjectDir() . '/importmap.php';
-
-        if (file_exists($importmapPath)) {
-            $this->importmap = include $importmapPath;
-        }
     }
 
-    public function hasEntry(string $entry): bool
+    public function isEnabled(): bool
     {
-        return isset($this->importmap[$entry]);
+        return file_exists($this->kernel->getProjectDir() . '/importmap.php');
     }
 }

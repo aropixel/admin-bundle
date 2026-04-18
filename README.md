@@ -6,7 +6,7 @@
 
 ## Presentation
 
-The `AropixelAdminBundle` is built with a specific philosophy: it is a **toolbox** for developers, not a black-box framework like `EasyAdminBundle`. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
+The `AropixelAdminBundle` is a **developer-friendly streamlined administration framework** for Symfony applications. It is a designed to provide essential tools and a solid foundation without getting in the developer's way. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
 
 As a facilitator, it helps automate repetitive CRUD tasks through a custom `make:crud` generator that starts from your own `FormType`.
 
@@ -77,11 +77,22 @@ Customizable administration interface for managing blog posts, comments, and cat
 
 ## Further documentation
 
-Discover more by reading the docs:
+### Getting Started
+* [Installation](doc/installation.md)
+* [Create Admin User (`aropixel:admin:create-user`)](doc/create_user.md)
+* [Internationalisation (i18n)](doc/i18n.md)
 
-* [Getting started with AropixelAdminBundle](installation.md)
-* [Discover the main tool](adminbundle.md)
-* [Manage blog content](blogbundle.md)
-* [Create and order pages](pagebundle.md)
-* [Store and send incoming messages](blogbundle.md)
-* [Manage header and footer](menubundle.md)
+### Tools & Generators
+* [CRUD Generator (`make:crud`)](doc/make_crud.md)
+* [DataTable Component](doc/datatable.md)
+* [Select2 Component](doc/select2.md)
+
+### Forms & Templates
+* [Custom Form Types](doc/forms.md)
+* [Form Templates](doc/form_templates.md)
+* [Twig Macros](doc/macros.md)
+
+### Customization
+* [CSS Customization](doc/css_customization.md)
+* [Entity Customization](doc/entities.md)
+* [Admin Menu Customization](doc/admin_menu.md)

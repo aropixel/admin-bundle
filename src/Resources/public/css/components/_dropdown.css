@@ -1,0 +1,7 @@
+.dropdown-toggle + .dropdown-menu .dropdown-divider {
+    margin: var(--bs-dropdown-divider-margin-y) 0!important;
+}
+.dropdown-toggle + .dropdown-menu .dropdown-item .fa,
+.dropdown-toggle + .dropdown-menu .dropdown-item .fas {
+    width: 25px;
+}
