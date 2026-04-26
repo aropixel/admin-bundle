@@ -113,7 +113,7 @@ class MakeCrudCommand extends Command
      * Extracts the short class name from a FQCN, even if namespace separators were stripped by the shell.
      * e.g. "App\Entity\Project" → "Project", "AppEntityProject" → "Project"
      */
-    private function extractShortName(string $fqcn): string
+    protected function extractShortName(string $fqcn): string
     {
         $fqcn = trim($fqcn, '\\');
 
