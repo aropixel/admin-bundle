@@ -72,7 +72,7 @@ Customizable administration interface for managing blog posts, comments, and cat
 ***
 
 * **Miscellaneous**: 
-> **Multi-language Support**: Easily add multiple languages to the admin panel to cater to a global audience.
+> **Multi-language Support**: Interface available in French, English, German, Spanish, Italian and Czech.
 
 
 ## Further documentation

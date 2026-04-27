@@ -19,6 +19,8 @@ class DeleteUserAction extends AbstractController
 
     public function __invoke(Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         if ($this->isCsrfTokenValid('delete__user' . $user->getId(), $request->request->get('_token'))) {
             $this->userRepository->remove($user, true);
             $this->addFlash('notice', $this->translator->trans('user.flash.deleted'));

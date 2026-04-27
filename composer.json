@@ -19,6 +19,11 @@
       "Aropixel\\AdminBundle\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Aropixel\\AdminBundle\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "ext-intl": "*",
     "doctrine/doctrine-bundle": "^2.13 || ^3.0",
@@ -40,6 +45,9 @@
     "twig/extra-bundle": "^2.12|^3.0",
     "twig/twig": "^2.12|^3.0",
     "twig/intl-extra": "^2.12|^3.0"
+  },
+  "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^4.0"
   },
   "scripts": {
     "symfony-scripts": [

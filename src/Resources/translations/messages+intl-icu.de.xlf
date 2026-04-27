@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="de" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="MEgEMng" resname="text.list">
+        <source>text.list</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit id="generic.home" resname="text.home">
+        <source>text.home</source>
+        <target>Startseite</target>
+      </trans-unit>
+      <trans-unit id="generic.add" resname="text.add">
+        <source>text.add</source>
+        <target>Hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="generic.edit" resname="text.edit">
+        <source>text.edit</source>
+        <target>Bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="7p1PCbD" resname="text.create">
+        <source>text.create</source>
+        <target>Erstellen</target>
+      </trans-unit>
+      <trans-unit id="generic.delete" resname="text.delete">
+        <source>text.delete</source>
+        <target>Löschen</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete" resname="text.confirm_delete">
+        <source>text.confirm_delete</source>
+        <target>Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?</target>
+      </trans-unit>
+      <trans-unit id="text.online" resname="text.online">
+        <source>text.online</source>
+        <target>Online</target>
+      </trans-unit>
+      <trans-unit id="text.offline" resname="text.offline">
+        <source>text.offline</source>
+        <target>Offline</target>
+      </trans-unit>
+      <trans-unit id="9jBDz2S" resname="status.outdated">
+        <source>status.outdated</source>
+        <target>Veraltet</target>
+      </trans-unit>
+      <trans-unit id="uohJbCo" resname="status.published">
+        <source>status.published</source>
+        <target>Veröffentlicht</target>
+      </trans-unit>
+      <trans-unit id="jG45E4s" resname="status.scheduled">
+        <source>status.scheduled</source>
+        <target>Geplant</target>
+      </trans-unit>
+      <trans-unit id="sIWTG7_" resname="status.offline">
+        <source>status.offline</source>
+        <target>Offline</target>
+      </trans-unit>
+      <trans-unit id="gbGyQYS" resname="form.submit">
+        <source>form.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="_K0qyd1" resname="form.preview">
+        <source>form.preview</source>
+        <target>Vorschau</target>
+      </trans-unit>
+      <trans-unit id="DQff.7h" resname="form.publish_options">
+        <source>form.publish_options</source>
+        <target>Veröffentlichungsoptionen</target>
+      </trans-unit>
+      <trans-unit id="NGuUr2n" resname="form.delete">
+        <source>form.delete</source>
+        <target>Löschen</target>
+      </trans-unit>
+      <trans-unit id="DDY7yLk" resname="text.my_account">
+        <source>text.my_account</source>
+        <target>Mein Konto</target>
+      </trans-unit>
+      <trans-unit id="_YGA75f" resname="text.logout">
+        <source>text.logout</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      <trans-unit id="xxI2uyW" resname="first_connexion.email_sent.title">
+        <source>first_connexion.email_sent.title</source>
+        <target>Aktivierung Ihres Kontos</target>
+      </trans-unit>
+      <trans-unit id="ItVJ_Vi" resname="first_connexion.email_sent.description">
+        <source>first_connexion.email_sent.description</source>
+        <target>Wir haben Ihnen soeben eine E-Mail geschickt, mit der Sie Ihr Passwort erstellen können. Sie können Ihre E-Mails jetzt überprüfen.</target>
+      </trans-unit>
+      <trans-unit id="00Z5zw4" resname="first_connexion.request.title">
+        <source>first_connexion.request.title</source>
+        <target>Erste Anmeldung?</target>
+      </trans-unit>
+      <trans-unit id="u7hr4eB" resname="first_connexion.request.description">
+        <source>first_connexion.request.description</source>
+        <target>Wählen Sie Ihr Passwort und aktivieren Sie Ihr Konto.</target>
+      </trans-unit>
+      <trans-unit id="gVaCu69" resname="first_connexion.request.alert.not_found">
+        <source>first_connexion.request.alert.not_found</source>
+        <target>Ihre E-Mail-Adresse wurde nicht gefunden.</target>
+      </trans-unit>
+      <trans-unit id="ihxrXBb" resname="first_connexion.request.alert.already_initialized">
+        <source>first_connexion.request.alert.already_initialized</source>
+        <target><![CDATA[Ihr Konto wurde bereits aktiviert. Bitte melden Sie sich an oder klicken Sie auf <a href="{link}">Passwort vergessen</a>, um Ihr Passwort zu ändern.]]></target>
+      </trans-unit>
+      <trans-unit id="GaweBlU" resname="first_connexion.request.form.email">
+        <source>first_connexion.request.form.email</source>
+        <target>Geben Sie die E-Mail-Adresse ein, mit der Sie Ihr Konto erstellt haben:</target>
+      </trans-unit>
+      <trans-unit id="Vz_A3J." resname="first_connexion.request.submit">
+        <source>first_connexion.request.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="igmwK8E" resname="text.dashboard">
+        <source>text.dashboard</source>
+        <target>Dashboard</target>
+      </trans-unit>
+      <trans-unit id="lFK87HZ" resname="reset.done.title">
+        <source>reset.done.title</source>
+        <target>Fertig!</target>
+      </trans-unit>
+      <trans-unit id="7EBe0rQ" resname="reset.done.description">
+        <source>reset.done.description</source>
+        <target><![CDATA[Ihr Passwort wurde geändert.<br /><a href="{link}">Hier klicken</a>, um sich anzumelden.]]></target>
+      </trans-unit>
+      <trans-unit id="Y38qAJb" resname="blocked_account.title">
+        <source>blocked_account.title</source>
+        <target>Gesperrtes Konto</target>
+      </trans-unit>
+      <trans-unit id="zcSn.Kb" resname="blocked_account.description">
+        <source>blocked_account.description</source>
+        <target><![CDATA[Aufgrund zu vieler fehlgeschlagener Anmeldeversuche wurde Ihr Konto deaktiviert.</p><p>Wir haben Ihnen soeben eine E-Mail geschickt, mit der Sie ein neues Passwort wählen können, um Ihr Konto zu reaktivieren.<br />Bitte überprüfen Sie Ihre E-Mails.]]></target>
+      </trans-unit>
+      <trans-unit id="Rv1iGN4" resname="reset.email_sent.title">
+        <source>reset.email_sent.title</source>
+        <target>Neues Passwort anfordern</target>
+      </trans-unit>
+      <trans-unit id="_80FCc8" resname="reset.email_sent.description">
+        <source>reset.email_sent.description</source>
+        <target>Wir haben Ihnen soeben eine E-Mail geschickt, mit der Sie ein neues Passwort wählen können. Sie können Ihre E-Mails jetzt überprüfen.</target>
+      </trans-unit>
+      <trans-unit id="zxPhMeE" resname="too_old_password.title">
+        <source>too_old_password.title</source>
+        <target>Ihr Passwort erneuern</target>
+      </trans-unit>
+      <trans-unit id="cuaSh02" resname="too_old_password.description">
+        <source>too_old_password.description</source>
+        <target><![CDATA[Sie haben Ihr Passwort seit zu langer Zeit nicht geändert.<br /><br />Wir haben Ihnen soeben eine E-Mail geschickt, mit der Sie ein neues Passwort wählen können, um Ihr Konto zu sichern.<br />Bitte überprüfen Sie Ihre E-Mails.]]></target>
+      </trans-unit>
+      <trans-unit id="wzXmNKO" resname="reset.proceed.title">
+        <source>reset.proceed.title</source>
+        <target>Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="9s5r8ls" resname="reset.proceed.submit">
+        <source>reset.proceed.submit</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="zfXbw.b" resname="too_old_login.title">
+        <source>too_old_login.title</source>
+        <target>Reaktivierung Ihres Kontos</target>
+      </trans-unit>
+      <trans-unit id="d9SBD4G" resname="too_old_login.description">
+        <source>too_old_login.description</source>
+        <target><![CDATA[Nach mehreren Monaten der Inaktivität wurde Ihr Konto deaktiviert.<br /><br />Wir haben Ihnen soeben eine E-Mail geschickt, mit der Sie ein neues Passwort wählen können, um Ihr Konto zu reaktivieren.<br />Bitte überprüfen Sie Ihre E-Mails.]]></target>
+      </trans-unit>
+      <trans-unit id="WoamraD" resname="reset.request.title">
+        <source>reset.request.title</source>
+        <target>Passwort vergessen?</target>
+      </trans-unit>
+      <trans-unit id="N653r69" resname="reset.request.subtitle">
+        <source>reset.request.subtitle</source>
+        <target>Keine Panik! Wir helfen Ihnen, es zurückzusetzen.</target>
+      </trans-unit>
+      <trans-unit id="bFhzZKo" resname="reset.request.form">
+        <source>reset.request.form</source>
+        <target>Geben Sie Ihre E-Mail-Adresse ein:</target>
+      </trans-unit>
+      <trans-unit id="DMXo6T7" resname="reset.request.alert.not_found">
+        <source>reset.request.alert.not_found</source>
+        <target>Ihre E-Mail-Adresse wurde nicht gefunden.</target>
+      </trans-unit>
+      <trans-unit id="Df_pOIB" resname="reset.request.submit">
+        <source>reset.request.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="0s8fw_K" resname="activation.email.title">
+        <source>activation.email.title</source>
+        <target>Aktivierung Ihres Kontos</target>
+      </trans-unit>
+      <trans-unit id="en29wLA" resname="activation.email.description">
+        <source>activation.email.description</source>
+        <target><![CDATA[Hallo {user_name},<br /><br />Ihr Administratorkonto wurde soeben für die Website „{website_name}" erstellt.<br />Um Ihr Konto zu aktivieren, klicken Sie bitte auf die Schaltfläche unten, um Ihr Passwort festzulegen.]]></target>
+      </trans-unit>
+      <trans-unit id="emZjgS8" resname="activation.email.button">
+        <source>activation.email.button</source>
+        <target>Mein Passwort erstellen</target>
+      </trans-unit>
+      <trans-unit id="UUFPoOn" resname="reset.email.title">
+        <source>reset.email.title</source>
+        <target>Passwort zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="alwzkBa" resname="reset.email.description">
+        <source>reset.email.description</source>
+        <target><![CDATA[Hallo {user_name},<br /><br />Sie haben eine Anfrage zur Änderung Ihres Administrator-Passworts für die Website „{website_name}" gestellt.<br />Um das Passwort zu ändern, klicken Sie bitte auf die Schaltfläche unten. Wenn Sie diese Anfrage nicht gestellt haben, ignorieren Sie diese E-Mail einfach.]]></target>
+      </trans-unit>
+      <trans-unit id="q5SnqGz" resname="reset.email.button">
+        <source>reset.email.button</source>
+        <target>Mein Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="TAqAwE4" resname="login.greetings.hello">
+        <source>login.greetings.hello</source>
+        <target>Hallo</target>
+      </trans-unit>
+      <trans-unit id="dnoZ46m" resname="login.greetings.good_evening">
+        <source>login.greetings.good_evening</source>
+        <target>Guten Abend</target>
+      </trans-unit>
+      <trans-unit id="nbRXu.j" resname="login.greetings.good_night">
+        <source>login.greetings.good_night</source>
+        <target>Gute Nacht</target>
+      </trans-unit>
+      <trans-unit id="bExDrRX" resname="login.form.login.label">
+        <source>login.form.login.label</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="o9XCysE" resname="login.form.login.alert">
+        <source>login.form.login.alert</source>
+        <target>Bitte geben Sie Ihre E-Mail-Adresse ein</target>
+      </trans-unit>
+      <trans-unit id="2YSNbQa" resname="login.form.password.label">
+        <source>login.form.password.label</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="W5EwJWG" resname="text.forgotten_password_question">
+        <source>text.forgotten_password_question</source>
+        <target>Passwort vergessen?</target>
+      </trans-unit>
+      <trans-unit id="T66nNEP" resname="login.form.password.alert">
+        <source>login.form.password.alert</source>
+        <target>Bitte geben Sie Ihr Passwort ein</target>
+      </trans-unit>
+      <trans-unit id="EDMYfps" resname="login.form.remember_me">
+        <source>login.form.remember_me</source>
+        <target>Angemeldet bleiben</target>
+      </trans-unit>
+      <trans-unit id="rN2L9rX" resname="login.form.submit">
+        <source>login.form.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id=".3xqvI." resname="login.first_connexion_link">
+        <source>login.first_connexion_link</source>
+        <target>Erste Anmeldung?</target>
+      </trans-unit>
+      <trans-unit id="PFZljUk" resname="activation.request_expired.title">
+        <source>activation.request_expired.title</source>
+        <target>Ihr Aktivierungslink ist abgelaufen!</target>
+      </trans-unit>
+      <trans-unit id="TIDtCLu" resname="activation.request_expired.description">
+        <source>activation.request_expired.description</source>
+        <target>Bitte kontaktieren Sie einen Administrator, um die Erstellung Ihres Kontos abzuschließen.</target>
+      </trans-unit>
+      <trans-unit id="qwxaFiH" resname="activation.choose_password.title">
+        <source>activation.choose_password.title</source>
+        <target>Bitte wählen Sie ein Passwort, um Ihr Konto zu aktivieren.</target>
+      </trans-unit>
+      <trans-unit id="WbK7noU" resname="activation.choose_password.submit">
+        <source>activation.choose_password.submit</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="L5JxRg4" resname="activation.success.title">
+        <source>activation.success.title</source>
+        <target>Fertig!</target>
+      </trans-unit>
+      <trans-unit id="IOdPoMJ" resname="activation.success.description">
+        <source>activation.success.description</source>
+        <target><![CDATA[Ihr Konto wurde aktiviert.<br /><a href="{link}">Hier klicken</a>, um sich anzumelden.]]></target>
+      </trans-unit>
+      <trans-unit id="J3odF5E" resname="library.datatabler.size">
+        <source>library.datatabler.size</source>
+        <target>Größe</target>
+      </trans-unit>
+      <trans-unit id="j.gm4ai" resname="library.datatabler.format">
+        <source>library.datatabler.format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="phpefr0" resname="library.datatabler.title">
+        <source>library.datatabler.title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="UqEjQk3" resname="files.widget.title">
+        <source>files.widget.title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="0vA.K9d" resname="files.widget.add_button">
+        <source>files.widget.add_button</source>
+        <target>Dateien hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="lhu38rm" resname="files.widget.no_selected_file">
+        <source>files.widget.no_selected_file</source>
+        <target>Keine Datei ausgewählt</target>
+      </trans-unit>
+      <trans-unit id="dhdGqSA" resname="library.files.modal.title">
+        <source>library.files.modal.title</source>
+        <target>Dateien auswählen</target>
+      </trans-unit>
+      <trans-unit id="YB0uXmO" resname="library.datatabler.date">
+        <source>library.datatabler.date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="GKIih9M" resname="library.datatabler.properties">
+        <source>library.datatabler.properties</source>
+        <target>Eigenschaften</target>
+      </trans-unit>
+      <trans-unit id="tbXOc.3" resname="text.warning">
+        <source>text.warning</source>
+        <target>Warnung</target>
+      </trans-unit>
+      <trans-unit id="rwswXE8" resname="library.files.modal.warning_no_selection">
+        <source>library.files.modal.warning_no_selection</source>
+        <target>Bitte wählen Sie eine Datei aus.</target>
+      </trans-unit>
+      <trans-unit id="T6jVkt6" resname="library.files.modal.upload_button">
+        <source>library.files.modal.upload_button</source>
+        <target>Dateien hochladen</target>
+      </trans-unit>
+      <trans-unit id="k4Yl23T" resname="text.close">
+        <source>text.close</source>
+        <target>Schließen</target>
+      </trans-unit>
+      <trans-unit id="8RcXac7" resname="library.files.modal.submit">
+        <source>library.files.modal.submit</source>
+        <target>Ausgewählte Dateien hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="lcmoyRF" resname="images.widget.button.edit_image">
+        <source>images.widget.button.edit_image</source>
+        <target>Bild bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="cqt2vMv" resname="images.widget.button.crop_image">
+        <source>images.widget.button.crop_image</source>
+        <target>Bild zuschneiden</target>
+      </trans-unit>
+      <trans-unit id="J6OSqSp" resname="images.widget.button.edit_alt">
+        <source>images.widget.button.edit_alt</source>
+        <target>Alternativen Text bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="1l.CI4L" resname="images.widget.button.unlink_image">
+        <source>images.widget.button.unlink_image</source>
+        <target>Bild entfernen</target>
+      </trans-unit>
+      <trans-unit id="rfLm64M" resname="images.widget.form.edit_alt.title">
+        <source>images.widget.form.edit_alt.title</source>
+        <target>Alternativer Text</target>
+      </trans-unit>
+      <trans-unit id="gdzgJOd" resname="images.widget.form.edit_alt.abort">
+        <source>images.widget.form.edit_alt.abort</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="wQItSVk" resname="images.widget.form.edit_alt.submit">
+        <source>images.widget.form.edit_alt.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="yep7N8E" resname="text.no_title">
+        <source>text.no_title</source>
+        <target>Kein Titel</target>
+      </trans-unit>
+      <trans-unit id="oIU8AWj" resname="text.choose_image">
+        <source>text.choose_image</source>
+        <target>Ein Bild auswählen</target>
+      </trans-unit>
+      <trans-unit id="HOfGtpn" resname="text.featured_image">
+        <source>text.featured_image</source>
+        <target>Hauptbild</target>
+      </trans-unit>
+      <trans-unit id="NeQmQTq" resname="library.images.modal.title">
+        <source>library.images.modal.title</source>
+        <target>Ein Bild auswählen</target>
+      </trans-unit>
+      <trans-unit id="Du8_O1_" resname="library.datatabler.preview">
+        <source>library.datatabler.preview</source>
+        <target>Vorschau</target>
+      </trans-unit>
+      <trans-unit id="CAvNyq7" resname="library.images.modal.editor_crop.title">
+        <source>library.images.modal.editor_crop.title</source>
+        <target>Passen Sie die Größe Ihres Bildes an</target>
+      </trans-unit>
+      <trans-unit id="duP5o3B" resname="library.images.modal.editor_crop.description">
+        <source>library.images.modal.editor_crop.description</source>
+        <target>Wählen Sie eine Größe für die einzufügenden Bilder im Editor aus.</target>
+      </trans-unit>
+      <trans-unit id="44nMvFE" resname="library.images.modal.editor_crop.description.size_warning">
+        <source>library.images.modal.editor_crop.description.size_warning</source>
+        <target>Achten Sie darauf, keine Bildgröße zu wählen, die größer als die Originalgröße ist.</target>
+      </trans-unit>
+      <trans-unit id="9lSYei1" resname="library.images.modal.editor_crop.description.size_warning_consequence">
+        <source>library.images.modal.editor_crop.description.size_warning_consequence</source>
+        <target>Das eingefügte Bild könnte von schlechter Qualität sein.</target>
+      </trans-unit>
+      <trans-unit id="xmRAu5R" resname="library.images.modal.editor_crop.editor_filters.title">
+        <source>library.images.modal.editor_crop.editor_filters.title</source>
+        <target>Bildbreite</target>
+      </trans-unit>
+      <trans-unit id="RYUHtAL" resname="library.images.modal.editor_crop.editor_filters.auto">
+        <source>library.images.modal.editor_crop.editor_filters.auto</source>
+        <target>Automatische Breite</target>
+      </trans-unit>
+      <trans-unit id="DX68yRj" resname="library.images.modal.editor_crop.editor_filters.100">
+        <source>library.images.modal.editor_crop.editor_filters.100</source>
+        <target>Breite 100px</target>
+      </trans-unit>
+      <trans-unit id="npT9tn8" resname="library.images.modal.editor_crop.editor_filters.200">
+        <source>library.images.modal.editor_crop.editor_filters.200</source>
+        <target>Breite 200px</target>
+      </trans-unit>
+      <trans-unit id="qVDZrLI" resname="library.images.modal.editor_crop.editor_filters.300">
+        <source>library.images.modal.editor_crop.editor_filters.300</source>
+        <target>Breite 300px</target>
+      </trans-unit>
+      <trans-unit id="4q3sgRm" resname="library.images.modal.editor_crop.editor_filters.400">
+        <source>library.images.modal.editor_crop.editor_filters.400</source>
+        <target>Breite 400px</target>
+      </trans-unit>
+      <trans-unit id="HyLy_e8" resname="library.images.modal.editor_crop.editor_filters.600">
+        <source>library.images.modal.editor_crop.editor_filters.600</source>
+        <target>Breite 600px</target>
+      </trans-unit>
+      <trans-unit id="._uEDis" resname="library.images.modal.editor_crop.editor_filters.800">
+        <source>library.images.modal.editor_crop.editor_filters.800</source>
+        <target>Breite 800px</target>
+      </trans-unit>
+      <trans-unit id="1RGes_L" resname="library.images.modal.editor_crop.editor_filters.100pc">
+        <source>library.images.modal.editor_crop.editor_filters.100pc</source>
+        <target>Breite 100%</target>
+      </trans-unit>
+      <trans-unit id="KXNHXza" resname="library.images.modal.editor_crop.editor_filters.custom">
+        <source>library.images.modal.editor_crop.editor_filters.custom</source>
+        <target>Zuschneide-Voreinstellung</target>
+      </trans-unit>
+      <trans-unit id="kx2DFbV" resname="library.images.modal.editor_crop.custom_filters.title">
+        <source>library.images.modal.editor_crop.custom_filters.title</source>
+        <target>Wählen Sie Ihren Zuschneidebereich</target>
+      </trans-unit>
+      <trans-unit id="RtQ2Dpz" resname="library.images.modal.seo.title">
+        <source>library.images.modal.seo.title</source>
+        <target>SEO</target>
+      </trans-unit>
+      <trans-unit id="uR.rs36" resname="library.images.modal.seo.alt_image_instruction1">
+        <source>library.images.modal.seo.alt_image_instruction1</source>
+        <target>Geben Sie das Alt-Attribut Ihres Bild-Tags ein.</target>
+      </trans-unit>
+      <trans-unit id="6GzYNC7" resname="library.images.modal.seo.alt_image_instruction2">
+        <source>library.images.modal.seo.alt_image_instruction2</source>
+        <target><![CDATA[Das <em>alt</em>-Attribut wird zur Referenzierung der Website und Ihrer Bilder verwendet.<br />Es ermöglicht Ihnen, Schlüsselwörter oder einen Ausdruck mit Ihrem Bild zu verknüpfen.]]></target>
+      </trans-unit>
+      <trans-unit id="T41uXm4" resname="library.images.modal.seo.form">
+        <source>library.images.modal.seo.form</source>
+        <target><![CDATA[<em>alt</em>-Attribut Ihres Bild-Tags]]></target>
+      </trans-unit>
+      <trans-unit id="KYQOTmV" resname="library.images.modal.warning_no_selection">
+        <source>library.images.modal.warning_no_selection</source>
+        <target>Sie müssen ein Bild auswählen.</target>
+      </trans-unit>
+      <trans-unit id="ddxY_O0" resname="library.images.modal.upload_button">
+        <source>library.images.modal.upload_button</source>
+        <target>Bilder hochladen</target>
+      </trans-unit>
+      <trans-unit id="g25yNSN" resname="library.images.modal.submit">
+        <source>library.images.modal.submit</source>
+        <target>Bild(er) auswählen</target>
+      </trans-unit>
+      <trans-unit id="1KgPIoi" resname="Select image">
+        <source>Select image</source>
+        <target>Bild auswählen</target>
+      </trans-unit>
+      <trans-unit id="udSZyaf" resname="library.images.modal.attributes.title">
+        <source>library.images.modal.attributes.title</source>
+        <target>Bildeigenschaften</target>
+      </trans-unit>
+      <trans-unit id="TQPtd2z" resname="library.images.modal.attributes.tab.links">
+        <source>library.images.modal.attributes.tab.links</source>
+        <target>Texte und Links</target>
+      </trans-unit>
+      <trans-unit id="a.LmdYE" resname="library.images.modal.attributes.tab.attributes">
+        <source>library.images.modal.attributes.tab.attributes</source>
+        <target>HTML-Eigenschaften</target>
+      </trans-unit>
+      <trans-unit id="hOMexz6" resname="library.images.modal.attributes.form.textlink.title">
+        <source>library.images.modal.attributes.form.textlink.title</source>
+        <target>Bildtitel</target>
+      </trans-unit>
+      <trans-unit id="Sin3lZH" resname="library.images.modal.attributes.form.textlink.description">
+        <source>library.images.modal.attributes.form.textlink.description</source>
+        <target>Bildbeschreibung</target>
+      </trans-unit>
+      <trans-unit id="aLiOA.3" resname="library.images.modal.attributes.form.textlink.link">
+        <source>library.images.modal.attributes.form.textlink.link</source>
+        <target>Link</target>
+      </trans-unit>
+      <trans-unit id="RxzXvIU" resname="library.images.modal.attributes.form.properties.description">
+        <source>library.images.modal.attributes.form.properties.description</source>
+        <target><![CDATA[<strong>Füllen Sie die HTML-Attribute Ihres Bild-Tags aus.</strong><br />Attribute können für SEO oder für Bildverwaltungs-Plugins (Popups, Filter usw.) nützlich sein.]]></target>
+      </trans-unit>
+      <trans-unit id="5Nqn0.c" resname="library.images.modal.attributes.form.properties.field">
+        <source>library.images.modal.attributes.form.properties.field</source>
+        <target><![CDATA[{target}-Attribut Ihres Bild-Tags]]></target>
+      </trans-unit>
+      <trans-unit id="0AXO09L" resname="library.images.modal.attributes.submit">
+        <source>library.images.modal.attributes.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="QBVt6Dt" resname="library.images.modal.crop.title">
+        <source>library.images.modal.crop.title</source>
+        <target>Bild zuschneiden</target>
+      </trans-unit>
+      <trans-unit id="qt.bY4n" resname="library.images.modal.crop.subtitle">
+        <source>library.images.modal.crop.subtitle</source>
+        <target>Passen Sie Ihre Bildzuschnitte an</target>
+      </trans-unit>
+      <trans-unit id="SNTV7b1" resname="library.images.modal.crop.description">
+        <source>library.images.modal.crop.description</source>
+        <target>Optimieren Sie die Anzeige von Bildern auf Ihrer Website, indem Sie die verschiedenen Ausschnitte Ihrer Bilder anpassen.</target>
+      </trans-unit>
+      <trans-unit id="XKB5ofZ" resname="library.images.modal.crop.warning">
+        <source>library.images.modal.crop.warning</source>
+        <target>Seien Sie vorsichtig: Wenn Sie den Auswahlbereich zu stark verkleinern, kann die Qualität beeinträchtigt werden.</target>
+      </trans-unit>
+      <trans-unit id="HCLe5XK" resname="library.images.modal.crop.submit">
+        <source>library.images.modal.crop.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="xHrbKiG" resname="text.reorder">
+        <source>text.reorder</source>
+        <target>Neu anordnen</target>
+      </trans-unit>
+      <trans-unit id="8qLKJin" resname="button.list">
+        <source>button.list</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit id="2U2Q7jB" resname="button.create">
+        <source>button.create</source>
+        <target>Erstellen</target>
+      </trans-unit>
+      <trans-unit id="cxHbS4R" resname="users.title">
+        <source>users.title</source>
+        <target>Benutzer</target>
+      </trans-unit>
+      <trans-unit id=".cJ8GU_" resname="text.edit">
+        <source>text.edit</source>
+        <target>Bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="WIC8khz" resname="users.form.configuration">
+        <source>users.form.configuration</source>
+        <target>Konfiguration</target>
+      </trans-unit>
+      <trans-unit id="tEsS1fq" resname="users.form.avatar">
+        <source>users.form.avatar</source>
+        <target>Avatar</target>
+      </trans-unit>
+      <trans-unit id="FjOOvMc" resname="users.form.send_activation_link_button">
+        <source>users.form.send_activation_link_button</source>
+        <target>Aktivierungs-E-Mail erneut senden</target>
+      </trans-unit>
+      <trans-unit id="VqGIGJq" resname="users.list.delete_warning">
+        <source>users.list.delete_warning</source>
+        <target>Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?</target>
+      </trans-unit>
+      <trans-unit id="dfH8E2d" resname="users.form.field.enabled">
+        <source>users.form.field.enabled</source>
+        <target>Aktiviert</target>
+      </trans-unit>
+      <trans-unit id="Lsd_5ZE" resname="users.form.field.last_name">
+        <source>users.form.field.last_name</source>
+        <target>Nachname</target>
+      </trans-unit>
+      <trans-unit id="GklsPo_1" resname="users.form.field.first_name">
+        <source>users.form.field.first_name</source>
+        <target>Vorname</target>
+      </trans-unit>
+      <trans-unit id="Lc_ZLdq" resname="users.form.field.password.invalid_message">
+        <source>users.form.field.password.invalid_message</source>
+        <target>Neues Passwort und Bestätigung müssen übereinstimmen.</target>
+      </trans-unit>
+      <trans-unit id="sfO93_p" resname="users.form.field.password.change_password">
+        <source>users.form.field.password.change_password</source>
+        <target>Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="s_Pz_23" resname="users.form.field.password.confirm_password">
+        <source>users.form.field.password.confirm_password</source>
+        <target>Neues Passwort bestätigen</target>
+      </trans-unit>
+      <trans-unit id="8aPr_23" resname="users.form.field.super_admin">
+        <source>users.form.field.super_admin</source>
+        <target>Super Admin</target>
+      </trans-unit>
+      <trans-unit id="492_Zd1" resname="text.yes">
+        <source>text.yes</source>
+        <target>Ja</target>
+      </trans-unit>
+      <trans-unit id="492_Zd2" resname="text.no">
+        <source>text.no</source>
+        <target>Nein</target>
+      </trans-unit>
+      <trans-unit id="iR0aFU4" resname="login.form.password.show">
+        <source>login.form.password.show</source>
+        <target>Passwort anzeigen</target>
+      </trans-unit>
+      <trans-unit id="user.flash.saved" resname="user.flash.saved">
+        <source>user.flash.saved</source>
+        <target>Ihr Benutzer wurde gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.invalid_email" resname="user.flash.invalid_email">
+        <source>user.flash.invalid_email</source>
+        <target>Die E-Mail-Adresse ist ungültig, bitte überprüfen Sie das Format.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.email_used" resname="user.flash.email_used">
+        <source>user.flash.email_used</source>
+        <target>Diese E-Mail-Adresse wird bereits für einen anderen Benutzer verwendet.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.created_with_email" resname="user.flash.created_with_email">
+        <source>user.flash.created_with_email</source>
+        <target>Ihr Benutzer wurde gespeichert. Eine E-Mail wurde an ihn gesendet, um die Kontoerstellung abzuschließen.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.deleted" resname="user.flash.deleted">
+        <source>user.flash.deleted</source>
+        <target>Der Benutzer wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit id="generic.flash.saved" resname="generic.flash.saved">
+        <source>generic.flash.saved</source>
+        <target>Der Eintrag wurde gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="generic.flash.deleted" resname="generic.flash.deleted">
+        <source>generic.flash.deleted</source>
+        <target>Der Eintrag wurde gelöscht.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.activation_sent" resname="user.flash.activation_sent">
+        <source>user.flash.activation_sent</source>
+        <target>Die Kontoerstellungs-E-Mail wurde erneut gesendet.</target>
+      </trans-unit>
+      <trans-unit id="user.flash.activation_already_initialized" resname="user.flash.activation_already_initialized">
+        <source>user.flash.activation_already_initialized</source>
+        <target>Es ist nicht möglich, die Kontoerstellungs-E-Mail erneut zu senden. Das Konto wurde bereits initialisiert.</target>
+      </trans-unit>
+      <trans-unit id="user.list.title" resname="user.list.title">
+        <source>user.list.title</source>
+        <target>Administratorenliste</target>
+      </trans-unit>
+      <trans-unit id="reset.flash.different_password" resname="reset.flash.different_password">
+        <source>reset.flash.different_password</source>
+        <target>Bitte wählen Sie ein Passwort, das sich vom aktuellen Passwort unterscheidet.</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.preview" resname="datatable.column.preview">
+        <source>datatable.column.preview</source>
+        <target>Vorschau</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.title" resname="datatable.column.title">
+        <source>datatable.column.title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.date" resname="datatable.column.date">
+        <source>datatable.column.date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="datatable.column.file" resname="datatable.column.file">
+        <source>datatable.column.file</source>
+        <target>Datei</target>
+      </trans-unit>
+      <trans-unit id="form.label.new_password" resname="form.label.new_password">
+        <source>form.label.new_password</source>
+        <target>Ein neues Passwort wählen</target>
+      </trans-unit>
+      <trans-unit id="form.label.choose_password" resname="form.label.choose_password">
+        <source>form.label.choose_password</source>
+        <target>Ihr Passwort wählen</target>
+      </trans-unit>
+      <trans-unit id="form.label.confirm_password" resname="form.label.confirm_password">
+        <source>form.label.confirm_password</source>
+        <target>Passwort bestätigen</target>
+      </trans-unit>
+      <trans-unit id="form.label.created_at" resname="form.label.created_at">
+        <source>form.label.created_at</source>
+        <target>Erstellt am</target>
+      </trans-unit>
+      <trans-unit id="form.label.publish_at" resname="form.label.publish_at">
+        <source>form.label.publish_at</source>
+        <target>Veröffentlicht am</target>
+      </trans-unit>
+      <trans-unit id="form.label.publish_until" resname="form.label.publish_until">
+        <source>form.label.publish_until</source>
+        <target>Bis</target>
+      </trans-unit>
+      <trans-unit id="form.title.publish_options" resname="form.title.publish_options">
+        <source>form.title.publish_options</source>
+        <target>Legen Sie Ihre Veröffentlichungsoptionen fest</target>
+      </trans-unit>
+      <trans-unit id="form.tab.permalink" resname="form.tab.permalink">
+        <source>form.tab.permalink</source>
+        <target>Permalink</target>
+      </trans-unit>
+      <trans-unit id="video.preview" resname="video.preview">
+        <source>video.preview</source>
+        <target>Vorschau Ihres Videos</target>
+      </trans-unit>
+      <trans-unit id="menu.no_item_found" resname="menu.no_item_found">
+        <source>menu.no_item_found</source>
+        <target>Kein Eintrag gefunden.</target>
+      </trans-unit>
+      <trans-unit id="menu.quick_links" resname="menu.quick_links">
+        <source>menu.quick_links</source>
+        <target>Schnellzugriff</target>
+      </trans-unit>
+      <trans-unit id="menu.my_profile" resname="menu.my_profile">
+        <source>menu.my_profile</source>
+        <target>Mein Profil</target>
+      </trans-unit>
+      <trans-unit id="menu.logout" resname="menu.logout">
+        <source>menu.logout</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      <trans-unit id="menu.explorer_placeholder" resname="menu.explorer_placeholder">
+        <source>menu.explorer_placeholder</source>
+        <target>Suchen</target>
+      </trans-unit>
+      <trans-unit id="menu.user.label" resname="menu.user.label">
+        <source>menu.user.label</source>
+        <target>Benutzer</target>
+      </trans-unit>
+      <trans-unit id="menu.user.list" resname="menu.user.list">
+        <source>menu.user.list</source>
+        <target>Administratoren</target>
+      </trans-unit>
+      <trans-unit id="menu.user.new" resname="menu.user.new">
+        <source>menu.user.new</source>
+        <target>Administrator erstellen</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.label" resname="menu.blog.label">
+        <source>menu.blog.label</source>
+        <target>Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.list" resname="menu.blog.list">
+        <source>menu.blog.list</source>
+        <target>Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="menu.blog.new" resname="menu.blog.new">
+        <source>menu.blog.new</source>
+        <target>Einen Beitrag erstellen</target>
+      </trans-unit>
+      <trans-unit id="menu.page.label" resname="menu.page.label">
+        <source>menu.page.label</source>
+        <target>Seiten</target>
+      </trans-unit>
+      <trans-unit id="menu.page.list" resname="menu.page.list">
+        <source>menu.page.list</source>
+        <target>Seiten</target>
+      </trans-unit>
+      <trans-unit id="menu.page.new" resname="menu.page.new">
+        <source>menu.page.new</source>
+        <target>Eine Seite erstellen</target>
+      </trans-unit>
+      <trans-unit id="menu.contact.label" resname="menu.contact.label">
+        <source>menu.contact.label</source>
+        <target>Kontakt</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.label" resname="menu.menu.label">
+        <source>menu.menu.label</source>
+        <target>Menüs</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.navbar" resname="menu.menu.navbar">
+        <source>menu.menu.navbar</source>
+        <target>Menü</target>
+      </trans-unit>
+      <trans-unit id="menu.menu.footer" resname="menu.menu.footer">
+        <source>menu.menu.footer</source>
+        <target>Fußzeile</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

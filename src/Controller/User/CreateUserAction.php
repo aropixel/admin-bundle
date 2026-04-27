@@ -25,6 +25,8 @@ class CreateUserAction extends AbstractController
 
     public function __invoke(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
         $user = $this->userFactory->createUser();
 
         $form = $this->createForm($this->form, $user, [

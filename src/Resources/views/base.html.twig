@@ -36,7 +36,7 @@
 
         {% block asset_manager %}
             {% if aropixel_asset_mapper_enabled %}
-                {{ importmap() }}
+                {{ importmap('@aropixel/admin-bundle') }}
             {% endif %}
         {% endblock %}
 

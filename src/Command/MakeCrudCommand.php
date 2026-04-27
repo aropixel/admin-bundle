@@ -52,12 +52,10 @@ class MakeCrudCommand extends Command
             return Command::FAILURE;
         }
 
-        $entityParts = explode('\\', $entityClass);
-        $entityName = end($entityParts);
+        $entityName = $this->extractShortName($entityClass);
         $entityVar = lcfirst($entityName);
 
-        $formParts = explode('\\', $formClass);
-        $formName = end($formParts);
+        $formName = $this->extractShortName($formClass);
 
         $controllerName = $entityName . 'Controller';
         $namespace = 'App\\Controller\\Admin';
@@ -109,6 +107,32 @@ class MakeCrudCommand extends Command
         $io->note('Don\'t forget to configure the DataTable columns in ' . $controllerName . '::index()');
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Extracts the short class name from a FQCN, even if namespace separators were stripped by the shell.
+     * e.g. "App\Entity\Project" → "Project", "AppEntityProject" → "Project"
+     */
+    protected function extractShortName(string $fqcn): string
+    {
+        $fqcn = trim($fqcn, '\\');
+
+        if (str_contains($fqcn, '\\')) {
+            $parts = explode('\\', $fqcn);
+            return end($parts);
+        }
+
+        if (str_contains($fqcn, '/')) {
+            $parts = explode('/', $fqcn);
+            return end($parts);
+        }
+
+        // Backslashes were stripped by shell — extract last PascalCase word
+        if (preg_match('/([A-Z][a-z0-9]+)$/', $fqcn, $m)) {
+            return $m[1];
+        }
+
+        return $fqcn;
     }
 
     private function generateFile(string $templateName, string $targetPath, array $params, SymfonyStyle $io): void
