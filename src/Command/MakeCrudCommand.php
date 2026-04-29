@@ -173,35 +173,10 @@ class MakeCrudCommand extends Command
             return '';
         }, $content);
 
-        // Simple handle {{ 'string' ~ variable ~ 'string' }}
-        $content = preg_replace_callback('/\{\{ (.*?) \}\}/', function($matches) use ($params) {
-            $expression = trim($matches[1]);
-            
-            // Handle concatenation with ~
-            if (str_contains($expression, '~')) {
-                $parts = explode('~', $expression);
-                $result = '';
-                foreach ($parts as $part) {
-                    $part = trim($part);
-                    if ((str_starts_with($part, "'") && str_ends_with($part, "'")) || (str_starts_with($part, '"') && str_ends_with($part, '"'))) {
-                        $result .= substr($part, 1, -1);
-                    } elseif (isset($params[$part])) {
-                        $result .= $params[$part];
-                    } else {
-                        // If we can't resolve it, return the original expression with delimiters
-                        return '{{ ' . $expression . ' }}';
-                    }
-                }
-                return $result;
-            }
-            
-            // Handle simple variable replacement
-            if (isset($params[$expression])) {
-                return $params[$expression];
-            }
-            
-            return $matches[0];
-        }, $content);
+        // Replace {{ variable }} placeholders with their values
+        foreach ($params as $key => $value) {
+            $content = str_replace('{{ ' . $key . ' }}', $value, $content);
+        }
 
         return $content;
     }

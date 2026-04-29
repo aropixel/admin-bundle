@@ -16,8 +16,8 @@ onDomReady(() => {
             ajax: $.fn.dataTable.pipeline({ url, pages })
         };
 
-        if (table.dataset.orderColumn) {
-            const column = parseInt(table.dataset.orderColumn) - 1;
+        if (table.dataset.orderColumn !== undefined && table.dataset.orderColumn !== '') {
+            const column = parseInt(table.dataset.orderColumn);
             const direction = table.dataset.orderDirection || 'asc';
             params.order = [[column, direction]];
         }
@@ -33,7 +33,7 @@ onDomReady(() => {
 
         const col = table.data('order-column');
         const dir = table.data('order-direction') || 'asc';
-        if (col) params.order = [[col - 1, dir]];
+        if (col !== undefined && col !== null) params.order = [[col, dir]];
 
         const dt = table.dataTable(params);
 
