@@ -10,7 +10,7 @@
 {% block header_breadcrumb %}
     {{ nav.breadcrumbs([
         { label: 'text.home'|trans, url: url('_admin') },
-        { label: 'admin.' ~ entity_snake_case ~ '.title'|trans, url: path('{{ route_name }}_index') },
+        { label: 'admin.{{ entity_snake_case }}.title'|trans, url: path('{{ route_name }}_index') },
         { label: ({{ entity_var }}.id ? 'text.edit'|trans : 'text.add'|trans) }
     ]) }}
 {% endblock %}
