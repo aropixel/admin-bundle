@@ -35,6 +35,10 @@ class CropExtension extends AbstractExtension
      */
     public function getClassAvailableCropFilters(string $className): array
     {
+        if (!is_a($className, CroppableInterface::class, true)) {
+            return [];
+        }
+
         return $this->availableCropProvider->getAvailableCropFilters(new $className());
     }
 }

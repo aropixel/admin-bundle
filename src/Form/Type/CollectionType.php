@@ -13,6 +13,7 @@ class CollectionType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['button_add_label'] = $options['button_add_label'];
+        $view->vars['toolbar_template'] = $options['toolbar_template'];
 
         // Normalize and wrap columns
         $columns = [];
@@ -53,6 +54,7 @@ class CollectionType extends AbstractType
             'by_reference' => false,
             'list_template' => null,
             'entry_row_template' => null,
+            'toolbar_template' => null,
         ]);
     }
 

@@ -343,15 +343,15 @@
       </trans-unit>
       <trans-unit id="J6OSqSp" resname="images.widget.button.edit_alt">
         <source>images.widget.button.edit_alt</source>
-        <target>Modifier le texte alternatif</target>
+        <target>Edit alt text</target>
       </trans-unit>
       <trans-unit id="1l.CI4L" resname="images.widget.button.unlink_image">
         <source>images.widget.button.unlink_image</source>
-        <target>Retirer l'image</target>
+        <target>Remove image</target>
       </trans-unit>
       <trans-unit id="rfLm64M" resname="images.widget.form.edit_alt.title">
         <source>images.widget.form.edit_alt.title</source>
-        <target>Texte alternatif</target>
+        <target>Alternative text</target>
       </trans-unit>
       <trans-unit id="gdzgJOd" resname="images.widget.form.edit_alt.abort">
         <source>images.widget.form.edit_alt.abort</source>
