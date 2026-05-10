@@ -198,10 +198,13 @@
         {% endif %}
         <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %} data-use-offcanvas="true" data-form-title="{{ form_title|trans }}">
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex align-items-center gap-2">
                 <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ button_add_label|trans }}
                 </a>
+                {% if toolbar_template %}
+                    {{ include(toolbar_template) }}
+                {% endif %}
             </div>
 
             {% if list_template %}
@@ -415,7 +418,7 @@
          data-im-entity-class="{{ entityClass }}"
          data-im-attach-class="{{ image_class }}"
          data-im-attach-short-class="{{ image_class_short }}"
-         data-im-crop-active="{{ get_class_available_crop_filters(image_class)|length > 1 }}"
+         data-im-crop-active="{{ crops is not empty ? get_class_available_crop_filters(image_class)|length > 1 : false }}"
          {% if accept is defined and accept %}data-im-accept="{{ accept }}"{% endif %}
             {% if max_size is defined and max_size %}data-im-max-size="{{ max_size }}"{% endif %}>
 

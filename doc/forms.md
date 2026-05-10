@@ -288,6 +288,7 @@ Handles a collection of forms with a table view and a centralized Bootstrap offc
 - `sortable`: (boolean) Enable drag-and-drop sorting (default: `true`).
 - `list_template`: (string) Path to a custom Twig template for rendering the collection list.
 - `entry_row_template`: (string) Path to a custom Twig template for rendering each item row.
+- `toolbar_template`: (string) Path to a custom Twig template rendered next to the add button (useful for adding extra actions like an import button, a link, etc.).
 
 **Basic Usage:**
 ```php
@@ -365,6 +366,26 @@ Example of `entry_row_template`:
     </div>
 </div>
 ```
+
+**Toolbar Actions (Extra buttons next to "Add"):**
+
+Use `toolbar_template` to render additional controls alongside the add button — import links, bulk actions, Stimulus-driven modals, etc.
+
+```php
+$builder->add('variants', CollectionType::class, [
+    'entry_type' => VariantType::class,
+    'toolbar_template' => 'admin/product/variants/_toolbar.html.twig',
+]);
+```
+
+```twig
+{# admin/product/variants/_toolbar.html.twig #}
+<a href="{{ path('admin_product_variant_import') }}" class="btn btn-outline-secondary">
+    <i class="fas fa-file-import me-1"></i> Importer
+</a>
+```
+
+The template is included inside the toolbar `div` (a flex container), directly after the add button, so elements align horizontally by default.
 
 **Custom Rendering:**
 
