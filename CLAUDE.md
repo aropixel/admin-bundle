@@ -11,6 +11,8 @@
 - [Installation](doc/installation.md)
 - [Entities — extension and MappedSuperclass](doc/entities.md)
 - [Forms](doc/forms.md)
+- [Single image (`ImageType`, `aropixel:make:image`)](doc/image.md)
+- [Image gallery (`GalleryType`)](doc/gallery.md)
 - [DataTable](doc/datatable.md)
 - [CRUD generator (`aropixel:make:crud`)](doc/make_crud.md)
 - [User management](doc/create_user.md)
