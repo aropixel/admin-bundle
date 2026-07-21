@@ -1,131 +1,167 @@
-.table > thead > tr > th, .table > tbody > tr > th,
-.table > tfoot > tr > th, .table > thead > tr > td,
-.table > tbody > tr > td, .table > tfoot > tr > td {
-    padding: 12px 20px;
-    line-height: 1.7;
+/**
+ * Table
+ *
+ * Public   : .table, .datatable-header, .datatable-footer
+ * Internal : the `:not()` chains below — they exist to avoid fighting DataTables and will
+ *            go once the plugin skin owns its own layout entirely.
+ *
+ * Dashed horizontal rules are a signature of this admin: solid between body rows, dashed
+ * under the header and above the first row. Nothing here uses `!important` — Bootstrap is
+ * layered, so it loses by construction. Rules that genuinely have to beat DataTables' own
+ * stylesheet live in `vendor/_datatables.css`, which is allowed to.
+ */
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    padding: var(--aro-space-3) var(--aro-space-5);
+    line-height: var(--aro-leading-prose);
     vertical-align: middle;
-    border-top: 1px solid var(--grey) !important;
-    border-bottom: 1px solid var(--grey) !important;
+    border-top: 1px solid var(--aro-color-border);
+    border-bottom: 1px solid var(--aro-color-border);
 }
 
 .table > tbody > tr:first-of-type > td {
-    border-top: 1px dashed var(--grey) !important;
+    border-top: 1px dashed var(--aro-color-border);
 }
 
+.table:not(.table-sm) thead th {
+    background-color: var(--aro-color-surface);
+}
+
+.table:not(.datatable) thead th {
+    border-top: 0 none;
+    border-bottom: 1px dashed var(--aro-color-border);
+}
+
+/* Plain tables — not DataTables — are roomier. 15px/25px on the old 5px grid. */
 .table:not(.table-sm):not(.table-md):not(.dataTable) td,
 .table:not(.table-sm):not(.table-md):not(.dataTable) th {
-    padding: 15px 20px;
-    line-height: 1.7;
+    padding: var(--aro-space-4) var(--aro-space-5);
+    line-height: var(--aro-leading-prose);
     height: auto;
 }
 
 .table:not(.table-sm):not(.table-md):not(.dataTable) td:first-child,
-.table:not(.table-sm):not(.table-md):not(.dataTable) th:first-child {
-    padding-left: 25px;
-}
+.table:not(.table-sm):not(.table-md):not(.dataTable) th:first-child,
 .table:not(.table-sm):not(.table-md):not(.dataTable) td:last-child,
 .table:not(.table-sm):not(.table-md):not(.dataTable) th:last-child {
-    padding-left: 25px;
+    padding-left: var(--aro-space-6);
 }
 
-.table:not(.table-sm) thead th {
-    background-color: #fff;
-}
-
-.table:not(.datatable) thead th {
-    border-top: 0 none!important;
-    border-bottom: 1px dashed var(--grey) !important;
-}
+/* ------------------------------------------------------------- DataTable chrome */
 
 .datatable-header {
-    padding: 15px 30px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: var(--aro-space-4) var(--aro-space-8);
 }
 
-.datatable-header, .datatable-footer {
+.datatable-header,
+.datatable-footer {
     overflow: hidden;
 }
+
+.dataTables_wrapper {
+    position: relative;
+}
+
 .dataTables_filter {
     position: relative;
     display: block;
 }
+
+.dataTables_filter input {
+    width: 200px;
+    height: 36px;
+    padding: var(--aro-space-2) var(--aro-space-8) var(--aro-space-2) var(--aro-space-3);
+    outline: 0;
+    color: var(--aro-color-text);
+    line-height: var(--aro-leading-base);
+    background-color: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-sm);
+}
+
 .dataTables_length {
     display: inline-block;
 }
+
 .dataTables_length > label > span:first-child {
     float: left;
-    margin: 8px 15px;
+    margin: var(--aro-space-2) var(--aro-space-4);
     margin-left: 0;
 }
-.dataTables_filter input {
-    outline: 0;
-    width: 200px;
-    height: 36px;
-    padding: 7px 12px;
-    padding-right: 36px;
-    font-size: 13px;
-    line-height: 1.5384616;
-    color: #333333;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-}
+
 .dataTables_info {
     float: left;
-    padding: 8px 0;
-    margin: 10px 0 15px 25px;
+    padding: var(--aro-space-2) 0;
+    margin: var(--aro-space-3) 0 var(--aro-space-4) var(--aro-space-6);
 }
-.dataTables_wrapper {
-    position: relative;
-}
+
 div.dataTables_wrapper div.dataTables_paginate {
     float: right;
+    margin: var(--aro-space-3) var(--aro-space-4) var(--aro-space-1) var(--aro-space-5);
     text-align: right;
-    margin: 10px 15px 5px 20px;
 }
+
+/* ------------------------------------------------------------ DataTable rows */
 
 .table.dataTable {
-    margin-top: 0 !important;
+    margin-top: 0;
 }
 
-table.dataTable td, table.dataTable th {
+table.dataTable td,
+table.dataTable th {
     vertical-align: middle;
 }
 
-table.dataTable thead th, table.dataTable thead td {
-    border-bottom: 1px dashed var(--grey) !important;
-    border-top: 1px dashed var(--grey) !important;
+/* The dashed header rules. These used to live in two files at once — solid in the vendor
+   skin, dashed here, both `!important`. Now declared once, and they win because the vendor
+   layer no longer competes. */
+table.dataTable thead th,
+table.dataTable thead td {
+    border-top: 1px dashed var(--aro-color-border);
+    border-bottom: 1px dashed var(--aro-color-border);
+}
+
+table.dataTable td:first-child,
+table.dataTable th:first-child {
+    padding-left: var(--aro-space-8);
+}
+
+table.dataTable td:last-child,
+table.dataTable th:last-child {
+    padding-right: var(--aro-space-8);
 }
 
 .table.dataTable td a {
-    text-decoration: none;
-    cursor: pointer;
     display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .table.dataTable td .dropdown-menu a {
     display: block;
 }
 
-table.dataTable td:first-child, table.dataTable th:first-child {
-    padding-left: 30px;
+/* Sort indicators sit inside the cell's right padding. */
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after,
+table.dataTable thead .sorting_asc_disabled::after,
+table.dataTable thead .sorting_desc_disabled::after {
+    right: var(--aro-space-6);
 }
-table.dataTable td:last-child, table.dataTable th:last-child {
-    padding-right: 30px;
-}
-table.dataTable thead .sorting:after,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:after {
-    right: 25px;
-}
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc_disabled:before {
+
+table.dataTable thead .sorting::before,
+table.dataTable thead .sorting_asc::before,
+table.dataTable thead .sorting_desc::before,
+table.dataTable thead .sorting_asc_disabled::before,
+table.dataTable thead .sorting_desc_disabled::before {
     right: 33px;
 }

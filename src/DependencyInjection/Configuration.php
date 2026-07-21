@@ -100,12 +100,16 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                        // Emitted as CSS custom properties by views/_theme-tokens.html.twig,
+                        // not as inline styles. Defaults must track the design tokens in
+                        // css/foundations/_tokens.css, or a fresh install renders two
+                        // different teals side by side.
                         ->arrayNode('colors')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('background_color')->defaultValue('#0CABA8')->end()
-                                ->scalarNode('btn_background_color')->defaultValue('#0CABA8')->end()
-                                ->scalarNode('btn_color')->defaultValue('#fff')->end()
+                                ->scalarNode('background_color')->defaultValue('#06BAB4')->end()
+                                ->scalarNode('btn_background_color')->defaultValue('#06BAB4')->end()
+                                ->scalarNode('btn_color')->defaultValue('#FFFFFF')->end()
                             ->end()
                         ->end()
                         ->arrayNode('images')

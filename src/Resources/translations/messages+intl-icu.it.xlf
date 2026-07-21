@@ -773,6 +773,46 @@
         <source>menu.menu.footer</source>
         <target>Footer</target>
       </trans-unit>
+      <trans-unit id="form.video.preview" resname="form.video.preview">
+        <source>form.video.preview</source>
+        <target>Anteprima del video</target>
+      </trans-unit>
+      <trans-unit id="files.widget.add_one" resname="files.widget.add_one">
+        <source>files.widget.add_one</source>
+        <target>Aggiungi un file</target>
+      </trans-unit>
+      <trans-unit id="form.date.placeholder" resname="form.date.placeholder">
+        <source>form.date.placeholder</source>
+        <target>Inserisci una data</target>
+      </trans-unit>
+      <trans-unit id="form.time.placeholder" resname="form.time.placeholder">
+        <source>form.time.placeholder</source>
+        <target>Inserisci un orario…</target>
+      </trans-unit>
+      <trans-unit id="text.new" resname="text.new">
+        <source>text.new</source>
+        <target>Nuovo</target>
+      </trans-unit>
+      <trans-unit id="text.error" resname="text.error">
+        <source>text.error</source>
+        <target>Errore</target>
+      </trans-unit>
+      <trans-unit id="text.save" resname="text.save">
+        <source>text.save</source>
+        <target>Salva</target>
+      </trans-unit>
+      <trans-unit id="form.tab.creation" resname="form.tab.creation">
+        <source>form.tab.creation</source>
+        <target>Data di creazione</target>
+      </trans-unit>
+      <trans-unit id="form.tab.publish_dates" resname="form.tab.publish_dates">
+        <source>form.tab.publish_dates</source>
+        <target>Date di pubblicazione</target>
+      </trans-unit>
+      <trans-unit id="form.button.continue_editing" resname="form.button.continue_editing">
+        <source>form.button.continue_editing</source>
+        <target>Continua a modificare</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

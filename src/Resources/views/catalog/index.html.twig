@@ -1,0 +1,244 @@
+{% extends '@AropixelAdmin/base.html.twig' %}
+
+{#
+  Component catalogue (design-system.md §14).
+
+  Extends the admin base so every example renders on the REAL bundle CSS — the catalogue
+  cannot show a component differently from how the admin shows it. Dev only.
+
+  Each component appears in all its states, with the Twig snippet to copy, and — where it
+  matters — the usage rule that the rendering alone does not convey (the action hierarchy
+  above all).
+#}
+
+{% block header_title %}Component catalogue{% endblock %}
+
+{% block header_breadcrumb %}
+    <ul class="breadcrumb"><li class="active">Design system · dev only</li></ul>
+{% endblock %}
+
+{% macro demo(title, note) %}
+    <div class="mb-8">
+        <h5 class="mb-2" style="font-weight: var(--aro-weight-semibold)">{{ title }}</h5>
+        {% if note %}<p class="mb-3" style="color: var(--aro-color-text-muted); font-size: var(--aro-text-sm)">{{ note|raw }}</p>{% endif %}
+    </div>
+{% endmacro %}
+
+{% block body %}
+<style>
+    /* Catalogue chrome only — NOT part of the design system. Kept inline and clearly
+       scoped so it can never be mistaken for a component style. */
+    .cat-section { margin-bottom: var(--aro-space-12); }
+    .cat-section > h2 {
+        font-size: var(--aro-text-2xl); font-weight: var(--aro-weight-bold);
+        padding-bottom: var(--aro-space-3); margin-bottom: var(--aro-space-6);
+        border-bottom: 2px solid var(--aro-color-primary);
+    }
+    .cat-row { display: flex; flex-wrap: wrap; gap: var(--aro-space-4); align-items: center; margin-bottom: var(--aro-space-5); }
+    .cat-swatches { display: flex; flex-wrap: wrap; gap: var(--aro-space-4); }
+    .cat-swatch { width: 120px; }
+    .cat-swatch .chip { height: 56px; border-radius: var(--aro-radius-card); border: 1px solid var(--aro-color-border); }
+    .cat-swatch code { display: block; font-size: 11px; margin-top: var(--aro-space-1); color: var(--aro-color-text-muted); }
+    .cat-swatch small { display: block; font-size: 11px; color: var(--aro-color-text-subtle); }
+    .cat-snippet {
+        background: var(--aro-color-secondary); color: #d6e3ea;
+        border-radius: var(--aro-radius-sm); padding: var(--aro-space-3) var(--aro-space-4);
+        font-family: ui-monospace, monospace; font-size: 12px; white-space: pre-wrap;
+        margin-top: var(--aro-space-2);
+    }
+    .cat-toc a { color: var(--aro-color-secondary); text-decoration: none; margin-right: var(--aro-space-4); }
+    .cat-toc a:hover { color: var(--aro-color-primary); }
+</style>
+
+<div class="card">
+    <div class="card-body">
+
+        <p class="cat-toc mb-6">
+            <a href="#colors">Colours</a>
+            <a href="#type">Typography</a>
+            <a href="#space">Spacing &amp; radii</a>
+            <a href="#buttons">Buttons</a>
+            <a href="#badges">Badges &amp; status</a>
+            <a href="#avatar">Avatar</a>
+            <a href="#cards">Cards</a>
+            <a href="#forms">Form controls</a>
+            <a href="#icons">Icons</a>
+        </p>
+
+        {# ---------------------------------------------------------------- Colours #}
+        <section class="cat-section" id="colors">
+            <h2>Colours</h2>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Action hierarchy — the one rule the catalogue exists to state</h5>
+            <p class="mb-4" style="color:var(--aro-color-text-muted)">
+                Three levels, and a stylesheet cannot enforce them. <strong>Coral is one per screen</strong>
+                — the thing the user came to do. Two corals on a page and neither means anything.
+            </p>
+            <div class="cat-swatches mb-6">
+                {% for c in [
+                    {t: 'CTA · coral', v: '--aro-color-cta', u: 'One per screen: save, publish'},
+                    {t: 'Primary · teal', v: '--aro-color-primary', u: 'Ordinary actions: create, add'},
+                    {t: 'Secondary · slate', v: '--aro-color-secondary', u: 'Structural / neutral-dark'},
+                ] %}
+                    <div class="cat-swatch">
+                        <div class="chip" style="background: var({{ c.v }})"></div>
+                        <small style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text)">{{ c.t }}</small>
+                        <code>{{ c.v }}</code>
+                        <small>{{ c.u }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Semantic &amp; surfaces</h5>
+            <div class="cat-swatches">
+                {% for v in ['--aro-color-success', '--aro-color-danger', '--aro-color-warning', '--aro-color-info',
+                             '--aro-color-bg', '--aro-color-surface', '--aro-color-border', '--aro-color-text'] %}
+                    <div class="cat-swatch">
+                        <div class="chip" style="background: var({{ v }})"></div>
+                        <code>{{ v }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# ------------------------------------------------------------- Typography #}
+        <section class="cat-section" id="type">
+            <h2>Typography</h2>
+            <p style="color:var(--aro-color-text-muted)">Poppins, self-hosted. Sizes in rem (scale with browser zoom).</p>
+            {% for s in [
+                {v: '--aro-text-2xl', l: '2xl · 22px · page titles'},
+                {v: '--aro-text-xl', l: 'xl · 18px'},
+                {v: '--aro-text-lg', l: 'lg · 16px · subheadings'},
+                {v: '--aro-text-base', l: 'base · 14px · body'},
+                {v: '--aro-text-sm', l: 'sm · 13px · secondary'},
+                {v: '--aro-text-xs', l: 'xs · 12px · labels'},
+            ] %}
+                <div style="font-size:var({{ s.v }});margin-bottom:var(--aro-space-2)">
+                    The quick brown fox <span style="color:var(--aro-color-text-subtle);font-size:var(--aro-text-xs)">— {{ s.l }}</span>
+                </div>
+            {% endfor %}
+            <div class="cat-row mt-4">
+                {% for w in [['--aro-weight-light', '300'], ['--aro-weight-regular', '400'], ['--aro-weight-medium', '500'], ['--aro-weight-semibold', '600'], ['--aro-weight-bold', '700']] %}
+                    <span style="font-weight:var({{ w[0] }})">Aa {{ w[1] }}</span>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# --------------------------------------------------------- Spacing/radii #}
+        <section class="cat-section" id="space">
+            <h2>Spacing &amp; radii</h2>
+            <div class="cat-row" style="align-items:flex-end">
+                {% for s in ['--aro-space-1', '--aro-space-2', '--aro-space-3', '--aro-space-4', '--aro-space-6', '--aro-space-8', '--aro-space-12'] %}
+                    <div style="text-align:center">
+                        <div style="width:var({{ s }});height:var({{ s }});background:var(--aro-color-primary);border-radius:2px"></div>
+                        <code style="font-size:10px;color:var(--aro-color-text-muted)">{{ s|replace({'--aro-space-': ''}) }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cat-row mt-4">
+                {% for r in ['--aro-radius-xs', '--aro-radius-sm', '--aro-radius-input', '--aro-radius-card', '--aro-radius-pill'] %}
+                    <div style="text-align:center">
+                        <div style="width:60px;height:40px;background:var(--aro-color-bg);border:1px solid var(--aro-color-border);border-radius:var({{ r }})"></div>
+                        <code style="font-size:10px;color:var(--aro-color-text-muted)">{{ r|replace({'--aro-radius-': ''}) }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# ---------------------------------------------------------------- Buttons #}
+        <section class="cat-section" id="buttons">
+            <h2>Buttons</h2>
+            <p style="color:var(--aro-color-text-muted)">Variants carry the action hierarchy. Sizes shrink text with padding.</p>
+            <div class="cat-row">
+                <button class="btn btn-cta">CTA</button>
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-default">Default</button>
+                <button class="btn btn-outline">Outline</button>
+                <button class="btn btn-danger">Danger</button>
+            </div>
+            <div class="cat-row">
+                <button class="btn btn-primary">Base</button>
+                <button class="btn btn-primary btn-small">Small</button>
+                <button class="btn btn-primary btn-xs">Xs</button>
+                <button class="btn btn-primary" disabled>Disabled</button>
+            </div>
+            <div class="cat-snippet">&lt;button class="btn btn-cta"&gt;Save&lt;/button&gt;
+&lt;button class="btn btn-primary btn-small"&gt;Add&lt;/button&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------- Badges & status #}
+        <section class="cat-section" id="badges">
+            <h2>Badges &amp; status</h2>
+            <div class="cat-row">
+                <span class="badge" style="background:var(--aro-color-primary);color:#fff">Badge</span>
+                <span class="badge" style="background:var(--aro-color-success);color:#fff">Online</span>
+                <span class="badge" style="background:var(--aro-color-warning);color:#fff">Scheduled</span>
+            </div>
+            <div class="cat-row">
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--online"></span> online</span>
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--scheduled"></span> scheduled</span>
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--offline"></span> offline</span>
+            </div>
+        </section>
+
+        {# ----------------------------------------------------------------- Avatar #}
+        <section class="cat-section" id="avatar">
+            <h2>Avatar</h2>
+            <div class="cat-row">
+                <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar aro-avatar--lg"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--online"></span></span>
+            </div>
+            <div class="cat-snippet">&lt;span class="aro-avatar"&gt;&lt;span class="aro-avatar__placeholder"&gt;{{ '{{' }} ux_icon('lucide:image') {{ '}}' }}&lt;/span&gt;&lt;/span&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------------------ Cards #}
+        <section class="cat-section" id="cards">
+            <h2>Cards</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><h5>Card header</h5></div>
+                        <div class="card-body">A card with a header, separated by a hairline.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-body">A <code>.card-primary</code> with the teal top accent.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# --------------------------------------------------------- Form controls #}
+        <section class="cat-section" id="forms">
+            <h2>Form controls</h2>
+            <div class="row">
+                <div class="col-md-4"><label class="col-form-label">Text field</label><input type="text" class="form-control" placeholder="Placeholder"></div>
+                <div class="col-md-4"><label class="col-form-label">Disabled</label><input type="text" class="form-control" value="Disabled" disabled></div>
+                <div class="col-md-4"><label class="col-form-label">Select</label><select class="form-select"><option>Option</option></select></div>
+            </div>
+            <div class="cat-row mt-4">
+                <div class="form-check form-switch"><input class="form-check-input checked" type="checkbox" role="switch" checked><label class="form-check-label ms-2">Published</label></div>
+                <div class="form-check form-switch"><input class="form-check-input scheduled" type="checkbox" role="switch" checked><label class="form-check-label ms-2">Scheduled</label></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"><label class="form-check-label ms-2">Offline</label></div>
+            </div>
+        </section>
+
+        {# ------------------------------------------------------------------ Icons #}
+        <section class="cat-section" id="icons">
+            <h2>Icons — Lucide via ux-icons</h2>
+            <p style="color:var(--aro-color-text-muted)">Rendered inline as SVG in <code>currentColor</code>, so they take the surrounding text colour.</p>
+            <div class="cat-row" style="font-size:24px;color:var(--aro-color-secondary)">
+                {% for i in ['plus', 'square-pen', 'trash-2', 'list', 'calendar', 'download', 'search', 'user', 'image', 'eye', 'eye-off', 'x', 'check', 'menu', 'bell'] %}
+                    <span title="lucide:{{ i }}">{{ ux_icon('lucide:' ~ i) }}</span>
+                {% endfor %}
+            </div>
+            <div class="cat-snippet">{{ '{{' }} ux_icon('lucide:plus') {{ '}}' }}</div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

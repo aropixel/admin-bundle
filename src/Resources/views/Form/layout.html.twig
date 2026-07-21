@@ -1,29 +1,26 @@
 
-{% use "bootstrap_5_horizontal_layout.html.twig" %}
+{% use 'bootstrap_5_horizontal_layout.html.twig' %}
 
 {% set modalLibrary = false %}
 
 {% block form_label_class -%} col-form-label{%- endblock form_label_class %}
 {% block form_group_class -%} col-form-content{%- endblock form_group_class %}
 
-
 {% block form_start -%}
     {% set attr = attr|merge({class: 'form-layout ' ~ (attr.class|default('form-horizontal'))|trim}) %}
     {{- parent() -}}
 {%- endblock form_start %}
 
-
 {% block form_end -%}
     {{- parent() -}}
     {% if is_image_library_modal_enabled() %}
-        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', { 'category' : false }) }}
-        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', {category: false}) }}
+        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', {category: false}) }}
     {% endif %}
     {% if is_file_library_modal_enabled() %}
-        {{ include('@AropixelAdmin/File/Modals/library.html.twig', { 'category' : false }) }}
+        {{ include('@AropixelAdmin/File/Modals/library.html.twig', {category: false}) }}
     {% endif %}
 {%- endblock form_end %}
-
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}
@@ -31,17 +28,17 @@
         {%- if compound is defined and compound -%}
             {%- set element = 'legend' -%}
             {%- if 'col-form-label' not in parent_label_class -%}
-                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-form-label' )|trim}) -%}
+                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-form-label')|trim}) -%}
             {%- endif -%}
         {%- else -%}
             {%- set row_class = row_class|default(row_attr.class|default('')) -%}
             {%- set label_attr = label_attr|merge({for: id}) -%}
             {%- if 'col-form-label' not in parent_label_class -%}
-                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ('input-group' in row_class ? ' input-group-text' : ' col-form-label') )|trim}) -%}
+                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ('input-group' in row_class ? ' input-group-text' : ' col-form-label'))|trim}) -%}
             {%- endif -%}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif -%}
 
         {% if label is empty -%}
@@ -55,7 +52,7 @@
             {%- endif -%}
         {%- endif -%}
 
-        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        <{{ element|default('label') }}{% if label_attr %}{% with {attr: label_attr} %}{{ block('attributes') }}{% endwith %}{% endif %}>
         {%- if translation_domain is same as(false) -%}
             {%- if label_html is same as(false) -%}
                 {{- label -}}
@@ -77,14 +74,13 @@
 
 {%- endblock form_label %}
 
-
 {% block form_row -%}
     {%- if expanded is defined and expanded -%}
         {{ block('fieldset_form_row') }}
     {%- else -%}
         {%- set widget_attr = {} -%}
         {%- if help is not empty -%}
-            {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+            {%- set widget_attr = {attr: {'aria-describedby': id ~ '_help'}} -%}
         {%- endif -%}
         {%- set row_class = row_class|default(row_attr.class|default('mb-3')) -%}
         {%- set is_form_floating = is_form_floating|default('form-floating' in row_class) -%}
@@ -125,11 +121,10 @@
     {%- endif -%}
 {%- endblock form_row %}
 
-
 {% block fieldset_form_row -%}
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
-        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~ '_help'}} -%}
     {%- endif -%}
     <fieldset{% with {attr: row_attr|merge({class: row_attr.class|default('mb-3')|trim})} %}{{ block('attributes') }}{% endwith %}>
         <div class="form-group mb-0{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
@@ -142,7 +137,6 @@
         </div>
     </fieldset>
 {%- endblock fieldset_form_row %}
-
 
 {% block form_errors -%}
     {%- if errors|length > 0 -%}
@@ -162,7 +156,7 @@
 
 {% block collection_widget -%}
     {% import _self as self %}
-    {% set attr = attr|merge({'class': attr.class|default ~ ' controls collection-widget'}) %}
+    {% set attr = attr|merge({class: attr.class|default ~ ' controls collection-widget'}) %}
 
     {% apply spaceless %}
         <div data-form-type="collection" {{ block('widget_container_attributes') }}
@@ -188,7 +182,6 @@
     {% endapply %}
 {%- endblock collection_widget %}
 
-
 {% block aropixel_admin_collection_widget -%}
     {% apply spaceless %}
         {% set prototype_html = '' %}
@@ -200,7 +193,7 @@
 
             <div class="mb-3 d-flex align-items-center gap-2">
                 <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> {{ button_add_label|trans }}
+                    {{ ux_icon('lucide:plus') }} {{ button_add_label|trans }}
                 </a>
                 {% if toolbar_template %}
                     {{ include(toolbar_template) }}
@@ -213,7 +206,7 @@
                 <table class="table table-striped table-hover mt-3" data-form-collection="list">
                     <thead>
                     <tr>
-                        <th style="width: 50px;"></th>
+                        <th class="aro-collection-handle-col"></th>
                         {% for label, config in columns %}
                             <th>{{ label|trans }}</th>
                         {% endfor %}
@@ -231,7 +224,6 @@
     {% endapply %}
 {%- endblock aropixel_admin_collection_widget %}
 
-
 {% block aropixel_admin_collection_entry_row %}
     {% if entry_row_template %}
         {{ include(entry_row_template) }}
@@ -240,7 +232,7 @@
             <td class="align-middle">
                 {% if sortable %}
                     <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
-                        <i class="fas fa-arrows-alt"></i>
+                        {{ ux_icon('lucide:move') }}
                     </a>
                 {% endif %}
             </td>
@@ -265,7 +257,7 @@
                             {% endfor %}
                         {% endif %}
 
-                        {% set default_label = 'Nouveau'|trans %}
+                        {% set default_label = 'text.new'|trans %}
                         <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
                             {% if field_value %}
                                 {{ field_value }}
@@ -285,7 +277,7 @@
                         </div>
                         <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
                             <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
-                                <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
+                                {{ ux_icon('lucide:trash-2', {class: 'me-2'}) }} {{ 'text.delete'|trans }}
                             </a>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
                                 {{ 'text.close'|trans }}
@@ -308,14 +300,14 @@
             <div class="collection-container">
                 <div class="collection-commands">
                     {% if allow_delete %}
-                        <a href="#" data-form-collection="delete" class="btn group btn-xs btn-danger" style="margin-bottom: 1em;">
-                            <i class="fa fa-times"></i>
+                        <a href="#" data-form-collection="delete" class="btn btn-xs btn-danger mb-3">
+                            {{ ux_icon('lucide:x') }}
                         </a>
                     {% endif %}
                     {% set baseroute = get_baseroute() %}
                     {% if route_exists(baseroute ~ '_order') %}
                         <a href="#" data-form-collection="move" class="move">
-                            <i class="fas fa-arrows-alt"></i>
+                            {{ ux_icon('lucide:move') }}
                         </a>
                     {% endif %}
                 </div>
@@ -328,7 +320,6 @@
         </div>
     {% endapply %}
 {% endmacro %}
-
 
 {% block aropixel_admin_color_widget %}
 
@@ -352,7 +343,6 @@
 
 {% endblock %}
 
-
 {% block aropixel_admin_video_row -%}
 
     <div class="row video-type">
@@ -364,22 +354,18 @@
         </div>
         <div class="col-sm-7">
             <div class="form-group">
-                <label class="control-label">Aperçu de votre vidéo</label>
-                <div class="preview">{{ form.vars.value|length ? form.vars.value|raw : "<span></span>"|raw }}</div>
+                <label class="col-form-label">{% trans %}form.video.preview{% endtrans %}</label>
+                <div class="preview">{{ form.vars.value|length ? form.vars.value|raw : '<span></span>'|raw }}</div>
             </div>
         </div>
     </div>
 
 {%- endblock %}
 
-
-
-
 {% block textarea_widget -%}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
     {{- parent() -}}
 {%- endblock textarea_widget %}
-
 
 {% block aropixel_editor_widget %}
     <div class="quill-editor-container">
@@ -387,12 +373,12 @@
         {% if providedDataClass %}
             {% set attr = attr|merge({
                 'data-class': providedDataClass,
-                'data-attach-path': get_image_editor_route()
+                'data-attach-path': get_image_editor_route(),
             }) %}
         {% elseif get_class(form.parent.vars.value) %}
             {% set attr = attr|merge({
                 'data-class': get_class(form.parent.vars.value)|trim,
-                'data-attach-path': get_image_editor_route()
+                'data-attach-path': get_image_editor_route(),
             }) %}
         {% else %}
             {% set attr = attr|merge({'data-attach-path': get_image_editor_route()}) %}
@@ -402,8 +388,6 @@
         <div class="quill-editor" id="{{ id }}_quill" data-target="#{{ id }}" data-toolbar="{{ toolbar }}"></div>
     </div>
 {% endblock %}
-
-
 
 {% block aropixel_admin_gallery_widget -%}
 
@@ -423,24 +407,21 @@
             {% if max_size is defined and max_size %}data-im-max-size="{{ max_size }}"{% endif %}>
 
         {% if prototype is defined and not prototype.rendered %}
-            {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+            {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
         {% endif %}
-        {%- set attr = attr|merge({'class': 'row galleryContent'}) -%}
+        {%- set attr = attr|merge({class: 'row galleryContent'}) -%}
 
         {{- block('form_widget') -}}
 
         <div class="col-md-6 col-lg-4 m-b-30 add-gallery-image" data-im-library-trigger="modal">
-            <a data-bs-toggle="modal" data-bs-target="#modalLibrary"><i class="fa fa-plus"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#modalLibrary">{{ ux_icon('lucide:plus') }}</a>
         </div>
     </div>
 {% endblock %}
 
-
-
 {% block aropixel_admin_gallery_row -%}
     {{- form_widget(form) -}}
 {% endblock %}
-
 
 {% block aropixel_admin_gallery_image_row -%}
     <div
@@ -451,20 +432,16 @@
             data-description-enabled="{{ description_enabled }}"
             data-link-label="{{ link_label }}"
             data-link-enabled="{{ link_enabled }}">
-        {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', { 'form' : form }) }}
+        {{ include('@AropixelAdmin/Image/Widget/gallery.html.twig', {form: form}) }}
     </div>
 {% endblock %}
 
-
-
 {% block aropixel_admin_gallery_crops_widget -%}
     {% if prototype is defined and not prototype.rendered %}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
     {% endif %}
     {{- block('form_widget') -}}
 {% endblock %}
-
-
 
 {% block aropixel_admin_gallery_files_row -%}
     {% set type = type is defined ? type : 'files' %}
@@ -485,24 +462,21 @@
     </div>
 {% endblock %}
 
-
-
-
 {% block aropixel_admin_gallery_files_widget -%}
 
     {{ enable_file_library_modal() }}
     {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
     {% if prototype is defined %}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
-        {%- set attr = attr|merge({'class': 'table table-responsive table-striped tableFiles'}) -%}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
+        {%- set attr = attr|merge({class: 'table table-responsive table-striped tableFiles'}) -%}
     {% endif %}
 
-    <div class="panel panel-default border-left-xlg border-left-info">
-        <div class="panel-heading d-flex align-items-center justify-content-between">
-            <h6 class="panel-title mb-0"><i class="icon-files-empty"></i>&nbsp;&nbsp;{{ label is defined and label|length ? label : 'Fichiers' }}</h6>
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h6 class="card-title mb-0">{{ label is defined and label|length ? label : 'files.widget.title'|trans }}</h6>
             <a class="btn btn-sm btn-icon btn-light-primary me-3 btn-file-action" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary"
-               title="{{ multiple is defined and not multiple ? 'Ajouter un fichier' : 'Ajouter des fichiers' }}">
-                <i class="fas fa-plus"></i>
+               title="{{ (multiple is defined and not multiple ? 'files.widget.add_one' : 'files.widget.add_button')|trans }}">
+                {{ ux_icon('lucide:plus') }}
             </a>
         </div>
 
@@ -524,16 +498,11 @@
 
 {% endblock %}
 
-
-
 {% block aropixel_admin_gallery_file_row -%}
 
-    {{ include('@AropixelAdmin/File/Widget/file.html.twig', { 'form' : form }) }}
+    {{ include('@AropixelAdmin/File/Widget/file.html.twig', {form: form}) }}
 
 {% endblock %}
-
-
-
 
 {% block aropixel_admin_file_row -%}
 
@@ -557,7 +526,7 @@
 
         <div class="form-group row d-flex align-items-center">
 
-            <label for="{{ id }}" class="form-check-label col-form-label">{{ label is defined and label|length ? label : 'Fichiers' }}</label>
+            <label for="{{ id }}" class="form-check-label col-form-label">{{ label is defined and label|length ? label : 'files.widget.title'|trans }}</label>
             <div class="col-form-content">
 
                 <div class="tableFiles" data-placeholder='<div class="itemNew d-flex align-items-center"><span class="text-muted">{% trans %}files.widget.no_selected_file{% endtrans %}</span></div>'>
@@ -569,13 +538,13 @@
                             <div class="d-none">
                                 {{ form_widget(form) }}
                             </div>
-                            <a class="btn btn-primary btn-icon btn-xs m-r-10" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'Ajouter un fichier'|trans }}">
-                                <i class="fas fa-edit"></i>
+                            <a class="btn btn-primary btn-icon btn-xs m-r-10" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'files.widget.add_one'|trans }}">
+                                {{ ux_icon('lucide:square-pen') }}
                             </a>
                             <a class="btn btn-primary btn-icon btn-xs m-r-10" href="{{ aropixel_file_url(form.vars.attachedFile.file) }}">
-                                <i class="fas fa-download"></i>
+                                {{ ux_icon('lucide:download') }}
                             </a>
-                            <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile"><i class="fa fa-unlink"></i></a>
+                            <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile">{{ ux_icon('lucide:unlink') }}</a>
                         </div>
 
                     {%- else -%}
@@ -585,8 +554,8 @@
                                 {{ form_widget(form) }}
                             </div>
                             <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
-                                <i class="icon-files-empty2 mr-2"></i>
-                                {{ 'Ajouter un fichier'|trans }}
+                                {{ ux_icon('lucide:files', {class: 'mr-2'}) }}
+                                {{ 'files.widget.add_one'|trans }}
                             </a>
                         </div>
 
@@ -601,9 +570,6 @@
 
 {%- endblock %}
 
-
-
-
 {% block aropixel_admin_image_widget -%}
 
     {{ enable_image_library_modal() }}
@@ -617,59 +583,51 @@
          data-im-attach-class="{{ form.vars.attach_class }}"
          {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
          data-im-library="{{ form.vars.library }}"
-         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route')}}"
+         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route') }}"
             {% if form.vars.accept is defined and form.vars.accept %}data-im-accept="{{ form.vars.accept }}"{% endif %}
             {% if form.vars.max_size is defined and form.vars.max_size %}data-im-max-size="{{ form.vars.max_size }}"{% endif %}>
 
-        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', { 'form' : form, 'crops': crops is defined ? crops : null }) }}
+        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', {form: form, crops: crops is defined ? crops : null}) }}
 
     </div>
 
 {%- endblock %}
 
-
-
 {% block aropixel_admin_gallery_crops_row -%}
     {{- form_widget(form) -}}
 {%- endblock %}
 
-
-
 {% block aropixel_admin_crops_row -%}
     {% if image %}
-        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', { 'image' : image, 'crops': crops is defined ? crops : null }) }}
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {image: image, crops: crops is defined ? crops : null}) }}
     {% endif %}
     {{- form_widget(form) -}}
 {%- endblock %}
 
-
 {% block aropixel_admin_crops_widget -%}
 
     {% if prototype is defined and not prototype.rendered %}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
     {% endif %}
     {{- block('form_widget') -}}
 
 {%- endblock %}
 
-
 {% block aropixel_admin_crop_row -%}
     {{- form_widget(form) -}}
 {%- endblock %}
-
-
 
 {%- block choice_widget_collapsed -%}
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
         {% set required = false %}
     {%- endif -%}
     {% if multiple %}
-        {% set attr = attr|merge({'class': 'select-multiple'}) %}
-        {% set attr = attr|merge({'style': 'width: 100%;'}) %}
+        {% set attr = attr|merge({class: 'select-multiple'}) %}
+        {% set attr = attr|merge({style: 'width: 100%;'}) %}
     {% elseif attr.class is not defined or 'select2' not in attr.class|join('') %}
-        {% set attr = attr|merge({'class': 'bootstrap-select form-control'}) %}
+        {% set attr = attr|merge({class: 'bootstrap-select form-control'}) %}
     {% endif %}
-    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}{%- if placeholder is not none and ('select2' in attr.class|join('')) -%} data-placeholder="{{placeholder }}"{% endif %}>
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}{%- if placeholder is not none and ('select2' in attr.class|join('')) -%} data-placeholder="{{ placeholder }}"{% endif %}>
         {%- if placeholder is not none and ('select2' in attr.class|join('')) and not multiple -%}
             <option></option>
         {%- endif -%}
@@ -688,11 +646,9 @@
     </select>
 {%- endblock choice_widget_collapsed -%}
 
-
-
 {% block choice_widget_expanded -%}
     {% if '-inline' in label_attr.class|default('') -%}
-        <div {{ block('widget_container_attributes') }} style="height: 36px">
+        <div {{ block('widget_container_attributes') }} class="aro-choice-inline">
             {%- for child in form %}
                 {{- form_widget(child, {
                     parent_label_class: label_attr.class|default(''),
@@ -712,19 +668,16 @@
     {%- endif %}
 {%- endblock %}
 
-
-
 {% block datetime_widget -%}
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' d-flex')|trim}) -%}
     {{- parent() -}}
 {%- endblock %}
 
-
 {% block date_widget -%}
     {% if widget == 'single_text' %}
         <div class="input-group input-group-date">
-            <span class="input-group-text"><i class="far fa-calendar"></i></span>
-            <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="Entrer une date" {% if value is not empty %}value="{{ date(value)|date("d/m/Y", false) }}" {% endif %} />
+            <span class="input-group-text">{{ ux_icon('lucide:calendar') }}</span>
+            <input type="text" class="form-control pickadate" {{ block('widget_attributes') }} placeholder="{{ 'form.date.placeholder'|trans }}" {% if value is not empty %}value="{{ date(value)|date('d/m/Y', false) }}" {% endif %} />
         </div>
     {% else -%}
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
@@ -742,12 +695,11 @@
     {% endif %}
 {%- endblock %}
 
-
 {% block time_widget -%}
     {% if widget == 'single_text' %}
         <div class="input-group input-group-time">
-            <span class="input-group-text"><i class="far fa-clock"></i></span>
-            <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="Entrer une heure&hellip;" {% if value is not empty %}value="{{ value }}" {% endif %} />
+            <span class="input-group-text">{{ ux_icon('lucide:clock') }}</span>
+            <input type="text" class="form-control pickatime" {{ block('widget_attributes') }} placeholder="{{ 'form.time.placeholder'|trans }}" {% if value is not empty %}value="{{ value }}" {% endif %} />
         </div>
     {% else -%}
         {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
@@ -761,10 +713,8 @@
     {% endif %}
 {%- endblock %}
 
-
-
 {% block aropixel_admin_select2_row -%}
-    <div class="form-group form-group-select2{% if (class is defined) %} {{class}}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+    <div class="form-group form-group-select2{% if (class is defined) %} {{ class }}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
         {{- form_label(form) -}}
         <div class="col-form-content">
             {{- form_widget(form) -}}
@@ -773,16 +723,14 @@
     </div>
 {%- endblock %}
 
-
 {% block aropixel_admin_select2_widget -%}
     {% set select2_multiple = multiple %}
-    <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{multiple ? ' data-multiple="1" multiple' : ''}}>
+    <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{ multiple ? ' data-multiple="1" multiple' : '' }}>
         {% for choice in choices %}
-            <option value="{{choice.value}}" data-full_name="{{choice.label}}" selected="selected">{{choice.label}}</option>
+            <option value="{{ choice.value }}" data-full_name="{{ choice.label }}" selected="selected">{{ choice.label }}</option>
         {% endfor %}
     </select>
 {%- endblock %}
-
 
 {% block aropixel_admin_collection_hidden_row -%}
 
@@ -791,41 +739,35 @@
 
 {%- endblock %}
 
-
-
 {% block aropixel_admin_collection_hidden_widget -%}
     {% set select2_multiple = multiple %}
-    <select {{ block('widget_attributes') }} class="hidden d-none" {{multiple ? ' multiple' : ''}}>
+    <select {{ block('widget_attributes') }} class="hidden d-none" {{ multiple ? ' multiple' : '' }}>
         {% for choice in choices %}
-            <option value="{{choice.value}}" selected="selected">{{choice.label}}</option>
+            <option value="{{ choice.value }}" selected="selected">{{ choice.label }}</option>
         {% endfor %}
     </select>
 {%- endblock %}
-
-
 
 {% block money_widget -%}
     <div class="input-group transparent">
         {% set prepend = '{{' == money_pattern[0:2] %}
         {% if not prepend %}
-            <div class="input-group-prepend"><div class="input-group-text">{{ money_pattern|replace({ '{{ widget }}':''}) }}</div></div>
+            <span class="input-group-text">{{ money_pattern|replace({'{{ widget }}': ''}) }}</span>
         {% endif %}
         {% set attr = attr|merge({class: (attr.class|default('') ~ 'numeric')|trim, 'data-a-sep': ' ', 'data-a-dec': ','}) %}
         {{- block('form_widget_simple') -}}
         {% if prepend %}
-            <div class="input-group-append"><div class="input-group-text">{{ money_pattern|replace({ '{{ widget }}':''}) }}</div></div>
+            <span class="input-group-text">{{ money_pattern|replace({'{{ widget }}': ''}) }}</span>
         {% endif %}
     </div>
 {%- endblock money_widget %}
-
-
 
 {%- block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}{%- if select2_multiple is defined and select2_multiple %}[]{% endif -%}"
     {%- if disabled %} disabled="disabled"{% endif -%}
     {%- if required %} required="required"{% endif -%}
     {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
+        {{- ' ' -}}
         {%- if attrname in ['placeholder', 'title'] -%}
             {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
         {%- elseif attrvalue is same as(true) -%}
@@ -836,8 +778,6 @@
     {%- endfor -%}
 {%- endblock widget_attributes -%}
 
-
-
 {% block aropixel_admin_translatable_row %}
 
     {% for child in form.children %}
@@ -845,13 +785,12 @@
         {% set label = child.parent.vars.label %}
 
         <div class="translatable-field translatable-field-{{ child.vars.label }} {% if child.vars.label == app.request.defaultLocale %}active{% endif %}" data-locale="{{ child.vars.label }}">
-            {{ form_row(child, {'label': label ~ ' ('~ child.vars.label ~ ')'})  }}
+            {{ form_row(child, {label: label ~ ' (' ~ child.vars.label ~ ')'}) }}
         </div>
 
     {% endfor %}
 
 {% endblock %}
-
 
 {% block aropixel_admin_translatable_widget %}
 

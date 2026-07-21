@@ -1,0 +1,21 @@
+{# Runtime half of the token layer.
+
+   `aropixel_admin.theme.colors` is a PHP-level theming API that predates the CSS tokens.
+   It used to be applied as inline `style=` attributes, and an inline style beats tokens,
+   the Bootstrap bridge, cascade layers and `!important` alike — so an install themed
+   through the config could not be restyled through the documented CSS API at all. Two
+   theming systems, one silently outranking the other.
+
+   Emitting it as custom properties folds the PHP API into the CSS one: the config still
+   wins, but it wins *as a token*, which every component already reads.
+
+   Must be included after the stylesheet links so it overrides the static defaults in
+   css/foundations/_tokens.css. Values come from application configuration, not user
+   input. #}
+<style>
+    :root {
+        --aro-color-primary: {{ admin_theme.colors.btn_background_color }};
+        --aro-color-primary-contrast: {{ admin_theme.colors.btn_color }};
+        --aro-login-side-bg: {{ admin_theme.colors.background_color }};
+    }
+</style>

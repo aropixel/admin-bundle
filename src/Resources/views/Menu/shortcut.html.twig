@@ -1,2 +1,4 @@
-{% if item.type == 'link' %}{{ include('@AropixelAdmin/Menu/Shortcut/link.html.twig', {'item' : item, 'icon': item.getProperty('icon')})  }}{% endif %}
-{% if item.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {'submenu' : item})  }}{% endif %}
+{% if item.type == 'link' %}{{ include('@AropixelAdmin/Menu/Shortcut/link.html.twig', {item: item, icon: item.getProperty('icon')}) }}{% endif %}
+{# Shortcut/submenu.html.twig, not Menu/submenu.html.twig: the latter renders full sidebar
+   markup, which is wrong inside a search result. #}
+{% if item.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/Shortcut/submenu.html.twig', {submenu: item}) }}{% endif %}

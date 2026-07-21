@@ -1,0 +1,119 @@
+/**
+ * Form — collection, password, upload
+ *
+ * CollectionType rows, password-strength indicator, upload progress.
+ *
+ * On tokens, split out of the 645-line `_form.css` (§16, §7-7). The dead
+ * `.navbar .form-inline .search-result` block (130 lines, no template used it) was dropped.
+ */
+
+/************* COLLECTION *************/
+
+.collection-item {
+    margin-top: var(--aro-space-4);
+    margin-bottom: var(--aro-space-5);
+}
+
+.collection-item .collection-container {
+    display: flex;
+}
+.collection-item .collection-container .collection-commands {
+    padding-top: var(--aro-space-2);
+    border-right: 1px solid var(--aro-color-border);
+    padding-right: var(--aro-space-4);
+}
+.collection-item .collection-container .collection-content .collection-commands {
+    padding-top: var(--aro-space-2);
+    border-right: 0 none;
+    padding-right: 0;
+}
+.collection-item .collection-container .collection-commands a {
+    display: block;
+}
+.collection-item .collection-container .collection-content {
+    margin-left: var(--aro-space-6);
+    flex-grow: 1;
+}
+.collection-item .collection-container .collection-commands .btn-xs {
+    padding: 0 0.5rem;
+    font-size: var(--aro-space-2);
+    line-height: 21px;
+}
+.collection-item .collection-container .collection-commands a.move {
+    color: var(--aro-color-text);
+    margin-top: var(--aro-space-2);
+    cursor: default;
+}
+.collection-item .collection-container .collection-commands a.move i {
+    font-size: var(--aro-space-4);
+}
+
+/****************************************/
+
+
+
+.visual-password-indicator {
+    display: inline-block;
+    background-color: var(--aro-color-text-muted);
+    width: 40px;
+    height: var(--aro-space-1);
+}
+.password-indicator-group {
+    min-width: 80px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.label-indicator-absolute {
+    position: relative;
+}
+.label-indicator-absolute .label {
+    display: inline-block;
+    font-weight: 700;
+    padding: 2px var(--aro-space-1) 1px var(--aro-space-1);
+    line-height: 1.5384616;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    font-size: var(--aro-space-2);
+    letter-spacing: 0.1px;
+    border-radius: 2px;
+}
+.label-indicator-absolute .password-indicator-label-absolute {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 7px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.form-horizontal .label-indicator-absolute .label {
+    right: 27px;
+}
+
+.invalid-feedback {
+    margin-bottom: 14px;
+    margin-top: 0;
+    border-bottom: 2px solid var(--aro-color-danger);
+    padding-bottom: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.form-group.has-error .form-label {
+    margin-bottom: var(--aro-space-2);
+}
+
+.progress-upload {
+    list-style: none;
+    margin-right: var(--aro-space-4);
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+.progress-upload .progress {
+    height: var(--aro-space-2);
+    margin-left: 0;
+    margin-top: var(--aro-space-1);
+}
+.progress-upload .info {
+    font-size: var(--aro-space-3);
+}

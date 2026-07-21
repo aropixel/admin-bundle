@@ -1,7 +1,60 @@
-.dropdown-toggle + .dropdown-menu .dropdown-divider {
-    margin: var(--bs-dropdown-divider-margin-y) 0!important;
+/**
+ * Dropdown menu.
+ *
+ * Row-actions menu, user menu, split-button menus and the admin navigation submenus all
+ * use Bootstrap's `.dropdown-menu`. Only the deltas from Bootstrap's default are here:
+ * icon spacing inside items, a divider tweak, the focus reset.
+ *
+ * Merged from `_menu.css`, whose other half was the abandoned Stisla sidebar
+ * (`.main-sidebar`, `body.layout-3`, `.sidebar-mini`, `.navbar-bg` …) — dead, no template
+ * emits those classes and the required ancestors never exist. Deleted with the file.
+ */
+
+/* Menu border and shadow, and a grey (not teal) active item — kept from `_menu.css`,
+   expressed through Bootstrap's own variables rather than override rules. */
+.dropdown-menu {
+    --bs-dropdown-border-color: var(--aro-color-border);
+    --bs-dropdown-box-shadow: var(--aro-shadow-dropdown);
+    --bs-dropdown-link-active-color: var(--aro-color-text-strong);
+    --bs-dropdown-link-active-bg: var(--aro-color-bg);
 }
+
+.dropdown-toggle + .dropdown-menu .dropdown-divider {
+    margin: var(--bs-dropdown-divider-margin-y) 0 !important;
+}
+
+.dropdown-menu > li > a > i,
+.dropdown-menu > .dropdown-header > i,
+.dropdown-menu > li > a > img,
+.dropdown-menu > .dropdown-header > img {
+    float: left;
+    margin-top: var(--aro-space-2);
+    margin-right: var(--aro-space-3);
+}
+
 .dropdown-toggle + .dropdown-menu .dropdown-item .fa,
 .dropdown-toggle + .dropdown-menu .dropdown-item .fas {
     width: 25px;
+}
+
+.dropdown-menu > li > a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.dropdown-item a {
+    display: block;
+}
+
+.dropdown-menu .accordion-item {
+    border: 0;
+}
+
+.nav-item.accordion {
+    margin-bottom: 0;
+}
+
+.dropdown:focus,
+.dropdown-toggle:focus {
+    outline: none;
 }

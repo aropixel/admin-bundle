@@ -1,0 +1,38 @@
+/**
+ * Bootstrap Tags Input — skin extracted from the Stisla `components.css`.
+ *
+ * Vendored in modules/bootstrap-tagsinput. Kept for parity — see the note at the end of
+ * this file about plugins whose assets ship but are not linked.
+ *
+ * **Transcribed, not restyled.** This is a lift-and-shift so the skin survives the
+ * deletion of `components.css` at Étape 5. Restyling it on tokens is a later, separate
+ * job — mixing the two would make the visual diff of the ablation unreadable.
+ *
+ * `!important` is tolerated in this layer (§7-1): these rules fight stylesheets shipped by
+ * the plugins themselves, and in some cases inline styles set by their JavaScript.
+ */
+
+.bootstrap-tagsinput {
+  background-color: #fdfdff;
+  border-color: #e4e6fc;
+  display: block;
+  height: 46px;
+  box-shadow: none;
+  overflow: auto;
+}
+.bootstrap-tagsinput input {
+  height: 100%;
+  padding: 0 8px;
+}
+.bootstrap-tagsinput .tag {
+  background-color: #6777ef;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+.bootstrap-tagsinput .tag:first-child {
+  margin-left: 5px;
+}
+.bootstrap-tagsinput:focus {
+  background-color: #fefeff;
+  border-color: #95a0f4;
+}

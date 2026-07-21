@@ -1,44 +1,65 @@
-.section-header {
+/**
+ * Section header — the identity block at the top of every screen.
+ *
+ * Public   : .aro-section-header, .header-top, .header-top-left, .header-top-right,
+ *            .header-bottom, .header-image, .tabbable-header, .form-action-btns
+ * Internal : the `.form-action-btns` dropdown internals.
+ *
+ * First component to take the `aro-` prefix (§5). The rename is deliberate and cheap here:
+ * `.section-header` was three occurrences in admin-bundle and one in page-bundle, all
+ * migrated. Bootstrap owns `.card`, `.btn` and `.table`; it does not own this, so the
+ * prefix says plainly which stylesheet a class comes from.
+ *
+ * Six classes were dropped rather than ported — `header-left-content`, `header-right`,
+ * `section-entry-properties`, `section-entry-property`, `section-entry-status`,
+ * `btn-animate-collapse`. None appears in any template of any bundle.
+ */
+
+.aro-section-header {
     align-items: flex-start;
 }
 
 .header-top {
-    margin-bottom: 30px;
+    margin-bottom: var(--aro-section-header-gap);
 }
 
 .header-top-left h1 {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: var(--aro-text-page-title);
+    font-weight: var(--aro-weight-semibold);
 }
 
-.header-breadcrumb {
-    margin-top: 13px;
-    color: #888;
-}
-.header-breadcrumb .breadcrumb {
-    margin: 0;
-}
-
-.header-image + .header-left-content h1 {
-    margin-top: 6px;
-}
-
-.header-right {
+.header-bottom {
     flex: 1;
 }
 
-.header-image {
-    position: relative;
+/* --------------------------------------------------------------- Breadcrumb */
+
+/*
+ * Closes §17 item 3. Bootstrap's default divider is "/"; the design system specifies a
+ * dash. Set through the variable rather than a `::before` override, so the rule survives
+ * a Bootstrap upgrade.
+ */
+.breadcrumb {
+    --bs-breadcrumb-divider: '-';
+    --bs-breadcrumb-divider-color: var(--aro-color-text-subtle);
+    --bs-breadcrumb-item-active-color: var(--aro-color-text-strong);
+
+    margin: 0;
 }
 
-.header-image img {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #fff;
-    margin-right: 14px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 3%);
+.header-breadcrumb,
+.aro-section-header-breadcrumb {
+    margin-top: var(--aro-space-3);
+    color: var(--aro-color-text-subtle);
+}
+
+/* ------------------------------------------------------------- Record avatar */
+
+/* The record avatar now comes from the `.aro-avatar` component (_avatar.css); this wrapper
+   only carries the spacing to the title beside it. */
+.header-image {
+    position: relative;
+    margin-right: var(--aro-space-4);
 }
 
 .header-image .editable-indicator {
@@ -48,90 +69,57 @@
     margin: 0 0 2px 2px;
 }
 
-.btn-animate-collapse span {
-    margin-left: 0;
+.header-image + .header-left-content h1 {
+    margin-top: 6px;
 }
 
-.section-entry-properties {
-    margin-bottom: 30px;
-    padding-right: 10px;
-}
-
-.section-entry-properties strong {
-    font-weight: 500;
-    color: #181c32!important;
-}
-
-.section-entry-property::before {
-    color: #a1a5b7!important;
-    content: " - ";
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.section-entry-property:first-child::before {
-    content: "";
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.section-entry-property + .section-entry-status > div::before {
-    color: #a1a5b7!important;
-    content: " - ";
-    padding-left: 15px;
-    padding-right: 12px;
-}
-
-.section-entry-property {
-    font-size: 12px;
-    color: #7b7d86 !important;
-    font-weight: 400;
-    margin-bottom: 5px;
-}
+/* ------------------------------------------------------------------- Tabs */
 
 .tabbable.tabbable-header li {
-    padding-left: 0;
-    padding-bottom: 0;
-    padding-right: 20px;
+    padding: 0 var(--aro-space-5) 0 0;
 }
 
 .tabbable.tabbable-header li a {
+    padding: 0 var(--aro-space-2) var(--aro-space-4);
     border-bottom: 2px solid transparent;
-    font-weight: 600;
-    font-size: 13px;
-    color: #a1a5b7;
-    padding: 0 0.5rem 0.9rem;
+    color: var(--aro-color-text-subtle);
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    transition: color var(--aro-duration-fast) var(--aro-ease),
+                border-color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.tabbable.tabbable-header li a:hover {
+    color: var(--aro-color-text-label);
 }
 
 .tabbable.tabbable-header li a.active {
-    border-bottom: 2px solid var(--main-bg-color);
-    color: var(--main-bg-color);
+    border-bottom-color: var(--aro-color-primary);
+    color: var(--aro-color-primary);
 }
 
+/* --------------------------------------------------------- Header action bar */
+
 .form-action-btns .form-switch.form-status-switch {
-    align-items: center;
     flex-direction: inherit;
+    align-items: center;
 }
 
 .form-action-btns .form-switch.form-status-switch .form-check-label {
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 10px;
-    font-size: 12px;
+    padding: 0 var(--aro-space-3) 0 0;
+    font-size: var(--aro-text-xs);
 }
 
 .form-action-btns .form-switch.form-status-switch .form-check-input {
-    margin-left: 0 !important;
+    margin-left: 0;
 }
 
-.form-action-btns .dropdown-toggle, .form-action-btns:hover {
-    border-left: 1px solid #f6f8fa !important;
-}
-
+.form-action-btns .dropdown-toggle,
 .form-action-btns .dropdown-toggle.btn:hover {
-    border-left: 1px solid #f6f8fa !important;
+    border-left: 1px solid var(--aro-color-bg);
 }
 
+/* The split-button caret is an ellipsis, not the default triangle. */
 .form-action-btns .dropdown-toggle::after {
     border: none;
     content: '...';
@@ -143,11 +131,9 @@
     width: 100%;
 }
 
-.form-action-btns .dropdown-menu form {
-    width: 100%;
-}
-
-.form-action-btns a.dropdown-item:focus, .form-action-btns a.dropdown-item:active, .form-action-btns a.dropdown-item.active {
-    background-color: #f8f9fa;
-    color: #fc544b;
+.form-action-btns a.dropdown-item:focus,
+.form-action-btns a.dropdown-item:active,
+.form-action-btns a.dropdown-item.active {
+    background-color: var(--aro-color-bg);
+    color: var(--aro-color-danger);
 }

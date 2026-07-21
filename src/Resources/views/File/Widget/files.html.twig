@@ -1,7 +1,7 @@
 {% set prototype_new %}{{ include('AropixelAdminBundle:Themes/Limitless/File/Widget:new.html.twig') }}{% endset %}
 <div class="panel panel-default border-left-xlg border-left-info">
     <div class="panel-heading">
-        <h6 class="panel-title"><i class="icon-paperplane"></i>&nbsp;&nbsp;{% trans %}files.widget.title{% endtrans %}</h6>
+        <h6 class="panel-title">{{ ux_icon('lucide:send') }}&nbsp;&nbsp;{% trans %}files.widget.title{% endtrans %}</h6>
     </div>
     <div class="table-responsive">
         <table class="table tableFiles" data-new="{{ prototype_new|e }}">
@@ -17,7 +17,7 @@
     <div class="panel-footer">
         <div class="heading-elements">
             <a class="btn btn-primary heading-btn pull-right" data-toggle="modal" data-target="#modalFilesLibrary">
-                <i class="icon-files-empty2 position-left"></i>
+                {{ ux_icon('lucide:files', {class: 'position-left'}) }}
                 {{ label is defined and label|length ? label : 'files.widget.add_button'|trans }}
             </a>
         </div>

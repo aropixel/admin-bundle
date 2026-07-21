@@ -5,8 +5,8 @@
     </a>
     <ul class="menu_level_1 dropdown-menu">
         {% for subitem in submenu.items %}
-            {% if subitem.type == 'link' %}{{ include('@AropixelAdmin/Menu/link.html.twig', {'link' : subitem})  }}{% endif %}
-            {% if subitem.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {'submenu' : subitem})  }}{% endif %}
+            {% if subitem.type == 'link' %}{{ include('@AropixelAdmin/Menu/link.html.twig', {link: subitem}) }}{% endif %}
+            {% if subitem.type == 'submenu' %}{{ include('@AropixelAdmin/Menu/submenu.html.twig', {submenu: subitem}) }}{% endif %}
         {% endfor %}
     </ul>
 </li>

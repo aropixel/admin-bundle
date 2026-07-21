@@ -1,0 +1,67 @@
+/**
+ * Site switcher and impersonation modal.
+ *
+ * Public   : #searchNavBody, #impersonateModal
+ *
+ * Split out of `_search-nav.css`, which had grown past the 200-line cap of §7-7 by hosting
+ * two unrelated features. They only ever shared a file, never a concern.
+ *
+ * ⚠ **Not covered by the visual baseline** — the modal opens on click.
+ */
+
+#searchNavBody .modal-header, #impersonateModal .modal-header {
+    padding-bottom: var(--aro-space-6);
+    border-bottom: 1px solid var(--aro-color-border-line);
+}
+
+#searchNavBody .modal-body, #impersonateModal .modal-body {
+    padding: 0;
+}
+
+#searchNavBody .modal-body a, #impersonateModal .modal-body a {
+    font-size: 14px;
+    padding: var(--aro-space-4) var(--aro-space-5);
+    text-transform: uppercase;
+    color: var(--aro-color-text);
+    border-bottom: 1px solid var(--aro-color-border-line);
+}
+
+#searchNavBody .modal-body a.hidden, #impersonateModal .modal-body a.hidden {
+    display: none;
+}
+
+#searchNavBody .modal-body a:hover, #impersonateModal .modal-body a:hover {
+    text-decoration: none;
+    background-color: var(--aro-color-bg);
+}
+
+#searchNavBody .modal-body a:hover .fa-random, #impersonateModal .modal-body a:hover .fa-random {
+    opacity: 1;
+    transition: opacity 0.30s ease-in-out;
+}
+
+#searchNavBody .modal-body .fa-laptop,
+#searchNavBody .modal-body .fa-network-wired,
+#impersonateModal .modal-body .fa-laptop,
+#impersonateModal .modal-body.fa-network-wired {
+    margin-right: var(--aro-space-5);
+    width: var(--aro-space-6);
+    line-height: var(--aro-space-6);
+    border-radius: 50%;
+    text-align: center;
+    font-size: var(--aro-space-2);
+}
+
+#searchNavBody .modal-body .fa-laptop, #impersonateModal .modal-body .fa-laptop {
+    background-color: color-mix(in srgb, var(--aro-color-cta) 16%, transparent);
+}
+
+#searchNavBody .modal-body .fa-network-wired, #impersonateModal .modal-body .fa-network-wired {
+    background-color: color-mix(in srgb, var(--aro-color-primary) 22%, transparent);
+}
+
+#searchNavBody .modal-body .fa-random, #impersonateModal .modal-body .fa-random {
+    margin-right: var(--aro-space-5);
+    opacity: 0;
+    transition: opacity 0.30s ease-in-out;
+}

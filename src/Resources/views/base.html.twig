@@ -10,8 +10,7 @@
         {% block stylesheets %}
 
         <!-- General CSS Files -->
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/ionicons/css/ionicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/foundations/_bootstrap-layer.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
@@ -26,13 +25,12 @@
 
             <!-- Template CSS -->
             <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
 
             <!-- Awesome Font -->
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
 
         {% endblock %}
+
+        {{ include('@AropixelAdmin/_theme-tokens.html.twig') }}
 
         {% block asset_manager %}
             {% if aropixel_asset_mapper_enabled %}
@@ -57,12 +55,12 @@
 
             <div class="main-wrapper main-wrapper-1">
 
-                {% include '@AropixelAdmin/Menu/fullscreen.html.twig' %}
+                {{ include('@AropixelAdmin/Menu/fullscreen.html.twig') }}
 
                 <!-- Main Content -->
                 <div class="main-content main-content-fullscreen">
 
-                    <section class="section-header mt-3">
+                    <section class="aro-section-header mt-3">
 
                         {% block header %}
 
@@ -78,7 +76,7 @@
 
                                                 <h1>{% block header_title %}{% endblock %}</h1>
 
-                                                <div class="section-header-breadcrumb">
+                                                <div class="aro-section-header-breadcrumb">
                                                     {% block header_breadcrumb %}{% endblock %}
                                                 </div>
 
@@ -116,7 +114,7 @@
                     <div class="main-footer-fullscreen">
                         {% block footer_left %}
                             <div class="footer-left">
-                                {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
+                                {{ 'now'|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
                             </div>
                         {% endblock %}
 
@@ -183,7 +181,9 @@
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
             <script type="module">
-                import { initImageManager } from '/bundles/aropixeladmin/js/module/image-manager/launcher.js';
+                {# Must go through asset(): a hardcoded absolute path breaks any install
+                   served from a sub-directory rather than the domain root. #}
+                import { initImageManager } from '{{ asset('bundles/aropixeladmin/js/module/image-manager/launcher.js') }}';
                 window.initImageManager = initImageManager;
             </script>
         {% endblock %}

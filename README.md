@@ -10,6 +10,22 @@ The `AropixelAdminBundle` is a **developer-friendly streamlined administration f
 
 As a facilitator, it helps automate repetitive CRUD tasks through a custom `make:crud` generator that starts from your own `FormType`.
 
+## See it — no install required
+
+The bundle's core value is the **Symfony toolbox**: the `make:crud` generator that builds a
+CRUD from *your own* `FormType`, the reusable form-type layouts, the `DataTable` component,
+and the image / gallery widgets. The admin UI is the part you *don't* have to build.
+
+That UI is a token-based design system on Bootstrap 5 — every colour, spacing and radius is a
+`--aro-*` CSS variable, so you re-theme it from a handful of custom properties. Browse every
+component, in every state, rendered on the real bundle CSS:
+
+**▶ [Open the live component catalogue](https://aropixel.github.io/admin-bundle/)**
+
+[![AropixelAdminBundle component catalogue — buttons, badges, colours and typography rendered on the real bundle CSS](doc/assets/catalog-preview.png)](https://aropixel.github.io/admin-bundle/)
+
+> The catalogue is also served in-app at `/admin/_catalog` (dev environment only), where it
+> cannot drift from what the admin actually looks like.
 
 Our suite of tools consists of several modules, each dedicated to specific aspects of website administration:
 

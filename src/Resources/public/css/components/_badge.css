@@ -1,59 +1,118 @@
+/**
+ * Badge and status indicators.
+ *
+ * Public   : .badge, .badge-icon, .state-icon (+ --online/--scheduled/--offline),
+ *            .img-state-icon, .status-tag
+ * Inherited: colour comes from Bootstrap's `.text-bg-*`, themed through the bridge.
+ *
+ * Colour variants are deliberately absent. The file used to ship `.badge-default` and the
+ * templates used `.badge-light` / `.badge-danger` — Bootstrap **4** classes, removed in 5,
+ * so they had silently stopped doing anything. Rather than reimplement a dead vocabulary,
+ * the templates were migrated to Bootstrap's `.text-bg-*`. Closes §17 item 7.
+ *
+ * The status indicators were declared twice, here and in the old `custom.css`, with
+ * different values for the same states. They now live here only — this is where a reader
+ * looks for them. The manifest is now `style.css`: imports plus a small tail of genuinely
+ * global rules.
+ */
 
 .badge {
-    text-transform: uppercase;
+    padding: var(--aro-space-1) var(--aro-space-3);
     border: 1px solid transparent;
-    font-size: 10px;
+    border-radius: var(--aro-radius-xs);
+    font-size: var(--aro-text-badge);
+    font-weight: var(--aro-weight-medium);
+    line-height: var(--aro-leading-prose);
     letter-spacing: 0.4px;
-    line-height: 1.7;
-    font-weight: 500;
-    border-radius: 2px;
-    padding: 5px 12px;
+    text-transform: uppercase;
 }
-.badge-flat {
-    background-color: transparent;
-    border-width: 2px;
-    border-radius: 0;
-    padding: 1px 4px 0 4px;
-}
-.badge-sm {
-    padding: 3px 8px;
-}
-.badge-xs {
-    padding: 4px 5px;
-    font-size: 9px;
-    line-height: 1;
-}
+
+/* Square badge holding a single icon — used as the row-actions trigger in lists. */
 .badge-icon {
-    padding: 8px;
-    border-radius: 2px;
+    padding: var(--aro-space-2);
+    border-radius: var(--aro-radius-xs);
     line-height: 1;
-}
-.badge-rounded {
-    border-radius: 100px;
-}
-.badge-default {
-    color: #fff;
-    background-color: #999999;
-    border-color: #999999;
 }
 
 a.badge:hover {
     cursor: pointer;
 }
 
-.img-state-icon.state-icon--online {
-    background-color: #0CABA8;
-}
-.img-state-icon.state-icon--offline {
-    background-color: #dcdcdc;
-}
-.img-state-icon {
-    border: 3px solid #fff;
-    border-radius: 50%;
-    bottom: 0;
+/* ------------------------------------------------------- Publication status */
+
+/*
+ * The recurring content model of the admin: online, scheduled, offline. Teal for online
+ * ties the state to the brand rather than to a generic success green — the arbitration is
+ * recorded in §12.
+ */
+.state-icon {
     display: block;
+    width: 15px;
     height: 15px;
+    border-radius: 50%;
+}
+
+.state-icon--online {
+    background-color: var(--aro-color-surface);
+    border: 3px solid var(--aro-status-online);
+}
+
+.state-icon--scheduled {
+    background-color: var(--aro-color-surface);
+    border: 3px solid var(--aro-status-scheduled);
+}
+
+.state-icon--offline {
+    background-color: var(--aro-status-offline);
+}
+
+/* Same states, overlaid on a thumbnail: filled disc rather than a ring. */
+.img-state-icon {
     position: absolute;
     right: -7px;
+    bottom: 0;
+    display: block;
     width: 15px;
+    height: 15px;
+    border: 3px solid var(--aro-color-surface);
+    border-radius: 50%;
+}
+
+.img-state-icon.state-icon--online {
+    background-color: var(--aro-status-online);
+}
+
+.img-state-icon.state-icon--scheduled {
+    background-color: var(--aro-status-scheduled);
+}
+
+.img-state-icon.state-icon--offline {
+    background-color: var(--aro-status-offline);
+}
+
+/* Icon-only variant of the same states, used inside tables. */
+.fa-circle--online {
+    color: var(--aro-status-online);
+}
+
+.fa-circle--scheduled {
+    color: var(--aro-status-scheduled);
+}
+
+.fa-circle--offline {
+    color: var(--aro-status-offline);
+}
+
+/* Status caption floated over a thumbnail. */
+.status-tag {
+    top: 10px;
+    right: 10px;
+    padding: var(--aro-space-1);
+    border-radius: var(--aro-radius-xs);
+    background-color: rgba(255, 255, 255, 0.73);
+    font-size: var(--aro-text-xs);
+}
+
+.status-tag i {
+    font-size: 11px;
 }

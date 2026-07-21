@@ -1,0 +1,68 @@
+/**
+ * Avatar — round thumbnail for a record (project, post, user…).
+ *
+ * Public : .aro-avatar, .aro-avatar--sm / --lg, .aro-avatar__placeholder,
+ *          .aro-avatar__status
+ *
+ * Formalises the page-header `.header-image`, which used to render a bare <img> even when
+ * the record had no image — showing a flat grey circle (§17 item 6). The component gives
+ * that empty state a real treatment: a muted surface with a centred icon.
+ *
+ * The status dot reuses the publication-state tokens from `_badge.css`, so an avatar and a
+ * status indicator elsewhere on the page always agree on colour.
+ */
+
+.aro-avatar {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 65px;
+    overflow: hidden;
+    border: 4px solid var(--aro-color-surface);
+    border-radius: 50%;
+    box-shadow: var(--aro-shadow-card);
+}
+
+.aro-avatar img,
+.aro-avatar__placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.aro-avatar img {
+    object-fit: cover;
+}
+
+/* Empty state — a muted surface and a centred glyph, instead of a flat grey disc. */
+.aro-avatar__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--aro-color-bg);
+    color: var(--aro-color-text-subtle);
+    font-size: 24px;
+}
+
+/* Status dot, overlaid bottom-right, matching the publication-state palette. */
+.aro-avatar__status {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 14px;
+    height: 14px;
+    border: 3px solid var(--aro-color-surface);
+    border-radius: 50%;
+    background-color: var(--aro-status-offline);
+}
+
+.aro-avatar__status--online { background-color: var(--aro-status-online); }
+.aro-avatar__status--scheduled { background-color: var(--aro-status-scheduled); }
+
+/* Sizes */
+.aro-avatar--sm { width: 40px; height: 40px; border-width: 2px; }
+.aro-avatar--sm .aro-avatar__placeholder { font-size: 15px; }
+.aro-avatar--lg { width: 90px; height: 90px; }
+.aro-avatar--lg .aro-avatar__placeholder { font-size: 34px; }

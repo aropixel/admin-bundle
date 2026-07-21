@@ -1,59 +1,32 @@
-.modal-xxl {
-    width: 90vw;
-    max-width: none;
+/**
+ * Modal.
+ *
+ * Public   : .modal-full, .modal-title
+ * Inherited: sizing and colours from Bootstrap's `--bs-modal-*`, themed through the bridge.
+ *
+ * Dropped as dead: `.modal-xxl`, `.modal-xs` (no template) and the coloured-header
+ * variants `.modal-header.bg-*` (no template applies a bg class to a modal header).
+ */
+
+.modal-title {
+    font-weight: var(--aro-weight-semibold);
 }
 
+.modal-header {
+    --bs-modal-header-padding: var(--aro-space-4) var(--aro-space-6);
+}
+
+/* A popover raised inside a modal must clear the modal's own stacking context. */
 .modal .popover {
     z-index: 9999;
 }
 
-.modal-header {
-    padding: 15px 25px !important;
-}
-.modal-title {
-    font-weight: 600;
-}
-.modal-header.bg-danger,
-.modal-header.bg-success,
-.modal-header.bg-primary
-{
-    padding: 18px 25px 15px;
-}
-.modal-header.bg-danger .modal-title,
-.modal-header.bg-success .modal-title,
-.modal-header.bg-primary .modal-title {
-    color: #fff;
-}
-.modal-header.bg-danger .close,
-.modal-header.bg-success .close,
-.modal-header.bg-primary .close {
-    color: #fff;
-    opacity: 0.9;
-    text-shadow: none;
-}
-.modal-header.bg-danger + .modal-body,
-.modal-header.bg-success + .modal-body,
-.modal-header.bg-primary + .modal-body {
-    padding-top: 25px;
-}
-
-
-
-@media (min-width: 1200px) {
-    .modal-xxl {
-        width: 85vw;
-        max-width: none;
-    }
-}
-
+/* Near-full-width modal for the media library. */
 @media (min-width: 769px) {
-    .modal-xs {
-        width: 300px;
-    }
     .modal-full {
         width: 94%;
         max-width: 94%;
-        margin-left: 3%;
         margin-right: 3%;
+        margin-left: 3%;
     }
 }

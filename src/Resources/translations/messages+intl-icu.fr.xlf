@@ -341,10 +341,6 @@
         <source>images.widget.button.edit_image</source>
         <target>Modifier l'image</target>
       </trans-unit>
-      <trans-unit id="hwZ7Mjk" resname="images.widget.crop_image">
-        <source>images.widget.crop_image</source>
-        <target>Recadrer l'image</target>
-      </trans-unit>
       <trans-unit id="cqt2vMv" resname="images.widget.button.crop_image">
         <source>images.widget.button.crop_image</source>
         <target>Redimensionner l'image</target>
@@ -373,8 +369,8 @@
         <source>text.no_title</source>
         <target>Sans titre</target>
       </trans-unit>
-      <trans-unit id="oIU8AWj" resname="text_choose_image">
-        <source>text_choose_image</source>
+      <trans-unit id="oIU8AWj" resname="text.choose_image">
+        <source>text.choose_image</source>
         <target>Choisissez une image</target>
       </trans-unit>
       <trans-unit id="HOfGtpn" resname="text.featured_image">
@@ -777,13 +773,45 @@
         <source>menu.menu.footer</source>
         <target>Footer</target>
       </trans-unit>
-      <trans-unit id="error.upload.title" resname="error.upload.title">
-        <source>error.upload.title</source>
-        <target>Erreur lors de l'upload</target>
+      <trans-unit id="form.video.preview" resname="form.video.preview">
+        <source>form.video.preview</source>
+        <target>Aperçu de votre vidéo</target>
       </trans-unit>
-      <trans-unit id="text.close" resname="text.close">
-        <source>text.close</source>
-        <target>Fermer</target>
+      <trans-unit id="files.widget.add_one" resname="files.widget.add_one">
+        <source>files.widget.add_one</source>
+        <target>Ajouter un fichier</target>
+      </trans-unit>
+      <trans-unit id="form.date.placeholder" resname="form.date.placeholder">
+        <source>form.date.placeholder</source>
+        <target>Entrer une date</target>
+      </trans-unit>
+      <trans-unit id="form.time.placeholder" resname="form.time.placeholder">
+        <source>form.time.placeholder</source>
+        <target>Entrer une heure…</target>
+      </trans-unit>
+      <trans-unit id="text.new" resname="text.new">
+        <source>text.new</source>
+        <target>Nouveau</target>
+      </trans-unit>
+      <trans-unit id="text.error" resname="text.error">
+        <source>text.error</source>
+        <target>Erreur</target>
+      </trans-unit>
+      <trans-unit id="text.save" resname="text.save">
+        <source>text.save</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="form.tab.creation" resname="form.tab.creation">
+        <source>form.tab.creation</source>
+        <target>Date de création</target>
+      </trans-unit>
+      <trans-unit id="form.tab.publish_dates" resname="form.tab.publish_dates">
+        <source>form.tab.publish_dates</source>
+        <target>Dates de publication</target>
+      </trans-unit>
+      <trans-unit id="form.button.continue_editing" resname="form.button.continue_editing">
+        <source>form.button.continue_editing</source>
+        <target>Continuer mes modifications</target>
       </trans-unit>
     </body>
   </file>

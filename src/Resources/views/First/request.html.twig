@@ -19,11 +19,11 @@
 
                             <div class="card-body">
                                 {% if not_found %}<div class="alert alert-danger">{% trans %}first_connexion.request.alert.not_found{% endtrans %}</div>{% endif %}
-                                {% if already_initialized %}<div class="alert alert-danger">{% trans with {'link' : path('aropixel_admin_reset_request')} %}first_connexion.request.alert.already_initialized{% endtrans %}</div>{% endif %}
+                                {% if already_initialized %}<div class="alert alert-danger">{% trans with {link: path('aropixel_admin_reset_request')} %}first_connexion.request.alert.already_initialized{% endtrans %}</div>{% endif %}
 
                                 <div class="mt-4 mb-4">
                                     <label for="email" class="mb-2">{% trans %}first_connexion.request.form.email{% endtrans %}</label>
-                                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.email, {attr: {class: 'form-control'}}) }}
                                 </div>
 
                             </div>
@@ -35,7 +35,7 @@
 
                         <br /><br /><br />
                         <div class="simple-footer">
-                            Copyright &copy; {{ admin_client.name }} {{ "now"|date('Y') }}
+                            Copyright &copy; {{ admin_client.name }} {{ 'now'|date('Y') }}
                         </div>
                     </div>
                 </div>

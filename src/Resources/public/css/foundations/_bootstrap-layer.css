@@ -1,0 +1,31 @@
+/**
+ * Loads Bootstrap into a cascade layer.
+ *
+ * Linked from base.html.twig and Security/login.html.twig, in place of the direct
+ * <link> to bootstrap.min.css. @import only takes effect at the top of a stylesheet, so
+ * this cannot be folded into style.css, which loads last and carries rules of its own.
+ *
+ * Unlayered CSS always beats layered CSS, whatever the specificity. Putting Bootstrap —
+ * and only Bootstrap — in a layer therefore means every rule we write wins over it by
+ * construction, without `!important` and without specificity games. That is what makes
+ * the "zero `!important` in components/" rule of §7 enforceable rather than aspirational.
+ *
+ * It also settles the override contract of §5 for free: an integrator's own stylesheet is
+ * unlayered too, so it keeps winning over ours.
+ *
+ * Two traps worth naming:
+ *
+ * 1. Layering *our* CSS instead would have the opposite effect — it would put us below
+ *    Bootstrap, which is strictly worse than doing nothing.
+ *
+ * 2. Timing matters. Enabling this while Stisla was still loaded was tried and reverted:
+ *    layering Bootstrap does not only let *our* CSS win, it lets **everything unlayered**
+ *    win, and that included 5 118 lines of Stisla. Measured effect at the time: 40 of 48
+ *    screens shifted, because Stisla rules that Bootstrap used to beat on specificity
+ *    suddenly won. Enabled here, immediately after the ablation, the change means exactly
+ *    one thing — our CSS wins over Bootstrap.
+ */
+
+@layer bootstrap;
+
+@import url("../../modules/bootstrap/css/bootstrap.min.css") layer(bootstrap);

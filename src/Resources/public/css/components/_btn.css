@@ -1,158 +1,103 @@
+/**
+ * Button — base, sizes and icon buttons.
+ *
+ * Colour variants and the action hierarchy live in `_btn-variants.css`.
+ *
+ * ---------------------------------------------------------------------------------
+ * CONVENTIONS — this file is the template for the other components
+ * ---------------------------------------------------------------------------------
+ *
+ * 1. Drive Bootstrap through its own component variables (`--bs-btn-*`) rather than
+ *    overriding its rules. Bootstrap then computes hover, focus, active and disabled
+ *    states for us, consistently, and we write a third of the CSS.
+ * 2. No `!important`. Bootstrap is in a cascade layer, so it loses by construction.
+ * 3. No raw value. Every colour, radius, shadow and spacing comes from a token.
+ * 4. Every interactive element declares :hover, :focus-visible and :disabled.
+ */
+
 .btn {
-    padding: 0.75rem 1.5rem;
-    box-shadow: none !important;
-    line-height: initial !important;
-    font-weight: 600 !important;
+    --bs-btn-padding-y: var(--aro-space-3);
+    --bs-btn-padding-x: var(--aro-space-6);
+    --bs-btn-font-weight: var(--aro-weight-semibold);
+    --bs-btn-border-radius: var(--aro-radius-input);
+    --bs-btn-box-shadow: none;
+    --bs-btn-focus-box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
+
+    line-height: 1;
+    transition: background-color var(--aro-duration-fast) var(--aro-ease),
+                border-color var(--aro-duration-fast) var(--aro-ease),
+                color var(--aro-duration-fast) var(--aro-ease);
 }
 
-.btn-reset {
-    padding: 0;
-    box-shadow: none !important;
-    line-height: initial !important;
-    border: none;
-    background-color: transparent !important;
-}
+/* ---------------------------------------------------------------------- Sizes */
 
-.btn-default, .btn-default.disabled {
-    box-shadow: 0 1px 3px #e6ecf1;
-    background-color: #fff;
-    border-color: #fff;
-    color: #495057;
-}
-
-.btn-outline, .btn-outline.disabled {
-    box-shadow: 0 1px 3px #e6ecf1;
-    background-color: #fff;
-    border: 2px solid #495057!important;
-    color: #495057;
-}
-
-.btn.btn-outline:not(.btn-social):not(.btn-social-icon):active,
-.btn.btn-outline:not(.btn-social):not(.btn-social-icon):focus,
-.btn.btn-outline:not(.btn-social):not(.btn-social-icon):hover {
-    border-color: var(--main-bg-color)!important;
-}
-
-.btn-disabled, .btn.btn-disabled:not(.btn-social):not(.btn-social-icon):hover {
-    box-shadow: 0 1px 3px #e6ecf1;
-    background-color: #f3f3f3;
-    color: #acb7c2;
-    cursor: default;
-}
-.btn-disabled i {
-    color: #acb7c2;
-}
-
-.btn-primary, .btn-primary.disabled, .btn-primary:disabled, fieldset:disabled .btn-primary {
-    box-shadow: 0 2px 6px var(--main-light-color);
-    background-color: var(--main-bg-color);
-    border: none;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary.disabled:focus:active,
-.btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled:hover {
-    background-color: var(--main-darker-bg-color) !important;
-    color: #fff !important;
-}
-
-.btn-secondary {
-    background-color: var(--second-bg-color);
-    border: none;
-    color: #fff;
-}
-
-.btn-secondary:hover,  .btn-secondary:focus, .btn-secondary:active {
-    background-color: var(--second-darker-bg-color) !important;
-    color: #fff !important;
-}
-
-.btn.btn-rounded.btn-sm {
-    padding: 0;
-    font-size: 12px;
-    width: 28px;
-    height: 28px;
-}
-.btn.btn-rounded.btn-sm .fas,
-.btn.btn-rounded.btn-sm .far,
-.btn.btn-rounded.btn-sm .fal,
-.btn.btn-rounded.btn-sm .fab {
-    margin-right: 0;
-}
-.btn-flat {
-    border-width: 2px;
-    background-color: transparent;
-}
-.btn-rounded {
-    border-radius: 100px;
+/*
+ * Each size sets its own font-size, not just its padding. Without this, text on a small
+ * button stayed at the base size — a small button with full-size text. `rem` would not
+ * fix that: rem is relative to the root, not the button. The size token is the fix.
+ */
+.btn {
+    --bs-btn-font-size: var(--aro-text-base);
 }
 
 .btn.btn-small {
-    padding: 8px 15px !important;
-    box-shadow: none !important;
-    line-height: initial !important;
-    font-weight: 600 !important;
+    --bs-btn-padding-y: var(--aro-space-2);
+    --bs-btn-padding-x: var(--aro-space-4);
+    --bs-btn-font-size: var(--aro-text-sm);
 }
 
 .btn.btn-xs {
-    padding: 6px 10px !important;
-    box-shadow: none !important;
-    line-height: initial !important;
-    font-weight: 400 !important;
+    --bs-btn-padding-y: 6px;
+    --bs-btn-padding-x: var(--aro-space-3);
+    --bs-btn-font-size: var(--aro-text-xs);
+    --bs-btn-font-weight: var(--aro-weight-regular);
 }
+
+/* --------------------------------------------------------------- Icon buttons */
 
 .btn-icon {
-    border-radius: 0.225rem;
+    --bs-btn-border-radius: var(--aro-radius-sm);
 }
 
-.btn.btn-icon.btn-sm .ion, .btn.btn-icon.btn-sm .fas, .btn.btn-icon.btn-sm .far, .btn.btn-icon.btn-sm .fab, .btn.btn-icon.btn-sm .fal {
+.btn.btn-icon.btn-sm .ion,
+.btn.btn-icon.btn-sm .fas,
+.btn.btn-icon.btn-sm .far,
+.btn.btn-icon.btn-sm .fab,
+.btn.btn-icon.btn-xs .ion,
+.btn.btn-icon.btn-xs .fas,
+.btn.btn-icon.btn-xs .far,
+.btn.btn-icon.btn-xs .fab {
     font-size: 10px;
 }
 
-.btn.btn-icon.btn-xs .ion, .btn.btn-icon.btn-xs .fas, .btn.btn-icon.btn-xs .far, .btn.btn-icon.btn-xs .fab, .btn.btn-icon.btn-xs .fal {
-    font-size: 10px;
-}
-
-.btn-icon-group {
-    display: flex;
-    justify-content: space-around;
-}
-
-.btn-icon-group i {
-    font-size: 16px;
-    color: var(--main-darker-bg-color);
-}
-
-.btn-icon-group .fa-trash {
-    color: var(--danger-color);
-}
-
-.btn-outline-lg {
-    border-width: 2px;
-}
-
+/*
+ * Stacked FontAwesome icon used as a bare button — 20 occurrences, mostly row actions in
+ * lists. Not a `.btn` at all, which is why it needs its own reset.
+ */
 button.fa-stack {
-    background: none;
-    color: var(--main-bg-color);
-    font-weight: 500;
-    transition: all .5s;
-    -webkit-transition: all .5s;
-    -o-transition: all .5s;
-    border: 0 none;
-    cursor: pointer;
     position: relative;
+    background: none;
+    border: 0 none;
+    color: var(--aro-color-primary);
+    font-weight: var(--aro-weight-medium);
+    cursor: pointer;
+    transition: color var(--aro-duration-fast) var(--aro-ease);
 }
-button.fa-stack .fa-stack-2x, button.fa-stack .fa-stack-1x {
+
+button.fa-stack .fa-stack-1x,
+button.fa-stack .fa-stack-2x {
     top: 0;
 }
 
 button.fa-stack.danger .fa-circle {
-    color: #fc544b;
+    color: var(--aro-color-danger);
 }
 
 button.fa-stack.danger:hover .fa-circle {
-    color: #fb160a !important;
+    color: var(--aro-color-danger);
+    filter: brightness(0.85);
 }
 
 button.fa-stack.danger .fa-stack-1x {
-    color: #fff;
+    color: var(--aro-color-text-inverted);
 }

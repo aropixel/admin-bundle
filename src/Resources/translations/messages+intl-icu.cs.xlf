@@ -773,6 +773,46 @@
         <source>menu.menu.footer</source>
         <target>Zápatí</target>
       </trans-unit>
+      <trans-unit id="form.video.preview" resname="form.video.preview">
+        <source>form.video.preview</source>
+        <target>Náhled videa</target>
+      </trans-unit>
+      <trans-unit id="files.widget.add_one" resname="files.widget.add_one">
+        <source>files.widget.add_one</source>
+        <target>Přidat soubor</target>
+      </trans-unit>
+      <trans-unit id="form.date.placeholder" resname="form.date.placeholder">
+        <source>form.date.placeholder</source>
+        <target>Zadejte datum</target>
+      </trans-unit>
+      <trans-unit id="form.time.placeholder" resname="form.time.placeholder">
+        <source>form.time.placeholder</source>
+        <target>Zadejte čas…</target>
+      </trans-unit>
+      <trans-unit id="text.new" resname="text.new">
+        <source>text.new</source>
+        <target>Nový</target>
+      </trans-unit>
+      <trans-unit id="text.error" resname="text.error">
+        <source>text.error</source>
+        <target>Chyba</target>
+      </trans-unit>
+      <trans-unit id="text.save" resname="text.save">
+        <source>text.save</source>
+        <target>Uložit</target>
+      </trans-unit>
+      <trans-unit id="form.tab.creation" resname="form.tab.creation">
+        <source>form.tab.creation</source>
+        <target>Datum vytvoření</target>
+      </trans-unit>
+      <trans-unit id="form.tab.publish_dates" resname="form.tab.publish_dates">
+        <source>form.tab.publish_dates</source>
+        <target>Data publikace</target>
+      </trans-unit>
+      <trans-unit id="form.button.continue_editing" resname="form.button.continue_editing">
+        <source>form.button.continue_editing</source>
+        <target>Pokračovat v úpravách</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

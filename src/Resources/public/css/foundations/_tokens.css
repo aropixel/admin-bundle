@@ -1,0 +1,225 @@
+/**
+ * Design tokens.
+ *
+ * The public theming API of the bundle: an integrator restyles the admin by overriding
+ * these custom properties, never by writing selectors. Values are transcribed from the
+ * "Aropixel Admin Design System" project, which is the visual contract — see
+ * doc/design-system.md §4.
+ *
+ * Declaring a token changes nothing on its own. Components consume them progressively as
+ * they are rebuilt; until then the old values live on in the component files.
+ *
+ * Two rules make this layer worth having:
+ *   1. No raw value outside this file — no hex, no spacing literal, no shadow.
+ *   2. Tokens are named by role, not by appearance: `--aro-color-surface`, never
+ *      `--aro-color-white`. Roles survive a redesign; appearances do not.
+ *
+ * Both are enforced by `castor qa:design-system`.
+ */
+
+:root {
+    /* ------------------------------------------------------------------ Brand */
+
+    --aro-color-primary: #06BAB4;
+    --aro-color-primary-hover: #05A29D;
+    --aro-color-primary-contrast: #FFFFFF;
+    /* Translucent teal tint — soft primary surface (e.g. the navbar user-icon circle). */
+    --aro-color-primary-subtle: rgba(122, 220, 218, 0.71);
+
+    --aro-color-secondary: #2E4F5E;
+    --aro-color-secondary-hover: #223C48;
+    --aro-color-secondary-contrast: #FFFFFF;
+
+    /*
+     * Coral is reserved for the single highest-emphasis action on a screen — save,
+     * confirm-and-publish. It is not a third brand colour to reach for: used twice on the
+     * same page it stops meaning anything. Hierarchy is coral > primary > secondary.
+     */
+    --aro-color-cta: #FF6B5B;
+    --aro-color-cta-hover: #F0503F;
+    --aro-color-cta-contrast: #FFFFFF;
+
+    /* -------------------------------------------------------------- Semantic */
+
+    --aro-color-success: #63CEB3;
+    --aro-color-danger: #E52321;
+    --aro-color-warning: #F25C05;
+    --aro-color-info: #E39B02;
+
+    /* -------------------------------------------------------------- Surfaces */
+
+    --aro-color-bg: #F5F8FA;
+    --aro-color-surface: #FFFFFF;
+
+    /* ------------------------------------------------------------------ Text */
+
+    --aro-color-text: #333333;
+    --aro-color-text-strong: #181C32;
+    --aro-color-text-label: #3F4254;
+    --aro-color-text-muted: #99A1B7;
+    --aro-color-text-subtle: #A1A5B7;
+    --aro-color-text-inverted: #FFFFFF;
+
+    /* --------------------------------------------------------------- Borders */
+
+    --aro-color-border: #DDE1E5;
+    --aro-color-border-card: #F1F1F2;
+    --aro-color-border-line: #ECECEC;
+    --aro-color-border-focus: var(--aro-color-primary);
+
+    /* ------------------------------------------------------------ Form fields */
+
+    /* Resting fill is white with a visible border, not the grey fill described in the
+       design system readme — the tokens there were revised after that prose was written,
+       and white is what works on a grey app background. */
+    --aro-field-bg: #FFFFFF;
+    --aro-field-border: #D7DCE2;
+    --aro-field-bg-disabled: #F2F4F7;
+    --aro-field-border-disabled: #E4E8EC;
+
+    /* ------------------------------------------------------- Status indicators */
+
+    --aro-status-online: #06BAB4;
+    --aro-status-scheduled: #FFC700;
+    --aro-status-offline: #E7E7E7;
+
+    /* ------------------------------------------------------------- Menu accents */
+
+    /*
+     * Tile tints for the quick-links panel and the mega-menu, assigned by slot in
+     * `Menu/_quick-menu.html.twig`.
+     *
+     * These are **not** from the design system project — it defines no accent ramp. They
+     * are the existing values, relocated here from `_fullscreen.css` where they lived as
+     * alpha-hex literals declared twice each (resting and hover). Components now derive
+     * both states with `color-mix`, so a tint is defined once.
+     *
+     * Named by appearance rather than role, which breaks the convention above. That is
+     * honest: they carry no meaning, they only distinguish adjacent tiles. To reconcile
+     * with the design system when it defines an accent ramp.
+     */
+    --aro-accent-mint: #D5EDEF;
+    --aro-accent-blue: #0083BC;
+    --aro-accent-orange: #F09900;
+    --aro-accent-yellow: #FFF412;
+    --aro-accent-green: #81D7B1;
+
+    /* Icon accents in the top bar. */
+    --aro-accent-indigo: #5072E3;
+    --aro-accent-peach: #F6CB94;
+    --aro-accent-magenta: #B91E67;
+
+    /* ----------------------------------------------------------------- Radius */
+
+    --aro-radius-xs: 2px;    /* badges, tags, colour swatches */
+    --aro-radius-sm: 3px;    /* dropdowns, small controls */
+    --aro-radius-input: 5px;
+    --aro-radius-card: 6px;
+    --aro-radius-pill: 100px;
+
+    /* -------------------------------------------------------------- Elevation */
+
+    /* Deliberately faint. Nothing in this admin should look like it floats. */
+    --aro-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.03);
+    --aro-shadow-soft: 0 1px 3px #E6ECF1;
+    --aro-shadow-dropdown: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --aro-shadow-modal: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    /* ----------------------------------------------------------------- Motion */
+
+    /* Colour and opacity fades only: no bounce, no slide, no press-shrink. */
+    --aro-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --aro-duration-fast: 0.2s;
+    --aro-duration-base: 0.5s;
+
+    /* ------------------------------------------------------------- Typography */
+
+    --aro-font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /*
+     * SETTLED — 14px base, up from the 13px inherited from Stisla. Judged by eye on the
+     * DataTable once `_table.css` consumed these tokens, which is the only state in which
+     * the question is answerable.
+     *
+     * The measurement reframed it: 14px costs **5px per ten-row page**, because row height
+     * comes from cell padding and line-height, not from font size. So the trade was never
+     * readability against compactness — compactness was barely on the table.
+     */
+    /*
+     * Expressed in rem (÷16 of the pixel value) rather than px, so text scales with the
+     * reader's browser font-size setting and zoom — an accessibility property px does not
+     * have, and the reason Tailwind works this way. At the default 16px root these render
+     * identically to the old px values (0.875rem = 14px), so the switch is visually inert.
+     * Radii, borders, shadows and structural dimensions stay in px: fine detail and fixed
+     * chrome should not balloon when the reader zooms.
+     */
+    --aro-text-xs: 0.75rem;      /* 12px — labels, meta */
+    --aro-text-sm: 0.8125rem;    /* 13px — secondary text */
+    --aro-text-base: 0.875rem;   /* 14px */
+    --aro-text-lg: 1rem;         /* 16px — subheadings */
+    --aro-text-xl: 1.125rem;     /* 18px */
+    --aro-text-2xl: 1.375rem;    /* 22px — page titles */
+
+    --aro-leading-tight: 1.25;
+    --aro-leading-base: 1.5;
+    --aro-leading-prose: 1.7;
+
+    --aro-weight-light: 300;
+    --aro-weight-regular: 400;
+    --aro-weight-medium: 500;
+    --aro-weight-semibold: 600;
+    --aro-weight-bold: 700;
+
+    /* Role sizes, so components ask for a role rather than picking a step. */
+    --aro-text-page-title: var(--aro-text-xl);   /* 20px in the design system; 18 on our scale */
+    --aro-text-card-title: var(--aro-text-lg);
+    --aro-text-label: var(--aro-text-base);
+    --aro-text-badge: 0.625rem;                  /* 10px — uppercase micro-label */
+
+    /* ---------------------------------------------------------------- Spacing */
+
+    /*
+     * 4px base, expressed in rem so spacing scales with the reader's zoom alongside the
+     * text — otherwise zoomed text would crowd against fixed-px padding. The design system
+     * is drawn on a 5px grid (the old `.m-t-20` helpers); its dimensions are re-derived
+     * here once (a 45px field becomes 44, 25px card padding 24), then divided by 16.
+     */
+    --aro-space-1: 0.25rem;      /* 4px */
+    --aro-space-2: 0.5rem;       /* 8px */
+    --aro-space-3: 0.75rem;      /* 12px */
+    --aro-space-4: 1rem;         /* 16px */
+    --aro-space-5: 1.25rem;      /* 20px */
+    --aro-space-6: 1.5rem;       /* 24px */
+    --aro-space-8: 2rem;         /* 32px */
+    --aro-space-10: 2.5rem;      /* 40px */
+    --aro-space-12: 3rem;        /* 48px */
+
+    /* ------------------------------------------------------ Component metrics */
+
+    --aro-field-height: 2.75rem;                 /* 44px — scales with text */
+    --aro-card-padding: var(--aro-space-6);      /* 24px, was 25 */
+    --aro-section-header-gap: var(--aro-space-8);
+
+    /* ----------------------------------------------------------------- Layout */
+
+    --aro-sidebar-width: 250px;
+    --aro-navbar-height: 70px;
+    --aro-content-max: 1200px;
+
+    /* The app shell is wider than a reading column: lists and the page builder need the
+       room. `--aro-content-max` stays for prose-width contexts. */
+    --aro-content-max-wide: 1620px;
+}
+
+/*
+ * Primitive scales (`--aro-teal-50` … `--aro-teal-900`) are deliberately absent.
+ *
+ * §4 describes a two-level system, but the design system only defines the pivots above —
+ * it has no 10-step ramps. Generating them here would mean inventing the visual contract
+ * rather than transcribing it, and every component built on invented values would need
+ * revisiting once the real ramps exist.
+ *
+ * Add them when the design system does, and derive the semantic layer from them at that
+ * point. Until then the semantic layer holds literal values, which is why it is the only
+ * file allowed to.
+ */

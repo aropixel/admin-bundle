@@ -13,12 +13,10 @@
     </ul>
 {% endblock %}
 
-
 {% block tabbable %}
     <li class="nav-item"><a href="#panel-tab1" data-bs-toggle="pill" class="nav-link active">{% trans %}users.form.configuration{% endtrans %}</a></li>
     <li class="nav-item"><a href="#panel-tab2" data-bs-toggle="pill" class="nav-link">{% trans %}users.form.avatar{% endtrans %}</a></li>
 {% endblock %}
-
 
 {% block mainPanel %}
 
@@ -42,14 +40,14 @@
                 {% if form.plainPassword is defined %}
 
                     <hr />
-                    {{ form_row(form.plainPassword.first, {'attr': {'data-gdpr': 'true'}}) }}
+                    {{ form_row(form.plainPassword.first, {attr: {'data-gdpr': 'true'}}) }}
                     {{ form_row(form.plainPassword.second) }}
 
                 {% endif %}
 
                 {% if sendButton is defined and sendButton %}
 
-                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {'id' : user.id}) }}">{% trans %}users.form.send_activation_link_button{% endtrans %}</a>
+                    <a class="btn btn-primary" href="{{ path('aropixel_admin_user_send_activation_link', {id: user.id}) }}">{% trans %}users.form.send_activation_link_button{% endtrans %}</a>
 
                 {% endif %}
 

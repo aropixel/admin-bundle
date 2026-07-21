@@ -98,13 +98,16 @@ Customizable administration interface for managing blog posts, comments, and cat
 * [Single Image](image.md)
 * [Image Gallery](gallery.md)
 * [Form Templates](form_templates.md)
-* [CSS Customization](css_customization.md)
+* [Form Theme — Block Reference](form-theme-blocks.md)
 * [Select2 Component](select2.md)
 * [Entity Customization](entities.md)
 * [Admin Menu Customization](admin_menu.md)
 
-### 📦 Bundles & Modules
-* [AdminBundle](adminbundle.md)
-* [BlogBundle](blogbundle.md)
-* [PageBundle](pagebundle.md)
-* [MenuBundle](menubundle.md)
+### 🎨 Design & Theming
+* [Theming — the `--aro-*` token API](theming.md)
+* [CSS Customization](css_customization.md)
+* **Component catalogue** — live at `/admin/_catalog` (dev environment only)
+
+### 📦 Companion bundles
+The BlogBundle, PageBundle and MenuBundle are separate packages in the same
+[Aropixel](https://github.com/aropixel) organisation, each documented in its own repository.

@@ -561,7 +561,7 @@ onDomReady(() => {
                                 .attr('title', state === 'online' ? 'hors ligne' : 'en ligne')
                                 .attr('data-bs-original-title', state === 'online' ? 'hors ligne' : 'en ligne');
 
-                            _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
+                            _btn_group.find('.status').html('<svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></g></svg> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
 
                             button.removeAttr('disabled');
                             button.closest('.modal').modal('hide');

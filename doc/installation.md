@@ -124,3 +124,23 @@ then add "@aropixel/admin-bundle" to your importmap.php
     'entrypoint' => true,
 ]
 ````
+
+## Icons
+
+The admin renders its icons with [symfony/ux-icons](https://symfony.com/bundles/ux-icons/current/index.html),
+using the [Lucide](https://lucide.dev) set (`{{ ux_icon('lucide:...') }}`). Both
+`symfony/ux-icons` and `symfony/http-client` are pulled in as dependencies of the bundle.
+
+In development, icons are fetched on demand from the Iconify API and cached. **For
+production, import them locally once so no HTTP call is made at render time:**
+
+````bash
+php bin/console ux:icons:lock
+````
+
+This scans your templates (the bundle's included) and writes the used SVGs into
+`assets/icons/`. Run it in your build/deploy pipeline. It is the only icon-related step an
+integrator has to take.
+
+To override a bundle icon with your own, drop an SVG at the matching path in your app's
+`assets/icons/` — local icons take precedence over the on-demand ones.
