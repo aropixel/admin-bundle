@@ -284,11 +284,35 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 
 ### Reste à faire
 
-> **Lots A, E, B et C clos** (23 juillet 2026). Le cliquet `qa:design-system` tient ses métriques
-> CSS au plancher : `orphan_classes` 12, `hex_components` 0, `inline_styles` 0,
-> `important_components` **1** (le seul `.bg-success`, nécessaire). Ouvert : **D** (arbitrage
-> pastille teal), plus le **chantier `FL_Editor`/`IM_Editor` → Quill** (item F) et le
-> **nettoyage CKEditor résiduel dans Blog/Page** (item G, second chantier §10).
+> ## Point de reprise — 24 juillet 2026
+>
+> **Tout est commité** sur la branche **`feature/design-system`** des 4 dépôts (pas de push) :
+> `admin-bundle` f7aaf40a (78 fichiers), `page-bundle` 704a8a0 (26), `blog-bundle` 4e9455f (4),
+> `menu-bundle` b722fa5 (4). Arbres propres.
+>
+> **Fait.** Chantier AdminBundle **clos** — lots A (thème de formulaire), B (résidus CSS),
+> C (doc), E (orphelines) + une série de correctifs de rendu (auth, pagination, texte blanc sur
+> primary, taille des champs à 14px). Le cliquet `qa:design-system` tient au plancher :
+> `orphan_classes` 12, `hex_components` 0, `inline_styles` 0, `important_components` **1**
+> (`.bg-success`, nécessaire). Second chantier (§10) **démarré** : propagation Blog/Page/Menu
+> — passe 1 (FontAwesome → ux-icons/Lucide, ~68 icônes, listes → macro `actions()`), passe 2
+> (résidus BS3/4 → BS5), et labels du page builder (`.pb-label`, en semibold).
+>
+> **Reste à faire, par priorité :**
+> 1. **Conformité twig-cs des 3 bundles compagnons** — jamais mis aux normes ; le CI est rouge
+>    dessus (préexistant à nos commits). `qa:twig-cs` reformate en masse (le lancer sur un arbre
+>    dédié, pas mélangé).
+> 2. **Item G — bug fonctionnel** : l'éditeur translatable de blog/page appelle encore
+>    `CKEDITOR.replace(...)` (page `block.js`) et pose `class="ckeditor"` → **cassé** (`CKEDITOR
+>    is not defined`). Basculer sur `EditorType`/Quill. Détail plus bas.
+> 3. **Item F** : réécrire `FL_Editor`/`IM_Editor` (insertion média → éditeur) pour Quill. Détail
+>    plus bas.
+> 4. **Item D** : acter formellement la pastille « en ligne » teal (`--aro-status-online`).
+> 5. **Divers** : la police **Typekit externe** de `page-builder.css`
+>    (`@import url("https://use.typekit.net/…")`) — même souci RGPD que les Google Fonts retirées
+>    d'admin ; **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ; et **le cliquet
+>    `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts bundle) — à
+>    porter dans un repo si on veut le conserver.
 
 **A. Thème de formulaire (§16) — ✅ clos**, cf. « Fait » ci-dessus et les invariants Twig.
 
