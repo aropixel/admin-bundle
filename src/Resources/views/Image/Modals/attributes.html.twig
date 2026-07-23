@@ -28,12 +28,12 @@
                                 <input type="text" name="title" value="" class="form-control">
                             </div>
 
-                            <div class="m-t-15" id="img_description">
+                            <div class="mt-3" id="img_description">
                                 <label>{% trans %}library.images.modal.attributes.form.textlink.description{% endtrans %}</label>
                                 <input type="text" name="description" value="" class="form-control">
                             </div>
 
-                            <div class="m-t-15" id="img_link">
+                            <div class="mt-3" id="img_link">
                                 <label>{% trans %}library.images.modal.attributes.form.textlink.link{% endtrans %}</label>
                                 <input type="text" name="link" value="" class="form-control">
                             </div>
@@ -42,17 +42,17 @@
                         <div class="tab-pane" id="gallery-image-attributes" role="tabpanel" aria-labelledby="attributes-tab">
                             <p>{% trans %}library.images.modal.attributes.form.properties.description{% endtrans %}</p>
 
-                            <div class="m-t-15" id="img_attr_title">
+                            <div class="mt-3" id="img_attr_title">
                                 <label>{% trans with {'%target%': '<em>title</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
                                 <input type="text" name="attr_title" value="" class="form-control">
                             </div>
 
-                            <div class="m-t-15" id="img_attr_alt">
+                            <div class="mt-3" id="img_attr_alt">
                                 <label>{% trans with {'%target%': '<em>alt</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
                                 <input type="text" name="attr_alt" value="" class="form-control">
                             </div>
 
-                            <div class="m-t-15" id="img_attr_class">
+                            <div class="mt-3" id="img_attr_class">
                                 <label>{% trans with {'%target%': '<em>class</em>'} %}library.images.modal.attributes.form.properties.field{% endtrans %}</label>
                                 <input type="text" name="attr_class" value="" class="form-control">
                             </div>
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
                     <button type="button" class="btn btn-primary save-attributes">{% trans %}library.images.modal.attributes.submit{% endtrans %}</button>
                 </div>
             </div>

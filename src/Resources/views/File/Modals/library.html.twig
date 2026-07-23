@@ -35,11 +35,11 @@
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <div>
-                    <button type="button" class="btn btn-primary file-uploader" data-path="{{ path('file_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.files.modal.upload_button{% endtrans %}{{ ux_icon('lucide:upload', {class: 'position-right'}) }}</button>
+                    <button type="button" class="btn btn-primary file-uploader" data-path="{{ path('file_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.files.modal.upload_button{% endtrans %}{{ ux_icon('lucide:upload') }}</button>
                     <ul class="progress-upload d-inline-block"></ul>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-outline m-r-15" data-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+                    <button type="button" class="btn btn-outline me-3" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
                     <button type="button" class="btn btn-primary attach-files">{% trans %}library.files.modal.submit{% endtrans %}</button>
                 </div>
             </div>

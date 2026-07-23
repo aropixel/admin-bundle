@@ -78,7 +78,7 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
         <div class="card card-centered card-centered-large">
             <div class="card-body">
                 <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> Vous pouvez choisir <strong>soit une image, soit un label texte</strong> pour le badge.
+                    {{ ux_icon('lucide:info') }} Vous pouvez choisir <strong>soit une image, soit un label texte</strong> pour le badge.
                 </div>
                 {{ form_row(form.badgeLabel) }}
                 <div class="text-center my-3"><strong>OU</strong></div>
@@ -96,7 +96,7 @@ Here is a complete example of a template for adding or editing an entity (e.g., 
                         <label class="control-label">Séances</label>
                         {# Button to add a new item in the collection #}
                         <a class="btn btn-primary btn-xs" data-form-collection-add="{{ form.shows.vars.id }}">
-                            <i class="fa fa-plus"></i> Ajouter une séance
+                            {{ ux_icon('lucide:plus') }} Ajouter une séance
                         </a>
                     </div>
                     {{ form_widget(form.shows, {'attr': {'class': 'w-100'}}) }}

@@ -1,0 +1,28 @@
+{#
+ # AdminBundle form theme — assembly only.
+ #
+ # This file must contain nothing but `{% use %}` statements. Every block lives in the
+ # sub-theme for its domain, so that the theme stays readable at the same granularity as
+ # the CSS (one component, one file). See doc/design-system.md §16 and
+ # doc/form-theme-blocks.md for the block ↔ form-type table.
+ #
+ # ORDER MATTERS — later `use` wins, and a template's own blocks beat every `use`.
+ # `_core` comes first because it carries the whole Bootstrap block set (it is the only
+ # sub-theme that `use`s the Bootstrap layout, see the invariant documented there); the
+ # domain sub-themes that follow must therefore never redefine a block `_core` overrides.
+ #
+ # A sub-theme is only usable here if it is "traitable": no parent, no macro, no body
+ # outside blocks (Twig, Node/ModuleNode::compileIsTraitable). That is why the collection
+ # macros sit in `_collection_macros.html.twig`, imported rather than used.
+ #}
+{% use '@AropixelAdmin/Form/layout/_core.html.twig' %}
+
+{% use '@AropixelAdmin/Form/layout/_collection.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_controls.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_date.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_editor.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_file.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_gallery.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_image.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_select2.html.twig' %}
+{% use '@AropixelAdmin/Form/layout/_translatable.html.twig' %}

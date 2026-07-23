@@ -1,19 +1,35 @@
-{% macro actions(item, edit_path, delete_path, delete_confirm_msg) %}
+{#
+ # Row-actions dropdown for DataTable lists — the `…` menu with edit / status / delete.
+ #
+ # `status` (optional) is the online/offline toggle: pass a hash
+ #   { path: <status route>, confirm: <confirm message>, label: <current-state label> }
+ # It renders an `a.status[data-confirm][data-path]` that app.js wires to the toggle endpoint.
+ #
+ # `delete_token` (optional) is the CSRF token *value* for the delete form. Each controller
+ # validates a different id (`delete__post<id>`, `delete__user<id>`, …), so the caller must
+ # compute it — e.g. `csrf_token('delete__post' ~ post.id)`. Without it the macro falls back
+ # to `delete<id>`, which matches no shipped controller and is only a placeholder.
+ #}
+{% macro actions(item, edit_path, delete_path, delete_confirm_msg = null, status = null, delete_token = null) %}
     <div class="btn-group dropstart">
         <button type="button" class="badge text-bg-light badge-icon" data-bs-toggle="dropdown">
             {{ ux_icon('lucide:ellipsis') }}
         </button>
         <div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
             {% if edit_path %}
-                <a href="{{ edit_path }}" class="dropdown-item has-icon">{{ ux_icon('lucide:square-pen') }} {{ 'text.edit'|trans }}</a>
+                <a href="{{ edit_path }}" class="dropdown-item">{{ ux_icon('lucide:square-pen') }} {{ 'text.edit'|trans }}</a>
+            {% endif %}
+
+            {% if status %}
+                <a class="dropdown-item status" data-confirm="{{ status.confirm }}" data-path="{{ status.path }}">{{ ux_icon('lucide:toggle-right') }} {{ status.label }}</a>
             {% endif %}
 
             {% if delete_path %}
-                {% if edit_path %}<div class="dropdown-divider"></div>{% endif %}
-                <a class="dropdown-item has-icon delete text-danger" data-confirm="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}">{{ ux_icon('lucide:trash-2') }} {{ 'text.delete'|trans }}</a>
+                {% if edit_path or status %}<div class="dropdown-divider"></div>{% endif %}
+                <a class="dropdown-item delete text-danger" data-confirm="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}">{{ ux_icon('lucide:trash-2') }} {{ 'text.delete'|trans }}</a>
                 <form method="post" action="{{ delete_path }}">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                    <input type="hidden" name="_token" value="{{ delete_token ?? csrf_token('delete' ~ item.id) }}">
                 </form>
             {% endif %}
         </div>

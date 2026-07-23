@@ -1,12 +1,22 @@
 # Form theme — block reference
 
-Every block defined by `@AropixelAdmin/Form/layout.html.twig`, the form theme applied by
-`@AropixelAdmin/Form/base.html.twig`.
+Every block defined by the form theme applied by `@AropixelAdmin/Form/base.html.twig`.
 
-This is the map that must be consulted before touching the theme. It exists because the
-file is 867 lines long, mixes two very different kinds of block, and a mistake in one of
-them is invisible: a Twig block that no longer matches anything is silently ignored, so an
-override simply stops applying — no error, no deprecation, nothing to notice.
+The whole theme lives in `@AropixelAdmin/Form/layout/`.
+`layout/theme.html.twig` is an **assembly file** — nothing but `{% use %}` statements — and
+each block lives in a domain sub-theme next to it (`_core`, `_collection`, `_controls`,
+`_date`, `_editor`, `_file`, `_gallery`, `_image`, `_select2`, `_translatable`, plus
+`_collection_macros`). The `File` column below names the sub-theme that owns each block.
+
+This is the map that must be consulted before touching the theme. A mistake is invisible: a
+Twig block that no longer matches anything is silently ignored, so an override simply stops
+applying — no error, no deprecation, nothing to notice.
+
+> **Invariant — only `_core` may `{% use %}` the Bootstrap layout**, and it is therefore the
+> only sub-theme where `parent()` may be called. A second sub-theme using the Bootstrap
+> layout would re-inject Bootstrap's own blocks over `_core`'s overrides, silently (Twig
+> merges without warning, last `use` wins). This is why `datetime_widget` sits in `_core`
+> and not in `_date` — it calls `parent()`. See the header of `_core.html.twig`.
 
 ## The two kinds
 
@@ -31,8 +41,8 @@ Cross-referencing the 43 blocks against the 24 `getBlockPrefix()` values declare
 all four bundles:
 
 - **No orphan blocks.** Every `aropixel_*` block maps to a registered type. There is no
-  dead block to delete — the dead weight in this file is the Bootstrap 3/4 markup *inside*
-  the blocks, not the blocks themselves.
+  dead block to delete — the Bootstrap 3/4 fossil markup that once lived *inside* the blocks
+  has been removed (design-system.md §8).
 - **Seven types render without a dedicated block, all intentionally:**
   `aropixel_admin_date`, `aropixel_admin_datetime` and `aropixel_admin_time` inherit the
   Symfony date/time types, whose generic `date_widget` / `time_widget` / `datetime_widget`
@@ -43,49 +53,49 @@ all four bundles:
 
 ## Blocks
 
-| Line | Block | Kind | Backing type |
+| File | Block | Kind | Backing type |
 |---|---|---|---|
-| 6 | `form_label_class` | **Symfony override** | applies to every form |
-| 7 | `form_group_class` | **Symfony override** | applies to every form |
-| 10 | `form_start` | **Symfony override** | applies to every form |
-| 16 | `form_end` | **Symfony override** | applies to every form |
-| 28 | `form_label` | **Symfony override** | applies to every form |
-| 81 | `form_row` | **Symfony override** | applies to every form |
-| 129 | `fieldset_form_row` | **Symfony override** | applies to every form |
-| 147 | `form_errors` | **Symfony override** | applies to every form |
-| 159 | `submit_row` | **Symfony override** | applies to every form |
-| 163 | `collection_widget` | **Symfony override** | applies to every form |
-| 192 | `aropixel_admin_collection_widget` | bundle type | `CollectionType` |
-| 235 | `aropixel_admin_collection_entry_row` | bundle type | `CollectionType` |
-| 305 | `collection_item` | macro | — |
-| 333 | `aropixel_admin_color_widget` | bundle type | `ColorType` |
-| 344 | `aropixel_admin_toggle_switch_row` | bundle type | `ToggleSwitchType` |
-| 356 | `aropixel_admin_video_row` | bundle type | `VideoType` |
-| 378 | `textarea_widget` | **Symfony override** | applies to every form |
-| 384 | `aropixel_editor_widget` | bundle type | `EditorType` |
-| 408 | `aropixel_admin_gallery_widget` | bundle type | `GalleryType` |
-| 440 | `aropixel_admin_gallery_row` | bundle type | `GalleryType` |
-| 445 | `aropixel_admin_gallery_image_row` | bundle type | `GalleryImageType` |
-| 460 | `aropixel_admin_gallery_crops_widget` | bundle type | `GalleryCropsType` |
-| 469 | `aropixel_admin_gallery_files_row` | bundle type | `GalleryType` |
-| 491 | `aropixel_admin_gallery_files_widget` | bundle type | `GalleryType` |
-| 529 | `aropixel_admin_gallery_file_row` | bundle type | `GalleryFileType` |
-| 538 | `aropixel_admin_file_row` | bundle type | `FileType` |
-| 607 | `aropixel_admin_image_widget` | bundle type | `ImageType` |
-| 632 | `aropixel_admin_gallery_crops_row` | bundle type | `GalleryCropsType` |
-| 638 | `aropixel_admin_crops_row` | bundle type | `CropsType` |
-| 646 | `aropixel_admin_crops_widget` | bundle type | `CropsType` |
-| 656 | `aropixel_admin_crop_row` | bundle type | `CropType` |
-| 662 | `choice_widget_collapsed` | **Symfony override** | applies to every form |
-| 693 | `choice_widget_expanded` | **Symfony override** | applies to every form |
-| 717 | `datetime_widget` | **Symfony override** | applies to every form |
-| 723 | `date_widget` | **Symfony override** | applies to every form |
-| 746 | `time_widget` | **Symfony override** | applies to every form |
-| 766 | `aropixel_admin_select2_row` | bundle type | `Select2Type` |
-| 777 | `aropixel_admin_select2_widget` | bundle type | `Select2Type` |
-| 787 | `aropixel_admin_collection_hidden_row` | bundle type | `CollectionHiddenType` |
-| 796 | `aropixel_admin_collection_hidden_widget` | bundle type | `CollectionHiddenType` |
-| 807 | `money_widget` | **Symfony override** | applies to every form |
-| 823 | `widget_attributes` | **Symfony override** | applies to every form |
-| 841 | `aropixel_admin_translatable_row` | bundle type | `TranslatableType` |
-| 856 | `aropixel_admin_translatable_widget` | bundle type | `TranslatableType` |
+| `_core` | `form_label_class` | **Symfony override** | applies to every form |
+| `_core` | `form_group_class` | **Symfony override** | applies to every form |
+| `_core` | `form_start` | **Symfony override** | applies to every form |
+| `_core` | `form_end` | **Symfony override** | applies to every form |
+| `_core` | `form_label` | **Symfony override** | applies to every form |
+| `_core` | `form_row` | **Symfony override** | applies to every form |
+| `_core` | `fieldset_form_row` | **Symfony override** | applies to every form |
+| `_core` | `form_errors` | **Symfony override** | applies to every form |
+| `_core` | `submit_row` | **Symfony override** | applies to every form |
+| `_core` | `textarea_widget` | **Symfony override** | applies to every form |
+| `_core` | `choice_widget_expanded` | **Symfony override** | applies to every form |
+| `_core` | `datetime_widget` | **Symfony override** | applies to every form (calls `parent()`) |
+| `_core` | `widget_attributes` | **Symfony override** | applies to every form |
+| `_collection` | `collection_widget` | **Symfony override** | applies to every form |
+| `_collection` | `aropixel_admin_collection_widget` | bundle type | `CollectionType` |
+| `_collection` | `aropixel_admin_collection_entry_row` | bundle type | `CollectionType` |
+| `_collection` | `aropixel_admin_collection_hidden_row` | bundle type | `CollectionHiddenType` |
+| `_collection` | `aropixel_admin_collection_hidden_widget` | bundle type | `CollectionHiddenType` |
+| `_collection_macros` | `collection_item` | macro | — |
+| `_controls` | `aropixel_admin_color_widget` | bundle type | `ColorType` |
+| `_controls` | `aropixel_admin_toggle_switch_row` | bundle type | `ToggleSwitchType` |
+| `_controls` | `aropixel_admin_video_row` | bundle type | `VideoType` |
+| `_controls` | `money_widget` | **Symfony override** | applies to every form |
+| `_date` | `date_widget` | **Symfony override** | applies to every form |
+| `_date` | `time_widget` | **Symfony override** | applies to every form |
+| `_editor` | `aropixel_admin_editor_widget` | bundle type | `EditorType` |
+| `_file` | `aropixel_admin_gallery_files_row` | bundle type | `GalleryType` |
+| `_file` | `aropixel_admin_gallery_files_widget` | bundle type | `GalleryType` |
+| `_file` | `aropixel_admin_gallery_file_row` | bundle type | `GalleryFileType` |
+| `_file` | `aropixel_admin_file_row` | bundle type | `FileType` |
+| `_gallery` | `aropixel_admin_gallery_widget` | bundle type | `GalleryType` |
+| `_gallery` | `aropixel_admin_gallery_row` | bundle type | `GalleryType` |
+| `_gallery` | `aropixel_admin_gallery_image_row` | bundle type | `GalleryImageType` |
+| `_gallery` | `aropixel_admin_gallery_crops_widget` | bundle type | `GalleryCropsType` |
+| `_gallery` | `aropixel_admin_gallery_crops_row` | bundle type | `GalleryCropsType` |
+| `_image` | `aropixel_admin_image_widget` | bundle type | `ImageType` |
+| `_image` | `aropixel_admin_crops_row` | bundle type | `CropsType` |
+| `_image` | `aropixel_admin_crops_widget` | bundle type | `CropsType` |
+| `_image` | `aropixel_admin_crop_row` | bundle type | `CropType` |
+| `_select2` | `choice_widget_collapsed` | **Symfony override** | applies to every form |
+| `_select2` | `aropixel_admin_select2_row` | bundle type | `Select2Type` |
+| `_select2` | `aropixel_admin_select2_widget` | bundle type | `Select2Type` |
+| `_translatable` | `aropixel_admin_translatable_row` | bundle type | `TranslatableType` |
+| `_translatable` | `aropixel_admin_translatable_widget` | bundle type | `TranslatableType` |

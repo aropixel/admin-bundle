@@ -134,8 +134,9 @@
 #close-fullscreen-menu {
     cursor: pointer;
 }
-#close-fullscreen-menu i {
-    font-size: 35px;
+#close-fullscreen-menu svg {
+    height: 35px;    
+    width: 35px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -177,4 +178,9 @@
 
 .sidemenu-title {
     align-items: baseline;
+}
+
+/* User-icon colour — relocated from the style.css tail (lot B). */
+.nav-link-user .rounded-circle i {
+    color: var(--aro-color-primary);
 }

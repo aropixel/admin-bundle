@@ -1,7 +1,7 @@
 {% extends '@AropixelAdmin/base.html.twig' %}
 
 {% if form is defined %}
-    {% form_theme form '@AropixelAdmin/Form/layout.html.twig' %}
+    {% form_theme form '@AropixelAdmin/Form/layout/theme.html.twig' %}
 {% endif %}
 
 {% block stylesheets %}
@@ -133,7 +133,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-primary btn-small ms-3" id="btnCurrentLocale">{{ app.request.defaultLocale|upper }}</button>
                                 <button class="btn btn-primary btn-small dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
-                                <div class="dropdown-menu" style="width:80px; min-width: 80px;">
+                                <div class="dropdown-menu locale-dropdown">
                                     {% for locale in get_locales() %}
                                         <a class="dropdown-item btn-locale" href="#" data-locale="{{ locale }}">{{ locale|upper }}</a>
                                         {% if not loop.last %}<div class="dropdown-divider"></div>{% endif %}
@@ -217,14 +217,14 @@
 {% block body -%}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+        <div class="alert alert-success alert-dismissible" role="alert">
             {{ flash_message|raw }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 
     {% for flash_message in app.session.flashbag.get('error') %}
-        <div class="alert alert-warning alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+        <div class="alert alert-warning alert-dismissible" role="alert">
             {{ flash_message|raw }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -244,7 +244,7 @@
 
             {{ form_errors(form) }}
 
-            <div {% if has_tabs %}class="panel-tab-content tab-content"{% endif %}>
+            <div {% if has_tabs %}class="tab-content"{% endif %}>
 
                 {% block mainPanel %}
 
@@ -272,7 +272,7 @@
                     form.publishUntil is defined
                 %}
 
-                    <div class="modal modal-publication fade" id="publicationFormModal" aria-hidden="true" tabindex="-1">
+                    <div class="modal fade" id="publicationFormModal" aria-hidden="true" tabindex="-1">
 
                         <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -311,7 +311,7 @@
                                             </ul>
                                         </div>
 
-                                        <div class="panel-tab-content tab-content mt-5 px-3">
+                                        <div class="tab-content mt-5 px-3">
 
                                             {% block publishSlug %}
                                                 {{ include('@AropixelAdmin/Form/publication/_slug.html.twig') }}

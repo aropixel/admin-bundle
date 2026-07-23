@@ -33,33 +33,488 @@
   supprimés et **promus en `--aro-*`** (`--aro-color-primary-subtle`, `--aro-accent-magenta`). §8-7.
 - **Documentation** — `css_customization.md` réécrit, `theming.md` créé (API tokens),
   `form-theme-blocks.md` (table blocs↔types), liens morts de `doc/index.md` corrigés. §15, §16.
+- **Thème de formulaire découpé et normalisé** (22 juillet 2026) —
+  `Form/layout.html.twig` **805 l. → 28 l. d'assemblage** (`{% use %}` uniquement) + dix
+  sous-thèmes par domaine (`_core`, `_collection` + `_collection_macros`, `_controls`,
+  `_date`, `_editor`, `_file`, `_gallery`, `_image`, `_select2`, `_translatable`).
+  L'ensemble vit désormais dans **`Form/layout/`**, le fichier d'assemblage étant
+  `Form/layout/theme.html.twig` : le répertoire porte le thème, plus aucun `_*.html.twig`
+  ne traîne à la racine de `Form/`. Le chemin public a changé — rupture **détectable**
+  (Twig lève « unable to find template »), donc sans risque au sens du §10.
+  **43 blocs conservés, aucun perdu.** Bloc `aropixel_editor_widget` **normalisé** en
+  `aropixel_admin_editor_widget` (bloc + `EditorType::getBlockPrefix()`) : le nommage
+  `aropixel_admin_*` est désormais uniforme et la **fenêtre BC est refermée** avant
+  diffusion de v3. Preuve d'inertie : **54/54 captures identiques au bit près**, code
+  d'origine vs découpé à état de cache égal. §16, §8.
+- **Pages d'authentification réparées + lot E clos** (23 juillet 2026) — séquelles de
+  l'ablation de Stisla : classes dont la CSS était partie, laissant le markup se défaire en
+  silence. Les 5 règles d'auth restaurées dans `components/_auth.css` (nouveau) ; puis
+  l'audit généralisé a trouvé **54 classes orphelines** et **3 contrôles Bootstrap 4 morts**.
+  Traité en E1 (défauts à impact : template mort supprimé, 2 boutons de modale réparés,
+  boutons d'auth repassés pleine largeur), E2 (**26 fossiles inertes retirés**, prouvés
+  `54/54`, + cliquet `orphan_classes` câblé et testé), E3 (catalogue `mb-6`/`mb-8` sur
+  tokens). Bilan : **54 → 12 orphelines** (les 12 restants sont des crochets JS et marqueurs
+  sémantiques légitimes), attributs BS4 à zéro, cliquet à 12. Voir « Reste à faire », lot E.
+- **Lot B — résidus CSS du §9 clos** (23 juillet 2026) — `style.css` réduit à ses `@import`
+  (tail de ~120 l. évacué vers les fichiers légitimes), **hex hors tokens 5 → 0**, **inline
+  `style=` 1 → 0**, **`!important` en `components/` 24 → 1** (seul reste `.bg-success`, qui bat
+  le `.bg-success` layered de Bootstrap). Les 13 utilitaires d'espacement maison (`.m-r-15`, …)
+  **migrés vers Bootstrap** (`.me-3`, …) puis supprimés, avec une dérive de quelques pixels
+  assumée. `.cke_combo_button` supprimée (CKEditor entièrement retiré au profit de Quill). Deux
+  fichiers nouveaux (`_tabs.css`, `_bg-utilities.css`). Cliquets abaissés (**1/0/0**). Prouvé :
+  `after-E2` ↔ `after-B3` **52/54** (2 écarts = catalogue E3), `after-B3` ↔ `after-B4` **54/54**,
+  `after-B4` ↔ `after-B5` 44 écarts **tous des dérives d'espacement bénignes** (barre de nav,
+  vérifiées). Voir « Reste à faire », lot B.
+- **Lot C — documentation clos** (23 juillet 2026) — exemples FontAwesome des docs →
+  `ux_icon('lucide:…')`, **`doc/icons.md`** (système d'icônes + surcharge) et
+  **`doc/upgrade-v3.md`** (guide de migration ancien major → v3) créés, `admin_menu.md` corrigé
+  (les `['icon' => …]` des items **ne sont pas rendus** — menu plein écran = libellés seuls),
+  et les 14 chaînes FontAwesome mortes retirées d'`AdminMenuBuilder`/`QuickMenuBuilder`. Voir
+  « Reste à faire », lot C.
+- **Correctif — pagination et texte des surfaces primary** (23 juillet 2026). Deux bugs
+  distincts sur les surfaces teal :
+  - *Fond de la page active* — Bootstrap fige `--bs-pagination-active-bg: #0d6efd` sur
+    `.pagination` (littéral que le `--bs-primary` bridgé n'atteint pas), donc la page courante
+    du pager restait **bleu Bootstrap**. Repointée sur `--aro-color-primary` dans
+    `foundations/_bootstrap-bridge.css` (bloc component-scopé).
+  - *Couleur de police* — la règle globale **`a { color: secondary }`** (lien de contenu,
+    *unlayered*) écrasait la couleur de **tout composant à base de `<a>`** : elle bat les
+    déclarations *layered* de Bootstrap quelle que soit la spécificité. Résultat : boutons
+    `<a class="btn btn-primary/cta/secondary">` et page active du pager rendus en **slate
+    foncé** au lieu du blanc de leur token de contraste (les `<button>` n'étaient pas touchés,
+    d'où des variantes correctes dans le catalogue mais fausses en liste). Corrigé en
+    **excluant `.btn` et `.page-link`** de la règle `a` (`a:not(.btn):not(.page-link)`), ce qui
+    rend la main à `--bs-btn-color` / `--bs-pagination-active-color` (blanc). Prouvé au harnais :
+    38 écrans, texte des boutons colorés et de la page active **slate → blanc**, liens de
+    contenu et pages non-actives inchangés.
+- **Correctif — bouton d'action des listes Blog + macro `actions()` étendue** (23 juillet 2026).
+  Les listes news et catégories de **BlogBundle** rendaient encore leur déclencheur d'action
+  avec `<i class="fas fa-ellipsis-h">` — un `<i>` **vide** depuis le retrait de FontAwesome (carré
+  gris sans icône). Basculées sur la macro partagée `@AropixelAdmin/Macro/actions.html.twig`
+  (ux-icons/Lucide). La macro, jusque-là **importée mais jamais appelée**, a été étendue pour
+  couvrir ces cas réels : paramètre `status` (bascule en ligne/hors ligne, hook JS `a.status`)
+  et `delete_token` (le token CSRF **diffère par contrôleur** — `delete__post<id>`,
+  `delete__post_category<id>`, `delete__user<id>` — donc l'appelant le fournit ; le défaut
+  `delete<id>` de la macro ne correspondait à aucun contrôleur livré). Première pièce concrète
+  de la **propagation Blog/Page/Menu** (§10, second chantier). Prouvé au harnais (déclencheur
+  vide → `lucide:ellipsis` sur `post-list` et `category-list`), CSRF et hooks JS inchangés.
+- **Correctif — taille de police des champs de formulaire** (23 juillet 2026). Bootstrap fige
+  `font-size: 1rem` sur `.form-control` (littéral), donc `input`, `textarea` et `select`
+  rendaient à **16px** alors que tout le reste de l'admin est sur la base **14px**. Ramenés sur
+  le token en ajoutant `font-size: var(--aro-text-base)` à la règle `.form-control, .form-select`
+  de `_form.css` (unlayered, bat le layered de Bootstrap). Prouvé au harnais : 20 écrans, texte
+  des champs peuplés **16 → 14px** (les champs vides ne diffèrent pas — pas de glyphe).
+- **Propagation Blog/Page/Menu — passe 1 : FontAwesome** (23 juillet 2026, second chantier §10).
+  Après le retrait de FontAwesome (chantier admin), les bundles compagnons rendaient encore ~68
+  `<i class="fas fa-…">` — des `<i>` **vides** (icônes fantômes partout, surtout dans le page
+  builder). Tous migrés vers `{{ ux_icon('lucide:…') }}` sur **9 fichiers** (blog `category/order`,
+  menu `menu/item`, page `base`/`index`/`builder/*`). Au passage :
+  - **Boutons d'action de liste → macro `actions()`** partagée (page `index` + `builder/list`,
+    comme blog `post`/`category`) — corrige aussi le déclencheur `badge-light` **délavé** (BS4
+    mort) en `text-bg-light`, et gère la suppression conditionnelle (`page.isDeletable`) via
+    `delete_path` null. Token CSRF préservé par appel (spécifique au contrôleur).
+  - **Icônes de blocs personnalisés** (`Configuration.php` : `custom_blocks[].icon`) — le défaut
+    `fas fa-puzzle-piece` → **`lucide:puzzle`**, et `_library.html.twig` rend `{{ ux_icon(pb_block.icon) }}`
+    au lieu de `<i class="{{ pb_block.icon }}">`. **Rupture d'API intégrateur** documentée dans
+    `upgrade-v3.md`.
+  Prouvé au harnais : page builder (cartes de blocs, aperçu device, Save…), `page-list`,
+  `category-order` — toutes icônes **fantômes → Lucide**. Reste du second chantier : audit
+  orphelines/BS4 + conformité twig-cs des 3 bundles, item G (éditeur CKEditor), item F.
+- **Propagation Blog/Page/Menu — passe 2 : résidus BS3/4 & Stisla** (24 juillet 2026). Audit
+  orphelines lancé sur les 3 bundles (mêmes heuristiques que le lot E, CSS partagé d'admin).
+  **blog : 0 orpheline** après nettoyage. Traité :
+  - **Fossiles décoratifs morts** — `breadcrumb-caret`/`position-right` (7 fils d'Ariane, 3
+    bundles), `card-table`/`table-vcenter` (4 tables — `_table.css` fait déjà le `vertical-align`
+    et la `.card` habille la table), `main-wrapper` (gardé `main-wrapper-1`), `panel-list`,
+    `v-align-middle`, `heading-btn`. Retrait inerte (byte-identical au harnais).
+  - **Vrais bugs BS4 → BS5** : `custom-control`/`custom-checkbox`/`custom-control-input`/
+    `custom-control-label` (cases à cocher du panneau sources de menu) → **`.form-check*`** ;
+    `dropdown-menu-right` → `dropdown-menu-end` ; `card-heading` → `card-title`.
+  - **Badge « section » de menu réparé** : `.bg-dark-grey` (non défini → badge sans fond)
+    **défini** dans `_bg-utilities.css` sur `--aro-color-secondary` (rôle structurel/neutre),
+    à côté de `.bg-pink`/`.bg-teal`. Visible au harnais (menu-main : badge SECTION slate).
+  - **Tokens legacy** dans un `<style>` inline de page `index` : `var(--main-bg-color, …)` /
+    `var(--light-grey, …)` → `--aro-color-primary` / `--aro-color-bg`.
+  Prouvé : ratchet admin inchangé (1/0/0/12), harnais menu OK (cases `form-check`, badge
+  SECTION), reste inerte. **Non traités, hors BS3/4** : module slider **UIkit** (`uk-*`, autre
+  framework), crochets JS (`iconUpload`, `pb-color-preset`, `add-input-ressource`).
+- **Labels du page builder → classe dédiée `.pb-label`** (24 juillet 2026). Le `form-label-sm`
+  **mort** (faux air de variante Bootstrap, jamais stylé) remplacé par une classe **spécifique
+  au page builder** `.pb-label`, définie dans `page-builder/_inspector.css` : **`--aro-text-base`
+  (14px) + `--aro-weight-semibold` (600)** — le poids s'aligne sur les en-têtes d'accordéon
+  actifs de l'inspecteur (600) sans les surcharger ; un flip vers `--aro-weight-bold` suffit si
+  l'on veut plus de contraste. `.form-label` (base BS5) conservé à côté. Couverture **complète** :
+  les 27 labels de `builder/_inspector.html.twig` **et** les 18 des 8 `block_types/*.js` (les
+  formulaires d'inspecteur générés côté JS par type de bloc — button, title, image, banner,
+  slider, divider, spacer, iframe). ⚠ **Ces JS existent en double** — `page-bundle/assets/…`
+  (AssetMapper) **et** `src/Resources/public/js/…` (classique/`assets:install`) — il faut éditer
+  **les deux** ; ici les deux copies sont resynchronisées à l'identique (`diff -rq` vide).
+  Tokens `--aro-*` disponibles dans le builder (son `{% block stylesheets %}` appelle
+  `{{ parent() }}`).
+
+### Invariants Twig du thème de formulaire — à lire avant tout re-découpage
+
+Découverts en découpant le thème, documentés en tête des fichiers concernés. Les deux
+premiers produisent des ruptures **silencieuses** s'ils sont enfreints.
+
+1. **`_core` est le seul sous-thème autorisé à `{% use %}` la mise en page Bootstrap**, donc
+   le seul où `parent()` est permis. `{% use %}` fusionne le jeu de blocs *entier* du
+   template utilisé : un second sous-thème utilisant Bootstrap réinjecterait ses `form_row`,
+   `form_label`… par-dessus nos surcharges, sans le moindre avertissement (Twig fusionne en
+   silence, dernier `use` gagnant). C'est pourquoi `datetime_widget` vit dans `_core` et non
+   dans `_date` — il appelle `parent()`.
+2. **`block('x', 'tpl.twig')` n'est pas un substitut de `parent()`.** Twig compile la forme à
+   deux arguments **sans transmettre `$blocks`** (`Node/Expression/BlockReferenceExpression`) :
+   le bloc Bootstrap s'exécuterait sans voir aucune de nos surcharges.
+3. **Un sous-thème doit être « traitable »** pour être utilisable via `{% use %}` : ni parent,
+   ni macro, ni corps hors blocs (`Node/ModuleNode::compileIsTraitable`). D'où
+   `_collection_macros.html.twig`, séparé et **importé** (depuis l'intérieur d'un bloc), non `use`.
+
+### Pièges d'environnement relevés — non traités, hors périmètre du chantier
+
+Constatés le 22 juillet 2026 en validant le découpage. Aucun n'est causé par la refonte ;
+tous sont reproductibles sur le code d'origine.
+
+- **`castor qa:all` reformate le code source.** Il lance PHP-CS-Fixer en mode *correction*,
+  pas *vérification* : un seul passage a modifié 116 fichiers d'`admin-bundle` et 69 des trois
+  autres bundles, **dont des règles *risky* à effet sémantique** (`==` → `===`). Révoqué.
+  Utiliser `castor qa:cs --dry-run` sur un arbre que l'on veut garder propre.
+- **`castor qa:twig-cs` aussi** — même piège, autre outil. Il rapporte « errors: 0 » *parce
+  qu'il vient de corriger*, et il balaie les quatre bundles : un passage a reformaté 18
+  templates de Blog/Page/Menu (`{% include %}` → `{{ include() }}`, espacement des
+  commentaires, lignes vides). `admin-bundle` était déjà conforme et n'a pas bougé.
+  Révoqué. Ne le lancer que sur un arbre dont on accepte le reformatage, ou juste avant de
+  committer les bundles concernés.
+- **Une dépréciation LiipImagine casse les lignes de DataTable en dev.**
+  `Liip\ImagineBundle\Templating\FilterTrait` émet un « User Deprecated » qui **pollue le
+  fragment AJAX** des lignes de liste : la cellule d'action affiche `{"exception": {}}` au lieu
+  du menu `…`. Révélé par un `cache:clear`, stable ensuite. **Conséquence pour le chantier :
+  il fausse le harnais de capture sur les 16 écrans de liste Blog/Page/Menu** — toute
+  comparaison doit se faire à état de cache égal, sans quoi l'écart s'impute à tort au CSS.
+- **`asset-map:compile` gèle le CSS servi en dev — ne jamais le lancer sur le sandbox.**
+  Dès qu'un `public/assets/` compilé existe, Symfony (même en `APP_ENV=dev`) sert **ces
+  fichiers figés** et ignore les sources, avec l'avertissement explicite « Symfony will not
+  serve any changed assets until you delete the files in `public/assets` ». En B, un
+  `asset-map:compile` lancé par erreur a figé le CSS : deux captures consécutives sont
+  ressorties **identiques malgré une correction réelle** (`after-B1` == `after-B2`), ce qui
+  fait croire à tort que le correctif n'a rien changé. Le bundle est servi en live via un
+  **symlink** `vendor/aropixel/admin-bundle → admin-bundle/`, donc l'état sain du dev est
+  **sans** `public/assets/`. Remède : `rm -rf application/public/assets` (+ `cache:clear`).
+  Diagnostic rapide : comparer le hash du `href` de `style.css` dans la page avant/après une
+  édition — s'il ne bouge pas, le CSS est figé.
+- Sandbox : les tests fonctionnels échouent (36 erreurs) faute de fixtures enregistrées comme
+  services en env `test` — identique avant/après le découpage.
+
+> **Campagnes de captures laissées dans `var/visual/`** pour la reprise :
+> `before-A1` (avant découpage, **cache chaud**), `after-A1` (après découpage) et `orig-full`
+> (code d'origine restauré, **même cache** qu'`after-A1`). C'est la paire
+> `orig-full` ↔ `after-A1` qui porte la preuve — 54/54 — et non `before-A1` ↔ `after-A1`,
+> dont les 16 écarts ne sont que la dépréciation LiipImagine ci-dessus.
+> `smoke-A1`, `after-A1b` et `orig-recheck` sont des captures de travail, supprimables.
+> S'y ajoute `after-A2`, pris après le rangement du thème dans `Form/layout/` (**52/54**
+> face à `after-A1`), puis `after-A3` après la réparation des pages d'authentification
+> (**44/54** face à `after-A2`, les 10 écarts étant voulus), puis `after-E1` après la
+> première passe du lot E (**50/54** face à `after-A3` : les 4 écarts sont les boutons
+> d'envoi des pages d'authentification repassés pleine largeur, `btn-block` → `w-100`),
+> puis `after-E2` après le retrait des 26 classes fossiles inertes (**54/54** face à
+> `after-E1` — preuve que chacune ne produisait rien), puis `after-B3` (évacuation du tail,
+> **52/54** face à `after-E2` — 2 écarts = catalogue E3), `after-B4` (4 `!important` retirés,
+> **54/54** face à `after-B3`), et `after-B5` (migration des utilitaires d'espacement vers
+> Bootstrap, **44 écarts** face à `after-B4`, **tous des dérives d'espacement bénignes** : la
+> barre de nav sur chaque page + tuiles du menu plein écran + un bouton de modale). `after-B1`
+> et `after-B2` sont des captures de travail — `after-B2` est **figée** (cf. le piège
+> `asset-map:compile` en §0), à ne pas prendre pour référence. `login-now`/`login-fix` sont
+> les avant/après du seul écran de connexion, supprimables.
+
+> **Le harnais n'est pas totalement déterministe : `auth-login` dépend de l'heure.**
+> `Security/login.html.twig:62` choisit la salutation sur la variable `hour`
+> (`hello` de 5 h à 19 h, `good_evening` jusqu'à 23 h, `good_night` sinon). Deux campagnes
+> prises de part et d'autre d'une de ces bornes divergent donc sur `auth-login@1440` et
+> `auth-login@1024` **sans qu'aucun code n'ait changé** — c'est exactement ce qui explique
+> les 2 écarts d'`after-A1` ↔ `after-A2`. Avant de conclure à une régression sur ces deux
+> captures, comparer l'heure de prise de vue.
+
+### Séquelles de l'ablation de Stisla sur les pages d'authentification — ✅ réparé
+
+Relevé le 22 juillet 2026 en parcourant les rendus. **Les douze templates
+`Security/` `Reset/` `Activation/` `First/` portaient des classes qui ne correspondaient
+plus à aucune règle** : `bf1137e9 « Ablation de stisla »` a emporté les sélecteurs sans que
+le markup soit repris. Défaut silencieux typique — rien ne casse, la mise en page se
+défait simplement.
+
+| Règle perdue | Vivait dans | Effet |
+|---|---|---|
+| `.form-group { margin-bottom: 25px }` | `style.css:432` | tout l'espacement vertical du formulaire de connexion. Bootstrap 5 a supprimé `.form-group`, donc rien ne l'a remplacé |
+| `.form-group label { margin-bottom: .5rem }` | `_form.css:563` | libellé collé à son champ |
+| `.login-brand { margin: 20px 0; text-align: center }` | `style.css:2227` | logo aligné à gauche, sans respiration — **sur les 12 pages** |
+| `.simple-footer { text-align: center; margin: 40px 0 }` | `style.css:2932` | copyright aligné à gauche et collé — **sur les 12 pages** |
+| `#togglePassword { position: absolute; … }` | `_form.css:639` | œil de révélation rejeté **sous** le champ mot de passe |
+
+Restaurées sur tokens dans **`components/_auth.css`** (nouveau), importé par `style.css` —
+le seul feuillet commun aux deux familles de pages : le layout autonome de connexion et les
+onze pages qui étendent `base.html.twig` (lesquelles ne chargent **pas** `login.css`).
+
+Deux choix de portée à ne pas défaire :
+
+- **`.form-group` est scopé à `.login-content`.** Une règle nue toucherait aussi
+  `.form-horizontal .form-group`, dont l'espacement vient déjà du `mb-3` posé par
+  `form_row` — et décalerait tous les formulaires de l'application.
+- **Le contexte de positionnement de l'œil est `.password-field`, pas `.form-group`.** Le
+  groupe contient aussi la ligne de libellé et le message de validation : s'y ancrer
+  replace l'icône sous le champ dès que l'un des deux est présent. C'était le bug d'origine.
+
+Corrigé au passage, **deux défauts fonctionnels** que la seule relecture visuelle ne montre
+pas :
+
+- `security.js` permutait encore les classes FontAwesome `fa-eye` / `fa-eye-slash` sur un
+  élément qui rend désormais un SVG Lucide inline. Le clic changeait bien le `type` du
+  champ, mais **l'icône ne bougeait plus**. Deux SVG, un `hidden`, permutés par le script.
+- L'œil était un `<svg>` nu porteur d'un `click` : **inatteignable au clavier**. C'est
+  maintenant un `<button type="button">` avec `aria-pressed` et `aria-controls`.
+
+> **Piège JS à retenir — `hidden` n'existe pas sur `SVGElement`.**
+> `hidden` est défini sur `HTMLElement`. `svg.hidden = true` crée silencieusement un
+> *expando* : la propriété se relit à `true` et **rien ne change à l'écran**. Ma première
+> vérification automatisée lisait cette propriété et déclarait le basculement fonctionnel
+> alors qu'il ne l'était pas. Utiliser `toggleAttribute('hidden', bool)`, et **mesurer la
+> géométrie rendue** (`getBoundingClientRect().width > 0`), jamais une propriété JS.
+
+Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bit près**, les
+10 écarts étant exactement les 5 écrans d'authentification × 2 viewports.
 
 ### Reste à faire
 
-**A. Thème de formulaire (§16) — le chantier principal restant.**
-- `Form/layout.html.twig` (**805 l.**) **non découpé** en sous-thèmes (`_collection`,
-  `_gallery`, `_file`, `_image`, `_select2`, `_editor`, `_date`). §16, « À trancher » 2.
-- Bloc `aropixel_editor_widget` **non normalisé** en `aropixel_admin_*`. §16, « À trancher » 3.
-  ⚠️ **Fenêtre BC** : renommer un bloc de thème devient une rupture *silencieuse* une fois v3
-  diffusée (§10). À faire tant que v3 ne l'est pas.
+> **Lots A, E, B et C clos** (23 juillet 2026). Le cliquet `qa:design-system` tient ses métriques
+> CSS au plancher : `orphan_classes` 12, `hex_components` 0, `inline_styles` 0,
+> `important_components` **1** (le seul `.bg-success`, nécessaire). Ouvert : **D** (arbitrage
+> pastille teal), plus le **chantier `FL_Editor`/`IM_Editor` → Quill** (item F) et le
+> **nettoyage CKEditor résiduel dans Blog/Page** (item G, second chantier §10).
 
-**B. Résidus des critères §9 — cliquet encore au-dessus de zéro (bornés, petits).**
-- `!important` en `components/` : **24** (cible 0).
-- hex hors `_tokens.css` : **5**, dans le tail de `style.css` (couleurs MenuBundle + chip
-  Select2).
-- `style.css` porte encore un **tail de ~120 l.** de règles réellement globales (couleur de
-  lien, `<hr>`, utilitaires) — cible : `@import` uniquement.
-- **1 `style=` inline** : `Form/base.html.twig:136` (largeur du dropdown de langue).
+**A. Thème de formulaire (§16) — ✅ clos**, cf. « Fait » ci-dessus et les invariants Twig.
 
-**C. Documentation (§15).**
-- `forms.md`, `form_templates.md`, `admin_menu.md` : exemples encore en FontAwesome
-  (`<i class="fas fa-…">`, `'icon' => 'fas fa-…'`) → migrer vers `ux_icon('lucide:…')`.
-- **Guide de migration ancien major → v3** : non écrit (différé après le lot D, désormais
-  recevable).
-- Documenter la **surcharge d'icône** (dépôt d'un SVG dans `assets/icons/`).
+**B. Résidus des critères §9 — ✅ CLOS le 23 juillet 2026.** `style.css` est **imports
+uniquement** (le tail de ~120 l. évacué), hex hors `_tokens.css` à **0**, inline `style=` à
+**0**, `!important` en composants **24 → 1** (le seul restant, `.bg-success`, est nécessaire).
+Cliquet abaissé (**1/0/0**). Détail :
+
+- **Tail de `style.css` évacué**, chaque règle vers son fichier légitime : globaux
+  typographiques (`a`, `hr`, rythme `p/ul/ol`) → `foundations/_typography.css` ; utilitaires
+  (`.cursor-pointer`, `.text-underlined-dashed`, `.missing-img`) → `_helpers.css` ; item de
+  dropdown actif → `_dropdown.css` ; puce Select2 → `vendor/_select2.css` ; onglets soulignés
+  (PageBundle) → **`_tabs.css`** (nouveau) ; icône utilisateur du menu plein écran →
+  `_fullscreen-menu.css` ; `.section-header` legacy + `.main-footer` → `foundations/_layout.css`.
+- **5 hex → tokens** : `#EC0868`/`#0F8B8D` (badges type MenuBundle) → `--aro-accent-pink`/
+  `--aro-accent-teal` ; `#ebebeb` (puce Select2) → `--aro-color-surface-muted`. hex hors
+  tokens : **0**.
+- **`.heading-elements` supprimée** (morte depuis la suppression du panel BS3 en E1) — emporte
+  1 `!important`.
+- **`!important` : 24 → 1.** En quatre temps. (a) L'évacuation du tail en élimine 5 (ceux qui
+  ne battaient que du Bootstrap *layered normal* : unlayered gagne sans) + `.heading-elements`
+  morte. (b) 4 de plus, prouvés inertes (`after-B3` ↔ `after-B4` **54/54**) :
+  `.editable-indicator` (2, classe **morte** — les datatablers utilisent `data-modal-xeditable`),
+  le `.dropdown-item-desc` **inexistant** (0 usage), et le `margin` du séparateur de dropdown
+  qui **ré-affirmait la valeur Bootstrap** (redondant). (c) **Les 13 utilitaires d'espacement
+  `.m-*`/`.p-r-0` migrés vers Bootstrap** (`.me-3`, `.m-0`, …) dans tous les gabarits, puis
+  supprimés : Bootstrap porte lui-même le `!important` de l'utilitaire, dans sa couche, donc il
+  ne compte plus comme dette *first-party*. Mapping au pas Bootstrap le plus proche (15→16,
+  20→24, 30→24, 35→24, 50→48), dérive de quelques pixels **assumée** (`after-B4` ↔ `after-B5` :
+  44 écrans, tous une dérive d'espacement bénigne — bbox identique sur la barre de nav qui
+  s'affiche partout, plus les tuiles du menu plein écran et un bouton de modale). (d)
+  `.cke_combo_button` **supprimée** — CKEditor entièrement retiré au profit de Quill.
+- **1 seul `!important` restant, nécessaire : `.bg-success`** — bat le `.bg-success`
+  *layered `!important`* de Bootstrap (l'importance prime sur l'ordre de couche, seul un
+  `!important` unlayered le bat). Le cliquet `important_components` est donc à **1**, plancher
+  de fait.
+- **Inline `style=` de `Form/base.html.twig:136`** → classe `.locale-dropdown` dans
+  `_translation.css`.
+
+> **Piège d'ordre de cascade à retenir** (rencontré en B, corrigé) : les utilitaires de
+> couleur `.bg-pink`/`.bg-teal` posent un `border-color` que `_badge.css`
+> (`.badge { border: 1px solid transparent }`) **réinitialise s'il charge après**. Le tail les
+> chargeait en dernier ; les déplacer dans `_helpers.css` (importé avant `_badge.css`) a cassé
+> la bordure des badges de menu (prouvé au harnais, 6 écrans). Corrigé en les isolant dans
+> **`_bg-utilities.css` importé en dernier**, comme le fait Bootstrap pour ses propres
+> utilitaires. Leçon : un utilitaire qui surcharge un composant doit charger **après** lui.
+
+Preuve d'inertie : `after-E2` ↔ `after-B3` = **52/54 au bit près**, les 2 écarts étant le
+sous-incrément catalogue E3 (déjà validé), pas B.
+
+**C. Documentation (§15) — ✅ CLOS le 23 juillet 2026.**
+- ✅ `forms.md` / `form_templates.md` : les `<i class="fa* fa-…">` des exemples de gabarits
+  intégrateur → `{{ ux_icon('lucide:…') }}` (trash-2, import, info, plus).
+- ✅ **`doc/icons.md` créé** — le système d'icônes (ux-icons + Lucide), `ux:icons:lock`, et la
+  **surcharge** (déposer un SVG dans `assets/icons/<préfixe>/<nom>.svg`, précédence locale ;
+  icône maison via `app:…`). Lié depuis `index.md`, `CLAUDE.md`, `css_customization.md`.
+- ✅ **`doc/upgrade-v3.md` créé** — guide de migration ancien major → v3, structuré par
+  ruptures *visibles* vs *silencieuses* (§10) : icônes, Bootstrap 5, tokens `--aro-*`,
+  utilitaires d'espacement, bloc `aropixel_admin_editor_widget`, chemin du thème de formulaire,
+  CKEditor → Quill, checklist.
+- ✅ **`admin_menu.md` : icônes de menu clarifiées.** Découverte en cours de route : les
+  `['icon' => …]` des items de menu **ne sont pas rendus** — le menu plein écran actuel
+  n'affiche que les libellés (`Menu/link.html.twig` = `<span>` seul ; `_quick-menu.html.twig`
+  = tuiles sans icône). Seuls `submenu.html.twig` et `Shortcut/link.html.twig` rendent encore
+  un `<i class="{{ icon }}">` (mort depuis le retrait de FontAwesome). Doc corrigée pour dire
+  la vérité (libellés seuls ; icônes possibles en surchargeant les gabarits avec `ux_icon`).
+  **Nettoyage code au passage :** les `['icon' => 'fas fa-…']` **morts** d'`AdminMenuBuilder.php`
+  (9) et `QuickMenuBuilder.php` (5) supprimés — dernières chaînes FontAwesome du code livré.
 
 **D. Arbitrage §12 restant.**
 - Pastille « en ligne » : de facto teal (`--aro-status-online: #06BAB4`), **à acter** formellement.
+
+**F. Modules `FL_Editor` / `IM_Editor` à re-cibler sur Quill — chantier distinct, non entamé.**
+`js/files.js` (`FL_Editor`) et `js/module/image-manager/editor.js` (`IM_Editor`) sont les modules
+qui **inséraient une image / un fichier dans un éditeur CKEditor** (ils pilotent la bibliothèque
+média puis écrivent dans le dialogue CKEditor — d'où les `.cke_dialog*` de `files.js`). CKEditor
+ayant été **entièrement remplacé par Quill.js**, ces deux modules visent une cible qui n'existe
+plus : le pont média → éditeur est donc **cassé** jusqu'à ce qu'ils soient réécrits pour l'API
+Quill. Laissés intacts volontairement (pas de suppression : la logique de sélection média est à
+conserver). À traiter comme un chantier à part.
+
+**G. Résidus CKEditor dans Blog/Page — à nettoyer (second chantier §10).**
+Malgré le retrait de CKEditor, il reste des références **vivantes** hors AdminBundle, donc hors
+du périmètre courant : `blog-bundle/src/Form/PostTranslatableType.php:50` et
+`page-bundle/src/Form/Type/DefaultTranslatablePageType.php:32` ajoutent encore
+`'attr' => ['class' => 'ckeditor']`, et `page-bundle/.../js/block.js` appelle `CKEDITOR.replace(...)`.
+Si la lib CKEditor est absente, `block.js` **lève `CKEDITOR is not defined`** et le champ
+translatable de page/blog n'a pas d'éditeur. À basculer sur `EditorType` (Quill) quand la
+propagation Blog/Page sera ouverte.
+
+**E. Classes orphelines et attributs Bootstrap 4 — ✅ CLOS le 23 juillet 2026.** Relevé le
+22 juillet ; traité en trois passes (E1 défauts à impact, E2 fossiles inertes + cliquet, E3
+catalogue) : **54 → 12 orphelines**, les 3 attributs BS4 à zéro, cliquet `orphan_classes`
+câblé et abaissé à 12. Statut détaillé plus bas.
+
+Généralisation du défaut réparé le même jour sur les pages d'authentification. Celui-là
+avait été trouvé à l'œil, en naviguant ; l'audit ci-dessous montre que ce n'était pas un
+cas isolé mais **une famille**, et qu'elle se mesure. C'est exactement la catégorie que le
+§10 désigne comme la seule où il vaut la peine de se contraindre : **rien ne casse, rien
+n'alerte, la mise en page se défait simplement**.
+
+*Famille 1 — 54 classes citées par les templates et stylées nulle part* (sur 356 classes
+distinctes ; les 25 crochets JS légitimes ont été écartés en les confrontant au JS du
+bundle). Par groupe :
+
+- **Panneaux Bootstrap 3** — `panel`, `panel-default`, `panel-heading`, `panel-title`,
+  `panel-footer`. `File/Widget/files.html.twig:2` est un panneau BS3 intégral : il rend un
+  `<div>` nu, sans cadre ni fond.
+- **Utilitaires supprimés en Bootstrap 5** — `pull-right`, `float-left`, `btn-block`,
+  `dropdown-menu-right`, `text-default`.
+- **Résidus Stisla** — `main-wrapper`, `section-body`, `footer-right`, `sidebar-menu`,
+  `nav-link-lg`, `user-body`, `alert-styled-left`, `alert-bordered`, `alert-arrow-left`,
+  `border-left-info`, `border-left-xlg`, `control-label`, `text-small`, `list-condensed`,
+  `has-icon`, `heading-btn`, `breadcrumb-caret`, `position-right`…
+- **`mb-6` et `mb-8`**, dans `catalog/index.html.twig` — Bootstrap 5 s'arrête à `mb-5`.
+  Le catalogue lui-même porte des espacements qui n'existent pas.
+- **`full-with`**, dans `Image/Modals/crop.html.twig` — faute de frappe pour `full-width` :
+  cette classe n'a jamais rien fait.
+
+*Famille 2 — 3 contrôles Bootstrap 4 morts.* Le bundle embarque **Bootstrap 5.3.0-alpha1**,
+où `data-toggle` est devenu `data-bs-toggle`. 24 emplacements sont corrects, trois sont
+restés en BS4 :
+
+| Fichier | Attribut | Conséquence | Statut E1 |
+|---|---|---|---|
+| `File/Widget/files.html.twig:19` | `data-toggle="modal"` | le bouton **n'ouvre pas** la bibliothèque de fichiers | ✅ template supprimé (mort) |
+| `File/Modals/library.html.twig:42` | `data-dismiss="modal"` | « Fermer » **ne ferme pas** | ✅ `data-bs-dismiss` |
+| `Image/Modals/attributes.html.twig:65` | `data-dismiss="modal"` | idem | ✅ `data-bs-dismiss` |
+
+Le widget « fichiers » cumulait les deux familles — mais c'était le **template mort** : le
+widget FileType réellement rendu est la `.card` de `Form/layout/_file.html.twig`, intacte.
+
+> **Faux positif vérifié, à ne pas recorriger** : le `data-target` de
+> `Form/layout/_editor.html.twig:29` n'est pas du Bootstrap. `app.js:29` le lit via
+> `$this.data('target')` pour brancher Quill sur son `<textarea>`. Le renommer en
+> `data-bs-target` casserait l'éditeur.
+
+*Méthode, pour rejouer l'audit.* Extraire les classes littérales des `class="…"` des
+templates (ignorer les attributs contenant du Twig), et les confronter à l'union de : tout
+`.css` sous `public/css`, le `bootstrap.min.css` de `public/modules/bootstrap/css`, et les
+blocs `<style>` inline des templates — le catalogue en a un, sans quoi ses classes `cat-*`
+ressortent à tort. Classer ensuite le reliquat en deux tas selon que la classe apparaît ou
+non dans le JS du bundle : un crochet JS non stylé est légitime, une classe inconnue des
+deux est orpheline. Le tri final reste manuel — quelques crochets vivent dans des scripts
+inline ou des contrôleurs Stimulus que l'heuristique ne voit pas.
+
+#### E1 — passe des défauts à impact réel — ✅ 23 juillet 2026
+
+Ce qui **change le rendu ou le comportement** a été traité et prouvé ; le reste (fossiles
+décoratifs inertes + cliquet) suit en E2. Fait :
+
+- **`File/Widget/files.html.twig` supprimé.** Template **mort** — aucun include ni contrôleur
+  ne le rend (le vrai widget FileType est la `.card` de `Form/layout/_file.html.twig:36`).
+  Vérifié sur les quatre bundles + PHP ; les traces en `application/var/cache` ne sont que la
+  précompilation Twig de tout le répertoire, pas une référence. Sa suppression emporte d'un
+  coup **8 orphelines** (`panel*`, `border-left-*`, `heading-btn`, `pull-right`), le chemin
+  d'include legacy `AropixelAdminBundle:Themes/Limitless:` (cassé en Symfony moderne) **et**
+  un des trois attributs BS4.
+- **Les 2 boutons « Fermer » BS4 encore vivants corrigés** — `data-dismiss` → `data-bs-dismiss`
+  dans `File/Modals/library.html.twig` et `Image/Modals/attributes.html.twig`. Rename 1:1
+  vers la forme qu'exige Bootstrap 5, déjà en place et fonctionnelle sur 24 emplacements
+  frères du même code (p. ex. `Image/Widget/image.html.twig`). Ces deux modales ne sont pas
+  atteignables par URL — pas de preuve au harnais, validité par construction et cohérence.
+- **`btn-block` → `w-100`** sur les 4 pages d'auth (`Reset/request`, `Reset/reset`,
+  `Activation/create_password`, `First/request`) : le bouton d'envoi **repasse pleine
+  largeur**, aligné sur la connexion qui utilise déjà `w-100`. Visible au harnais (`after-E1`,
+  les 4 seuls écarts voulus).
+- **Renommages BS5 mécaniques** : `dropdown-menu-right` → `dropdown-menu-end` et
+  `flex-1` → `flex-grow-1` (menu plein écran) ; `float-left` → `float-start` (×2, modale de
+  recadrage) ; `full-with` (faute de frappe, inerte) supprimée.
+
+Bilan : **54 → 40 orphelines**, les 3 attributs BS4 à zéro (le `data-target` de `_editor`
+reste, faux positif documenté ci-dessus). `lint:twig` OK (80 fichiers), aucune collatérale
+sur l'admin.
+
+#### E2 — cliquet câblé + fossiles inertes retirés — ✅ 23 juillet 2026
+
+**Cliquet d'abord, puis nettoyage** (dans cet ordre, pour geler le plancher avant d'y
+descendre). Résultat : **40 → 14 orphelines**, `qa:design-system` vert.
+
+- **`orphan_classes` ajouté à `.castor/css.php`** — `countOrphanClasses()` porte l'heuristique
+  de l'audit dans le cliquet : classes des `class="…"` littéraux (sans accolade Twig, donc
+  conservateur — zéro faux positif) croisées avec l'union CSS + Bootstrap + `<style>` inline,
+  et exonérées si un script (`.js` ou `<script>` inline) les nomme. Plafond posé à 40, **testé
+  qu'il mord** (une classe bidon ajoutée → `41 OVER`, retirée → `40 OK`), puis abaissé à **14**
+  une fois le nettoyage fait. Même mécanique de descente que `important_components: 24`.
+- **26 fossiles Stisla/BS3 retirés**, purement inertes — `after-E1` ↔ `after-E2` =
+  **54/54 identiques au bit près**, la preuve que chacune ne produisait rien. Fait au cas par
+  cas comme prévu : `main-wrapper` retirée en **gardant** `main-wrapper-1` (qui porte
+  `style.css:148`) ; `text-size-mini`/`text-default`/`control-label`/`text-small` retirées
+  sans les remapper vers `.small` — les remapper serait un *choix de style*, pas du nettoyage
+  de fossile, donc hors périmètre E2. Vérifié au préalable qu'aucune des 26 n'est un hook JS
+  (4141 l. de JS + `<script>` inline scannées, zéro référence).
+
+**Plancher atteint : 14** = les **12 gardiens légitimes** (crochets JS + marqueurs
+sémantiques, cf. tas ci-dessous) **+ 2** : `mb-6`/`mb-8` du catalogue, laissés à leur propre
+incrément (ci-dessous). Quand ces deux tomberont, abaisser le plafond à 12.
+
+Les 12 gardiens — à **conserver**, ce ne sont pas des bugs : crochets JS dont le vrai levier
+est un `data-*` (`deleteImg`, `iconUpload`, `save-attributes`, `size-filter-option`,
+`modalAttributes`), marqueurs sémantiques dont la mise en page vient des utilitaires BS
+voisins (`collection-form-content`, `collection-form-actions`, `quill-editor-container`,
+`form-error-message` — ce dernier est **dans** un `.invalid-feedback` BS qui porte le rouge,
+`form-widget`, `clickable`), et le hook de validation Bootstrap `needs-validation`.
+
+#### E3 — sous-incrément catalogue — ✅ 23 juillet 2026
+
+`mb-6` / `mb-8` (les 2 dernières des 14) n'existent pas en BS5 (qui s'arrête à `mb-5`) :
+dans `catalog/index.html.twig` le TOC et les nuanciers perdaient leur marge basse. Corrigé
+en définissant `.mb-6`/`.mb-8` sur tokens (`--aro-space-6` = 24px, `--aro-space-8` = 32px)
+dans le `<style>` **page-scopé** du catalogue — pas dans le CSS du bundle, dont l'échelle
+reste celle de BS5. Les deux blocs `<style>` étant tenus identiques (live + export statique),
+la règle a été ajoutée aux deux : `catalog/index.html.twig` **et** le second `<style>` de
+`docs/catalog.html` (hand-authored ; `catalog:build` ne régénère que le premier, la CSS du
+bundle embarquée). Puis `castor catalog:build` — export + `docs/index.html` + aperçu
+re-tirés (invariant CLAUDE.md).
+
+**Lot E clos. `orphan_classes` : 54 → 12**, plafond abaissé à **12** = les 12 gardiens
+légitimes, plus aucun fossile. Toute nouvelle classe orpheline fait désormais échouer le
+build.
+
+*Non mesuré.* Le scan n'a tourné que sur `admin-bundle`. La liste des news de BlogBundle
+présente des symptômes de la même famille (constaté le 22 juillet 2026 en parcourant les
+rendus). Le §10 ayant scopé la propagation à un second chantier, elle n'est pas ouverte —
+mais l'audit tourne tel quel sur les trois autres bundles et le chiffrerait sans rien
+modifier.
 
 ### Hors périmètre (décidé — ce n'est pas un reste)
 
@@ -1290,7 +1745,7 @@ pour effet de mélanger français et anglais dans la même interface.
 
 ---
 
-## 16. Thème de formulaire (`Form/layout.html.twig`)
+## 16. Thème de formulaire (`Form/layout/`)
 
 **867 lignes, 43 blocs** — le plus gros fichier du bundle, plus lourd que n'importe quel
 fichier CSS. Refondre le CSS des formulaires sans traiter ce fichier n'a aucun sens :
@@ -1413,9 +1868,12 @@ dépendance gratuite au layout horizontal.
 
 ### À trancher — statut
 
-> **Point 1 acté (fait). Points 2 et 3 = le principal reste-à-faire du chantier**, cf. §0.A.
-> `Form/layout.html.twig` est encore un **fichier unique de 805 lignes**, non découpé, et
-> `aropixel_editor_widget` n'est pas normalisé.
+> **Points 1, 2 et 3 tous actés. ✅ Fait** (22 juillet 2026). Le thème est réduit à 28 l.
+> d'assemblage (`Form/layout/theme.html.twig`), découpé en dix sous-thèmes rangés dans
+> `Form/layout/`, et `aropixel_editor_widget` est
+> normalisé en `aropixel_admin_editor_widget`. Prouvé inerte : **54/54 captures identiques
+> au bit près**. Les trois invariants Twig qui encadrent tout re-découpage sont énoncés au
+> **§0, « Invariants Twig du thème de formulaire »**.
 
 1. **Conserver `{% use "bootstrap_5_horizontal_layout.html.twig" %}` ?** ✅ **Oui, conservé.**
    S'en affranchir signifie reprendre à son compte toute la
@@ -1423,26 +1881,22 @@ dépendance gratuite au layout horizontal.
    maintenir à chaque version. C'est la même logique que le pont Bootstrap du §3 : on
    hérite et on ajuste, on ne réécrit pas.
 
-2. **Découper le fichier.** ⬜ **Non fait.** 43 blocs dans un fichier unique est intenable,
-   alors même que le CSS est découpé par composant. Twig permet plusieurs `{% use %}`, donc un
-   `layout.html.twig` réduit à l'assemblage, et des sous-thèmes par domaine
-   (`_collection`, `_gallery`, `_file`, `_image`, `_select2`, `_editor`, `_date`).
-   Attention : l'ordre des `use` détermine la résolution des blocs.
+2. **Découper le fichier.** ✅ **Fait.** `Form/layout/theme.html.twig` est réduit à l'assemblage
+   (`{% use %}` uniquement), les 43 blocs répartis en dix sous-thèmes par domaine
+   (`_core`, `_collection`, `_controls`, `_date`, `_editor`, `_file`, `_gallery`, `_image`,
+   `_select2`, `_translatable`), plus `_collection_macros` pour la macro. L'ordre des `use`
+   déterminant la résolution, `_core` — qui porte la mise en page Bootstrap et donc tous les
+   blocs à `parent()` — est importé en premier. Trois invariants Twig découverts et
+   documentés en tête des fichiers ; cf. §0, « Invariants Twig du thème de formulaire ».
 
-3. **Noms de blocs — renommage libre.** ⬜ **Non fait — fenêtre BC ouverte, à faire vite.**
-   Le nommage est incohérent : `aropixel_admin_*` partout, sauf `aropixel_editor_widget`.
-
-   Une version antérieure de ce document recommandait de conserver les noms à l'identique,
-   au motif qu'un bloc de thème renommé casse **silencieusement** les surcharges des
-   intégrateurs (Twig ignore la surcharge sans erreur, cf. §10). **Cet argument tombe :**
-   v3 n'étant pas diffusée, il n'existe aucune surcharge d'intégrateur à casser.
-
-   Le renommage est donc libre. L'anomalie `aropixel_editor_*` peut être normalisée sans
-   précaution particulière.
+3. **Noms de blocs — renommage libre.** ✅ **Fait.** `aropixel_editor_widget` →
+   `aropixel_admin_editor_widget` (le bloc dans `_editor.html.twig` et
+   `EditorType::getBlockPrefix()`, désormais `aropixel_admin_editor`). Le nommage est
+   uniforme : tous les blocs maison portent le préfixe `aropixel_admin_*`.
 
    > Le raisonnement du §10 sur les ruptures indétectables **reste valable pour l'avenir** :
-   > une fois v3 diffusée, renommer un bloc de thème redevient une rupture invisible, et
-   > cette fenêtre se referme. C'est maintenant ou jamais.
+   > une fois v3 diffusée, renommer un bloc de thème redevient une rupture invisible. La
+   > fenêtre était ouverte, elle est maintenant utilisée et refermée.
 
 ### Séquencement
 

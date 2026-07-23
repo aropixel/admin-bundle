@@ -78,22 +78,31 @@
 
                     <form method="POST" action="{{ path('aropixel_admin_security_login') }}" class="needs-validation" novalidate="">
                         <div class="form-group">
-                            <label for="email" class="control-label">{% trans %}login.form.login.label{% endtrans %}</label>
+                            <label for="email">{% trans %}login.form.login.label{% endtrans %}</label>
                             <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
                             <div class="invalid-feedback">
                                 {% trans %}login.form.login.alert{% endtrans %}
                             </div>
                         </div>
 
-                        <div class="form-group position-relative">
-                            <div class="d-flex justify-content-between ">
-                                <label for="password" class="control-label">{% trans %}login.form.password.label{% endtrans %}</label>
-                                <a href="{{ path('aropixel_admin_reset_request') }}" class="text-small">
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between">
+                                <label for="password">{% trans %}login.form.password.label{% endtrans %}</label>
+                                <a href="{{ path('aropixel_admin_reset_request') }}">
                                     {% trans %}text.forgotten_password_question{% endtrans %}
                                 </a>
                             </div>
-                            <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
-                            {{ ux_icon('lucide:eye-off', {id: 'togglePassword', title: 'login.form.password.show'|trans}) }}
+                            <div class="password-field">
+                                <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                                {# Two icons, one hidden: the toggle swaps them. `ux_icon` inlines the SVG at
+                                   compile time, so the script has no way to fetch the other one at runtime. #}
+                                <button type="button" id="togglePassword" class="password-toggle"
+                                        aria-controls="password" aria-pressed="false"
+                                        title="{{ 'login.form.password.show'|trans }}">
+                                    {{ ux_icon('lucide:eye-off', {'data-state': 'hidden'}) }}
+                                    {{ ux_icon('lucide:eye', {'data-state': 'shown', hidden: true}) }}
+                                </button>
+                            </div>
                             <div class="invalid-feedback">
                                 {% trans %}login.form.password.alert{% endtrans %}
                             </div>

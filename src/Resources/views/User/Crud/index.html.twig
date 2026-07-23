@@ -2,7 +2,7 @@
 
 {% block header_title %}{% trans %}users.title{% endtrans %}{% endblock %}
 {% block header_breadcrumb %}
-    <ul class="breadcrumb breadcrumb-caret position-right">
+    <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('_admin') }}">{% trans %}text.dashboard{% endtrans %}</a></li>
         <li class="breadcrumb-item active">{% trans %}users.title{% endtrans %}</li>
     </ul>
@@ -16,7 +16,7 @@
 
             {% for user in users %}
 
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-lg-3 mb-4">
                     <div class="card" style="{% if not user.enabled %}opacity: 0.5;{% endif %}">
                         <div class="pt-5 pb-4 ps-3 pe-3 d-block">
 

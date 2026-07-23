@@ -106,7 +106,11 @@ Customizable administration interface for managing blog posts, comments, and cat
 ### 🎨 Design & Theming
 * [Theming — the `--aro-*` token API](theming.md)
 * [CSS Customization](css_customization.md)
+* [Icons](icons.md)
 * **Component catalogue** — live at `/admin/_catalog` (dev environment only)
+
+### ⬆️ Upgrading
+* [Upgrading to v3](upgrade-v3.md)
 
 ### 📦 Companion bundles
 The BlogBundle, PageBundle and MenuBundle are separate packages in the same

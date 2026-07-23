@@ -105,10 +105,10 @@
     color: var(--aro-color-surface);
     width: var(--aro-space-5);
     height: var(--aro-space-5);
-    line-height: var(--aro-space-5)!important;
+    line-height: var(--aro-space-5);
     font-size: var(--aro-space-2);
     border-radius: 50%;
-    display: flex!important;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -123,10 +123,6 @@
 input:not([type=checkbox]):not([type=radio]) {
     height: 45px;
     border-radius: var(--aro-space-1);
-}
-
-.cke_combo_button {
-    padding: 3px var(--aro-space-2)!important;
 }
 
 .radio-inline {

@@ -63,17 +63,11 @@
 .thumbnail .no-img {
     text-align: center;
 }
-.thumbnail .no-img [class^="icon-"] {
+
+.thumbnail .no-img svg {
     color: var(--aro-color-border);
-    font-size: 46px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.thumbnail .no-img [class^="fas"] {
-    color: var(--aro-color-border);
-    font-size: 52px;
+    width: 52px;
+    height: 52px;
     position: absolute;
     top: 50%;
     left: 50%;

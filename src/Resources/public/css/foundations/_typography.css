@@ -23,8 +23,35 @@ body {
     background-color: var(--aro-color-bg);
 }
 
+/*
+ * Content links. Component links — `.btn`, `.page-link` — are excluded: they carry their
+ * own colour through Bootstrap's variables (`--bs-btn-color`, `--bs-pagination-active-color`),
+ * and this unlayered rule, being lower in no layer, would otherwise beat those and paint a
+ * primary button or the active pagination page this slate instead of their intended white.
+ */
+a:not(.btn):not(.page-link),
+a:not(.btn):not(.page-link):hover,
+a:not(.btn):not(.page-link):focus {
+    color: var(--aro-color-secondary);
+}
+
+hr {
+    border-top-style: dashed;
+    margin: 2.5rem 0;
+}
+
 p {
     line-height: var(--aro-leading-prose);
+}
+
+/*
+ * Relocated verbatim from the style.css tail (lot B). This 18px literal shadows the token
+ * line-height above for <p> and sets the same rhythm on lists. Whether prose should read the
+ * token instead is a §4 density decision, not part of the lot-B tail evacuation — moved as-is
+ * to keep rendering byte-identical.
+ */
+p, ul:not(.list-unstyled), ol {
+    line-height: 18px;
 }
 
 /* --------------------------------------------------------------------- Utilities */

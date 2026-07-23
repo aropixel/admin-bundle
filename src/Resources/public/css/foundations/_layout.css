@@ -40,3 +40,19 @@
     border-radius: 50%;
     background-color: var(--aro-color-text-muted);
 }
+
+/* ---------------------------------------------------------------------------------------
+ * Relocated from the style.css tail (lot B).
+ * ------------------------------------------------------------------------------------ */
+
+/* Section header of legacy `.section-header` content (page-bundle), inside the main wrapper.
+   The three-class selector outranks any component rule, so no `!important` is needed. */
+.main-wrapper-1 .section .section-header {
+    margin: 0 0 20px 0;
+    border: 0;
+    padding: 20px 0;
+}
+
+.main-footer {
+    padding: 20px 30px;
+}

@@ -19,8 +19,10 @@
     --bs-dropdown-link-active-bg: var(--aro-color-bg);
 }
 
+/* Re-asserts Bootstrap's own divider margin; unlayered + specific, so it wins without
+   `!important` (the value is identical to Bootstrap's, so this is belt-and-braces). */
 .dropdown-toggle + .dropdown-menu .dropdown-divider {
-    margin: var(--bs-dropdown-divider-margin-y) 0 !important;
+    margin: var(--bs-dropdown-divider-margin-y) 0;
 }
 
 .dropdown-menu > li > a > i,
@@ -57,4 +59,14 @@
 .dropdown:focus,
 .dropdown-toggle:focus {
     outline: none;
+}
+
+/* Active / focused item — relocated from the style.css tail (lot B). Unlayered, so it beats
+   Bootstrap's layered `.dropdown-item` rules without `!important`. */
+a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
+    background-color: var(--aro-color-primary);
+    color: var(--aro-color-primary-contrast);
+}
+a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active span {
+    color: var(--aro-color-primary-contrast);
 }

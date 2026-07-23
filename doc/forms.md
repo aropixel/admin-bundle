@@ -357,7 +357,7 @@ Example of `entry_row_template`:
         </div>
         <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
             <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
-                <i class="fas fa-trash me-2"></i> {{ 'text.delete'|trans }}
+                {{ ux_icon('lucide:trash-2', {class: 'me-2'}) }} {{ 'text.delete'|trans }}
             </a>
             <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
                 {{ 'text.close'|trans }}
@@ -381,7 +381,7 @@ $builder->add('variants', CollectionType::class, [
 ```twig
 {# admin/product/variants/_toolbar.html.twig #}
 <a href="{{ path('admin_product_variant_import') }}" class="btn btn-outline-secondary">
-    <i class="fas fa-file-import me-1"></i> Importer
+    {{ ux_icon('lucide:import', {class: 'me-1'}) }} Importer
 </a>
 ```
 
@@ -456,7 +456,7 @@ $builder->add('name', SyliusTranslatableType::class, [
 
 A WYSIWYG editor using QuillJS.
 
-**Twig block:** `aropixel_editor_widget`
+**Twig block:** `aropixel_admin_editor_widget`
 
 **Options:**
 - `toolbar`: The toolbar configuration. Can be a string (`'full'`, `'simple'`, or a custom type name) or a JSON array of toolbar options. (Default: `'full'`).

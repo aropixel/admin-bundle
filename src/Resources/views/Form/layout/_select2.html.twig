@@ -1,0 +1,57 @@
+{#
+ # Select controls, including the Select2 skin.
+ #
+ # `choice_widget_collapsed` is Symfony's own block: it lives here because its whole body
+ # branches on whether the field opted into Select2. The Select2 stylesheet is
+ # css/vendor/_select2.css.
+ #
+ # Public: aropixel_admin_select2_row, aropixel_admin_select2_widget
+ #}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    {% if multiple %}
+        {% set attr = attr|merge({class: 'select-multiple'}) %}
+        {% set attr = attr|merge({style: 'width: 100%;'}) %}
+    {% elseif attr.class is not defined or 'select2' not in attr.class|join('') %}
+        {% set attr = attr|merge({class: 'bootstrap-select form-control'}) %}
+    {% endif %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}{%- if placeholder is not none and ('select2' in attr.class|join('')) -%} data-placeholder="{{ placeholder }}"{% endif %}>
+        {%- if placeholder is not none and ('select2' in attr.class|join('')) and not multiple -%}
+            <option></option>
+        {%- endif -%}
+        {%- if placeholder is not none and (attr.class is not defined or 'select2' not in attr.class|join('')) -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed -%}
+
+{% block aropixel_admin_select2_row -%}
+    <div class="form-group form-group-select2{% if (class is defined) %} {{ class }}{% endif %}{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
+        {{- form_label(form) -}}
+        <div class="col-form-content">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{%- endblock %}
+
+{% block aropixel_admin_select2_widget -%}
+    {% set select2_multiple = multiple %}
+    <select {{ block('widget_attributes') }} class="select2-ajax form-control"{% if placeholder is not none %} data-placeholder="{{ placeholder }}"{% endif %} data-url="{{ url }}"{{ multiple ? ' data-multiple="1" multiple' : '' }}>
+        {% for choice in choices %}
+            <option value="{{ choice.value }}" data-full_name="{{ choice.label }}" selected="selected">{{ choice.label }}</option>
+        {% endfor %}
+    </select>
+{%- endblock %}

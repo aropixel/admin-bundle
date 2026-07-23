@@ -19,7 +19,9 @@
 - [i18n](doc/i18n.md)
 - [Twig macros](doc/macros.md)
 - [Theming — the `--aro-*` token API](doc/theming.md)
+- [Icons — ux-icons / Lucide, and overriding](doc/icons.md)
 - [Form theme block reference](doc/form-theme-blocks.md)
+- [Upgrading to v3](doc/upgrade-v3.md)
 - Component catalogue — live at `/admin/_catalog` (dev only)
 
 ---

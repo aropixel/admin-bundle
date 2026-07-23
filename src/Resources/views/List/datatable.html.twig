@@ -23,7 +23,7 @@
 
     {% for flash_message in app.session.flashbag.get('notice') %}
 
-        <div class="alert alert-success no-border alert-dismissible">
+        <div class="alert alert-success alert-dismissible">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <p>{{ flash_message }}</p>
         </div>

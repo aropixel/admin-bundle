@@ -1,0 +1,79 @@
+/**
+ * Authentication pages — login, password reset, first connexion, activation.
+ *
+ * Twelve templates (Security/, Reset/, Activation/, First/) share the `.login-brand` and
+ * `.simple-footer` wrappers. Both were styled by Stisla and went out with the ablation,
+ * leaving the class names in the markup matching nothing at all — brand and footer fell
+ * back to left-aligned body text. Same story for `#togglePassword`, whose rule lived at
+ * the end of the old 645-line `_form.css`.
+ *
+ * Loaded from `style.css`, which is the only stylesheet common to both families: the
+ * standalone login layout, and the eleven pages that extend `base.html.twig`.
+ */
+
+.login-brand {
+    margin: var(--aro-space-5) 0;
+    text-align: center;
+}
+
+.simple-footer {
+    margin: var(--aro-space-10) 0;
+    text-align: center;
+    color: var(--aro-color-text-muted);
+}
+
+/*
+ * The login form is hand-written markup, not built by the form theme, so its `.form-group`
+ * divs never receive the `mb-3` that `form_row` puts on every themed row. Bootstrap 5
+ * dropped `.form-group` entirely, so nothing else supplies the rhythm either.
+ *
+ * Scoped to `.login-content` on purpose: a bare `.form-group` rule would also land on the
+ * admin's own `.form-horizontal .form-group`, whose spacing already comes from `form_row`
+ * — and would shift every form in the application.
+ */
+.login-content .form-group {
+    margin-bottom: var(--aro-space-6);
+}
+
+.login-content .form-group label {
+    margin-bottom: var(--aro-space-2);
+}
+
+/*
+ * Password reveal toggle.
+ *
+ * The positioning context is the field wrapper, not the `.form-group`: the group also
+ * holds the label row and the validation message, so anchoring to it put the icon below
+ * the input as soon as either was present.
+ */
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: var(--aro-space-10);
+}
+
+.password-toggle {
+    position: absolute;
+    top: 0;
+    right: var(--aro-space-3);
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--aro-color-text-muted);
+    cursor: pointer;
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+    color: var(--aro-color-text);
+}
+
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
+}

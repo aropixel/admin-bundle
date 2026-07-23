@@ -50,6 +50,7 @@
 
     --aro-color-bg: #F5F8FA;
     --aro-color-surface: #FFFFFF;
+    --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
 
     /* ------------------------------------------------------------------ Text */
 
@@ -108,6 +109,11 @@
     --aro-accent-indigo: #5072E3;
     --aro-accent-peach: #F6CB94;
     --aro-accent-magenta: #B91E67;
+
+    /* Menu-item type badges (MenuBundle): link = teal, page = pink. Relocated from the
+       style.css tail (lot B); named by appearance, like the accents above. */
+    --aro-accent-pink: #EC0868;
+    --aro-accent-teal: #0F8B8D;
 
     /* ----------------------------------------------------------------- Radius */
 

@@ -106,3 +106,15 @@
     --bs-popover-bg: var(--aro-color-surface);
     --bs-modal-bg: var(--aro-color-surface);
 }
+
+/*
+ * Pagination active page. Bootstrap hardcodes `--bs-pagination-active-bg: #0d6efd` on
+ * `.pagination` (a literal, so the bridged `--bs-primary` never reaches it), which left the
+ * DataTables pager's current page painted Bootstrap blue. Same component-scoped repoint as
+ * above, to the teal token.
+ */
+.pagination {
+    --bs-pagination-active-bg: var(--aro-color-primary);
+    --bs-pagination-active-border-color: var(--aro-color-primary);
+    --bs-pagination-active-color: var(--aro-color-primary-contrast);
+}

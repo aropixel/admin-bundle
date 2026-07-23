@@ -186,6 +186,7 @@
 
     --aro-color-bg: #F5F8FA;
     --aro-color-surface: #FFFFFF;
+    --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
 
     /* ------------------------------------------------------------------ Text */
 
@@ -244,6 +245,11 @@
     --aro-accent-indigo: #5072E3;
     --aro-accent-peach: #F6CB94;
     --aro-accent-magenta: #B91E67;
+
+    /* Menu-item type badges (MenuBundle): link = teal, page = pink. Relocated from the
+       style.css tail (lot B); named by appearance, like the accents above. */
+    --aro-accent-pink: #EC0868;
+    --aro-accent-teal: #0F8B8D;
 
     /* ----------------------------------------------------------------- Radius */
 
@@ -470,6 +476,18 @@
     --bs-modal-bg: var(--aro-color-surface);
 }
 
+/*
+ * Pagination active page. Bootstrap hardcodes `--bs-pagination-active-bg: #0d6efd` on
+ * `.pagination` (a literal, so the bridged `--bs-primary` never reaches it), which left the
+ * DataTables pager's current page painted Bootstrap blue. Same component-scoped repoint as
+ * above, to the teal token.
+ */
+.pagination {
+    --bs-pagination-active-bg: var(--aro-color-primary);
+    --bs-pagination-active-border-color: var(--aro-color-primary);
+    --bs-pagination-active-color: var(--aro-color-primary-contrast);
+}
+
 /* ./foundations/_typography.css */
 /**
  * Typography.
@@ -496,8 +514,35 @@ body {
     background-color: var(--aro-color-bg);
 }
 
+/*
+ * Content links. Component links — `.btn`, `.page-link` — are excluded: they carry their
+ * own colour through Bootstrap's variables (`--bs-btn-color`, `--bs-pagination-active-color`),
+ * and this unlayered rule, being lower in no layer, would otherwise beat those and paint a
+ * primary button or the active pagination page this slate instead of their intended white.
+ */
+a:not(.btn):not(.page-link),
+a:not(.btn):not(.page-link):hover,
+a:not(.btn):not(.page-link):focus {
+    color: var(--aro-color-secondary);
+}
+
+hr {
+    border-top-style: dashed;
+    margin: 2.5rem 0;
+}
+
 p {
     line-height: var(--aro-leading-prose);
+}
+
+/*
+ * Relocated verbatim from the style.css tail (lot B). This 18px literal shadows the token
+ * line-height above for <p> and sets the same rhythm on lists. Whether prose should read the
+ * token instead is a §4 density decision, not part of the lot-B tail evacuation — moved as-is
+ * to keep rendering byte-identical.
+ */
+p, ul:not(.list-unstyled), ol {
+    line-height: 18px;
 }
 
 /* --------------------------------------------------------------------- Utilities */
@@ -579,6 +624,22 @@ p {
     vertical-align: middle;
     border-radius: 50%;
     background-color: var(--aro-color-text-muted);
+}
+
+/* ---------------------------------------------------------------------------------------
+ * Relocated from the style.css tail (lot B).
+ * ------------------------------------------------------------------------------------ */
+
+/* Section header of legacy `.section-header` content (page-bundle), inside the main wrapper.
+   The three-class selector outranks any component rule, so no `!important` is needed. */
+.main-wrapper-1 .section .section-header {
+    margin: 0 0 20px 0;
+    border: 0;
+    padding: 20px 0;
+}
+
+.main-footer {
+    padding: 20px 30px;
 }
 
 /* ./vendor/_datatables.css */
@@ -919,6 +980,15 @@ textarea.form-control {
 }
 .multiselect-container > li.multiselect-group > a i {
     margin-top: 3px;
+}
+
+/* Multi-select chips — grey, overriding this skin's teal. Relocated from the style.css tail
+   (lot B); lives here, at the end of the vendor skin it overrides. */
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-results__option[aria-selected=true],
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--aro-color-surface-muted);
+    color: var(--aro-color-text-strong);
 }
 
 /****************************************/
@@ -1700,8 +1770,10 @@ button.fa-stack.danger .fa-stack-1x {
     --bs-dropdown-link-active-bg: var(--aro-color-bg);
 }
 
+/* Re-asserts Bootstrap's own divider margin; unlayered + specific, so it wins without
+   `!important` (the value is identical to Bootstrap's, so this is belt-and-braces). */
 .dropdown-toggle + .dropdown-menu .dropdown-divider {
-    margin: var(--bs-dropdown-divider-margin-y) 0 !important;
+    margin: var(--bs-dropdown-divider-margin-y) 0;
 }
 
 .dropdown-menu > li > a > i,
@@ -1738,6 +1810,16 @@ button.fa-stack.danger .fa-stack-1x {
 .dropdown:focus,
 .dropdown-toggle:focus {
     outline: none;
+}
+
+/* Active / focused item — relocated from the style.css tail (lot B). Unlayered, so it beats
+   Bootstrap's layered `.dropdown-item` rules without `!important`. */
+a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
+    background-color: var(--aro-color-primary);
+    color: var(--aro-color-primary-contrast);
+}
+a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active span {
+    color: var(--aro-color-primary-contrast);
 }
 
 /* ./components/_media-library.css */
@@ -1931,17 +2013,11 @@ button.fa-stack.danger .fa-stack-1x {
 .thumbnail .no-img {
     text-align: center;
 }
-.thumbnail .no-img [class^="icon-"] {
+
+.thumbnail .no-img svg {
     color: var(--aro-color-border);
-    font-size: 46px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.thumbnail .no-img [class^="fas"] {
-    color: var(--aro-color-border);
-    font-size: 52px;
+    width: 52px;
+    height: 52px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -2140,6 +2216,9 @@ button.fa-stack.danger .fa-stack-1x {
  */
 .form-control,
 .form-select {
+    /* Bootstrap hardcodes `font-size: 1rem` on `.form-control`, so fields rendered 16px while
+       the rest of the admin is on the 14px base. Bring them onto the base token. */
+    font-size: var(--aro-text-base);
     background-color: var(--aro-field-bg);
     border-color: var(--aro-field-border);
 }
@@ -2262,10 +2341,10 @@ button.fa-stack.danger .fa-stack-1x {
     color: var(--aro-color-surface);
     width: var(--aro-space-5);
     height: var(--aro-space-5);
-    line-height: var(--aro-space-5)!important;
+    line-height: var(--aro-space-5);
     font-size: var(--aro-space-2);
     border-radius: 50%;
-    display: flex!important;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -2280,10 +2359,6 @@ button.fa-stack.danger .fa-stack-1x {
 input:not([type=checkbox]):not([type=radio]) {
     height: 45px;
     border-radius: var(--aro-space-1);
-}
-
-.cke_combo_button {
-    padding: 3px var(--aro-space-2)!important;
 }
 
 .radio-inline {
@@ -2447,17 +2522,14 @@ input:not([type=checkbox]):not([type=radio]) {
 
 /* ./components/_helpers.css */
 /**
- * Utility classes — legacy spacing and border helpers.
+ * Utility classes — border and animation helpers.
  *
- * What remains of the original 141-class helpers file: the 14 spacing utilities still used
- * (39 occurrences) and the 4 border utilities still used. The `!important` on the spacing
- * ones is legitimate — that is how utilities beat component rules, exactly as Bootstrap's
- * own `.mt-*` do. Everything else was dead: the entire `w-/h-/mw-*px` sizing block, the
- * `-lg`/`-xl`/`-dashed` border variants and `.flex-center` — no template used any of them.
- *
- * Still on px, not tokens, on purpose: these are legacy utilities marked for replacement
- * by their Bootstrap equivalents (`.mt-3`, `.me-2`, …) as templates are migrated, at which
- * point this file disappears. Tokenising them would silently shift 15px to 16px etc.
+ * The 14 legacy px spacing utilities (`.m-r-15`, `.no-margin`, …) that used to live here were
+ * **migrated to Bootstrap's own** (`.me-3`, `.m-0`, …) across every template and deleted — the
+ * replacement the previous header promised. That also removed their 13 `!important`: Bootstrap
+ * carries the utility `!important` itself, in the bootstrap layer, so it no longer counts as
+ * first-party debt. The mapping rounded to the nearest Bootstrap step (15px→16, 20px→24,
+ * 30px→24, 35px→24, 50px→48), a deliberate few-pixel drift.
  *
  * Audit note on the borders: `.border-top` / `.border-bottom` shadow Bootstrap 5's own
  * (which use `--bs-border-color`); ours use `currentColor`, and win by being unlayered.
@@ -2465,23 +2537,6 @@ input:not([type=checkbox]):not([type=radio]) {
  * `.border-start` / `.border-end`. Kept as-is to preserve rendering; a later pass can
  * reconcile the top/bottom pair with Bootstrap.
  */
-
-/* ---------------------------------------------------------------- Spacing */
-
-.no-margin { margin: 0; }
-.p-r-0 { padding-right: 0 !important; }
-.m-r-10 { margin-right: 10px !important; }
-.m-t-15 { margin-top: 15px !important; }
-.m-r-15 { margin-right: 15px !important; }
-.m-t-20 { margin-top: 20px !important; }
-.m-r-20 { margin-right: 20px !important; }
-.m-l-20 { margin-left: 20px !important; }
-.m-r-30 { margin-right: 30px !important; }
-.m-l-30 { margin-left: 30px !important; }
-.m-b-30 { margin-bottom: 30px !important; }
-.m-b-35 { margin-bottom: 35px !important; }
-.m-t-50 { margin-top: 50px !important; }
-.m-l-50 { margin-left: 50px !important; }
 
 /* ----------------------------------------------------------------- Borders */
 
@@ -2500,6 +2555,36 @@ input:not([type=checkbox]):not([type=radio]) {
 
 @keyframes aro-spin {
     to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------------------------
+ * Relocated from the style.css tail (lot B): utilities and cross-suite background colours.
+ * ------------------------------------------------------------------------------------ */
+
+.text-underlined-dashed {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Missing-thumbnail placeholder (User CRUD). */
+.missing-img {
+    width: 50%;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.missing-img:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
 }
 
 /* ./components/_modal.css */
@@ -2744,7 +2829,7 @@ input:not([type=checkbox]):not([type=radio]) {
 }
 
 .fullscreen-navbar .navbar-links a .dropdown-item-desc {
-    margin-left: 0!important;
+    margin-left: 0;
 }
 
 .fullscreen-navbar .navbar-links #mev-toggle-icon.scheduled svg path {
@@ -2953,8 +3038,9 @@ input:not([type=checkbox]):not([type=radio]) {
 #close-fullscreen-menu {
     cursor: pointer;
 }
-#close-fullscreen-menu i {
-    font-size: 35px;
+#close-fullscreen-menu svg {
+    height: 35px;    
+    width: 35px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -2996,6 +3082,11 @@ input:not([type=checkbox]):not([type=radio]) {
 
 .sidemenu-title {
     align-items: baseline;
+}
+
+/* User-icon colour — relocated from the style.css tail (lot B). */
+.nav-link-user .rounded-circle i {
+    color: var(--aro-color-primary);
 }
 
 /* ./components/_quick-links.css */
@@ -3526,9 +3617,10 @@ table.dataTable thead .sorting_desc_disabled::before {
  * so they had silently stopped doing anything. Rather than reimplement a dead vocabulary,
  * the templates were migrated to Bootstrap's `.text-bg-*`. Closes §17 item 7.
  *
- * The status indicators were declared twice, here and in `custom.css`, with different
- * values for the same states. They now live here only — this is where a reader looks for
- * them, and `custom.css` is meant to end up empty.
+ * The status indicators were declared twice, here and in the old `custom.css`, with
+ * different values for the same states. They now live here only — this is where a reader
+ * looks for them. The manifest is now `style.css`: imports plus a small tail of genuinely
+ * global rules.
  */
 
 .badge {
@@ -3710,124 +3802,148 @@ a.badge:hover {
     display: block;
 }
 
-/* ./style.css (tail) */
-/* ------------------------------------------------------------------------
- * App-level global overrides.
+/* Locale switcher on translatable forms — was an inline `style="width:80px"` (lot B). */
+.locale-dropdown {
+    width: 80px;
+    min-width: 80px;
+}
+
+/* ./components/_auth.css */
+/**
+ * Authentication pages — login, password reset, first connexion, activation.
  *
- * A small, deliberately global layer that is not component-scoped: link
- * colour, the dashed <hr>, generic list rhythm, a couple of utilities and
- * a handful of cross-suite rules still referenced by templates.
+ * Twelve templates (Security/, Reset/, Activation/, First/) share the `.login-brand` and
+ * `.simple-footer` wrappers. Both were styled by Stisla and went out with the ablation,
+ * leaving the class names in the markup matching nothing at all — brand and footer fell
+ * back to left-aligned body text. Same story for `#togglePassword`, whose rule lived at
+ * the end of the old 645-line `_form.css`.
  *
- * Everything Stisla-era and unreferenced (the spectrum colour-picker and
- * x-editable skins, dead pagination / nav / section-entry rules, …) has
- * been removed, and the legacy --main-* / --second-* token block is gone:
- * its values now live in foundations/_tokens.css as --aro-* tokens.
- * ------------------------------------------------------------------------ */
+ * Loaded from `style.css`, which is the only stylesheet common to both families: the
+ * standalone login layout, and the eleven pages that extend `base.html.twig`.
+ */
 
-a, a:hover, a:focus {
-    color: var(--aro-color-secondary);
+.login-brand {
+    margin: var(--aro-space-5) 0;
+    text-align: center;
 }
 
-hr {
-    border-top-style: dashed;
-    margin: 2.5rem 0 !important;
+.simple-footer {
+    margin: var(--aro-space-10) 0;
+    text-align: center;
+    color: var(--aro-color-text-muted);
 }
 
-p, ul:not(.list-unstyled), ol {
-    line-height: 18px;
+/*
+ * The login form is hand-written markup, not built by the form theme, so its `.form-group`
+ * divs never receive the `mb-3` that `form_row` puts on every themed row. Bootstrap 5
+ * dropped `.form-group` entirely, so nothing else supplies the rhythm either.
+ *
+ * Scoped to `.login-content` on purpose: a bare `.form-group` rule would also land on the
+ * admin's own `.form-horizontal .form-group`, whose spacing already comes from `form_row`
+ * — and would shift every form in the application.
+ */
+.login-content .form-group {
+    margin-bottom: var(--aro-space-6);
 }
 
-.text-underlined-dashed {
-    text-decoration: underline;
-    text-decoration-style: dashed;
+.login-content .form-group label {
+    margin-bottom: var(--aro-space-2);
 }
 
-.cursor-pointer {
+/*
+ * Password reveal toggle.
+ *
+ * The positioning context is the field wrapper, not the `.form-group`: the group also
+ * holds the label row and the validation message, so anchoring to it put the icon below
+ * the input as soon as either was present.
+ */
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: var(--aro-space-10);
+}
+
+.password-toggle {
+    position: absolute;
+    top: 0;
+    right: var(--aro-space-3);
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--aro-color-text-muted);
     cursor: pointer;
 }
 
-/* Dropdown active item. */
-a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
-    background-color: var(--aro-color-primary);
-    color: var(--aro-color-primary-contrast) !important;
-}
-a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active span {
-    color: var(--aro-color-primary-contrast) !important;
+.password-toggle:hover,
+.password-toggle:focus-visible {
+    color: var(--aro-color-text);
 }
 
-/* Select2 multi-select chips — grey, overriding the vendor skin's teal. */
-.select2-container--default .select2-selection--multiple .select2-selection__choice,
-.select2-container--default .select2-results__option[aria-selected=true],
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #ebebeb;
-    color: var(--aro-color-text-strong);
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
 }
 
-/* Underlined tabs (PageBundle builder). */
+/* ./components/_tabs.css */
+/**
+ * Tabs — underlined variant.
+ *
+ * Relocated from the style.css tail (lot B). `.nav-tabs.tab-underlined` swaps Bootstrap's
+ * boxed tabs for a bottom-border-only style with a primary accent on the active tab. Used by
+ * the PageBundle builder (`builder/index.html.twig`).
+ */
+
 .nav-tabs.tab-underlined .nav-link {
     border: 0;
 }
+
 .nav-tabs.tab-underlined .nav-link.active {
     border-bottom: 3px solid var(--aro-color-primary);
 }
 
-/* Menu item colour utilities (MenuBundle). */
+/* ./components/_bg-utilities.css */
+/**
+ * Background-colour utilities — cross-suite.
+ *
+ * Relocated from the style.css tail (lot B). These MUST load last, after every component,
+ * because they are utilities: `.bg-teal` sets a `border-color` that `_badge.css`'s
+ * `.badge { border: 1px solid transparent }` shorthand would otherwise reset if it loaded
+ * afterwards. Bootstrap's own `.bg-*` utilities load last for the same reason — style.css
+ * imports this file at the very end to mirror that.
+ *
+ * `--aro-accent-pink` / `--aro-accent-teal` / `.bg-dark-grey` are the MenuBundle type badges
+ * (page / link / section); `.bg-success` backs a modal header in menu_controller.js.
+ */
+
 .bg-pink {
-    background-color: #EC0868;
-    border-color: #EC0868;
+    background-color: var(--aro-accent-pink);
+    border-color: var(--aro-accent-pink);
     color: var(--aro-color-primary-contrast);
 }
+
 .bg-teal {
-    background-color: #0F8B8D;
-    border-color: #0F8B8D;
+    background-color: var(--aro-accent-teal);
+    border-color: var(--aro-accent-teal);
     color: var(--aro-color-primary-contrast);
 }
+
+/* Section-type menu badge — the structural/neutral-dark role (§ secondary). */
+.bg-dark-grey {
+    background-color: var(--aro-color-secondary);
+    border-color: var(--aro-color-secondary);
+    color: var(--aro-color-primary-contrast);
+}
+
+/* `!important` kept on purpose: Bootstrap's own `.bg-success` is `!important` and lives in
+   the bootstrap layer. Importance outranks layer order, so an unlayered *normal* declaration
+   would lose to it — only an unlayered `!important` wins. */
 .bg-success {
     background-color: var(--aro-color-success) !important;
-}
-
-/* File library action toolbar. */
-.heading-elements {
-    margin: 4px 0 0;
-}
-.heading-elements > * {
-    margin-left: 20px;
-}
-.heading-elements i {
-    margin-left: 0 !important;
-}
-
-/* Fullscreen-menu user icon. */
-.nav-link-user .rounded-circle i {
-    color: var(--aro-color-primary);
-}
-
-/* Section header inside the main content wrapper. */
-.main-wrapper-1 .section .section-header {
-    margin: 0 0 20px 0 !important;
-    border: 0;
-    padding: 20px 0;
-}
-
-/* Placeholder for a missing thumbnail (User CRUD). */
-.missing-img {
-    width: 50%;
-    display: flex;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-.missing-img:after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
-}
-
-.main-footer {
-    padding: 20px 30px;
 }
 
 </style>
@@ -3861,6 +3977,9 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
     }
     .cat-toc a { color: var(--aro-color-secondary); text-decoration: none; margin-right: var(--aro-space-4); }
     .cat-toc a:hover { color: var(--aro-color-primary); }
+    /* Bootstrap 5 stops at mb-5; the catalogue needs 24/32px bottom steps, on tokens. */
+    .mb-6 { margin-bottom: var(--aro-space-6); }
+    .mb-8 { margin-bottom: var(--aro-space-8); }
 
 </style>
 </head>

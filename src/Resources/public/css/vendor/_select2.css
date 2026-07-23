@@ -285,4 +285,13 @@ textarea.form-control {
     margin-top: 3px;
 }
 
+/* Multi-select chips — grey, overriding this skin's teal. Relocated from the style.css tail
+   (lot B); lives here, at the end of the vendor skin it overrides. */
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-results__option[aria-selected=true],
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--aro-color-surface-muted);
+    color: var(--aro-color-text-strong);
+}
+
 /****************************************/

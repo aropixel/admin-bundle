@@ -1,15 +1,12 @@
 /**
- * Utility classes — legacy spacing and border helpers.
+ * Utility classes — border and animation helpers.
  *
- * What remains of the original 141-class helpers file: the 14 spacing utilities still used
- * (39 occurrences) and the 4 border utilities still used. The `!important` on the spacing
- * ones is legitimate — that is how utilities beat component rules, exactly as Bootstrap's
- * own `.mt-*` do. Everything else was dead: the entire `w-/h-/mw-*px` sizing block, the
- * `-lg`/`-xl`/`-dashed` border variants and `.flex-center` — no template used any of them.
- *
- * Still on px, not tokens, on purpose: these are legacy utilities marked for replacement
- * by their Bootstrap equivalents (`.mt-3`, `.me-2`, …) as templates are migrated, at which
- * point this file disappears. Tokenising them would silently shift 15px to 16px etc.
+ * The 14 legacy px spacing utilities (`.m-r-15`, `.no-margin`, …) that used to live here were
+ * **migrated to Bootstrap's own** (`.me-3`, `.m-0`, …) across every template and deleted — the
+ * replacement the previous header promised. That also removed their 13 `!important`: Bootstrap
+ * carries the utility `!important` itself, in the bootstrap layer, so it no longer counts as
+ * first-party debt. The mapping rounded to the nearest Bootstrap step (15px→16, 20px→24,
+ * 30px→24, 35px→24, 50px→48), a deliberate few-pixel drift.
  *
  * Audit note on the borders: `.border-top` / `.border-bottom` shadow Bootstrap 5's own
  * (which use `--bs-border-color`); ours use `currentColor`, and win by being unlayered.
@@ -17,23 +14,6 @@
  * `.border-start` / `.border-end`. Kept as-is to preserve rendering; a later pass can
  * reconcile the top/bottom pair with Bootstrap.
  */
-
-/* ---------------------------------------------------------------- Spacing */
-
-.no-margin { margin: 0; }
-.p-r-0 { padding-right: 0 !important; }
-.m-r-10 { margin-right: 10px !important; }
-.m-t-15 { margin-top: 15px !important; }
-.m-r-15 { margin-right: 15px !important; }
-.m-t-20 { margin-top: 20px !important; }
-.m-r-20 { margin-right: 20px !important; }
-.m-l-20 { margin-left: 20px !important; }
-.m-r-30 { margin-right: 30px !important; }
-.m-l-30 { margin-left: 30px !important; }
-.m-b-30 { margin-bottom: 30px !important; }
-.m-b-35 { margin-bottom: 35px !important; }
-.m-t-50 { margin-top: 50px !important; }
-.m-l-50 { margin-left: 50px !important; }
 
 /* ----------------------------------------------------------------- Borders */
 
@@ -52,4 +32,34 @@
 
 @keyframes aro-spin {
     to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------------------------
+ * Relocated from the style.css tail (lot B): utilities and cross-suite background colours.
+ * ------------------------------------------------------------------------------------ */
+
+.text-underlined-dashed {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Missing-thumbnail placeholder (User CRUD). */
+.missing-img {
+    width: 50%;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.missing-img:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
 }

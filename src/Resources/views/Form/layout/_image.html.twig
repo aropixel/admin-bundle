@@ -1,0 +1,49 @@
+{#
+ # Single image widget (ImageType) and its crop children — see doc/image.md.
+ #
+ # Public: aropixel_admin_image_widget
+ # Internal: the `data-im-*` attributes are the contract with js/module/image-manager/.
+ #}
+
+{% block aropixel_admin_image_widget -%}
+
+    {{ enable_image_library_modal() }}
+    {% set type = type is defined ? type : 'image' %}
+    {% set entityField = field is defined ? field : 'image' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+
+    <div class="im-manager form-group"
+         data-im-type="{{ type }}"
+         data-im-entity-class="{{ entityClass }}"
+         data-im-attach-class="{{ form.vars.attach_class }}"
+         {% if form.vars.attach_value is defined %}data-im-attach-value="{{ form.vars.attach_value }}"{% endif %}
+         data-im-library="{{ form.vars.library }}"
+         data-im-route="{{ routeName is defined and routeName ? routeName : app.request.attributes.get('_route') }}"
+            {% if form.vars.accept is defined and form.vars.accept %}data-im-accept="{{ form.vars.accept }}"{% endif %}
+            {% if form.vars.max_size is defined and form.vars.max_size %}data-im-max-size="{{ form.vars.max_size }}"{% endif %}>
+
+        {{ include('@AropixelAdmin/Image/Widget/image.html.twig', {form: form, crops: crops is defined ? crops : null}) }}
+
+    </div>
+
+{%- endblock %}
+
+{% block aropixel_admin_crops_row -%}
+    {% if image %}
+        {{ include('@AropixelAdmin/Image/Modals/crop.html.twig', {image: image, crops: crops is defined ? crops : null}) }}
+    {% endif %}
+    {{- form_widget(form) -}}
+{%- endblock %}
+
+{% block aropixel_admin_crops_widget -%}
+
+    {% if prototype is defined and not prototype.rendered %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+
+{%- endblock %}
+
+{% block aropixel_admin_crop_row -%}
+    {{- form_widget(form) -}}
+{%- endblock %}

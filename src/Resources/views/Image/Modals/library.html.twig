@@ -27,19 +27,19 @@
 
                 <div id="image_options" class="col-md-4">
 
-                    <div class="m-l-30">
+                    <div class="ms-4">
 
-                        <div class="size-option m-t-15">
+                        <div class="size-option mt-3">
 
-                            <h5 class="no-margin">{% trans %}library.images.modal.editor_crop.title{% endtrans %}</h5>
-                            <p class="m-t-20">
+                            <h5 class="m-0">{% trans %}library.images.modal.editor_crop.title{% endtrans %}</h5>
+                            <p class="mt-4">
                                 {% trans %}library.images.modal.editor_crop.description{% endtrans %}<br />
                                 <strong>{% trans %}library.images.modal.editor_crop.description.size_warning{% endtrans %}</strong>
                                 {% trans %}library.images.modal.editor_crop.description.size_warning_consequence{% endtrans %}
                             </p>
 
                             {% set myfilters = get_editor_filters() %}
-                            <div class="m-t-15">
+                            <div class="mt-3">
                                 <label>{% trans %}library.images.modal.editor_crop.editor_filters.title{% endtrans %}</label>
                                 <select class="bootstrap-select" data-width="100%" name="img_size" id="img_size">
                                     <option value="auto">{% trans %}library.images.modal.editor_crop.editor_filters.auto{% endtrans %}</option>
@@ -54,7 +54,7 @@
                                 </select>
                             </div>
 
-                            <div class="m-t-15 size-filter-option" style="display: none">
+                            <div class="mt-3 size-filter-option" style="display: none">
                                 <label><strong>{% trans %}library.images.modal.editor_crop.custom_filters.title{% endtrans %}</strong></label>
                                 <select class="bootstrap-select" data-width="100%" name="img_filter" id="img_filter">
                                     {% for filterSlug, filterDescription in myfilters %}
@@ -63,19 +63,19 @@
                                 </select>
                             </div>
 
-                            <hr class="m-t-50 m-b-35" />
+                            <hr class="mt-5 mb-4" />
 
                         </div>
 
-                        <div class="seo-option m-t-15">
+                        <div class="seo-option mt-3">
 
-                            <h5 class="no-margin">{% trans %}library.images.modal.seo.title{% endtrans %}</h5>
-                            <p class="m-t-20">
+                            <h5 class="m-0">{% trans %}library.images.modal.seo.title{% endtrans %}</h5>
+                            <p class="mt-4">
                                 <strong>{% trans %}library.images.modal.seo.alt_image_instruction1{% endtrans %}</strong><br />
                                 {% trans %}library.images.modal.seo.alt_image_instruction2{% endtrans %}<br />
                             </p>
 
-                            <div class="m-t-15">
+                            <div class="mt-3">
                                 <label>{% trans %}library.images.modal.seo.form{% endtrans %}</label>
                                 <input type="text" name="img_alt" id="img_alt" value="" class="form-control">
                             </div>
@@ -96,11 +96,11 @@
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <div>
-                    <button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.images.modal.upload_button{% endtrans %} {{ ux_icon('lucide:upload', {class: 'position-right'}) }}</button>
+                    <button type="button" class="btn btn-primary image-uploader" data-path="{{ path('image_upload') }}" data-category="{{ category }}" data-dataTabler="#libraryDataTable">{% trans %}library.images.modal.upload_button{% endtrans %} {{ ux_icon('lucide:upload') }}</button>
                     <ul class="progress-upload d-inline-block"></ul>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-outline m-r-15" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
+                    <button type="button" class="btn btn-outline me-3" data-bs-dismiss="modal">{% trans %}text.close{% endtrans %}</button>
                     <button type="button" class="btn btn-primary attach-images">{% trans %}library.images.modal.submit{% endtrans %}</button>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 {% if form is defined and form.crops is defined %}
-    {% form_theme form.crops '@AropixelAdmin/Form/layout.html.twig' %}
+    {% form_theme form.crops '@AropixelAdmin/Form/layout/theme.html.twig' %}
 {% endif %}
 
 {% set prototype_new %}{{ include('@AropixelAdmin/Image/Widget/new.html.twig') }}{% endset %}

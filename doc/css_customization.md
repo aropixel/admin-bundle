@@ -32,8 +32,8 @@ If you are upgrading and referenced these in your own templates, they are gone:
 |---|---|
 | `.ts-xs` … `.ts-5` (font-size scale) | Bootstrap `.fs-*`, or the `--aro-text-*` tokens |
 | `.tw-300` … `.tw-700` (font-weight) | Bootstrap `.fw-light` / `.fw-medium` / `.fw-semibold` / `.fw-bold` |
-| Most `.m-t-*` / `.p-b-*` (5px-step spacing) | Bootstrap `.mt-*` / `.pb-*` (only a handful of the old ones survive) |
+| `.m-t-*` / `.m-r-*` / `.no-margin` (5px-step spacing) | Bootstrap `.mt-*` / `.me-*` / `.m-0` — the maison utilities were all migrated to Bootstrap and removed |
 | `.w-20px` … `.w-100px`, `.h-*px` sizing | inline `style` or a Bootstrap sizing utility |
-| FontAwesome `<i class="fas fa-…">` | `{{ ux_icon('lucide:…') }}` — see the icons section of the catalogue |
+| FontAwesome `<i class="fas fa-…">` | `{{ ux_icon('lucide:…') }}` — see **[Icons](icons.md)** |
 
-A full old-major → v3 migration guide is a separate document (see the roadmap).
+A full old-major → v3 migration guide lives in **[Upgrading to v3](upgrade-v3.md)**.

@@ -64,7 +64,7 @@
 }
 
 .fullscreen-navbar .navbar-links a .dropdown-item-desc {
-    margin-left: 0!important;
+    margin-left: 0;
 }
 
 .fullscreen-navbar .navbar-links #mev-toggle-icon.scheduled svg path {
