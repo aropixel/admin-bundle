@@ -320,11 +320,18 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 > 1. **Conformité twig-cs des 3 bundles compagnons** — jamais mis aux normes ; le CI est rouge
 >    dessus (préexistant à nos commits). `qa:twig-cs` reformate en masse (le lancer sur un arbre
 >    dédié, pas mélangé).
-> 2. **Divers** : la police **Typekit externe** de `page-builder.css`
->    (`@import url("https://use.typekit.net/…")`) — même souci RGPD que les Google Fonts retirées
->    d'admin ; **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ; et **le cliquet
->    `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts bundle) — à
->    porter dans un repo si on veut le conserver.
+> 2. **Divers** :
+>    - ~~police **Typekit externe** de `page-builder.css`~~ **✅ FAIT le 24 juillet 2026** —
+>      `@import url("https://use.typekit.net/tpb1kxh.css")` **supprimé** (fuite RGPD, même souci
+>      que les Google Fonts retirées d'admin). La police `forevs` qu'il fournissait ne servait
+>      qu'au **preview du bloc bannière** (`.pb-banner-preview`, `_blocks.css`) — vestige d'un
+>      projet repris ; `font-family: forevs, sans-serif` → `sans-serif`. Plus **aucun** `@import`
+>      externe ni référence Google/Typekit (hors commentaire historique de `_fonts.css`) dans les
+>      4 bundles. (`forevs` étant une police commerciale Adobe, l'auto-hébergement à la Poppins
+>      n'était pas une option légale — d'où la suppression pure.)
+>    - **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ;
+>    - **le cliquet `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts
+>      bundle) — à porter dans un repo si on veut le conserver.
 
 **A. Thème de formulaire (§16) — ✅ clos**, cf. « Fait » ci-dessus et les invariants Twig.
 
