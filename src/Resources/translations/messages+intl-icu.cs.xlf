@@ -37,6 +37,18 @@
         <source>text.cancel</source>
         <target>Zrušit</target>
       </trans-unit>
+      <trans-unit id="generic.confirmation" resname="text.confirmation">
+        <source>text.confirmation</source>
+        <target>Potvrzení</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm" resname="text.confirm">
+        <source>text.confirm</source>
+        <target>Potvrdit</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_detail" resname="text.confirm_delete_detail">
+        <source>text.confirm_delete_detail</source>
+        <target>Tuto akci nelze vrátit zpět.</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>

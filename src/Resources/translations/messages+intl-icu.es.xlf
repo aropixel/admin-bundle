@@ -37,6 +37,18 @@
         <source>text.cancel</source>
         <target>Cancelar</target>
       </trans-unit>
+      <trans-unit id="generic.confirmation" resname="text.confirmation">
+        <source>text.confirmation</source>
+        <target>Confirmación</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm" resname="text.confirm">
+        <source>text.confirm</source>
+        <target>Confirmar</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_detail" resname="text.confirm_delete_detail">
+        <source>text.confirm_delete_detail</source>
+        <target>Esta acción no se puede deshacer.</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>En línea</target>

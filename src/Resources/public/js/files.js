@@ -4,6 +4,7 @@
 
 
 import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
 
 (function($){
 
@@ -347,49 +348,36 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
         this.detach = function(button) {
 
-            let _buttons = {
+            new ConfirmDialog({
+                intent: 'danger',
+                title: 'Supprimer',
+                message: 'Voulez-vous supprimer le fichier ?',
+                confirmLabel: 'Supprimer',
+                cancelLabel: 'Fermer',
+                onConfirm: function() {
 
-                "Fermer": function() {
-                    $(this).closest('.modal').modal('hide');
-                },
+                    let $filesContainer = button.closest('.tableFiles');
+                    let $filesItemsContainer = $filesContainer.is('table') ? $filesContainer.find('tbody') : $filesContainer;
+                    let placeholder = $filesContainer.data('placeholder');
 
-                "Supprimer": {
+                    button.closest('.itemFile').fadeOut(400, function() {
+                        let formFields = $filesItemsContainer.find('.d-none');
+                        $(this).remove();
+                        if ($filesItemsContainer.find('.itemFile').length == 0) {
 
-                    'class' : 'btn-danger',
-                    'callback' : function() {
-
-                        let $filesContainer = button.closest('.tableFiles');
-                        let $filesItemsContainer = $filesContainer.is('table') ? $filesContainer.find('tbody') : $filesContainer;
-                        let placeholder = $filesContainer.data('placeholder');
-
-                        button.closest('.itemFile').fadeOut(400, function() {
-                            let formFields = $filesItemsContainer.find('.d-none');
-                            $(this).remove();
-                            if ($filesItemsContainer.find('.itemFile').length == 0) {
-
-                                // if (launcher.config.multiple == 0) {
-                                $filesItemsContainer.html(placeholder);
-                                let $newPlaceholder = $filesItemsContainer.find('.itemNew');
-                                if ($filesContainer.is('table')) {
-                                    $newPlaceholder.find('td:first').append(formFields);
-                                } else {
-                                    $newPlaceholder.append(formFields);
-                                }
-                                $filesItemsContainer.find('input:hidden').removeAttr('value');
-                                // }
-                                // else {
-                                //     $filesTbody.html(placeholder);
-                                // }
+                            $filesItemsContainer.html(placeholder);
+                            let $newPlaceholder = $filesItemsContainer.find('.itemNew');
+                            if ($filesContainer.is('table')) {
+                                $newPlaceholder.find('td:first').append(formFields);
+                            } else {
+                                $newPlaceholder.append(formFields);
                             }
-                        });
-                        $(this).closest('.modal').modal('hide');
+                            $filesItemsContainer.find('input:hidden').removeAttr('value');
+                        }
+                    });
 
-                    },
-
-                }
-            }
-
-            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+                },
+            });
 
         }
 
@@ -495,31 +483,18 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
             _detach_params['entity_id'] = obj.launcher.config.flEntityId;
             _detach_params['file_id'] = $(this).data('id');
 
-            let _buttons = {
-
-                "Fermer": function() {
-                    $(this).closest('.modal').modal('hide');
+            new ConfirmDialog({
+                intent: 'danger',
+                title: 'Supprimer',
+                message: 'Voulez-vous supprimer le fichier de la bibliothèque ?',
+                confirmLabel: 'Supprimer',
+                cancelLabel: 'Fermer',
+                onConfirm: function() {
+                    $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
+                        flcore.modal.load_files();
+                    });
                 },
-
-                "Supprimer": {
-
-                    'class' : 'btn-danger',
-                    'callback' : function() {
-
-                        $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
-
-                            flcore.modal.load_files();
-
-                        })
-
-                        $(this).closest('.modal').modal('hide');
-
-                    },
-
-                }
-            }
-
-            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+            });
 
         });
 

@@ -171,6 +171,16 @@
 
             </script>
 
+            {# Translated defaults for the JS confirmation dialogs (ConfirmDialog). Rendered
+               here so all locales are covered; read as fallbacks when a caller passes none. #}
+            <script>
+                window.aroDialogI18n = {
+                    title: {{ ('text.confirmation'|trans)|json_encode|raw }},
+                    confirm: {{ ('text.confirm'|trans)|json_encode|raw }},
+                    cancel: {{ ('text.cancel'|trans)|json_encode|raw }}
+                };
+            </script>
+
             <!-- Template JS File -->
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/datatable-init.js') }}"></script>

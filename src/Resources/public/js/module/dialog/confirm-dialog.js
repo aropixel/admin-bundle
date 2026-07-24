@@ -35,14 +35,21 @@ const CONFIRM_CLASS = {
 
 export class ConfirmDialog {
     constructor(options = {}) {
+        // Translated fallbacks rendered by base.html.twig; safe if absent.
+        const i18n = (typeof window !== 'undefined' && window.aroDialogI18n) || {};
         const o = Object.assign({
             intent: 'danger',
             title: '',
             message: '',
-            confirmLabel: 'Confirm',
-            cancelLabel: 'Cancel',
+            confirmLabel: i18n.confirm || 'Confirm',
+            cancelLabel: i18n.cancel || 'Cancel',
             onConfirm: () => {},
         }, options);
+
+        // The dialog always shows a title line: fall back to the generic one when none given.
+        if (!o.title) {
+            o.title = i18n.title || 'Confirmation';
+        }
 
         const intent = ICONS[o.intent] ? o.intent : 'danger';
         const confirmClass = CONFIRM_CLASS[intent] || 'btn-primary';

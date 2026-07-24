@@ -1,5 +1,6 @@
 // gallery-widget.js
 import { ModalDyn } from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import { ConfirmDialog } from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
 
 export class IM_Gallery_Widget {
     constructor(gallery, widget) {
@@ -67,17 +68,17 @@ export class IM_Gallery_Widget {
     }
 
     detach() {
-        const modal = new ModalDyn("Supprimer", "Voulez-vous supprimer l'image de la galerie ?", {
-            "Fermer": modal => modal.hide(),
-            "Supprimer": {
-                class: 'btn-danger',
-                callback: modal => {
-                    this.widget.parentElement.remove();
-                    this.gallery.reIndex();
-                    modal.hide();
-                }
-            }
-        }, { modalClass: 'modal_mini', headerClass: 'bg-danger' });
+        new ConfirmDialog({
+            intent: 'danger',
+            title: 'Supprimer',
+            message: "Voulez-vous supprimer l'image de la galerie ?",
+            confirmLabel: 'Supprimer',
+            cancelLabel: 'Fermer',
+            onConfirm: () => {
+                this.widget.parentElement.remove();
+                this.gallery.reIndex();
+            },
+        });
     }
 
     edit() {
