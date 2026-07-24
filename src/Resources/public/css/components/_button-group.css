@@ -1,0 +1,32 @@
+/**
+ * Button group — a segmented row of joined buttons (toolbar, view-switcher).
+ *
+ * The mechanics are Bootstrap's `.btn-group`: it lays the buttons inline, flattens the inner
+ * corners and overlaps their borders into shared 1px seams, and lifts the hovered/active one
+ * on the z-axis. This file adds only what the segmented *look* needs on top of our button
+ * variants (`_btn.css`, `_btn-variants.css`) — no new component, it dresses `.btn-group`.
+ *
+ * Markup:
+ *   <div class="btn-group" role="group" aria-label="View switcher">
+ *     <button type="button" class="btn btn-primary active">List</button>   {# selected #}
+ *     <button type="button" class="btn btn-default">Grid</button>
+ *     <button type="button" class="btn btn-default">Agenda</button>
+ *   </div>
+ */
+
+/*
+ * `.btn-default` rests on a white border by design — it must disappear on a card. Joined into
+ * a group it would then lose its segment dividers, so here the border becomes a token line,
+ * and the per-button soft shadow (which would double at every overlapping seam) is dropped:
+ * the row reads as one control, not a strip of cards.
+ */
+.btn-group > .btn-default {
+    --bs-btn-border-color: var(--aro-color-border);
+    --bs-btn-hover-border-color: var(--aro-color-border);
+    box-shadow: none;
+}
+
+/* The selected segment sits above its neighbours so its full border shows on both seams. */
+.btn-group > .btn.active {
+    z-index: 2;
+}
