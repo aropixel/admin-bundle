@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Component catalogue — the living documentation of the design system (design-system.md §14).
+ * Component catalogue — the living documentation of the design system.
  *
  * Renders every component in all its states, on the *real* bundle CSS (the template extends
  * the admin base), so it cannot drift from what the admin actually looks like. Dev only:

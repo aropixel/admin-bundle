@@ -42,7 +42,7 @@ all four bundles:
 
 - **No orphan blocks.** Every `aropixel_*` block maps to a registered type. There is no
   dead block to delete — the Bootstrap 3/4 fossil markup that once lived *inside* the blocks
-  has been removed (design-system.md §8).
+  has been removed.
 - **Seven types render without a dedicated block, all intentionally:**
   `aropixel_admin_date`, `aropixel_admin_datetime` and `aropixel_admin_time` inherit the
   Symfony date/time types, whose generic `date_widget` / `time_widget` / `datetime_widget`
