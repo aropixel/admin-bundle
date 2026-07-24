@@ -66,6 +66,7 @@
             <a href="#avatar">Avatar</a>
             <a href="#cards">Cards</a>
             <a href="#accordion">Accordion</a>
+            <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
             <a href="#icons">Icons</a>
         </p>
@@ -285,6 +286,57 @@
     &lt;div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq"&gt;
       &lt;div class="accordion-body"&gt;Answer&lt;/div&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# ----------------------------------------------------------------- Dialog #}
+        <section class="cat-section" id="dialog">
+            <h2>Dialog</h2>
+            <p style="color:var(--aro-color-text-muted)">A confirmation pattern on Bootstrap's <code>.modal</code>: an intent icon chip, a title, a message and confirm/cancel actions. Shown here as static content — in use it sits inside a <code>.modal</code>. Intents: <code>--danger --warning --success --info</code> (default primary); <code>--centered</code> stacks it.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <div class="modal-content aro-dialog aro-dialog--danger" style="max-width:420px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+                            <div>
+                                <h2 class="aro-dialog__title">Delete this article?</h2>
+                                <p class="aro-dialog__text">This action is irreversible. The article and its media will be permanently deleted.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+                <div class="modal-content aro-dialog aro-dialog--success aro-dialog--centered" style="max-width:380px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon">{{ ux_icon('lucide:circle-check') }}</span>
+                            <div>
+                                <h2 class="aro-dialog__title">Payment received</h2>
+                                <p class="aro-dialog__text">Your payment was recorded. A receipt has been emailed to the address on your account.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="modal-content aro-dialog aro-dialog--danger"&gt;
+  &lt;div class="modal-body"&gt;
+    &lt;div class="aro-dialog__head"&gt;
+      &lt;span class="aro-dialog__icon"&gt;{{ '{{' }} ux_icon('lucide:triangle-alert') {{ '}}' }}&lt;/span&gt;
+      &lt;div&gt;&lt;h2 class="aro-dialog__title"&gt;Delete this?&lt;/h2&gt;
+        &lt;p class="aro-dialog__text"&gt;This is irreversible.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-footer"&gt;
+    &lt;button class="btn btn-default"&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
         </section>

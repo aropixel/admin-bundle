@@ -2747,6 +2747,118 @@ input:not([type=checkbox]):not([type=radio]) {
     }
 }
 
+/* ./components/_dialog.css */
+/**
+ * Dialog — a confirmation dialog: an intent icon chip beside a title, the message under it,
+ * and confirm / cancel actions in the footer.
+ *
+ * It is a content pattern layered on Bootstrap's `.modal` (see _modal.css), not a new overlay
+ * — for anything richer, use the modal directly. The chip tint is derived from the semantic
+ * token via `color-mix` (no `-subtle` token exists for danger/warning/success/info); the
+ * confirm button carries the matching `.btn-*` variant.
+ *
+ * Markup:
+ *   <div class="modal fade" tabindex="-1">
+ *     <div class="modal-dialog modal-dialog-centered">
+ *       <div class="modal-content aro-dialog aro-dialog--danger">
+ *         <div class="modal-body">
+ *           <div class="aro-dialog__head">
+ *             <span class="aro-dialog__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+ *             <div>
+ *               <h2 class="aro-dialog__title">Delete this article?</h2>
+ *               <p class="aro-dialog__text">This action is irreversible…</p>
+ *             </div>
+ *           </div>
+ *         </div>
+ *         <div class="modal-footer">
+ *           <button class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+ *           <button class="btn btn-danger">Delete</button>
+ *         </div>
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * Add `aro-dialog--centered` for the stacked treatment: chip on top, centered text, and
+ * equal-width footer buttons.
+ */
+
+/* The dialog gives its message more room than a bare modal body — it must breathe. */
+.aro-dialog .modal-body {
+    padding: var(--aro-space-6);
+}
+
+.aro-dialog__head {
+    display: flex;
+    gap: var(--aro-space-4);
+    align-items: flex-start;
+}
+
+.aro-dialog__icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--aro-radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--aro-text-lg);
+    /* Default intent is primary; the modifiers below override both colour and tint. */
+    color: var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog__title {
+    margin: 0;
+    font-size: var(--aro-text-lg);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-dialog__text {
+    margin: var(--aro-space-2) 0 0;
+    color: var(--aro-color-text-muted);
+    line-height: var(--aro-leading-prose);
+}
+
+/* Intents — chip colour + tint. The confirm button uses the matching `.btn-*` variant. */
+.aro-dialog--danger .aro-dialog__icon {
+    color: var(--aro-color-danger);
+    background: color-mix(in srgb, var(--aro-color-danger) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog--warning .aro-dialog__icon {
+    color: var(--aro-color-warning);
+    background: color-mix(in srgb, var(--aro-color-warning) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog--success .aro-dialog__icon {
+    color: var(--aro-color-success);
+    background: color-mix(in srgb, var(--aro-color-success) 18%, var(--aro-color-surface));
+}
+
+.aro-dialog--info .aro-dialog__icon {
+    color: var(--aro-color-info);
+    background: color-mix(in srgb, var(--aro-color-info) 14%, var(--aro-color-surface));
+}
+
+/* Centered treatment — chip on top, centered text, equal-width footer buttons. */
+.aro-dialog--centered .aro-dialog__head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.aro-dialog--centered .aro-dialog__icon {
+    width: 56px;
+    height: 56px;
+    font-size: var(--aro-text-2xl);
+    margin-bottom: var(--aro-space-2);
+}
+
+.aro-dialog--centered .modal-footer > .btn {
+    flex: 1 1 0;
+}
+
 /* ./components/_section-header.css */
 /**
  * Section header — the identity block at the top of every screen.
@@ -4129,6 +4241,7 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
             <a href="#avatar">Avatar</a>
             <a href="#cards">Cards</a>
             <a href="#accordion">Accordion</a>
+            <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
             <a href="#icons">Icons</a>
         </p>
@@ -4415,6 +4528,56 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
     &lt;div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq"&gt;
       &lt;div class="accordion-body"&gt;Answer&lt;/div&gt;
     &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+                <section class="cat-section" id="dialog">
+            <h2>Dialog</h2>
+            <p style="color:var(--aro-color-text-muted)">A confirmation pattern on Bootstrap's <code>.modal</code>: an intent icon chip, a title, a message and confirm/cancel actions. Shown here as static content — in use it sits inside a <code>.modal</code>. Intents: <code>--danger --warning --success --info</code> (default primary); <code>--centered</code> stacks it.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <div class="modal-content aro-dialog aro-dialog--danger" style="max-width:420px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg></span>
+                            <div>
+                                <h2 class="aro-dialog__title">Delete this article?</h2>
+                                <p class="aro-dialog__text">This action is irreversible. The article and its media will be permanently deleted.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+                <div class="modal-content aro-dialog aro-dialog--success aro-dialog--centered" style="max-width:380px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12l2 2l4-4"></path></g></svg></span>
+                            <div>
+                                <h2 class="aro-dialog__title">Payment received</h2>
+                                <p class="aro-dialog__text">Your payment was recorded. A receipt has been emailed to the address on your account.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="modal-content aro-dialog aro-dialog--danger"&gt;
+  &lt;div class="modal-body"&gt;
+    &lt;div class="aro-dialog__head"&gt;
+      &lt;span class="aro-dialog__icon"&gt;{{ ux_icon('lucide:triangle-alert') }}&lt;/span&gt;
+      &lt;div&gt;&lt;h2 class="aro-dialog__title"&gt;Delete this?&lt;/h2&gt;
+        &lt;p class="aro-dialog__text"&gt;This is irreversible.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-footer"&gt;
+    &lt;button class="btn btn-default"&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
         </section>

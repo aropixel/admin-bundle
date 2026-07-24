@@ -1,0 +1,110 @@
+/**
+ * Dialog — a confirmation dialog: an intent icon chip beside a title, the message under it,
+ * and confirm / cancel actions in the footer.
+ *
+ * It is a content pattern layered on Bootstrap's `.modal` (see _modal.css), not a new overlay
+ * — for anything richer, use the modal directly. The chip tint is derived from the semantic
+ * token via `color-mix` (no `-subtle` token exists for danger/warning/success/info); the
+ * confirm button carries the matching `.btn-*` variant.
+ *
+ * Markup:
+ *   <div class="modal fade" tabindex="-1">
+ *     <div class="modal-dialog modal-dialog-centered">
+ *       <div class="modal-content aro-dialog aro-dialog--danger">
+ *         <div class="modal-body">
+ *           <div class="aro-dialog__head">
+ *             <span class="aro-dialog__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+ *             <div>
+ *               <h2 class="aro-dialog__title">Delete this article?</h2>
+ *               <p class="aro-dialog__text">This action is irreversible…</p>
+ *             </div>
+ *           </div>
+ *         </div>
+ *         <div class="modal-footer">
+ *           <button class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+ *           <button class="btn btn-danger">Delete</button>
+ *         </div>
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * Add `aro-dialog--centered` for the stacked treatment: chip on top, centered text, and
+ * equal-width footer buttons.
+ */
+
+/* The dialog gives its message more room than a bare modal body — it must breathe. */
+.aro-dialog .modal-body {
+    padding: var(--aro-space-6);
+}
+
+.aro-dialog__head {
+    display: flex;
+    gap: var(--aro-space-4);
+    align-items: flex-start;
+}
+
+.aro-dialog__icon {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--aro-radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--aro-text-lg);
+    /* Default intent is primary; the modifiers below override both colour and tint. */
+    color: var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog__title {
+    margin: 0;
+    font-size: var(--aro-text-lg);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-dialog__text {
+    margin: var(--aro-space-2) 0 0;
+    color: var(--aro-color-text-muted);
+    line-height: var(--aro-leading-prose);
+}
+
+/* Intents — chip colour + tint. The confirm button uses the matching `.btn-*` variant. */
+.aro-dialog--danger .aro-dialog__icon {
+    color: var(--aro-color-danger);
+    background: color-mix(in srgb, var(--aro-color-danger) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog--warning .aro-dialog__icon {
+    color: var(--aro-color-warning);
+    background: color-mix(in srgb, var(--aro-color-warning) 14%, var(--aro-color-surface));
+}
+
+.aro-dialog--success .aro-dialog__icon {
+    color: var(--aro-color-success);
+    background: color-mix(in srgb, var(--aro-color-success) 18%, var(--aro-color-surface));
+}
+
+.aro-dialog--info .aro-dialog__icon {
+    color: var(--aro-color-info);
+    background: color-mix(in srgb, var(--aro-color-info) 14%, var(--aro-color-surface));
+}
+
+/* Centered treatment — chip on top, centered text, equal-width footer buttons. */
+.aro-dialog--centered .aro-dialog__head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.aro-dialog--centered .aro-dialog__icon {
+    width: 56px;
+    height: 56px;
+    font-size: var(--aro-text-2xl);
+    margin-bottom: var(--aro-space-2);
+}
+
+.aro-dialog--centered .modal-footer > .btn {
+    flex: 1 1 0;
+}
