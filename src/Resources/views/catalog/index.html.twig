@@ -65,6 +65,7 @@
             <a href="#badges">Badges &amp; status</a>
             <a href="#avatar">Avatar</a>
             <a href="#cards">Cards</a>
+            <a href="#stat">Stat</a>
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
@@ -248,6 +249,76 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        {# --------------------------------------------------------------- Stat #}
+        <section class="cat-section" id="stat">
+            <h2>Stat</h2>
+            <p style="color:var(--aro-color-text-muted)">Key figures for dashboards. Atoms (label / value / trend) compose into a bare grid, a bordered card with divided cells, or a grey panel of icon cards. The figure uses the <code>--aro-text-3xl</code> scale step.</p>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Simple</h5>
+            <div class="aro-stat mb-6" style="--aro-stat-cols:4">
+                <div class="aro-stat__cell"><div class="aro-stat__label">Deployments</div><div class="aro-stat__value">405</div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Avg. time</div><div class="aro-stat__value">3.65<span class="aro-stat__unit">min</span></div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Servers</div><div class="aro-stat__value">3</div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Success rate</div><div class="aro-stat__value">98.5%</div></div>
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Trending — bordered</h5>
+            <div class="aro-stat aro-stat--bordered mb-6" style="--aro-stat-cols:4">
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Revenue</span><span class="aro-stat__trend">↑ 4.75%</span></div>
+                    <div class="aro-stat__value">€405,091</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Overdue</span><span class="aro-stat__trend">↑ 54.0%</span></div>
+                    <div class="aro-stat__value">€12,787</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Pending</span><span class="aro-stat__trend aro-stat__trend--down">↓ 1.39%</span></div>
+                    <div class="aro-stat__value">€245,988</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Expenses</span><span class="aro-stat__trend">↑ 10.2%</span></div>
+                    <div class="aro-stat__value">€30,156</div>
+                </div>
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Brand — panel of icon cards</h5>
+            <div class="aro-stat-panel">
+                <div class="aro-stat-panel__heading">Last 30 days</div>
+                <div class="aro-stat" style="--aro-stat-cols:3;gap:var(--aro-space-4)">
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-accent-pink)">{{ ux_icon('lucide:user') }}</span>
+                            <div><div class="aro-stat__label">Subscribers</div><div class="aro-stat__value">71,897 <span class="aro-stat__trend">↑ 122</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-accent-indigo)">{{ ux_icon('lucide:send') }}</span>
+                            <div><div class="aro-stat__label">Open rate</div><div class="aro-stat__value">58.16% <span class="aro-stat__trend">↑ 5.4%</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-color-primary)">{{ ux_icon('lucide:pointer') }}</span>
+                            <div><div class="aro-stat__label">Click rate</div><div class="aro-stat__value">24.57% <span class="aro-stat__trend aro-stat__trend--down">↓ 3.2%</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cat-snippet">&lt;div class="aro-stat aro-stat--bordered" style="--aro-stat-cols:4"&gt;
+  &lt;div class="aro-stat__cell"&gt;
+    &lt;div class="aro-stat__head"&gt;&lt;span class="aro-stat__label"&gt;Revenue&lt;/span&gt;
+      &lt;span class="aro-stat__trend"&gt;↑ 4.75%&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="aro-stat__value"&gt;€405,091&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
         </section>
 
         {# -------------------------------------------------------------- Accordion #}

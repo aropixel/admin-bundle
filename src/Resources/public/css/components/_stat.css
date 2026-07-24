@@ -1,0 +1,170 @@
+/**
+ * Stat — key-figure display for dashboards.
+ *
+ * Small atoms (label / value / trend) compose into a few shapes. This file implements three
+ * that cover the range — a bare grid, a bordered card with divided cells, and a grey panel of
+ * icon cards; the source design lists five, the other two reuse the same atoms. Everything is
+ * driven by tokens; the big figure uses the `--aro-text-3xl` scale step.
+ *
+ * Markup (bare grid):
+ *   <div class="aro-stat" style="--aro-stat-cols:4">
+ *     <div class="aro-stat__cell">
+ *       <div class="aro-stat__label">Deployments</div>
+ *       <div class="aro-stat__value">405</div>
+ *     </div>
+ *     …
+ *   </div>
+ *
+ * Add `aro-stat--bordered` to wrap the cells in one card divided by hairlines (the "trending"
+ * shape, with an `aro-stat__head` row for label + trend). Wrap any grid in `aro-stat-panel`
+ * for the grey grouped treatment with an `aro-stat-panel__heading`.
+ */
+
+/* -------------------------------------------------------------------- Atoms */
+
+.aro-stat__label {
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-medium);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-stat__value {
+    margin-top: var(--aro-space-2);
+    font-size: var(--aro-text-3xl);
+    font-weight: var(--aro-weight-semibold);
+    line-height: var(--aro-leading-tight);
+    letter-spacing: -0.01em;
+    color: var(--aro-color-text-strong);
+}
+
+.aro-stat__unit {
+    margin-left: var(--aro-space-2);
+    font-size: var(--aro-text-lg);
+    font-weight: var(--aro-weight-medium);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-stat__trend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--aro-space-1);
+    font-size: var(--aro-text-xs);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-success);
+}
+
+.aro-stat__trend--down {
+    color: var(--aro-color-danger);
+}
+
+.aro-stat__trend--pill {
+    padding: 2px var(--aro-space-2);
+    border-radius: var(--aro-radius-pill);
+    background: color-mix(in srgb, var(--aro-color-success) 12%, var(--aro-color-surface));
+}
+
+.aro-stat__trend--pill.aro-stat__trend--down {
+    background: color-mix(in srgb, var(--aro-color-danger) 12%, var(--aro-color-surface));
+}
+
+/* --------------------------------------------------------------------- Grid */
+
+.aro-stat {
+    display: grid;
+    grid-template-columns: repeat(var(--aro-stat-cols, 4), minmax(0, 1fr));
+    gap: var(--aro-space-8);
+}
+
+/* Bordered "trending" shape — one card, cells divided by hairlines. */
+.aro-stat--bordered {
+    gap: 0;
+    overflow: hidden;
+    background: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border-card);
+    border-radius: var(--aro-radius-card);
+}
+
+.aro-stat--bordered .aro-stat__cell {
+    padding: var(--aro-space-5) var(--aro-space-6);
+}
+
+.aro-stat--bordered .aro-stat__cell + .aro-stat__cell {
+    border-left: 1px solid var(--aro-color-border-card);
+}
+
+.aro-stat__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--aro-space-3);
+}
+
+/* ------------------------------------------------------ Panel (grouped) */
+
+.aro-stat-panel {
+    padding: var(--aro-space-5);
+    background: var(--aro-color-bg);
+    border-radius: var(--aro-radius-card);
+}
+
+.aro-stat-panel__heading {
+    margin-bottom: var(--aro-space-4);
+    font-size: var(--aro-text-base);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+/* ------------------------------------------------------ Card cells (brand) */
+
+.aro-stat-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border-card);
+    border-radius: var(--aro-radius-card);
+    box-shadow: var(--aro-shadow-soft);
+}
+
+.aro-stat-card__body {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: flex-start;
+    gap: var(--aro-space-4);
+    padding: var(--aro-space-5);
+}
+
+.aro-stat__icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--aro-radius-card);
+    font-size: var(--aro-text-xl);
+    /* Default tile colour; override with a brand accent token inline. */
+    background: var(--aro-color-secondary);
+    color: var(--aro-color-text-inverted);
+}
+
+.aro-stat-card .aro-stat__value {
+    /* Brand cards run a smaller figure than the bare / bordered shapes. */
+    font-size: var(--aro-text-2xl);
+}
+
+.aro-stat-card__foot {
+    display: block;
+    padding: var(--aro-space-3) var(--aro-space-5);
+    background: var(--aro-color-bg);
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-medium);
+    color: var(--aro-color-secondary);
+    text-decoration: none;
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-stat-card__foot:hover,
+.aro-stat-card__foot:focus-visible {
+    color: var(--aro-color-primary);
+}

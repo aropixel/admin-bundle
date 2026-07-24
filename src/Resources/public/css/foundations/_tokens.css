@@ -171,6 +171,7 @@
     --aro-text-lg: 1rem;         /* 16px — subheadings */
     --aro-text-xl: 1.125rem;     /* 18px */
     --aro-text-2xl: 1.375rem;    /* 22px — page titles */
+    --aro-text-3xl: 1.875rem;    /* 30px — KPI / stat figures, hero numbers */
 
     --aro-leading-tight: 1.25;
     --aro-leading-base: 1.5;
