@@ -608,12 +608,13 @@ modifier.
 
 ### Hors périmètre (décidé — ce n'est pas un reste)
 
-- **Composants du design system importés à la demande depuis Claude Design** (§6c, principe
-  « à la demande, pas en bloc »). **Faits le 24 juillet 2026** : `ButtonGroup`, `SplitButton`
-  (habillent `.btn-group`), `Accordion` (habille `.accordion`), `Dialog` (motif sur `.modal`),
-  `RadioGroup` (variante *cards* via `:has()` ; les 6 autres dispositions restent du
-  `.form-check` Bootstrap ou hors périmètre), `FileUpload` (dropzone). **Restent non
-  implémentés** : `Stat`, `GridList`, `List` — à importer à la demande de la même façon.
+- **Composants du design system importés depuis Claude Design** (§6c) — **les 9 faits le
+  24 juillet 2026** : `ButtonGroup`, `SplitButton` (habillent `.btn-group`), `Accordion`
+  (habille `.accordion`), `Dialog` (motif sur `.modal`), `RadioGroup` (variante *cards* via
+  `:has()` ; les dispositions plates restent du `.form-check` Bootstrap), `FileUpload`
+  (dropzone), `Stat` (tuiles KPI, palier `--aro-text-3xl`), `GridList` (grille de cartes),
+  `List` (rangées empilées, tone *dark*). Chacun catalogué (live + export statique), rendu
+  vérifié au harnais, cliquet vert. Il ne reste **aucun** composant du design system à importer.
 - **Disposition verticale des formulaires** (§16) — décidée NON, réversible.
 - **Mode sombre** (§10).
 
@@ -1113,15 +1114,16 @@ catégories, à ne pas traiter de la même façon.
 `Accordion`, `SplitButton`, `ButtonGroup`, `RadioGroup` (7 dispositions), `Dialog`,
 `List`, `FileUpload`.
 
-> **Import à la demande — état au 24 juillet 2026.** Six de ces nouveautés ont été importées
-> de Claude Design et cataloguées (live + export statique) : `ButtonGroup`, `SplitButton`
+> **Import terminé — 24 juillet 2026.** **Les neuf** nouveautés ont été importées de Claude
+> Design et cataloguées (live + export statique) : `ButtonGroup`, `SplitButton`
 > (`_button-group.css`, `_split-button.css` — habillent `.btn-group` / le split-dropdown
 > Bootstrap), `Accordion` (`_accordion.css` — habille `.accordion`), `Dialog` (`_dialog.css`
 > — motif de confirmation sur `.modal`, intents en `color-mix`), `RadioGroup` (`_radio-cards.css`
 > — la variante *cards* via `:has()` ; les dispositions plates restent du `.form-check`
-> Bootstrap), `FileUpload` (`_file-upload.css` — dropzone). Chacun suit le gabarit de
-> `_btn.css` : piloter Bootstrap par ses variables, zéro `!important`, tout sur tokens.
-> **Restent** `Stat`, `GridList`, `List`.
+> Bootstrap), `FileUpload` (`_file-upload.css` — dropzone), `Stat` (`_stat.css` — tuiles KPI,
+> palier `--aro-text-3xl`), `GridList` (`_grid-list.css` — grille de cartes), `List`
+> (`_list.css` — rangées empilées, tone *dark*). Chacun suit le gabarit de `_btn.css` : piloter
+> Bootstrap par ses variables, zéro `!important`, tout sur tokens. **Rien ne reste à importer.**
 
 > **Recommandation de périmètre.** Ne construire en première passe que ce que les 69
 > templates utilisent réellement — soit (a), (b) et la portion de (c) effectivement
