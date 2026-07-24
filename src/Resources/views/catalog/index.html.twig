@@ -70,6 +70,7 @@
             <a href="#list">List</a>
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
+            <a href="#modal-sizes">Modal sizes</a>
             <a href="#toast">Toast</a>
             <a href="#forms">Form controls</a>
             <a href="#radio-cards">Radio cards</a>
@@ -526,6 +527,28 @@
     &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------------- Modal sizes #}
+        <section class="cat-section" id="modal-sizes">
+            <h2>Modal sizes</h2>
+            <p style="color:var(--aro-color-text-muted)">The size scale, set on <code>.modal-dialog</code>. The same classes drive the Dialog component (<code>new ConfirmDialog({ size: 'lg' })</code>). Widths cap on desktop; modals go full-width on small screens.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);overflow-x:auto">
+                {% for m in [
+                    {c: 'modal-sm', l: 'Small', w: '400px'},
+                    {c: '', l: 'Medium — default', w: '520px'},
+                    {c: 'modal-lg', l: 'Large', w: '720px'},
+                    {c: 'modal-xl', l: 'XL', w: '960px'},
+                    {c: 'modal-full', l: 'Full', w: '100%'},
+                ] %}
+                    <div class="modal-content" style="width:{{ m.w }};max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">{{ m.l }}</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">{{ m.c ? '.modal-dialog.' ~ m.c : '.modal-dialog' }} · {{ m.w }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cat-snippet">&lt;div class="modal-dialog modal-lg"&gt; … &lt;/div&gt;   &lt;!-- sm · md(default) · lg · xl · modal-full --&gt;
+new ConfirmDialog({ size: 'lg', title: '…', message: '…' });</div>
         </section>
 
         {# ------------------------------------------------------------------ Toast #}

@@ -17,6 +17,28 @@
 }
 
 /*
+ * Size scale (design system): sm 400 · md 520 (default) · lg 720 · xl 960. Set on
+ * `.modal-dialog`, so both plain modals and the Dialog component — which builds a
+ * `.modal-dialog` — take a size. The width caps on desktop; Bootstrap keeps modals
+ * full-width on small screens. `.modal-full` (below) is the near-edge-to-edge sheet.
+ */
+.modal-dialog {
+    --bs-modal-width: 520px;
+}
+
+.modal-dialog.modal-sm {
+    --bs-modal-width: 400px;
+}
+
+.modal-dialog.modal-lg {
+    --bs-modal-width: 720px;
+}
+
+.modal-dialog.modal-xl {
+    --bs-modal-width: 960px;
+}
+
+/*
  * Footer sits on the grey app canvas, not behind a hairline: the tint is what separates it
  * from the white body, so there is no border between the two (design system). Its bottom
  * corners follow the modal radius so the fill never squares off the rounded panel.

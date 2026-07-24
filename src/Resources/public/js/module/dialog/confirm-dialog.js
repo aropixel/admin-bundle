@@ -39,12 +39,16 @@ export class ConfirmDialog {
         const i18n = (typeof window !== 'undefined' && window.aroDialogI18n) || {};
         const o = Object.assign({
             intent: 'danger',
+            size: 'md',
             title: '',
             message: '',
             confirmLabel: i18n.confirm || 'Confirm',
             cancelLabel: i18n.cancel || 'Cancel',
             onConfirm: () => {},
         }, options);
+
+        // Size scale shared with modals: sm 400 · md 520 (default) · lg 720 · xl 960.
+        const sizeClass = { sm: 'modal-sm', lg: 'modal-lg', xl: 'modal-xl' }[o.size] || '';
 
         // The dialog always shows a title line: fall back to the generic one when none given.
         if (!o.title) {
@@ -58,7 +62,7 @@ export class ConfirmDialog {
         el.className = 'modal fade';
         el.tabIndex = -1;
         el.innerHTML =
-            '<div class="modal-dialog modal-dialog-centered">' +
+            '<div class="modal-dialog modal-dialog-centered ' + sizeClass + '">' +
                 '<div class="modal-content aro-dialog aro-dialog--' + intent + '">' +
                     '<div class="modal-body">' +
                         '<div class="aro-dialog__head">' +

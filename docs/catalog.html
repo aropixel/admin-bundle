@@ -3326,6 +3326,28 @@ input:not([type=checkbox]):not([type=radio]) {
 }
 
 /*
+ * Size scale (design system): sm 400 · md 520 (default) · lg 720 · xl 960. Set on
+ * `.modal-dialog`, so both plain modals and the Dialog component — which builds a
+ * `.modal-dialog` — take a size. The width caps on desktop; Bootstrap keeps modals
+ * full-width on small screens. `.modal-full` (below) is the near-edge-to-edge sheet.
+ */
+.modal-dialog {
+    --bs-modal-width: 520px;
+}
+
+.modal-dialog.modal-sm {
+    --bs-modal-width: 400px;
+}
+
+.modal-dialog.modal-lg {
+    --bs-modal-width: 720px;
+}
+
+.modal-dialog.modal-xl {
+    --bs-modal-width: 960px;
+}
+
+/*
  * Footer sits on the grey app canvas, not behind a hairline: the tint is what separates it
  * from the white body, so there is no border between the two (design system). Its bottom
  * corners follow the modal radius so the fill never squares off the rounded panel.
@@ -4950,6 +4972,7 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
             <a href="#list">List</a>
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
+            <a href="#modal-sizes">Modal sizes</a>
             <a href="#toast">Toast</a>
             <a href="#forms">Form controls</a>
             <a href="#radio-cards">Radio cards</a>
@@ -5511,6 +5534,35 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
     &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
+        </section>
+
+                <section class="cat-section" id="modal-sizes">
+            <h2>Modal sizes</h2>
+            <p style="color:var(--aro-color-text-muted)">The size scale, set on <code>.modal-dialog</code>. The same classes drive the Dialog component (<code>new ConfirmDialog({ size: 'lg' })</code>). Widths cap on desktop; modals go full-width on small screens.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);overflow-x:auto">
+                                    <div class="modal-content" style="width:400px;max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">Small</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">.modal-dialog.modal-sm · 400px</code>
+                    </div>
+                                    <div class="modal-content" style="width:520px;max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">Medium — default</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">.modal-dialog · 520px</code>
+                    </div>
+                                    <div class="modal-content" style="width:720px;max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">Large</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">.modal-dialog.modal-lg · 720px</code>
+                    </div>
+                                    <div class="modal-content" style="width:960px;max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">XL</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">.modal-dialog.modal-xl · 960px</code>
+                    </div>
+                                    <div class="modal-content" style="width:100%;max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">Full</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">.modal-dialog.modal-full · 100%</code>
+                    </div>
+                            </div>
+            <div class="cat-snippet">&lt;div class="modal-dialog modal-lg"&gt; … &lt;/div&gt;   &lt;!-- sm · md(default) · lg · xl · modal-full --&gt;
+new ConfirmDialog({ size: 'lg', title: '…', message: '…' });</div>
         </section>
 
                 <section class="cat-section" id="toast">
