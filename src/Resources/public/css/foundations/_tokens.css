@@ -80,9 +80,15 @@
 
     /* ------------------------------------------------------- Status indicators */
 
-    --aro-status-online: #06BAB4;
-    --aro-status-scheduled: #FFC700;
-    --aro-status-offline: #E7E7E7;
+    /* Publish states map onto the semantic colour family as a traffic-light (RAG) system
+       (design-system §12, arbitrated 2026-07-24): online = success/green (live),
+       scheduled = warning/amber (pending), offline = danger/red (not live). The tokens
+       *reference* the semantic family rather than repeating literals, so a re-theme of the
+       status colours follows automatically — and "online" is deliberately NOT the brand teal
+       (--aro-color-primary), which would make a status marker share the primary-action hue. */
+    --aro-status-online: var(--aro-color-success);
+    --aro-status-scheduled: var(--aro-color-warning);
+    --aro-status-offline: var(--aro-color-danger);
 
     /* ------------------------------------------------------------- Menu accents */
 

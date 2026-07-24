@@ -309,16 +309,18 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 > — passe 1 (FontAwesome → ux-icons/Lucide, ~68 icônes, listes → macro `actions()`), passe 2
 > (résidus BS3/4 → BS5), et labels du page builder (`.pb-label`, en semibold).
 >
-> **Items G + F — ✅ CLOS le 24 juillet 2026** (CKEditor → Quill, pont média→éditeur). Détail
-> en tête de « Fait » et dans les sections F/G plus bas. Ces changements sont **sur l'arbre de
-> travail, non commités** (les hashes ci-dessus datent d'avant).
+> **Items G + F — ✅ CLOS le 24 juillet 2026** (CKEditor → Quill, pont média→éditeur), commités
+> (admin `e4e31ae`, blog `3521707`, page `cbdbc99`, pas de push). Détail en tête de « Fait » et
+> dans les sections F/G plus bas.
+>
+> **Item D — ✅ CLOS le 24 juillet 2026** : indicateurs de statut basculés sur la famille
+> sémantique (feu tricolore success/warning/danger). Détail §12 et section D.
 >
 > **Reste à faire, par priorité :**
 > 1. **Conformité twig-cs des 3 bundles compagnons** — jamais mis aux normes ; le CI est rouge
 >    dessus (préexistant à nos commits). `qa:twig-cs` reformate en masse (le lancer sur un arbre
 >    dédié, pas mélangé).
-> 2. **Item D** : acter formellement la pastille « en ligne » teal (`--aro-status-online`).
-> 3. **Divers** : la police **Typekit externe** de `page-builder.css`
+> 2. **Divers** : la police **Typekit externe** de `page-builder.css`
 >    (`@import url("https://use.typekit.net/…")`) — même souci RGPD que les Google Fonts retirées
 >    d'admin ; **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ; et **le cliquet
 >    `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts bundle) — à
@@ -392,8 +394,11 @@ sous-incrément catalogue E3 (déjà validé), pas B.
   **Nettoyage code au passage :** les `['icon' => 'fas fa-…']` **morts** d'`AdminMenuBuilder.php`
   (9) et `QuickMenuBuilder.php` (5) supprimés — dernières chaînes FontAwesome du code livré.
 
-**D. Arbitrage §12 restant.**
-- Pastille « en ligne » : de facto teal (`--aro-status-online: #06BAB4`), **à acter** formellement.
+**D. Arbitrage §12 — ✅ CLOS le 24 juillet 2026.** Les indicateurs de statut basculent sur la
+famille sémantique en **feu tricolore** : `--aro-status-online` → `var(--aro-color-success)`
+(vert), `--aro-status-scheduled` → `var(--aro-color-warning)` (orange), `--aro-status-offline` →
+`var(--aro-color-danger)` (rouge). « En ligne » cesse d'être le teal de marque (qui doublait
+`--aro-color-primary`). Catalogue + preview re-générés. Détail au §12 (« Tranchés »).
 
 **F. Pont média→éditeur re-ciblé sur Quill — ✅ CLOS le 24 juillet 2026.** Traité avec G (même
 chantier). État réel trouvé, plus avancé que noté : **image→éditeur marchait déjà** (branche
@@ -799,8 +804,14 @@ tout ce qui est visuel.
 
 #### Indicateurs de statut
 
-`--aro-status-online` `#06BAB4` · `--aro-status-scheduled` `#FFC700` ·
-`--aro-status-offline` `#E7E7E7`
+`--aro-status-online` `var(--aro-color-success)` (vert `#63CEB3`) · `--aro-status-scheduled`
+`var(--aro-color-warning)` (orange `#F25C05`) · `--aro-status-offline` `var(--aro-color-danger)`
+(rouge `#E52321`)
+
+> **Feu tricolore sémantique** (arbitrage §12 tranché le 24 juillet 2026). Les trois états de
+> publication *référencent* la famille success/warning/danger — vert=live, orange=en attente,
+> rouge=hors ligne. On évite ainsi que « en ligne » reprenne le teal de `--aro-color-primary`,
+> et un re-thème des couleurs sémantiques suit automatiquement.
 
 #### Rayons
 
@@ -1600,14 +1611,25 @@ Motivations :
   > s'active juste après la suppression de Stisla, où le diff sera attribuable à une seule
   > cause.
 
+- **Indicateurs de statut → famille sémantique en feu tricolore (RAG), tranché le
+  24 juillet 2026.** Les trois pastilles de publication *référencent* désormais les tokens
+  sémantiques au lieu de littéraux :
+  - `--aro-status-online` → `var(--aro-color-success)` (vert `#63CEB3`) — était le teal
+    `#06BAB4`, qui est **exactement** `--aro-color-primary` : un marqueur de statut reprenait
+    la teinte des actions primary. Le vert est la convention universelle « live ».
+  - `--aro-status-scheduled` → `var(--aro-color-warning)` (orange `#F25C05`) — était `#FFC700`.
+  - `--aro-status-offline` → `var(--aro-color-danger)` (rouge `#E52321`) — était le gris
+    `#E7E7E7`.
+
+  Motif : online/scheduled/offline = **success/warning/danger** (vert=live, orange=en attente,
+  rouge=hors ligne), et la *référence* aux tokens fait suivre automatiquement tout re-thème des
+  couleurs sémantiques. **Compromis assumé** : « hors ligne » en rouge rapproche un contenu
+  simplement dépublié d'un état d'erreur — accepté au titre de la lisibilité RAG. Catalogue +
+  preview re-générés (invariant CLAUDE.md).
+
 ### Restants
 
-2. **Pastille « en ligne » : teal ou vert ?** ⬜ **De facto teal, à acter formellement.**
-   Le token `--aro-status-online: #06BAB4` (teal de marque) est en place et rendu tel quel
-   dans le catalogue ; le `readme.md` du design system décrivait l'état publié comme vert.
-   Les deux se défendent — le teal lie le statut à l'identité, le vert le rattache à la
-   sémantique de succès — mais la décision n'est consignée nulle part. À entériner (ou
-   basculer sur `--aro-color-success`).
+Aucun — tous les arbitrages du §12 sont tranchés.
 
 ---
 
