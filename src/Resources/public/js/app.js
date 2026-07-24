@@ -10,6 +10,10 @@
 * ---------------------------------------------------------------------------- */
 import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
 import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
+import {showToast} from '/bundles/aropixeladmin/js/module/toast/toast.js';
+
+// Programmatic flash notifications: window.aroToast({ type, title, message }).
+window.aroToast = showToast;
 import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
 onDomReady(() => {

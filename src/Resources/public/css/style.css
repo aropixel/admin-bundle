@@ -23,7 +23,6 @@
  * They move to the §3 position once they are restyled on tokens rather than transcribed. */
 @import url("./vendor/_datatables.css");
 @import url("./vendor/_select2.css");
-@import url("./vendor/_izitoast.css");
 @import url("./vendor/_tagsinput.css");
 @import url("./vendor/_pwstrength.css");
 @import url("./vendor/_pickers.css");
@@ -48,6 +47,7 @@
 @import url("./components/_helpers.css");
 @import url("./components/_modal.css");
 @import url("./components/_dialog.css");
+@import url("./components/_toast.css");
 @import url("./components/_section-header.css");
 @import url("./components/_navbar.css");
 @import url("./components/_fullscreen-menu.css");

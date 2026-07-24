@@ -1000,72 +1000,6 @@ textarea.form-control {
 
 /****************************************/
 
-/* ./vendor/_izitoast.css */
-/**
- * Toast — skin extracted from the Stisla `components.css`.
- *
- * iziToast is loaded by base.html.twig and used for flash messages, which the baseline
- * never captures — a toast is transient.
- *
- * **Transcribed, not restyled.** This is a lift-and-shift so the skin survives the
- * deletion of `components.css` at Étape 5. Restyling it on tokens is a later, separate
- * job — mixing the two would make the visual diff of the ablation unreadable.
- *
- * `!important` is tolerated in this layer (§7-1): these rules fight stylesheets shipped by
- * the plugins themselves, and in some cases inline styles set by their JavaScript.
- */
-
-#toast-container > div {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  padding: 20px 20px 20px 50px;
-  opacity: 1;
-}
-#toast-container > .toast {
-  background-image: none !important;
-}
-#toast-container > .toast:before {
-  position: absolute;
-  left: 17px;
-  top: 25px;
-  font-family: "Ionicons";
-  font-size: 24px;
-  line-height: 18px;
-  color: #fff;
-}
-#toast-container > .toast-warning:before {
-  content: "";
-}
-#toast-container > .toast-error:before {
-  content: "";
-}
-#toast-container > .toast-info:before {
-  content: "";
-  color: #000;
-}
-#toast-container > .toast-success:before {
-  content: "";
-}
-
-.toast.toast-error {
-  background-color: #fc544b;
-}
-.toast.toast-warning {
-  background-color: #ffa426;
-}
-.toast.toast-success {
-  background-color: #63ed7a;
-}
-.toast.toast-info {
-  background-color: #fff;
-}
-.toast.toast-info .toast-title {
-  color: #000;
-}
-.toast.toast-info .toast-message {
-  color: #000;
-  margin-top: 5px;
-}
-
 /* ./vendor/_tagsinput.css */
 /**
  * Bootstrap Tags Input — skin extracted from the Stisla `components.css`.
@@ -2347,14 +2281,19 @@ a.aro-list__row:focus-visible {
     margin-right: var(--aro-space-3);
 }
 
-.dropdown-toggle + .dropdown-menu .dropdown-item .fa,
-.dropdown-toggle + .dropdown-menu .dropdown-item .fas {
-    width: 25px;
+.dropdown-menu .dropdown-item svg {
+    width: 14px;
+    height: 14px;
+    margin-right: var(--aro-space-2);
 }
 
 .dropdown-menu > li > a {
     cursor: pointer;
     text-decoration: none;
+}
+
+.dropdown-item {
+    font-size: var(--aro-text-base);
 }
 
 .dropdown-item a {
@@ -3525,6 +3464,105 @@ input:not([type=checkbox]):not([type=radio]) {
 .aro-dialog--centered .modal-footer > .btn {
     flex: 1 1 0;
 }
+
+/* ./components/_toast.css */
+/**
+ * Toast — a floating flash notification. A white card with a coloured left accent + icon, a
+ * title and message, and a close button, stacked in a fixed `.toast-container` corner.
+ *
+ * Shown programmatically via `window.aroToast({ type, title, message })`
+ * (js/module/toast/toast.js). Bootstrap's `.toast` drives the show / auto-hide; this file
+ * supplies the look. The visual styles live on `.aro-toast` alone, so a toast also renders as
+ * a static card (e.g. in the catalogue) without the Bootstrap show/hide class.
+ *
+ * Markup (built by the JS):
+ *   <div class="toast aro-toast aro-toast--success" role="alert" aria-live="polite" aria-atomic="true">
+ *     <span class="aro-toast__icon">{icon}</span>
+ *     <div class="aro-toast__body">
+ *       <div class="aro-toast__title">Saved</div>
+ *       <div class="aro-toast__message">Your changes were published.</div>
+ *     </div>
+ *     <button class="aro-toast__close" data-bs-dismiss="toast" aria-label="Close">&times;</button>
+ *   </div>
+ */
+
+.toast-container {
+    z-index: 1090;
+}
+
+.aro-toast {
+    --aro-toast-accent: var(--aro-color-info);
+
+    display: flex;
+    gap: var(--aro-space-3);
+    align-items: flex-start;
+    width: 340px;
+    max-width: 100%;
+    padding: var(--aro-space-3) var(--aro-space-4);
+    background: var(--aro-color-surface);
+    border: 0;
+    border-left: 4px solid var(--aro-toast-accent);
+    border-radius: var(--aro-radius-card);
+    box-shadow: var(--aro-shadow-modal);
+}
+
+/* When it also carries Bootstrap's `.toast` (the live, auto-hiding toast), keep our surface
+   and drop Bootstrap's own border so only our left accent shows. */
+.aro-toast.toast {
+    --bs-toast-bg: var(--aro-color-surface);
+    --bs-toast-max-width: 340px;
+    --bs-toast-border-width: 0;
+}
+
+.aro-toast__icon {
+    flex: 0 0 auto;
+    margin-top: 1px;
+    color: var(--aro-toast-accent);
+    font-size: var(--aro-text-lg);
+    line-height: 1;
+}
+
+.aro-toast__body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.aro-toast__title {
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-toast__message {
+    margin-top: 2px;
+    font-size: var(--aro-text-sm);
+    line-height: var(--aro-leading-base);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-toast__close {
+    flex: 0 0 auto;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--aro-color-text-subtle);
+    font-size: var(--aro-text-xl);
+    line-height: 1;
+    cursor: pointer;
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-toast__close:hover,
+.aro-toast__close:focus-visible {
+    color: var(--aro-color-text);
+}
+
+/* Variants — the accent colour drives the left border and the icon. */
+.aro-toast--success { --aro-toast-accent: var(--aro-color-success); }
+.aro-toast--danger  { --aro-toast-accent: var(--aro-color-danger); }
+.aro-toast--warning { --aro-toast-accent: var(--aro-color-warning); }
+.aro-toast--info    { --aro-toast-accent: var(--aro-color-info); }
+.aro-toast--primary { --aro-toast-accent: var(--aro-color-primary); }
 
 /* ./components/_section-header.css */
 /**
@@ -4912,6 +4950,7 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
             <a href="#list">List</a>
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
+            <a href="#toast">Toast</a>
             <a href="#forms">Form controls</a>
             <a href="#radio-cards">Radio cards</a>
             <a href="#file-upload">File upload</a>
@@ -5472,6 +5511,50 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
     &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
+        </section>
+
+                <section class="cat-section" id="toast">
+            <h2>Toast</h2>
+            <p style="color:var(--aro-color-text-muted)">Floating flash notifications — white card, coloured left accent + icon, title/message, close. Shown with <code>window.aroToast({type, title, message})</code>; they stack top-right and auto-hide. Built on Bootstrap's native <code>.toast</code> (no plugin).</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);max-width:360px">
+                                    <div class="aro-toast aro-toast--success">
+                        <span class="aro-toast__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12l2 2l4-4"></path></g></svg></span>
+                        <div class="aro-toast__body">
+                            <div class="aro-toast__title">Article saved</div>
+                            <div class="aro-toast__message">Your changes were published.</div>
+                        </div>
+                        <button type="button" class="aro-toast__close" aria-label="Close">×</button>
+                    </div>
+                                    <div class="aro-toast aro-toast--danger">
+                        <span class="aro-toast__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4m0 4h.01"></path></g></svg></span>
+                        <div class="aro-toast__body">
+                            <div class="aro-toast__title">Deletion failed</div>
+                            <div class="aro-toast__message">This item could not be removed.</div>
+                        </div>
+                        <button type="button" class="aro-toast__close" aria-label="Close">×</button>
+                    </div>
+                                    <div class="aro-toast aro-toast--warning">
+                        <span class="aro-toast__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg></span>
+                        <div class="aro-toast__body">
+                            <div class="aro-toast__title">Unsaved changes</div>
+                            <div class="aro-toast__message">Leaving now will discard your edits.</div>
+                        </div>
+                        <button type="button" class="aro-toast__close" aria-label="Close">×</button>
+                    </div>
+                                    <div class="aro-toast aro-toast--info">
+                        <span class="aro-toast__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4m0-4h.01"></path></g></svg></span>
+                        <div class="aro-toast__body">
+                            <div class="aro-toast__title">Heads up</div>
+                            <div class="aro-toast__message">The export is being prepared.</div>
+                        </div>
+                        <button type="button" class="aro-toast__close" aria-label="Close">×</button>
+                    </div>
+                            </div>
+            <div class="cat-snippet">window.aroToast({
+  type: 'success',   // success · danger · warning · info · primary
+  title: 'Article saved',
+  message: 'Your changes were published.',
+});</div>
         </section>
 
                 <section class="cat-section" id="forms">
