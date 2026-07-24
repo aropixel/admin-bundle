@@ -1,0 +1,79 @@
+/**
+ * Radio cards — mutually-exclusive options as bordered, selectable cards (plan pickers,
+ * layout choosers, shipping options).
+ *
+ * The plain stacked and inline layouts are Bootstrap's `.form-check` / `.form-check-inline`,
+ * already themed in `_form-controls.css` — no component needed. This file adds the "cards"
+ * treatment from the source design: a real radio inside a `<label>` card whose edge and wash
+ * follow the checked state via `:has()`, so the whole card is the target and no JS is needed.
+ *
+ * Markup:
+ *   <label class="aro-radio-card">
+ *     <input class="form-check-input" type="radio" name="plan" value="pro" checked>
+ *     <span class="aro-radio-card__body">
+ *       <span class="aro-radio-card__title">Pro</span>
+ *       <span class="aro-radio-card__desc">Everything in Starter, plus priority support.</span>
+ *     </span>
+ *     <span class="aro-radio-card__price">€29/mo</span>
+ *   </label>
+ */
+
+.aro-radio-card {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-3);
+    margin: 0;
+    padding: var(--aro-space-4) var(--aro-space-5);
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-surface);
+    cursor: pointer;
+    transition: border-color var(--aro-duration-fast) var(--aro-ease),
+                background-color var(--aro-duration-fast) var(--aro-ease),
+                box-shadow var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-radio-card:hover {
+    border-color: var(--aro-color-text-subtle);
+}
+
+/* Selected — teal edge, a hairline ring and a faint wash, driven by the checked radio. */
+.aro-radio-card:has(> .form-check-input:checked) {
+    border-color: var(--aro-color-primary);
+    box-shadow: 0 0 0 1px var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 8%, var(--aro-color-surface));
+}
+
+.aro-radio-card:has(> .form-check-input:disabled) {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.aro-radio-card > .form-check-input {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.aro-radio-card__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.aro-radio-card__title {
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-radio-card__desc {
+    margin-top: 2px;
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-radio-card__price {
+    flex-shrink: 0;
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}

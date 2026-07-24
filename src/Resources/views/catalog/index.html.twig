@@ -68,6 +68,8 @@
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
+            <a href="#radio-cards">Radio cards</a>
+            <a href="#file-upload">File upload</a>
             <a href="#icons">Icons</a>
         </p>
 
@@ -354,6 +356,74 @@
                 <div class="form-check form-switch"><input class="form-check-input scheduled" type="checkbox" role="switch" checked><label class="form-check-label ms-2">Scheduled</label></div>
                 <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"><label class="form-check-label ms-2">Offline</label></div>
             </div>
+        </section>
+
+        {# ------------------------------------------------------------- Radio cards #}
+        <section class="cat-section" id="radio-cards">
+            <h2>Radio cards</h2>
+            <p style="color:var(--aro-color-text-muted)">Mutually-exclusive options as selectable cards — the edge and wash follow the checked radio via <code>:has()</code>, so the whole card is the target and no JS is needed. Plain stacked/inline choices stay on Bootstrap <code>.form-check</code>.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);max-width:460px">
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="starter">
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Starter</span>
+                        <span class="aro-radio-card__desc">For small sites getting going.</span>
+                    </span>
+                    <span class="aro-radio-card__price">Free</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="pro" checked>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Pro</span>
+                        <span class="aro-radio-card__desc">Everything in Starter, plus priority support.</span>
+                    </span>
+                    <span class="aro-radio-card__price">€29/mo</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="enterprise" disabled>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Enterprise</span>
+                        <span class="aro-radio-card__desc">Contact us — currently unavailable.</span>
+                    </span>
+                    <span class="aro-radio-card__price">—</span>
+                </label>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-radio-card"&gt;
+  &lt;input class="form-check-input" type="radio" name="plan" checked&gt;
+  &lt;span class="aro-radio-card__body"&gt;
+    &lt;span class="aro-radio-card__title"&gt;Pro&lt;/span&gt;
+    &lt;span class="aro-radio-card__desc"&gt;Priority support.&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="aro-radio-card__price"&gt;€29/mo&lt;/span&gt;
+&lt;/label&gt;</div>
+        </section>
+
+        {# -------------------------------------------------------------- File upload #}
+        <section class="cat-section" id="file-upload">
+            <h2>File upload</h2>
+            <p style="color:var(--aro-color-text-muted)">A dropzone with native click-to-browse (a <code>&lt;label&gt;</code> over a hidden input); add <code>.is-dragover</code> from a few drag handlers for the teal highlight. The preview row shows a chosen file.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <label class="aro-fileupload" style="flex:1;max-width:340px">
+                    <input type="file" class="aro-fileupload__input" accept="image/*">
+                    <span class="aro-fileupload__icon">{{ ux_icon('lucide:image') }}</span>
+                    <span class="aro-fileupload__label">Drag a file or <span class="aro-fileupload__browse">browse</span></span>
+                    <span class="aro-fileupload__hint">PNG, JPG — max 2 MB</span>
+                </label>
+                <div class="aro-fileupload-preview" style="flex:1;max-width:320px">
+                    <span class="aro-fileupload-preview__thumb">{{ ux_icon('lucide:image') }}</span>
+                    <span class="aro-fileupload-preview__meta">
+                        <span class="aro-fileupload-preview__name">poster-2026.jpg</span>
+                        <span class="aro-fileupload-preview__size">1.2 MB</span>
+                    </span>
+                    <button type="button" class="aro-fileupload-preview__remove" aria-label="Remove">{{ ux_icon('lucide:trash-2') }}</button>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-fileupload"&gt;
+  &lt;input type="file" class="aro-fileupload__input" accept="image/*"&gt;
+  &lt;span class="aro-fileupload__icon"&gt;{{ '{{' }} ux_icon('lucide:image') {{ '}}' }}&lt;/span&gt;
+  &lt;span class="aro-fileupload__label"&gt;Drag a file or &lt;span class="aro-fileupload__browse"&gt;browse&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="aro-fileupload__hint"&gt;PNG, JPG — max 2 MB&lt;/span&gt;
+&lt;/label&gt;</div>
         </section>
 
         {# ------------------------------------------------------------------ Icons #}

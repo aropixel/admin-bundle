@@ -2646,6 +2646,224 @@ input:not([type=checkbox]):not([type=radio]) {
     font-size: var(--aro-space-3);
 }
 
+/* ./components/_radio-cards.css */
+/**
+ * Radio cards — mutually-exclusive options as bordered, selectable cards (plan pickers,
+ * layout choosers, shipping options).
+ *
+ * The plain stacked and inline layouts are Bootstrap's `.form-check` / `.form-check-inline`,
+ * already themed in `_form-controls.css` — no component needed. This file adds the "cards"
+ * treatment from the source design: a real radio inside a `<label>` card whose edge and wash
+ * follow the checked state via `:has()`, so the whole card is the target and no JS is needed.
+ *
+ * Markup:
+ *   <label class="aro-radio-card">
+ *     <input class="form-check-input" type="radio" name="plan" value="pro" checked>
+ *     <span class="aro-radio-card__body">
+ *       <span class="aro-radio-card__title">Pro</span>
+ *       <span class="aro-radio-card__desc">Everything in Starter, plus priority support.</span>
+ *     </span>
+ *     <span class="aro-radio-card__price">€29/mo</span>
+ *   </label>
+ */
+
+.aro-radio-card {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-3);
+    margin: 0;
+    padding: var(--aro-space-4) var(--aro-space-5);
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-surface);
+    cursor: pointer;
+    transition: border-color var(--aro-duration-fast) var(--aro-ease),
+                background-color var(--aro-duration-fast) var(--aro-ease),
+                box-shadow var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-radio-card:hover {
+    border-color: var(--aro-color-text-subtle);
+}
+
+/* Selected — teal edge, a hairline ring and a faint wash, driven by the checked radio. */
+.aro-radio-card:has(> .form-check-input:checked) {
+    border-color: var(--aro-color-primary);
+    box-shadow: 0 0 0 1px var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 8%, var(--aro-color-surface));
+}
+
+.aro-radio-card:has(> .form-check-input:disabled) {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.aro-radio-card > .form-check-input {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.aro-radio-card__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.aro-radio-card__title {
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-radio-card__desc {
+    margin-top: 2px;
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-radio-card__price {
+    flex-shrink: 0;
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+/* ./components/_file-upload.css */
+/**
+ * FileUpload — dropzone / file picker (the "featured image" pattern made reusable).
+ *
+ * The dropzone is a `<label>` wrapping a hidden file input, so clicking to browse is native —
+ * no JS. Drag-over highlighting is a progressive enhancement: toggle `.is-dragover` from a few
+ * lines of dragenter/dragleave/drop handlers. The compact preview row shows a chosen file.
+ *
+ * Markup (dropzone):
+ *   <label class="aro-fileupload">
+ *     <input type="file" class="aro-fileupload__input" accept="image/*">
+ *     <span class="aro-fileupload__icon">{{ ux_icon('lucide:image') }}</span>
+ *     <span class="aro-fileupload__label">Drag a file or <span class="aro-fileupload__browse">browse</span></span>
+ *     <span class="aro-fileupload__hint">PNG, JPG — max 2 MB</span>
+ *   </label>
+ *
+ * Markup (preview):
+ *   <div class="aro-fileupload-preview">
+ *     <span class="aro-fileupload-preview__thumb">…</span>
+ *     <span class="aro-fileupload-preview__meta">
+ *       <span class="aro-fileupload-preview__name">poster.jpg</span>
+ *       <span class="aro-fileupload-preview__size">1.2 MB</span>
+ *     </span>
+ *     <button class="aro-fileupload-preview__remove">{{ ux_icon('lucide:trash-2') }}</button>
+ *   </div>
+ */
+
+.aro-fileupload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--aro-space-2);
+    padding: var(--aro-space-8) var(--aro-space-6);
+    border: 2px dashed var(--aro-field-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-bg);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--aro-duration-fast) var(--aro-ease),
+                background-color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload:hover,
+.aro-fileupload.is-dragover {
+    border-color: var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 8%, var(--aro-color-surface));
+}
+
+.aro-fileupload__input {
+    display: none;
+}
+
+.aro-fileupload__icon {
+    font-size: var(--aro-text-2xl);
+    color: var(--aro-color-text-muted);
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload:hover .aro-fileupload__icon,
+.aro-fileupload.is-dragover .aro-fileupload__icon {
+    color: var(--aro-color-primary);
+}
+
+.aro-fileupload__label {
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text);
+}
+
+.aro-fileupload__browse {
+    color: var(--aro-color-primary);
+    font-weight: var(--aro-weight-semibold);
+}
+
+.aro-fileupload__hint {
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-subtle);
+}
+
+/* ------------------------------------------------------------- Preview row */
+
+.aro-fileupload-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-3);
+    padding: var(--aro-space-3);
+    border: 1px solid var(--aro-field-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-surface);
+}
+
+.aro-fileupload-preview__thumb {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--aro-radius-input);
+    background: var(--aro-color-bg) center / cover no-repeat;
+    color: var(--aro-color-text-muted);
+}
+
+.aro-fileupload-preview__meta {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.aro-fileupload-preview__name {
+    overflow: hidden;
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aro-fileupload-preview__size {
+    margin-top: 2px;
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-fileupload-preview__remove {
+    flex-shrink: 0;
+    padding: var(--aro-space-2);
+    background: none;
+    border: 0;
+    color: var(--aro-color-text-subtle);
+    cursor: pointer;
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload-preview__remove:hover,
+.aro-fileupload-preview__remove:focus-visible {
+    color: var(--aro-color-danger);
+}
+
 /* ./components/_helpers.css */
 /**
  * Utility classes — border and animation helpers.
@@ -4243,6 +4461,8 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
+            <a href="#radio-cards">Radio cards</a>
+            <a href="#file-upload">File upload</a>
             <a href="#icons">Icons</a>
         </p>
 
@@ -4594,6 +4814,72 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
                 <div class="form-check form-switch"><input class="form-check-input scheduled" type="checkbox" role="switch" checked=""><label class="form-check-label ms-2">Scheduled</label></div>
                 <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"><label class="form-check-label ms-2">Offline</label></div>
             </div>
+        </section>
+
+                <section class="cat-section" id="radio-cards">
+            <h2>Radio cards</h2>
+            <p style="color:var(--aro-color-text-muted)">Mutually-exclusive options as selectable cards — the edge and wash follow the checked radio via <code>:has()</code>, so the whole card is the target and no JS is needed. Plain stacked/inline choices stay on Bootstrap <code>.form-check</code>.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);max-width:460px">
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="starter">
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Starter</span>
+                        <span class="aro-radio-card__desc">For small sites getting going.</span>
+                    </span>
+                    <span class="aro-radio-card__price">Free</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="pro" checked>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Pro</span>
+                        <span class="aro-radio-card__desc">Everything in Starter, plus priority support.</span>
+                    </span>
+                    <span class="aro-radio-card__price">€29/mo</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="enterprise" disabled>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Enterprise</span>
+                        <span class="aro-radio-card__desc">Contact us — currently unavailable.</span>
+                    </span>
+                    <span class="aro-radio-card__price">—</span>
+                </label>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-radio-card"&gt;
+  &lt;input class="form-check-input" type="radio" name="plan" checked&gt;
+  &lt;span class="aro-radio-card__body"&gt;
+    &lt;span class="aro-radio-card__title"&gt;Pro&lt;/span&gt;
+    &lt;span class="aro-radio-card__desc"&gt;Priority support.&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="aro-radio-card__price"&gt;€29/mo&lt;/span&gt;
+&lt;/label&gt;</div>
+        </section>
+
+                <section class="cat-section" id="file-upload">
+            <h2>File upload</h2>
+            <p style="color:var(--aro-color-text-muted)">A dropzone with native click-to-browse (a <code>&lt;label&gt;</code> over a hidden input); add <code>.is-dragover</code> from a few drag handlers for the teal highlight. The preview row shows a chosen file.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <label class="aro-fileupload" style="flex:1;max-width:340px">
+                    <input type="file" class="aro-fileupload__input" accept="image/*">
+                    <span class="aro-fileupload__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></g></svg></span>
+                    <span class="aro-fileupload__label">Drag a file or <span class="aro-fileupload__browse">browse</span></span>
+                    <span class="aro-fileupload__hint">PNG, JPG — max 2 MB</span>
+                </label>
+                <div class="aro-fileupload-preview" style="flex:1;max-width:320px">
+                    <span class="aro-fileupload-preview__thumb"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></g></svg></span>
+                    <span class="aro-fileupload-preview__meta">
+                        <span class="aro-fileupload-preview__name">poster-2026.jpg</span>
+                        <span class="aro-fileupload-preview__size">1.2 MB</span>
+                    </span>
+                    <button type="button" class="aro-fileupload-preview__remove" aria-label="Remove"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-fileupload"&gt;
+  &lt;input type="file" class="aro-fileupload__input" accept="image/*"&gt;
+  &lt;span class="aro-fileupload__icon"&gt;{{ ux_icon('lucide:image') }}&lt;/span&gt;
+  &lt;span class="aro-fileupload__label"&gt;Drag a file or &lt;span class="aro-fileupload__browse"&gt;browse&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="aro-fileupload__hint"&gt;PNG, JPG — max 2 MB&lt;/span&gt;
+&lt;/label&gt;</div>
         </section>
 
                 <section class="cat-section" id="icons">
