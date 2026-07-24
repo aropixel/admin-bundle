@@ -34,14 +34,19 @@
     margin-right: var(--aro-space-3);
 }
 
-.dropdown-toggle + .dropdown-menu .dropdown-item .fa,
-.dropdown-toggle + .dropdown-menu .dropdown-item .fas {
-    width: 25px;
+.dropdown-menu .dropdown-item svg {
+    width: 14px;
+    height: 14px;
+    margin-right: var(--aro-space-2);
 }
 
 .dropdown-menu > li > a {
     cursor: pointer;
     text-decoration: none;
+}
+
+.dropdown-item {
+    font-size: var(--aro-text-base);
 }
 
 .dropdown-item a {
