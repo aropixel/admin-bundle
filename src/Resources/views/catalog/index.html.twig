@@ -65,6 +65,7 @@
             <a href="#badges">Badges &amp; status</a>
             <a href="#avatar">Avatar</a>
             <a href="#cards">Cards</a>
+            <a href="#accordion">Accordion</a>
             <a href="#forms">Form controls</a>
             <a href="#icons">Icons</a>
         </p>
@@ -244,6 +245,48 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        {# -------------------------------------------------------------- Accordion #}
+        <section class="cat-section" id="accordion">
+            <h2>Accordion</h2>
+            <p style="color:var(--aro-color-text-muted)">Bootstrap <code>.accordion</code>, themed. Stacked collapsible panels for FAQs, grouped settings and dense forms. <code>data-bs-parent</code> keeps one open at a time.</p>
+            <div class="accordion" id="catAccordion" style="max-width:640px">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc1" aria-expanded="true" aria-controls="catAcc1">How do I publish an article?</button>
+                    </h2>
+                    <div id="catAcc1" class="accordion-collapse collapse show" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">From the article form, fill in the content then click “Save and publish”. The article becomes visible immediately.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc2" aria-expanded="false" aria-controls="catAcc2">Can I schedule a publication?</button>
+                    </h2>
+                    <div id="catAcc2" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">Yes — pick a future publish date in the side panel. The article stays “Scheduled” until then.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc3" aria-expanded="false" aria-controls="catAcc3">How are user permissions managed?</button>
+                    </h2>
+                    <div id="catAcc3" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">Roles (Admin, Editor, Reader) are set in the Users section. Each role opens a different set of permissions.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="accordion" id="faq"&gt;
+  &lt;div class="accordion-item"&gt;
+    &lt;h2 class="accordion-header"&gt;
+      &lt;button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#q1"&gt;Question&lt;/button&gt;
+    &lt;/h2&gt;
+    &lt;div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq"&gt;
+      &lt;div class="accordion-body"&gt;Answer&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
         </section>
 
         {# --------------------------------------------------------- Form controls #}
