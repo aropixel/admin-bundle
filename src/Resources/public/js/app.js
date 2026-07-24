@@ -10,6 +10,7 @@
 * ---------------------------------------------------------------------------- */
 import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
 import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
 import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
 onDomReady(() => {
@@ -480,43 +481,27 @@ onDomReady(() => {
 
         let _button = $(this);
 
-        let _buttons = {
+        // `data-confirm` is either "Title|Message" or a single line used as the title (a
+        // question reads well on its own). Labels come translated from the actions macro.
+        let raw = String(_button.data('confirm'));
+        let parts = raw.split('|');
+        let title = raw;
+        let message = '';
+        if (parts.length > 1) {
+            title = parts[0];
+            message = parts.slice(1).join('|');
+        }
 
-            "Annuler": function() {
-
-                $(this).closest('.modal').modal('hide');
-
+        new ConfirmDialog({
+            intent: 'danger',
+            title: title,
+            message: message,
+            confirmLabel: _button.data('confirm-label') || 'Confirm',
+            cancelLabel: _button.data('cancel-label') || 'Cancel',
+            onConfirm: function() {
+                _button.closest('.btn-group').find('form').submit();
             },
-
-            "Confirmer": {
-
-                'class' : 'btn-danger',
-                'callback' : function() {
-                    let $btnGroup = _button.closest('.btn-group');
-                    let $form = $btnGroup.find('form');
-                    $form.submit();
-
-                },
-            }
-
-
-        }
-
-        let me_data = _button.data('confirm');
-
-        let me_title = "Confirmation";
-        let me_description = me_data;
-
-        me_data = me_data.split("|");
-        if (me_data.length > 1) {
-            me_title = me_data[0];
-            me_description = me_data[1];
-        }
-
-        new ModalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
-
-
+        });
 
     });
 

@@ -33,6 +33,10 @@
         <source>text.confirm_delete</source>
         <target>Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?</target>
       </trans-unit>
+      <trans-unit id="generic.cancel" resname="text.cancel">
+        <source>text.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>

@@ -9,6 +9,11 @@
  # validates a different id (`delete__post<id>`, `delete__user<id>`, …), so the caller must
  # compute it — e.g. `csrf_token('delete__post' ~ post.id)`. Without it the macro falls back
  # to `delete<id>`, which matches no shipped controller and is only a placeholder.
+ #
+ # Delete confirmation is the Dialog component: `a.delete[data-confirm]` is caught in app.js,
+ # which opens a danger `ConfirmDialog` (css/components/_dialog.css) and, on confirm, submits
+ # the sibling `<form>`. The button labels come translated via `data-confirm-label` /
+ # `data-cancel-label`; `data-confirm` is the "Title|Message" (or a single question) shown.
  #}
 {% macro actions(item, edit_path, delete_path, delete_confirm_msg = null, status = null, delete_token = null) %}
     <div class="btn-group dropstart">
@@ -26,7 +31,7 @@
 
             {% if delete_path %}
                 {% if edit_path or status %}<div class="dropdown-divider"></div>{% endif %}
-                <a class="dropdown-item delete text-danger" data-confirm="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}">{{ ux_icon('lucide:trash-2') }} {{ 'text.delete'|trans }}</a>
+                <a class="dropdown-item delete text-danger" data-confirm="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}" data-confirm-label="{{ 'text.delete'|trans }}" data-cancel-label="{{ 'text.cancel'|trans }}">{{ ux_icon('lucide:trash-2') }} {{ 'text.delete'|trans }}</a>
                 <form method="post" action="{{ delete_path }}">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ delete_token ?? csrf_token('delete' ~ item.id) }}">

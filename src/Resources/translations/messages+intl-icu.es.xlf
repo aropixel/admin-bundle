@@ -33,6 +33,10 @@
         <source>text.confirm_delete</source>
         <target>¿Está seguro de que desea eliminar este elemento?</target>
       </trans-unit>
+      <trans-unit id="generic.cancel" resname="text.cancel">
+        <source>text.cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>En línea</target>
