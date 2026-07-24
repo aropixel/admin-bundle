@@ -72,6 +72,7 @@
             <a href="#dialog">Dialog</a>
             <a href="#modal-sizes">Modal sizes</a>
             <a href="#toast">Toast</a>
+            <a href="#alerts">Alerts</a>
             <a href="#forms">Form controls</a>
             <a href="#radio-cards">Radio cards</a>
             <a href="#file-upload">File upload</a>
@@ -577,6 +578,142 @@ new ConfirmDialog({ size: 'lg', title: '…', message: '…' });</div>
   title: 'Article saved',
   message: 'Your changes were published.',
 });</div>
+        </section>
+
+        {# --------------------------------------------------------------- Alerts #}
+        <section class="cat-section" id="alerts">
+            <h2>Alerts</h2>
+            <p style="color:var(--aro-color-text-muted)">Inline notices that live in the page flow (unlike the floating Toast) — a soft tinted panel, no border by default, with a leading icon and composable slots: description, error <em>list</em>, text-link <em>actions</em>, a right-aligned <em>link</em>, an <code>--accent</code> left bar and a <code>--close</code> dismiss. One accent per variant drives the tint and the darker text ink.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-4);max-width:640px">
+
+                {% set alert_label = 'font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)' %}
+
+                <div>
+                    <div style="{{ alert_label }}">With description</div>
+                    <div class="aro-alert aro-alert--warning">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">Attention requise</div>
+                                    <p class="aro-alert__text">Certains champs du formulaire sont incomplets. Vérifiez les informations avant d’enregistrer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">With list</div>
+                    <div class="aro-alert aro-alert--danger">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:circle-x') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">2 erreurs avec votre soumission</div>
+                                    <ul class="aro-alert__list">
+                                        <li>Le titre de partage est obligatoire.</li>
+                                        <li>L’URL du réseau social n’est pas valide.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">With actions</div>
+                    <div class="aro-alert aro-alert--success">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:circle-check') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">Article publié</div>
+                                    <p class="aro-alert__text">L’article est désormais visible sur le site.</p>
+                                </div>
+                            </div>
+                            <div class="aro-alert__actions">
+                                <button type="button" class="aro-alert__action">Voir la page</button>
+                                <button type="button" class="aro-alert__action">Ignorer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">With link on the right</div>
+                    <div class="aro-alert aro-alert--info">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:info') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Une nouvelle version de l’administration est disponible (2.0.4).</p>
+                                </div>
+                                <a class="aro-alert__link" href="#">Détails <span aria-hidden="true">→</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">With accent border</div>
+                    <div class="aro-alert aro-alert--warning aro-alert--accent">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Vous n’avez plus de crédits d’export disponibles.</p>
+                                </div>
+                                <a class="aro-alert__link" href="#">Mettre à niveau <span aria-hidden="true">→</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">With dismiss button</div>
+                    <div class="aro-alert aro-alert--success">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:circle-check') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Import terminé avec succès.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="aro-alert__close" aria-label="Fermer">&times;</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="{{ alert_label }}">Solid tone — the accent fills the panel</div>
+                    <div class="aro-alert aro-alert--primary aro-alert--solid">
+                        <span class="aro-alert__icon">{{ ux_icon('lucide:megaphone') }}</span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Maintenance planifiée ce dimanche de 2h à 4h.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cat-snippet">&lt;div class="aro-alert aro-alert--warning"&gt;
+  &lt;span class="aro-alert__icon"&gt;{{ '{{' }} ux_icon('lucide:triangle-alert') {{ '}}' }}&lt;/span&gt;
+  &lt;div class="aro-alert__content"&gt;
+    &lt;div class="aro-alert__main"&gt;
+      &lt;div class="aro-alert__body"&gt;
+        &lt;div class="aro-alert__title"&gt;Attention requise&lt;/div&gt;
+        &lt;p class="aro-alert__text"&gt;…&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+Variants: --success · --danger · --warning · --info · --primary
+Modifiers: --accent (left bar) · --solid (filled). Dismiss: add .alert + data-bs-dismiss="alert".</div>
         </section>
 
         {# --------------------------------------------------------- Form controls #}

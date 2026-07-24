@@ -3586,6 +3586,187 @@ input:not([type=checkbox]):not([type=radio]) {
 .aro-toast--info    { --aro-toast-accent: var(--aro-color-info); }
 .aro-toast--primary { --aro-toast-accent: var(--aro-color-primary); }
 
+/* ./components/_alert.css */
+/**
+ * Alert — an inline notice (Tailwind-style): a soft tinted panel, no border by default, with
+ * a leading icon and composable slots. Unlike the Toast (a transient floating flash), the Alert
+ * lives in the page flow — form errors, contextual notices, upgrade nudges.
+ *
+ * The look lives on `.aro-alert` alone, so an alert renders statically (e.g. in the catalogue).
+ * For a dismissible alert, also give the root Bootstrap's `.alert` and mark the close button
+ * `data-bs-dismiss="alert"` — Bootstrap drives the removal, our rules win (unlayered vs the
+ * `@layer bootstrap` defaults) so only our surface shows.
+ *
+ * One accent token per variant drives everything; the tint and the darker text "ink" are
+ * derived from it, so a new colour is a single custom property.
+ *
+ * Composable slots (all optional): __icon · __title · __text · __list · __link (pushed right) ·
+ * __actions/__action (text links below) · __close (dismiss ×). `--accent` adds a left bar,
+ * `--solid` fills with the colour.
+ *
+ * Markup:
+ *   <div class="aro-alert aro-alert--warning">
+ *     <span class="aro-alert__icon">{icon}</span>
+ *     <div class="aro-alert__content">
+ *       <div class="aro-alert__main">
+ *         <div class="aro-alert__body">
+ *           <div class="aro-alert__title">Attention requise</div>
+ *           <p class="aro-alert__text">Certains champs sont incomplets.</p>
+ *           <ul class="aro-alert__list"><li>…</li></ul>
+ *         </div>
+ *         <a class="aro-alert__link" href="#">Détails <span aria-hidden="true">→</span></a>
+ *       </div>
+ *       <div class="aro-alert__actions">
+ *         <button type="button" class="aro-alert__action">Voir la page</button>
+ *       </div>
+ *     </div>
+ *     <button type="button" class="aro-alert__close" aria-label="Fermer">&times;</button>
+ *   </div>
+ */
+
+.aro-alert {
+    --aro-alert-accent: var(--aro-color-info);
+    --aro-alert-bg: color-mix(in srgb, var(--aro-alert-accent) 12%, var(--aro-color-surface));
+    --aro-alert-ink: color-mix(in srgb, var(--aro-alert-accent) 65%, var(--aro-color-text-strong));
+
+    display: flex;
+    gap: var(--aro-space-3);
+    align-items: flex-start;
+    padding: var(--aro-space-3) var(--aro-space-4);
+    background: var(--aro-alert-bg);
+    border: 0;
+    border-radius: var(--aro-radius-card);
+    color: var(--aro-alert-ink);
+    font-size: var(--aro-text-base);
+    line-height: var(--aro-leading-base);
+}
+
+.aro-alert__icon {
+    flex: 0 0 auto;
+    margin-top: 1px;
+    font-size: var(--aro-text-lg);
+    line-height: var(--aro-leading-tight);
+}
+
+.aro-alert__content {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Body + a right-aligned link share the top row, baseline-aligned. */
+.aro-alert__main {
+    display: flex;
+    gap: var(--aro-space-3);
+    align-items: baseline;
+}
+
+.aro-alert__body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.aro-alert__title {
+    font-weight: var(--aro-weight-semibold);
+}
+
+/* When a body/list follows the title, separate them. */
+.aro-alert__title:not(:last-child) {
+    margin-bottom: var(--aro-space-1);
+}
+
+.aro-alert__text {
+    margin: 0;
+}
+
+.aro-alert__list {
+    margin: var(--aro-space-2) 0 0;
+    padding-left: var(--aro-space-5);
+    list-style: disc;
+}
+
+.aro-alert__title + .aro-alert__list {
+    margin-top: var(--aro-space-1);
+}
+
+.aro-alert__list li + li {
+    margin-top: 3px;
+}
+
+.aro-alert__link {
+    flex: 0 0 auto;
+    font-weight: var(--aro-weight-semibold);
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.aro-alert__link:hover,
+.aro-alert__link:focus-visible {
+    text-decoration: underline;
+    color: inherit;
+}
+
+/* Text-link actions below the body. */
+.aro-alert__actions {
+    display: flex;
+    gap: var(--aro-space-5);
+    margin-top: var(--aro-space-2);
+}
+
+.aro-alert__action {
+    padding: 0;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-weight: var(--aro-weight-semibold);
+    color: inherit;
+    cursor: pointer;
+}
+
+.aro-alert__action:hover,
+.aro-alert__action:focus-visible {
+    text-decoration: underline;
+}
+
+.aro-alert__close {
+    flex: 0 0 auto;
+    margin-top: 1px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: inherit;
+    opacity: 0.75;
+    font-size: var(--aro-text-lg);
+    line-height: var(--aro-leading-tight);
+    cursor: pointer;
+    transition: opacity var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-alert__close:hover,
+.aro-alert__close:focus-visible {
+    opacity: 1;
+}
+
+/* Left accent bar — squares off the left corners so the bar reads as a spine. */
+.aro-alert--accent {
+    border-left: 4px solid var(--aro-alert-accent);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Solid tone — the accent fills the panel; text and icon go inverted. */
+.aro-alert--solid {
+    --aro-alert-bg: var(--aro-alert-accent);
+    --aro-alert-ink: var(--aro-color-text-inverted);
+}
+
+/* Variants — one accent drives the tint, the ink and the accent bar. */
+.aro-alert--success { --aro-alert-accent: var(--aro-color-success); }
+.aro-alert--danger  { --aro-alert-accent: var(--aro-color-danger); }
+.aro-alert--warning { --aro-alert-accent: var(--aro-color-warning); }
+.aro-alert--info    { --aro-alert-accent: var(--aro-color-info); }
+.aro-alert--primary { --aro-alert-accent: var(--aro-color-primary); }
+
 /* ./components/_section-header.css */
 /**
  * Section header — the identity block at the top of every screen.
@@ -4974,6 +5155,7 @@ body { background: var(--aro-color-bg); margin: 0; padding: 32px; }
             <a href="#dialog">Dialog</a>
             <a href="#modal-sizes">Modal sizes</a>
             <a href="#toast">Toast</a>
+            <a href="#alerts">Alerts</a>
             <a href="#forms">Form controls</a>
             <a href="#radio-cards">Radio cards</a>
             <a href="#file-upload">File upload</a>
@@ -5607,6 +5789,140 @@ new ConfirmDialog({ size: 'lg', title: '…', message: '…' });</div>
   title: 'Article saved',
   message: 'Your changes were published.',
 });</div>
+        </section>
+
+        <section class="cat-section" id="alerts">
+            <h2>Alerts</h2>
+            <p style="color:var(--aro-color-text-muted)">Inline notices that live in the page flow (unlike the floating Toast) — a soft tinted panel, no border by default, with a leading icon and composable slots: description, error <em>list</em>, text-link <em>actions</em>, a right-aligned <em>link</em>, an <code>--accent</code> left bar and a <code>--close</code> dismiss. One accent per variant drives the tint and the darker text ink.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-4);max-width:640px">
+
+                
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With description</div>
+                    <div class="aro-alert aro-alert--warning">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">Attention requise</div>
+                                    <p class="aro-alert__text">Certains champs du formulaire sont incomplets. Vérifiez les informations avant d’enregistrer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With list</div>
+                    <div class="aro-alert aro-alert--danger">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m15 9l-6 6m0-6l6 6"></path></g></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">2 erreurs avec votre soumission</div>
+                                    <ul class="aro-alert__list">
+                                        <li>Le titre de partage est obligatoire.</li>
+                                        <li>L’URL du réseau social n’est pas valide.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With actions</div>
+                    <div class="aro-alert aro-alert--success">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12l2 2l4-4"></path></g></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <div class="aro-alert__title">Article publié</div>
+                                    <p class="aro-alert__text">L’article est désormais visible sur le site.</p>
+                                </div>
+                            </div>
+                            <div class="aro-alert__actions">
+                                <button type="button" class="aro-alert__action">Voir la page</button>
+                                <button type="button" class="aro-alert__action">Ignorer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With link on the right</div>
+                    <div class="aro-alert aro-alert--info">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4m0-4h.01"></path></g></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Une nouvelle version de l’administration est disponible (2.0.4).</p>
+                                </div>
+                                <a class="aro-alert__link" href="#">Détails <span aria-hidden="true">→</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With accent border</div>
+                    <div class="aro-alert aro-alert--warning aro-alert--accent">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Vous n’avez plus de crédits d’export disponibles.</p>
+                                </div>
+                                <a class="aro-alert__link" href="#">Mettre à niveau <span aria-hidden="true">→</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">With dismiss button</div>
+                    <div class="aro-alert aro-alert--success">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12l2 2l4-4"></path></g></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Import terminé avec succès.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="aro-alert__close" aria-label="Fermer">×</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--aro-color-text-muted);font-weight:600;margin-bottom:var(--aro-space-2)">Solid tone — the accent fills the panel</div>
+                    <div class="aro-alert aro-alert--primary aro-alert--solid">
+                        <span class="aro-alert__icon"><svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path><path d="M6 14a12 12 0 0 0 2.4 7.2a2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14M8 6v8"></path></g></svg></span>
+                        <div class="aro-alert__content">
+                            <div class="aro-alert__main">
+                                <div class="aro-alert__body">
+                                    <p class="aro-alert__text">Maintenance planifiée ce dimanche de 2h à 4h.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cat-snippet">&lt;div class="aro-alert aro-alert--warning"&gt;
+  &lt;span class="aro-alert__icon"&gt;{{ ux_icon('lucide:triangle-alert') }}&lt;/span&gt;
+  &lt;div class="aro-alert__content"&gt;
+    &lt;div class="aro-alert__main"&gt;
+      &lt;div class="aro-alert__body"&gt;
+        &lt;div class="aro-alert__title"&gt;Attention requise&lt;/div&gt;
+        &lt;p class="aro-alert__text"&gt;…&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+Variants: --success · --danger · --warning · --info · --primary
+Modifiers: --accent (left bar) · --solid (filled). Dismiss: add .alert + data-bs-dismiss="alert".</div>
         </section>
 
                 <section class="cat-section" id="forms">
