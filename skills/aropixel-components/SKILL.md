@@ -2,9 +2,9 @@
 name: aropixel-components
 description: >
   The AropixelAdminBundle design-system component library — buttons, dialogs, toasts,
-  modals, lists, grids, stats, cards, badges, avatars, form controls and more, all on the
-  `--aro-*` tokens. Use this skill whenever you build or style admin UI: choosing a button,
-  badge, dialog, toast or dropdown; laying out a list, grid, stat block or card; picking a
+  alerts, modals, lists, grids, stats, cards, badges, avatars, form controls and more, all on
+  the `--aro-*` tokens. Use this skill whenever you build or style admin UI: choosing a button,
+  badge, dialog, toast, alert or dropdown; laying out a list, grid, stat block or card; picking a
   modal size or a presentation; or wondering "is there already a component for this?".
   It routes you to the ready-made component and its canonical markup instead of hand-rolling
   UI that drifts from the design system.
@@ -63,6 +63,7 @@ Everything lives in the bundle (in a host project: `vendor/aropixel/admin-bundle
 |---|---|---|
 | **Dialog** | Confirmation (delete, publish…) | JS: `new ConfirmDialog({ intent, size, title, message, confirmLabel, cancelLabel, onConfirm })`. `intent`: danger·warning·success·info·primary. CSS `.aro-dialog` — `dialog/confirm-dialog.js`, `_dialog.css` |
 | **Toast** | Floating flash notification | JS: `window.aroToast({ type, title, message })`. `type`: success·danger·warning·info·primary — `toast/toast.js`, `_toast.css` |
+| **Alert** | Inline notice in the page flow (form errors, contextual notices) | `.aro-alert` + `--success`/`-danger`/`-warning`/`-info`/`-primary`; slots `__icon`/`__title`/`__text`/`__list`/`__link`/`__actions`/`__close`; modifiers `--accent` (left bar), `--solid` (filled). Dismiss: add `.alert` + `data-bs-dismiss="alert"` — `_alert.css` |
 | Modal | A panel / form overlay | Bootstrap `.modal`; size on `.modal-dialog`: `.modal-sm` 400 · default 520 · `.modal-lg` 720 · `.modal-xl` 960 · `.modal-full`. Grey footer is automatic — `_modal.css` |
 | Badge & status | A label / a publish state | `.badge`; status dot `.state-icon--online` / `--scheduled` / `--offline`, thumbnail dot `.img-state-icon` — `_badge.css` |
 
