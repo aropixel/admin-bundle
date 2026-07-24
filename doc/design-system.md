@@ -608,9 +608,12 @@ modifier.
 
 ### Hors périmètre (décidé — ce n'est pas un reste)
 
-- **~9 composants du design system non implémentés** (`Stat`, `GridList`, `Accordion`,
-  `SplitButton`, `ButtonGroup`, `RadioGroup`, `Dialog`, `List`, `FileUpload`) — « à la
-  demande, pas en bloc » (§6c).
+- **Composants du design system importés à la demande depuis Claude Design** (§6c, principe
+  « à la demande, pas en bloc »). **Faits le 24 juillet 2026** : `ButtonGroup`, `SplitButton`
+  (habillent `.btn-group`), `Accordion` (habille `.accordion`), `Dialog` (motif sur `.modal`),
+  `RadioGroup` (variante *cards* via `:has()` ; les 6 autres dispositions restent du
+  `.form-check` Bootstrap ou hors périmètre), `FileUpload` (dropzone). **Restent non
+  implémentés** : `Stat`, `GridList`, `List` — à importer à la demande de la même façon.
 - **Disposition verticale des formulaires** (§16) — décidée NON, réversible.
 - **Mode sombre** (§10).
 
@@ -1109,6 +1112,16 @@ catégories, à ne pas traiter de la même façon.
 **c) Nouveautés sans usage actuel** — `Stat` (5 formes), `GridList` (4 formes),
 `Accordion`, `SplitButton`, `ButtonGroup`, `RadioGroup` (7 dispositions), `Dialog`,
 `List`, `FileUpload`.
+
+> **Import à la demande — état au 24 juillet 2026.** Six de ces nouveautés ont été importées
+> de Claude Design et cataloguées (live + export statique) : `ButtonGroup`, `SplitButton`
+> (`_button-group.css`, `_split-button.css` — habillent `.btn-group` / le split-dropdown
+> Bootstrap), `Accordion` (`_accordion.css` — habille `.accordion`), `Dialog` (`_dialog.css`
+> — motif de confirmation sur `.modal`, intents en `color-mix`), `RadioGroup` (`_radio-cards.css`
+> — la variante *cards* via `:has()` ; les dispositions plates restent du `.form-check`
+> Bootstrap), `FileUpload` (`_file-upload.css` — dropzone). Chacun suit le gabarit de
+> `_btn.css` : piloter Bootstrap par ses variables, zéro `!important`, tout sur tokens.
+> **Restent** `Stat`, `GridList`, `List`.
 
 > **Recommandation de périmètre.** Ne construire en première passe que ce que les 69
 > templates utilisent réellement — soit (a), (b) et la portion de (c) effectivement
