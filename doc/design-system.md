@@ -316,11 +316,15 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 > **Item D — ✅ CLOS le 24 juillet 2026** : indicateurs de statut basculés sur la famille
 > sémantique (feu tricolore success/warning/danger). Détail §12 et section D.
 >
+> **Conformité twig-cs des 3 bundles compagnons — ✅ CLOS le 24 juillet 2026.** `qa:twig-cs`
+> (fix) sur blog/page/menu : **113 erreurs → 0** sur **18 fichiers** (blog 5, page 9, menu 4 ;
+> admin déjà conforme, inchangé). Correctifs **purement cosmétiques et équivalents** : lignes
+> vides multiples, espacement `{# #}`/opérateurs, clés de hash dé-quotées, virgules finales,
+> `{% include %}` → `{{ include() }}` (fusion de contexte préservée). Rendu vérifié au harnais
+> (9 écrans blog/page/menu + page-builder, HTTP 200, zéro exception). Commité par bundle.
+>
 > **Reste à faire, par priorité :**
-> 1. **Conformité twig-cs des 3 bundles compagnons** — jamais mis aux normes ; le CI est rouge
->    dessus (préexistant à nos commits). `qa:twig-cs` reformate en masse (le lancer sur un arbre
->    dédié, pas mélangé).
-> 2. **Divers** :
+> 1. **Divers** :
 >    - ~~police **Typekit externe** de `page-builder.css`~~ **✅ FAIT le 24 juillet 2026** —
 >      `@import url("https://use.typekit.net/tpb1kxh.css")` **supprimé** (fuite RGPD, même souci
 >      que les Google Fonts retirées d'admin). La police `forevs` qu'il fournissait ne servait
@@ -329,7 +333,8 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 >      externe ni référence Google/Typekit (hors commentaire historique de `_fonts.css`) dans les
 >      4 bundles. (`forevs` étant une police commerciale Adobe, l'auto-hébergement à la Poppins
 >      n'était pas une option légale — d'où la suppression pure.)
->    - **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ;
+>    - ~~confirmer semibold vs bold pour `.pb-label`~~ **✅ tranché le 24 juillet 2026 : on garde
+>      le semibold** (`--aro-weight-semibold`, 600) — pas de flip vers bold ;
 >    - **le cliquet `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts
 >      bundle) — à porter dans un repo si on veut le conserver.
 
