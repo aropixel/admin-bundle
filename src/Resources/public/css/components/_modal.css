@@ -16,6 +16,19 @@
     --bs-modal-header-padding: var(--aro-space-4) var(--aro-space-6);
 }
 
+/*
+ * Footer sits on the grey app canvas, not behind a hairline: the tint is what separates it
+ * from the white body, so there is no border between the two (design system). Its bottom
+ * corners follow the modal radius so the fill never squares off the rounded panel.
+ */
+.modal-footer {
+    --bs-modal-footer-border-width: 0;
+
+    background-color: var(--aro-color-bg);
+    border-bottom-right-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+    border-bottom-left-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+}
+
 /* A popover raised inside a modal must clear the modal's own stacking context. */
 .modal .popover {
     z-index: 9999;
