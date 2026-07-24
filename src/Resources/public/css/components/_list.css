@@ -1,0 +1,131 @@
+/**
+ * List — a stacked list of records: a lighter-weight alternative to the DataTable when there
+ * are no columns to sort or paginate. Each row is an avatar (`_avatar.css`) + primary/secondary
+ * text on the left, and optional meta / status / chevron / actions on the right, separated by
+ * the admin's signature dashed hairline. Add `aro-list--dark` for the slate-panel tone.
+ *
+ * Markup:
+ *   <ul class="aro-list">
+ *     <li>
+ *       <div class="aro-list__row">
+ *         <span class="aro-avatar aro-avatar--sm">…</span>
+ *         <span class="aro-list__body">
+ *           <span class="aro-list__name">Camille Lefebvre</span>
+ *           <span class="aro-list__secondary">camille@aropixel.com</span>
+ *         </span>
+ *         <span class="aro-list__meta">
+ *           <span class="aro-list__meta-main">Administrator</span>
+ *           <span class="aro-list__meta-sub">Just now</span>
+ *         </span>
+ *       </div>
+ *     </li>
+ *   </ul>
+ *
+ * A row can be an `<a class="aro-list__row">` to navigate; add `aro-list__chevron` to signal it.
+ */
+
+.aro-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.aro-list > li + li {
+    border-top: 1px dashed var(--aro-color-border);
+}
+
+.aro-list__row {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-4);
+    padding: var(--aro-space-4) var(--aro-space-5);
+    color: inherit;
+    text-decoration: none;
+    transition: background-color var(--aro-duration-fast) var(--aro-ease);
+}
+
+a.aro-list__row:hover,
+a.aro-list__row:focus-visible {
+    background: var(--aro-color-bg);
+}
+
+.aro-list__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.aro-list__name {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-2);
+    overflow: hidden;
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aro-list__secondary {
+    margin-top: 2px;
+    overflow: hidden;
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aro-list__meta {
+    flex: 0 0 auto;
+    text-align: right;
+}
+
+.aro-list__meta-main {
+    display: block;
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text);
+    white-space: nowrap;
+}
+
+.aro-list__meta-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-muted);
+    white-space: nowrap;
+}
+
+.aro-list__chevron {
+    flex: 0 0 auto;
+    color: var(--aro-color-text-subtle);
+}
+
+/* --------------------------------------------------------------- Dark tone */
+
+.aro-list--dark {
+    background: var(--aro-color-secondary);
+    border-radius: var(--aro-radius-card);
+}
+
+.aro-list--dark > li + li {
+    border-top-color: color-mix(in srgb, var(--aro-color-text-inverted) 12%, transparent);
+}
+
+.aro-list--dark .aro-list__name {
+    color: var(--aro-color-text-inverted);
+}
+
+.aro-list--dark .aro-list__secondary,
+.aro-list--dark .aro-list__meta-sub {
+    color: color-mix(in srgb, var(--aro-color-text-inverted) 55%, transparent);
+}
+
+.aro-list--dark .aro-list__meta-main {
+    color: color-mix(in srgb, var(--aro-color-text-inverted) 80%, transparent);
+}
+
+.aro-list--dark a.aro-list__row:hover,
+.aro-list--dark a.aro-list__row:focus-visible {
+    background: color-mix(in srgb, var(--aro-color-text-inverted) 5%, transparent);
+}

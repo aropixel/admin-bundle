@@ -66,6 +66,8 @@
             <a href="#avatar">Avatar</a>
             <a href="#cards">Cards</a>
             <a href="#stat">Stat</a>
+            <a href="#grid-list">Grid list</a>
+            <a href="#list">List</a>
             <a href="#accordion">Accordion</a>
             <a href="#dialog">Dialog</a>
             <a href="#forms">Form controls</a>
@@ -319,6 +321,117 @@
     &lt;div class="aro-stat__value"&gt;€405,091&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</div>
+        </section>
+
+        {# ---------------------------------------------------------------- Grid list #}
+        <section class="cat-section" id="grid-list">
+            <h2>Grid list</h2>
+            <p style="color:var(--aro-color-text-muted)">Records on a responsive grid of cards (vs. List's single vertical stack). Tiles reuse avatars and badges — here the centered <em>card</em> shape with a split action footer, and the <em>simple</em> initials row.</p>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Card</h5>
+            <div class="aro-grid-list mb-6" style="--aro-grid-min:190px">
+                {% for m in [
+                    {n: 'Camille Lefebvre', r: 'Administrator', s: 'online', b: '--aro-color-success', l: 'Online'},
+                    {n: 'Nicolas Roy', r: 'Editor', s: 'scheduled', b: '--aro-color-warning', l: 'Away'},
+                    {n: 'Sarah Marchand', r: 'Reader', s: 'offline', b: '--aro-color-secondary', l: 'Offline'},
+                ] %}
+                    <div class="aro-grid-card">
+                        <div class="aro-grid-card__body">
+                            <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--{{ m.s }}"></span></span>
+                            <div class="aro-grid-card__title">{{ m.n }}</div>
+                            <div class="aro-grid-card__subtitle">{{ m.r }}</div>
+                            <div class="mt-2"><span class="badge" style="background:var({{ m.b }});color:var(--aro-color-text-inverted)">{{ m.l }}</span></div>
+                        </div>
+                        <div class="aro-grid-card__foot">
+                            <a class="aro-grid-card__action" href="#">{{ ux_icon('lucide:eye') }} View</a>
+                            <a class="aro-grid-card__action" href="#">{{ ux_icon('lucide:pencil') }} Edit</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Simple</h5>
+            <div class="aro-grid-list" style="--aro-grid-min:240px">
+                {% for m in [
+                    {i: 'CL', n: 'Camille Lefebvre', r: 'Administrator', c: '--aro-accent-pink'},
+                    {i: 'NR', n: 'Nicolas Roy', r: 'Editor', c: '--aro-accent-indigo'},
+                    {i: 'SM', n: 'Sarah Marchand', r: 'Reader', c: '--aro-color-primary'},
+                ] %}
+                    <div class="aro-grid-simple">
+                        <span class="aro-grid-simple__initials" style="background:var({{ m.c }})">{{ m.i }}</span>
+                        <div class="aro-grid-simple__body">
+                            <div><div class="aro-grid-simple__name">{{ m.n }}</div><div class="aro-grid-simple__meta">{{ m.r }}</div></div>
+                            <span style="color:var(--aro-color-text-muted);display:inline-flex">{{ ux_icon('lucide:ellipsis') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="cat-snippet">&lt;div class="aro-grid-list" style="--aro-grid-min:220px"&gt;
+  &lt;div class="aro-grid-card"&gt;
+    &lt;div class="aro-grid-card__body"&gt;…avatar, title, subtitle, badge…&lt;/div&gt;
+    &lt;div class="aro-grid-card__foot"&gt;
+      &lt;a class="aro-grid-card__action"&gt;View&lt;/a&gt;
+      &lt;a class="aro-grid-card__action"&gt;Edit&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# --------------------------------------------------------------------- List #}
+        <section class="cat-section" id="list">
+            <h2>List</h2>
+            <p style="color:var(--aro-color-text-muted)">A stacked list of records — lighter than the DataTable when there are no columns to sort. Avatar + primary/secondary text, with meta / status / chevron / actions on the right, rows on the dashed hairline. Add <code>aro-list--dark</code> for the slate panel.</p>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Members — meta &amp; status</h5>
+                    <div class="card">
+                        <ul class="aro-list">
+                            {% for m in [
+                                {n: 'Camille Lefebvre', e: 'camille@aropixel.com', s: 'online', r: 'Administrator', t: 'Just now'},
+                                {n: 'Nicolas Roy', e: 'nicolas@aropixel.com', s: 'scheduled', r: 'Editor', t: '1 h ago'},
+                                {n: 'Julien Petit', e: 'julien@aropixel.com', s: 'offline', r: 'Reader', t: '6 d ago'},
+                            ] %}
+                                <li>
+                                    <div class="aro-list__row">
+                                        <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--{{ m.s }}"></span></span>
+                                        <span class="aro-list__body"><span class="aro-list__name">{{ m.n }}</span><span class="aro-list__secondary">{{ m.e }}</span></span>
+                                        <span class="aro-list__meta"><span class="aro-list__meta-main">{{ m.r }}</span><span class="aro-list__meta-sub">{{ m.t }}</span></span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Dark tone — navigable</h5>
+                    <ul class="aro-list aro-list--dark">
+                        {% for m in [
+                            {n: 'Summer Festival 2026', c: 'Events'},
+                            {n: 'New collection', c: 'Press'},
+                            {n: 'Annual report', c: 'News'},
+                        ] %}
+                            <li>
+                                <a class="aro-list__row" href="#">
+                                    <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                                    <span class="aro-list__body"><span class="aro-list__name">{{ m.n }}</span><span class="aro-list__secondary">{{ m.c }}</span></span>
+                                    <span class="aro-list__chevron">›</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;ul class="aro-list"&gt;
+  &lt;li&gt;&lt;div class="aro-list__row"&gt;
+    &lt;span class="aro-avatar aro-avatar--sm"&gt;…&lt;/span&gt;
+    &lt;span class="aro-list__body"&gt;
+      &lt;span class="aro-list__name"&gt;Camille Lefebvre&lt;/span&gt;
+      &lt;span class="aro-list__secondary"&gt;camille@aropixel.com&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="aro-list__meta"&gt;…role / last seen…&lt;/span&gt;
+  &lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</div>
         </section>
 
         {# -------------------------------------------------------------- Accordion #}
