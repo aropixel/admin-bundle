@@ -10,13 +10,11 @@
         {% block stylesheets %}
 
         <!-- General CSS Files -->
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/ionicons/css/ionicons.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/foundations/_bootstrap-layer.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/select2/dist/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/izitoast/css/iziToast.min.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/quilljs/quill.snow.css') }}">
         <!-- CSS Libraries -->
 
@@ -26,13 +24,12 @@
 
             <!-- Template CSS -->
             <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/style.css') }}">
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/components.css') }}">
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/css/custom.css') }}">
 
             <!-- Awesome Font -->
-            <link rel="stylesheet" href="{{ asset('bundles/aropixeladmin/modules/fontawesome/css/all.min.css') }}">
 
         {% endblock %}
+
+        {{ include('@AropixelAdmin/_theme-tokens.html.twig') }}
 
         {% block asset_manager %}
             {% if aropixel_asset_mapper_enabled %}
@@ -55,14 +52,14 @@
         {% block body_content %}
         <div id="app">
 
-            <div class="main-wrapper main-wrapper-1">
+            <div class="main-wrapper-1">
 
-                {% include '@AropixelAdmin/Menu/fullscreen.html.twig' %}
+                {{ include('@AropixelAdmin/Menu/fullscreen.html.twig') }}
 
                 <!-- Main Content -->
                 <div class="main-content main-content-fullscreen">
 
-                    <section class="section-header mt-3">
+                    <section class="aro-section-header mt-3">
 
                         {% block header %}
 
@@ -78,7 +75,7 @@
 
                                                 <h1>{% block header_title %}{% endblock %}</h1>
 
-                                                <div class="section-header-breadcrumb">
+                                                <div class="aro-section-header-breadcrumb">
                                                     {% block header_breadcrumb %}{% endblock %}
                                                 </div>
 
@@ -104,7 +101,7 @@
 
                     </section>
 
-                    <section class="section-body">
+                    <section>
 
                         {% block body %}{% endblock %}
 
@@ -116,12 +113,12 @@
                     <div class="main-footer-fullscreen">
                         {% block footer_left %}
                             <div class="footer-left">
-                                {{ "now"|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
+                                {{ 'now'|date('Y') }} <a href="{{ admin_client.link }}">{{ admin_client.name }}</a> <div class="bullet"></div>  © <a href="{{ admin_copyright.link }}" target="_blank">{{ admin_copyright.name }}</a>
                             </div>
                         {% endblock %}
 
                         {% block footer_right %}
-                            <div class="footer-right"></div>
+                            <div></div>
                         {% endblock %}
                     </div>
                 </footer>
@@ -143,7 +140,6 @@
             <script src="{{ asset('bundles/aropixeladmin/modules/select2/dist/js/select2.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/datatables/datatables.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/datatables/plugins/date-euro.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/modules/izitoast/js/iziToast.min.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/quilljs/quill.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/modules/gdpr/gdpr-password.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/datatable-core.js') }}"></script>
@@ -173,6 +169,25 @@
 
             </script>
 
+            {# Translated defaults for the JS confirmation dialogs (ConfirmDialog). Rendered
+               here so all locales are covered; read as fallbacks when a caller passes none. #}
+            <script>
+                window.aroDialogI18n = {
+                    title: {{ ('text.confirmation'|trans)|json_encode|raw }},
+                    confirm: {{ ('text.confirm'|trans)|json_encode|raw }},
+                    cancel: {{ ('text.cancel'|trans)|json_encode|raw }},
+                    deleteTitle: {{ ('text.confirm_delete'|trans)|json_encode|raw }},
+                    deleteDetail: {{ ('text.confirm_delete_detail'|trans)|json_encode|raw }},
+                    deleteFile: {{ ('text.confirm_delete_file'|trans)|json_encode|raw }},
+                    deleteLibraryFile: {{ ('text.confirm_delete_library_file'|trans)|json_encode|raw }},
+                    deleteGalleryImage: {{ ('text.confirm_delete_gallery_image'|trans)|json_encode|raw }},
+                    online: {{ ('text.online'|trans)|json_encode|raw }},
+                    offline: {{ ('text.offline'|trans)|json_encode|raw }},
+                    setOnline: {{ ('text.set_online'|trans)|json_encode|raw }},
+                    setOffline: {{ ('text.set_offline'|trans)|json_encode|raw }}
+                };
+            </script>
+
             <!-- Template JS File -->
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/datatable-init.js') }}"></script>
@@ -183,7 +198,9 @@
             <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
             <script type="module">
-                import { initImageManager } from '/bundles/aropixeladmin/js/module/image-manager/launcher.js';
+                {# Must go through asset(): a hardcoded absolute path breaks any install
+                   served from a sub-directory rather than the domain root. #}
+                import { initImageManager } from '{{ asset('bundles/aropixeladmin/js/module/image-manager/launcher.js') }}';
                 window.initImageManager = initImageManager;
             </script>
         {% endblock %}

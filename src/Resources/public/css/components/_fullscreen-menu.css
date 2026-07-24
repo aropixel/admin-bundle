@@ -1,0 +1,186 @@
+/**
+ * Fullscreen mega-menu — the overlay opened by the burger button.
+ *
+ * Public   : #fullscreen-menu, #burgerMenu, #close-fullscreen-menu
+ *
+ * ⚠ **Not covered by the visual baseline**: the overlay only appears once #burgerMenu is
+ * clicked. Rebuilt by reading, like the search panel.
+ */
+
+#burgerMenu {
+    color: var(--aro-color-text);
+    font-size: var(--aro-space-8);
+    cursor: pointer;
+}
+
+#fullscreen-menu {
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    padding: var(--aro-space-8) 0;
+    background-color: white;
+    z-index: 10000;
+    overflow-y: scroll;
+}
+
+#fullscreen-menu.hide {
+    opacity: 0;
+    height: 0;
+    transition: all 0.4s ease-in-out;
+    z-index: -1;
+    display: none;
+}
+
+#fullscreen-menu .header {
+    margin-bottom: 100px;
+}
+
+#fullscreen-menu .body .title, #fullscreen-menu .body h2 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: var(--aro-space-2);
+}
+
+#fullscreen-menu .body ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+#fullscreen-menu .body li {
+    line-height: 2.3;
+    font-size: 14px;
+}
+
+#fullscreen-menu .body li.active a {
+    font-weight: 600;
+}
+
+#fullscreen-menu .body a {
+    color: var(--aro-color-text-muted);
+    font-weight: 300;
+    text-decoration: none;
+}
+
+#fullscreen-menu .body a:hover, #fullscreen-menu .body a.active {
+    color: var(--aro-accent-peach);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#fullscreen-menu .submenu-content {
+    opacity: 1;
+    height: auto;
+    transition: all 0.4s ease-in-out;
+    display: block;
+}
+#fullscreen-menu .submenu-content li a:hover {
+    font-weight: 400;
+}
+#fullscreen-menu .submenu-content.lightBlue li {
+    background-color: color-mix(in srgb, var(--aro-accent-mint) 35%, transparent);
+}
+#fullscreen-menu .submenu-content.lightBlue li:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-mint) 85%, transparent);
+}
+#fullscreen-menu .submenu-content.orange li {
+    background-color: color-mix(in srgb, var(--aro-accent-orange) 35%, transparent);
+}
+#fullscreen-menu .submenu-content.orange li:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-orange) 85%, transparent);
+}
+#fullscreen-menu .submenu-content.green li {
+    background-color: color-mix(in srgb, var(--aro-accent-green) 35%, transparent);
+}
+#fullscreen-menu .submenu-content.green li:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-green) 85%, transparent);
+}
+#fullscreen-menu .submenu-content.pink li {
+    background-color: color-mix(in srgb, var(--aro-color-cta) 16%, transparent);
+}
+#fullscreen-menu .submenu-content.pink li:hover {
+    background-color: rgba(188, 0, 117, 0.59);
+}
+#fullscreen-menu .submenu-content.hide {
+    opacity: 0;
+    height: 0;
+    transition: all 0.4s ease-in-out;
+    display: none;
+}
+#fullscreen-menu .submenu-content ul {
+    margin-bottom: 0;
+}
+#fullscreen-menu .submenu-content li {
+    border-radius: var(--aro-space-4);
+    padding: var(--aro-space-1) var(--aro-space-8);
+    margin-bottom: var(--aro-space-2);
+    margin-right: var(--aro-space-2);
+    display: inline-block;
+}
+#fullscreen-menu .submenu-content a {
+    color: var(--aro-color-text);
+}
+.sidemenu-title i {
+    display: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+#close-fullscreen-menu {
+    cursor: pointer;
+}
+#close-fullscreen-menu svg {
+    height: 35px;    
+    width: 35px;
+}
+
+@media screen and (max-width: 1200px) {
+    #fullscreen-menu .header {
+        margin-bottom: 60px;
+    }
+    #fullscreen-menu .body ul {
+        margin-bottom: var(--aro-space-8);
+    }
+    #fullscreen-menu .body li {
+        line-height: 2;
+        font-size: 13px;
+    }
+    #fullscreen-menu .body .title {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    #fullscreen-menu .body .title, #fullscreen-menu .body h2 {
+        font-size: 14px;
+    }
+    #fullscreen-menu .quick-link {
+        font-size: 13px;
+    }
+    #fullscreen-menu .header img {
+        height: 22px;
+    }
+    #close-fullscreen-menu i {
+        font-size: var(--aro-space-8);
+    }
+}
+
+#updateQuickLinks, #stopQuickLinksUpdate {
+    color: var(--aro-accent-peach);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.sidemenu-title {
+    align-items: baseline;
+}
+
+/* User-icon colour — relocated from the style.css tail (lot B). */
+.nav-link-user .rounded-circle i {
+    color: var(--aro-color-primary);
+}

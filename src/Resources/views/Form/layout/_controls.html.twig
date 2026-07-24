@@ -1,0 +1,60 @@
+{#
+ # Standalone controls that do not warrant a sub-theme of their own:
+ # colour picker, toggle switch, video embed, money input.
+ #
+ # Public: aropixel_admin_color_widget, aropixel_admin_toggle_switch_row,
+ #         aropixel_admin_video_row
+ #}
+
+{% block aropixel_admin_color_widget %}
+
+    {% set attr = attr|merge({class: ' color-picker', 'data-preferred-format': colorFormat}) %}
+    <div>
+        {{- block('form_widget_simple') -}}
+    </div>
+
+{% endblock %}
+
+{% block aropixel_admin_toggle_switch_row %}
+
+    <div class="mb-3 form-group form-check form-switch">
+        <label for="{{ id }}" class="form-check-label col-form-label">{{ label|trans }}</label>
+        <div class="col-form-content">
+            <input type="checkbox" class="form-check-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block aropixel_admin_video_row -%}
+
+    <div class="row video-type">
+        <div class="col-sm-5">
+            <div class="form-group">
+                {{ form_label(form) }}
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="form-group">
+                <label class="col-form-label">{% trans %}form.video.preview{% endtrans %}</label>
+                <div class="preview">{{ form.vars.value|length ? form.vars.value|raw : '<span></span>'|raw }}</div>
+            </div>
+        </div>
+    </div>
+
+{%- endblock %}
+
+{% block money_widget -%}
+    <div class="input-group">
+        {% set prepend = '{{' == money_pattern[0:2] %}
+        {% if not prepend %}
+            <span class="input-group-text">{{ money_pattern|replace({'{{ widget }}': ''}) }}</span>
+        {% endif %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ 'numeric')|trim, 'data-a-sep': ' ', 'data-a-dec': ','}) %}
+        {{- block('form_widget_simple') -}}
+        {% if prepend %}
+            <span class="input-group-text">{{ money_pattern|replace({'{{ widget }}': ''}) }}</span>
+        {% endif %}
+    </div>
+{%- endblock money_widget %}

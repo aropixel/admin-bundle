@@ -1,0 +1,123 @@
+/**
+ * Media library — the file/image picker modal
+ *
+ * The modal chrome, the file table and the library DataTable columns.
+ *
+ * ⚠ Mostly rendered inside modals, which the visual baseline does not capture — verified
+ * by driving the picker manually, not by diff. On tokens, split out of the 303-line
+ * `_file.css` (§16, §7-7). Dead `.icons-list-extended` / `.thumb-rounded` dropped.
+ */
+
+/* modal */
+
+#modalFilesLibrary .datatable-scroll,
+#modalLibrary .datatable-scroll {
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+#modalFilesLibrary .modal-header,
+#modalLibrary .modal-header {
+    padding-left: 40px;
+}
+
+/* Files */
+
+.tableFiles {
+    margin-top: var(--aro-space-5);
+    margin-bottom: var(--aro-space-5);
+    --bs-table-color: var(--bs-body-color);
+    --bs-table-bg: var(--aro-color-surface);
+    --bs-table-border-color: var(--aro-color-surface);
+    --bs-table-striped-bg: var(--aro-color-surface);
+    width: 100%;
+    color: var(--bs-table-color);
+    vertical-align: top;
+    border-color: transparent;
+}
+
+.table-striped tbody tr {
+    background-color: var(--aro-color-surface);
+}
+
+.btn.btn-file-action {
+    height: calc(1.5em + 1.1rem + 2px);
+    width: calc(1.5em + 1.1rem + 2px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 var(--aro-space-1) var(--aro-space-2) rgb(0 0 0 / 10%);
+    text-align: center;
+}
+
+.btn-file-action i {
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 1rem;
+    color: var(--aro-color-text-subtle);
+    margin-right: 0;
+}
+
+.btn-file-action.btn-light-primary:hover {
+    color: var(--aro-color-success);
+    background-color: color-mix(in srgb, var(--aro-color-success) 18%, transparent);
+}
+
+.btn-file-action.btn.btn-light-primary:hover i {
+    color: var(--aro-color-success);
+}
+
+.itemFile .iconUnlinkFile {
+    cursor : pointer;
+}
+
+.icons-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1;
+    font-size: 0;
+}
+.icons-list > li {
+    position: relative;
+    display: inline-block;
+    margin-left: var(--aro-space-1);
+    font-size: 13px;
+}
+.icons-list > li:first-child {
+    margin-left: 0;
+}
+.icons-list > li > a {
+    color: inherit;
+    display: block;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+.icons-list > li > a:hover,
+.icons-list > li > a:focus {
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+.icons-list > li > a > i {
+    top: 0;
+}
+.icons-list > li > a > .caret {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.icons-list-extended > li {
+    margin-left: var(--aro-space-2);
+}
+
+#libraryDataTable tr td:first-child,
+#libraryDataTable tr th:first-child,
+#filesLibraryDataTable tr td:first-child,
+#filesLibraryDataTable tr th:first-child{
+    padding-left: 40px;
+}
+#libraryDataTable tr td:last-child,
+#libraryDataTable tr th:last-child {
+    padding-right: 40px;
+}

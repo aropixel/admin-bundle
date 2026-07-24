@@ -1,0 +1,15 @@
+/**
+ * Tabs — underlined variant.
+ *
+ * Relocated from the style.css tail (lot B). `.nav-tabs.tab-underlined` swaps Bootstrap's
+ * boxed tabs for a bottom-border-only style with a primary accent on the active tab. Used by
+ * the PageBundle builder (`builder/index.html.twig`).
+ */
+
+.nav-tabs.tab-underlined .nav-link {
+    border: 0;
+}
+
+.nav-tabs.tab-underlined .nav-link.active {
+    border-bottom: 3px solid var(--aro-color-primary);
+}

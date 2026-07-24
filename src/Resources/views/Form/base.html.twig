@@ -1,7 +1,7 @@
 {% extends '@AropixelAdmin/base.html.twig' %}
 
 {% if form is defined %}
-    {% form_theme form '@AropixelAdmin/Form/layout.html.twig' %}
+    {% form_theme form '@AropixelAdmin/Form/layout/theme.html.twig' %}
 {% endif %}
 
 {% block stylesheets %}
@@ -22,13 +22,10 @@
     <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/jquery-clockpicker/bootstrap-clockpicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/spectrum/spectrum.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/spectrum/i18n/jquery.spectrum-fr.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/wysihtml5.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/toolbar.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/parsers.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/wysihtml5/locales/bootstrap-wysihtml5.ua-UA.js') }}"></script>
+    {# wysihtml5 scripts removed: the editor initialises on `.html5-editor`, a selector no
+       template emits, so it attached to nothing. The live editor is Quill. #}
     <script type="text/javascript" src="{{ asset('bundles/aropixeladmin/modules/cropper/cropper.min.js') }}"></script>
 {% endblock %}
-
 
 {% set baseroute = get_baseroute() %}
 {% set defaultLocale = app.request.defaultLocale %}
@@ -37,7 +34,6 @@
 {% if has_tabs %}{% set _navtabs = block('tabbable') %}{% endif %}
 {% set tabbableCollapsed = tabbableCollapsed is defined ? tabbableCollapsed : false %}
 
-
 {% block header_top_left %}
 
     <div class="d-flex align-items-center">
@@ -45,7 +41,13 @@
         {% block header_image %}
             {% if form.image is defined %}
                 <div class="header-image">
-                    <img src="{{ (form.image.vars.value ? form.image.vars.value.image : null) | aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+                    <span class="aro-avatar">
+                        {% if form.image.vars.value and form.image.vars.value.image %}
+                            <img src="{{ form.image.vars.value.image|aropixel_imagine_filter('admin_thumbnail') }}" alt="" />
+                        {% else %}
+                            <span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span>
+                        {% endif %}
+                    </span>
                 </div>
             {% endif %}
         {% endblock %}
@@ -66,14 +68,14 @@
 
 {% block header_top_right %}
 
-    {% if route_exists(baseroute ~ '_index')  %}
+    {% if route_exists(baseroute ~ '_index') %}
         <a href="{{ path(baseroute ~ '_index') }}" class="btn btn-small btn-default">
-            <i class="fas fa-list me-2"></i> {% trans %}text.list{% endtrans %}
+            {{ ux_icon('lucide:list', {class: 'me-2'}) }} {% trans %}text.list{% endtrans %}
         </a>
     {% endif %}
     {% if app.request.attributes.get('_route') != baseroute ~ '_new' and route_exists(baseroute ~ '_new') %}
         <a href="{{ path(baseroute ~ '_new') }}" class="btn btn-small btn-primary ms-3">
-            <i class="fas fa-plus me-2"></i> {% trans %}text.create{% endtrans %}
+            {{ ux_icon('lucide:plus', {class: 'me-2'}) }} {% trans %}text.create{% endtrans %}
         </a>
     {% endif %}
 
@@ -110,8 +112,8 @@
                         {% set publishable = form.vars.value %}
 
                         <div class="form-switch form-status-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "status.outdated"|trans : (publishable.isPublished ? "status.published"|trans : "status.scheduled"|trans)) : (publishable.isPublished ? "status.published"|trans : "status.offline"|trans) }}</label>
-                            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? "outdated" : (publishable.isPublished ? "checked" : "scheduled")) : (publishable.isPublished ? "checked" : "") }}" type="checkbox" role="switch"{{ form.status.vars.value == "online" ? " checked" : "" }} data-status-active-label="{{ 'status.published'|trans }}" data-status-unactive-label="{{ 'status.offline'|trans }}" data-status-outdated-label="{{ 'status.outdated'|trans }}" data-status-scheduled-label="{{ 'status.scheduled'|trans }}">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ publishable.isScheduled ? (publishable.isScheduleOutdated ? 'status.outdated'|trans : (publishable.isPublished ? 'status.published'|trans : 'status.scheduled'|trans)) : (publishable.isPublished ? 'status.published'|trans : 'status.offline'|trans) }}</label>
+                            <input class="form-check-input {{ publishable.isScheduled ? (publishable.isScheduleOutdated ? 'outdated' : (publishable.isPublished ? 'checked' : 'scheduled')) : (publishable.isPublished ? 'checked' : '') }}" type="checkbox" role="switch"{{ form.status.vars.value == 'online' ? ' checked' : '' }} data-status-active-label="{{ 'status.published'|trans }}" data-status-unactive-label="{{ 'status.offline'|trans }}" data-status-outdated-label="{{ 'status.outdated'|trans }}" data-status-scheduled-label="{{ 'status.scheduled'|trans }}">
                         </div>
 
                     {% endif %}
@@ -131,7 +133,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-primary btn-small ms-3" id="btnCurrentLocale">{{ app.request.defaultLocale|upper }}</button>
                                 <button class="btn btn-primary btn-small dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
-                                <div class="dropdown-menu" style="width:80px; min-width: 80px;">
+                                <div class="dropdown-menu locale-dropdown">
                                     {% for locale in get_locales() %}
                                         <a class="dropdown-item btn-locale" href="#" data-locale="{{ locale }}">{{ locale|upper }}</a>
                                         {% if not loop.last %}<div class="dropdown-divider"></div>{% endif %}
@@ -144,7 +146,7 @@
 
                     <div class="btn-group">
 
-                        <button class="btn btn-secondary btn-small ms-3" form="aropixel_admin_form" data-form="submit">
+                        <button class="btn btn-cta btn-small ms-3" form="aropixel_admin_form" data-form="submit">
                             {% trans %}form.submit{% endtrans %}
                         </button>
 
@@ -152,7 +154,7 @@
 
                             {% if previewPath is defined or publicationOptions or deleteRoute %}
 
-                                <button type="button" class="btn btn-secondary btn-small dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <button type="button" class="btn btn-cta btn-small dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 
                                 <div class="dropdown-menu">
 
@@ -172,7 +174,7 @@
 
                                         {% if delete_form is defined and delete_form %}
 
-                                            {{ form_start(delete_form, {'attr': {'class': 'd-inline-block'}}) }}
+                                            {{ form_start(delete_form, {attr: {class: 'd-inline-block'}}) }}
                                             <a id="delete_button" href="#" class="dropdown-item text-danger">
                                                 {% trans %}form.delete{% endtrans %}
                                             </a>
@@ -181,7 +183,7 @@
 
                                         {% else %}
 
-                                            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {'id': form.vars.data.id}) }}">
+                                            <form method="post" class="d-inline-block" action="{{ path(baseroute ~ '_delete', {id: form.vars.data.id}) }}">
                                                 <a id="delete_button" href="#" class="dropdown-item text-danger">
                                                     {% trans %}form.delete{% endtrans %}
                                                 </a>
@@ -212,18 +214,17 @@
 
 {% endblock %}
 
-
 {% block body -%}
 
     {% for flash_message in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+        <div class="alert alert-success alert-dismissible" role="alert">
             {{ flash_message|raw }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 
     {% for flash_message in app.session.flashbag.get('error') %}
-        <div class="alert alert-warning alert-dismissible alert-styled-left alert-arrow-left alert-bordered" role="alert">
+        <div class="alert alert-warning alert-dismissible" role="alert">
             {{ flash_message|raw }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -231,7 +232,7 @@
 
     {% block panels %}
 
-        {{ form_start(form, {'attr': {'data-form': 'form', 'id' : 'aropixel_admin_form'}}) }}
+        {{ form_start(form, {attr: {'data-form': 'form', id: 'aropixel_admin_form'}}) }}
 
             {% if form.status is defined %}
 
@@ -243,7 +244,7 @@
 
             {{ form_errors(form) }}
 
-            <div {% if has_tabs %}class="panel-tab-content tab-content"{% endif %}>
+            <div {% if has_tabs %}class="tab-content"{% endif %}>
 
                 {% block mainPanel %}
 
@@ -271,7 +272,7 @@
                     form.publishUntil is defined
                 %}
 
-                    <div class="modal modal-publication fade" id="publicationFormModal" aria-hidden="true" tabindex="-1">
+                    <div class="modal fade" id="publicationFormModal" aria-hidden="true" tabindex="-1">
 
                         <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -280,9 +281,9 @@
                                 <div class="modal-header">
 
                                     {% block publishTitle %}
-                                        <h5 class="modal-title">Paramétrez vos options de publication</h5>
+                                        <h5 class="modal-title">{% trans %}form.title.publish_options{% endtrans %}</h5>
                                     {% endblock %}
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'text.close'|trans }}"></button>
 
                                 </div>
 
@@ -294,34 +295,34 @@
                                             <ul class="nav" role="tablist">
                                                 {% if form.slug is defined %}
                                                     <li class="nav-item" role="presentation">
-                                                        <a href="#panel-tab-slug" data-bs-toggle="pill" class="nav-link active" aria-selected="false" tabindex="-1" role="tab">Permalien</a>
+                                                        <a href="#panel-tab-slug" data-bs-toggle="pill" class="nav-link active" aria-selected="false" tabindex="-1" role="tab">{% trans %}form.tab.permalink{% endtrans %}</a>
                                                     </li>
                                                 {% endif %}
                                                 {% if form.createdAt is defined %}
                                                     <li class="nav-item" role="presentation">
-                                                        <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">Date de création</a>
+                                                        <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">{% trans %}form.tab.creation{% endtrans %}</a>
                                                     </li>
                                                 {% endif %}
                                                 {% if form.publishAt is defined or form.publishAt is defined %}
                                                     <li class="nav-item" role="presentation">
-                                                        <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">Dates de publication</a>
+                                                        <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">{% trans %}form.tab.publish_dates{% endtrans %}</a>
                                                     </li>
                                                 {% endif %}
                                             </ul>
                                         </div>
 
-                                        <div class="panel-tab-content tab-content mt-5 px-3">
+                                        <div class="tab-content mt-5 px-3">
 
                                             {% block publishSlug %}
-                                                {% include '@AropixelAdmin/Form/publication/_slug.html.twig' %}
+                                                {{ include('@AropixelAdmin/Form/publication/_slug.html.twig') }}
                                             {% endblock %}
 
                                             {% block publishCreated %}
-                                                {% include '@AropixelAdmin/Form/publication/_date.html.twig' %}
+                                                {{ include('@AropixelAdmin/Form/publication/_date.html.twig') }}
                                             {% endblock %}
 
                                             {% block publishDates %}
-                                                {% include '@AropixelAdmin/Form/publication/_publish.html.twig' %}
+                                                {{ include('@AropixelAdmin/Form/publication/_publish.html.twig') }}
                                             {% endblock %}
 
                                         </div>
@@ -331,8 +332,8 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Continuer mes modifications</button>
-                                    <button class="btn btn-primary" type="submit">Enregistrer</button>
+                                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans %}form.button.continue_editing{% endtrans %}</button>
+                                    <button class="btn btn-primary" type="submit">{% trans %}text.save{% endtrans %}</button>
                                 </div>
 
                             </div>
@@ -345,12 +346,10 @@
 
             {% endblock %}
 
-
         {{ form_end(form) }}
 
     {% endblock %}
 
     {% block afterForm %}{% endblock %}
-
 
 {% endblock %}

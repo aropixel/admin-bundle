@@ -1,0 +1,53 @@
+/**
+ * Accordion — vertically stacked, collapsible panels (FAQ, grouped settings, dense forms).
+ *
+ * Bootstrap's `.accordion` supplies the collapse behaviour, the chevron and its rotation. This
+ * file themes it through `--bs-accordion-*` so the panels sit on our surface, separate on a
+ * solid token hairline (like the rest of the admin — cards, tables), read with our type, and
+ * lose Bootstrap's blue active state. Dress, not reimplement.
+ *
+ * Markup (Bootstrap):
+ *   <div class="accordion" id="…">
+ *     <div class="accordion-item">
+ *       <h2 class="accordion-header">
+ *         <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#…">Title</button>
+ *       </h2>
+ *       <div id="…" class="accordion-collapse collapse show" data-bs-parent="#…">
+ *         <div class="accordion-body">…</div>
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * `data-bs-parent` makes it single-open; drop it for several panels open at once.
+ */
+
+.accordion {
+    --bs-accordion-color: var(--aro-color-text);
+    --bs-accordion-bg: var(--aro-color-surface);
+    --bs-accordion-border-color: var(--aro-color-border);
+    --bs-accordion-border-radius: var(--aro-radius-card);
+    --bs-accordion-inner-border-radius: var(--aro-radius-card);
+
+    --bs-accordion-btn-color: var(--aro-color-text-strong);
+    --bs-accordion-btn-bg: var(--aro-color-surface);
+    --bs-accordion-btn-padding-y: var(--aro-space-4);
+    --bs-accordion-btn-padding-x: var(--aro-space-6);
+    --bs-accordion-btn-focus-border-color: var(--aro-color-border-focus);
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
+
+    /* Open header stays flat like the source design — the chevron and the revealed body
+       carry the state, not a coloured bar. */
+    --bs-accordion-active-color: var(--aro-color-text-strong);
+    --bs-accordion-active-bg: var(--aro-color-surface);
+
+    --bs-accordion-body-padding-y: var(--aro-space-4);
+    --bs-accordion-body-padding-x: var(--aro-space-6);
+
+    /* Reuse the resting chevron when open: Bootstrap otherwise swaps in a blue icon. */
+    --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}
+
+/* The header reads as a title, not a link. */
+.accordion-button {
+    font-weight: var(--aro-weight-semibold);
+}

@@ -5,11 +5,29 @@ body {
 }
 
 .login-side {
-    background-color: var(--main-bg-color);
+    background-color: var(--aro-login-side-bg, var(--aro-color-primary));
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+/*
+ * The submit button had no stylesheet rule at all: it was painted entirely by an inline
+ * `style` attribute built from `aropixel_admin.theme.colors`. Now that the config is
+ * emitted as tokens (see views/_theme-tokens.html.twig), the button needs a real rule.
+ */
+.btn-overriden {
+    background-color: var(--aro-color-primary);
+    border-color: var(--aro-color-primary);
+    color: var(--aro-color-primary-contrast);
+}
+
+.btn-overriden:hover,
+.btn-overriden:focus {
+    background-color: var(--aro-color-primary-hover);
+    border-color: var(--aro-color-primary-hover);
+    color: var(--aro-color-primary-contrast);
 }
 
 .login-content {
@@ -21,6 +39,7 @@ body {
     text-align: center;
     margin-bottom: 30px;
     margin-top: 30px;
+    font-weight: var(--aro-weight-bold);
 }
 
 .form-control,

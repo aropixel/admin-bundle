@@ -1,0 +1,92 @@
+/**
+ * Typography.
+ *
+ * Replaces `components/_text.css`, which declared 26 utility classes of which 7 were used.
+ * The scale now lives in tokens; this file only applies it.
+ *
+ * Two classes were dropped rather than ported: `.text-primary` and `.text-muted`. Both are
+ * Bootstrap's own, and the bridge already points `--bs-primary` and `--bs-secondary-color`
+ * at our tokens — so Bootstrap renders them correctly and our overrides had become
+ * redundant. That is the bridge doing its job: the best component code is the one we no
+ * longer have to write.
+ *
+ * No `font-size` literal belongs here or anywhere downstream. The density arbitration of
+ * §4 is settled by editing `--aro-text-*` in `_tokens.css` and nothing else; the moment a
+ * component hardcodes a size, that arbitration turns into a refactor.
+ */
+
+body {
+    font-family: var(--aro-font-sans);
+    font-size: var(--aro-text-base);
+    line-height: var(--aro-leading-base);
+    color: var(--aro-color-text);
+    background-color: var(--aro-color-bg);
+}
+
+/*
+ * Content links. Component links — `.btn`, `.page-link` — are excluded: they carry their
+ * own colour through Bootstrap's variables (`--bs-btn-color`, `--bs-pagination-active-color`),
+ * and this unlayered rule, being lower in no layer, would otherwise beat those and paint a
+ * primary button or the active pagination page this slate instead of their intended white.
+ */
+a:not(.btn):not(.page-link),
+a:not(.btn):not(.page-link):hover,
+a:not(.btn):not(.page-link):focus {
+    color: var(--aro-color-secondary);
+}
+
+hr {
+    border-top-style: dashed;
+    margin: 2.5rem 0;
+}
+
+p {
+    line-height: var(--aro-leading-prose);
+}
+
+/*
+ * Relocated verbatim from the style.css tail (lot B). This 18px literal shadows the token
+ * line-height above for <p> and sets the same rhythm on lists. Whether prose should read the
+ * token instead is a §4 density decision, not part of the lot-B tail evacuation — moved as-is
+ * to keep rendering byte-identical.
+ */
+p, ul:not(.list-unstyled), ol {
+    line-height: 18px;
+}
+
+/* --------------------------------------------------------------------- Utilities */
+
+/* Decorative rule preceding a title. A bundle component, not a utility — it will move to
+   its own file when the section header is rebuilt. */
+.title-line::before {
+    content: ' ';
+    display: inline-block;
+    float: left;
+    width: 30px;
+    height: 8px;
+    margin-top: 11px;
+    margin-right: var(--aro-space-4);
+    border-radius: var(--aro-radius-input);
+    background-color: var(--aro-color-primary);
+}
+
+.text-darker-primary {
+    color: var(--aro-color-secondary);
+}
+
+.text-semibold {
+    font-weight: var(--aro-weight-semibold);
+}
+
+/* 12px — the only step of the old `.ts-*` scale still in use. */
+.ts-normal {
+    font-size: var(--aro-text-xs);
+}
+
+/*
+ * Bootstrap 4 leftover: Bootstrap 5 renamed this to `.text-end`. Kept because templates
+ * still use it; remove once they are migrated, and drop this rule with them.
+ */
+.text-right {
+    text-align: right;
+}

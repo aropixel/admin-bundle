@@ -1,0 +1,15 @@
+/**
+ * Rich-text editor (Quill).
+ *
+ * Replaces `_wysiwyg.css` (176 lines), which was almost entirely wysihtml5 — a former
+ * editor. wysihtml5 is dead: app.js initialises it on `.html5-editor`, a selector no
+ * template emits, so its toolbar DOM (and the `.wysihtml5-*` / `.wysiwyg-color-*` rules
+ * styling it) is never rendered. The live editor is Quill, and it needs one rule.
+ *
+ * The colour of the toolbar and content comes from Quill's own `quill.snow.css`; only the
+ * editor's minimum height is ours.
+ */
+
+.ql-editor {
+    min-height: 120px;
+}

@@ -4,6 +4,7 @@
 
 
 import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
 
 (function($){
 
@@ -71,30 +72,36 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
     let FL_Editor = function(launcher, editor)
     {
 
-        // Ouvre la modal et charge les images
+        // Ouvre la bibliothèque de fichiers pour insérer un lien dans l'éditeur Quill
         flcore.modal.set_launcher(launcher);
 
         this.open_modal = function()
         {
-            $('.cke_dialog_background_cover').css('z-index', 960);
-            $('.cke_dialog').css('z-index', 980);
             $(selectors.modal.id).modal('show');
         }
 
         this.insert_file = function()
         {
 
-            let protomatch = /^(https?|ftp):\/\//;
-            let _src = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr').find('.file-type').attr('data-src');
-            _src = _src.replace(protomatch, '');
+            let $selected = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr');
+            let _src = $selected.find('.file-type').attr('data-src');
 
             $(selectors.modal.id).modal('hide');
 
-            $('.cke_dialog_tabs > a').removeClass('cke_dialog_tab_selected');
-            $('.cke_dialog_tabs > a:first').addClass('cke_dialog_tab_selected');
-            $('.cke_dialog_contents > tbody > tr > td:first > div').hide();
-            $('.cke_dialog_contents > tbody > tr > td:first > div:first').show();
-            $('.cke_dialog_ui_input_text').val(_src);
+            if (!_src) {
+                return;
+            }
+
+            // Le libellé du lien : le nom de fichier (dernier segment de l'URL de téléchargement)
+            let _label = decodeURIComponent(_src.split('/').pop()) || _src;
+
+            // Duck-typing plutôt que `constructor.name === 'Quill'` : le build Quill minifié
+            // renomme la classe (elle sort en « I »), donc tester le nom échoue silencieusement.
+            if (editor && typeof editor.getSelection === 'function' && typeof editor.insertText === 'function') {
+                let range = editor.getSelection(true) || { index: 0 };
+                editor.insertText(range.index, _label, 'link', _src, 'user');
+                editor.setSelection(range.index + _label.length, 0, 'user');
+            }
 
         }
 
@@ -341,49 +348,35 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
 
         this.detach = function(button) {
 
-            let _buttons = {
+            let i18n = window.aroDialogI18n || {};
+            new ConfirmDialog({
+                intent: 'danger',
+                title: i18n.deleteFile || 'Delete this file?',
+                message: i18n.deleteDetail || 'This action cannot be undone.',
+                onConfirm: function() {
 
-                "Fermer": function() {
-                    $(this).closest('.modal').modal('hide');
-                },
+                    let $filesContainer = button.closest('.tableFiles');
+                    let $filesItemsContainer = $filesContainer.is('table') ? $filesContainer.find('tbody') : $filesContainer;
+                    let placeholder = $filesContainer.data('placeholder');
 
-                "Supprimer": {
+                    button.closest('.itemFile').fadeOut(400, function() {
+                        let formFields = $filesItemsContainer.find('.d-none');
+                        $(this).remove();
+                        if ($filesItemsContainer.find('.itemFile').length == 0) {
 
-                    'class' : 'btn-danger',
-                    'callback' : function() {
-
-                        let $filesContainer = button.closest('.tableFiles');
-                        let $filesItemsContainer = $filesContainer.is('table') ? $filesContainer.find('tbody') : $filesContainer;
-                        let placeholder = $filesContainer.data('placeholder');
-
-                        button.closest('.itemFile').fadeOut(400, function() {
-                            let formFields = $filesItemsContainer.find('.d-none');
-                            $(this).remove();
-                            if ($filesItemsContainer.find('.itemFile').length == 0) {
-
-                                // if (launcher.config.multiple == 0) {
-                                $filesItemsContainer.html(placeholder);
-                                let $newPlaceholder = $filesItemsContainer.find('.itemNew');
-                                if ($filesContainer.is('table')) {
-                                    $newPlaceholder.find('td:first').append(formFields);
-                                } else {
-                                    $newPlaceholder.append(formFields);
-                                }
-                                $filesItemsContainer.find('input:hidden').removeAttr('value');
-                                // }
-                                // else {
-                                //     $filesTbody.html(placeholder);
-                                // }
+                            $filesItemsContainer.html(placeholder);
+                            let $newPlaceholder = $filesItemsContainer.find('.itemNew');
+                            if ($filesContainer.is('table')) {
+                                $newPlaceholder.find('td:first').append(formFields);
+                            } else {
+                                $newPlaceholder.append(formFields);
                             }
-                        });
-                        $(this).closest('.modal').modal('hide');
+                            $filesItemsContainer.find('input:hidden').removeAttr('value');
+                        }
+                    });
 
-                    },
-
-                }
-            }
-
-            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+                },
+            });
 
         }
 
@@ -489,31 +482,17 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
             _detach_params['entity_id'] = obj.launcher.config.flEntityId;
             _detach_params['file_id'] = $(this).data('id');
 
-            let _buttons = {
-
-                "Fermer": function() {
-                    $(this).closest('.modal').modal('hide');
+            let i18n = window.aroDialogI18n || {};
+            new ConfirmDialog({
+                intent: 'danger',
+                title: i18n.deleteLibraryFile || 'Remove this file from the library?',
+                message: i18n.deleteDetail || 'This action cannot be undone.',
+                onConfirm: function() {
+                    $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
+                        flcore.modal.load_files();
+                    });
                 },
-
-                "Supprimer": {
-
-                    'class' : 'btn-danger',
-                    'callback' : function() {
-
-                        $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
-
-                            flcore.modal.load_files();
-
-                        })
-
-                        $(this).closest('.modal').modal('hide');
-
-                    },
-
-                }
-            }
-
-            new ModalDyn("Supprimer", "Voulez-vous supprimer le fichier de la bibliothèque ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+            });
 
         });
 
@@ -739,7 +718,7 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
                             bar.style.width = '100%';
                         }
                     }
-                    listItem.insertAdjacentHTML('beforeend', `<div class="text-danger small">${error.message} <a href="#" class="remove-upload-item text-muted"><i class="fas fa-times"></i></a></div>`);
+                    listItem.insertAdjacentHTML('beforeend', `<div class="text-danger small">${error.message} <a href="#" class="remove-upload-item text-muted"><svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg></a></div>`);
                     listItem.querySelector('.remove-upload-item').addEventListener('click', (e) => {
                         e.preventDefault();
                         listItem.remove();

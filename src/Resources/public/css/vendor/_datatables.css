@@ -1,0 +1,50 @@
+/**
+ * DataTables — plugin corrections.
+ *
+ * What remains here is strictly what has to beat the plugin's own stylesheet
+ * (`modules/datatables/datatables.min.css`, an unlayered <link>). Everything that was a
+ * design decision has moved to `components/_table.css`, where it is expressed in tokens
+ * and needs no `!important`:
+ *
+ *   - the header rules, which used to be declared twice — solid here, dashed there, with
+ *     `!important` on both sides and source order deciding the outcome;
+ *   - `font-size: 13px !important` on the wrapper, which pinned every list to a fixed size
+ *     and made the density arbitration of §4 invisible. Table typography now follows
+ *     `--aro-text-*` like everything else.
+ *
+ * `!important` is tolerated in this layer (§7-1): these rules fight a third-party
+ * stylesheet we do not control.
+ */
+
+/* Removes DataTables' native vertical cell separators. Dropping this puts a grid back on
+   every list — measured at the ablation: 5 screens affected, up to 34px taller. */
+table.dataTable {
+    border-collapse: collapse !important;
+}
+
+.dataTables_wrapper {
+    padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    float: left;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Replaces the plugin's text spinner with the bundle's SVG one. */
+div.dataTables_wrapper div.dataTables_processing {
+    top: 50% !important;
+    left: 50% !important;
+    width: 50px !important;
+    height: 50px;
+    margin: 0 !important;
+    font-size: 0 !important;
+    background-color: var(--aro-color-surface);
+    background-image: url("../../img/spinner.svg") !important;
+    background-size: 100%;
+    border: none;
+    box-shadow: var(--aro-shadow-card);
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) !important;
+}

@@ -1,0 +1,165 @@
+{#
+ # Collections.
+ #
+ # `collection_widget` is Symfony's OWN block for `CollectionType`, not a legacy version of
+ # `aropixel_admin_collection_widget`. It renders every plain Symfony collection an
+ # integrator writes; removing it would break those forms silently.
+ #
+ # Public: aropixel_admin_collection_widget, aropixel_admin_collection_entry_row
+ #}
+
+{% block collection_widget -%}
+    {% import '@AropixelAdmin/Form/layout/_collection_macros.html.twig' as self %}
+    {% set attr = attr|merge({class: attr.class|default ~ ' controls collection-widget'}) %}
+
+    {% apply spaceless %}
+        <div data-form-type="collection" {{ block('widget_container_attributes') }}
+                {% if prototype is defined and allow_add %}
+                    data-prototype='{{ self.collection_item(prototype, allow_delete, '__name__')|e }}'
+                {%- endif -%}
+             data-index="{{ form|length }}"
+        >
+
+            {% if prototypes|default is iterable %}
+                {% for key, subPrototype in prototypes %}
+                    <input type="hidden" data-form-prototype="{{ key }}" value="{{ self.collection_item(subPrototype, allow_delete, button_delete_label, '__name__')|e }}" />
+                {% endfor %}
+            {% endif %}
+
+            <div data-form-collection="list">
+                {% for child in form %}
+                    {{ self.collection_item(child, allow_delete, loop.index0) }}
+                {% endfor %}
+            </div>
+
+        </div>
+    {% endapply %}
+{%- endblock collection_widget %}
+
+{% block aropixel_admin_collection_widget -%}
+    {% apply spaceless %}
+        {% set prototype_html = '' %}
+        {% if prototype is defined and allow_add %}
+            {% set item = prototype %}
+            {% set prototype_html = block('aropixel_admin_collection_entry_row') %}
+        {% endif %}
+        <div data-form-type="collection" {{ block('widget_container_attributes') }} {% if prototype_html|length %} data-prototype="{{ prototype_html|e('html_attr') }}"{% endif %} data-index="{{ form|length }}" {% if sortable %}data-form-sortable="true"{% endif %} data-use-offcanvas="true" data-form-title="{{ form_title|trans }}">
+
+            <div class="mb-3 d-flex align-items-center gap-2">
+                <a href="#" data-form-collection-add="{{ id }}" class="btn btn-primary">
+                    {{ ux_icon('lucide:plus') }} {{ button_add_label|trans }}
+                </a>
+                {% if toolbar_template %}
+                    {{ include(toolbar_template) }}
+                {% endif %}
+            </div>
+
+            {% if list_template %}
+                {{ include(list_template) }}
+            {% else %}
+                <table class="table table-striped table-hover mt-3" data-form-collection="list">
+                    <thead>
+                    <tr>
+                        <th class="aro-collection-handle-col"></th>
+                        {% for label, config in columns %}
+                            <th>{{ label|trans }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in form %}
+                        {{ block('aropixel_admin_collection_entry_row') }}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+        </div>
+    {% endapply %}
+{%- endblock aropixel_admin_collection_widget %}
+
+{% block aropixel_admin_collection_entry_row %}
+    {% if entry_row_template %}
+        {{ include(entry_row_template) }}
+    {% else %}
+        <tr class="collection-item clickable" data-form-collection="item" data-form-collection-index="{{ item.vars.name }}" data-form-collection-edit>
+            <td class="align-middle">
+                {% if sortable %}
+                    <a href="#" data-form-collection="move" class="move btn btn-link btn-xs p-0 text-muted">
+                        {{ ux_icon('lucide:move') }}
+                    </a>
+                {% endif %}
+            </td>
+
+            {% for label, config in columns %}
+                {% set field_path = config.field %}
+                <td class="align-middle">
+                    {% set field = item %}
+                    {% for part in field_path|split('.') %}
+                        {% set field = field[part] %}
+                    {% endfor %}
+
+                    {% if config.render is defined and config.render.call is defined %}
+                        {{ config.render.call(field, item)|raw }}
+                    {% else %}
+                        {% set field_value = field.vars.value %}
+                        {% if field.vars.choices is defined %}
+                            {% for choice in field.vars.choices %}
+                                {% if choice.value == field.vars.value %}
+                                    {% set field_value = choice.label|trans %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% set default_label = 'text.new'|trans %}
+                        <span class="modal-collection-display-label" data-display-field-name="{{ field.vars.full_name }}" data-display-field-default="{{ default_label }}">
+                            {% if field_value %}
+                                {{ field_value }}
+                            {% else %}
+                                <em class="text-muted">{{ default_label }}</em>
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </td>
+            {% endfor %}
+
+            {% if allow_delete %}
+                <td class="align-middle text-end d-none">
+                    <div class="collection-form-container">
+                        <div class="collection-form-content">
+                            {{ form_widget(item) }}
+                        </div>
+                        <div class="collection-form-actions mt-4 pt-3 border-top d-flex justify-content-between">
+                            <a class="btn btn-danger text-white delete" href="#" data-form-collection="delete">
+                                {{ ux_icon('lucide:trash-2', {class: 'me-2'}) }} {{ 'text.delete'|trans }}
+                            </a>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">
+                                {{ 'text.close'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            {% else %}
+                <td class="d-none">
+                    {{ form_widget(item) }}
+                </td>
+            {% endif %}
+        </tr>
+    {% endif %}
+{% endblock aropixel_admin_collection_entry_row %}
+
+{% block aropixel_admin_collection_hidden_row -%}
+
+    {{- form_widget(form) -}}
+    {{- form_errors(form) -}}
+
+{%- endblock %}
+
+{% block aropixel_admin_collection_hidden_widget -%}
+    {% set select2_multiple = multiple %}
+    <select {{ block('widget_attributes') }} class="hidden d-none" {{ multiple ? ' multiple' : '' }}>
+        {% for choice in choices %}
+            <option value="{{ choice.value }}" selected="selected">{{ choice.label }}</option>
+        {% endfor %}
+    </select>
+{%- endblock %}

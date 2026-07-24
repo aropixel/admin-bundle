@@ -1,0 +1,128 @@
+/**
+ * GridList — records laid out on a responsive grid of cards (vs. List's single vertical stack).
+ *
+ * The grid is a plain CSS grid that wraps below a min column width. Tiles reuse `.aro-avatar`,
+ * `.card` idioms and badges. Two tile shapes ship here — a centered "card" with a split action
+ * footer, and a "simple" row with a coloured initials block; the source design's other two
+ * shapes (link, stats) compose from the same pieces.
+ *
+ * Markup (grid):
+ *   <div class="aro-grid-list" style="--aro-grid-min:220px"> …tiles… </div>
+ */
+
+.aro-grid-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--aro-grid-min, 220px), 1fr));
+    gap: var(--aro-space-4);
+}
+
+/* ------------------------------------------------ Centered card tile */
+
+.aro-grid-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border-card);
+    border-radius: var(--aro-radius-card);
+    box-shadow: var(--aro-shadow-card);
+}
+
+.aro-grid-card__body {
+    flex: 1 1 auto;
+    padding: var(--aro-space-6) var(--aro-space-5) var(--aro-space-5);
+    text-align: center;
+}
+
+.aro-grid-card__title {
+    margin-top: var(--aro-space-3);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+.aro-grid-card__subtitle {
+    margin-top: var(--aro-space-1);
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-grid-card__foot {
+    display: flex;
+    border-top: 1px solid var(--aro-color-border-card);
+}
+
+.aro-grid-card__action {
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: var(--aro-space-2);
+    padding: var(--aro-space-3);
+    background: var(--aro-color-surface);
+    border: 0;
+    color: var(--aro-color-text);
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-grid-card__action + .aro-grid-card__action {
+    border-left: 1px solid var(--aro-color-border-card);
+}
+
+.aro-grid-card__action:hover,
+.aro-grid-card__action:focus-visible {
+    background: var(--aro-color-bg);
+}
+
+/* ------------------------------------------------ Simple initials tile */
+
+.aro-grid-simple {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border-card);
+    border-radius: var(--aro-radius-card);
+    box-shadow: var(--aro-shadow-soft);
+}
+
+.aro-grid-simple__initials {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-inverted);
+    /* Default block colour; override with an accent token inline. */
+    background: var(--aro-color-secondary);
+}
+
+.aro-grid-simple__body {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--aro-space-2);
+    min-width: 0;
+    padding: var(--aro-space-3) var(--aro-space-4);
+}
+
+.aro-grid-simple__name {
+    overflow: hidden;
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aro-grid-simple__meta {
+    margin-top: 2px;
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-muted);
+}

@@ -54,12 +54,12 @@ class CustomAdminMenuBuilder implements AdminMenuBuilderInterface
     private function buildContentMenu(): Menu
     {
         $menu = new Menu('content', 'Content');
-        $menu->addItem(new Link('Articles', 'admin_article_index', [], ['icon' => 'fas fa-newspaper']));
+        $menu->addItem(new Link('Articles', 'admin_article_index'));
         
         // Add a sub-menu
-        $subMenu = new SubMenu('Legal', ['icon' => 'fas fa-balance-scale'], 'legal');
-        $subMenu->addItem(new Link('Terms of Service', 'admin_legals_tos', [], ['icon' => 'fas fa-file-contract']));
-        $subMenu->addItem(new Link('Privacy Policy', 'admin_legals_privacy', [], ['icon' => 'fas fa-shield-alt']));
+        $subMenu = new SubMenu('Legal', [], 'legal');
+        $subMenu->addItem(new Link('Terms of Service', 'admin_legals_tos'));
+        $subMenu->addItem(new Link('Privacy Policy', 'admin_legals_privacy'));
         
         $menu->addItem($subMenu);
 
@@ -69,7 +69,7 @@ class CustomAdminMenuBuilder implements AdminMenuBuilderInterface
     private function buildAdminMenu(): Menu
     {
         $menu = new Menu('admin', 'Administration');
-        $menu->addItem(new Link('Users', 'aropixel_admin_user_index', [], ['icon' => 'fas fa-users-cog']));
+        $menu->addItem(new Link('Users', 'aropixel_admin_user_index'));
         return $menu;
     }
 }
@@ -87,7 +87,14 @@ A `Menu` represents a top-level category in the admin sidebar.
 ### Link
 A `Link` represents a single menu item that points to a route.
 - `__construct(string $label, string $routeName, array $routeParameters = [], array $properties = [], string $id = null)`
-- The `properties` array is often used to define an icon (e.g., `['icon' => 'fas fa-user']`).
+- The `properties` array carries arbitrary per-item data, read back with `getProperty('key')` — e.g. `['target' => '_blank']`.
+
+> **Menu-item icons.** The shipped fullscreen menu renders **labels only** — it displays no
+> per-item icon, so a `['icon' => …]` property has no visible effect with the default
+> templates. (The bundle's own builders no longer set one.) If you want icons, override the
+> menu templates — `@AropixelAdmin/Menu/link.html.twig` and `@AropixelAdmin/Menu/submenu.html.twig`
+> — and render the property with the icon system: `{{ ux_icon('lucide:file-text') }}`. See
+> [Icons](icons.md) — the admin uses ux-icons with the Lucide set, not an icon font.
 
 ### SubMenu
 A `SubMenu` allows you to group multiple links under a collapsible parent.
@@ -136,12 +143,12 @@ class CustomQuickMenuBuilder implements QuickMenuBuilderInterface
 
         // Key 1: Light Blue background
         if ($this->routeExists('app_custom_route')) {
-            $quickMenu[1] = new Link('Custom', 'app_custom_route', [], ['icon' => 'fas fa-star']);
+            $quickMenu[1] = new Link('Custom', 'app_custom_route');
         }
 
         // Key 2: Orange background
         if ($this->security->isGranted('ROLE_ADMIN')) {
-            $quickMenu[2] = new Link('Admin', 'admin_dashboard', [], ['icon' => 'fas fa-lock']);
+            $quickMenu[2] = new Link('Admin', 'admin_dashboard');
         }
 
         return $quickMenu;

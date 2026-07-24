@@ -1,0 +1,58 @@
+/**
+ * App shell layout.
+ *
+ * Public   : .main-content-fullscreen, .main-footer-fullscreen
+ *
+ * These two carry the whole content frame. When Stisla was deleted they were already
+ * self-sufficient — the ablation moved the dashboard by 0.6%, which is why the shell
+ * needed no rescue work.
+ *
+ * Closes §17 item 2: the footer stacked onto two lines because nothing laid its two
+ * halves out once Stisla's rule went.
+ */
+
+.main-content-fullscreen,
+.main-footer-fullscreen {
+    max-width: var(--aro-content-max-wide);
+    margin: 0 auto;
+    padding: 0 var(--aro-space-8);
+}
+
+.main-footer-fullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--aro-space-4);
+}
+
+/*
+ * The separator between the client name and the copyright is a bare `<div>` sitting inline
+ * in the footer text. Stisla styled it; once that went, a block element in the middle of a
+ * sentence broke the line — which is what §17 item 2 actually described. The container
+ * layout above was never the cause.
+ */
+.footer-left .bullet {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin: 0 var(--aro-space-2);
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: var(--aro-color-text-muted);
+}
+
+/* ---------------------------------------------------------------------------------------
+ * Relocated from the style.css tail (lot B).
+ * ------------------------------------------------------------------------------------ */
+
+/* Section header of legacy `.section-header` content (page-bundle), inside the main wrapper.
+   The three-class selector outranks any component rule, so no `!important` is needed. */
+.main-wrapper-1 .section .section-header {
+    margin: 0 0 20px 0;
+    border: 0;
+    padding: 20px 0;
+}
+
+.main-footer {
+    padding: 20px 30px;
+}

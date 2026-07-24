@@ -1,8 +1,8 @@
 {% macro tabs(items) %}
     {% for item in items %}
         <li class="nav-item">
-            <a href="#{{ item.id }}" 
-               data-bs-toggle="tab" 
+            <a href="#{{ item.id }}"
+               data-bs-toggle="tab"
                class="nav-link {{ loop.first ? 'active' : '' }}">
                 {{ item.label|trans }}
             </a>

@@ -33,6 +33,42 @@
         <source>text.confirm_delete</source>
         <target>Are you sure you want to delete this item?</target>
       </trans-unit>
+      <trans-unit id="generic.cancel" resname="text.cancel">
+        <source>text.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="generic.confirmation" resname="text.confirmation">
+        <source>text.confirmation</source>
+        <target>Confirmation</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm" resname="text.confirm">
+        <source>text.confirm</source>
+        <target>Confirm</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_detail" resname="text.confirm_delete_detail">
+        <source>text.confirm_delete_detail</source>
+        <target>This action cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Set online</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Set offline</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>Delete this file?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>Remove this file from the library?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>Delete this image from the gallery?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>
@@ -291,7 +327,7 @@
       </trans-unit>
       <trans-unit id="UqEjQk3" resname="files.widget.title">
         <source>files.widget.title</source>
-        <target>Title</target>
+        <target>Files</target>
       </trans-unit>
       <trans-unit id="0vA.K9d" resname="files.widget.add_button">
         <source>files.widget.add_button</source>
@@ -772,6 +808,46 @@
       <trans-unit id="menu.menu.footer" resname="menu.menu.footer">
         <source>menu.menu.footer</source>
         <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="form.video.preview" resname="form.video.preview">
+        <source>form.video.preview</source>
+        <target>Video preview</target>
+      </trans-unit>
+      <trans-unit id="files.widget.add_one" resname="files.widget.add_one">
+        <source>files.widget.add_one</source>
+        <target>Add a file</target>
+      </trans-unit>
+      <trans-unit id="form.date.placeholder" resname="form.date.placeholder">
+        <source>form.date.placeholder</source>
+        <target>Enter a date</target>
+      </trans-unit>
+      <trans-unit id="form.time.placeholder" resname="form.time.placeholder">
+        <source>form.time.placeholder</source>
+        <target>Enter a time…</target>
+      </trans-unit>
+      <trans-unit id="text.new" resname="text.new">
+        <source>text.new</source>
+        <target>New</target>
+      </trans-unit>
+      <trans-unit id="text.error" resname="text.error">
+        <source>text.error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="text.save" resname="text.save">
+        <source>text.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="form.tab.creation" resname="form.tab.creation">
+        <source>form.tab.creation</source>
+        <target>Creation date</target>
+      </trans-unit>
+      <trans-unit id="form.tab.publish_dates" resname="form.tab.publish_dates">
+        <source>form.tab.publish_dates</source>
+        <target>Publication dates</target>
+      </trans-unit>
+      <trans-unit id="form.button.continue_editing" resname="form.button.continue_editing">
+        <source>form.button.continue_editing</source>
+        <target>Continue editing</target>
       </trans-unit>
     </body>
   </file>

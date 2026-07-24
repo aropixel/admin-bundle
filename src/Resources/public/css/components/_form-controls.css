@@ -1,0 +1,164 @@
+/**
+ * Form controls
+ *
+ * Checks, switches (green on / orange scheduled / red outdated), radios, input groups, col-form sizing.
+ *
+ * On tokens, split out of the 645-line `_form.css` (§16, §7-7). The dead
+ * `.navbar .form-inline .search-result` block (130 lines, no template used it) was dropped.
+ */
+
+.form-check-input {
+    float: inherit;
+    width: var(--aro-space-4);
+    height: var(--aro-space-4);
+    margin-right: var(--aro-space-1);
+}
+
+.form-check.form-switch .form-check-input {
+    float: none;
+    margin: var(--aro-space-2) 0 0 0;
+    width: 40px;
+    height: var(--aro-space-5);
+}
+
+.form-check.form-switch {
+    padding-left: 0;
+}
+
+.form-switch.form-status-switch .form-check-input {
+    height: 22px;
+    width: 40px;
+    margin-left: var(--aro-space-2);
+    margin-top: 0;
+}
+
+.form-switch.form-status-switch .form-check-label {
+    padding: 7px 3px 0 0;
+    font-weight: 500;
+}
+
+.form-check-input:checked {
+    background-color: var(--aro-color-success);
+    border-color: var(--aro-color-success);
+}
+.form-switch .form-check-input:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+    border-color: var(--aro-color-border);
+}
+.form-switch .form-check-input:checked:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    border-color: var(--aro-color-success);
+}
+
+.form-check-input.scheduled:checked {
+    background-color: var(--aro-color-warning);
+    border-color: var(--aro-color-warning);
+}
+.form-check-input.scheduled:checked:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    border-color: var(--aro-color-warning);
+}
+
+.form-check-input.outdated:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-color: var(--aro-color-danger);
+    border-color: var(--aro-color-danger);
+}
+.form-check-input.outdated:checked:focus {
+    border-color: var(--aro-color-danger);
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+}
+
+.form-check-label {
+    font-weight: 500;
+    color: var(--aro-color-text-label);
+    font-size: 14px;
+}
+
+.col-form-label.required:after,
+.form-label.required:after,
+.form-image.required:after {
+    content: " *";
+    color: red;
+}
+
+.publish-date input[name$="[date]"].scheduled,
+.publish-date input[name$="[time]"].scheduled {
+    background-color: color-mix(in srgb, var(--aro-color-warning) 45%, transparent);
+}
+
+.publish-date input[name$="[date]"].published,
+.publish-date input[name$="[time]"].published {
+    background-color: color-mix(in srgb, var(--aro-color-success) 30%, transparent);
+}
+
+.publish-date input[name$="[date]"].outdated,
+.publish-date input[name$="[time]"].outdated {
+    background-color: color-mix(in srgb, var(--aro-color-danger) 22%, transparent);
+}
+
+.editable-indicator {
+    background: var(--aro-color-text);
+    color: var(--aro-color-surface);
+    width: var(--aro-space-5);
+    height: var(--aro-space-5);
+    line-height: var(--aro-space-5);
+    font-size: var(--aro-space-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.editable-indicator::before {
+    margin: 0 0 2px 1px;
+}
+
+.input-group-date + .input-group-time {
+    margin-left: var(--aro-space-5);
+}
+
+input:not([type=checkbox]):not([type=radio]) {
+    height: 45px;
+    border-radius: var(--aro-space-1);
+}
+
+.radio-inline {
+    position: relative;
+    padding-left: var(--aro-space-5);
+}
+.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+    margin-left: var(--aro-space-4);
+}
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    position: absolute;
+    left: 0;
+    margin: var(--aro-space-2) 0 0;
+}
+
+.input-group-prepend {
+    margin-left: -1px;
+}
+.input-group>.input-group-prepend>.input-group-text {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+.input-group-text, select.form-control:not([size]):not([multiple]),
+.form-control:not(.form-control-sm):not(.form-control-lg) {
+    height: 45px;
+}
+
+.dropdown-list .dropdown-list-icons .dropdown-item .dropdown-item-icon {
+    line-height: 45px;
+}
+
+.col-form-content {
+    min-height: 45px;
+}
+
+.col-form-label {
+    padding-bottom: 0;
+}

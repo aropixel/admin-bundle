@@ -1,0 +1,133 @@
+{#
+ # File widgets — attached-file list and single-file picker.
+ #
+ # Public: aropixel_admin_gallery_files_widget, aropixel_admin_file_row
+ # Internal: the `data-fl-*` attributes are the contract with js/module/file-manager/.
+ #}
+
+{% block aropixel_admin_gallery_files_row -%}
+    {% set type = type is defined ? type : 'files' %}
+    {% set entityField = field is defined ? field : 'files' %}
+    {% set entityClass = get_class(form.parent.vars.value) %}
+    {% set multiple = multiple is defined and not multiple ? 0 : 1 %}
+
+    <div class="fl-manager"
+         data-fl-type="{{ type }}"
+         data-fl-entity-class="{{ entityClass }}"
+         data-fl-attach-class="{{ imageLongClass }}"
+         data-fl-attach-short-class="{{ imageShortClass }}"
+         data-fl-multiple="{{ multiple }}"
+         {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}
+            {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
+
+        {{- form_widget(form) -}}
+    </div>
+{% endblock %}
+
+{% block aropixel_admin_gallery_files_widget -%}
+
+    {{ enable_file_library_modal() }}
+    {% set prototype_new %}{{ include('@AropixelAdmin/File/Widget/new.html.twig') }}{% endset %}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype)}) -%}
+        {%- set attr = attr|merge({class: 'table table-responsive table-striped tableFiles'}) -%}
+    {% endif %}
+
+    <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h6 class="card-title mb-0">{{ label is defined and label|length ? label : 'files.widget.title'|trans }}</h6>
+            <a class="btn btn-sm btn-icon btn-light-primary me-3 btn-file-action" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary"
+               title="{{ (multiple is defined and not multiple ? 'files.widget.add_one' : 'files.widget.add_button')|trans }}">
+                {{ ux_icon('lucide:plus') }}
+            </a>
+        </div>
+
+        <table data-placeholder="{{ prototype_new|e }}" {{ block('widget_container_attributes') }}>
+            {%- if form.parent is empty -%}
+                {{ form_errors(form) }}
+            {%- endif -%}
+
+            {%- if data|length -%}
+                {{- block('form_rows') -}}
+            {%- else -%}
+                {{ prototype_new|raw }}
+            {%- endif -%}
+
+            {{- form_rest(form) -}}
+        </table>
+
+    </div>
+
+{% endblock %}
+
+{% block aropixel_admin_gallery_file_row -%}
+
+    {{ include('@AropixelAdmin/File/Widget/file.html.twig', {form: form}) }}
+
+{% endblock %}
+
+{% block aropixel_admin_file_row -%}
+
+    {{ enable_file_library_modal() }}
+    {% set type = type is defined ? type : 'files' %}
+    {% set entityField = field is defined ? field : 'files' %}
+    {% set value = form.parent.vars.value is defined ? form.parent.vars.value : null %}
+    {% set entityClass = value ? get_class(value) : '' %}
+    {% set multiple = 0 %}
+    {% set attachedFile = form.vars.attachedFile is defined ? form.vars.attachedFile : null %}
+
+    <div class="fl-manager"
+         data-fl-type="{{ type }}"
+         data-fl-attach-path="{{ path('file_attach') }}"
+         data-fl-attach-id="{{ attachedFile ? attachedFile.id : '' }}"
+         data-fl-attach-class="{{ attach_class }}"
+         data-fl-entity-class="{{ entityClass }}"
+         data-fl-multiple="{{ multiple }}"
+         {% if accept is defined and accept %}data-fl-accept="{{ accept }}"{% endif %}
+            {% if max_size is defined and max_size %}data-fl-max-size="{{ max_size }}"{% endif %}>
+
+        <div class="form-group row d-flex align-items-center">
+
+            <label for="{{ id }}" class="form-check-label col-form-label">{{ label is defined and label|length ? label : 'files.widget.title'|trans }}</label>
+            <div class="col-form-content">
+
+                <div class="tableFiles" data-placeholder='<div class="itemNew d-flex align-items-center"><span class="text-muted">{% trans %}files.widget.no_selected_file{% endtrans %}</span></div>'>
+
+                    {%- if attachedFile and attachedFile.file -%}
+
+                        <div class="itemFile d-flex align-items-center">
+                            <span class="me-4">{{ attachedFile.title|raw }}</span>
+                            <div class="d-none">
+                                {{ form_widget(form) }}
+                            </div>
+                            <a class="btn btn-primary btn-icon btn-xs me-2" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary" title="{{ 'files.widget.add_one'|trans }}">
+                                {{ ux_icon('lucide:square-pen') }}
+                            </a>
+                            <a class="btn btn-primary btn-icon btn-xs me-2" href="{{ aropixel_file_url(form.vars.attachedFile.file) }}">
+                                {{ ux_icon('lucide:download') }}
+                            </a>
+                            <a class="btn btn-danger text-white btn-icon btn-xs iconUnlinkFile">{{ ux_icon('lucide:unlink') }}</a>
+                        </div>
+
+                    {%- else -%}
+
+                        <div class="itemNew d-flex align-items-center">
+                            <div class="d-none">
+                                {{ form_widget(form) }}
+                            </div>
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilesLibrary">
+                                {{ ux_icon('lucide:files', {class: 'mr-2'}) }}
+                                {{ 'files.widget.add_one'|trans }}
+                            </a>
+                        </div>
+
+                    {%- endif -%}
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+{%- endblock %}

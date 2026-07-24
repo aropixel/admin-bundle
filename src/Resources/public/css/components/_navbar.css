@@ -1,0 +1,137 @@
+/**
+ * Top bar.
+ *
+ * Public   : .fullscreen-navbar, .dropdown-user
+ *
+ * Split out of `_fullscreen.css` (390 lines, four concerns). This file owns the bar that
+ * is present on every screen; the overlay it opens lives in `_fullscreen-menu.css`.
+ */
+
+.fullscreen-navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--aro-space-8);
+    max-width: 1620px;
+    margin: 0 auto;
+}
+
+.fullscreen-navbar .logo {
+    width: 150px;
+    display: block;
+    margin-bottom: var(--aro-space-1);
+}
+
+.fullscreen-navbar .logo img {
+    width: 100%;
+    height: auto;
+}
+
+.fullscreen-navbar .navbar-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+}
+
+.fullscreen-navbar .navbar-links i {
+    font-size: 18px;
+}
+
+.fullscreen-navbar .navbar-links li {
+    padding: 0 var(--aro-space-2);
+}
+
+.fullscreen-navbar .navbar-links #sub-sections li {
+    padding: 0;
+}
+
+.fullscreen-navbar .navbar-links a {
+    line-height: 1;
+    text-decoration: none;
+}
+
+.fullscreen-navbar .navbar-links a:hover {
+    text-decoration: none;
+}
+
+.fullscreen-navbar .navbar-links a:hover .navbar-icon-blue {
+    fill: var(--aro-color-primary);
+}
+
+.fullscreen-navbar .navbar-links a:hover .navbar-icon-yellow {
+    fill: var(--aro-accent-magenta);
+    opacity: 1;
+}
+
+.fullscreen-navbar .navbar-links a .dropdown-item-desc {
+    margin-left: 0;
+}
+
+.fullscreen-navbar .navbar-links #mev-toggle-icon.scheduled svg path {
+    fill: var(--aro-accent-indigo);
+}
+
+.fullscreen-navbar .nav-link-user {
+    font-weight: 600;
+}
+
+.fullscreen-navbar .nav-link-user i {
+    width: 35px;
+    text-align: center;
+    line-height: 35px;
+    background-color: var(--aro-color-primary-subtle);
+    border-radius: 50%;
+}
+
+.fullscreen-navbar .nav-link-user:after {
+    display: none;
+}
+
+.dropdown-user {
+    width: 300px;
+    border-radius: var(--aro-space-1);
+    padding: 0;
+    border: none;
+}
+
+.dropdown-user .user-header {
+    padding: var(--aro-space-4) var(--aro-space-5);
+    background-color: var(--aro-color-primary);
+    border-radius: var(--aro-space-1) var(--aro-space-1) 0 0;
+}
+
+.dropdown-user .user-header > * {
+    color: white;
+    font-weight: 600;
+}
+
+.dropdown-user .user-header i {
+    font-size: var(--aro-space-5);
+    color: var(--aro-color-primary);
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+    background-color: var(--aro-color-surface);
+    border-radius: var(--aro-space-4);
+}
+
+.dropdown-user .user-link {
+    padding: 35px var(--aro-space-5);
+    text-align: center;
+    color: var(--aro-color-text);
+}
+
+.dropdown-user .user-link:first-of-type {
+    border-right: 1px solid var(--aro-color-border-line);
+}
+
+.dropdown-user .user-link:hover {
+    color: var(--aro-color-primary);
+    text-decoration: none;
+}
+
+.dropdown-user .user-link i {
+    display: block;
+    font-size: 25px;
+    margin-bottom: var(--aro-space-4);
+}

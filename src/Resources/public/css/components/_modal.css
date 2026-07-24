@@ -1,59 +1,67 @@
-.modal-xxl {
-    width: 90vw;
-    max-width: none;
+/**
+ * Modal.
+ *
+ * Public   : .modal-full, .modal-title
+ * Inherited: sizing and colours from Bootstrap's `--bs-modal-*`, themed through the bridge.
+ *
+ * Dropped as dead: `.modal-xxl`, `.modal-xs` (no template) and the coloured-header
+ * variants `.modal-header.bg-*` (no template applies a bg class to a modal header).
+ */
+
+.modal-title {
+    font-weight: var(--aro-weight-semibold);
 }
 
+.modal-header {
+    --bs-modal-header-padding: var(--aro-space-4) var(--aro-space-6);
+}
+
+/*
+ * Size scale (design system): sm 400 · md 520 (default) · lg 720 · xl 960. Set on
+ * `.modal-dialog`, so both plain modals and the Dialog component — which builds a
+ * `.modal-dialog` — take a size. The width caps on desktop; Bootstrap keeps modals
+ * full-width on small screens. `.modal-full` (below) is the near-edge-to-edge sheet.
+ */
+.modal-dialog {
+    --bs-modal-width: 520px;
+}
+
+.modal-dialog.modal-sm {
+    --bs-modal-width: 400px;
+}
+
+.modal-dialog.modal-lg {
+    --bs-modal-width: 720px;
+}
+
+.modal-dialog.modal-xl {
+    --bs-modal-width: 960px;
+}
+
+/*
+ * Footer sits on the grey app canvas, not behind a hairline: the tint is what separates it
+ * from the white body, so there is no border between the two (design system). Its bottom
+ * corners follow the modal radius so the fill never squares off the rounded panel.
+ */
+.modal-footer {
+    --bs-modal-footer-border-width: 0;
+
+    background-color: var(--aro-color-bg);
+    border-bottom-right-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+    border-bottom-left-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+}
+
+/* A popover raised inside a modal must clear the modal's own stacking context. */
 .modal .popover {
     z-index: 9999;
 }
 
-.modal-header {
-    padding: 15px 25px !important;
-}
-.modal-title {
-    font-weight: 600;
-}
-.modal-header.bg-danger,
-.modal-header.bg-success,
-.modal-header.bg-primary
-{
-    padding: 18px 25px 15px;
-}
-.modal-header.bg-danger .modal-title,
-.modal-header.bg-success .modal-title,
-.modal-header.bg-primary .modal-title {
-    color: #fff;
-}
-.modal-header.bg-danger .close,
-.modal-header.bg-success .close,
-.modal-header.bg-primary .close {
-    color: #fff;
-    opacity: 0.9;
-    text-shadow: none;
-}
-.modal-header.bg-danger + .modal-body,
-.modal-header.bg-success + .modal-body,
-.modal-header.bg-primary + .modal-body {
-    padding-top: 25px;
-}
-
-
-
-@media (min-width: 1200px) {
-    .modal-xxl {
-        width: 85vw;
-        max-width: none;
-    }
-}
-
+/* Near-full-width modal for the media library. */
 @media (min-width: 769px) {
-    .modal-xs {
-        width: 300px;
-    }
     .modal-full {
         width: 94%;
         max-width: 94%;
-        margin-left: 3%;
         margin-right: 3%;
+        margin-left: 3%;
     }
 }

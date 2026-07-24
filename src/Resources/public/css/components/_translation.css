@@ -4,3 +4,9 @@
 .translatable-field.active {
     display: block;
 }
+
+/* Locale switcher on translatable forms — was an inline `style="width:80px"` (lot B). */
+.locale-dropdown {
+    width: 80px;
+    min-width: 80px;
+}

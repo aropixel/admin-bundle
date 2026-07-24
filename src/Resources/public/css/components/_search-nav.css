@@ -1,68 +1,69 @@
+/**
+ * Search navigation — the overlay dropdown in the top bar.
+ *
+ * Public   : #search-nav, #search-section, #no-result-section, #sub-sections
+ *
+ * ⚠ **Not covered by the visual baseline.** The panel only opens once the user types, so
+ * no capture exercises it. This rebuild was verified by reading, not by measurement — the
+ * one component so far without that safety net. Treat changes here with more care than the
+ * diff-backed ones.
+ *
+ * The site-switcher modal that used to share this file now lives in `_site-switcher.css`:
+ * two features, one stylesheet, and together they exceeded the 200-line cap of §7-7.
+ */
+
 #search-nav {
     width: 450px;
-    background-color: #fff;
+    background-color: var(--aro-color-surface);
     position: relative;
-    box-shadow: 0 4px 8px #eee;
-    border-radius: 5px 0 0 5px;
+    box-shadow: 0 4px 8px var(--aro-color-border-line);
+    border-radius: var(--aro-space-1) 0 0 var(--aro-space-1);
 }
 
 #search-nav i {
-    font-size: 14px !important;
+    font-size: 14px;
 }
 
 #search-nav .site-name {
-    padding: 15px;
-    border-right: 1px solid #eee;
+    padding: var(--aro-space-4);
+    border-right: 1px solid var(--aro-color-border-line);
     text-decoration: none;
     cursor: pointer;
 }
 
 #search-nav .site-name i {
-    font-size: 11px !important;
+    font-size: 11px;
 }
 
 #search-nav .dropdown-item, #search-nav .dropdown-item i {
-    font-size: 12px !important;
+    font-size: 12px;
 }
 
-/*#search-nav .dropdown-header {*/
-/*    text-transform: uppercase;*/
-/*    color: #ccc;*/
-/*    font-size: 13px;*/
-/*    font-weight: 400;*/
-/*    padding-top: 5px;*/
-/*    padding-bottom: 5px;*/
-/*}*/
-
-/*#search-nav .dropdown-menu {*/
-/*    width: auto;*/
-/*}*/
-
 #search-nav input {
-    background-color: #fff !important;
-    padding: 0 10px;
+    background-color: var(--aro-color-surface);
+    padding: 0 var(--aro-space-2);
     border: none;
     width: 100%;
 }
 
 #search-nav input:focus-visible {
-    outline: none !important;
+    outline: none;
 }
 
 #search-nav input::placeholder {
     font-style: italic;
-    color: #c4c3c3;
+    color: var(--aro-color-text-muted);
 }
 
 #search-nav .body {
     position: absolute;
-    background-color: #fff;
+    background-color: var(--aro-color-surface);
     width: 100%;
     left: 0;
     top: 45px;
     z-index: 100;
-    box-shadow: 0 4px 8px #eee;
-    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px var(--aro-color-border-line);
+    border-radius: 0 0 var(--aro-space-1) var(--aro-space-1);
     max-height: 0;
     transition: max-height 0.60s ease-in-out;
     overflow: hidden;
@@ -74,28 +75,28 @@
 }
 
 #search-nav .section {
-    border-top: 1px solid #eee;
-    padding: 20px;
+    border-top: 1px solid var(--aro-color-border-line);
+    padding: var(--aro-space-5);
 }
 
 #search-nav .section a {
-    color: #333;
+    color: var(--aro-color-text);
     display: flex;
     align-items: center;
 }
 
 #search-nav .section a i {
-    font-size: 15px;
-    color: #e0e0e0;
-    margin-right: 15px;
-    width: 20px;
+    font-size: var(--aro-space-4);
+    color: var(--aro-color-border);
+    margin-right: var(--aro-space-4);
+    width: var(--aro-space-5);
     text-align: center;
 }
 
 #search-nav .section .title {
-    margin-bottom: 10px;
+    margin-bottom: var(--aro-space-2);
     font-size: 13px;
-    color: #b4b4b4;
+    color: var(--aro-color-text-muted);
 }
 
 #search-nav .section a {
@@ -103,7 +104,7 @@
 }
 
 #search-nav .section a:not(:last-of-type) {
-    margin-bottom: 15px;
+    margin-bottom: var(--aro-space-4);
 }
 
 #search-nav .section a:hover {
@@ -121,26 +122,26 @@
 }
 
 #search-section .sub-section:not(:last-of-type) {
-    margin-bottom: 20px;
+    margin-bottom: var(--aro-space-5);
 }
 
 #no-result-section {
     display: none;
-    padding-bottom: 15px !important;
+    padding-bottom: var(--aro-space-4);
 }
 
 #no-result-section span {
-    color: #c7c7c7;
+    color: var(--aro-color-text-muted);
     font-style: italic;
     display: flex;
     align-items: center;
 }
 
 #no-result-section i {
-    font-size: 15px;
-    color: #e0e0e0;
-    margin-right: 15px;
-    width: 20px;
+    font-size: var(--aro-space-4);
+    color: var(--aro-color-border);
+    margin-right: var(--aro-space-4);
+    width: var(--aro-space-5);
     text-align: center;
 }
 
@@ -154,62 +155,5 @@
 }
 
 #sub-sections ul li:not(:last-of-type) {
-    margin-bottom: 15px;
-}
-
-#searchNavBody .modal-header, #impersonateModal .modal-header {
-    padding-bottom: 25px;
-    border-bottom: 1px solid #eee;
-}
-
-#searchNavBody .modal-body, #impersonateModal .modal-body {
-    padding: 0;
-}
-
-#searchNavBody .modal-body a, #impersonateModal .modal-body a {
-    font-size: 14px;
-    padding: 15px 20px;
-    text-transform: uppercase;
-    color: #333;
-    border-bottom: 1px solid #eee;
-}
-
-#searchNavBody .modal-body a.hidden, #impersonateModal .modal-body a.hidden {
-    display: none !important;
-}
-
-#searchNavBody .modal-body a:hover, #impersonateModal .modal-body a:hover {
-    text-decoration: none;
-    background-color: #f5f8fa;
-}
-
-#searchNavBody .modal-body a:hover .fa-random, #impersonateModal .modal-body a:hover .fa-random {
-    opacity: 1;
-    transition: opacity 0.30s ease-in-out;
-}
-
-#searchNavBody .modal-body .fa-laptop,
-#searchNavBody .modal-body .fa-network-wired,
-#impersonateModal .modal-body .fa-laptop,
-#impersonateModal .modal-body.fa-network-wired {
-    margin-right: 20px;
-    width: 25px;
-    line-height: 25px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 10px;
-}
-
-#searchNavBody .modal-body .fa-laptop, #impersonateModal .modal-body .fa-laptop {
-    background-color: #bc007529;
-}
-
-#searchNavBody .modal-body .fa-network-wired, #impersonateModal .modal-body .fa-network-wired {
-    background-color: #d5edefb8;
-}
-
-#searchNavBody .modal-body .fa-random, #impersonateModal .modal-body .fa-random {
-    margin-right: 20px;
-    opacity: 0;
-    transition: opacity 0.30s ease-in-out;
+    margin-bottom: var(--aro-space-4);
 }

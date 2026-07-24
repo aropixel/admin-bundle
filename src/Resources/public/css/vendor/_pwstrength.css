@@ -1,0 +1,60 @@
+/**
+ * Password strength — skin extracted from the Stisla `components.css`.
+ *
+ * Driven by modules/gdpr/gdpr-password.js, loaded by base.html.twig on password forms.
+ *
+ * **Transcribed, not restyled.** This is a lift-and-shift so the skin survives the
+ * deletion of `components.css` at Étape 5. Restyling it on tokens is a later, separate
+ * job — mixing the two would make the visual diff of the ablation unreadable.
+ *
+ * `!important` is tolerated in this layer (§7-1): these rules fight stylesheets shipped by
+ * the plugins themselves, and in some cases inline styles set by their JavaScript.
+ */
+
+.pwindicator {
+  margin-top: 4px;
+  width: 150px;
+}
+.pwindicator .bar {
+  height: 2px;
+}
+
+.pw-very-weak .bar {
+  background: #d00;
+  width: 30px;
+}
+.pw-very-weak .label {
+  color: #d00;
+}
+
+.pw-weak .bar {
+  background: #d00;
+  width: 60px;
+}
+.pw-weak .label {
+  color: #d00;
+}
+
+.pw-mediocre .bar {
+  background: #f3f01a;
+  width: 90px;
+}
+.pw-mediocre .label {
+  color: #f3f01a;
+}
+
+.pw-strong .bar {
+  background: #f3b31a;
+  width: 120px;
+}
+.pw-strong .label {
+  color: #f3b31a;
+}
+
+.pw-very-strong .bar {
+  background: #0d0;
+  width: 150px;
+}
+.pw-very-strong .label {
+  color: #0d0;
+}

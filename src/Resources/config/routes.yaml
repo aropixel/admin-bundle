@@ -15,6 +15,13 @@ _admin:
     path: /
     controller: Aropixel\AdminBundle\Controller\Dashboard\DashboardAction
 
+# Component catalogue — dev only (design-system.md §14). The controller also guards on the
+# environment; the route condition keeps it out of the prod router entirely.
+aropixel_admin_catalog:
+    path: /_catalog
+    controller: Aropixel\AdminBundle\Controller\Catalog\CatalogAction
+    condition: "env('APP_ENV') === 'dev'"
+
 aropixel_admin_users:
     resource: "@AropixelAdminBundle/Resources/config/routes/user.yaml"
 

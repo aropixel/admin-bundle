@@ -18,6 +18,35 @@
 - [User management](doc/create_user.md)
 - [i18n](doc/i18n.md)
 - [Twig macros](doc/macros.md)
+- [Theming — the `--aro-*` token API](doc/theming.md)
+- [Icons — ux-icons / Lucide, and overriding](doc/icons.md)
+- [Form theme block reference](doc/form-theme-blocks.md)
+- [Upgrading to v3](doc/upgrade-v3.md)
+- Component catalogue — live at `/admin/_catalog` (dev only)
+
+---
+
+## Component catalogue — keep the static export in sync
+
+The catalogue exists in **two forms**, and they must not drift:
+
+- **Live** — `catalog/index.html.twig` at `/admin/_catalog` (dev only). Rendered on the real
+  CSS, it cannot lie about how the admin looks.
+- **Static** — `docs/catalog.html` (+ `docs/index.html`), a self-contained export published
+  via GitHub Pages, with `doc/assets/catalog-preview.png` as the README hero. It embeds a
+  **frozen copy** of the bundle CSS.
+
+> **Whenever a component's CSS changes, rebuild the static export.** Run `castor catalog:build`
+> from the repo root (rebuilds the embedded CSS from source and re-shoots the preview;
+> `--no-shot` skips the screenshot and needs no running app). Skip this and the published
+> catalogue shows the *old* admin — the whole point of the export is defeated. Adding a *new*
+> component also means editing the markup of **both** `catalog/index.html.twig` and
+> `docs/catalog.html` by hand, then rebuilding.
+
+> **Never hand-edit `docs/catalog.html`'s first `<style>` block** — it is generated. A missing
+> `}` there is invisible in the live admin (each `@import`ed file auto-closes at its own EOF)
+> but in the single concatenated export it nests every following rule, silently disabling
+> whole components. The `qa:css` `brace_imbalance` check catches this at the source.
 
 ---
 

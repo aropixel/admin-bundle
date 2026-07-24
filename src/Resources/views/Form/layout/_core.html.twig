@@ -1,0 +1,217 @@
+{#
+ # Core form theme — Symfony block overrides that apply to every form.
+ #
+ # INVARIANT — this is the ONLY sub-theme allowed to `{% use %}` the Bootstrap layout,
+ # and therefore the ONLY one where `parent()` may be called.
+ #
+ # `{% use %}` merges the *whole* block set of the used template. A second sub-theme
+ # using the Bootstrap layout would re-inject Bootstrap's own `form_row`, `form_label`,
+ # … over the overrides defined here — silently, because Twig merges without warning and
+ # the last `use` wins. That is why `datetime_widget` lives here rather than in
+ # `_date.html.twig`: it needs `parent()`.
+ #
+ # `block('name', 'template.twig')` is NOT a substitute for `parent()`: Twig compiles the
+ # two-argument form without forwarding `$blocks` (Node/Expression/BlockReferenceExpression),
+ # so the Bootstrap block would render with none of our overrides visible to it.
+ #}
+{% use 'bootstrap_5_horizontal_layout.html.twig' %}
+
+{% block form_label_class -%} col-form-label{%- endblock form_label_class %}
+{% block form_group_class -%} col-form-content{%- endblock form_group_class %}
+
+{% block form_start -%}
+    {% set attr = attr|merge({class: 'form-layout ' ~ (attr.class|default('form-horizontal'))|trim}) %}
+    {{- parent() -}}
+{%- endblock form_start %}
+
+{% block form_end -%}
+    {{- parent() -}}
+    {% if is_image_library_modal_enabled() %}
+        {{ include('@AropixelAdmin/Image/Modals/library.html.twig', {category: false}) }}
+        {{ include('@AropixelAdmin/Image/Modals/attributes.html.twig', {category: false}) }}
+    {% endif %}
+    {% if is_file_library_modal_enabled() %}
+        {{ include('@AropixelAdmin/File/Modals/library.html.twig', {category: false}) }}
+    {% endif %}
+{%- endblock form_end %}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+        {%- if compound is defined and compound -%}
+            {%- set element = 'legend' -%}
+            {%- if 'col-form-label' not in parent_label_class -%}
+                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-form-label')|trim}) -%}
+            {%- endif -%}
+        {%- else -%}
+            {%- set row_class = row_class|default(row_attr.class|default('')) -%}
+            {%- set label_attr = label_attr|merge({for: id}) -%}
+            {%- if 'col-form-label' not in parent_label_class -%}
+                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ('input-group' in row_class ? ' input-group-text' : ' col-form-label'))|trim}) -%}
+            {%- endif -%}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+
+        <{{ element|default('label') }}{% if label_attr %}{% with {attr: label_attr} %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        {%- if translation_domain is same as(false) -%}
+            {%- if label_html is same as(false) -%}
+                {{- label -}}
+            {%- else -%}
+                {{- label|raw -}}
+            {%- endif -%}
+        {%- else -%}
+            {%- if label_html is same as(false) -%}
+                {{- label|trans(label_translation_parameters, translation_domain) -}}
+            {%- else -%}
+                {{- label|trans(label_translation_parameters, translation_domain)|raw -}}
+            {%- endif -%}
+        {%- endif -%}
+        {% if description is defined and description|length %}
+            <div class="label-description">{{ description }}</div>
+        {% endif %}
+        </{{ element|default('label') }}>
+    {%- endif -%}
+
+{%- endblock form_label %}
+
+{% block form_row -%}
+    {%- if expanded is defined and expanded -%}
+        {{ block('fieldset_form_row') }}
+    {%- else -%}
+        {%- set widget_attr = {} -%}
+        {%- if help is not empty -%}
+            {%- set widget_attr = {attr: {'aria-describedby': id ~ '_help'}} -%}
+        {%- endif -%}
+        {%- set row_class = row_class|default(row_attr.class|default('mb-3')) -%}
+        {%- set is_form_floating = is_form_floating|default('form-floating' in row_class) -%}
+        {%- set is_input_group = is_input_group|default('input-group' in row_class) -%}
+        {#- Remove behavior class from the main container -#}
+        {%- set row_class = row_class|replace({'form-floating': '', 'input-group': ''}) -%}
+        <div{% with {attr: row_attr|merge({class: (row_class ~ ' form-group' ~ ((not compound or force_error|default(false)) and not valid ? ' is-invalid'))|trim})} %}{{ block('attributes') }}{% endwith %}>
+            {%- if is_form_floating or is_input_group -%}
+                <div class="{{ block('form_label_class') }}"></div>
+                <div class="{{ block('form_group_class') }}">
+                    {%- if is_form_floating -%}
+                        <div class="form-floating">
+                            {{- form_widget(form, widget_attr) -}}
+                            {{- form_label(form) -}}
+                        </div>
+                    {%- elseif is_input_group -%}
+                        <div class="input-group">
+                            {{- form_label(form) -}}
+                            {{- form_widget(form, widget_attr) -}}
+                            {#- Hack to properly display help with input group -#}
+                            {{- form_help(form) -}}
+                        </div>
+                    {%- endif -%}
+                    {%- if not is_input_group -%}
+                        {{- form_help(form) -}}
+                    {%- endif -%}
+                    {{- form_errors(form) -}}
+                </div>
+            {%- else -%}
+                {{- form_label(form) -}}
+                <div class="{{ block('form_group_class') }}">
+                    {{- form_widget(form, widget_attr) -}}
+                    {{- form_help(form) -}}
+                    {{- form_errors(form) -}}
+                </div>
+            {%- endif -%}
+            {##}</div>
+    {%- endif -%}
+{%- endblock form_row %}
+
+{% block fieldset_form_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~ '_help'}} -%}
+    {%- endif -%}
+    <fieldset{% with {attr: row_attr|merge({class: row_attr.class|default('mb-3')|trim})} %}{{ block('attributes') }}{% endwith %}>
+        <div class="form-group mb-0{% if (not compound or force_error|default(false)) and not valid %} is-invalid{% endif %}">
+            {{- form_label(form) -}}
+            <div class="{{ block('form_group_class') }}">
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_help(form) -}}
+                {{- form_errors(form) -}}
+            </div>
+        </div>
+    </fieldset>
+{%- endblock fieldset_form_row %}
+
+{% block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
+            {%- for error in errors -%}
+                <span class="d-block">
+                    <span class="form-error-message">{{ error.message }}</span>
+                </span>
+            {%- endfor -%}
+        </span>
+    {%- endif %}
+{%- endblock form_errors %}
+
+{% block submit_row -%}
+    {{- form_widget(form) -}}
+{%- endblock submit_row %}
+
+{% block textarea_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock textarea_widget %}
+
+{% block choice_widget_expanded -%}
+    {% if '-inline' in label_attr.class|default('') -%}
+        <div {{ block('widget_container_attributes') }} class="aro-choice-inline">
+            {%- for child in form %}
+                {{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+            {% endfor -%}
+        </div>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {%- for child in form %}
+                {{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+            {% endfor -%}
+        </div>
+    {%- endif %}
+{%- endblock %}
+
+{# Lives here, not in `_date.html.twig`: it calls `parent()`. See the invariant above. #}
+{% block datetime_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' d-flex')|trim}) -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}{%- if select2_multiple is defined and select2_multiple %}[]{% endif -%}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- ' ' -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}

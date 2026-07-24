@@ -1,0 +1,135 @@
+/**
+ * FileUpload — dropzone / file picker (the "featured image" pattern made reusable).
+ *
+ * The dropzone is a `<label>` wrapping a hidden file input, so clicking to browse is native —
+ * no JS. Drag-over highlighting is a progressive enhancement: toggle `.is-dragover` from a few
+ * lines of dragenter/dragleave/drop handlers. The compact preview row shows a chosen file.
+ *
+ * Markup (dropzone):
+ *   <label class="aro-fileupload">
+ *     <input type="file" class="aro-fileupload__input" accept="image/*">
+ *     <span class="aro-fileupload__icon">{{ ux_icon('lucide:image') }}</span>
+ *     <span class="aro-fileupload__label">Drag a file or <span class="aro-fileupload__browse">browse</span></span>
+ *     <span class="aro-fileupload__hint">PNG, JPG — max 2 MB</span>
+ *   </label>
+ *
+ * Markup (preview):
+ *   <div class="aro-fileupload-preview">
+ *     <span class="aro-fileupload-preview__thumb">…</span>
+ *     <span class="aro-fileupload-preview__meta">
+ *       <span class="aro-fileupload-preview__name">poster.jpg</span>
+ *       <span class="aro-fileupload-preview__size">1.2 MB</span>
+ *     </span>
+ *     <button class="aro-fileupload-preview__remove">{{ ux_icon('lucide:trash-2') }}</button>
+ *   </div>
+ */
+
+.aro-fileupload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--aro-space-2);
+    padding: var(--aro-space-8) var(--aro-space-6);
+    border: 2px dashed var(--aro-field-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-bg);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--aro-duration-fast) var(--aro-ease),
+                background-color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload:hover,
+.aro-fileupload.is-dragover {
+    border-color: var(--aro-color-primary);
+    background: color-mix(in srgb, var(--aro-color-primary) 8%, var(--aro-color-surface));
+}
+
+.aro-fileupload__input {
+    display: none;
+}
+
+.aro-fileupload__icon {
+    font-size: var(--aro-text-2xl);
+    color: var(--aro-color-text-muted);
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload:hover .aro-fileupload__icon,
+.aro-fileupload.is-dragover .aro-fileupload__icon {
+    color: var(--aro-color-primary);
+}
+
+.aro-fileupload__label {
+    font-size: var(--aro-text-sm);
+    color: var(--aro-color-text);
+}
+
+.aro-fileupload__browse {
+    color: var(--aro-color-primary);
+    font-weight: var(--aro-weight-semibold);
+}
+
+.aro-fileupload__hint {
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-subtle);
+}
+
+/* ------------------------------------------------------------- Preview row */
+
+.aro-fileupload-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-3);
+    padding: var(--aro-space-3);
+    border: 1px solid var(--aro-field-border);
+    border-radius: var(--aro-radius-card);
+    background: var(--aro-color-surface);
+}
+
+.aro-fileupload-preview__thumb {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--aro-radius-input);
+    background: var(--aro-color-bg) center / cover no-repeat;
+    color: var(--aro-color-text-muted);
+}
+
+.aro-fileupload-preview__meta {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.aro-fileupload-preview__name {
+    overflow: hidden;
+    font-size: var(--aro-text-sm);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aro-fileupload-preview__size {
+    margin-top: 2px;
+    font-size: var(--aro-text-xs);
+    color: var(--aro-color-text-muted);
+}
+
+.aro-fileupload-preview__remove {
+    flex-shrink: 0;
+    padding: var(--aro-space-2);
+    background: none;
+    border: 0;
+    color: var(--aro-color-text-subtle);
+    cursor: pointer;
+    transition: color var(--aro-duration-fast) var(--aro-ease);
+}
+
+.aro-fileupload-preview__remove:hover,
+.aro-fileupload-preview__remove:focus-visible {
+    color: var(--aro-color-danger);
+}

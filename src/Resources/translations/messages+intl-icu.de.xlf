@@ -33,6 +33,42 @@
         <source>text.confirm_delete</source>
         <target>Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?</target>
       </trans-unit>
+      <trans-unit id="generic.cancel" resname="text.cancel">
+        <source>text.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="generic.confirmation" resname="text.confirmation">
+        <source>text.confirmation</source>
+        <target>Bestätigung</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm" resname="text.confirm">
+        <source>text.confirm</source>
+        <target>Bestätigen</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_detail" resname="text.confirm_delete_detail">
+        <source>text.confirm_delete_detail</source>
+        <target>Diese Aktion kann nicht rückgängig gemacht werden.</target>
+      </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Online setzen</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Offline setzen</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>Diese Datei löschen?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>Diese Datei aus der Bibliothek entfernen?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>Dieses Bild aus der Galerie löschen?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>
@@ -772,6 +808,46 @@
       <trans-unit id="menu.menu.footer" resname="menu.menu.footer">
         <source>menu.menu.footer</source>
         <target>Fußzeile</target>
+      </trans-unit>
+      <trans-unit id="form.video.preview" resname="form.video.preview">
+        <source>form.video.preview</source>
+        <target>Videovorschau</target>
+      </trans-unit>
+      <trans-unit id="files.widget.add_one" resname="files.widget.add_one">
+        <source>files.widget.add_one</source>
+        <target>Datei hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="form.date.placeholder" resname="form.date.placeholder">
+        <source>form.date.placeholder</source>
+        <target>Datum eingeben</target>
+      </trans-unit>
+      <trans-unit id="form.time.placeholder" resname="form.time.placeholder">
+        <source>form.time.placeholder</source>
+        <target>Uhrzeit eingeben…</target>
+      </trans-unit>
+      <trans-unit id="text.new" resname="text.new">
+        <source>text.new</source>
+        <target>Neu</target>
+      </trans-unit>
+      <trans-unit id="text.error" resname="text.error">
+        <source>text.error</source>
+        <target>Fehler</target>
+      </trans-unit>
+      <trans-unit id="text.save" resname="text.save">
+        <source>text.save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="form.tab.creation" resname="form.tab.creation">
+        <source>form.tab.creation</source>
+        <target>Erstellungsdatum</target>
+      </trans-unit>
+      <trans-unit id="form.tab.publish_dates" resname="form.tab.publish_dates">
+        <source>form.tab.publish_dates</source>
+        <target>Veröffentlichungsdaten</target>
+      </trans-unit>
+      <trans-unit id="form.button.continue_editing" resname="form.button.continue_editing">
+        <source>form.button.continue_editing</source>
+        <target>Bearbeitung fortsetzen</target>
       </trans-unit>
     </body>
   </file>

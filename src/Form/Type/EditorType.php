@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * WYSIWYG editor FormType using QuillJS.
  *
- * Twig block: aropixel_editor_widget
+ * Twig block: aropixel_admin_editor_widget
  *
  * Options:
  * - toolbar: The toolbar configuration (default: 'full').
@@ -47,6 +47,6 @@ class EditorType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'aropixel_editor';
+        return 'aropixel_admin_editor';
     }
 }

@@ -9,7 +9,11 @@
 *
 * ---------------------------------------------------------------------------- */
 import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
-import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
+import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
+import {showToast} from '/bundles/aropixeladmin/js/module/toast/toast.js';
+
+// Programmatic flash notifications: window.aroToast({ type, title, message }).
+window.aroToast = showToast;
 import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
 onDomReady(() => {
@@ -403,30 +407,15 @@ onDomReady(() => {
 
     $('#delete_button').click(function() {
 
-        let _buttons = {
-
-            "Annuler": function() {
-
-                $(this).closest('.modal').modal('hide');
-
+        let i18n = window.aroDialogI18n || {};
+        new ConfirmDialog({
+            intent: 'danger',
+            title: i18n.deleteTitle || 'Are you sure you want to delete this item?',
+            message: i18n.deleteDetail || 'This action cannot be undone.',
+            onConfirm: function() {
+                $('#delete_button').closest('form').submit();
             },
-
-            "Confirmer": {
-
-                'class' : 'btn-danger',
-                'callback' : function() {
-                    $('#delete_button').closest('form').submit();
-                    $(this).closest('.modal').fadeOut('300', function() { $(this).remove(); });
-                },
-            }
-        }
-
-
-        let message = 'Voulez-vous vraiment <strong>supprimer ce contenu</strong> ?<br /> \
-                        Le contenu sera définitivement supprimé, il ne sera plus possible de le récupérer.';
-
-        new ModalDyn("Supprimer un contenu", message, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
+        });
 
     });
 
@@ -440,37 +429,27 @@ onDomReady(() => {
 
         let _button = $(this);
 
-        let _buttons = {
+        // "Title|Message" in data-confirm splits into title + body; a single line is the body
+        // (ConfirmDialog then supplies a generic title). `data-confirm-intent` overrides danger.
+        let raw = String(_button.data('confirm') || '');
+        let title = '';
+        let message = raw;
+        let parts = raw.split('|');
+        if (parts.length > 1) {
+            title = parts[0];
+            message = parts.slice(1).join('|');
+        }
 
-            "Annuler": function() {
-
-                $(this).closest('.modal').modal('hide');
-
+        new ConfirmDialog({
+            intent: _button.data('confirm-intent') || 'danger',
+            title: title,
+            message: message,
+            confirmLabel: _button.data('confirm-label'),
+            cancelLabel: _button.data('cancel-label'),
+            onConfirm: function() {
+                window.location.href = _button.attr('data-path');
             },
-
-            "Confirmer": {
-
-                'class' : 'btn-danger',
-                'callback' : function() {
-                    window.location.href = _button.attr("data-path");
-                },
-            }
-
-
-        }
-
-        let me_data = _button.data('confirm');
-
-        let me_title = "Confirmation";
-        let me_description = me_data;
-
-        me_data = me_data.split("|");
-        if (me_data.length > 1) {
-            me_title = me_data[0];
-            me_description = me_data[1];
-        }
-
-        new ModalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        });
 
     });
 
@@ -480,43 +459,27 @@ onDomReady(() => {
 
         let _button = $(this);
 
-        let _buttons = {
+        // Title + message come from the actions macro. `data-confirm-title` is the question,
+        // `data-confirm` the detail. Legacy callers may still pass "Title|Message" in
+        // `data-confirm`; with no title at all, ConfirmDialog supplies a generic one.
+        let title = _button.data('confirm-title') || '';
+        let message = String(_button.data('confirm') || '');
+        if (!title && message.indexOf('|') !== -1) {
+            let parts = message.split('|');
+            title = parts[0];
+            message = parts.slice(1).join('|');
+        }
 
-            "Annuler": function() {
-
-                $(this).closest('.modal').modal('hide');
-
+        new ConfirmDialog({
+            intent: 'danger',
+            title: title,
+            message: message,
+            confirmLabel: _button.data('confirm-label'),
+            cancelLabel: _button.data('cancel-label'),
+            onConfirm: function() {
+                _button.closest('.btn-group').find('form').submit();
             },
-
-            "Confirmer": {
-
-                'class' : 'btn-danger',
-                'callback' : function() {
-                    let $btnGroup = _button.closest('.btn-group');
-                    let $form = $btnGroup.find('form');
-                    $form.submit();
-
-                },
-            }
-
-
-        }
-
-        let me_data = _button.data('confirm');
-
-        let me_title = "Confirmation";
-        let me_description = me_data;
-
-        me_data = me_data.split("|");
-        if (me_data.length > 1) {
-            me_title = me_data[0];
-            me_description = me_data[1];
-        }
-
-        new ModalDyn(me_title, me_description, _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
-
-
+        });
 
     });
 
@@ -529,55 +492,36 @@ onDomReady(() => {
         let _btn_group = _button.closest('.dropdown-menu');
         let _state_icon = $(this).closest('tr').find('.state-icon');
         let state = _state_icon.hasClass('state-icon--offline') ? 'offline' : 'online';
-        let _modalBgClass = (state === 'online' ? 'bg-default' : 'bg-primary');
-        let _buttonValidClass = (state === 'online' ? 'btn-default' : 'btn-primary');
-        let _message = _button.data('confirm').replace('%s', state === 'online' ? 'hors ligne' : 'en ligne');
+        let i18n = window.aroDialogI18n || {};
+        let _targetLabel = state === 'online' ? (i18n.offline || 'offline') : (i18n.online || 'online');
+        let _message = _button.data('confirm').replace('%s', _targetLabel);
 
-        let _buttons = {
+        // A status toggle is not destructive → the primary (teal) intent, not danger.
+        // Labels fall back to the translated defaults (the message is already localised).
+        new ConfirmDialog({
+            intent: 'primary',
+            message: _message,
+            onConfirm: function() {
 
-            "Annuler": function() {
+                let suffix = document.URL.slice(-1) === '/' ? '' : '/';
+                let url = _button.attr("data-path") ? _button.attr("data-path") : document.URL+suffix+"state";
 
-                $(this).closest('.modal').modal('hide');
+                $.get(url, function(answer) {
+                    if (answer === 'OK') {
 
-            },
+                        _state_icon
+                            .removeClass(state === 'online' ? 'state-icon--online' : 'state-icon--offline')
+                            .addClass(state !== 'online' ? 'state-icon--online' : 'state-icon--offline')
+                            .attr('title', _targetLabel)
+                            .attr('data-bs-original-title', _targetLabel);
 
-            "Confirmer": {
+                        _btn_group.find('.status').html('<svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></g></svg> ' + (state === 'online' ? (i18n.setOnline || 'Set online') : (i18n.setOffline || 'Set offline')));
 
-                'class' : _buttonValidClass,
-                'callback' : function() {
-
-                    let suffix = document.URL.slice(-1) === '/' ? '' : '/';
-                    let url = _button.attr("data-path") ? _button.attr("data-path") : document.URL+suffix+"state";
-                    let button = $(this);
-
-                    button.attr('disabled', 'disabled');
-
-                    $.get(url, function(answer) {
-                        if (answer === 'OK') {
-
-                            _state_icon
-                                .removeClass(state === 'online' ? 'state-icon--online' : 'state-icon--offline')
-                                .addClass(state !== 'online' ? 'state-icon--online' : 'state-icon--offline')
-                                .attr('title', state === 'online' ? 'hors ligne' : 'en ligne')
-                                .attr('data-bs-original-title', state === 'online' ? 'hors ligne' : 'en ligne');
-
-                            _btn_group.find('.status').html('<i class="fas fa-toggle-on"></i> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
-
-                            button.removeAttr('disabled');
-                            button.closest('.modal').modal('hide');
-                            button.closest('.modal').on('hidden.bs.modal', function (e) {
-                                $(this).remove();
-                            });
-
-                        }
-                    });
-
-                }
+                    }
+                });
 
             },
-        }
-
-        new ModalDyn("Confirmation", _message, _buttons, {modalClass: 'modal_mini', headerClass: _modalBgClass});
+        });
 
     });
 
@@ -587,34 +531,17 @@ onDomReady(() => {
 
         let _button = $(this);
 
-        let _buttons = {
-
-            "Annuler": function () {
-
-                $(this).closest('.modal').modal('hide');
-
+        new ConfirmDialog({
+            intent: 'danger',
+            message: _button.attr('data-confirm'),
+            onConfirm: function () {
+                if (_button.data('rel')) {
+                    $('.forms-out[rel="' + _button.data('rel') + '"] form[action$="' + _button.data('id') + '"]').submit();
+                } else {
+                    $('.forms-out form[action$="' + _button.data('id') + '"]').submit();
+                }
             },
-
-            "Confirmer": {
-
-                'class': 'btn-danger',
-                'callback': function () {
-
-                    if (_button.data('rel')) {
-                        $('.forms-out[rel="' + _button.data('rel') + '"] form[action$="' + _button.data('id') + '"]').submit();
-                    } else {
-                        $('.forms-out form[action$="' + _button.data('id') + '"]').submit();
-                    }
-
-
-                },
-            }
-
-
-        }
-
-        new ModalDyn("Confirmation", _button.attr('data-confirm'), _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
-
+        });
 
     });
 
@@ -758,33 +685,26 @@ onDomReady(() => {
         e.preventDefault();
 
         const _button = $(this);
-        const _buttons = {
-            confirm: {
-                label: 'Supprimer',
-                className: 'btn-danger',
-                callback: function(){
+        const i18n = window.aroDialogI18n || {};
 
-                    const $item = $('.collection-form-container').filter(function() {
-                        return $(this).contents().length === 0;
-                    }).closest('[data-form-collection="item"]');
+        new ConfirmDialog({
+            intent: 'danger',
+            title: i18n.deleteTitle || 'Are you sure you want to delete this item?',
+            message: i18n.deleteDetail || 'This action cannot be undone.',
+            onConfirm: function(){
 
-                    if ($item.length) {
-                        if (bsOffcanvas) {
-                            bsOffcanvas.hide();
-                        }
-                        $item.remove();
+                const $item = $('.collection-form-container').filter(function() {
+                    return $(this).contents().length === 0;
+                }).closest('[data-form-collection="item"]');
+
+                if ($item.length) {
+                    if (bsOffcanvas) {
+                        bsOffcanvas.hide();
                     }
+                    $item.remove();
                 }
             },
-            cancel: {
-                label: 'Annuler',
-                className: 'btn-default',
-                callback: function(){
-                }
-            }
-        };
-
-        new ModalDyn("Confirmation", "Êtes-vous sûr de vouloir supprimer cet élément ?", _buttons, {modalClass: 'modal_mini', headerClass: 'bg-danger'});
+        });
 
     });
 
@@ -971,7 +891,7 @@ function activateQuillEditor($elements) {
             [{ 'font': [] }],
             [{ 'align': [] }],
             ['clean'],
-            ['link', 'image', 'video']
+            ['link', 'image', 'video', 'file']
         ],
         'simple': [
             ['bold', 'italic', 'underline'],
@@ -979,6 +899,14 @@ function activateQuillEditor($elements) {
             ['link', 'clean']
         ]
     };
+
+    // Icône de la barre d'outils pour le bouton « fichier » (absent des icônes Quill natives)
+    if (window.Quill) {
+        const quillIcons = Quill.import('ui/icons');
+        if (quillIcons && !quillIcons['file']) {
+            quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" fill="none" d="M5,2 H10 L14,6 V16 H5 Z"></path><path class="ql-stroke" fill="none" d="M10,2 V6 H14"></path></svg>';
+        }
+    }
 
     $elements.each(function() {
         let $this = $(this);
@@ -1007,10 +935,35 @@ function activateQuillEditor($elements) {
             return;
         }
 
+        // Handler du bouton « fichier ». Il DOIT être fourni à la construction : Quill
+        // n'attache un écouteur à un bouton `ql-*` que si un handler existe déjà ou si le
+        // format est connu. « file » n'est pas un format Quill, donc un addHandler('file')
+        // posé après `new Quill` arriverait trop tard (le bouton n'aurait aucun écouteur).
+        // « image » est un format connu : son handler peut, lui, rester surchargé plus bas.
+        const fileHandler = function() {
+            const quillInstance = this.quill;
+            if ($.fn.FileManager) {
+                $($target[0]).FileManager({
+                    editor: quillInstance,
+                    category: $target.attr('data-class')
+                });
+            } else {
+                // Repli : saisie manuelle d'une URL de fichier
+                const range = quillInstance.getSelection(true);
+                const value = prompt('Veuillez entrer l\'URL du fichier :');
+                if (value) {
+                    quillInstance.insertText(range.index, value, 'link', value, 'user');
+                }
+            }
+        };
+
         let quill = new Quill($this[0], {
             theme: 'snow',
             modules: {
-                toolbar: toolbarOptions
+                toolbar: {
+                    container: toolbarOptions,
+                    handlers: { file: fileHandler }
+                }
             }
         });
 

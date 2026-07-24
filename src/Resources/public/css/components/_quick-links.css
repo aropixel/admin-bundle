@@ -1,0 +1,97 @@
+/**
+ * Quick links — the user-configurable shortcut tiles inside the mega-menu.
+ *
+ * Public   : .quick-links, .quick-link (+ .disabled, .pending, and the tint classes)
+ *
+ * Tints come from `--aro-accent-*`. Each used to be two alpha-hex literals — one resting,
+ * one hover — with no stated relationship between them; they are now one token per tint
+ * with both states derived by `color-mix`.
+ *
+ * ⚠ **Not covered by the visual baseline** — inside the overlay.
+ */
+
+#fullscreen-menu .quick-links {
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+    display: block;
+}
+
+#fullscreen-menu .quick-links.hide {
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.2s ease-in-out;
+    display: none;
+}
+
+#fullscreen-menu .quick-links .row {
+    margin-bottom: var(--aro-space-2);
+}
+
+#fullscreen-menu .quick-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: var(--aro-space-4);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--aro-color-text);
+    text-align: center;
+    height: 120px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#fullscreen-menu .quick-link:hover {
+    transition: background-color 0.3s ease-in-out;
+}
+
+#fullscreen-menu .quick-link.disabled {
+    cursor: not-allowed;
+}
+
+#fullscreen-menu .quick-link.pending {
+    background-color: var(--aro-color-border);
+}
+
+#fullscreen-menu .quick-link .quick-link-label {
+    padding: var(--aro-space-2);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--aro-color-text);
+    font-weight: var(--aro-weight-semibold)
+}
+
+#fullscreen-menu .quick-link.lightBlue {
+    background-color: color-mix(in srgb, var(--aro-accent-mint) 35%, transparent);
+}
+
+#fullscreen-menu .quick-link.lightBlue:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-mint) 85%, transparent);
+}
+#fullscreen-menu .quick-link.blue {
+    background-color: color-mix(in srgb, var(--aro-accent-blue) 35%, transparent);
+}
+#fullscreen-menu .quick-link.blue:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-blue) 85%, transparent);
+}
+#fullscreen-menu .quick-link.orange {
+    background-color: color-mix(in srgb, var(--aro-accent-orange) 35%, transparent);
+}
+#fullscreen-menu .quick-link.orange:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-orange) 85%, transparent);
+}
+#fullscreen-menu .quick-link.yellow {
+    background-color: color-mix(in srgb, var(--aro-accent-yellow) 35%, transparent);
+}
+#fullscreen-menu .quick-link.yellow:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-yellow) 85%, transparent);
+}
+#fullscreen-menu .quick-link.green {
+    background-color: color-mix(in srgb, var(--aro-accent-green) 35%, transparent);
+}
+#fullscreen-menu .quick-link.green:hover {
+    background-color: color-mix(in srgb, var(--aro-accent-green) 85%, transparent);
+}

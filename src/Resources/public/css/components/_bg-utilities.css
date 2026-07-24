@@ -1,0 +1,38 @@
+/**
+ * Background-colour utilities — cross-suite.
+ *
+ * Relocated from the style.css tail (lot B). These MUST load last, after every component,
+ * because they are utilities: `.bg-teal` sets a `border-color` that `_badge.css`'s
+ * `.badge { border: 1px solid transparent }` shorthand would otherwise reset if it loaded
+ * afterwards. Bootstrap's own `.bg-*` utilities load last for the same reason — style.css
+ * imports this file at the very end to mirror that.
+ *
+ * `--aro-accent-pink` / `--aro-accent-teal` / `.bg-dark-grey` are the MenuBundle type badges
+ * (page / link / section); `.bg-success` backs a modal header in menu_controller.js.
+ */
+
+.bg-pink {
+    background-color: var(--aro-accent-pink);
+    border-color: var(--aro-accent-pink);
+    color: var(--aro-color-primary-contrast);
+}
+
+.bg-teal {
+    background-color: var(--aro-accent-teal);
+    border-color: var(--aro-accent-teal);
+    color: var(--aro-color-primary-contrast);
+}
+
+/* Section-type menu badge — the structural/neutral-dark role (§ secondary). */
+.bg-dark-grey {
+    background-color: var(--aro-color-secondary);
+    border-color: var(--aro-color-secondary);
+    color: var(--aro-color-primary-contrast);
+}
+
+/* `!important` kept on purpose: Bootstrap's own `.bg-success` is `!important` and lives in
+   the bootstrap layer. Importance outranks layer order, so an unlayered *normal* declaration
+   would lose to it — only an unlayered `!important` wins. */
+.bg-success {
+    background-color: var(--aro-color-success) !important;
+}

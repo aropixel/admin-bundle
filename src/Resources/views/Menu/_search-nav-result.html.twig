@@ -8,7 +8,7 @@
                 <div class="title">{{ menu.label }}</div>
                 <ul>
                     {% for item in menu.items %}
-                        {{ include('@AropixelAdmin/Menu/shortcut.html.twig', {'item' : item, 'icon': 'fas fa-shopping-cart'})  }}
+                        {{ include('@AropixelAdmin/Menu/shortcut.html.twig', {item: item, icon: 'fas fa-shopping-cart'}) }}
                     {% endfor %}
                 </ul>
             </li>
@@ -18,4 +18,3 @@
     </ul>
 
 </div>
-

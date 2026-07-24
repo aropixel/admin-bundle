@@ -1,0 +1,679 @@
+{% extends '@AropixelAdmin/base.html.twig' %}
+
+{#
+  Component catalogue.
+
+  Extends the admin base so every example renders on the REAL bundle CSS — the catalogue
+  cannot show a component differently from how the admin shows it. Dev only.
+
+  Each component appears in all its states, with the Twig snippet to copy, and — where it
+  matters — the usage rule that the rendering alone does not convey (the action hierarchy
+  above all).
+#}
+
+{% block header_title %}Component catalogue{% endblock %}
+
+{% block header_breadcrumb %}
+    <ul class="breadcrumb"><li class="active">Design system · dev only</li></ul>
+{% endblock %}
+
+{% macro demo(title, note) %}
+    <div class="mb-8">
+        <h5 class="mb-2" style="font-weight: var(--aro-weight-semibold)">{{ title }}</h5>
+        {% if note %}<p class="mb-3" style="color: var(--aro-color-text-muted); font-size: var(--aro-text-sm)">{{ note|raw }}</p>{% endif %}
+    </div>
+{% endmacro %}
+
+{% block body %}
+<style>
+    /* Catalogue chrome only — NOT part of the design system. Kept inline and clearly
+       scoped so it can never be mistaken for a component style. */
+    .cat-section { margin-bottom: var(--aro-space-12); }
+    .cat-section > h2 {
+        font-size: var(--aro-text-2xl); font-weight: var(--aro-weight-bold);
+        padding-bottom: var(--aro-space-3); margin-bottom: var(--aro-space-6);
+        border-bottom: 2px solid var(--aro-color-primary);
+    }
+    .cat-row { display: flex; flex-wrap: wrap; gap: var(--aro-space-4); align-items: center; margin-bottom: var(--aro-space-5); }
+    .cat-swatches { display: flex; flex-wrap: wrap; gap: var(--aro-space-4); }
+    .cat-swatch { width: 120px; }
+    .cat-swatch .chip { height: 56px; border-radius: var(--aro-radius-card); border: 1px solid var(--aro-color-border); }
+    .cat-swatch code { display: block; font-size: 11px; margin-top: var(--aro-space-1); color: var(--aro-color-text-muted); }
+    .cat-swatch small { display: block; font-size: 11px; color: var(--aro-color-text-subtle); }
+    .cat-snippet {
+        background: var(--aro-color-secondary); color: #d6e3ea;
+        border-radius: var(--aro-radius-sm); padding: var(--aro-space-3) var(--aro-space-4);
+        font-family: ui-monospace, monospace; font-size: 12px; white-space: pre-wrap;
+        margin-top: var(--aro-space-2);
+    }
+    .cat-toc a { color: var(--aro-color-secondary); text-decoration: none; margin-right: var(--aro-space-4); }
+    .cat-toc a:hover { color: var(--aro-color-primary); }
+    /* Bootstrap 5 stops at mb-5; the catalogue needs 24/32px bottom steps, on tokens. */
+    .mb-6 { margin-bottom: var(--aro-space-6); }
+    .mb-8 { margin-bottom: var(--aro-space-8); }
+</style>
+
+<div class="card">
+    <div class="card-body">
+
+        <p class="cat-toc mb-6">
+            <a href="#colors">Colours</a>
+            <a href="#type">Typography</a>
+            <a href="#space">Spacing &amp; radii</a>
+            <a href="#buttons">Buttons</a>
+            <a href="#button-group">Button group &amp; split</a>
+            <a href="#badges">Badges &amp; status</a>
+            <a href="#avatar">Avatar</a>
+            <a href="#cards">Cards</a>
+            <a href="#stat">Stat</a>
+            <a href="#grid-list">Grid list</a>
+            <a href="#list">List</a>
+            <a href="#accordion">Accordion</a>
+            <a href="#dialog">Dialog</a>
+            <a href="#modal-sizes">Modal sizes</a>
+            <a href="#toast">Toast</a>
+            <a href="#forms">Form controls</a>
+            <a href="#radio-cards">Radio cards</a>
+            <a href="#file-upload">File upload</a>
+            <a href="#icons">Icons</a>
+        </p>
+
+        {# ---------------------------------------------------------------- Colours #}
+        <section class="cat-section" id="colors">
+            <h2>Colours</h2>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Action hierarchy — the one rule the catalogue exists to state</h5>
+            <p class="mb-4" style="color:var(--aro-color-text-muted)">
+                Three levels, and a stylesheet cannot enforce them. <strong>Coral is one per screen</strong>
+                — the thing the user came to do. Two corals on a page and neither means anything.
+            </p>
+            <div class="cat-swatches mb-6">
+                {% for c in [
+                    {t: 'CTA · coral', v: '--aro-color-cta', u: 'One per screen: save, publish'},
+                    {t: 'Primary · teal', v: '--aro-color-primary', u: 'Ordinary actions: create, add'},
+                    {t: 'Secondary · slate', v: '--aro-color-secondary', u: 'Structural / neutral-dark'},
+                ] %}
+                    <div class="cat-swatch">
+                        <div class="chip" style="background: var({{ c.v }})"></div>
+                        <small style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text)">{{ c.t }}</small>
+                        <code>{{ c.v }}</code>
+                        <small>{{ c.u }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Semantic &amp; surfaces</h5>
+            <div class="cat-swatches">
+                {% for v in ['--aro-color-success', '--aro-color-danger', '--aro-color-warning', '--aro-color-info',
+                             '--aro-color-bg', '--aro-color-surface', '--aro-color-border', '--aro-color-text'] %}
+                    <div class="cat-swatch">
+                        <div class="chip" style="background: var({{ v }})"></div>
+                        <code>{{ v }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# ------------------------------------------------------------- Typography #}
+        <section class="cat-section" id="type">
+            <h2>Typography</h2>
+            <p style="color:var(--aro-color-text-muted)">Poppins, self-hosted. Sizes in rem (scale with browser zoom).</p>
+            {% for s in [
+                {v: '--aro-text-2xl', l: '2xl · 22px · page titles'},
+                {v: '--aro-text-xl', l: 'xl · 18px'},
+                {v: '--aro-text-lg', l: 'lg · 16px · subheadings'},
+                {v: '--aro-text-base', l: 'base · 14px · body'},
+                {v: '--aro-text-sm', l: 'sm · 13px · secondary'},
+                {v: '--aro-text-xs', l: 'xs · 12px · labels'},
+            ] %}
+                <div style="font-size:var({{ s.v }});margin-bottom:var(--aro-space-2)">
+                    The quick brown fox <span style="color:var(--aro-color-text-subtle);font-size:var(--aro-text-xs)">— {{ s.l }}</span>
+                </div>
+            {% endfor %}
+            <div class="cat-row mt-4">
+                {% for w in [['--aro-weight-light', '300'], ['--aro-weight-regular', '400'], ['--aro-weight-medium', '500'], ['--aro-weight-semibold', '600'], ['--aro-weight-bold', '700']] %}
+                    <span style="font-weight:var({{ w[0] }})">Aa {{ w[1] }}</span>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# --------------------------------------------------------- Spacing/radii #}
+        <section class="cat-section" id="space">
+            <h2>Spacing &amp; radii</h2>
+            <div class="cat-row" style="align-items:flex-end">
+                {% for s in ['--aro-space-1', '--aro-space-2', '--aro-space-3', '--aro-space-4', '--aro-space-6', '--aro-space-8', '--aro-space-12'] %}
+                    <div style="text-align:center">
+                        <div style="width:var({{ s }});height:var({{ s }});background:var(--aro-color-primary);border-radius:2px"></div>
+                        <code style="font-size:10px;color:var(--aro-color-text-muted)">{{ s|replace({'--aro-space-': ''}) }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cat-row mt-4">
+                {% for r in ['--aro-radius-xs', '--aro-radius-sm', '--aro-radius-input', '--aro-radius-card', '--aro-radius-pill'] %}
+                    <div style="text-align:center">
+                        <div style="width:60px;height:40px;background:var(--aro-color-bg);border:1px solid var(--aro-color-border);border-radius:var({{ r }})"></div>
+                        <code style="font-size:10px;color:var(--aro-color-text-muted)">{{ r|replace({'--aro-radius-': ''}) }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# ---------------------------------------------------------------- Buttons #}
+        <section class="cat-section" id="buttons">
+            <h2>Buttons</h2>
+            <p style="color:var(--aro-color-text-muted)">Variants carry the action hierarchy. Sizes shrink text with padding.</p>
+            <div class="cat-row">
+                <button class="btn btn-cta">CTA</button>
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-default">Default</button>
+                <button class="btn btn-outline">Outline</button>
+                <button class="btn btn-danger">Danger</button>
+            </div>
+            <div class="cat-row">
+                <button class="btn btn-primary">Base</button>
+                <button class="btn btn-primary btn-small">Small</button>
+                <button class="btn btn-primary btn-xs">Xs</button>
+                <button class="btn btn-primary" disabled>Disabled</button>
+            </div>
+            <div class="cat-snippet">&lt;button class="btn btn-cta"&gt;Save&lt;/button&gt;
+&lt;button class="btn btn-primary btn-small"&gt;Add&lt;/button&gt;</div>
+        </section>
+
+        {# --------------------------------------------- Button group & split #}
+        <section class="cat-section" id="button-group">
+            <h2>Button group &amp; split button</h2>
+            <p style="color:var(--aro-color-text-muted)">Bootstrap <code>.btn-group</code> joins the buttons; our variants carry the state. A segmented view-switcher, and a primary action with a dropdown of alternatives. Any button content works — text, or <code>ux_icon()</code>.</p>
+            <div class="cat-row">
+                <div class="btn-group" role="group" aria-label="View switcher">
+                    <button type="button" class="btn btn-primary active" aria-pressed="true">List</button>
+                    <button type="button" class="btn btn-default" aria-pressed="false">Grid</button>
+                    <button type="button" class="btn btn-default" aria-pressed="false">Agenda</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"><span class="visually-hidden">More actions</span></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Save and publish</a></li>
+                        <li><a class="dropdown-item" href="#">Save as draft</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="btn-group" role="group"&gt;
+  &lt;button class="btn btn-primary active"&gt;List&lt;/button&gt;
+  &lt;button class="btn btn-default"&gt;Grid&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="btn-group"&gt;
+  &lt;button class="btn btn-primary"&gt;Save&lt;/button&gt;
+  &lt;button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"&gt;&lt;/button&gt;
+  &lt;ul class="dropdown-menu dropdown-menu-end"&gt;…&lt;/ul&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------- Badges & status #}
+        <section class="cat-section" id="badges">
+            <h2>Badges &amp; status</h2>
+            <div class="cat-row">
+                <span class="badge" style="background:var(--aro-color-primary);color:#fff">Badge</span>
+                <span class="badge" style="background:var(--aro-color-success);color:#fff">Online</span>
+                <span class="badge" style="background:var(--aro-color-warning);color:#fff">Scheduled</span>
+            </div>
+            <div class="cat-row">
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--online"></span> online</span>
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--scheduled"></span> scheduled</span>
+                <span style="display:inline-flex;align-items:center;gap:8px"><span class="state-icon state-icon--offline"></span> offline</span>
+            </div>
+        </section>
+
+        {# ----------------------------------------------------------------- Avatar #}
+        <section class="cat-section" id="avatar">
+            <h2>Avatar</h2>
+            <div class="cat-row">
+                <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar aro-avatar--lg"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--online"></span></span>
+            </div>
+            <div class="cat-snippet">&lt;span class="aro-avatar"&gt;&lt;span class="aro-avatar__placeholder"&gt;{{ '{{' }} ux_icon('lucide:image') {{ '}}' }}&lt;/span&gt;&lt;/span&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------------------ Cards #}
+        <section class="cat-section" id="cards">
+            <h2>Cards</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header"><h5>Card header</h5></div>
+                        <div class="card-body">A card with a header, separated by a hairline.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-body">A <code>.card-primary</code> with the teal top accent.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# --------------------------------------------------------------- Stat #}
+        <section class="cat-section" id="stat">
+            <h2>Stat</h2>
+            <p style="color:var(--aro-color-text-muted)">Key figures for dashboards. Atoms (label / value / trend) compose into a bare grid, a bordered card with divided cells, or a grey panel of icon cards. The figure uses the <code>--aro-text-3xl</code> scale step.</p>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Simple</h5>
+            <div class="aro-stat mb-6" style="--aro-stat-cols:4">
+                <div class="aro-stat__cell"><div class="aro-stat__label">Deployments</div><div class="aro-stat__value">405</div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Avg. time</div><div class="aro-stat__value">3.65<span class="aro-stat__unit">min</span></div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Servers</div><div class="aro-stat__value">3</div></div>
+                <div class="aro-stat__cell"><div class="aro-stat__label">Success rate</div><div class="aro-stat__value">98.5%</div></div>
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Trending — bordered</h5>
+            <div class="aro-stat aro-stat--bordered mb-6" style="--aro-stat-cols:4">
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Revenue</span><span class="aro-stat__trend">↑ 4.75%</span></div>
+                    <div class="aro-stat__value">€405,091</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Overdue</span><span class="aro-stat__trend">↑ 54.0%</span></div>
+                    <div class="aro-stat__value">€12,787</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Pending</span><span class="aro-stat__trend aro-stat__trend--down">↓ 1.39%</span></div>
+                    <div class="aro-stat__value">€245,988</div>
+                </div>
+                <div class="aro-stat__cell">
+                    <div class="aro-stat__head"><span class="aro-stat__label">Expenses</span><span class="aro-stat__trend">↑ 10.2%</span></div>
+                    <div class="aro-stat__value">€30,156</div>
+                </div>
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Brand — panel of icon cards</h5>
+            <div class="aro-stat-panel">
+                <div class="aro-stat-panel__heading">Last 30 days</div>
+                <div class="aro-stat" style="--aro-stat-cols:3;gap:var(--aro-space-4)">
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-accent-pink)">{{ ux_icon('lucide:user') }}</span>
+                            <div><div class="aro-stat__label">Subscribers</div><div class="aro-stat__value">71,897 <span class="aro-stat__trend">↑ 122</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-accent-indigo)">{{ ux_icon('lucide:send') }}</span>
+                            <div><div class="aro-stat__label">Open rate</div><div class="aro-stat__value">58.16% <span class="aro-stat__trend">↑ 5.4%</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                    <div class="aro-stat-card">
+                        <div class="aro-stat-card__body">
+                            <span class="aro-stat__icon" style="background:var(--aro-color-primary)">{{ ux_icon('lucide:pointer') }}</span>
+                            <div><div class="aro-stat__label">Click rate</div><div class="aro-stat__value">24.57% <span class="aro-stat__trend aro-stat__trend--down">↓ 3.2%</span></div></div>
+                        </div>
+                        <a class="aro-stat-card__foot" href="#">View all</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cat-snippet">&lt;div class="aro-stat aro-stat--bordered" style="--aro-stat-cols:4"&gt;
+  &lt;div class="aro-stat__cell"&gt;
+    &lt;div class="aro-stat__head"&gt;&lt;span class="aro-stat__label"&gt;Revenue&lt;/span&gt;
+      &lt;span class="aro-stat__trend"&gt;↑ 4.75%&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="aro-stat__value"&gt;€405,091&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# ---------------------------------------------------------------- Grid list #}
+        <section class="cat-section" id="grid-list">
+            <h2>Grid list</h2>
+            <p style="color:var(--aro-color-text-muted)">Records on a responsive grid of cards (vs. List's single vertical stack). Tiles reuse avatars and badges — here the centered <em>card</em> shape with a split action footer, and the <em>simple</em> initials row.</p>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Card</h5>
+            <div class="aro-grid-list mb-6" style="--aro-grid-min:190px">
+                {% for m in [
+                    {n: 'Camille Lefebvre', r: 'Administrator', s: 'online', b: '--aro-color-success', l: 'Online'},
+                    {n: 'Nicolas Roy', r: 'Editor', s: 'scheduled', b: '--aro-color-warning', l: 'Away'},
+                    {n: 'Sarah Marchand', r: 'Reader', s: 'offline', b: '--aro-color-secondary', l: 'Offline'},
+                ] %}
+                    <div class="aro-grid-card">
+                        <div class="aro-grid-card__body">
+                            <span class="aro-avatar"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--{{ m.s }}"></span></span>
+                            <div class="aro-grid-card__title">{{ m.n }}</div>
+                            <div class="aro-grid-card__subtitle">{{ m.r }}</div>
+                            <div class="mt-2"><span class="badge" style="background:var({{ m.b }});color:var(--aro-color-text-inverted)">{{ m.l }}</span></div>
+                        </div>
+                        <div class="aro-grid-card__foot">
+                            <a class="aro-grid-card__action" href="#">{{ ux_icon('lucide:eye') }} View</a>
+                            <a class="aro-grid-card__action" href="#">{{ ux_icon('lucide:pencil') }} Edit</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Simple</h5>
+            <div class="aro-grid-list" style="--aro-grid-min:240px">
+                {% for m in [
+                    {i: 'CL', n: 'Camille Lefebvre', r: 'Administrator', c: '--aro-accent-pink'},
+                    {i: 'NR', n: 'Nicolas Roy', r: 'Editor', c: '--aro-accent-indigo'},
+                    {i: 'SM', n: 'Sarah Marchand', r: 'Reader', c: '--aro-color-primary'},
+                ] %}
+                    <div class="aro-grid-simple">
+                        <span class="aro-grid-simple__initials" style="background:var({{ m.c }})">{{ m.i }}</span>
+                        <div class="aro-grid-simple__body">
+                            <div><div class="aro-grid-simple__name">{{ m.n }}</div><div class="aro-grid-simple__meta">{{ m.r }}</div></div>
+                            <span style="color:var(--aro-color-text-muted);display:inline-flex">{{ ux_icon('lucide:ellipsis') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="cat-snippet">&lt;div class="aro-grid-list" style="--aro-grid-min:220px"&gt;
+  &lt;div class="aro-grid-card"&gt;
+    &lt;div class="aro-grid-card__body"&gt;…avatar, title, subtitle, badge…&lt;/div&gt;
+    &lt;div class="aro-grid-card__foot"&gt;
+      &lt;a class="aro-grid-card__action"&gt;View&lt;/a&gt;
+      &lt;a class="aro-grid-card__action"&gt;Edit&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# --------------------------------------------------------------------- List #}
+        <section class="cat-section" id="list">
+            <h2>List</h2>
+            <p style="color:var(--aro-color-text-muted)">A stacked list of records — lighter than the DataTable when there are no columns to sort. Avatar + primary/secondary text, with meta / status / chevron / actions on the right, rows on the dashed hairline. Add <code>aro-list--dark</code> for the slate panel.</p>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Members — meta &amp; status</h5>
+                    <div class="card">
+                        <ul class="aro-list">
+                            {% for m in [
+                                {n: 'Camille Lefebvre', e: 'camille@aropixel.com', s: 'online', r: 'Administrator', t: 'Just now'},
+                                {n: 'Nicolas Roy', e: 'nicolas@aropixel.com', s: 'scheduled', r: 'Editor', t: '1 h ago'},
+                                {n: 'Julien Petit', e: 'julien@aropixel.com', s: 'offline', r: 'Reader', t: '6 d ago'},
+                            ] %}
+                                <li>
+                                    <div class="aro-list__row">
+                                        <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:user') }}</span><span class="aro-avatar__status aro-avatar__status--{{ m.s }}"></span></span>
+                                        <span class="aro-list__body"><span class="aro-list__name">{{ m.n }}</span><span class="aro-list__secondary">{{ m.e }}</span></span>
+                                        <span class="aro-list__meta"><span class="aro-list__meta-main">{{ m.r }}</span><span class="aro-list__meta-sub">{{ m.t }}</span></span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <h5 class="mb-3" style="font-weight:var(--aro-weight-semibold)">Dark tone — navigable</h5>
+                    <ul class="aro-list aro-list--dark">
+                        {% for m in [
+                            {n: 'Summer Festival 2026', c: 'Events'},
+                            {n: 'New collection', c: 'Press'},
+                            {n: 'Annual report', c: 'News'},
+                        ] %}
+                            <li>
+                                <a class="aro-list__row" href="#">
+                                    <span class="aro-avatar aro-avatar--sm"><span class="aro-avatar__placeholder">{{ ux_icon('lucide:image') }}</span></span>
+                                    <span class="aro-list__body"><span class="aro-list__name">{{ m.n }}</span><span class="aro-list__secondary">{{ m.c }}</span></span>
+                                    <span class="aro-list__chevron">›</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;ul class="aro-list"&gt;
+  &lt;li&gt;&lt;div class="aro-list__row"&gt;
+    &lt;span class="aro-avatar aro-avatar--sm"&gt;…&lt;/span&gt;
+    &lt;span class="aro-list__body"&gt;
+      &lt;span class="aro-list__name"&gt;Camille Lefebvre&lt;/span&gt;
+      &lt;span class="aro-list__secondary"&gt;camille@aropixel.com&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="aro-list__meta"&gt;…role / last seen…&lt;/span&gt;
+  &lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</div>
+        </section>
+
+        {# -------------------------------------------------------------- Accordion #}
+        <section class="cat-section" id="accordion">
+            <h2>Accordion</h2>
+            <p style="color:var(--aro-color-text-muted)">Bootstrap <code>.accordion</code>, themed. Stacked collapsible panels for FAQs, grouped settings and dense forms. <code>data-bs-parent</code> keeps one open at a time.</p>
+            <div class="accordion" id="catAccordion" style="max-width:640px">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc1" aria-expanded="true" aria-controls="catAcc1">How do I publish an article?</button>
+                    </h2>
+                    <div id="catAcc1" class="accordion-collapse collapse show" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">From the article form, fill in the content then click “Save and publish”. The article becomes visible immediately.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc2" aria-expanded="false" aria-controls="catAcc2">Can I schedule a publication?</button>
+                    </h2>
+                    <div id="catAcc2" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">Yes — pick a future publish date in the side panel. The article stays “Scheduled” until then.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catAcc3" aria-expanded="false" aria-controls="catAcc3">How are user permissions managed?</button>
+                    </h2>
+                    <div id="catAcc3" class="accordion-collapse collapse" data-bs-parent="#catAccordion">
+                        <div class="accordion-body">Roles (Admin, Editor, Reader) are set in the Users section. Each role opens a different set of permissions.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="accordion" id="faq"&gt;
+  &lt;div class="accordion-item"&gt;
+    &lt;h2 class="accordion-header"&gt;
+      &lt;button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#q1"&gt;Question&lt;/button&gt;
+    &lt;/h2&gt;
+    &lt;div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq"&gt;
+      &lt;div class="accordion-body"&gt;Answer&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# ----------------------------------------------------------------- Dialog #}
+        <section class="cat-section" id="dialog">
+            <h2>Dialog</h2>
+            <p style="color:var(--aro-color-text-muted)">A confirmation pattern on Bootstrap's <code>.modal</code>: an intent icon chip, a title, a message and confirm/cancel actions. Shown here as static content — in use it sits inside a <code>.modal</code>. Intents: <code>--danger --warning --success --info</code> (default primary); <code>--centered</code> stacks it.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <div class="modal-content aro-dialog aro-dialog--danger" style="max-width:420px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon">{{ ux_icon('lucide:triangle-alert') }}</span>
+                            <div>
+                                <h2 class="aro-dialog__title">Delete this article?</h2>
+                                <p class="aro-dialog__text">This action is irreversible. The article and its media will be permanently deleted.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+                <div class="modal-content aro-dialog aro-dialog--success aro-dialog--centered" style="max-width:380px">
+                    <div class="modal-body">
+                        <div class="aro-dialog__head">
+                            <span class="aro-dialog__icon">{{ ux_icon('lucide:circle-check') }}</span>
+                            <div>
+                                <h2 class="aro-dialog__title">Payment received</h2>
+                                <p class="aro-dialog__text">Your payment was recorded. A receipt has been emailed to the address on your account.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;div class="modal-content aro-dialog aro-dialog--danger"&gt;
+  &lt;div class="modal-body"&gt;
+    &lt;div class="aro-dialog__head"&gt;
+      &lt;span class="aro-dialog__icon"&gt;{{ '{{' }} ux_icon('lucide:triangle-alert') {{ '}}' }}&lt;/span&gt;
+      &lt;div&gt;&lt;h2 class="aro-dialog__title"&gt;Delete this?&lt;/h2&gt;
+        &lt;p class="aro-dialog__text"&gt;This is irreversible.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="modal-footer"&gt;
+    &lt;button class="btn btn-default"&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn-danger"&gt;Delete&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------------- Modal sizes #}
+        <section class="cat-section" id="modal-sizes">
+            <h2>Modal sizes</h2>
+            <p style="color:var(--aro-color-text-muted)">The size scale, set on <code>.modal-dialog</code>. The same classes drive the Dialog component (<code>new ConfirmDialog({ size: 'lg' })</code>). Widths cap on desktop; modals go full-width on small screens.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);overflow-x:auto">
+                {% for m in [
+                    {c: 'modal-sm', l: 'Small', w: '400px'},
+                    {c: '', l: 'Medium — default', w: '520px'},
+                    {c: 'modal-lg', l: 'Large', w: '720px'},
+                    {c: 'modal-xl', l: 'XL', w: '960px'},
+                    {c: 'modal-full', l: 'Full', w: '100%'},
+                ] %}
+                    <div class="modal-content" style="width:{{ m.w }};max-width:100%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:var(--aro-space-4);padding:var(--aro-space-3) var(--aro-space-5)">
+                        <span style="font-weight:var(--aro-weight-semibold);color:var(--aro-color-text-strong)">{{ m.l }}</span>
+                        <code style="font-size:var(--aro-text-xs);color:var(--aro-color-text-muted)">{{ m.c ? '.modal-dialog.' ~ m.c : '.modal-dialog' }} · {{ m.w }}</code>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cat-snippet">&lt;div class="modal-dialog modal-lg"&gt; … &lt;/div&gt;   &lt;!-- sm · md(default) · lg · xl · modal-full --&gt;
+new ConfirmDialog({ size: 'lg', title: '…', message: '…' });</div>
+        </section>
+
+        {# ------------------------------------------------------------------ Toast #}
+        <section class="cat-section" id="toast">
+            <h2>Toast</h2>
+            <p style="color:var(--aro-color-text-muted)">Floating flash notifications — white card, coloured left accent + icon, title/message, close. Shown with <code>window.aroToast({type, title, message})</code>; they stack top-right and auto-hide. Built on Bootstrap's native <code>.toast</code> (no plugin).</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);max-width:360px">
+                {% for t in [
+                    {v: 'success', i: 'circle-check', ti: 'Article saved', m: 'Your changes were published.'},
+                    {v: 'danger', i: 'circle-alert', ti: 'Deletion failed', m: 'This item could not be removed.'},
+                    {v: 'warning', i: 'triangle-alert', ti: 'Unsaved changes', m: 'Leaving now will discard your edits.'},
+                    {v: 'info', i: 'info', ti: 'Heads up', m: 'The export is being prepared.'},
+                ] %}
+                    <div class="aro-toast aro-toast--{{ t.v }}">
+                        <span class="aro-toast__icon">{{ ux_icon('lucide:' ~ t.i) }}</span>
+                        <div class="aro-toast__body">
+                            <div class="aro-toast__title">{{ t.ti }}</div>
+                            <div class="aro-toast__message">{{ t.m }}</div>
+                        </div>
+                        <button type="button" class="aro-toast__close" aria-label="Close">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cat-snippet">window.aroToast({
+  type: 'success',   // success · danger · warning · info · primary
+  title: 'Article saved',
+  message: 'Your changes were published.',
+});</div>
+        </section>
+
+        {# --------------------------------------------------------- Form controls #}
+        <section class="cat-section" id="forms">
+            <h2>Form controls</h2>
+            <div class="row">
+                <div class="col-md-4"><label class="col-form-label">Text field</label><input type="text" class="form-control" placeholder="Placeholder"></div>
+                <div class="col-md-4"><label class="col-form-label">Disabled</label><input type="text" class="form-control" value="Disabled" disabled></div>
+                <div class="col-md-4"><label class="col-form-label">Select</label><select class="form-select"><option>Option</option></select></div>
+            </div>
+            <div class="cat-row mt-4">
+                <div class="form-check form-switch"><input class="form-check-input checked" type="checkbox" role="switch" checked><label class="form-check-label ms-2">Published</label></div>
+                <div class="form-check form-switch"><input class="form-check-input scheduled" type="checkbox" role="switch" checked><label class="form-check-label ms-2">Scheduled</label></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"><label class="form-check-label ms-2">Offline</label></div>
+            </div>
+        </section>
+
+        {# ------------------------------------------------------------- Radio cards #}
+        <section class="cat-section" id="radio-cards">
+            <h2>Radio cards</h2>
+            <p style="color:var(--aro-color-text-muted)">Mutually-exclusive options as selectable cards — the edge and wash follow the checked radio via <code>:has()</code>, so the whole card is the target and no JS is needed. Plain stacked/inline choices stay on Bootstrap <code>.form-check</code>.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--aro-space-3);max-width:460px">
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="starter">
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Starter</span>
+                        <span class="aro-radio-card__desc">For small sites getting going.</span>
+                    </span>
+                    <span class="aro-radio-card__price">Free</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="pro" checked>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Pro</span>
+                        <span class="aro-radio-card__desc">Everything in Starter, plus priority support.</span>
+                    </span>
+                    <span class="aro-radio-card__price">€29/mo</span>
+                </label>
+                <label class="aro-radio-card">
+                    <input class="form-check-input" type="radio" name="catPlan" value="enterprise" disabled>
+                    <span class="aro-radio-card__body">
+                        <span class="aro-radio-card__title">Enterprise</span>
+                        <span class="aro-radio-card__desc">Contact us — currently unavailable.</span>
+                    </span>
+                    <span class="aro-radio-card__price">—</span>
+                </label>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-radio-card"&gt;
+  &lt;input class="form-check-input" type="radio" name="plan" checked&gt;
+  &lt;span class="aro-radio-card__body"&gt;
+    &lt;span class="aro-radio-card__title"&gt;Pro&lt;/span&gt;
+    &lt;span class="aro-radio-card__desc"&gt;Priority support.&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="aro-radio-card__price"&gt;€29/mo&lt;/span&gt;
+&lt;/label&gt;</div>
+        </section>
+
+        {# -------------------------------------------------------------- File upload #}
+        <section class="cat-section" id="file-upload">
+            <h2>File upload</h2>
+            <p style="color:var(--aro-color-text-muted)">A dropzone with native click-to-browse (a <code>&lt;label&gt;</code> over a hidden input); add <code>.is-dragover</code> from a few drag handlers for the teal highlight. The preview row shows a chosen file.</p>
+            <div class="cat-row" style="align-items:flex-start;gap:var(--aro-space-6)">
+                <label class="aro-fileupload" style="flex:1;max-width:340px">
+                    <input type="file" class="aro-fileupload__input" accept="image/*">
+                    <span class="aro-fileupload__icon">{{ ux_icon('lucide:image') }}</span>
+                    <span class="aro-fileupload__label">Drag a file or <span class="aro-fileupload__browse">browse</span></span>
+                    <span class="aro-fileupload__hint">PNG, JPG — max 2 MB</span>
+                </label>
+                <div class="aro-fileupload-preview" style="flex:1;max-width:320px">
+                    <span class="aro-fileupload-preview__thumb">{{ ux_icon('lucide:image') }}</span>
+                    <span class="aro-fileupload-preview__meta">
+                        <span class="aro-fileupload-preview__name">poster-2026.jpg</span>
+                        <span class="aro-fileupload-preview__size">1.2 MB</span>
+                    </span>
+                    <button type="button" class="aro-fileupload-preview__remove" aria-label="Remove">{{ ux_icon('lucide:trash-2') }}</button>
+                </div>
+            </div>
+            <div class="cat-snippet">&lt;label class="aro-fileupload"&gt;
+  &lt;input type="file" class="aro-fileupload__input" accept="image/*"&gt;
+  &lt;span class="aro-fileupload__icon"&gt;{{ '{{' }} ux_icon('lucide:image') {{ '}}' }}&lt;/span&gt;
+  &lt;span class="aro-fileupload__label"&gt;Drag a file or &lt;span class="aro-fileupload__browse"&gt;browse&lt;/span&gt;&lt;/span&gt;
+  &lt;span class="aro-fileupload__hint"&gt;PNG, JPG — max 2 MB&lt;/span&gt;
+&lt;/label&gt;</div>
+        </section>
+
+        {# ------------------------------------------------------------------ Icons #}
+        <section class="cat-section" id="icons">
+            <h2>Icons — Lucide via ux-icons</h2>
+            <p style="color:var(--aro-color-text-muted)">Rendered inline as SVG in <code>currentColor</code>, so they take the surrounding text colour.</p>
+            <div class="cat-row" style="font-size:24px;color:var(--aro-color-secondary)">
+                {% for i in ['plus', 'square-pen', 'trash-2', 'list', 'calendar', 'download', 'search', 'user', 'image', 'eye', 'eye-off', 'x', 'check', 'menu', 'bell'] %}
+                    <span title="lucide:{{ i }}">{{ ux_icon('lucide:' ~ i) }}</span>
+                {% endfor %}
+            </div>
+            <div class="cat-snippet">{{ '{{' }} ux_icon('lucide:plus') {{ '}}' }}</div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

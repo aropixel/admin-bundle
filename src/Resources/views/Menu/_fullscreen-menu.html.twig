@@ -7,7 +7,7 @@
                 <img src="{{ asset(logoMenuPath) }}" alt="{{ admin_client.name }}" width="{{ logoMenuWidth }}">
             </a>
             <div id="close-fullscreen-menu">
-                <i class="far fa-times-circle"></i>
+                {{ ux_icon('lucide:circle-x') }}
             </div>
         </div>
 
@@ -16,7 +16,7 @@
             <div class="row">
 
                 {{ render_menu() }}
-                {% include '@AropixelAdmin/Menu/_quick-menu.html.twig' %}
+                {{ include('@AropixelAdmin/Menu/_quick-menu.html.twig') }}
 
             </div>
 

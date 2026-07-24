@@ -56,8 +56,8 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public function buildUserMenu(): Menu
     {
         $menu = new Menu(self::MENU_USER_ID, self::MENU_USER_LABEL);
-        $menu->addItem(new Link('menu.user.list', 'aropixel_admin_user_index', [], ['icon' => 'fas fa-user-cog']));
-        $menu->addItem(new Link('menu.user.new', 'aropixel_admin_user_new', [], ['icon' => 'fas fa-user-cog']));
+        $menu->addItem(new Link('menu.user.list', 'aropixel_admin_user_index', []));
+        $menu->addItem(new Link('menu.user.new', 'aropixel_admin_user_new', []));
 
         return $menu;
     }
@@ -65,8 +65,8 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public function buildBlogMenu(): Menu
     {
         $menu = new Menu(self::MENU_BLOG_ID, self::MENU_BLOG_LABEL);
-        $menu->addItem(new Link('menu.blog.list', 'aropixel_blog_post_index', [], ['icon' => 'fas fa-newspaper']));
-        $menu->addItem(new Link('menu.blog.new', 'aropixel_blog_post_new', [], ['icon' => 'fas fa-newspaper']));
+        $menu->addItem(new Link('menu.blog.list', 'aropixel_blog_post_index', []));
+        $menu->addItem(new Link('menu.blog.new', 'aropixel_blog_post_new', []));
 
         return $menu;
     }
@@ -74,9 +74,9 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public function buildPageMenu(): Menu
     {
         $menu = new Menu(self::MENU_PAGE_ID, self::MENU_PAGE_LABEL);
-        $menu->addItem(new Link('menu.page.list', 'aropixel_page_index', ['type' => 'default'], ['icon' => 'fas fa-pen']));
-        $menu->addItem(new Link('pages.create.default.title', 'aropixel_default_page_new', [], ['icon' => 'fas fa-pen']));
-        $menu->addItem(new Link('pages.create.builder.title', 'aropixel_builder_page', [], ['icon' => 'fas fa-pen']));
+        $menu->addItem(new Link('menu.page.list', 'aropixel_page_index', ['type' => 'default']));
+        $menu->addItem(new Link('pages.create.default.title', 'aropixel_default_page_new', []));
+        $menu->addItem(new Link('pages.create.builder.title', 'aropixel_builder_page', []));
 
         return $menu;
     }
@@ -87,7 +87,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
 
         foreach ($this->menusConfig as $menuType => $config) {
             $label = $config['name'] ?? 'menu.menu.' . $menuType;
-            $menu->addItem(new Link($label, 'aropixel_menu_index', ['type' => $menuType], ['icon' => 'fas fa-bars']));
+            $menu->addItem(new Link($label, 'aropixel_menu_index', ['type' => $menuType]));
         }
 
         return $menu;
@@ -96,7 +96,7 @@ class AdminMenuBuilder implements AdminMenuBuilderInterface
     public function buildContactMenu(): Menu
     {
         $menu = new Menu(self::MENU_CONTACT_ID, self::MENU_CONTACT_LABEL);
-        $menu->addItem(new Link('menu.contact.label', 'aropixel_contact_index', [], ['icon' => 'far fa-envelope']));
+        $menu->addItem(new Link('menu.contact.label', 'aropixel_contact_index', []));
 
         return $menu;
     }

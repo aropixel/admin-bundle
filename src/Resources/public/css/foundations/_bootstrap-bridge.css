@@ -1,0 +1,120 @@
+/**
+ * Bootstrap bridge — maps the design tokens onto Bootstrap's own custom properties.
+ *
+ * This is what makes the refactor affordable. Bootstrap 5.3 drives its components from
+ * `--bs-*` variables, so re-pointing those at our tokens re-themes every Bootstrap
+ * component we never rewrite — without a single override rule. We then only redesign what
+ * genuinely earns it.
+ *
+ * Scope is deliberately colour, borders and radii. Typography is **not** bridged here:
+ * setting `--bs-body-font-size` would apply the provisional 14px density everywhere at
+ * once, and that call is meant to be made by eye on a dense screen (§4). Keeping it out
+ * also keeps this increment's visual diff attributable to one cause.
+ *
+ * `--bs-*-rgb` must be set alongside every colour. Bootstrap uses the RGB triplets inside
+ * `rgba()` for subtle backgrounds, focus rings and `.text-bg-*`; setting only the hex
+ * leaves those derivatives on Bootstrap's default blue, which produces components that
+ * are half-teal and half-blue — worse than not bridging at all.
+ */
+
+:root {
+    /* ------------------------------------------------------------ Theme colours */
+
+    --bs-primary: var(--aro-color-primary);
+    --bs-primary-rgb: 6, 186, 180;
+
+    --bs-secondary: var(--aro-color-secondary);
+    --bs-secondary-rgb: 46, 79, 94;
+
+    --bs-success: var(--aro-color-success);
+    --bs-success-rgb: 99, 206, 179;
+
+    --bs-danger: var(--aro-color-danger);
+    --bs-danger-rgb: 229, 35, 33;
+
+    --bs-warning: var(--aro-color-warning);
+    --bs-warning-rgb: 242, 92, 5;
+
+    --bs-info: var(--aro-color-info);
+    --bs-info-rgb: 227, 155, 2;
+
+    /* ------------------------------------------------------------------- Body */
+
+    --bs-body-bg: var(--aro-color-bg);
+    --bs-body-bg-rgb: 245, 248, 250;
+
+    --bs-body-color: var(--aro-color-text);
+    --bs-body-color-rgb: 51, 51, 51;
+
+    /* -------------------------------------------------------------- Emphasis */
+
+    --bs-emphasis-color: var(--aro-color-text-strong);
+    --bs-secondary-color: var(--aro-color-text-muted);
+
+    /* ------------------------------------------------------------------ Links */
+
+    --bs-link-color: var(--aro-color-secondary);
+    --bs-link-color-rgb: 46, 79, 94;
+    --bs-link-hover-color: var(--aro-color-primary);
+    --bs-link-hover-color-rgb: 6, 186, 180;
+
+    /* --------------------------------------------------------------- Borders */
+
+    --bs-border-color: var(--aro-color-border);
+    --bs-border-color-translucent: var(--aro-color-border-card);
+
+    --bs-border-radius: var(--aro-radius-input);
+    --bs-border-radius-sm: var(--aro-radius-sm);
+    --bs-border-radius-lg: var(--aro-radius-card);
+    --bs-border-radius-pill: var(--aro-radius-pill);
+
+    /* ---------------------------------------------------------- Focus ring */
+
+    --bs-focus-ring-color: rgba(6, 186, 180, 0.25);
+}
+
+/**
+ * Surfaces.
+ *
+ * Bootstrap 5.3 derives every raised surface from the page background —
+ * `--bs-card-bg: var(--bs-body-bg)`, and the same for accordion, dropdown, list-group,
+ * offcanvas, popover and modal. Our body background is the grey app canvas, so without
+ * this block every card, menu and dialog turns grey.
+ *
+ * It cannot be done from `:root`. These are component-scoped declarations: a value set on
+ * the element itself always beats one inherited from the root, whatever the specificity.
+ * So the mapping has to be repeated per component — which is exactly the "use Bootstrap's
+ * own component variables rather than override rules" technique of §7-2.
+ *
+ * Stisla hid the problem by repainting `.card` white. Deleting it is what surfaced it.
+ */
+.card,
+.accordion,
+.dropdown-menu,
+.list-group,
+.offcanvas,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-xl,
+.popover,
+.modal-content {
+    --bs-card-bg: var(--aro-color-surface);
+    --bs-accordion-bg: var(--aro-color-surface);
+    --bs-dropdown-bg: var(--aro-color-surface);
+    --bs-list-group-bg: var(--aro-color-surface);
+    --bs-offcanvas-bg: var(--aro-color-surface);
+    --bs-popover-bg: var(--aro-color-surface);
+    --bs-modal-bg: var(--aro-color-surface);
+}
+
+/*
+ * Pagination active page. Bootstrap hardcodes `--bs-pagination-active-bg: #0d6efd` on
+ * `.pagination` (a literal, so the bridged `--bs-primary` never reaches it), which left the
+ * DataTables pager's current page painted Bootstrap blue. Same component-scoped repoint as
+ * above, to the teal token.
+ */
+.pagination {
+    --bs-pagination-active-bg: var(--aro-color-primary);
+    --bs-pagination-active-border-color: var(--aro-color-primary);
+    --bs-pagination-active-color: var(--aro-color-primary-contrast);
+}

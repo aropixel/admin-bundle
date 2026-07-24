@@ -1,0 +1,297 @@
+/**
+ * Select2 — skin extracted from the Stisla `components.css`.
+ *
+ * Loaded by base.html.twig. Not visible in the visual baseline because Select2 only
+ * renders its dropdown on interaction, so this section was extracted on the strength of
+ * the plugin being loaded rather than of a measured regression.
+ *
+ * **Transcribed, not restyled.** This is a lift-and-shift so the skin survives the
+ * deletion of `components.css` at Étape 5. Restyling it on tokens is a later, separate
+ * job — mixing the two would make the visual diff of the ablation unreadable.
+ *
+ * `!important` is tolerated in this layer (§7-1): these rules fight stylesheets shipped by
+ * the plugins themselves, and in some cases inline styles set by their JavaScript.
+ */
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.select2-container .select2-selection--multiple, .select2-container .select2-selection--single {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  min-height: 42px;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  background-color: var(--aro-color-surface);
+  border-color: var(--aro-accent-mint);
+}
+
+.select2-dropdown {
+  border-color: var(--aro-accent-mint) !important;
+}
+
+.select2-container.select2-container--open .select2-selection--multiple {
+  background-color: var(--aro-color-surface);
+  border-color: var(--aro-accent-indigo);
+}
+.select2-container.select2-container--focus .select2-selection--multiple, .select2-container.select2-container--focus .select2-selection--single {
+  background-color: var(--aro-color-surface);
+  border-color: var(--aro-accent-indigo);
+}
+.select2-container.select2-container--open .select2-selection--single {
+  background-color: var(--aro-color-surface);
+  border-color: var(--aro-accent-indigo);
+}
+
+.select2-results__option {
+  padding: 10px;
+}
+
+.select2-search--dropdown .select2-search__field {
+  padding: 7px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  min-height: 42px;
+  line-height: 42px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__arrow, .select2-container--default .select2-selection--single .select2-selection__arrow {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 40px;
+  min-height: 42px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+  border: 0 none;
+  color: var(--aro-color-surface);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  margin-right: 5px;
+  color: var(--aro-color-surface);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-results__option[aria-selected=true],
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: var(--aro-color-primary);
+  color: var(--aro-color-surface);
+}
+
+.select2-results__option {
+  padding-right: 10px 15px;
+}
+
+
+/* ---- Form-scoped Select2 sizing, merged from _form.css at increment 12b ---- */
+
+/************* SELECT *************/
+
+.form-group-select2 .select2-container {
+    width: 100%!important;
+}
+span.select2-selection__clear {
+    padding: 0 var(--aro-space-1);
+}
+.select2-container .select2-selection--multiple {
+    min-height: 38px;
+}
+.select2-container .select2-selection--single {
+    height: 38px;
+    min-height: 38px;
+}
+.select2-container .select2-search--inline .select2-search__field {
+    height: 22px;
+    background: transparent;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: block;
+    margin: 2px;
+    padding-left: 3px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container .select2-search--inline .select2-search__field {
+    margin: var(--aro-space-1);
+    padding: 0 0 0 3px;
+    height: 26px!important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    padding: 1px var(--aro-space-3) 0px var(--aro-space-2);
+    border-radius: 2px;
+    margin: var(--aro-space-1) 0 var(--aro-space-1) 7px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice:first-child {
+    margin-left: 0;
+}
+.select2-results__option {
+    padding: var(--aro-space-2) var(--aro-space-3);
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    margin-right: var(--aro-space-2);
+    color: var(--aro-color-surface);
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    min-height: 38px;
+    line-height: 38px;
+    padding-left: var(--aro-space-3);
+    padding-right: 31px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    width: 30px;
+    min-height: 38px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: var(--aro-color-text-label) transparent transparent transparent;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent var(--aro-color-text-label) transparent;
+}
+
+.select2-container--open {
+    z-index: 10100
+}
+
+select.form-control:not([size]):not([multiple]) {
+    padding: 7px var(--aro-space-3);
+    height: 36px;
+    width: 50px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__arrow,
+.select2-container--default .select2-selection--single .select2-selection__arrow,
+.select2-container .select2-selection--multiple,
+.select2-container .select2-selection--single {
+    min-height: 45px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    min-height: 45px;
+    line-height: 45px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice, .select2-container .select2-search--inline .select2-search__field {
+    height: 30px;
+    line-height: 30px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+    margin-top: var(--aro-space-3);
+}
+
+input[type="text"]:focus, input:disabled {
+    background-color: var(--aro-field-bg-disabled);
+}
+
+textarea.form-control {
+    min-height: calc(1.5em + 3rem + calc(var(--bs-border-width) * 2));
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: var(--aro-field-bg-disabled);
+}
+
+.dropdown.bootstrap-select.form-control {
+    padding: 0;
+}
+
+.dropdown.bootstrap-select.form-control .btn {
+    line-height: 30px;
+    border-radius: 3px;
+    border: 1px solid var(--aro-accent-mint)!important;
+    font-size: 13px;
+    font-weight: 400;
+    box-shadow: none!important;
+    height: 38px;
+    padding: .2rem .8rem;
+}
+.dropdown.bootstrap-select.form-control .btn.btn,
+.dropdown.bootstrap-select.form-control .btn.btn-light,
+.dropdown.bootstrap-select.form-control .btn:hover,
+.dropdown.bootstrap-select.form-control .btn.btn-light:hover {
+    background-color: var(--aro-color-surface)!important;
+}
+.dropdown.bootstrap-select.form-control .btn.disabled,
+.dropdown.bootstrap-select.form-control .btn.disabled:hover {
+    background-color: var(--aro-color-border);
+}
+.dropdown.bootstrap-select.form-control.show .btn {
+    border-color: var(--aro-accent-indigo)!important;
+}
+.bootstrap-select {
+    width: 100%;
+}
+.bootstrap-select.form-control {
+    margin-bottom: 0;
+    padding: 0;
+    /*border: 1px solid var(--aro-accent-mint);*/
+}
+
+.multiselect-container {
+    min-width: 180px;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid rgba(0,0,0,.15);
+}
+.multiselect-container>li.active {
+    background: var(--aro-color-primary);
+}
+.multiselect-container>li.active>a {
+    color: var(--aro-color-surface);
+}
+.multiselect-container>li>a .radio input[type="radio"],
+.multiselect-container>li>a .radio-inline input[type="radio"],
+.multiselect-container>li>a .checkbox input[type="checkbox"],
+.multiselect-container>li>a .checkbox-inline input[type="checkbox"] {
+    left: var(--aro-space-4);
+    margin: 7px 0 0;
+}
+
+.multiselect-container > li.multiselect-group > a,
+.multiselect-container > li.multiselect-group.active > a,
+.multiselect-container > li.multiselect-group label,
+.multiselect-container > li.multiselect-group.active label,
+.multiselect-container > li.multiselect-group b,
+.multiselect-container > li.multiselect-group.active b {
+    display: block;
+    padding: 0!important;
+}
+.multiselect-container > li.multiselect-group > a,
+.multiselect-container > li.multiselect-group.active > a {
+    text-transform: uppercase;
+    font-size: var(--aro-space-2);
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: var(--aro-color-text-strong);
+    padding: var(--aro-space-2) var(--aro-space-5)!important;
+    line-height: var(--aro-space-5);
+    background-color: transparent;
+    cursor: default;
+}
+.multiselect-container > li.multiselect-group > a i {
+    margin-top: 3px;
+}
+
+/* Multi-select chips — grey, overriding this skin's teal. Relocated from the style.css tail
+   (lot B); lives here, at the end of the vendor skin it overrides. */
+.select2-container--default .select2-selection--multiple .select2-selection__choice,
+.select2-container--default .select2-results__option[aria-selected=true],
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--aro-color-surface-muted);
+    color: var(--aro-color-text-strong);
+}
+
+/****************************************/

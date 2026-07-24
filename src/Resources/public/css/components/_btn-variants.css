@@ -1,0 +1,115 @@
+/**
+ * Button variants — the action hierarchy.
+ *
+ * Split out of `_btn.css` because it is a different kind of thing: the rest of that file
+ * is mechanics, this is the design decision.
+ *
+ *   .btn-cta        coral   ONE per screen. Save, confirm-and-publish. The thing the user
+ *                           came to do. Two corals on a page and neither means anything.
+ *   .btn-primary    teal    Ordinary actions. Create, add, apply.
+ *   .btn-secondary  slate   Structural and neutral-dark actions.
+ *   .btn-default    white   Cancel, back, anything that must not attract the eye.
+ *   .btn-outline    white   Same weight as default, with a visible edge.
+ *   .btn-danger     red     Destructive actions only.
+ *
+ * A stylesheet cannot enforce this: nothing stops a template from putting three corals on
+ * a screen. It is enforced in review — which is why the rule is written where the code
+ * is, not only in the specification.
+ */
+
+/* ------------------------------------------------------------------ Hierarchy */
+
+/*
+ * The one high-emphasis action. Replaces the old magenta `.btn-secondary`, which carried
+ * this role under a name that said the opposite — Bootstrap's `.btn-secondary` means a
+ * *muted* action. The four templates using it were migrated.
+ */
+.btn-cta {
+    --bs-btn-color: var(--aro-color-cta-contrast);
+    --bs-btn-bg: var(--aro-color-cta);
+    --bs-btn-border-color: var(--aro-color-cta);
+    --bs-btn-hover-color: var(--aro-color-cta-contrast);
+    --bs-btn-hover-bg: var(--aro-color-cta-hover);
+    --bs-btn-hover-border-color: var(--aro-color-cta-hover);
+    --bs-btn-active-bg: var(--aro-color-cta-hover);
+    --bs-btn-active-border-color: var(--aro-color-cta-hover);
+    --bs-btn-disabled-bg: var(--aro-color-cta);
+    --bs-btn-disabled-border-color: var(--aro-color-cta);
+}
+
+/*
+ * A limit of the bridge, worth knowing before writing any other component:
+ * **Bootstrap's button variants hardcode their colours.** `.btn-primary` ships
+ * `--bs-btn-bg: #0d6efd` as a literal — it does not read `--bs-primary`. So bridging the
+ * palette themes borders, links and `.text-*`, but leaves every button blue.
+ *
+ * Each variant we use therefore declares its full set. Setting only the hover states, as
+ * a first pass here did, produces a blue button with a teal hover.
+ */
+.btn-primary {
+    --bs-btn-color: var(--aro-color-primary-contrast);
+    --bs-btn-bg: var(--aro-color-primary);
+    --bs-btn-border-color: var(--aro-color-primary);
+    --bs-btn-hover-color: var(--aro-color-primary-contrast);
+    --bs-btn-hover-bg: var(--aro-color-primary-hover);
+    --bs-btn-hover-border-color: var(--aro-color-primary-hover);
+    --bs-btn-active-color: var(--aro-color-primary-contrast);
+    --bs-btn-active-bg: var(--aro-color-primary-hover);
+    --bs-btn-active-border-color: var(--aro-color-primary-hover);
+    --bs-btn-disabled-color: var(--aro-color-primary-contrast);
+    --bs-btn-disabled-bg: var(--aro-color-primary);
+    --bs-btn-disabled-border-color: var(--aro-color-primary);
+}
+
+.btn-secondary {
+    --bs-btn-color: var(--aro-color-secondary-contrast);
+    --bs-btn-bg: var(--aro-color-secondary);
+    --bs-btn-border-color: var(--aro-color-secondary);
+    --bs-btn-hover-color: var(--aro-color-secondary-contrast);
+    --bs-btn-hover-bg: var(--aro-color-secondary-hover);
+    --bs-btn-hover-border-color: var(--aro-color-secondary-hover);
+    --bs-btn-active-color: var(--aro-color-secondary-contrast);
+    --bs-btn-active-bg: var(--aro-color-secondary-hover);
+    --bs-btn-active-border-color: var(--aro-color-secondary-hover);
+}
+
+.btn-danger {
+    --bs-btn-color: var(--aro-color-text-inverted);
+    --bs-btn-bg: var(--aro-color-danger);
+    --bs-btn-border-color: var(--aro-color-danger);
+    --bs-btn-hover-color: var(--aro-color-text-inverted);
+    --bs-btn-hover-bg: var(--aro-color-danger);
+    --bs-btn-hover-border-color: var(--aro-color-danger);
+    --bs-btn-active-bg: var(--aro-color-danger);
+    --bs-btn-active-border-color: var(--aro-color-danger);
+}
+
+.btn-danger:hover,
+.btn-danger:focus-visible {
+    filter: brightness(0.9);
+}
+
+/* Recessive action — cancel, back. Reads as a surface, not as a button. */
+.btn-default {
+    --bs-btn-color: var(--aro-color-text-label);
+    --bs-btn-bg: var(--aro-color-surface);
+    --bs-btn-border-color: var(--aro-color-surface);
+    --bs-btn-hover-color: var(--aro-color-text-label);
+    --bs-btn-hover-bg: var(--aro-color-bg);
+    --bs-btn-hover-border-color: var(--aro-color-border);
+    --bs-btn-box-shadow: var(--aro-shadow-soft);
+
+    box-shadow: var(--aro-shadow-soft);
+}
+
+.btn-outline {
+    --bs-btn-color: var(--aro-color-text-label);
+    --bs-btn-bg: var(--aro-color-surface);
+    --bs-btn-border-color: var(--aro-color-text-label);
+    --bs-btn-hover-color: var(--aro-color-primary);
+    --bs-btn-hover-bg: var(--aro-color-surface);
+    --bs-btn-hover-border-color: var(--aro-color-primary);
+    --bs-btn-border-width: 2px;
+
+    box-shadow: var(--aro-shadow-soft);
+}

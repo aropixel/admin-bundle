@@ -1,0 +1,42 @@
+{#
+ # Rich-text editor (EditorType, QuillJS) — see doc/forms.md.
+ #
+ # The block was named `aropixel_editor_widget` until v3: the only bundle block that did not
+ # carry the `aropixel_admin_` prefix. Normalised while v3 is still unreleased, because
+ # renaming a form-theme block is a SILENT break once integrators override it (§10).
+ #
+ # The editor is self-sufficient for media insertion: it enables BOTH library modals so its
+ # `image` and `file` toolbar buttons work even when no ImageType/FileType widget sits on the
+ # same form (both enable_* helpers are idempotent — the modal is included once by `form_end`).
+ #
+ # `data-class` is the media category the library filters on. It is normally the owning entity
+ # (`form.parent.vars.value`), but inside a TranslatableType the immediate parent value is the
+ # translations Collection, not the entity — so we walk up one level when it is iterable.
+ #
+ # Public: aropixel_admin_editor_widget
+ #}
+
+{% block aropixel_admin_editor_widget %}
+    {{ enable_image_library_modal() }}
+    {{ enable_file_library_modal() }}
+    <div class="quill-editor-container">
+        {% set providedDataClass = attr['data-class'] is defined and attr['data-class'] ? attr['data-class'] : null %}
+        {% set ownerValue = form.parent.vars.value %}
+        {% if (ownerValue is null or ownerValue is iterable) and form.parent.parent is not null %}
+            {% set ownerValue = form.parent.parent.vars.value %}
+        {% endif %}
+        {% set derivedDataClass = ownerValue is not null and ownerValue is not iterable ? get_class(ownerValue)|trim : null %}
+        {% set dataClass = providedDataClass ?: derivedDataClass %}
+        {% if dataClass %}
+            {% set attr = attr|merge({
+                'data-class': dataClass,
+                'data-attach-path': get_image_editor_route(),
+            }) %}
+        {% else %}
+            {% set attr = attr|merge({'data-attach-path': get_image_editor_route()}) %}
+        {% endif %}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' d-none')|trim}) %}
+        {{- block('textarea_widget') -}}
+        <div class="quill-editor" id="{{ id }}_quill" data-target="#{{ id }}" data-toolbar="{{ toolbar }}"></div>
+    </div>
+{% endblock %}

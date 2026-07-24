@@ -13,3 +13,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+# Cache PHP-CS-Fixer / Twig-CS-Fixer — local, jamais versionné.
+/.php-cs-fixer.cache
+/.twig-cs-fixer.cache

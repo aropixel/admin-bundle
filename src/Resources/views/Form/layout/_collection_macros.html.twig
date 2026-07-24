@@ -1,0 +1,34 @@
+{#
+ # Macros for `_collection.html.twig`.
+ #
+ # They live in their own file because a template containing a macro is NOT traitable:
+ # Twig refuses to `{% use %}` it (Node/ModuleNode::compileIsTraitable). `_collection.html.twig`
+ # imports this one from inside a block instead.
+ #}
+
+{% macro collection_item(form, allow_delete, index) %}
+    {% apply spaceless %}
+        <div class="collection-item" data-form-collection="item" data-form-collection-index="{{ index }}">
+            <div class="collection-container">
+                <div class="collection-commands">
+                    {% if allow_delete %}
+                        <a href="#" data-form-collection="delete" class="btn btn-xs btn-danger mb-3">
+                            {{ ux_icon('lucide:x') }}
+                        </a>
+                    {% endif %}
+                    {% set baseroute = get_baseroute() %}
+                    {% if route_exists(baseroute ~ '_order') %}
+                        <a href="#" data-form-collection="move" class="move">
+                            {{ ux_icon('lucide:move') }}
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="collection-content">
+                    <div>
+                        {{ form_widget(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endapply %}
+{% endmacro %}
