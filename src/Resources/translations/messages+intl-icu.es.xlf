@@ -49,6 +49,26 @@
         <source>text.confirm_delete_detail</source>
         <target>Esta acción no se puede deshacer.</target>
       </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Poner en línea</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Poner fuera de línea</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>¿Eliminar este archivo?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>¿Eliminar este archivo de la biblioteca?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>¿Eliminar esta imagen de la galería?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>En línea</target>

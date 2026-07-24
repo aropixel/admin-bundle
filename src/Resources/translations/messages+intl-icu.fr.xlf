@@ -49,6 +49,26 @@
         <source>text.confirm_delete_detail</source>
         <target>Cette action est irréversible.</target>
       </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Mettre en ligne</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Mettre hors ligne</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>Voulez-vous supprimer le fichier ?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>Voulez-vous supprimer le fichier de la bibliothèque ?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>Voulez-vous supprimer l'image de la galerie ?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>En ligne</target>

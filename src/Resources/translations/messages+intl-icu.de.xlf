@@ -49,6 +49,26 @@
         <source>text.confirm_delete_detail</source>
         <target>Diese Aktion kann nicht rückgängig gemacht werden.</target>
       </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Online setzen</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Offline setzen</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>Diese Datei löschen?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>Diese Datei aus der Bibliothek entfernen?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>Dieses Bild aus der Galerie löschen?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>

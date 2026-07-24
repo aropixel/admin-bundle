@@ -348,12 +348,11 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
 
         this.detach = function(button) {
 
+            let i18n = window.aroDialogI18n || {};
             new ConfirmDialog({
                 intent: 'danger',
-                title: 'Supprimer',
-                message: 'Voulez-vous supprimer le fichier ?',
-                confirmLabel: 'Supprimer',
-                cancelLabel: 'Fermer',
+                title: i18n.deleteFile || 'Delete this file?',
+                message: i18n.deleteDetail || 'This action cannot be undone.',
                 onConfirm: function() {
 
                     let $filesContainer = button.closest('.tableFiles');
@@ -483,12 +482,11 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
             _detach_params['entity_id'] = obj.launcher.config.flEntityId;
             _detach_params['file_id'] = $(this).data('id');
 
+            let i18n = window.aroDialogI18n || {};
             new ConfirmDialog({
                 intent: 'danger',
-                title: 'Supprimer',
-                message: 'Voulez-vous supprimer le fichier de la bibliothèque ?',
-                confirmLabel: 'Supprimer',
-                cancelLabel: 'Fermer',
+                title: i18n.deleteLibraryFile || 'Remove this file from the library?',
+                message: i18n.deleteDetail || 'This action cannot be undone.',
                 onConfirm: function() {
                     $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
                         flcore.modal.load_files();

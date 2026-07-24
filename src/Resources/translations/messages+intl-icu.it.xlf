@@ -49,6 +49,26 @@
         <source>text.confirm_delete_detail</source>
         <target>Questa azione non può essere annullata.</target>
       </trans-unit>
+      <trans-unit id="generic.set_online" resname="text.set_online">
+        <source>text.set_online</source>
+        <target>Metti online</target>
+      </trans-unit>
+      <trans-unit id="generic.set_offline" resname="text.set_offline">
+        <source>text.set_offline</source>
+        <target>Metti offline</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_file" resname="text.confirm_delete_file">
+        <source>text.confirm_delete_file</source>
+        <target>Eliminare questo file?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_file" resname="text.confirm_delete_library_file">
+        <source>text.confirm_delete_library_file</source>
+        <target>Rimuovere questo file dalla libreria?</target>
+      </trans-unit>
+      <trans-unit id="generic.confirm_delete_gallery_image" resname="text.confirm_delete_gallery_image">
+        <source>text.confirm_delete_gallery_image</source>
+        <target>Eliminare questa immagine dalla galleria?</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>

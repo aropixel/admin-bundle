@@ -403,12 +403,11 @@ onDomReady(() => {
 
     $('#delete_button').click(function() {
 
+        let i18n = window.aroDialogI18n || {};
         new ConfirmDialog({
             intent: 'danger',
-            title: 'Voulez-vous vraiment supprimer ce contenu ?',
-            message: 'Le contenu sera définitivement supprimé, il ne sera plus possible de le récupérer.',
-            confirmLabel: 'Confirmer',
-            cancelLabel: 'Annuler',
+            title: i18n.deleteTitle || 'Are you sure you want to delete this item?',
+            message: i18n.deleteDetail || 'This action cannot be undone.',
             onConfirm: function() {
                 $('#delete_button').closest('form').submit();
             },
@@ -489,7 +488,9 @@ onDomReady(() => {
         let _btn_group = _button.closest('.dropdown-menu');
         let _state_icon = $(this).closest('tr').find('.state-icon');
         let state = _state_icon.hasClass('state-icon--offline') ? 'offline' : 'online';
-        let _message = _button.data('confirm').replace('%s', state === 'online' ? 'hors ligne' : 'en ligne');
+        let i18n = window.aroDialogI18n || {};
+        let _targetLabel = state === 'online' ? (i18n.offline || 'offline') : (i18n.online || 'online');
+        let _message = _button.data('confirm').replace('%s', _targetLabel);
 
         // A status toggle is not destructive → the primary (teal) intent, not danger.
         // Labels fall back to the translated defaults (the message is already localised).
@@ -507,10 +508,10 @@ onDomReady(() => {
                         _state_icon
                             .removeClass(state === 'online' ? 'state-icon--online' : 'state-icon--offline')
                             .addClass(state !== 'online' ? 'state-icon--online' : 'state-icon--offline')
-                            .attr('title', state === 'online' ? 'hors ligne' : 'en ligne')
-                            .attr('data-bs-original-title', state === 'online' ? 'hors ligne' : 'en ligne');
+                            .attr('title', _targetLabel)
+                            .attr('data-bs-original-title', _targetLabel);
 
-                        _btn_group.find('.status').html('<svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></g></svg> ' + (state === 'online' ? 'Mettre en ligne' : 'Mettre hors ligne'));
+                        _btn_group.find('.status').html('<svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></g></svg> ' + (state === 'online' ? (i18n.setOnline || 'Set online') : (i18n.setOffline || 'Set offline')));
 
                     }
                 });
@@ -680,12 +681,12 @@ onDomReady(() => {
         e.preventDefault();
 
         const _button = $(this);
+        const i18n = window.aroDialogI18n || {};
 
         new ConfirmDialog({
             intent: 'danger',
-            message: 'Êtes-vous sûr de vouloir supprimer cet élément ?',
-            confirmLabel: 'Supprimer',
-            cancelLabel: 'Annuler',
+            title: i18n.deleteTitle || 'Are you sure you want to delete this item?',
+            message: i18n.deleteDetail || 'This action cannot be undone.',
             onConfirm: function(){
 
                 const $item = $('.collection-form-container').filter(function() {

@@ -68,18 +68,18 @@ export class IM_Gallery_Widget {
     }
 
     detach() {
+        const i18n = window.aroDialogI18n || {};
         new ConfirmDialog({
             intent: 'danger',
-            title: 'Supprimer',
-            message: "Voulez-vous supprimer l'image de la galerie ?",
-            confirmLabel: 'Supprimer',
-            cancelLabel: 'Fermer',
+            title: i18n.deleteGalleryImage || 'Delete this image from the gallery?',
+            message: i18n.deleteDetail || 'This action cannot be undone.',
             onConfirm: () => {
                 this.widget.parentElement.remove();
                 this.gallery.reIndex();
             },
         });
     }
+
 
     edit() {
         // Implémentation simplifiée, requiert adaptation
