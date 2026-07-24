@@ -1,9 +1,11 @@
 # Cahier de specs — Design System AdminBundle
 
-> **Statut : chantier très avancé.** Ce document guide la refonte CSS de l'AdminBundle. Il
-> n'est pas de la documentation utilisateur. Le détail par étape est annoté « ✅ Fait » dans
-> le corps ; la **section §0 ci-dessous** donne l'image d'ensemble et surtout ce qui reste,
-> pour reprendre le travail sans relire tout le document.
+> **Statut : chantier clos (24 juillet 2026).** Ce document a guidé la refonte CSS de
+> l'AdminBundle et sa propagation à Blog/Page/Menu. Il n'est pas de la documentation
+> utilisateur. Tous les lots et arbitrages sont tranchés — **reste à faire : aucun** (cf. §0).
+> Le détail par étape est annoté « ✅ Fait » dans le corps ; la **section §0 ci-dessous** donne
+> l'image d'ensemble. Conservé comme trace de conception et point de reprise si un nouveau lot
+> s'ouvre.
 
 ---
 
@@ -323,20 +325,23 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 > `{% include %}` → `{{ include() }}` (fusion de contexte préservée). Rendu vérifié au harnais
 > (9 écrans blog/page/menu + page-builder, HTTP 200, zéro exception). Commité par bundle.
 >
-> **Reste à faire, par priorité :**
-> 1. **Divers** :
->    - ~~police **Typekit externe** de `page-builder.css`~~ **✅ FAIT le 24 juillet 2026** —
->      `@import url("https://use.typekit.net/tpb1kxh.css")` **supprimé** (fuite RGPD, même souci
->      que les Google Fonts retirées d'admin). La police `forevs` qu'il fournissait ne servait
->      qu'au **preview du bloc bannière** (`.pb-banner-preview`, `_blocks.css`) — vestige d'un
->      projet repris ; `font-family: forevs, sans-serif` → `sans-serif`. Plus **aucun** `@import`
->      externe ni référence Google/Typekit (hors commentaire historique de `_fonts.css`) dans les
->      4 bundles. (`forevs` étant une police commerciale Adobe, l'auto-hébergement à la Poppins
->      n'était pas une option légale — d'où la suppression pure.)
->    - ~~confirmer semibold vs bold pour `.pb-label`~~ **✅ tranché le 24 juillet 2026 : on garde
->      le semibold** (`--aro-weight-semibold`, 600) — pas de flip vers bold ;
->    - **le cliquet `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts
->      bundle) — à porter dans un repo si on veut le conserver.
+> **Reste à faire : aucun.** Tous les points du chantier design-system sont tranchés ou clos.
+>
+> **Divers — ✅ tous réglés le 24 juillet 2026 :**
+> - ~~police **Typekit externe** de `page-builder.css`~~ **✅ FAIT** —
+>   `@import url("https://use.typekit.net/tpb1kxh.css")` **supprimé** (fuite RGPD, même souci
+>   que les Google Fonts retirées d'admin). La police `forevs` qu'il fournissait ne servait
+>   qu'au **preview du bloc bannière** (`.pb-banner-preview`, `_blocks.css`) — vestige d'un
+>   projet repris ; `font-family: forevs, sans-serif` → `sans-serif`. Plus **aucun** `@import`
+>   externe ni référence Google/Typekit (hors commentaire historique de `_fonts.css`) dans les
+>   4 bundles. (`forevs` étant une police commerciale Adobe, l'auto-hébergement à la Poppins
+>   n'était pas une option légale — d'où la suppression pure.)
+> - ~~confirmer semibold vs bold pour `.pb-label`~~ **✅ tranché : on garde le semibold**
+>   (`--aro-weight-semibold`, 600) — pas de flip vers bold.
+> - ~~versionner le cliquet `.castor/css.php`~~ **✅ tranché : il ira dans `castor-starter`**,
+>   pas dans les dépôts bundle. C'est de l'outillage *sandbox* (il vit à la racine de
+>   l'environnement de contribution, hors des paquets publiés) ; `castor-starter` le copiera
+>   dans la sandbox à la création d'un environnement de contribution.
 
 **A. Thème de formulaire (§16) — ✅ clos**, cf. « Fait » ci-dessus et les invariants Twig.
 
