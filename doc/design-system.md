@@ -151,6 +151,17 @@
   **les deux** ; ici les deux copies sont resynchronisées à l'identique (`diff -rq` vide).
   Tokens `--aro-*` disponibles dans le builder (son `{% block stylesheets %}` appelle
   `{{ parent() }}`).
+- **CKEditor → Quill : éditeur translatable réparé + pont média→éditeur (items G & F)**
+  (24 juillet 2026). Champs translatable blog/page (`description`, `htmlContent`) basculés de
+  `TextareaType`+`class=ckeditor` (mort) vers `EditorType`/Quill ; `block.js` mort (2 copies)
+  supprimé ; **plus aucune référence CKEditor vivante**. Pont **fichier→éditeur** reconstruit pour
+  Quill (bouton toolbar + handler via `modules.toolbar.handlers`, insertion `<a href>`), branche
+  CKEditor morte retirée de l'insertion **image** (ce qui la répare : le test `constructor.name`
+  échouait sur le build minifié). `_editor.html.twig` rendu auto-suffisant (active les 2 modales)
+  et `data-class` corrigé en contexte translatable. **Prérequis d'intégration** relevé : la route
+  publique `file_download` doit être déclarée **hors du préfixe `/admin`** (cf. `installation.md`) —
+  sinon la bibliothèque de fichiers lève 500 ; enregistrée côté **sandbox** (pas dans le bundle).
+  Prouvé au harnais Browserless. Détail : « Reste à faire », lots F et G. §10.
 
 ### Invariants Twig du thème de formulaire — à lire avant tout re-découpage
 
@@ -298,17 +309,16 @@ Preuve de non-régression : `after-A2` ↔ `after-A3` = **44/54 identiques au bi
 > — passe 1 (FontAwesome → ux-icons/Lucide, ~68 icônes, listes → macro `actions()`), passe 2
 > (résidus BS3/4 → BS5), et labels du page builder (`.pb-label`, en semibold).
 >
+> **Items G + F — ✅ CLOS le 24 juillet 2026** (CKEditor → Quill, pont média→éditeur). Détail
+> en tête de « Fait » et dans les sections F/G plus bas. Ces changements sont **sur l'arbre de
+> travail, non commités** (les hashes ci-dessus datent d'avant).
+>
 > **Reste à faire, par priorité :**
 > 1. **Conformité twig-cs des 3 bundles compagnons** — jamais mis aux normes ; le CI est rouge
 >    dessus (préexistant à nos commits). `qa:twig-cs` reformate en masse (le lancer sur un arbre
 >    dédié, pas mélangé).
-> 2. **Item G — bug fonctionnel** : l'éditeur translatable de blog/page appelle encore
->    `CKEDITOR.replace(...)` (page `block.js`) et pose `class="ckeditor"` → **cassé** (`CKEDITOR
->    is not defined`). Basculer sur `EditorType`/Quill. Détail plus bas.
-> 3. **Item F** : réécrire `FL_Editor`/`IM_Editor` (insertion média → éditeur) pour Quill. Détail
->    plus bas.
-> 4. **Item D** : acter formellement la pastille « en ligne » teal (`--aro-status-online`).
-> 5. **Divers** : la police **Typekit externe** de `page-builder.css`
+> 2. **Item D** : acter formellement la pastille « en ligne » teal (`--aro-status-online`).
+> 3. **Divers** : la police **Typekit externe** de `page-builder.css`
 >    (`@import url("https://use.typekit.net/…")`) — même souci RGPD que les Google Fonts retirées
 >    d'admin ; **confirmer semibold vs bold** pour `.pb-label` (flip d'un token) ; et **le cliquet
 >    `.castor/css.php` n'est versionné nulle part** (racine sandbox, hors dépôts bundle) — à
@@ -385,23 +395,57 @@ sous-incrément catalogue E3 (déjà validé), pas B.
 **D. Arbitrage §12 restant.**
 - Pastille « en ligne » : de facto teal (`--aro-status-online: #06BAB4`), **à acter** formellement.
 
-**F. Modules `FL_Editor` / `IM_Editor` à re-cibler sur Quill — chantier distinct, non entamé.**
-`js/files.js` (`FL_Editor`) et `js/module/image-manager/editor.js` (`IM_Editor`) sont les modules
-qui **inséraient une image / un fichier dans un éditeur CKEditor** (ils pilotent la bibliothèque
-média puis écrivent dans le dialogue CKEditor — d'où les `.cke_dialog*` de `files.js`). CKEditor
-ayant été **entièrement remplacé par Quill.js**, ces deux modules visent une cible qui n'existe
-plus : le pont média → éditeur est donc **cassé** jusqu'à ce qu'ils soient réécrits pour l'API
-Quill. Laissés intacts volontairement (pas de suppression : la logique de sélection média est à
-conserver). À traiter comme un chantier à part.
+**F. Pont média→éditeur re-ciblé sur Quill — ✅ CLOS le 24 juillet 2026.** Traité avec G (même
+chantier). État réel trouvé, plus avancé que noté : **image→éditeur marchait déjà** (branche
+Quill dans `image-manager/editor.js`), seul **fichier→éditeur** (`FL_Editor` de `files.js`)
+restait 100 % CKEditor (écriture dans `.cke_dialog_ui_input_text`) et — surtout — **inatteignable**
+(aucun handler de toolbar Quill ne le déclenchait, contrairement à l'image). Fait :
+- **Bouton « fichier » ajouté à la toolbar Quill** (`app.js`, toolbar `full`) + icône SVG enregistrée
+  via `Quill.import('ui/icons')`. **Piège Quill 2** : `Toolbar.attach()` n'attache un écouteur à un
+  bouton `ql-*` que si un handler existe **à la construction** ou si le format est connu ; « file »
+  n'étant pas un format, le handler doit être passé dans `modules.toolbar.handlers`, pas via un
+  `addHandler` tardif (qui marche pour « image », format connu).
+- **`FL_Editor.insert_file()` réécrit** : au lieu des `.cke_dialog*`, il insère un lien
+  `<a href>` dans Quill (`insertText(i, nom, 'link', url)`), libellé = nom de fichier (dernier
+  segment de l'URL de téléchargement `file_download`). `open_modal()` débarrassé des hacks
+  z-index CKEditor.
+- **Branche CKEditor morte retirée d'`image-manager/editor.js`** — l'insertion est désormais le
+  chemin Quill **inconditionnel**. Corollaire : ce test `constructor.name === 'Quill'` était en
+  fait **cassé** (le build Quill minifié renomme la classe en « I »), donc l'insertion d'image
+  était silencieusement inopérante ; le nettoyage la répare. `FL_Editor` utilise le même
+  duck-typing (`insertText`/`getSelection`) plutôt que le nom de classe.
+- **`_editor.html.twig` rendu auto-suffisant** : il appelle `enable_image_library_modal()` **et**
+  `enable_file_library_modal()` (inclusion idempotente par `form_end`), pour que ses boutons image
+  ET fichier fonctionnent même sans widget Image/File frère sur le formulaire.
+- **`data-class` (catégorie média) corrigé en contexte translatable** : la valeur du parent
+  immédiat y est la **collection** de traductions, pas l'entité — remontée d'un cran quand elle
+  est itérable. Vérifié au harnais : blog translatable (2 locales) → `data-class` =
+  `Aropixel\BlogBundle\Entity\Post` sur chaque panneau, pas `ArrayCollection`.
+- **Prérequis d'intégration (pas un bug du bundle)** : le rendu des lignes de la bibliothèque de
+  fichiers appelle `aropixel_file_url()` → route **`file_download`**. Cette route est **publique par
+  conception** et doit être déclarée par le projet intégrateur **hors** du préfixe protégé `/admin`
+  (`download.yaml`, cf. `installation.md` — « Public download route (must be outside of protected
+  prefix) »). L'importer dans le `routes.yaml` du bundle (monté sous `/admin`, derrière le
+  pare-feu) serait une **erreur** : le téléchargement doit rester joignable sans authentification.
+  Le sandbox ne la déclarait pas → 500 (widget compris, pas que l'éditeur) ; enregistrée au niveau
+  **`application/`** du sandbox, hors dépôts bundle.
 
-**G. Résidus CKEditor dans Blog/Page — à nettoyer (second chantier §10).**
-Malgré le retrait de CKEditor, il reste des références **vivantes** hors AdminBundle, donc hors
-du périmètre courant : `blog-bundle/src/Form/PostTranslatableType.php:50` et
-`page-bundle/src/Form/Type/DefaultTranslatablePageType.php:32` ajoutent encore
-`'attr' => ['class' => 'ckeditor']`, et `page-bundle/.../js/block.js` appelle `CKEDITOR.replace(...)`.
-Si la lib CKEditor est absente, `block.js` **lève `CKEDITOR is not defined`** et le champ
-translatable de page/blog n'a pas d'éditeur. À basculer sur `EditorType` (Quill) quand la
-propagation Blog/Page sera ouverte.
+Prouvé au harnais Browserless (login réel) : bouton fichier rendu + icône, modale ouverte,
+file-ajax **200**, sélection d'un fichier → **lien inséré dans Quill**
+(`<a href="…/download/1/Terms and conditions.pdf" target="_blank">Terms and conditions.pdf</a>`).
+Cliquet `qa:design-system` inchangé (orphan_classes 12, important_components 1).
+
+**G. Éditeur translatable Blog/Page → Quill — ✅ CLOS le 24 juillet 2026.** Les champs translatable
+`description` (blog `PostTranslatableType`) et `htmlContent` (page `DefaultTranslatablePageType`)
+rendaient un `<textarea class="ckeditor">` nu (CKEditor absent → pas de WYSIWYG). Basculés sur
+**`widget => EditorType::class`** (Quill), cohérents avec leurs variantes monolingues (`PostType`,
+`DefaultPageType`) qui utilisaient déjà `EditorType`. Le `TranslatableSubscriber` propage `attr`
+(pas les options custom), donc toolbar `full` par défaut ; un éditeur Quill par locale, initialisé
+au `DOMReady`. Le `block.js` de page-bundle (les **2 copies** `assets/` + `Resources/public/js/`)
+qui appelait `CKEDITOR.replace(...)` était en fait **code mort** (markup `.js-block-admin-tabs`
+inexistant, jamais importé) → **supprimé**. Vérifié au harnais en mode multilingue : blog `post/new`
+→ 2 éditeurs Quill (en/fr) initialisés, bouton fichier + modales présents. Plus **aucune** référence
+CKEditor vivante dans les 4 bundles.
 
 **E. Classes orphelines et attributs Bootstrap 4 — ✅ CLOS le 23 juillet 2026.** Relevé le
 22 juillet ; traité en trois passes (E1 défauts à impact, E2 fossiles inertes + cliquet, E3

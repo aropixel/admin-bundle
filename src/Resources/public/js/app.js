@@ -971,7 +971,7 @@ function activateQuillEditor($elements) {
             [{ 'font': [] }],
             [{ 'align': [] }],
             ['clean'],
-            ['link', 'image', 'video']
+            ['link', 'image', 'video', 'file']
         ],
         'simple': [
             ['bold', 'italic', 'underline'],
@@ -979,6 +979,14 @@ function activateQuillEditor($elements) {
             ['link', 'clean']
         ]
     };
+
+    // Icône de la barre d'outils pour le bouton « fichier » (absent des icônes Quill natives)
+    if (window.Quill) {
+        const quillIcons = Quill.import('ui/icons');
+        if (quillIcons && !quillIcons['file']) {
+            quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" fill="none" d="M5,2 H10 L14,6 V16 H5 Z"></path><path class="ql-stroke" fill="none" d="M10,2 V6 H14"></path></svg>';
+        }
+    }
 
     $elements.each(function() {
         let $this = $(this);
@@ -1007,10 +1015,35 @@ function activateQuillEditor($elements) {
             return;
         }
 
+        // Handler du bouton « fichier ». Il DOIT être fourni à la construction : Quill
+        // n'attache un écouteur à un bouton `ql-*` que si un handler existe déjà ou si le
+        // format est connu. « file » n'est pas un format Quill, donc un addHandler('file')
+        // posé après `new Quill` arriverait trop tard (le bouton n'aurait aucun écouteur).
+        // « image » est un format connu : son handler peut, lui, rester surchargé plus bas.
+        const fileHandler = function() {
+            const quillInstance = this.quill;
+            if ($.fn.FileManager) {
+                $($target[0]).FileManager({
+                    editor: quillInstance,
+                    category: $target.attr('data-class')
+                });
+            } else {
+                // Repli : saisie manuelle d'une URL de fichier
+                const range = quillInstance.getSelection(true);
+                const value = prompt('Veuillez entrer l\'URL du fichier :');
+                if (value) {
+                    quillInstance.insertText(range.index, value, 'link', value, 'user');
+                }
+            }
+        };
+
         let quill = new Quill($this[0], {
             theme: 'snow',
             modules: {
-                toolbar: toolbarOptions
+                toolbar: {
+                    container: toolbarOptions,
+                    handlers: { file: fileHandler }
+                }
             }
         });
 

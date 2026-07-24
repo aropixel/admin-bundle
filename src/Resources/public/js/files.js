@@ -71,30 +71,36 @@ import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js'
     let FL_Editor = function(launcher, editor)
     {
 
-        // Ouvre la modal et charge les images
+        // Ouvre la bibliothèque de fichiers pour insérer un lien dans l'éditeur Quill
         flcore.modal.set_launcher(launcher);
 
         this.open_modal = function()
         {
-            $('.cke_dialog_background_cover').css('z-index', 960);
-            $('.cke_dialog').css('z-index', 980);
             $(selectors.modal.id).modal('show');
         }
 
         this.insert_file = function()
         {
 
-            let protomatch = /^(https?|ftp):\/\//;
-            let _src = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr').find('.file-type').attr('data-src');
-            _src = _src.replace(protomatch, '');
+            let $selected = $(selectors.modal.dataTable+' '+selectors.modal.checkbox+':checked').closest('tr');
+            let _src = $selected.find('.file-type').attr('data-src');
 
             $(selectors.modal.id).modal('hide');
 
-            $('.cke_dialog_tabs > a').removeClass('cke_dialog_tab_selected');
-            $('.cke_dialog_tabs > a:first').addClass('cke_dialog_tab_selected');
-            $('.cke_dialog_contents > tbody > tr > td:first > div').hide();
-            $('.cke_dialog_contents > tbody > tr > td:first > div:first').show();
-            $('.cke_dialog_ui_input_text').val(_src);
+            if (!_src) {
+                return;
+            }
+
+            // Le libellé du lien : le nom de fichier (dernier segment de l'URL de téléchargement)
+            let _label = decodeURIComponent(_src.split('/').pop()) || _src;
+
+            // Duck-typing plutôt que `constructor.name === 'Quill'` : le build Quill minifié
+            // renomme la classe (elle sort en « I »), donc tester le nom échoue silencieusement.
+            if (editor && typeof editor.getSelection === 'function' && typeof editor.insertText === 'function') {
+                let range = editor.getSelection(true) || { index: 0 };
+                editor.insertText(range.index, _label, 'link', _src, 'user');
+                editor.setSelection(range.index + _label.length, 0, 'user');
+            }
 
         }
 
