@@ -2,7 +2,6 @@
 
 namespace Aropixel\AdminBundle\Controller\Image;
 
-use Aropixel\AdminBundle\Entity\AttachedImage;
 use Aropixel\AdminBundle\Repository\ImageRepositoryInterface;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,23 +22,16 @@ class DeleteAction extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $image_id = $request->get('image_id');
-        $libraryClass = $request->get('category');
+        $image_id = $request->getPayload()->get('image_id');
+
+        if (!$image_id) {
+            return new Response('KO', Response::HTTP_OK);
+        }
+
         $image = $this->imageRepository->find($image_id);
 
         if ($image) {
             try {
-                $libraryEntity = new \ReflectionClass($libraryClass);
-                if ($libraryEntity->isSubclassOf(AttachedImage::class)) {
-                    $attachedImages = $this->entityManager->getRepository($libraryClass)->findBy(['image' => $image]);
-                    if (\count($attachedImages)) {
-                        foreach ($attachedImages as $attachedImage) {
-                            $this->entityManager->remove($attachedImage);
-                        }
-                        $this->entityManager->flush();
-                    }
-                }
-
                 $this->entityManager->remove($image);
                 $this->entityManager->flush();
             } catch (ForeignKeyConstraintViolationException) {
