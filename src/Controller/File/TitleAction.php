@@ -21,11 +21,17 @@ class TitleAction extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $file_id = $request->get('pk');
-        $title = $request->get('value');
+        $payload = $request->getPayload();
+        $file_id = $payload->get('pk');
+        $title = $payload->get('value');
 
-        $file = $this->fileRepository->find($file_id);
-        $file->setTitle($title);
+        $file = $file_id ? $this->fileRepository->find($file_id) : null;
+
+        if (!$file) {
+            return new Response('KO', Response::HTTP_NOT_FOUND);
+        }
+
+        $file->setTitle((string) $title);
         $this->entityManager->flush();
 
         return new Response('Done', Response::HTTP_OK);

@@ -69,6 +69,34 @@
         <source>text.confirm_delete_gallery_image</source>
         <target>Smazat tento obrázek z galerie?</target>
       </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_image" resname="text.confirm_delete_library_image">
+        <source>text.confirm_delete_library_image</source>
+        <target>Odebrat tento obrázek z knihovny?</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_in_use" resname="text.delete_image_in_use">
+        <source>text.delete_image_in_use</source>
+        <target>Nelze smazat: tento obrázek je použit v jednom nebo více obsazích.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_failed" resname="text.delete_image_failed">
+        <source>text.delete_image_failed</source>
+        <target>Obrázek se nepodařilo smazat.</target>
+      </trans-unit>
+      <trans-unit id="generic.title_save_failed" resname="text.title_save_failed">
+        <source>text.title_save_failed</source>
+        <target>Název se nepodařilo uložit.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_in_use" resname="text.delete_file_in_use">
+        <source>text.delete_file_in_use</source>
+        <target>Nelze smazat: tento soubor je použit v jednom nebo více obsazích.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_failed" resname="text.delete_file_failed">
+        <source>text.delete_file_failed</source>
+        <target>Soubor se nepodařilo smazat.</target>
+      </trans-unit>
+      <trans-unit id="generic.open_file" resname="text.open_file">
+        <source>text.open_file</source>
+        <target>Otevřít soubor</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>

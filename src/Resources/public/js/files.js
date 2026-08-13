@@ -5,6 +5,7 @@
 
 import {ModalDyn} from '/bundles/aropixeladmin/js/module/modal-dyn/modal-dyn.js';
 import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
+import {FileDialog} from '/bundles/aropixeladmin/js/module/dialog/file-dialog.js';
 
 (function($){
 
@@ -189,7 +190,7 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
                 $fileContainer.find('.d-none').append(formFieldFile);
 
                 launcher.element.find("input[name$='[file]']").val($(result).find("[name$='[file]']").val());
-                launcher.element.find("input[name$='[title]']").val($selectedFile.find('[data-modal-xeditable]').html());
+                launcher.element.find("input[name$='[title]']").val($selectedFile.find('[data-library="title"]').html());
                 launcher.element.find("input[name$='[alt]']").val($(result).find("[name$='[alt]']").val());
 
                 let $renderedItem = $(result);
@@ -244,8 +245,8 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
 
                 $filesContent.find('[name$="['+index+'][file]"]').val($(this).val());
                 $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile').find('span:first').data('src', $selectedFile.find('.file-type').data('src'));
-                $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile').find('span:first').html($selectedFile.find('[data-modal-xeditable]').html());
-                $filesContent.find('[name$="['+index+'][title]"]').val($selectedFile.find('[data-modal-xeditable]').html());
+                $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile').find('span:first').html($selectedFile.find('[data-library="title"]').html());
+                $filesContent.find('[name$="['+index+'][title]"]').val($selectedFile.find('[data-library="title"]').html());
 
                 let $fileRow = $filesContent.find('[name$="['+index+'][file]"]').closest('.itemFile');
                 $fileRow.attr('data-fl-file-id', $(this).val());
@@ -463,6 +464,31 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
         };
 
 
+        // Bandeau d'erreur de la modale, partagé avec l'uploader (mêmes éléments).
+        this.show_error = function(message) {
+
+            let alert = document.getElementById('alertUploadError');
+            let messageElement = document.getElementById('alertUploadErrorMessage');
+
+            if (alert && messageElement) {
+                messageElement.textContent = message;
+                alert.style.display = 'block';
+            } else {
+                console.error(message);
+            }
+
+        };
+
+        this.clear_error = function() {
+
+            let alert = document.getElementById('alertUploadError');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+
+        };
+
+
 
         // Event // Clic sur le bouton de validation
         $(selectors.modal.attach).click(function() {
@@ -472,25 +498,77 @@ import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dia
         });
 
 
-        // Event // Clic sur le bouton de validation
+        // Event // Clic sur la corbeille d'une ligne de la bibliothèque
         $(selectors.modal.dataTable).on('click', selectors.modal.delete, function() {
 
             let $deleteButton = $(this);
-
-            let _detach_params = {};
-            _detach_params['category'] = obj.launcher.element.data('flAttachClass');
-            _detach_params['entity_id'] = obj.launcher.config.flEntityId;
-            _detach_params['file_id'] = $(this).data('id');
-
             let i18n = window.aroDialogI18n || {};
+
             new ConfirmDialog({
                 intent: 'danger',
                 title: i18n.deleteLibraryFile || 'Remove this file from the library?',
                 message: i18n.deleteDetail || 'This action cannot be undone.',
                 onConfirm: function() {
-                    $.post($deleteButton.attr('data-path'), _detach_params, function(answer) {
-                        flcore.modal.load_files();
-                    });
+
+                    let failed = i18n.deleteFileFailed || 'The file could not be deleted.';
+
+                    // Le nettoyage des fichiers attachés est fait côté Doctrine : seul
+                    // l'identifiant est encore utile au contrôleur.
+                    $.post($deleteButton.attr('data-path'), {file_id: $deleteButton.data('id')})
+                        .done(function(answer) {
+
+                            let status = $.trim(answer);
+
+                            if (status === 'OK') {
+                                obj.clear_error();
+                                flcore.modal.load_files();
+
+                                return;
+                            }
+
+                            obj.show_error(status === 'FOREIGN_KEY'
+                                ? (i18n.deleteFileInUse || 'This file is used in one or more contents.')
+                                : failed);
+
+                        })
+                        .fail(function() {
+                            obj.show_error(failed);
+                        });
+
+                },
+            });
+
+        });
+
+
+        // Event // Clic sur le nom d'un fichier : l'édition en ligne (x-editable) n'existe
+        // plus, le renommage se fait dans la modale.
+        $(selectors.modal.dataTable).on('click', '[data-library="title"]', function(event) {
+
+            event.preventDefault();
+
+            let $titleCell = $(this);
+            let $row = $titleCell.closest('tr');
+            let $preview = $row.find('[data-library="preview"]');
+            let i18n = window.aroDialogI18n || {};
+            let title = $.trim($titleCell.text());
+
+            new FileDialog({
+                title: title,
+                icon: $row.find('.file-type').attr('src'),
+                url: $preview.attr('href'),
+                openLabel: i18n.openFile,
+                edit: {
+                    label: i18n.mediaTitle || 'Title',
+                    value: title,
+                    autofocus: true,
+                    error: i18n.titleSaveFailed || 'The title could not be saved.',
+                    save: function(value) {
+                        return $.post($titleCell.data('path'), {pk: $titleCell.data('id'), value: value})
+                            // La cellule est mise à jour sur place : recharger le datatable
+                            // ferait perdre la page courante et la recherche en cours.
+                            .then(function() { $titleCell.text(value); });
+                    },
                 },
             });
 

@@ -121,3 +121,66 @@
 #libraryDataTable tr th:last-child {
     padding-right: 40px;
 }
+
+/* Row affordances driven by JS: the anchors carry no href, so they need the hand back. */
+#libraryDataTable [data-library],
+#filesLibraryDataTable [data-library] {
+    cursor: pointer;
+}
+
+/*
+ * Lightbox — the preview raised by clicking a thumbnail in the library table, built in JS
+ * (js/module/lightbox/lightbox.js) since the rows are re-rendered on every DataTable reload.
+ * The image sits on the app canvas rather than on white: a photo with light edges needs a
+ * ground to read against. `admin_preview` is capped at 800px wide, so the viewport bound is
+ * what limits tall portraits.
+ */
+.aro-lightbox__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--aro-space-4);
+    background-color: var(--aro-color-bg);
+
+}
+
+/* Preview only: with nothing below it, the tinted body follows the panel's rounded corners. */
+.aro-lightbox__body:last-child {
+    border-bottom-right-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+    border-bottom-left-radius: var(--bs-modal-inner-border-radius, var(--aro-radius-card));
+}
+
+.aro-lightbox__image {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: var(--aro-radius-card);
+}
+
+/*
+ * File dialog — the same modal for the file library, where there is nothing to display
+ * inline: a PDF or an archive gets its type icon and a link, and the browser does the
+ * viewing (js/module/dialog/file-dialog.js).
+ */
+.aro-file-dialog__body {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-3);
+    padding: var(--aro-space-4) var(--aro-space-6);
+    background-color: var(--aro-color-bg);
+}
+
+.aro-file-dialog__icon {
+    flex: 0 0 auto;
+    height: 32px;
+}
+
+/*
+ * Shared by both dialogs: when a media modal is editable its header holds the field instead
+ * of a static title, so the field takes the width the heading would have had, leaving the
+ * close button on its own margin (js/module/dialog/field-editor.js).
+ */
+.aro-field-editor {
+    flex: 1 1 auto;
+    margin-right: var(--aro-space-4);
+}

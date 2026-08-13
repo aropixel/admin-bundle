@@ -21,11 +21,17 @@ class TitleAction extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $image_id = $request->get('pk');
-        $title = $request->get('value');
+        $payload = $request->getPayload();
+        $image_id = $payload->get('pk');
+        $title = $payload->get('value');
 
-        $image = $this->imageRepository->find($image_id);
-        $image->setTitle($title);
+        $image = $image_id ? $this->imageRepository->find($image_id) : null;
+
+        if (!$image) {
+            return new Response('KO', Response::HTTP_NOT_FOUND);
+        }
+
+        $image->setTitle((string) $title);
         $this->entityManager->flush();
 
         return new Response('Done', Response::HTTP_OK);

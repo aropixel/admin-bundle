@@ -69,6 +69,34 @@
         <source>text.confirm_delete_gallery_image</source>
         <target>Delete this image from the gallery?</target>
       </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_image" resname="text.confirm_delete_library_image">
+        <source>text.confirm_delete_library_image</source>
+        <target>Remove this image from the library?</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_in_use" resname="text.delete_image_in_use">
+        <source>text.delete_image_in_use</source>
+        <target>Cannot delete: this image is used in one or more contents.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_failed" resname="text.delete_image_failed">
+        <source>text.delete_image_failed</source>
+        <target>The image could not be deleted.</target>
+      </trans-unit>
+      <trans-unit id="generic.title_save_failed" resname="text.title_save_failed">
+        <source>text.title_save_failed</source>
+        <target>The title could not be saved.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_in_use" resname="text.delete_file_in_use">
+        <source>text.delete_file_in_use</source>
+        <target>Cannot delete: this file is used in one or more contents.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_failed" resname="text.delete_file_failed">
+        <source>text.delete_file_failed</source>
+        <target>The file could not be deleted.</target>
+      </trans-unit>
+      <trans-unit id="generic.open_file" resname="text.open_file">
+        <source>text.open_file</source>
+        <target>Open the file</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>Online</target>
