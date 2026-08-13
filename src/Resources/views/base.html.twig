@@ -169,7 +169,7 @@
 
             </script>
 
-            {# Translated defaults for the JS confirmation dialogs (ConfirmDialog). Rendered
+            {# Translated defaults for the JS dialogs (ConfirmDialog, ImageLightbox). Rendered
                here so all locales are covered; read as fallbacks when a caller passes none. #}
             <script>
                 window.aroDialogI18n = {
@@ -180,7 +180,17 @@
                     deleteDetail: {{ ('text.confirm_delete_detail'|trans)|json_encode|raw }},
                     deleteFile: {{ ('text.confirm_delete_file'|trans)|json_encode|raw }},
                     deleteLibraryFile: {{ ('text.confirm_delete_library_file'|trans)|json_encode|raw }},
+                    deleteLibraryImage: {{ ('text.confirm_delete_library_image'|trans)|json_encode|raw }},
                     deleteGalleryImage: {{ ('text.confirm_delete_gallery_image'|trans)|json_encode|raw }},
+                    deleteImageInUse: {{ ('text.delete_image_in_use'|trans)|json_encode|raw }},
+                    deleteImageFailed: {{ ('text.delete_image_failed'|trans)|json_encode|raw }},
+                    deleteFileInUse: {{ ('text.delete_file_in_use'|trans)|json_encode|raw }},
+                    deleteFileFailed: {{ ('text.delete_file_failed'|trans)|json_encode|raw }},
+                    save: {{ ('text.save'|trans)|json_encode|raw }},
+                    close: {{ ('text.close'|trans)|json_encode|raw }},
+                    openFile: {{ ('text.open_file'|trans)|json_encode|raw }},
+                    mediaTitle: {{ ('library.datatabler.title'|trans)|json_encode|raw }},
+                    titleSaveFailed: {{ ('text.title_save_failed'|trans)|json_encode|raw }},
                     online: {{ ('text.online'|trans)|json_encode|raw }},
                     offline: {{ ('text.offline'|trans)|json_encode|raw }},
                     setOnline: {{ ('text.set_online'|trans)|json_encode|raw }},

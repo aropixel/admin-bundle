@@ -69,6 +69,34 @@
         <source>text.confirm_delete_gallery_image</source>
         <target>Voulez-vous supprimer l'image de la galerie ?</target>
       </trans-unit>
+      <trans-unit id="generic.confirm_delete_library_image" resname="text.confirm_delete_library_image">
+        <source>text.confirm_delete_library_image</source>
+        <target>Voulez-vous supprimer l'image de la bibliothèque ?</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_in_use" resname="text.delete_image_in_use">
+        <source>text.delete_image_in_use</source>
+        <target>Suppression impossible : cette image est utilisée dans un ou plusieurs contenus.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_image_failed" resname="text.delete_image_failed">
+        <source>text.delete_image_failed</source>
+        <target>L'image n'a pas pu être supprimée.</target>
+      </trans-unit>
+      <trans-unit id="generic.title_save_failed" resname="text.title_save_failed">
+        <source>text.title_save_failed</source>
+        <target>Le titre n'a pas pu être enregistré.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_in_use" resname="text.delete_file_in_use">
+        <source>text.delete_file_in_use</source>
+        <target>Suppression impossible : ce fichier est utilisé dans un ou plusieurs contenus.</target>
+      </trans-unit>
+      <trans-unit id="generic.delete_file_failed" resname="text.delete_file_failed">
+        <source>text.delete_file_failed</source>
+        <target>Le fichier n'a pas pu être supprimé.</target>
+      </trans-unit>
+      <trans-unit id="generic.open_file" resname="text.open_file">
+        <source>text.open_file</source>
+        <target>Ouvrir le fichier</target>
+      </trans-unit>
       <trans-unit id="text.online" resname="text.online">
         <source>text.online</source>
         <target>En ligne</target>

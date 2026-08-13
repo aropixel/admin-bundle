@@ -1,5 +1,7 @@
 // modal.js
 import { hideModal, showModal } from '/bundles/aropixeladmin/js/module/image-manager/ui.js';
+import { ConfirmDialog } from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
+import { ImageLightbox } from '/bundles/aropixeladmin/js/module/lightbox/lightbox.js';
 
 export class IM_Modal {
     constructor() {
@@ -9,6 +11,8 @@ export class IM_Modal {
         this._boundOnShow = (e) => this.onShow(e);
         this._boundOnHide = () => this.onHide();
         this._boundValidate = () => this.validate();
+        this._boundOnDelete = (e) => this.onDelete(e);
+        this._boundOnPreview = (e) => this.onPreview(e);
 
         this.init();
     }
@@ -28,14 +32,21 @@ export class IM_Modal {
         this.modal.removeEventListener('show.bs.modal', this._boundOnShow);
         this.modal.removeEventListener('hide.bs.modal', this._boundOnHide);
         this.attachButton.removeEventListener('click', this._boundValidate);
+        this.modal.removeEventListener('click', this._boundOnDelete);
+        this.modal.removeEventListener('click', this._boundOnPreview);
 
         this._boundOnShow = (e) => this.onShow(e);
         this._boundOnHide = () => this.onHide();
         this._boundValidate = () => this.validate();
+        this._boundOnDelete = (e) => this.onDelete(e);
+        this._boundOnPreview = (e) => this.onPreview(e);
 
         this.modal.addEventListener('show.bs.modal', this._boundOnShow);
         this.modal.addEventListener('hide.bs.modal', this._boundOnHide);
         this.attachButton.addEventListener('click', this._boundValidate);
+        // délégation : les lignes du datatable sont réécrites à chaque rechargement
+        this.modal.addEventListener('click', this._boundOnDelete);
+        this.modal.addEventListener('click', this._boundOnPreview);
     }
 
     setLauncher(launcher) {
@@ -103,14 +114,147 @@ export class IM_Modal {
 
     onHide() {
         this.launcher = null;
-        document.getElementById('alertUploadError')?.classList.add('hidden');
+        this.clearError();
+        this.clearNoImageAlert();
+    }
+
+    onDelete(event) {
+        const button = event.target.closest('[data-library="delete"]');
+        if (!button) return;
+
+        event.preventDefault();
+
+        const i18n = window.aroDialogI18n || {};
+
+        new ConfirmDialog({
+            intent: 'danger',
+            title: i18n.deleteLibraryImage || 'Remove this image from the library?',
+            message: i18n.deleteDetail || '',
+            onConfirm: () => this.deleteImage(button),
+        });
+    }
+
+    // L'aperçu s'ouvre depuis la vignette comme depuis le nom : c'est aussi là que le nom
+    // se modifie, l'édition en ligne (x-editable) n'existant plus.
+    onPreview(event) {
+        const trigger = event.target.closest('[data-library="preview"], [data-library="title"]');
+        if (!trigger) return;
+
+        // Sans JS la vignette ouvre l'aperçu en quittant la page : on garde l'image sur place.
+        event.preventDefault();
+
+        const row = trigger.closest('tr');
+        if (!row) return;
+
+        const link = row.querySelector('[data-library="preview"]');
+        const titleCell = row.querySelector('[data-library="title"]');
+
+        if (!link) return;
+
+        const i18n = window.aroDialogI18n || {};
+        const title = titleCell?.textContent.trim() || '';
+
+        new ImageLightbox({
+            src: link.getAttribute('href'),
+            title: title,
+            alt: link.querySelector('img')?.getAttribute('alt') || '',
+            edit: titleCell && titleCell.dataset.path ? {
+                label: i18n.mediaTitle || 'Title',
+                value: title,
+                // Ouvert depuis le nom, on vient renommer : le champ prend le clavier.
+                // Ouvert depuis la vignette, on vient regarder l'image.
+                autofocus: trigger === titleCell,
+                error: i18n.titleSaveFailed || 'The title could not be saved.',
+                save: value => this.saveTitle(titleCell, value),
+            } : null,
+        });
+    }
+
+    saveTitle(titleCell, value) {
+        return fetch(titleCell.dataset.path, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: new URLSearchParams({ pk: titleCell.dataset.id, value }),
+        }).then(response => {
+            if (!response.ok) throw new Error();
+
+            // La cellule est mise à jour sur place : recharger le datatable ferait perdre
+            // la page courante et la recherche en cours.
+            titleCell.textContent = value;
+        });
+    }
+
+    deleteImage(button) {
+        const path = button.dataset.path;
+        const id = button.dataset.id;
+
+        if (!path || !id) return;
+
+        const i18n = window.aroDialogI18n || {};
+        const failed = i18n.deleteImageFailed || 'The image could not be deleted.';
+
+        fetch(path, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: new URLSearchParams({ image_id: id }),
+        })
+            .then(response => response.text())
+            .then(answer => {
+                const status = answer.trim();
+
+                if (status === 'OK') {
+                    this.clearError();
+                    this.loadPictures();
+
+                    return;
+                }
+
+                this.showError(status === 'FOREIGN_KEY'
+                    ? (i18n.deleteImageInUse || 'This image is used in one or more contents.')
+                    : failed);
+            })
+            .catch(() => this.showError(failed));
+    }
+
+    showError(message) {
+        const alert = document.getElementById('alertUploadError');
+        const messageElement = document.getElementById('alertUploadErrorMessage');
+
+        if (alert && messageElement) {
+            messageElement.textContent = message;
+            alert.style.display = 'block';
+        } else {
+            console.error(message);
+        }
+    }
+
+    clearError() {
+        const alert = document.getElementById('alertUploadError');
+        if (alert) alert.style.display = 'none';
+    }
+
+    showNoImageAlert() {
+        const alert = document.getElementById('alertNoImg');
+        if (alert) alert.style.display = 'block';
+    }
+
+    clearNoImageAlert() {
+        const alert = document.getElementById('alertNoImg');
+        if (alert) alert.style.display = 'none';
     }
 
     validate() {
         const checked = this.modal.querySelectorAll('input[type="checkbox"][name^="image"]:checked');
         if (!checked.length) {
-            document.getElementById('alertNoImg')?.classList.remove('hidden');
+            this.showNoImageAlert();
         } else {
+            this.clearNoImageAlert();
             this.validPictures();
         }
     }

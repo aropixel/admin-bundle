@@ -17,6 +17,8 @@
  *   });
  */
 
+import { restoreBodyScrollLock, stackAboveOpenModals } from '/bundles/aropixeladmin/js/utils/modal-stack.js';
+
 const ICONS = {
     danger: '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></svg>',
     success: '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12l2 2l4-4"/></g></svg>',
@@ -91,6 +93,10 @@ export class ConfirmDialog {
         const confirmBtn = el.querySelector('[data-dialog-confirm]');
         confirmBtn.textContent = o.confirmLabel;
 
+        // A confirmation is usually raised from inside another modal, which Bootstrap would
+        // render *over* it — see utils/modal-stack.js.
+        stackAboveOpenModals(el);
+
         document.body.appendChild(el);
         const modal = bootstrap.Modal.getOrCreateInstance(el);
 
@@ -103,6 +109,7 @@ export class ConfirmDialog {
         el.addEventListener('hidden.bs.modal', () => {
             modal.dispose();
             el.remove();
+            restoreBodyScrollLock();
         });
 
         modal.show();
