@@ -507,6 +507,42 @@ $builder->add('content', EditorType::class, [
 ]);
 ```
 
+### Editor behaviours
+
+Beyond the toolbar, the editor ships with four behaviours.
+
+**Soft line break.** `Shift + Enter` inserts a real `<br>` instead of starting a
+new block. `<br>` found in the stored value is preserved when the editor loads
+(vanilla Quill 2 drops it).
+
+**Clean paste.** Pasted content is stripped of everything but the structuring
+formats, which is what prevents the `<span style="background-color: …">` and
+friends that browsers add when copying from an external page. The allowed
+formats can be redefined globally:
+
+```javascript
+window.aropixelQuillPasteFormats = ['bold', 'italic', 'link', 'list', 'header'];
+```
+
+**Semantic storage.** Quill 2 represents *every* list as an `<ol>` whose `<li>`
+carry a `data-list` attribute, and injects `<span class="ql-ui">` nodes to draw
+bullets and numbers. The editor translates both ways, so what is stored stays
+plain semantic HTML — `<ul>` for bullet lists, no interface nodes — and a `<ul>`
+coming from an import or an older editor is understood when loading. Existing
+values polluted with `ql-ui` spans are cleaned the first time the record is
+saved.
+
+**HTML preview.** A `<>` button is appended to every toolbar; it toggles a
+read-only, indented view of the HTML the editor will store, with a copy button.
+Disable it globally with:
+
+```javascript
+window.aropixelQuillHtmlPreview = false;
+```
+
+Or per editor, by putting `'html'` where you want it in a custom toolbar — the
+button is only appended automatically when the toolbar does not already list it.
+
 ### ColorType
 
 A simple color picker input.

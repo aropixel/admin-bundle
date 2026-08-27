@@ -11,6 +11,7 @@
 import {SwitchStatus} from '/bundles/aropixeladmin/js/module/switch-status/switch-status.js';
 import {ConfirmDialog} from '/bundles/aropixeladmin/js/module/dialog/confirm-dialog.js';
 import {showToast} from '/bundles/aropixeladmin/js/module/toast/toast.js';
+import { activateQuillEditor } from '/bundles/aropixeladmin/js/module/quill/quill-editor.js';
 
 // Programmatic flash notifications: window.aroToast({ type, title, message }).
 window.aroToast = showToast;
@@ -870,132 +871,6 @@ function activateTimePicker($element) {
         amOrPm: false,
         cleartext: 'Effacer',
         donetext: 'Valider'
-    });
-}
-
-
-function activateQuillEditor($elements) {
-
-    // On peut enregistrer des barres d'outils personnalisées via window.aropixelQuillToolbars
-    const defaultToolbars = {
-        'full': [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-            ['clean'],
-            ['link', 'image', 'video', 'file']
-        ],
-        'simple': [
-            ['bold', 'italic', 'underline'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link', 'clean']
-        ]
-    };
-
-    // Icône de la barre d'outils pour le bouton « fichier » (absent des icônes Quill natives)
-    if (window.Quill) {
-        const quillIcons = Quill.import('ui/icons');
-        if (quillIcons && !quillIcons['file']) {
-            quillIcons['file'] = '<svg viewBox="0 0 18 18"><path class="ql-stroke" fill="none" d="M5,2 H10 L14,6 V16 H5 Z"></path><path class="ql-stroke" fill="none" d="M10,2 V6 H14"></path></svg>';
-        }
-    }
-
-    $elements.each(function() {
-        let $this = $(this);
-        let targetSelector = $this.data('target');
-        let toolbarType = $this.data('toolbar');
-        let $target = $(targetSelector.replace(/(:)/g, "\\$1"));
-
-        // Récupérer les barres d'outils personnalisées de l'utilisateur
-        const customToolbars = window.aropixelQuillToolbars || {};
-        const allToolbars = { ...defaultToolbars, ...customToolbars };
-
-        // Déterminer les options de la barre d'outils
-        let toolbarOptions = allToolbars[toolbarType] || allToolbars['full'];
-
-        // Si toolbarType ressemble à du JSON, on essaie de le parser
-        if (typeof toolbarType === 'string' && toolbarType.startsWith('[') && toolbarType.endsWith(']')) {
-            try {
-                toolbarOptions = JSON.parse(toolbarType);
-            } catch (e) {
-                console.error('Erreur lors du parsing de la barre d\'outils Quill custom :', e);
-            }
-        }
-
-        // Éviter la double initialisation
-        if ($this.data('quill-initialized')) {
-            return;
-        }
-
-        // Handler du bouton « fichier ». Il DOIT être fourni à la construction : Quill
-        // n'attache un écouteur à un bouton `ql-*` que si un handler existe déjà ou si le
-        // format est connu. « file » n'est pas un format Quill, donc un addHandler('file')
-        // posé après `new Quill` arriverait trop tard (le bouton n'aurait aucun écouteur).
-        // « image » est un format connu : son handler peut, lui, rester surchargé plus bas.
-        const fileHandler = function() {
-            const quillInstance = this.quill;
-            if ($.fn.FileManager) {
-                $($target[0]).FileManager({
-                    editor: quillInstance,
-                    category: $target.attr('data-class')
-                });
-            } else {
-                // Repli : saisie manuelle d'une URL de fichier
-                const range = quillInstance.getSelection(true);
-                const value = prompt('Veuillez entrer l\'URL du fichier :');
-                if (value) {
-                    quillInstance.insertText(range.index, value, 'link', value, 'user');
-                }
-            }
-        };
-
-        let quill = new Quill($this[0], {
-            theme: 'snow',
-            modules: {
-                toolbar: {
-                    container: toolbarOptions,
-                    handlers: { file: fileHandler }
-                }
-            }
-        });
-
-        $this.data('quill-initialized', true);
-
-        // Surcharge du handler image pour utiliser l'ImageManager si possible
-        if (quill.getModule('toolbar')) {
-            quill.getModule('toolbar').addHandler('image', function() {
-                if (window.initImageManager) {
-                    $target.attr('data-im-type', 'editor');
-                    window.initImageManager($target[0], {
-                        editor: quill,
-                        category: $target.attr('data-class'),
-                        attach_path: $target.attr('data-attach-path')
-                    });
-                } else {
-                    // Fallback to default image handler if initImageManager is not available
-                    const range = this.quill.getSelection();
-                    const value = prompt('Veuillez entrer l\'URL de l\'image :');
-                    if (value) {
-                        this.quill.insertEmbed(range.index, 'image', value, Quill.Sources.USER);
-                    }
-                }
-            });
-        }
-
-        // Initialize content
-        quill.root.innerHTML = $target.val();
-
-        quill.on('text-change', function() {
-            $target.val(quill.root.innerHTML);
-        });
     });
 }
 

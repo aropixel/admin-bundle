@@ -79,6 +79,13 @@ The catalogue exists in **two forms**, and they must not drift:
 - Backslashes in the FQCN argument are stripped by the Docker shell (`/bin/bash -c`). Always wrap in single quotes: `'App\Entity\Project'`. The command handles this via `extractShortName()`, but the controller name may be wrong if the regex does not match.
 - Generated templates are placed in `templates/admin/{entity_snake_case}/` (e.g. `Project` → `admin/project/`).
 
+### `EditorType` (QuillJS)
+
+- The stored HTML and the DOM Quill manipulates are **not the same markup**. Quill 2 puts every list in an `<ol>` with `data-list` on the `<li>`, and injects `<span class="ql-ui">` nodes. `toEditorHtml()` / `toStorageHtml()` in `js/module/quill/quill-editor.js` translate both ways — **never** write `quill.root.innerHTML` straight to the textarea, it leaks the interface nodes into the database.
+- `Shift + Enter` relies on a `softbreak` blot registered on tagName `BR`, which overrides the tagName lookup for Quill's own `Break`. Quill still creates its empty-line breaks by blot name, so both coexist — but registering another `BR` blot would break soft line breaks.
+- The clean-paste matcher only runs on a real paste, never on load: initial content is assigned through `innerHTML`, which bypasses the clipboard matchers. Loading through `clipboard.convert()` instead would strip colours and sizes from saved content.
+- The `file` toolbar handler **must** be passed to the `Quill` constructor. `file` is not a Quill format, so a button whose handler is registered later with `addHandler()` never gets a listener. `image` is a known format and may keep being overridden after construction.
+
 ### `DataTable`
 
 - Columns are defined inside the `index()` action of the controller, not in a constructor.
