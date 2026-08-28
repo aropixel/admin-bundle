@@ -34,7 +34,6 @@
 
 .form-switch.form-status-switch .form-check-label {
     padding: 7px 3px 0 0;
-    font-weight: 500;
 }
 
 .form-check-input:checked {
@@ -72,8 +71,8 @@
     box-shadow: none;
 }
 
+/* Weight is set with the other labels, in `_form.css`. */
 .form-check-label {
-    font-weight: 500;
     color: var(--aro-color-text-label);
     font-size: 14px;
 }

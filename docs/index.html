@@ -187,6 +187,10 @@
     --aro-color-bg: #F5F8FA;
     --aro-color-surface: #FFFFFF;
     --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
+    /* Chrome that must read as inert beside the content it captions — the editor toolbar.
+       `-muted` was far too dark for that. Since fields went grey it sits a shade *lighter*
+       than the field it tops, which still separates the two; revisit if that inverts oddly. */
+    --aro-color-surface-subtle: #FAFAFA;
 
     /* ------------------------------------------------------------------ Text */
 
@@ -206,13 +210,40 @@
 
     /* ------------------------------------------------------------ Form fields */
 
-    /* Resting fill is white with a visible border, not the grey fill described in the
-       design system readme — the tokens there were revised after that prose was written,
-       and white is what works on a grey app background. */
-    --aro-field-bg: #FFFFFF;
-    --aro-field-border: #D7DCE2;
+    /*
+     * Grey fill, no border — the resting style the admin shipped with in v3.0.0, restored
+     * after a spell on white-with-a-visible-border.
+     *
+     * The fill carries the app background's own value, and that is the point: a field reads
+     * as a recess cut into the white card it sits on, not as a raised surface. The corollary
+     * is that fields need that white card behind them — dropped straight onto the app
+     * background they disappear, which is what the previous white-fill note was reacting to.
+     *
+     * The border tokens hold `transparent` rather than being removed, so the border box
+     * survives: no 2px reflow when a state paints a border back on, and an integrator gets
+     * the bordered look back by overriding one value.
+     *
+     * Focus goes *darker*, not lighter — the field sinks further into the card rather than
+     * lifting off it. `style.css` in v3.0.0 declared the opposite, a near-white `#fefeff`,
+     * but `input[type="text"]:focus` in its `_form.css` outranked that rule and painted
+     * `#eef3f7`, so the darker value is the one the admin actually wore.
+     *
+     * `-panel` is the resting fill of the composite controls — the Quill editor, Select2,
+     * bootstrap-select. They carry their own chrome over a tall surface, and the grey recess
+     * that suits a single-line field turns them into a slab. It held the same value as the
+     * focus fill until the two had to diverge; a token each, now, so re-toning one leaves
+     * the other alone.
+     *
+     * The three field states stay monotonic: resting, disabled a step down, focus a step
+     * further. Disabled has to sit between them — level with focus it becomes unreadable as
+     * a state, and level with resting it stops reading as disabled at all.
+     */
+    --aro-field-bg: #F5F8FA;
+    --aro-field-bg-focus: #EEF3F7;
+    --aro-field-bg-panel: #FEFEFF;       /* a hair off white */
+    --aro-field-border: transparent;
     --aro-field-bg-disabled: #F2F4F7;
-    --aro-field-border-disabled: #E4E8EC;
+    --aro-field-border-disabled: transparent;
 
     /* ------------------------------------------------------- Status indicators */
 
@@ -737,7 +768,7 @@ div.dataTables_wrapper div.dataTables_processing {
   user-select: none;
   -webkit-user-select: none;
   outline: none;
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-mint);
 }
 
@@ -746,15 +777,15 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 .select2-container.select2-container--open .select2-selection--multiple {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 .select2-container.select2-container--focus .select2-selection--multiple, .select2-container.select2-container--focus .select2-selection--single {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 .select2-container.select2-container--open .select2-selection--single {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 
@@ -901,7 +932,14 @@ select.form-control:not([size]):not([multiple]) {
     margin-top: var(--aro-space-3);
 }
 
-input[type="text"]:focus, input:disabled {
+/*
+ * Not a Select2 rule — a stray from the Stisla transcription that catches every text input.
+ * The `:focus` half is dropped: `.form-control:focus` in `_form.css` owns that state now,
+ * and this selector, at (0,2,1) against its (0,2,0), was quietly outranking it and painting
+ * every focused field the *disabled* grey. The `:disabled` half stays; it reaches inputs
+ * that carry no `.form-control`.
+ */
+input:disabled {
     background-color: var(--aro-field-bg-disabled);
 }
 
@@ -931,7 +969,7 @@ textarea.form-control {
 .dropdown.bootstrap-select.form-control .btn.btn-light,
 .dropdown.bootstrap-select.form-control .btn:hover,
 .dropdown.bootstrap-select.form-control .btn.btn-light:hover {
-    background-color: var(--aro-color-surface)!important;
+    background-color: var(--aro-field-bg-panel)!important;
 }
 .dropdown.bootstrap-select.form-control .btn.disabled,
 .dropdown.bootstrap-select.form-control .btn.disabled:hover {
@@ -2730,6 +2768,20 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 .form-layout .card-body:last-child {
     padding-bottom: 60px; }
 
+/*
+ * Labels sit one step above body text in weight.
+ *
+ * `col-form-label` is the theme's default label class (`Form/layout/_core.html.twig` sets it
+ * as `form_label_class`), `form-label` is Bootstrap's own for hand-written templates, and
+ * `form-check-label` covers checks and switches — which already carried 500 as a literal,
+ * now folded in here so the three agree from one place.
+ */
+.form-label,
+.col-form-label,
+.form-check-label {
+    font-weight: var(--aro-weight-medium);
+}
+
 .form-horizontal {
     --label-width: 25%;
     --content-width: 75%;
@@ -2783,19 +2835,39 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 }
 
 /*
- * Closes §17 item 4. Fields looked grey because nothing set their resting style once
- * Stisla went — Bootstrap's default reads the grey body background. White fill, visible
- * cool-grey border, per the tokens.
+ * Resting style: grey fill, no border — v3.0.0's, restored. Why the fill is the app
+ * background's own value is argued in the Form fields block of `_tokens.css`.
+ *
+ * This block first existed because nothing set a resting style once Stisla went (§17 item 4)
+ * and Bootstrap's default let the body background read through. That still holds; only the
+ * answer changed.
  */
 .form-control,
 .form-select {
     /* Bootstrap hardcodes `font-size: 1rem` on `.form-control`, so fields rendered 16px while
-       the rest of the admin is on the 14px base. Bring them onto the base token. */
+       the rest of the admin is on the 13px base. Bring them onto the base token. */
     font-size: var(--aro-text-base);
     background-color: var(--aro-field-bg);
     border-color: var(--aro-field-border);
 }
 
+/*
+ * Focus deepens the fill, and that is the whole indicator — as in v3.0.0, which suppressed
+ * the ring and added nothing back. Bootstrap paints a blue border and a 4px blue glow here;
+ * both are overruled without `!important`, since Bootstrap arrives inside `@layer bootstrap`
+ * and this file does not.
+ *
+ * Known cost, accepted deliberately: one grey against another is a weak focus indicator, and
+ * there is no border to help. A 1px border in `--aro-color-border-focus` is the one-line fix
+ * if that ever needs answering.
+ */
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--aro-field-bg-focus);
+    box-shadow: none;
+}
+
+/* Disabled sits *darker* than the resting fill: lighter would read as the focused state. */
 .form-control:disabled,
 .form-select:disabled {
     background-color: var(--aro-field-bg-disabled);
@@ -2843,7 +2915,6 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
 
 .form-switch.form-status-switch .form-check-label {
     padding: 7px 3px 0 0;
-    font-weight: 500;
 }
 
 .form-check-input:checked {
@@ -2881,8 +2952,8 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     box-shadow: none;
 }
 
+/* Weight is set with the other labels, in `_form.css`. */
 .form-check-label {
-    font-weight: 500;
     color: var(--aro-color-text-label);
     font-size: 14px;
 }
@@ -3207,7 +3278,10 @@ input:not([type=checkbox]):not([type=radio]) {
     align-items: center;
     gap: var(--aro-space-2);
     padding: var(--aro-space-8) var(--aro-space-6);
-    border: 2px dashed var(--aro-field-border);
+    /* `--aro-color-border`, not `--aro-field-border`: the field token went transparent when
+       fields lost their border, and a drop zone with no outline is not a drop zone. This
+       dashed rectangle was never a field edge anyway. */
+    border: 2px dashed var(--aro-color-border);
     border-radius: var(--aro-radius-card);
     background: var(--aro-color-bg);
     text-align: center;
@@ -3259,7 +3333,7 @@ input:not([type=checkbox]):not([type=radio]) {
     align-items: center;
     gap: var(--aro-space-3);
     padding: var(--aro-space-3);
-    border: 1px solid var(--aro-field-border);
+    border: 1px solid var(--aro-color-border);
     border-radius: var(--aro-radius-card);
     background: var(--aro-color-surface);
 }
@@ -4844,13 +4918,62 @@ table.dataTable thead .sorting_desc_disabled::before {
     border-color: var(--aro-color-border);
     border-top-left-radius: var(--aro-radius-input);
     border-top-right-radius: var(--aro-radius-input);
-    background-color: var(--aro-color-surface-muted);
+    background-color: var(--aro-color-surface-subtle);
+    padding: var(--aro-space-1) var(--aro-space-2);
+}
+
+/*
+ * Toolbar controls, a size down from Quill's own 28x24.
+ *
+ * `quill.snow.css` gives the button a 28x24 box with 5x3 padding, and sizes the icon by
+ * `svg { height: 100% }` — so the glyph is whatever the content box leaves it, 18px square,
+ * and the two cannot be set independently. Hence 24x24 with a 4px inset: content box 16,
+ * glyph 16, and the whole strip loses 8px of height once the toolbar's own padding halves.
+ *
+ * Everything lands on `--aro-space-*` because the ratio happens to be exact; that is
+ * convenience, not a claim that a button is made of spacing. If the glyph ever needs a size
+ * the scale does not hold, it belongs in Component metrics as its own token.
+ */
+.quill-editor-container .ql-snow.ql-toolbar button,
+.quill-editor-container .ql-snow .ql-color-picker,
+.quill-editor-container .ql-snow .ql-icon-picker {
+    width: var(--aro-space-6);
+}
+.quill-editor-container .ql-snow.ql-toolbar button {
+    height: var(--aro-space-6);
+    padding: var(--aro-space-1);
+}
+
+/* Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons. */
+.quill-editor-container .ql-snow .ql-picker {
+    font-size: var(--aro-text-sm);
+}
+
+/*
+ * Group separation, down from 15px, and the space between toolbar rows.
+ *
+ * A full toolbar wraps, and `.ql-formats` is the inline-block that wraps — so its vertical
+ * margin is what sets the row pitch. Doing it here rather than by growing the button keeps
+ * the glyph at 16: Quill sizes the icon from the button's content box, so padding bought
+ * for row spacing is paid for out of the icon (26px tall with a 6px inset renders a 14px
+ * glyph). Measured against that version, this gives the same 12px of air between rows and
+ * the same offset above the first, with the larger icon.
+ *
+ * Half a spacing step, written as such: the 4px scale has no 2px rung, and one row of
+ * toolbar is not the place to invent one.
+ */
+.quill-editor-container .ql-snow .ql-formats {
+    margin-right: var(--aro-space-3);
+    margin-top: calc(var(--aro-space-1) / 2);
+    margin-bottom: calc(var(--aro-space-1) / 2);
 }
 .quill-editor-container .ql-container.ql-snow {
     border-color: var(--aro-color-border);
     border-bottom-left-radius: var(--aro-radius-input);
     border-bottom-right-radius: var(--aro-radius-input);
-    background-color: var(--aro-field-bg);
+    /* `-panel`, not `-bg`: see the Form fields block in `_tokens.css` — the composite
+       controls sit on the near-white fill rather than the grey one. */
+    background-color: var(--aro-field-bg-panel);
 }
 .ql-container {
     font-family: var(--aro-font-sans);

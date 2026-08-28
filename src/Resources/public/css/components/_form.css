@@ -12,6 +12,20 @@
 .form-layout .card-body:last-child {
     padding-bottom: 60px; }
 
+/*
+ * Labels sit one step above body text in weight.
+ *
+ * `col-form-label` is the theme's default label class (`Form/layout/_core.html.twig` sets it
+ * as `form_label_class`), `form-label` is Bootstrap's own for hand-written templates, and
+ * `form-check-label` covers checks and switches — which already carried 500 as a literal,
+ * now folded in here so the three agree from one place.
+ */
+.form-label,
+.col-form-label,
+.form-check-label {
+    font-weight: var(--aro-weight-medium);
+}
+
 .form-horizontal {
     --label-width: 25%;
     --content-width: 75%;
@@ -65,19 +79,39 @@
 }
 
 /*
- * Closes §17 item 4. Fields looked grey because nothing set their resting style once
- * Stisla went — Bootstrap's default reads the grey body background. White fill, visible
- * cool-grey border, per the tokens.
+ * Resting style: grey fill, no border — v3.0.0's, restored. Why the fill is the app
+ * background's own value is argued in the Form fields block of `_tokens.css`.
+ *
+ * This block first existed because nothing set a resting style once Stisla went (§17 item 4)
+ * and Bootstrap's default let the body background read through. That still holds; only the
+ * answer changed.
  */
 .form-control,
 .form-select {
     /* Bootstrap hardcodes `font-size: 1rem` on `.form-control`, so fields rendered 16px while
-       the rest of the admin is on the 14px base. Bring them onto the base token. */
+       the rest of the admin is on the 13px base. Bring them onto the base token. */
     font-size: var(--aro-text-base);
     background-color: var(--aro-field-bg);
     border-color: var(--aro-field-border);
 }
 
+/*
+ * Focus deepens the fill, and that is the whole indicator — as in v3.0.0, which suppressed
+ * the ring and added nothing back. Bootstrap paints a blue border and a 4px blue glow here;
+ * both are overruled without `!important`, since Bootstrap arrives inside `@layer bootstrap`
+ * and this file does not.
+ *
+ * Known cost, accepted deliberately: one grey against another is a weak focus indicator, and
+ * there is no border to help. A 1px border in `--aro-color-border-focus` is the one-line fix
+ * if that ever needs answering.
+ */
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--aro-field-bg-focus);
+    box-shadow: none;
+}
+
+/* Disabled sits *darker* than the resting fill: lighter would read as the focused state. */
 .form-control:disabled,
 .form-select:disabled {
     background-color: var(--aro-field-bg-disabled);

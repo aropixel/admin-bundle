@@ -25,13 +25,62 @@
     border-color: var(--aro-color-border);
     border-top-left-radius: var(--aro-radius-input);
     border-top-right-radius: var(--aro-radius-input);
-    background-color: var(--aro-color-surface-muted);
+    background-color: var(--aro-color-surface-subtle);
+    padding: var(--aro-space-1) var(--aro-space-2);
+}
+
+/*
+ * Toolbar controls, a size down from Quill's own 28x24.
+ *
+ * `quill.snow.css` gives the button a 28x24 box with 5x3 padding, and sizes the icon by
+ * `svg { height: 100% }` — so the glyph is whatever the content box leaves it, 18px square,
+ * and the two cannot be set independently. Hence 24x24 with a 4px inset: content box 16,
+ * glyph 16, and the whole strip loses 8px of height once the toolbar's own padding halves.
+ *
+ * Everything lands on `--aro-space-*` because the ratio happens to be exact; that is
+ * convenience, not a claim that a button is made of spacing. If the glyph ever needs a size
+ * the scale does not hold, it belongs in Component metrics as its own token.
+ */
+.quill-editor-container .ql-snow.ql-toolbar button,
+.quill-editor-container .ql-snow .ql-color-picker,
+.quill-editor-container .ql-snow .ql-icon-picker {
+    width: var(--aro-space-6);
+}
+.quill-editor-container .ql-snow.ql-toolbar button {
+    height: var(--aro-space-6);
+    padding: var(--aro-space-1);
+}
+
+/* Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons. */
+.quill-editor-container .ql-snow .ql-picker {
+    font-size: var(--aro-text-sm);
+}
+
+/*
+ * Group separation, down from 15px, and the space between toolbar rows.
+ *
+ * A full toolbar wraps, and `.ql-formats` is the inline-block that wraps — so its vertical
+ * margin is what sets the row pitch. Doing it here rather than by growing the button keeps
+ * the glyph at 16: Quill sizes the icon from the button's content box, so padding bought
+ * for row spacing is paid for out of the icon (26px tall with a 6px inset renders a 14px
+ * glyph). Measured against that version, this gives the same 12px of air between rows and
+ * the same offset above the first, with the larger icon.
+ *
+ * Half a spacing step, written as such: the 4px scale has no 2px rung, and one row of
+ * toolbar is not the place to invent one.
+ */
+.quill-editor-container .ql-snow .ql-formats {
+    margin-right: var(--aro-space-3);
+    margin-top: calc(var(--aro-space-1) / 2);
+    margin-bottom: calc(var(--aro-space-1) / 2);
 }
 .quill-editor-container .ql-container.ql-snow {
     border-color: var(--aro-color-border);
     border-bottom-left-radius: var(--aro-radius-input);
     border-bottom-right-radius: var(--aro-radius-input);
-    background-color: var(--aro-field-bg);
+    /* `-panel`, not `-bg`: see the Form fields block in `_tokens.css` — the composite
+       controls sit on the near-white fill rather than the grey one. */
+    background-color: var(--aro-field-bg-panel);
 }
 .ql-container {
     font-family: var(--aro-font-sans);
