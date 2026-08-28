@@ -90,7 +90,7 @@ Override only these — the semantic layer. Values below are the defaults.
 ### Radii, typography
 
 `--aro-radius-input` `5px` · `--aro-radius-card` `6px` · `--aro-radius-pill` `100px` ·
-`--aro-font-sans` (Poppins) · `--aro-text-base` `0.875rem` (14px).
+`--aro-font-sans` (Poppins) · `--aro-text-base` `0.8125rem` (13px).
 
 Sizes and spacing are in **rem**, so they scale with the reader's browser font-size and
 zoom. See the full list in `src/Resources/public/css/foundations/_tokens.css`.

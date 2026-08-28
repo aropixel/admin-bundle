@@ -73,21 +73,24 @@
     cursor : pointer;
 }
 
+/*
+ * Flex rather than inline-block: the old pair — `font-size: 0` on the list, restored to a
+ * literal on the item — existed only to swallow the whitespace between `<li>`s. Nothing
+ * about that size was a typographic decision, which is why it read as a §4 violation and
+ * was not one worth re-tokenising: `gap` does the same job without either declaration, and
+ * takes the `:first-child` margin reset with it.
+ */
 .icons-list {
+    display: flex;
+    align-items: center;
+    gap: var(--aro-space-1);
     margin: 0;
     padding: 0;
     list-style: none;
     line-height: 1;
-    font-size: 0;
 }
 .icons-list > li {
     position: relative;
-    display: inline-block;
-    margin-left: var(--aro-space-1);
-    font-size: 13px;
-}
-.icons-list > li:first-child {
-    margin-left: 0;
 }
 .icons-list > li > a {
     color: inherit;

@@ -33,10 +33,6 @@
     margin: 0;
 }
 
-.fullscreen-navbar .navbar-links i {
-    font-size: 18px;
-}
-
 .fullscreen-navbar .navbar-links li {
     padding: 0 var(--aro-space-2);
 }
@@ -105,12 +101,20 @@
     font-weight: 600;
 }
 
-.dropdown-user .user-header i {
-    font-size: var(--aro-space-5);
-    color: var(--aro-color-primary);
+/*
+ * The avatar chip. Same `i` -> `svg` re-target as `.user-link` below, but the geometry had
+ * to be rebuilt rather than ported: a glyph was centred inside a 40px box by `width` plus a
+ * matching `line-height`, which says nothing to an `<svg>` — those two properties would
+ * simply have stretched the drawing itself. `border-box` plus padding gives the same chip
+ * with the icon inset, and drops the spacing token that was standing in as a font size.
+ */
+.dropdown-user .user-header svg {
+    box-sizing: border-box;
+    flex: none;
     width: 40px;
-    text-align: center;
-    line-height: 40px;
+    height: 40px;
+    padding: var(--aro-space-3);
+    color: var(--aro-color-primary);
     background-color: var(--aro-color-surface);
     border-radius: var(--aro-space-4);
 }
@@ -130,8 +134,15 @@
     text-decoration: none;
 }
 
-.dropdown-user .user-link i {
+/*
+ * Icon stacked over its label, which is what the 35px padding and the centring above are
+ * drawn for. The selector used to be `i`: since the move to ux-icons the icon is an inline
+ * `<svg>`, so the rule had stopped matching and the two links had silently collapsed to a
+ * single line. ux-icons sizes its SVGs at `1em`, so `font-size` is still the sizing lever —
+ * hence a token here rather than a `width`/`height` pair.
+ */
+.dropdown-user .user-link svg {
     display: block;
-    font-size: 25px;
-    margin-bottom: var(--aro-space-4);
+    margin: 0 auto var(--aro-space-4);
+    font-size: var(--aro-text-2xl);
 }
