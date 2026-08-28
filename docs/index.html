@@ -4804,14 +4804,211 @@ table.dataTable thead .sorting_desc_disabled::before {
  * Replaces `_wysiwyg.css` (176 lines), which was almost entirely wysihtml5 — a former
  * editor. wysihtml5 is dead: app.js initialises it on `.html5-editor`, a selector no
  * template emits, so its toolbar DOM (and the `.wysihtml5-*` / `.wysiwyg-color-*` rules
- * styling it) is never rendered. The live editor is Quill, and it needs one rule.
+ * styling it) is never rendered. The live editor is Quill.
  *
- * The colour of the toolbar and content comes from Quill's own `quill.snow.css`; only the
- * editor's minimum height is ours.
+ * The chrome — toolbar, borders, surfaces — takes its colour from our tokens. The content
+ * area is the exception to §4: its heading scale is expressed in `em`, not in `--aro-text-*`.
+ * Those tokens size the *admin UI*; what the editor shows is *prose destined for the
+ * front-end*, and the two scales answer to different arbitrations. Sizing editor headings
+ * from the UI scale would make an admin density change silently rewrite what an editor
+ * believes a page looks like.
+ *
+ * Overrides of Quill's own `quill.snow.css` must be selective enough to win: it styles
+ * headings as `.ql-snow .ql-editor h1`, so a bare `.ql-editor h1` here would lose. Hence
+ * the `.ql-snow` prefix throughout — the file is loaded after `quill.snow.css`, so equal
+ * specificity is enough.
  */
 
+/* --------------------------------------------------------------------- Chrome */
+
+.quill-editor-container .ql-toolbar.ql-snow {
+    border-color: var(--aro-color-border);
+    border-top-left-radius: var(--aro-radius-input);
+    border-top-right-radius: var(--aro-radius-input);
+    background-color: var(--aro-color-surface-muted);
+}
+.quill-editor-container .ql-container.ql-snow {
+    border-color: var(--aro-color-border);
+    border-bottom-left-radius: var(--aro-radius-input);
+    border-bottom-right-radius: var(--aro-radius-input);
+    background-color: var(--aro-field-bg);
+}
+.ql-container {
+    font-family: var(--aro-font-sans);
+    font-size: var(--aro-text-base);
+}
+
+/* --------------------------------------------------------------------- Content */
+
 .ql-editor {
-    min-height: 120px;
+    min-height: 220px;
+    padding: var(--aro-space-4) var(--aro-space-5);
+    line-height: var(--aro-leading-prose);
+    color: var(--aro-color-text);
+}
+
+/* The editor is not a page: it must not open or close on outer whitespace. */
+.ql-snow .ql-editor > *:first-child {
+    margin-top: 0;
+}
+.ql-snow .ql-editor > *:last-child {
+    margin-bottom: 0;
+}
+
+.ql-snow .ql-editor p {
+    margin: 0 0 0.9em;
+}
+
+.ql-snow .ql-editor h1,
+.ql-snow .ql-editor h2,
+.ql-snow .ql-editor h3,
+.ql-snow .ql-editor h4,
+.ql-snow .ql-editor h5,
+.ql-snow .ql-editor h6 {
+    margin: 1.6em 0 0.6em;
+    line-height: var(--aro-leading-tight);
+    font-weight: var(--aro-weight-semibold);
+    color: var(--aro-color-text-strong);
+}
+
+/* Quill sizes h5 and h6 at .83em and .67em — smaller than body text, which reads as a
+   mistake rather than as a heading. The scale below stays monotonic. */
+.ql-snow .ql-editor h1 { font-size: 1.9em; }
+.ql-snow .ql-editor h2 { font-size: 1.6em; }
+.ql-snow .ql-editor h3 { font-size: 1.35em; }
+.ql-snow .ql-editor h4 { font-size: 1.15em; }
+.ql-snow .ql-editor h5 { font-size: 1em; }
+.ql-snow .ql-editor h6 {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* A heading directly under its parent heading needs less air than one closing a section. */
+.ql-snow .ql-editor h1 + h2,
+.ql-snow .ql-editor h2 + h3,
+.ql-snow .ql-editor h3 + h4,
+.ql-snow .ql-editor h4 + h5,
+.ql-snow .ql-editor h5 + h6 {
+    margin-top: 0.8em;
+}
+
+.ql-snow .ql-editor ul,
+.ql-snow .ql-editor ol {
+    margin: 0 0 0.9em;
+}
+.ql-snow .ql-editor li {
+    margin-bottom: 0.3em;
+}
+.ql-snow .ql-editor li:last-child {
+    margin-bottom: 0;
+}
+.ql-snow .ql-editor li > ul,
+.ql-snow .ql-editor li > ol {
+    margin: 0.3em 0 0;
+}
+
+.ql-snow .ql-editor blockquote {
+    margin: 1.2em 0;
+    padding: 0.2em 0 0.2em var(--aro-space-5);
+    border-left: 3px solid var(--aro-color-primary);
+    color: var(--aro-color-text-muted);
+    font-style: italic;
+}
+
+.ql-snow .ql-editor .ql-code-block-container {
+    margin: 1.2em 0;
+    padding: var(--aro-space-3) var(--aro-space-4);
+    border-radius: var(--aro-radius-sm);
+    line-height: var(--aro-leading-base);
+}
+.ql-snow .ql-editor code {
+    padding: 0.15em 0.4em;
+    border-radius: var(--aro-radius-xs);
+    background-color: var(--aro-color-surface-muted);
+    color: var(--aro-color-secondary);
+    font-size: 0.9em;
+}
+
+.ql-snow .ql-editor a {
+    color: var(--aro-color-secondary);
+    text-decoration: underline;
+}
+.ql-snow .ql-editor img {
+    margin: 0.6em 0;
+    border-radius: var(--aro-radius-sm);
+}
+.ql-snow .ql-editor hr {
+    margin: 1.6em 0;
+    border: 0;
+    border-top: 1px solid var(--aro-color-border-line);
+}
+.ql-snow .ql-editor table {
+    margin: 1.2em 0;
+}
+.ql-snow .ql-editor td {
+    border-color: var(--aro-color-border);
+    padding: var(--aro-space-2) var(--aro-space-3);
+}
+
+/* --------------------------------------------------------------- HTML preview */
+
+/*
+ * Toggled by the `<>` toolbar button (see js/module/quill/quill-editor.js). Deliberately
+ * dark and deliberately not tokenised: it is a code surface, and it must read as one
+ * whatever the surrounding skin does.
+ */
+
+.quill-html-preview {
+    margin-top: -1px;
+    border: 1px solid var(--aro-color-border);
+    border-radius: 0 0 var(--aro-radius-input) var(--aro-radius-input);
+    background-color: #23241f;
+    overflow: hidden;
+}
+.quill-html-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--aro-space-2) var(--aro-space-3);
+    background-color: #1a1b17;
+    color: #b9bcae;
+}
+.quill-html-preview-title {
+    font-size: var(--aro-text-badge);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.quill-html-preview-copy {
+    padding: 0.15em 0.8em;
+    border: 1px solid #4a4c42;
+    border-radius: var(--aro-radius-sm);
+    background: none;
+    color: #b9bcae;
+    font-size: var(--aro-text-badge);
+    line-height: 1.6;
+}
+.quill-html-preview-copy:hover {
+    border-color: var(--aro-color-primary);
+    color: var(--aro-color-primary);
+}
+.quill-html-preview-code {
+    max-height: 320px;
+    margin: 0;
+    padding: var(--aro-space-3) var(--aro-space-4);
+    overflow: auto;
+    background: none;
+    color: #f8f8f2;
+    font-size: var(--aro-text-xs);
+    line-height: var(--aro-leading-prose);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.quill-html-preview-code code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
 }
 
 /* ./components/_badge.css */
