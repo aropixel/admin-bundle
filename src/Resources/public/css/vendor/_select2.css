@@ -28,7 +28,7 @@
   user-select: none;
   -webkit-user-select: none;
   outline: none;
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-mint);
 }
 
@@ -37,15 +37,15 @@
 }
 
 .select2-container.select2-container--open .select2-selection--multiple {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 .select2-container.select2-container--focus .select2-selection--multiple, .select2-container.select2-container--focus .select2-selection--single {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 .select2-container.select2-container--open .select2-selection--single {
-  background-color: var(--aro-color-surface);
+  background-color: var(--aro-field-bg-panel);
   border-color: var(--aro-accent-indigo);
 }
 
@@ -192,7 +192,14 @@ select.form-control:not([size]):not([multiple]) {
     margin-top: var(--aro-space-3);
 }
 
-input[type="text"]:focus, input:disabled {
+/*
+ * Not a Select2 rule — a stray from the Stisla transcription that catches every text input.
+ * The `:focus` half is dropped: `.form-control:focus` in `_form.css` owns that state now,
+ * and this selector, at (0,2,1) against its (0,2,0), was quietly outranking it and painting
+ * every focused field the *disabled* grey. The `:disabled` half stays; it reaches inputs
+ * that carry no `.form-control`.
+ */
+input:disabled {
     background-color: var(--aro-field-bg-disabled);
 }
 
@@ -222,7 +229,7 @@ textarea.form-control {
 .dropdown.bootstrap-select.form-control .btn.btn-light,
 .dropdown.bootstrap-select.form-control .btn:hover,
 .dropdown.bootstrap-select.form-control .btn.btn-light:hover {
-    background-color: var(--aro-color-surface)!important;
+    background-color: var(--aro-field-bg-panel)!important;
 }
 .dropdown.bootstrap-select.form-control .btn.disabled,
 .dropdown.bootstrap-select.form-control .btn.disabled:hover {

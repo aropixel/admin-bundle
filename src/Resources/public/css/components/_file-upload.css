@@ -30,7 +30,10 @@
     align-items: center;
     gap: var(--aro-space-2);
     padding: var(--aro-space-8) var(--aro-space-6);
-    border: 2px dashed var(--aro-field-border);
+    /* `--aro-color-border`, not `--aro-field-border`: the field token went transparent when
+       fields lost their border, and a drop zone with no outline is not a drop zone. This
+       dashed rectangle was never a field edge anyway. */
+    border: 2px dashed var(--aro-color-border);
     border-radius: var(--aro-radius-card);
     background: var(--aro-color-bg);
     text-align: center;
@@ -82,7 +85,7 @@
     align-items: center;
     gap: var(--aro-space-3);
     padding: var(--aro-space-3);
-    border: 1px solid var(--aro-field-border);
+    border: 1px solid var(--aro-color-border);
     border-radius: var(--aro-radius-card);
     background: var(--aro-color-surface);
 }

@@ -51,6 +51,10 @@
     --aro-color-bg: #F5F8FA;
     --aro-color-surface: #FFFFFF;
     --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
+    /* Chrome that must read as inert beside the content it captions — the editor toolbar.
+       `-muted` was far too dark for that. Since fields went grey it sits a shade *lighter*
+       than the field it tops, which still separates the two; revisit if that inverts oddly. */
+    --aro-color-surface-subtle: #FAFAFA;
 
     /* ------------------------------------------------------------------ Text */
 
@@ -70,13 +74,40 @@
 
     /* ------------------------------------------------------------ Form fields */
 
-    /* Resting fill is white with a visible border, not the grey fill described in the
-       design system readme — the tokens there were revised after that prose was written,
-       and white is what works on a grey app background. */
-    --aro-field-bg: #FFFFFF;
-    --aro-field-border: #D7DCE2;
+    /*
+     * Grey fill, no border — the resting style the admin shipped with in v3.0.0, restored
+     * after a spell on white-with-a-visible-border.
+     *
+     * The fill carries the app background's own value, and that is the point: a field reads
+     * as a recess cut into the white card it sits on, not as a raised surface. The corollary
+     * is that fields need that white card behind them — dropped straight onto the app
+     * background they disappear, which is what the previous white-fill note was reacting to.
+     *
+     * The border tokens hold `transparent` rather than being removed, so the border box
+     * survives: no 2px reflow when a state paints a border back on, and an integrator gets
+     * the bordered look back by overriding one value.
+     *
+     * Focus goes *darker*, not lighter — the field sinks further into the card rather than
+     * lifting off it. `style.css` in v3.0.0 declared the opposite, a near-white `#fefeff`,
+     * but `input[type="text"]:focus` in its `_form.css` outranked that rule and painted
+     * `#eef3f7`, so the darker value is the one the admin actually wore.
+     *
+     * `-panel` is the resting fill of the composite controls — the Quill editor, Select2,
+     * bootstrap-select. They carry their own chrome over a tall surface, and the grey recess
+     * that suits a single-line field turns them into a slab. It held the same value as the
+     * focus fill until the two had to diverge; a token each, now, so re-toning one leaves
+     * the other alone.
+     *
+     * The three field states stay monotonic: resting, disabled a step down, focus a step
+     * further. Disabled has to sit between them — level with focus it becomes unreadable as
+     * a state, and level with resting it stops reading as disabled at all.
+     */
+    --aro-field-bg: #F5F8FA;
+    --aro-field-bg-focus: #EEF3F7;
+    --aro-field-bg-panel: #FEFEFF;       /* a hair off white */
+    --aro-field-border: transparent;
     --aro-field-bg-disabled: #F2F4F7;
-    --aro-field-border-disabled: #E4E8EC;
+    --aro-field-border-disabled: transparent;
 
     /* ------------------------------------------------------- Status indicators */
 
@@ -149,25 +180,30 @@
     --aro-font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
     /*
-     * SETTLED — 14px base, up from the 13px inherited from Stisla. Judged by eye on the
-     * DataTable once `_table.css` consumed these tokens, which is the only state in which
-     * the question is answerable.
+     * SETTLED — 13px base, back down from the 14px this scale briefly carried.
      *
-     * The measurement reframed it: 14px costs **5px per ten-row page**, because row height
-     * comes from cell padding and line-height, not from font size. So the trade was never
-     * readability against compactness — compactness was barely on the table.
+     * The 14px argument was that compactness was barely on the table: it costs **5px per
+     * ten-row DataTable page**, because row height comes from cell padding and line-height,
+     * not from font size. That measurement still holds, and it is not what decided this.
+     * The call was made by eye on the rendered admin: Poppins sets wider and rounder than
+     * the system faces this scale is usually drawn against, and at 14px the chrome competes
+     * with the data. 13px is where it recedes.
+     *
+     * The two steps below moved with it, to 12px and 11px, so `sm` stays one step under body
+     * text instead of collapsing onto it. `lg` and up are unchanged: they are titles and
+     * figures, judged against the page rather than against the body text.
      */
     /*
      * Expressed in rem (÷16 of the pixel value) rather than px, so text scales with the
      * reader's browser font-size setting and zoom — an accessibility property px does not
-     * have, and the reason Tailwind works this way. At the default 16px root these render
-     * identically to the old px values (0.875rem = 14px), so the switch is visually inert.
+     * have, and the reason Tailwind works this way. At the default 16px root a rem step is
+     * exactly its pixel comment (1rem = 16px), so the switch to rem was itself inert.
      * Radii, borders, shadows and structural dimensions stay in px: fine detail and fixed
      * chrome should not balloon when the reader zooms.
      */
-    --aro-text-xs: 0.75rem;      /* 12px — labels, meta */
-    --aro-text-sm: 0.8125rem;    /* 13px — secondary text */
-    --aro-text-base: 0.875rem;   /* 14px */
+    --aro-text-xs: 0.6875rem;    /* 11px — labels, meta */
+    --aro-text-sm: 0.75rem;      /* 12px — secondary text */
+    --aro-text-base: 0.8125rem;  /* 13px */
     --aro-text-lg: 1rem;         /* 16px — subheadings */
     --aro-text-xl: 1.125rem;     /* 18px */
     --aro-text-2xl: 1.375rem;    /* 22px — page titles */
