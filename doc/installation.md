@@ -14,7 +14,7 @@ castor-starter aropixel:new:admin
 
 We provide several ways to install our AdminBundle, depending on your needs:
 
-- Create your symfony 7.* or 8.* project
+- Create your Symfony 6.4, 7.* or 8.* project
 - Require Aropixel Admin Bundle
 ```bash
 composer require aropixel/admin-bundle
