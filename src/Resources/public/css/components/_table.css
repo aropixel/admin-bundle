@@ -75,20 +75,42 @@
     display: block;
 }
 
+/*
+ * Nothing here re-declares a field surface. The element carries `.form-control`, so fill,
+ * border and radius arrive from `_form.css` with the focus and disabled states attached —
+ * where they used to be restated as white, a grey border and a 3px radius, which is how the
+ * search box came to be the one field in the admin still drawn the old way.
+ *
+ * The right padding was 32px, clearance for a magnifier no template or script renders; the
+ * `position: relative` above is the other half of that ghost, left in place in case a
+ * template still absolutely-positions something into it. Squared off with the left padding.
+ */
 .dataTables_filter input {
     width: 200px;
-    height: 36px;
-    padding: var(--aro-space-2) var(--aro-space-8) var(--aro-space-2) var(--aro-space-3);
+    padding: var(--aro-space-2) var(--aro-space-3);
     outline: 0;
     color: var(--aro-color-text);
     line-height: var(--aro-leading-base);
-    background-color: var(--aro-color-surface);
-    border: 1px solid var(--aro-color-border);
-    border-radius: var(--aro-radius-sm);
 }
 
 .dataTables_length {
     display: inline-block;
+}
+
+/*
+ * Header controls run shorter than a form field: this strip is chrome above the data, not a
+ * form to fill in.
+ *
+ * Both selectors are longer than they look like they need to be, and neither can be trimmed.
+ * `_form-controls.css` still carries two Stisla-era rules that pin every input to 45px —
+ * `input:not([type=checkbox]):not([type=radio])` at (0,2,1) and
+ * `select.form-control:not([size]):not([multiple])` at (0,3,1). Matching (0,3,1) here is what
+ * it takes to win, and this file loads after that one. Height came off the block above for
+ * the same reason: at (0,1,1) it was being silently overruled and read as if it applied.
+ */
+.datatable-header .dataTables_filter input.form-control,
+.datatable-header .dataTables_length select.form-control {
+    height: var(--aro-space-8);
 }
 
 .dataTables_length > label > span:first-child {
