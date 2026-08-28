@@ -14,7 +14,7 @@ CRUD tasks are repetitive, so the bundle provides a `make:crud` command. However
 
 ## Presentation
 
-Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 7 projects. 
+Aropixel Admin Bundle is a bootstrap admin bundle for your Symfony 6.4+ projects. 
 It provides a minimalist admin system with: login, logout, admin users crud, admin menu management.
 
 
