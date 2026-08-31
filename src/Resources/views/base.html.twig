@@ -204,8 +204,11 @@
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/images.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/files.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/translation.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/app.js') }}"></script>
-            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ app.request.locale ~ '/datatable.js') }}"></script>
+            {# Les i18n sont rangées par langue (fr/, en/) : une locale régionalisée (fr_FR)
+               ferait 404 et laisserait DataTables sur ses libellés anglais. #}
+            {% set jsLocale = app.request.locale|split('_')|first %}
+            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ jsLocale ~ '/app.js') }}"></script>
+            <script src="{{ asset('bundles/aropixeladmin/js/i18n/' ~ jsLocale ~ '/datatable.js') }}"></script>
             <script src="{{ asset('bundles/aropixeladmin/js/custom.js') }}"></script>
             <script type="module">
                 {# Must go through asset(): a hardcoded absolute path breaks any install
