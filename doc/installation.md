@@ -38,6 +38,7 @@ aropixel_admin:
                 width: "50px"
             login:
                 path: "bundles/aropixeladmin/img/sigle_fond-blanc_code-transparent.png"
+                width: ~ # optional; null renders the logo at its intrinsic size
         colors:
             background_color: "#0CABA8"
             btn_background_color: "#0CABA8"

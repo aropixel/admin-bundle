@@ -47,7 +47,8 @@
         <div class="row">
 
             <div class="col-12 col-md-5 login-side">
-                <img src="{{ asset(loginLogoPath) }}" alt="" width="50%">
+                {# Largeur configurable — 50% en dur rendait démesuré un sigle à la taille intrinsèque modeste. #}
+                <img src="{{ asset(loginLogoPath) }}" alt=""{% if admin_theme.logo.login.width is defined and admin_theme.logo.login.width %} width="{{ admin_theme.logo.login.width }}"{% endif %}>
             </div>
 
             <div class="col-12 col-md-7 d-flex align-items-center justify-content-center">

@@ -96,6 +96,8 @@ class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('path')->defaultValue('bundles/aropixeladmin/img/sigle_fond-blanc_code-transparent.png')->end()
+                                        // Null = taille intrinsèque de l'image ; le template n'émet width que si renseigné.
+                                        ->scalarNode('width')->defaultNull()->end()
                                     ->end()
                                 ->end()
                             ->end()
