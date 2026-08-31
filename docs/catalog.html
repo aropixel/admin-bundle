@@ -3975,6 +3975,38 @@ input:not([type=checkbox]):not([type=radio]) {
 .aro-alert--info    { --aro-alert-accent: var(--aro-color-info); }
 .aro-alert--primary { --aro-alert-accent: var(--aro-color-primary); }
 
+/* ---------------------------------------------------- Bootstrap .alert-* variants */
+
+/*
+ * Solid presentation for Bootstrap's own alert vocabulary — flash messages and legacy
+ * templates that never migrated to .aro-alert: semantic fill, white text, no border,
+ * the look Tick&Live carried through v2. The .aro-alert component above keeps its
+ * tinted default; `.aro-alert--solid` gives the same tone there.
+ *
+ * Driven through Bootstrap's own --bs-alert-* variables (unlayered, so they outrank the
+ * layered defaults), like the card and dropdown components.
+ */
+.alert-success, .alert-danger, .alert-warning, .alert-info {
+    --bs-alert-color: var(--aro-color-text-inverted);
+    --bs-alert-border-color: transparent;
+    --bs-alert-link-color: var(--aro-color-text-inverted);
+}
+
+.alert-success { --bs-alert-bg: var(--aro-color-success); }
+.alert-danger  { --bs-alert-bg: var(--aro-color-danger); }
+.alert-warning { --bs-alert-bg: var(--aro-color-warning); }
+.alert-info    { --bs-alert-bg: var(--aro-color-info); }
+
+/* Content links go white with their panel (v2: `.alert:not(.alert-light) a`). */
+.alert-success a, .alert-danger a, .alert-warning a, .alert-info a {
+    color: inherit;
+}
+
+/* A paragraph is the alert's own line of text, not prose: no trailing rhythm (v2 rule). */
+.alert p {
+    margin-bottom: 0;
+}
+
 /* ./components/_section-header.css */
 /**
  * Section header — the identity block at the top of every screen.
