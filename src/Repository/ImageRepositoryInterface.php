@@ -7,7 +7,13 @@ use Doctrine\ORM\QueryBuilder;
 
 interface ImageRepositoryInterface
 {
-    public function find(mixed $id): ?object;
+    /**
+     * Sans type de retour natif : ORM 2.20 ne le déclare pas sur EntityRepository::find(),
+     * ORM 3 le déclare (covariant). L'interface doit rester implémentable par les deux.
+     *
+     * @return object|null
+     */
+    public function find(mixed $id);
 
     public function getQueryDataTable(DataTableContext $context): QueryBuilder;
 
