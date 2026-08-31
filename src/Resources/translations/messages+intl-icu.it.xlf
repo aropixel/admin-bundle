@@ -877,6 +877,106 @@
         <source>form.button.continue_editing</source>
         <target>Continua a modificare</target>
       </trans-unit>
+      <trans-unit id="editor.tooltip.header" resname="editor.tooltip.header">
+        <source>editor.tooltip.header</source>
+        <target>Stile del titolo</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.bold" resname="editor.tooltip.bold">
+        <source>editor.tooltip.bold</source>
+        <target>Grassetto</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.italic" resname="editor.tooltip.italic">
+        <source>editor.tooltip.italic</source>
+        <target>Corsivo</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.underline" resname="editor.tooltip.underline">
+        <source>editor.tooltip.underline</source>
+        <target>Sottolineato</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.strike" resname="editor.tooltip.strike">
+        <source>editor.tooltip.strike</source>
+        <target>Barrato</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.blockquote" resname="editor.tooltip.blockquote">
+        <source>editor.tooltip.blockquote</source>
+        <target>Citazione</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.code_block" resname="editor.tooltip.code_block">
+        <source>editor.tooltip.code_block</source>
+        <target>Blocco di codice</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.list_ordered" resname="editor.tooltip.list_ordered">
+        <source>editor.tooltip.list_ordered</source>
+        <target>Elenco numerato</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.list_bullet" resname="editor.tooltip.list_bullet">
+        <source>editor.tooltip.list_bullet</source>
+        <target>Elenco puntato</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.script_sub" resname="editor.tooltip.script_sub">
+        <source>editor.tooltip.script_sub</source>
+        <target>Pedice</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.script_super" resname="editor.tooltip.script_super">
+        <source>editor.tooltip.script_super</source>
+        <target>Apice</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.size" resname="editor.tooltip.size">
+        <source>editor.tooltip.size</source>
+        <target>Dimensione del testo</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.color" resname="editor.tooltip.color">
+        <source>editor.tooltip.color</source>
+        <target>Colore del testo</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.background" resname="editor.tooltip.background">
+        <source>editor.tooltip.background</source>
+        <target>Colore di sfondo</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.align" resname="editor.tooltip.align">
+        <source>editor.tooltip.align</source>
+        <target>Allineamento</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.clean" resname="editor.tooltip.clean">
+        <source>editor.tooltip.clean</source>
+        <target>Rimuovi formattazione</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.link" resname="editor.tooltip.link">
+        <source>editor.tooltip.link</source>
+        <target>Link</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.image" resname="editor.tooltip.image">
+        <source>editor.tooltip.image</source>
+        <target>Immagine</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.video" resname="editor.tooltip.video">
+        <source>editor.tooltip.video</source>
+        <target>Video</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.file" resname="editor.tooltip.file">
+        <source>editor.tooltip.file</source>
+        <target>File</target>
+      </trans-unit>
+      <trans-unit id="editor.tooltip.html" resname="editor.tooltip.html">
+        <source>editor.tooltip.html</source>
+        <target>Codice sorgente HTML</target>
+      </trans-unit>
+      <trans-unit id="editor.link.new_tab" resname="editor.link.new_tab">
+        <source>editor.link.new_tab</source>
+        <target>Nuova scheda</target>
+      </trans-unit>
+      <trans-unit id="editor.source.title" resname="editor.source.title">
+        <source>editor.source.title</source>
+        <target>Codice sorgente HTML</target>
+      </trans-unit>
+      <trans-unit id="editor.source.copy" resname="editor.source.copy">
+        <source>editor.source.copy</source>
+        <target>Copia</target>
+      </trans-unit>
+      <trans-unit id="editor.source.copied" resname="editor.source.copied">
+        <source>editor.source.copied</source>
+        <target>Copiato!</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

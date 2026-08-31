@@ -85,6 +85,8 @@ The catalogue exists in **two forms**, and they must not drift:
 - `Shift + Enter` relies on a `softbreak` blot registered on tagName `BR`, which overrides the tagName lookup for Quill's own `Break`. Quill still creates its empty-line breaks by blot name, so both coexist — but registering another `BR` blot would break soft line breaks.
 - The clean-paste matcher only runs on a real paste, never on load: initial content is assigned through `innerHTML`, which bypasses the clipboard matchers. Loading through `clipboard.convert()` instead would strip colours and sizes from saved content.
 - The `file` toolbar handler **must** be passed to the `Quill` constructor. `file` is not a Quill format, so a button whose handler is registered later with `addHandler()` never gets a listener. `image` is a known format and may keep being overridden after construction.
+- The `link` format is overridden (`AroLink`) so its value can be `{ href, target }` — the « Nouvel onglet » checkbox in the tooltip drives `target`. The snow tooltip's `save()` is replaced per instance for link mode; the theme's own preview keeps using the *original* `Link.formats()` (string), which is why `AroLink.formats()` returning an object does not break it.
+- The `<>` button opens an **editable** source panel that replaces the `.ql-container` (class `quill-source-mode` on the container). The panel's textarea holds *storage* HTML pretty-printed by `prettyHtml()`; `compactHtml()` strips that indentation before the HTML reaches the textarea field or `quill.root.innerHTML` — skipping it would leak literal newlines into the rendered content (`white-space: pre-wrap`).
 
 ### `DataTable`
 

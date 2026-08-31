@@ -7,7 +7,14 @@ use Doctrine\DBAL\LockMode;
 
 interface UserRepositoryInterface
 {
-    public function find(mixed $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?object;
+    /**
+     * Sans types de retour natifs sur find/findOneBy/findAll/findBy : ORM 2.20 ne les déclare
+     * pas sur EntityRepository, ORM 3 les déclare (covariants). L'interface doit rester
+     * implémentable par les deux.
+     *
+     * @return object|null
+     */
+    public function find(mixed $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null);
 
     /**
      * @param array<string, mixed> $criteria the criteria
@@ -16,14 +23,14 @@ interface UserRepositoryInterface
      *
      * @psalm-return UserInterface|null
      */
-    public function findOneBy(array $criteria): ?object;
+    public function findOneBy(array $criteria);
 
     /**
      * @return array<int, object> the objects
      *
      * @psalm-return UserInterface[]
      */
-    public function findAll(): array;
+    public function findAll();
 
     /**
      * @param array<string, mixed>       $criteria
@@ -35,7 +42,7 @@ interface UserRepositoryInterface
      *
      * @psalm-return UserInterface[]
      */
-    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
+    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null);
 
     public function findUserByEmail(string $email): ?UserInterface;
 

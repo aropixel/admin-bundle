@@ -52,9 +52,9 @@
     --aro-color-surface: #FFFFFF;
     --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
     /* Chrome that must read as inert beside the content it captions — the editor toolbar.
-       `-muted` was far too dark for that. Since fields went grey it sits a shade *lighter*
-       than the field it tops, which still separates the two; revisit if that inverts oddly. */
-    --aro-color-surface-subtle: #FAFAFA;
+       `-muted` was far too dark for that. Now aligned with the page background
+       (`--aro-color-bg`): the cool grey still separates it from the near-white field it tops. */
+    --aro-color-surface-subtle: #F5F8FA;
 
     /* ------------------------------------------------------------------ Text */
 
