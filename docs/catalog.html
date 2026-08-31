@@ -188,9 +188,9 @@
     --aro-color-surface: #FFFFFF;
     --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
     /* Chrome that must read as inert beside the content it captions — the editor toolbar.
-       `-muted` was far too dark for that. Now aligned with the page background
-       (`--aro-color-bg`): the cool grey still separates it from the near-white field it tops. */
-    --aro-color-surface-subtle: #F5F8FA;
+       `-muted` was far too dark for that. Since fields went grey it sits a shade *lighter*
+       than the field it tops, which still separates the two; revisit if that inverts oddly. */
+    --aro-color-surface-subtle: #FAFAFA;
 
     /* ------------------------------------------------------------------ Text */
 
@@ -5147,24 +5147,22 @@ table.dataTable thead .sorting_desc_disabled::before {
     padding: var(--aro-space-2) var(--aro-space-3);
 }
 
-/* ---------------------------------------------------------------- Source HTML */
+/* --------------------------------------------------------------- HTML preview */
 
 /*
- * Toggled by the `<>` toolbar button (see js/module/quill/quill-editor.js): the panel
- * replaces the rendered text (the `.ql-container` is hidden) and the HTML is editable —
- * it is applied back to the editor when the panel closes. Deliberately dark and
- * deliberately not tokenised: it is a code surface, and it must read as one whatever
- * the surrounding skin does.
+ * Toggled by the `<>` toolbar button (see js/module/quill/quill-editor.js). Deliberately
+ * dark and deliberately not tokenised: it is a code surface, and it must read as one
+ * whatever the surrounding skin does.
  */
 
-.quill-html-source {
+.quill-html-preview {
     margin-top: -1px;
     border: 1px solid var(--aro-color-border);
     border-radius: 0 0 var(--aro-radius-input) var(--aro-radius-input);
     background-color: #23241f;
     overflow: hidden;
 }
-.quill-html-source-header {
+.quill-html-preview-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5172,12 +5170,12 @@ table.dataTable thead .sorting_desc_disabled::before {
     background-color: #1a1b17;
     color: #b9bcae;
 }
-.quill-html-source-title {
+.quill-html-preview-title {
     font-size: var(--aro-text-badge);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
-.quill-html-source-copy {
+.quill-html-preview-copy {
     padding: 0.15em 0.8em;
     border: 1px solid #4a4c42;
     border-radius: var(--aro-radius-sm);
@@ -5186,61 +5184,27 @@ table.dataTable thead .sorting_desc_disabled::before {
     font-size: var(--aro-text-badge);
     line-height: 1.6;
 }
-.quill-html-source-copy:hover {
+.quill-html-preview-copy:hover {
     border-color: var(--aro-color-primary);
     color: var(--aro-color-primary);
 }
-.quill-html-source-code {
-    display: block;
-    width: 100%;
-    min-height: 220px;
-    max-height: 480px;
+.quill-html-preview-code {
+    max-height: 320px;
     margin: 0;
     padding: var(--aro-space-3) var(--aro-space-4);
-    border: 0;
-    resize: vertical;
+    overflow: auto;
     background: none;
     color: #f8f8f2;
-    font-family: Monaco, 'Courier New', monospace;
     font-size: var(--aro-text-xs);
     line-height: var(--aro-leading-prose);
     white-space: pre-wrap;
     word-break: break-word;
 }
-.quill-html-source-code:focus {
-    outline: none;
-}
-
-/* Source mode: the code stands in for the rendered text; every toolbar control except
-   the `<>` toggle is neutralised so formatting cannot land on a hidden editor. */
-.quill-editor-container.quill-source-mode .ql-container.ql-snow {
-    display: none;
-}
-.quill-editor-container.quill-source-mode .ql-toolbar .ql-formats > *:not(.ql-html) {
-    opacity: 0.35;
-    pointer-events: none;
-}
-
-/* --------------------------------------------------------------- Link tooltip */
-
-/* The « Nouvel onglet » checkbox added by enhanceLinkTooltip(). Shown only while
-   editing a link — the preview row (visit/edit/remove) does not need it. */
-.ql-snow .ql-tooltip .quill-link-target {
-    display: none;
-    margin-left: var(--aro-space-3);
-    color: var(--aro-color-text);
-    font-size: var(--aro-text-sm);
-    line-height: 26px;
-    vertical-align: top;
-    cursor: pointer;
-}
-.ql-snow .ql-tooltip.ql-editing[data-mode=link] .quill-link-target {
-    display: inline-block;
-}
-.ql-snow .ql-tooltip .quill-link-target input {
-    margin-right: var(--aro-space-1);
-    vertical-align: middle;
-    cursor: pointer;
+.quill-html-preview-code code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
 }
 
 /* ./components/_badge.css */
