@@ -41,9 +41,18 @@ a:where(:not(.btn):not(.page-link)):focus {
     color: var(--aro-color-secondary);
 }
 
+/* Bootstrap's reboot leaves headings at 500; h1 carried 700 through v2 (Stisla set every
+   heading bold) and reads underweight without it. Only h1 is pinned — the smaller headings
+   are sized and weighted by the components that use them. */
+h1 {
+    font-weight: var(--aro-weight-bold);
+}
+
+/* The margin is load-bearing rhythm: !important so a scoped tweak cannot silently
+   compress the separator back to Bootstrap's default. */
 hr {
     border-top-style: dashed;
-    margin: 2.5rem 0;
+    margin: 2.5rem 0 !important;
 }
 
 p {
