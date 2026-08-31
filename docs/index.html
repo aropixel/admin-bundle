@@ -2384,6 +2384,17 @@ a.aro-list__row:focus-visible {
     line-height: var(--aro-leading-tight);
 }
 
+
+/*
+ * Notification-style panel (.dropdown-list): the navbar dropdowns whose items are rows
+ * with avatar/time metadata. v2 sized it at 350px with no menu padding (rows carry their
+ * own); both were lost in the ablation and the panel collapsed to its content.
+ */
+.dropdown-menu.dropdown-list {
+    min-width: 350px;
+    padding: 0;
+}
+
 /* Active / focused item — relocated from the style.css tail (lot B). Unlayered, so it beats
    Bootstrap's layered `.dropdown-item` rules without `!important`. */
 a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
