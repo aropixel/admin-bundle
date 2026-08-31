@@ -48,6 +48,10 @@ h1 {
     font-weight: var(--aro-weight-bold);
 }
 
+h2 {
+    font-weight: var(--aro-weight-semibold);
+}
+
 /* The margin is load-bearing rhythm: !important so a scoped tweak cannot silently
    compress the separator back to Bootstrap's default. */
 hr {
