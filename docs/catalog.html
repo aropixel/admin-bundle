@@ -2851,6 +2851,19 @@ a.dropdown-item:focus span, a.dropdown-item:active span, a.dropdown-item.active 
     border-color: var(--aro-field-border);
 }
 
+
+/*
+ * Input-group addons (MoneyType's currency symbol, prepended icons): same surface as the
+ * field they extend. Bootstrap's default paints a bordered box beside the borderless grey
+ * field, which reads as a seam — v3.0.0 flattened it (`border: none !important`), restored
+ * here through the field tokens (the transparent border keeps the box metrics of the input).
+ */
+.input-group-text {
+    font-size: var(--aro-text-base);
+    background-color: var(--aro-field-bg);
+    border-color: var(--aro-field-border);
+}
+
 /*
  * Focus deepens the fill, and that is the whole indicator — as in v3.0.0, which suppressed
  * the ring and added nothing back. Bootstrap paints a blue border and a 4px blue glow here;
