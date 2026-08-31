@@ -66,6 +66,19 @@
     outline: none;
 }
 
+/*
+ * Menu items are near-black rows, not content links. Without this, the generic content-link
+ * rule in _typography.css (secondary colour, specificity 0,2,1) reaches them — Bootstrap's
+ * own `.dropdown-item` colour sits in `@layer bootstrap` and cannot answer it. Metrics are
+ * v2's (10px 20px padding, medium weight, tight leading), which the ablation dropped.
+ */
+.dropdown-menu a.dropdown-item {
+    padding: 10px 20px;
+    color: var(--aro-color-text-strong);
+    font-weight: var(--aro-weight-medium);
+    line-height: var(--aro-leading-tight);
+}
+
 /* Active / focused item — relocated from the style.css tail (lot B). Unlayered, so it beats
    Bootstrap's layered `.dropdown-item` rules without `!important`. */
 a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
