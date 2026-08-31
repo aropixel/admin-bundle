@@ -29,9 +29,15 @@ body {
  * and this unlayered rule, being lower in no layer, would otherwise beat those and paint a
  * primary button or the active pagination page this slate instead of their intended white.
  */
-a:not(.btn):not(.page-link),
-a:not(.btn):not(.page-link):hover,
-a:not(.btn):not(.page-link):focus {
+/*
+ * `:where()` keeps the exclusions without their specificity (0,0,1 instead of 0,2,1): a
+ * default this global must be trivial to override — at 0,2,1 every integrator rule had to
+ * out-specify it, an arms race observed in the wild (TW-4320). The unlayered position still
+ * beats Bootstrap's layered defaults, which is all this rule needs.
+ */
+a:where(:not(.btn):not(.page-link)),
+a:where(:not(.btn):not(.page-link)):hover,
+a:where(:not(.btn):not(.page-link)):focus {
     color: var(--aro-color-secondary);
 }
 
