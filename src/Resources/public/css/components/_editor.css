@@ -200,22 +200,24 @@
     padding: var(--aro-space-2) var(--aro-space-3);
 }
 
-/* --------------------------------------------------------------- HTML preview */
+/* ---------------------------------------------------------------- Source HTML */
 
 /*
- * Toggled by the `<>` toolbar button (see js/module/quill/quill-editor.js). Deliberately
- * dark and deliberately not tokenised: it is a code surface, and it must read as one
- * whatever the surrounding skin does.
+ * Toggled by the `<>` toolbar button (see js/module/quill/quill-editor.js): the panel
+ * replaces the rendered text (the `.ql-container` is hidden) and the HTML is editable —
+ * it is applied back to the editor when the panel closes. Deliberately dark and
+ * deliberately not tokenised: it is a code surface, and it must read as one whatever
+ * the surrounding skin does.
  */
 
-.quill-html-preview {
+.quill-html-source {
     margin-top: -1px;
     border: 1px solid var(--aro-color-border);
     border-radius: 0 0 var(--aro-radius-input) var(--aro-radius-input);
     background-color: #23241f;
     overflow: hidden;
 }
-.quill-html-preview-header {
+.quill-html-source-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -223,12 +225,12 @@
     background-color: #1a1b17;
     color: #b9bcae;
 }
-.quill-html-preview-title {
+.quill-html-source-title {
     font-size: var(--aro-text-badge);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
-.quill-html-preview-copy {
+.quill-html-source-copy {
     padding: 0.15em 0.8em;
     border: 1px solid #4a4c42;
     border-radius: var(--aro-radius-sm);
@@ -237,25 +239,59 @@
     font-size: var(--aro-text-badge);
     line-height: 1.6;
 }
-.quill-html-preview-copy:hover {
+.quill-html-source-copy:hover {
     border-color: var(--aro-color-primary);
     color: var(--aro-color-primary);
 }
-.quill-html-preview-code {
-    max-height: 320px;
+.quill-html-source-code {
+    display: block;
+    width: 100%;
+    min-height: 220px;
+    max-height: 480px;
     margin: 0;
     padding: var(--aro-space-3) var(--aro-space-4);
-    overflow: auto;
+    border: 0;
+    resize: vertical;
     background: none;
     color: #f8f8f2;
+    font-family: Monaco, 'Courier New', monospace;
     font-size: var(--aro-text-xs);
     line-height: var(--aro-leading-prose);
     white-space: pre-wrap;
     word-break: break-word;
 }
-.quill-html-preview-code code {
-    padding: 0;
-    background: none;
-    color: inherit;
-    font-size: inherit;
+.quill-html-source-code:focus {
+    outline: none;
+}
+
+/* Source mode: the code stands in for the rendered text; every toolbar control except
+   the `<>` toggle is neutralised so formatting cannot land on a hidden editor. */
+.quill-editor-container.quill-source-mode .ql-container.ql-snow {
+    display: none;
+}
+.quill-editor-container.quill-source-mode .ql-toolbar .ql-formats > *:not(.ql-html) {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------- Link tooltip */
+
+/* The « Nouvel onglet » checkbox added by enhanceLinkTooltip(). Shown only while
+   editing a link — the preview row (visit/edit/remove) does not need it. */
+.ql-snow .ql-tooltip .quill-link-target {
+    display: none;
+    margin-left: var(--aro-space-3);
+    color: var(--aro-color-text);
+    font-size: var(--aro-text-sm);
+    line-height: 26px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.ql-snow .ql-tooltip.ql-editing[data-mode=link] .quill-link-target {
+    display: inline-block;
+}
+.ql-snow .ql-tooltip .quill-link-target input {
+    margin-right: var(--aro-space-1);
+    vertical-align: middle;
+    cursor: pointer;
 }

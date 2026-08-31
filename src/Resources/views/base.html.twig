@@ -198,6 +198,41 @@
                 };
             </script>
 
+            {# Translated labels for the Quill editor — toolbar tooltips, the HTML source
+               panel and the « new tab » checkbox of the link bubble. English fallbacks live
+               in js/module/quill/quill-editor.js; window.aropixelQuillTooltips still wins. #}
+            <script>
+                window.aroQuillI18n = {
+                    sourceTitle: {{ ('editor.source.title'|trans)|json_encode|raw }},
+                    copy: {{ ('editor.source.copy'|trans)|json_encode|raw }},
+                    copied: {{ ('editor.source.copied'|trans)|json_encode|raw }},
+                    linkNewTab: {{ ('editor.link.new_tab'|trans)|json_encode|raw }},
+                    tooltips: {
+                        'button.ql-bold': {{ ('editor.tooltip.bold'|trans)|json_encode|raw }},
+                        'button.ql-italic': {{ ('editor.tooltip.italic'|trans)|json_encode|raw }},
+                        'button.ql-underline': {{ ('editor.tooltip.underline'|trans)|json_encode|raw }},
+                        'button.ql-strike': {{ ('editor.tooltip.strike'|trans)|json_encode|raw }},
+                        'button.ql-blockquote': {{ ('editor.tooltip.blockquote'|trans)|json_encode|raw }},
+                        'button.ql-code-block': {{ ('editor.tooltip.code_block'|trans)|json_encode|raw }},
+                        'button.ql-list[value="ordered"]': {{ ('editor.tooltip.list_ordered'|trans)|json_encode|raw }},
+                        'button.ql-list[value="bullet"]': {{ ('editor.tooltip.list_bullet'|trans)|json_encode|raw }},
+                        'button.ql-script[value="sub"]': {{ ('editor.tooltip.script_sub'|trans)|json_encode|raw }},
+                        'button.ql-script[value="super"]': {{ ('editor.tooltip.script_super'|trans)|json_encode|raw }},
+                        'button.ql-link': {{ ('editor.tooltip.link'|trans)|json_encode|raw }},
+                        'button.ql-image': {{ ('editor.tooltip.image'|trans)|json_encode|raw }},
+                        'button.ql-video': {{ ('editor.tooltip.video'|trans)|json_encode|raw }},
+                        'button.ql-file': {{ ('editor.tooltip.file'|trans)|json_encode|raw }},
+                        'button.ql-clean': {{ ('editor.tooltip.clean'|trans)|json_encode|raw }},
+                        'button.ql-html': {{ ('editor.tooltip.html'|trans)|json_encode|raw }},
+                        '.ql-picker.ql-header': {{ ('editor.tooltip.header'|trans)|json_encode|raw }},
+                        '.ql-picker.ql-size': {{ ('editor.tooltip.size'|trans)|json_encode|raw }},
+                        '.ql-picker.ql-align': {{ ('editor.tooltip.align'|trans)|json_encode|raw }},
+                        '.ql-color-picker.ql-color': {{ ('editor.tooltip.color'|trans)|json_encode|raw }},
+                        '.ql-color-picker.ql-background': {{ ('editor.tooltip.background'|trans)|json_encode|raw }}
+                    }
+                };
+            </script>
+
             <!-- Template JS File -->
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/app.js') }}"></script>
             <script type="module" src="{{ asset('bundles/aropixeladmin/js/datatable-init.js') }}"></script>

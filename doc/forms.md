@@ -509,7 +509,7 @@ $builder->add('content', EditorType::class, [
 
 ### Editor behaviours
 
-Beyond the toolbar, the editor ships with four behaviours.
+Beyond the toolbar, the editor ships with six behaviours.
 
 **Soft line break.** `Shift + Enter` inserts a real `<br>` instead of starting a
 new block. `<br>` found in the stored value is preserved when the editor loads
@@ -532,9 +532,12 @@ coming from an import or an older editor is understood when loading. Existing
 values polluted with `ql-ui` spans are cleaned the first time the record is
 saved.
 
-**HTML preview.** A `<>` button is appended to every toolbar; it toggles a
-read-only, indented view of the HTML the editor will store, with a copy button.
-Disable it globally with:
+**HTML source editing.** A `<>` button is appended to every toolbar; it swaps
+the rendered text for an indented, *editable* view of the HTML the editor will
+store, with a copy button. Closing the view applies the edited code back to the
+editor; while it is open the underlying field is kept in sync on every
+keystroke, so submitting the form mid-edit loses nothing. Disable the button
+globally with:
 
 ```javascript
 window.aropixelQuillHtmlPreview = false;
@@ -542,6 +545,23 @@ window.aropixelQuillHtmlPreview = false;
 
 Or per editor, by putting `'html'` where you want it in a custom toolbar — the
 button is only appended automatically when the toolbar does not already list it.
+
+**Link target.** The link tooltip carries a « Nouvel onglet » checkbox driving
+the link's `target` attribute: checked, the link gets `target="_blank"` and
+`rel="noopener noreferrer"`; unchecked, neither. New links default to a new
+tab — which is what vanilla Quill 2 hard-codes — but here the choice is stored
+in the HTML and restored when the link is edited again.
+
+**Toolbar tooltips.** Every toolbar control carries a `title` attribute in
+the admin locale (the `editor.tooltip.*` keys of the bundle catalogues,
+injected as `window.aroQuillI18n` by the base layout — the source panel and
+the link bubble strings travel the same way; English is the built-in
+fallback). The labels can still be overridden or extended globally, keyed by
+CSS selector inside the toolbar:
+
+```javascript
+window.aropixelQuillTooltips = { 'button.ql-html': 'Source HTML' };
+```
 
 ### ColorType
 
