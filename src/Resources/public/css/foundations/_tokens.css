@@ -134,7 +134,7 @@
        (--aro-color-primary), which would make a status marker share the primary-action hue. */
     --aro-status-online: var(--aro-color-success);
     --aro-status-scheduled: var(--aro-color-warning);
-    --aro-status-offline: var(--aro-color-danger);
+    --aro-status-offline: #E7E7E7;
 
     /* ------------------------------------------------------------- Menu accents */
 
