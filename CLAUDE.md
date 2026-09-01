@@ -52,6 +52,19 @@ The catalogue exists in **two forms**, and they must not drift:
 
 ## Non-obvious invariants
 
+### Bootstrap lives in `@layer bootstrap` — and `!important` reverses that
+
+- For **normal** declarations, unlayered CSS (ours, and an integrator's) beats layered
+  Bootstrap. That is the whole point of `css/foundations/_bootstrap-layer.css`.
+- For **`!important`** declarations the layer order is reversed (CSS Cascading 5 §6.4): a
+  layered important declaration beats an unlayered one. **Every Bootstrap utility is
+  `!important`**, so a `.w-100` in the markup silently defeats an unlayered
+  `.my-column { width: 350px !important }`. There is nothing to escalate to — the fix is to
+  drop the utility from the markup.
+- This is the real reason `components/` may not use `!important`: ours would lose too.
+- Integrators upgrading to v3 must audit every `!important` of theirs sitting on an element
+  that also carries a Bootstrap utility for the same property. The relation flipped.
+
 ### `User` entity (MappedSuperclass)
 
 - `User` is `#[ORM\MappedSuperclass]` — instantiate directly with `new User()`, never via a factory.
