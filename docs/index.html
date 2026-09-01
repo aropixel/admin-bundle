@@ -1423,6 +1423,157 @@ button.clockpicker-done {
     border-top: 0.5em solid var(--aro-color-primary);
 }
 
+/* ./vendor/_spectrum.css */
+/**
+ * Spectrum — colour picker skin, for the `ColorType` form type.
+ *
+ * Loaded (plugin CSS + JS) by `Form/base.html.twig`, initialised on `.color-picker` in
+ * `js/app.js` — the class the `aropixel_admin_color_widget` block puts on the input.
+ *
+ * Restores the skin that lived in the deleted `css/custom.css` (v3.0.0) and was not
+ * carried over by the CSS reorganisation: without it the picker falls back to the raw
+ * plugin stylesheet, which does not match the admin at all.
+ *
+ * ⚠ Rendered in a popup on click, so absent from the visual baseline — validated by
+ * opening a colour field, not by diff.
+ *
+ * Restyled on tokens rather than transcribed: the resting control now wears the field
+ * surface of the other inputs, and the legacy `--main-bg-color` / Font Awesome chevron
+ * the v3.0.0 rules relied on are both gone. Geometry is kept as it was.
+ */
+
+/* Resting control: the swatch + chevron box replacing the input. Reads as a field. */
+.sp-replacer {
+    margin: 0;
+    border: 1px solid var(--aro-field-border);
+    background: var(--aro-field-bg);
+    border-radius: var(--aro-radius-input);
+    padding: 5px;
+}
+
+.sp-replacer:hover,
+.sp-replacer.sp-active {
+    background: var(--aro-field-bg-focus);
+    border-color: var(--aro-color-border);
+}
+
+.sp-preview {
+    width: 25px;
+    height: 22px;
+    border: none;
+    margin-right: var(--aro-space-1);
+    border-radius: var(--aro-radius-xs);
+}
+
+/* Spectrum emits a `▼` glyph here; the v3.0.0 skin hid it behind a Font Awesome chevron,
+   which the admin no longer ships. Keep the glyph, dressed down to the muted text tone. */
+.sp-dd {
+    margin-top: 1px;
+    font-size: 10px;
+    line-height: 22px;
+    color: var(--aro-color-text-muted);
+}
+
+/* Popup */
+.sp-container {
+    background-color: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-sm);
+    overflow: hidden;
+    box-shadow: var(--aro-shadow-dropdown);
+}
+
+.sp-picker-container {
+    width: 220px;
+}
+
+/* The plugin lays saturation / hue out in percentages; these two keep the hue bar clear
+   of the saturation square at the width set above. */
+.sp-hue {
+    border: none;
+    left: 86%;
+}
+
+.sp-color {
+    border: 1px solid var(--aro-color-border);
+    right: 19%;
+}
+
+.sp-slider {
+    height: 4px;
+    left: -2px;
+    right: -2px;
+    border: 1px solid var(--aro-color-border);
+    background-color: var(--aro-color-surface);
+    border-radius: var(--aro-radius-sm);
+}
+
+/* Hex input inside the popup (`showInput: true`). */
+.sp-input {
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-xs);
+    padding: 6px 10px;
+    color: var(--aro-color-text);
+    box-shadow: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.sp-input:focus {
+    border-color: var(--aro-color-border-focus);
+}
+
+/* Buttons. The plugin ships its own gradients and text shadows, hence the flattening. */
+.sp-button-container {
+    float: none;
+    clear: right;
+}
+
+.sp-cancel,
+.sp-choose,
+.sp-palette-toggle {
+    border: 0;
+    border-radius: var(--aro-radius-sm);
+    padding: 8px 6px;
+    float: left;
+    width: 48%;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: var(--aro-text-xs);
+    line-height: 1.7;
+    outline: 0;
+}
+
+.sp-container button {
+    background-color: var(--aro-color-primary);
+    background-image: none;
+    border: 1px solid var(--aro-color-primary);
+    color: var(--aro-color-primary-contrast);
+    text-shadow: none;
+}
+
+.sp-container button:hover {
+    background-image: none;
+    background-color: var(--aro-color-primary-hover);
+    border-color: var(--aro-color-primary-hover);
+    text-shadow: none;
+}
+
+/* `.sp-cancel` is an `<a>`, so the colour needs `!important` (§7-1) to beat the plugin's
+   own `a.sp-cancel` rule, which is more specific than a class on its own. */
+.sp-cancel {
+    border: 1px solid var(--aro-color-border);
+    background-color: var(--aro-color-surface);
+    color: var(--aro-color-text) !important;
+}
+
+.sp-cancel:hover {
+    border-color: var(--aro-color-border);
+    background-color: var(--aro-color-surface-subtle);
+    color: var(--aro-color-text) !important;
+    text-decoration: none;
+}
+
 /* ./components/_btn.css */
 /**
  * Button — base, sizes and icon buttons.
