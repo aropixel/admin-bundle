@@ -16,6 +16,16 @@
     --bs-modal-header-padding: var(--aro-space-4) var(--aro-space-6);
 }
 
+
+/*
+ * A header with no title is just a close-button strip: the hairline under it would
+ * underline nothing and reads as a stray rule (e.g. a modal whose heading lives in the
+ * body). Detected structurally, so titled headers keep their separator.
+ */
+.modal-header:not(:has(.modal-title, h1, h2, h3, h4, h5, h6)) {
+    --bs-modal-header-border-width: 0;
+}
+
 /*
  * Size scale (design system): sm 400 · md 520 (default) · lg 720 · xl 960. Set on
  * `.modal-dialog`, so both plain modals and the Dialog component — which builds a

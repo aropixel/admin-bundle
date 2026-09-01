@@ -60,6 +60,13 @@ Override only these — the semantic layer. Values below are the defaults.
 > The `-contrast` companion of each (`--aro-color-primary-contrast`…) is the text colour
 > drawn on top of it — set it too if your brand colour needs dark text.
 
+> **Override the `-rgb` companion with its colour.** Every bridged colour has an
+> `--aro-color-*-rgb` twin holding its bare `r, g, b` triplet (`--aro-color-secondary-rgb:
+> 46, 79, 94`). Bootstrap's utilities (`.bg-*`, `.text-bg-*`, focus rings) consume the
+> triplet, not the hex — re-theme a colour without its twin and those utilities keep the
+> default palette. No override rule can catch them either: the layered `!important` on
+> Bootstrap's utilities beats any unlayered one. The variable pair is the seam.
+
 ### Semantic
 
 `--aro-color-success` `#63CEB3` · `--aro-color-danger` `#E52321` ·

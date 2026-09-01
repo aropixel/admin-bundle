@@ -104,6 +104,41 @@ A `data-toggle="modal"` left over from Bootstrap 4 raises no error — the butto
 nothing. Grep your admin templates for `data-toggle`, `data-target`, `data-dismiss` and add the
 `-bs-` (see above).
 
+### Select2 AJAX payload
+
+The `processResults` shipped in `app.js` changed shape. Before:
+
+```js
+results: data.items,
+pagination: { more: (params.page * 20) < data.total_count }
+```
+
+Now:
+
+```js
+results: data.results,
+pagination: { more: data.pagination.more }
+```
+
+An endpoint still answering `{ total_count, items }` **fails silently in the worst way**: the
+request fires, the response arrives, and the list renders empty — nothing in the console points
+at the payload. Every AJAX Select2 endpoint must now answer:
+
+```json
+{
+  "results": [ { "id": 12, "full_name": "…" } ],
+  "pagination": { "more": true },
+  "total_count": 137
+}
+```
+
+`full_name` may be an HTML fragment: `escapeMarkup` is the identity function and
+`templateResult` reads `repo.full_name || repo.text`, so a row carrying neither renders blank.
+
+`Component\Select2\Select2` emits this shape for you — but only for Doctrine-backed lists (it
+ends in a `QueryBuilder`, `Select2DataProviderInterface` included). A list fed by a search
+engine or a remote API has to build the payload itself; the contract above is all it owes.
+
 ---
 
 ## Rich-text editor — CKEditor → Quill

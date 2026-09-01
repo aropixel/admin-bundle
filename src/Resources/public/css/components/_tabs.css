@@ -13,3 +13,14 @@
 .nav-tabs.tab-underlined .nav-link.active {
     border-bottom: 3px solid var(--aro-color-primary);
 }
+
+/*
+ * Pane content breathes: prose inside a tab reads against chrome on every side, and the
+ * 18px body leading that suits table cells cramps it here. Stisla shipped this pane rule
+ * at 24px with its own padding; 28px is the arbitrated value — the airier rhythm the
+ * admin actually wore (v2's prose rule) — kept as a literal like the body-leading one
+ * in _typography.css, pending the §4 density pass.
+ */
+.tab-content > .tab-pane {
+    line-height: 28px;
+}

@@ -157,12 +157,21 @@
     /* ------------------------------------------------------------------ Brand */
 
     --aro-color-primary: #06BAB4;
+    /*
+     * `-rgb` companions. Bootstrap's legacy `rgba(var(--bs-*-rgb), a)` consumers need a
+     * bare comma triplet, and CSS cannot decompose a hex token into one (relative colour
+     * syntax cannot produce a naked triplet). So each colour the bridge translates carries
+     * its triplet as a token: override a colour, override its companion — the bridge maps
+     * both and hardcodes nothing.
+     */
+    --aro-color-primary-rgb: 6, 186, 180;
     --aro-color-primary-hover: #05A29D;
     --aro-color-primary-contrast: #FFFFFF;
     /* Translucent teal tint — soft primary surface (e.g. the navbar user-icon circle). */
     --aro-color-primary-subtle: rgba(122, 220, 218, 0.71);
 
     --aro-color-secondary: #2E4F5E;
+    --aro-color-secondary-rgb: 46, 79, 94;
     --aro-color-secondary-hover: #223C48;
     --aro-color-secondary-contrast: #FFFFFF;
 
@@ -178,13 +187,18 @@
     /* -------------------------------------------------------------- Semantic */
 
     --aro-color-success: #63CEB3;
+    --aro-color-success-rgb: 99, 206, 179;
     --aro-color-danger: #E52321;
+    --aro-color-danger-rgb: 229, 35, 33;
     --aro-color-warning: #F25C05;
+    --aro-color-warning-rgb: 242, 92, 5;
     --aro-color-info: #E39B02;
+    --aro-color-info-rgb: 227, 155, 2;
 
     /* -------------------------------------------------------------- Surfaces */
 
     --aro-color-bg: #F5F8FA;
+    --aro-color-bg-rgb: 245, 248, 250;
     --aro-color-surface: #FFFFFF;
     --aro-color-surface-muted: #EBEBEB;   /* Select2 multi-select chip fill (lot B). */
     /* Chrome that must read as inert beside the content it captions — the editor toolbar.
@@ -195,6 +209,7 @@
     /* ------------------------------------------------------------------ Text */
 
     --aro-color-text: #333333;
+    --aro-color-text-rgb: 51, 51, 51;
     --aro-color-text-strong: #181C32;
     --aro-color-text-label: #3F4254;
     --aro-color-text-muted: #99A1B7;
@@ -426,37 +441,41 @@
  * `--bs-*-rgb` must be set alongside every colour. Bootstrap uses the RGB triplets inside
  * `rgba()` for subtle backgrounds, focus rings and `.text-bg-*`; setting only the hex
  * leaves those derivatives on Bootstrap's default blue, which produces components that
- * are half-teal and half-blue — worse than not bridging at all.
+ * are half-teal and half-blue — worse than not bridging at all. The triplets come from
+ * the `-rgb` companion tokens in _tokens.css — never literals here — so an integrator who
+ * re-themes a colour re-themes every rgba() derivative by overriding the companion pair
+ * in one place. (The layered `!important` on Bootstrap's `.bg-*` utilities beats any
+ * unlayered override rule, so the variable is the only reliable seam.)
  */
 
 :root {
     /* ------------------------------------------------------------ Theme colours */
 
     --bs-primary: var(--aro-color-primary);
-    --bs-primary-rgb: 6, 186, 180;
+    --bs-primary-rgb: var(--aro-color-primary-rgb);
 
     --bs-secondary: var(--aro-color-secondary);
-    --bs-secondary-rgb: 46, 79, 94;
+    --bs-secondary-rgb: var(--aro-color-secondary-rgb);
 
     --bs-success: var(--aro-color-success);
-    --bs-success-rgb: 99, 206, 179;
+    --bs-success-rgb: var(--aro-color-success-rgb);
 
     --bs-danger: var(--aro-color-danger);
-    --bs-danger-rgb: 229, 35, 33;
+    --bs-danger-rgb: var(--aro-color-danger-rgb);
 
     --bs-warning: var(--aro-color-warning);
-    --bs-warning-rgb: 242, 92, 5;
+    --bs-warning-rgb: var(--aro-color-warning-rgb);
 
     --bs-info: var(--aro-color-info);
-    --bs-info-rgb: 227, 155, 2;
+    --bs-info-rgb: var(--aro-color-info-rgb);
 
     /* ------------------------------------------------------------------- Body */
 
     --bs-body-bg: var(--aro-color-bg);
-    --bs-body-bg-rgb: 245, 248, 250;
+    --bs-body-bg-rgb: var(--aro-color-bg-rgb);
 
     --bs-body-color: var(--aro-color-text);
-    --bs-body-color-rgb: 51, 51, 51;
+    --bs-body-color-rgb: var(--aro-color-text-rgb);
 
     /* -------------------------------------------------------------- Emphasis */
 
@@ -466,9 +485,9 @@
     /* ------------------------------------------------------------------ Links */
 
     --bs-link-color: var(--aro-color-secondary);
-    --bs-link-color-rgb: 46, 79, 94;
+    --bs-link-color-rgb: var(--aro-color-secondary-rgb);
     --bs-link-hover-color: var(--aro-color-primary);
-    --bs-link-hover-color-rgb: 6, 186, 180;
+    --bs-link-hover-color-rgb: var(--aro-color-primary-rgb);
 
     /* --------------------------------------------------------------- Borders */
 
@@ -482,7 +501,7 @@
 
     /* ---------------------------------------------------------- Focus ring */
 
-    --bs-focus-ring-color: rgba(6, 186, 180, 0.25);
+    --bs-focus-ring-color: rgba(var(--aro-color-primary-rgb), 0.25);
 }
 
 /**
@@ -575,9 +594,22 @@ a:where(:not(.btn):not(.page-link)):focus {
     color: var(--aro-color-secondary);
 }
 
+/* Bootstrap's reboot leaves headings at 500; h1 carried 700 through v2 (Stisla set every
+   heading bold) and reads underweight without it. Only h1 is pinned — the smaller headings
+   are sized and weighted by the components that use them. */
+h1 {
+    font-weight: var(--aro-weight-bold);
+}
+
+h2 {
+    font-weight: var(--aro-weight-semibold);
+}
+
+/* The margin is load-bearing rhythm: !important so a scoped tweak cannot silently
+   compress the separator back to Bootstrap's default. */
 hr {
     border-top-style: dashed;
-    margin: 2.5rem 0;
+    margin: 2.5rem 0 !important;
 }
 
 p {
@@ -1389,6 +1421,157 @@ button.clockpicker-done {
 
 .picker__day--today:before {
     border-top: 0.5em solid var(--aro-color-primary);
+}
+
+/* ./vendor/_spectrum.css */
+/**
+ * Spectrum — colour picker skin, for the `ColorType` form type.
+ *
+ * Loaded (plugin CSS + JS) by `Form/base.html.twig`, initialised on `.color-picker` in
+ * `js/app.js` — the class the `aropixel_admin_color_widget` block puts on the input.
+ *
+ * Restores the skin that lived in the deleted `css/custom.css` (v3.0.0) and was not
+ * carried over by the CSS reorganisation: without it the picker falls back to the raw
+ * plugin stylesheet, which does not match the admin at all.
+ *
+ * ⚠ Rendered in a popup on click, so absent from the visual baseline — validated by
+ * opening a colour field, not by diff.
+ *
+ * Restyled on tokens rather than transcribed: the resting control now wears the field
+ * surface of the other inputs, and the legacy `--main-bg-color` / Font Awesome chevron
+ * the v3.0.0 rules relied on are both gone. Geometry is kept as it was.
+ */
+
+/* Resting control: the swatch + chevron box replacing the input. Reads as a field. */
+.sp-replacer {
+    margin: 0;
+    border: 1px solid var(--aro-field-border);
+    background: var(--aro-field-bg);
+    border-radius: var(--aro-radius-input);
+    padding: 5px;
+}
+
+.sp-replacer:hover,
+.sp-replacer.sp-active {
+    background: var(--aro-field-bg-focus);
+    border-color: var(--aro-color-border);
+}
+
+.sp-preview {
+    width: 25px;
+    height: 22px;
+    border: none;
+    margin-right: var(--aro-space-1);
+    border-radius: var(--aro-radius-xs);
+}
+
+/* Spectrum emits a `▼` glyph here; the v3.0.0 skin hid it behind a Font Awesome chevron,
+   which the admin no longer ships. Keep the glyph, dressed down to the muted text tone. */
+.sp-dd {
+    margin-top: 1px;
+    font-size: 10px;
+    line-height: 22px;
+    color: var(--aro-color-text-muted);
+}
+
+/* Popup */
+.sp-container {
+    background-color: var(--aro-color-surface);
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-sm);
+    overflow: hidden;
+    box-shadow: var(--aro-shadow-dropdown);
+}
+
+.sp-picker-container {
+    width: 220px;
+}
+
+/* The plugin lays saturation / hue out in percentages; these two keep the hue bar clear
+   of the saturation square at the width set above. */
+.sp-hue {
+    border: none;
+    left: 86%;
+}
+
+.sp-color {
+    border: 1px solid var(--aro-color-border);
+    right: 19%;
+}
+
+.sp-slider {
+    height: 4px;
+    left: -2px;
+    right: -2px;
+    border: 1px solid var(--aro-color-border);
+    background-color: var(--aro-color-surface);
+    border-radius: var(--aro-radius-sm);
+}
+
+/* Hex input inside the popup (`showInput: true`). */
+.sp-input {
+    border: 1px solid var(--aro-color-border);
+    border-radius: var(--aro-radius-xs);
+    padding: 6px 10px;
+    color: var(--aro-color-text);
+    box-shadow: none;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.sp-input:focus {
+    border-color: var(--aro-color-border-focus);
+}
+
+/* Buttons. The plugin ships its own gradients and text shadows, hence the flattening. */
+.sp-button-container {
+    float: none;
+    clear: right;
+}
+
+.sp-cancel,
+.sp-choose,
+.sp-palette-toggle {
+    border: 0;
+    border-radius: var(--aro-radius-sm);
+    padding: 8px 6px;
+    float: left;
+    width: 48%;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: var(--aro-text-xs);
+    line-height: 1.7;
+    outline: 0;
+}
+
+.sp-container button {
+    background-color: var(--aro-color-primary);
+    background-image: none;
+    border: 1px solid var(--aro-color-primary);
+    color: var(--aro-color-primary-contrast);
+    text-shadow: none;
+}
+
+.sp-container button:hover {
+    background-image: none;
+    background-color: var(--aro-color-primary-hover);
+    border-color: var(--aro-color-primary-hover);
+    text-shadow: none;
+}
+
+/* `.sp-cancel` is an `<a>`, so the colour needs `!important` (§7-1) to beat the plugin's
+   own `a.sp-cancel` rule, which is more specific than a class on its own. */
+.sp-cancel {
+    border: 1px solid var(--aro-color-border);
+    background-color: var(--aro-color-surface);
+    color: var(--aro-color-text) !important;
+}
+
+.sp-cancel:hover {
+    border-color: var(--aro-color-border);
+    background-color: var(--aro-color-surface-subtle);
+    color: var(--aro-color-text) !important;
+    text-decoration: none;
 }
 
 /* ./components/_btn.css */
@@ -2373,6 +2556,17 @@ a.aro-list__row:focus-visible {
     color: var(--aro-color-text-strong);
     font-weight: var(--aro-weight-medium);
     line-height: var(--aro-leading-tight);
+}
+
+
+/*
+ * Notification-style panel (.dropdown-list): the navbar dropdowns whose items are rows
+ * with avatar/time metadata. v2 sized it at 350px with no menu padding (rows carry their
+ * own); both were lost in the ablation and the panel collapsed to its content.
+ */
+.dropdown-menu.dropdown-list {
+    min-width: 350px;
+    padding: 0;
 }
 
 /* Active / focused item — relocated from the style.css tail (lot B). Unlayered, so it beats
@@ -3503,6 +3697,16 @@ input:not([type=checkbox]):not([type=radio]) {
     --bs-modal-header-padding: var(--aro-space-4) var(--aro-space-6);
 }
 
+
+/*
+ * A header with no title is just a close-button strip: the hairline under it would
+ * underline nothing and reads as a stray rule (e.g. a modal whose heading lives in the
+ * body). Detected structurally, so titled headers keep their separator.
+ */
+.modal-header:not(:has(.modal-title, h1, h2, h3, h4, h5, h6)) {
+    --bs-modal-header-border-width: 0;
+}
+
 /*
  * Size scale (design system): sm 400 · md 520 (default) · lg 720 · xl 960. Set on
  * `.modal-dialog`, so both plain modals and the Dialog component — which builds a
@@ -3944,6 +4148,38 @@ input:not([type=checkbox]):not([type=radio]) {
 .aro-alert--warning { --aro-alert-accent: var(--aro-color-warning); }
 .aro-alert--info    { --aro-alert-accent: var(--aro-color-info); }
 .aro-alert--primary { --aro-alert-accent: var(--aro-color-primary); }
+
+/* ---------------------------------------------------- Bootstrap .alert-* variants */
+
+/*
+ * Solid presentation for Bootstrap's own alert vocabulary — flash messages and legacy
+ * templates that never migrated to .aro-alert: semantic fill, white text, no border,
+ * the look Tick&Live carried through v2. The .aro-alert component above keeps its
+ * tinted default; `.aro-alert--solid` gives the same tone there.
+ *
+ * Driven through Bootstrap's own --bs-alert-* variables (unlayered, so they outrank the
+ * layered defaults), like the card and dropdown components.
+ */
+.alert-success, .alert-danger, .alert-warning, .alert-info {
+    --bs-alert-color: var(--aro-color-text-inverted);
+    --bs-alert-border-color: transparent;
+    --bs-alert-link-color: var(--aro-color-text-inverted);
+}
+
+.alert-success { --bs-alert-bg: var(--aro-color-success); }
+.alert-danger  { --bs-alert-bg: var(--aro-color-danger); }
+.alert-warning { --bs-alert-bg: var(--aro-color-warning); }
+.alert-info    { --bs-alert-bg: var(--aro-color-info); }
+
+/* Content links go white with their panel (v2: `.alert:not(.alert-light) a`). */
+.alert-success a, .alert-danger a, .alert-warning a, .alert-info a {
+    color: inherit;
+}
+
+/* A paragraph is the alert's own line of text, not prose: no trailing rhythm (v2 rule). */
+.alert p {
+    margin-bottom: 0;
+}
 
 /* ./components/_section-header.css */
 /**
@@ -5543,6 +5779,17 @@ a.badge:hover {
 
 .nav-tabs.tab-underlined .nav-link.active {
     border-bottom: 3px solid var(--aro-color-primary);
+}
+
+/*
+ * Pane content breathes: prose inside a tab reads against chrome on every side, and the
+ * 18px body leading that suits table cells cramps it here. Stisla shipped this pane rule
+ * at 24px with its own padding; 28px is the arbitrated value — the airier rhythm the
+ * admin actually wore (v2's prose rule) — kept as a literal like the body-leading one
+ * in _typography.css, pending the §4 density pass.
+ */
+.tab-content > .tab-pane {
+    line-height: 28px;
 }
 
 /* ./components/_bg-utilities.css */

@@ -5,20 +5,33 @@
  * <link> to bootstrap.min.css. @import only takes effect at the top of a stylesheet, so
  * this cannot be folded into style.css, which loads last and carries rules of its own.
  *
- * Unlayered CSS always beats layered CSS, whatever the specificity. Putting Bootstrap —
- * and only Bootstrap — in a layer therefore means every rule we write wins over it by
- * construction, without `!important` and without specificity games. That is what makes
- * the "zero `!important` in components/" rule of §7 enforceable rather than aspirational.
+ * Unlayered CSS beats layered CSS for **normal** declarations, whatever the specificity.
+ * Putting Bootstrap — and only Bootstrap — in a layer therefore means every rule we write
+ * wins over it by construction, without `!important` and without specificity games. That is
+ * what makes the "zero `!important` in components/" rule of §7 enforceable rather than
+ * aspirational.
  *
- * It also settles the override contract of §5 for free: an integrator's own stylesheet is
- * unlayered too, so it keeps winning over ours.
+ * It also settles the override contract of §5 for normal declarations: an integrator's own
+ * stylesheet is unlayered too, so it keeps winning over ours.
  *
- * Two traps worth naming:
+ * Three traps worth naming:
  *
- * 1. Layering *our* CSS instead would have the opposite effect — it would put us below
+ * 1. `!important` reverses the layer order (CSS Cascading 5 §6.4). An important declaration
+ *    inside `@layer bootstrap` therefore BEATS an unlayered important declaration — the
+ *    exact opposite of the normal case. Every Bootstrap utility is `!important` by design,
+ *    so an integrator rule like
+ *
+ *        .my-column { width: 350px !important }        (unlayered)
+ *
+ *    now loses to `.w-100` sitting on the same element. Verified in Chromium: the element
+ *    computes to 100%. Integrators upgrading to v3 must drop the Bootstrap utility from the
+ *    markup (right answer) rather than escalate — there is nothing left to escalate to.
+ *    This is also why §7 forbids `!important` in components/: ours would lose too.
+ *
+ * 2. Layering *our* CSS instead would have the opposite effect — it would put us below
  *    Bootstrap, which is strictly worse than doing nothing.
  *
- * 2. Timing matters. Enabling this while Stisla was still loaded was tried and reverted:
+ * 3. Timing matters. Enabling this while Stisla was still loaded was tried and reverted:
  *    layering Bootstrap does not only let *our* CSS win, it lets **everything unlayered**
  *    win, and that included 5 118 lines of Stisla. Measured effect at the time: 40 of 48
  *    screens shifted, because Stisla rules that Bootstrap used to beat on specificity

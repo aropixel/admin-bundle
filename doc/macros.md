@@ -26,10 +26,13 @@ To use this macro, you first need to import it in your Twig template:
 
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `item` | `object` | The entity instance (used to generate the CSRF token for deletion). |
+| `item` | `object` | The entity instance. Only used as the fallback CSRF token id (`delete<id>`), which matches no shipped controller — pass `delete_token` instead. |
 | `edit_path` | `string` | (Optional) The URL for the "Edit" action. If omitted, the edit link will not be displayed. |
 | `delete_path` | `string` | (Optional) The URL for the "Delete" action. If omitted, the delete link will not be displayed. |
 | `delete_confirm_msg` | `string` | (Optional) A custom confirmation message for the deletion. Defaults to the translation of `text.confirm_delete`. |
+| `status` | `hash` | (Optional) The online/offline toggle: `{ path, confirm, label }`. `confirm` may contain `%s`, replaced at runtime by the target state. |
+| `delete_token` | `string` | (Optional) The CSRF token **value** for the delete form, e.g. `csrf_token('delete__post' ~ post.id)`. Each controller validates its own id, so the caller must compute it. |
+| `extra` | `Markup` | (Optional) Caller-supplied markup inserted between the edit link and the status toggle — a preview link, a modal trigger, anything the fixed slots cannot express. Capture it with `{% set %}` so it is not escaped. |
 
 ### Example
 
@@ -48,6 +51,30 @@ In a DataTable row:
     </td>
 {% endblock %}
 ```
+
+### Adding an item the macro does not cover
+
+Capture the markup, then pass it by name — `extra` sits after `delete_token` in the
+signature, so a named argument keeps the call readable:
+
+```twig
+{% set extra %}
+    <a href="{{ item.previewLink }}" target="_blank" class="dropdown-item">
+        {{ ux_icon('lucide:link') }} {{ 'text.preview'|trans }}
+    </a>
+{% endset %}
+
+{{ list.actions(
+    item,
+    path('admin_event_edit', {id: item.id}),
+    path('admin_event_delete', {id: item.id}),
+    extra: extra,
+    delete_token: csrf_token('delete__event' ~ item.id),
+) }}
+```
+
+`{% set %}` yields a `Markup` object, which Twig prints as-is. A plain string passed here
+would be escaped and show up as literal HTML.
 
 ## Breadcrumb Macro
 
