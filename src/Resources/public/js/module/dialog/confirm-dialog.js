@@ -39,6 +39,17 @@ export class ConfirmDialog {
     constructor(options = {}) {
         // Translated fallbacks rendered by base.html.twig; safe if absent.
         const i18n = (typeof window !== 'undefined' && window.aroDialogI18n) || {};
+
+        // Callers read their labels from data-attributes, which yield `undefined` when the
+        // attribute is absent. Object.assign copies that `undefined` over the default, and
+        // `textContent = undefined` empties the node — blank buttons. Drop the holes first.
+        const given = {};
+        for (const key of Object.keys(options)) {
+            if (options[key] !== undefined) {
+                given[key] = options[key];
+            }
+        }
+
         const o = Object.assign({
             intent: 'danger',
             size: 'md',
@@ -47,7 +58,7 @@ export class ConfirmDialog {
             confirmLabel: i18n.confirm || 'Confirm',
             cancelLabel: i18n.cancel || 'Cancel',
             onConfirm: () => {},
-        }, options);
+        }, given);
 
         // Size scale shared with modals: sm 400 · md 520 (default) · lg 720 · xl 960.
         const sizeClass = { sm: 'modal-sm', lg: 'modal-lg', xl: 'modal-xl' }[o.size] || '';
