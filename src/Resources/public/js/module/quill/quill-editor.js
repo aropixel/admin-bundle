@@ -536,6 +536,36 @@ function buildHtmlSource(quill, container, $target) {
 }
 
 /**
+ * Bascule `.is-editing` sur le conteneur pendant qu'on travaille dans l'éditeur.
+ *
+ * Au repos la zone de contenu est plafonnée (320px, cf. `components/_editor.css`) pour
+ * qu'un champ très long ne chasse pas le reste du formulaire hors de l'écran. Entrer dans
+ * l'éditeur lève le plafond et rend la barre d'outils collante : le contenu peut alors
+ * défiler avec la page sans qu'on perde les contrôles de vue.
+ *
+ * On écoute sur le conteneur, pas sur `.ql-editor`. Cliquer sur un bouton de la barre
+ * retire brièvement le focus de l'éditeur ; le lire comme une sortie replierait la zone
+ * juste au moment où l'utilisateur veut mettre en gras la sélection qu'il vient de faire.
+ * `focusout` ne compte donc que si le focus quitte le conteneur tout entier.
+ */
+function watchEditingState(container) {
+
+    container.addEventListener('focusin', function () {
+        container.classList.add('is-editing');
+    });
+
+    container.addEventListener('focusout', function (event) {
+        // `relatedTarget` est null quand le focus part vers rien (clic dans le vide, autre
+        // fenêtre) : on replie, comme pour une sortie franche.
+        if (event.relatedTarget && container.contains(event.relatedTarget)) {
+            return;
+        }
+
+        container.classList.remove('is-editing');
+    });
+}
+
+/**
  * Pose les infobulles (attributs title) sur les contrôles de la barre d'outils.
  */
 function applyTooltips(quill) {
@@ -793,6 +823,13 @@ export function activateQuillEditor($elements) {
 
         applyTooltips(quill);
         enhanceLinkTooltip(quill);
+
+        // La barre d'outils que Quill vient d'insérer est un frère de `.ql-container` : le
+        // conteneur à surveiller est donc leur parent commun.
+        const editorContainer = $this[0].closest('.quill-editor-container');
+        if (editorContainer) {
+            watchEditingState(editorContainer);
+        }
 
         // Initialize content
         quill.root.innerHTML = toEditorHtml($target.val());

@@ -96,6 +96,41 @@
     color: var(--aro-color-text);
 }
 
+/*
+ * Long content: capped at rest, uncapped while editing.
+ *
+ * A very long field would otherwise push the rest of the form off the page for a reader who
+ * is only passing by. Entering the editor lifts the cap — the content area then grows to
+ * its full height and the *page* scrolls, which is the only arrangement where a sticky
+ * toolbar means anything: select a word at the bottom, the controls are still there.
+ *
+ * `.is-editing` is toggled on the container by quill-editor.js, on focusin/focusout of the
+ * container rather than of `.ql-editor` — clicking a toolbar button momentarily blurs the
+ * editor, and reading that as "left the field" would collapse the box under the cursor.
+ *
+ * Source mode is exempt: the `<>` panel replaces `.ql-container` and its textarea scrolls
+ * on its own.
+ */
+.quill-editor-container:not(.is-editing):not(.quill-source-mode) .ql-editor {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+/*
+ * The toolbar needs no scroll container of its own: it is a sibling of `.ql-container`
+ * inside `.quill-editor-container`, so it travels with the editor and stops at its end.
+ * Nothing on the path up to the page sets `overflow` — the card goes as far as declaring
+ * `overflow-y: visible` — which is what makes this hold at all.
+ *
+ * The toolbar already carries an opaque background, so content passes underneath it rather
+ * than through it; `z-index` puts it above floated images in the prose.
+ */
+.quill-editor-container.is-editing .ql-toolbar.ql-snow {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
 /* The editor is not a page: it must not open or close on outer whitespace. */
 .ql-snow .ql-editor > *:first-child {
     margin-top: 0;
