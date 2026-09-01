@@ -10,12 +10,18 @@
  # compute it — e.g. `csrf_token('delete__post' ~ post.id)`. Without it the macro falls back
  # to `delete<id>`, which matches no shipped controller and is only a placeholder.
  #
+ # `extra` (optional) is caller-supplied markup inserted between edit and status — the place
+ # for a preview link, a "see more" modal trigger, anything the fixed slots cannot express.
+ # Capture it so it stays Markup and is not escaped, then pass it by name:
+ #   {% set extra %}<a href="…" class="dropdown-item">…</a>{% endset %}
+ #   {{ list.actions(item, edit, del, msg, extra: extra) }}
+ #
  # Delete confirmation is the Dialog component: `a.delete[data-confirm]` is caught in app.js,
  # which opens a danger `ConfirmDialog` (css/components/_dialog.css) and, on confirm, submits
  # the sibling `<form>`. `data-confirm-title` is the bold question, `data-confirm` the detail
  # line under it; button labels come translated via `data-confirm-label` / `data-cancel-label`.
  #}
-{% macro actions(item, edit_path, delete_path, delete_confirm_msg = null, status = null, delete_token = null) %}
+{% macro actions(item, edit_path, delete_path, delete_confirm_msg = null, status = null, delete_token = null, extra = null) %}
     <div class="btn-group dropstart">
         <button type="button" class="badge text-bg-light badge-icon" data-bs-toggle="dropdown">
             {{ ux_icon('lucide:ellipsis') }}
@@ -25,12 +31,14 @@
                 <a href="{{ edit_path }}" class="dropdown-item">{{ ux_icon('lucide:square-pen') }} {{ 'text.edit'|trans }}</a>
             {% endif %}
 
+            {{ extra }}
+
             {% if status %}
                 <a class="dropdown-item status" data-confirm="{{ status.confirm }}" data-path="{{ status.path }}">{{ ux_icon('lucide:toggle-right') }} {{ status.label }}</a>
             {% endif %}
 
             {% if delete_path %}
-                {% if edit_path or status %}<div class="dropdown-divider"></div>{% endif %}
+                {% if edit_path or status or extra %}<div class="dropdown-divider"></div>{% endif %}
                 <a class="dropdown-item delete text-danger" data-confirm-title="{{ delete_confirm_msg|default('text.confirm_delete'|trans) }}" data-confirm="{{ 'text.confirm_delete_detail'|trans }}" data-confirm-label="{{ 'text.delete'|trans }}" data-cancel-label="{{ 'text.cancel'|trans }}">{{ ux_icon('lucide:trash-2') }} {{ 'text.delete'|trans }}</a>
                 <form method="post" action="{{ delete_path }}">
                     <input type="hidden" name="_method" value="DELETE">
