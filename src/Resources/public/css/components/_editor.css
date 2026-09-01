@@ -51,9 +51,57 @@
     padding: var(--aro-space-1);
 }
 
-/* Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons. */
+/*
+ * Toolbar ink — the colour of the glyphs and of the dropdown labels, in every state.
+ *
+ * `quill.snow.css` hard-codes two colours that predate our tokens: `#666` at rest, which
+ * reads as disabled against the toolbar's own light surface, and `#06c` on hover / focus /
+ * active — a blue belonging to no palette of ours.
+ *
+ * Colouring each glyph directly would mean out-specifying Quill state by state, for stroke
+ * and for fill, across buttons, picker labels and picker items: its selector lists run to
+ * several lines each. Instead the *control* carries the ink as an inherited custom property,
+ * and one rule per SVG attribute reads it. Custom properties inherit, so the glyph follows
+ * its button without ever having to win a specificity contest about the state.
+ *
+ * The glyph rules land at (0,4,1), a tie with Quill's own hover/active rules — and this file
+ * is imported by style.css, which base.html.twig loads after quill.snow.css. The tie goes to
+ * the later sheet, which is us. Move this file earlier and the glyphs go back to `#06c`.
+ */
+.quill-editor-container .ql-snow.ql-toolbar {
+    --aro-editor-toolbar-ink: var(--aro-color-text);
+}
+.quill-editor-container .ql-snow.ql-toolbar button:hover,
+.quill-editor-container .ql-snow.ql-toolbar button:focus,
+.quill-editor-container .ql-snow.ql-toolbar button.ql-active,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label:hover,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item:hover,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item.ql-selected {
+    --aro-editor-toolbar-ink: var(--aro-color-primary);
+    color: var(--aro-editor-toolbar-ink);
+}
+
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke,
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke-miter,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label .ql-stroke,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item .ql-stroke {
+    stroke: var(--aro-editor-toolbar-ink);
+}
+.quill-editor-container .ql-snow.ql-toolbar button .ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke.ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label .ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item .ql-fill {
+    fill: var(--aro-editor-toolbar-ink);
+}
+
+/*
+ * Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons, and on the
+ * same ink as the glyphs beside them.
+ */
 .quill-editor-container .ql-snow .ql-picker {
     font-size: var(--aro-text-sm);
+    color: var(--aro-editor-toolbar-ink);
 }
 
 /*
