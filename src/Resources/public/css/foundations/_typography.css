@@ -52,11 +52,15 @@ h2 {
     font-weight: var(--aro-weight-semibold);
 }
 
-/* The margin is load-bearing rhythm: !important so a scoped tweak cannot silently
-   compress the separator back to Bootstrap's default. */
+/* The rhythm this margin gives is the point, so it is set here rather than left to Bootstrap's
+   1rem. It used to carry !important, to stop a scoped tweak silently compressing it — but that
+   also reached content the administration merely hosts rather than draws: a separator placed by
+   the page builder could not set its own spacing, whatever the author asked for. A default that
+   an explicit value cannot beat is not a default. Utility classes (`.mt-5` and friends) already
+   won through their own !important, so they are unaffected. */
 hr {
     border-top-style: dashed;
-    margin: 2.5rem 0 !important;
+    margin: 2.5rem 0;
 }
 
 p {
