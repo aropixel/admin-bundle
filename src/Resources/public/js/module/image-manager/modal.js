@@ -336,6 +336,20 @@ export class IM_Modal {
     }
 
     loadPictures() {
+        /*
+         * jQuery is read off the global object, never imported. The plugins this method needs —
+         * DataTables with its `pipeline` extension, Select2 — hang off the instance the layout's
+         * <script> tag put there. An application that runs this module through a bundler instead of
+         * loading it natively gets a second instance carrying none of them: `$.fn.dataTable` comes
+         * out undefined and the picture library stays empty.
+         *
+         * `globalThis` rather than `window`, which would change nothing at runtime but everything at
+         * build time: Encore's autoProvidejQuery rewrites `$`, `jQuery` *and* `window.jQuery` into
+         * the npm module, so naming the window here would be rewritten along with the rest. Reading
+         * it at call time also outlives any load order.
+         */
+        const $ = globalThis.jQuery;
+
         const dataTable = this.modal.querySelector('#libraryDataTable');
         const src = dataTable?.getAttribute('data-src');
         const library = this.getCategory();

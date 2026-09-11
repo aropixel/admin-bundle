@@ -12,6 +12,10 @@ export class IM_Cropper {
         if (!this.modal || this.initialized) return;
 
         this.modal.addEventListener('shown.bs.modal', (event) => {
+            // The global jQuery, the one the `cropper` plugin attached itself to — see the note in
+            // modal.js, including why this reads `globalThis` and not `window`.
+            const $ = globalThis.jQuery;
+
             const cropButton = event.relatedTarget;
             const thumb = cropButton?.closest('.image-widget')?.querySelector('.thumbnail');
             const imgId = thumb?.dataset.imImageId;
