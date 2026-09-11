@@ -72,10 +72,19 @@ export class IM_Widget {
                 const newCaption = temp.querySelector('.caption');
                 if (newCaption) this.element.querySelector('.caption').innerHTML = newCaption.innerHTML;
 
+                /*
+                 * Both sides are checked, as `detach()` already does. The widget does not own the
+                 * markup it is attached to: a host that renders only part of the Symfony form —
+                 * the page builder's inspector carries `[file_name]` and no `[image]` — made this
+                 * throw, and everything below, `hideModal()` included, never ran. Choosing a
+                 * picture then did nothing at all, with no visible cause.
+                 */
                 const fileInput = temp.querySelector("input[name$='[file_name]']");
                 const imageInput = temp.querySelector("input[name$='[image]']");
-                if (fileInput) this.element.querySelector("input[name$='[file_name]']").value = fileInput.value;
-                if (imageInput) this.element.querySelector("input[name$='[image]']").value = imageInput.value;
+                const fileTarget = this.element.querySelector("input[name$='[file_name]']");
+                const imageTarget = this.element.querySelector("input[name$='[image]']");
+                if (fileInput && fileTarget) fileTarget.value = fileInput.value;
+                if (imageInput && imageTarget) imageTarget.value = imageInput.value;
 
                 // z-index, modals, actions
                 this.element.querySelector('.image-actions .btnUnlink')?.remove();
