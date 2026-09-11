@@ -216,20 +216,6 @@
 
 {% block body -%}
 
-    {% for flash_message in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success alert-dismissible" role="alert">
-            {{ flash_message|raw }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-
-    {% for flash_message in app.session.flashbag.get('error') %}
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            {{ flash_message|raw }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-
     {% block panels %}
 
         {{ form_start(form, {attr: {'data-form': 'form', id: 'aropixel_admin_form'}}) }}
