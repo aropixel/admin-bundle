@@ -6,90 +6,109 @@
 
 ## Presentation
 
-The `AropixelAdminBundle` is a **developer-friendly streamlined administration framework** for Symfony applications. It is a designed to provide essential tools and a solid foundation without getting in the developer's way. It provides the framework and tools to build an admin interface quickly while ensuring you retain full control over your code.
+The `AropixelAdminBundle` is a **developer-friendly, streamlined administration framework** for Symfony applications. It gives you the tools and a solid foundation to build an admin interface quickly, without getting in the way of your own code and without becoming a black box.
 
 As a facilitator, it helps automate repetitive CRUD tasks through a custom `make:crud` generator that starts from your own `FormType`.
 
-## See it — no install required
+## See it in action
 
-The bundle's core value is the **Symfony toolbox**: the `make:crud` generator that builds a
-CRUD from *your own* `FormType`, the reusable form-type layouts, the `DataTable` component,
-and the image / gallery widgets. The admin UI is the part you *don't* have to build.
+`make:crud` reads an existing `FormType` and generates a full create/read/update/delete interface around it — routes, controller, DataTable listing, form page.
 
-That UI is a token-based design system on Bootstrap 5 — every colour, spacing and radius is a
-`--aro-*` CSS variable, so you re-theme it from a handful of custom properties. Browse every
-component, in every state, rendered on the real bundle CSS:
+![AropixelAdminBundle: walking through a generated CRUD](doc/assets/crud-generator.gif)
 
-**▶ [Open the live component catalogue](https://aropixel.github.io/admin-bundle/)**
+## In practice: several widgets in a few lines
 
-[![AropixelAdminBundle component catalogue — buttons, badges, colours and typography rendered on the real bundle CSS](doc/assets/catalog-preview.png)](https://aropixel.github.io/admin-bundle/)
+A concrete example rather than a feature list: a relation field (category), a boolean (toggle) and an image with upload, a shared media library and cropping — all in a single `FormType`.
 
-> The catalogue is also served in-app at `/admin/_catalog` (dev environment only), where it
-> cannot drift from what the admin actually looks like.
+The FormType:
 
-Our suite of tools consists of several modules, each dedicated to specific aspects of website administration:
+```php
+use Aropixel\AdminBundle\Form\Type\Image\Single\ImageType;
+use Aropixel\AdminBundle\Form\Type\ToggleSwitchType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-* **AdminBundle**: Facilitates the publication and management of news, with advanced features such as publication scheduling and category management.
+$builder
+    ->add('title', TextType::class, [
+        'label' => 'Title',
+    ])
+    ->add('category', EntityType::class, [
+        'label' => 'Category',
+        'class' => Category::class,
+        'choice_label' => 'name',
+        'required' => false,
+    ])
+    ->add('published', ToggleSwitchType::class, [
+        'label' => 'Published',
+        'required' => false,
+    ])
+    ->add('cover', ImageType::class, [
+        'label' => 'Cover image',
+        'property_path' => 'coverFilename',
+        'data_value' => 'coverFilename',
+        'crops_value' => 'coverCrops',
+        'crops' => [
+            'article_cover' => 'Cover (16/9)',
+        ],
+        'required' => false,
+    ])
+;
+```
 
+The template:
 
-* **BlogBundle**: Allows the construction of a custom administration interface tailored to the specific needs of the project. It also enables user management and adjustment of permissions according to defined profiles.
+```twig
+{{ form_row(form.title) }}
+{{ form_row(form.category) }}
+{{ form_row(form.published) }}
+{{ form_row(form.cover) }}
+```
 
+The result:
 
-* **PageBundle**: Offers the ability to intuitively create, modify, move, or delete pages and subpages, allowing for an evolving site structure.
+![The rendered form: Title, Category (select), Published (toggle) and Cover image](doc/assets/form-widgets-example.png)
 
+That's it — no extra configuration, no JavaScript to write. The same principle applies to image galleries, files and collections. See the [full widget catalogue](doc/forms.md) for everything else: `Select2Type`, `FilterableEntityType`, `CollectionType`, `DateTimeType`, `EditorType`, `VideoType`...
 
-* **MenuBundle**: Provides a comprehensive system for managing website navigation menus, including nested structures and different locations (header, footer, etc.).
+## Our suite of tools
 
+`AropixelAdminBundle` is the foundation the rest of the ecosystem builds on:
 
+* **[PageBundle](https://github.com/aropixel/page-bundle)** — a visual, block-based page builder with pre-rendered HTML, fixed pages, and full SEO fields. A lightweight CMS alternative.
 
+  ![AropixelPageBundle: the visual page builder](doc/assets/page-builder-preview.gif)
 
-> [NOTE] <br>
-AropixelAdminBundle is optimized to work with Symfony 6/7 and PHP 8.2 and above. <br>
-Using it with earlier versions is highly likely to cause errors or incompatibilities.
+* **[BlogBundle](https://github.com/aropixel/blog-bundle)** — posts and categories with scheduling, SEO fields and image crops. The editorial layer for your Symfony site.
 
+  ![AropixelBlogBundle: editing a post](doc/assets/blog-preview.gif)
+
+* **[MenuBundle](https://github.com/aropixel/menu-bundle)** — drag-and-drop navigation menus across multiple locations: header, footer, and beyond.
+
+> [!NOTE]
+> AropixelAdminBundle is optimized to work with Symfony 6/7 and PHP 8.2 and above.
+> Using it with earlier versions is highly likely to cause errors or incompatibilities.
 
 ## Key Features
 
-* **Easy Installation and Configuration**: 
-> **Seamless Integration**: Easily integrates with Symfony projects, ensuring a smooth setup process.
-<br> **Pre-configured Settings**: Out-of-the-box settings that can be customized to fit specific project requirements.   
+* **Easy Installation and Configuration**
+  Seamless integration with Symfony projects and pre-configured settings that can be customized to fit specific project requirements.
 
-***
+* **User Management**
+  Full admin user CRUD, plus role-based access control to restrict sections of the admin panel.
 
-* **User Management**: 
-> **Admin User CRUD**: Full create, read, update, and delete functionality for managing admin users.
-<br> **Role-Based Access Control**: Define and manage user roles and permissions to restrict access to specific sections of the admin panel.
+* **Content Management**
+  Customizable administration interface for managing blog posts, news, comments and categories (via BlogBundle).
 
-***
+* **Page Management**
+  Intuitive page editor: create, modify, move and delete pages and subpages (via PageBundle).
 
-* **Content Management**: 
-> **News Management**: Customizable administration interface for managing blog posts, news, and categories.
-Customizable administration interface for managing blog posts, comments, and categories
+* **Menu Management**
+  Manage header and footer navigation, with dynamic, reorderable menu links (via MenuBundle).
 
-***
+* **Extensibility**
+  Modular architecture — each feature is encapsulated in a module, so it's easy to extend or replace. Customizable workflows to fit different projects.
 
-* **Page Management**: 
-> **Intuitive Page Editor**: Create, modify, move, and delete pages and subpages with a simple interface.
-
-
-***
-
-* **Menu Management**: 
-> **Header and Footer Management**: Easily manage and organize the site’s navigation menus, including headers and footers.
-<br> **Dynamic Menu Links**: Add, edit, and rearrange menu links to reflect the site’s structure and content priorities.
-
-
-***
-
-* **Extensibility**: 
-> **Modular Architecture**: Each feature is encapsulated in a module, making it easy to extend or replace functionality.
-<br> **Customizable Workflows**: Tailor the admin interface and workflows to meet the specific needs of different projects.
-
-***
-
-* **Miscellaneous**: 
-> **Multi-language Support**: Interface available in French, English, German, Spanish, Italian and Czech.
-
+* **Multi-language Support**
+  Interface available in French, English, German, Spanish, Italian and Czech.
 
 ## Further documentation
 
@@ -112,3 +131,4 @@ Customizable administration interface for managing blog posts, comments, and cat
 * [CSS Customization](doc/css_customization.md)
 * [Entity Customization](doc/entities.md)
 * [Admin Menu Customization](doc/admin_menu.md)
+* [Live component catalogue](https://aropixel.github.io/admin-bundle/) — every UI component, in every state, rendered on the real bundle CSS (also served in-app at `/admin/_catalog` in the dev environment)
