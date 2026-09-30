@@ -19,6 +19,14 @@ services:
             - '../../Component/Select2/{Select2Interface.php,Select2DataProviderInterface.php,Select2RepositoryInterface.php}'
             - '../../Resources/'
 
+    # The interface files above are excluded from the resource scan, so Symfony
+    # never reflects on them and can't auto-generate the interface -> implementation
+    # alias. Without this, `Select2Interface $select2` in a consumer's own controller
+    # throws "Cannot autowire argument ... it needs an instance of Select2Interface but
+    # this type has been excluded". Type-hinting the concrete Select2 class works
+    # without this alias, but the interface is the documented/public contract.
+    Aropixel\AdminBundle\Component\Select2\Select2Interface: '@Aropixel\AdminBundle\Component\Select2\Select2'
+
     Aropixel\AdminBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
