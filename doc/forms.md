@@ -2,6 +2,8 @@
 
 AropixelAdminBundle provides several custom Symfony Form Types to simplify the creation of advanced administration interfaces. These types are pre-configured to work with the bundle's layout and assets.
 
+Every type below follows the same pattern: the FormType field, the Twig line that renders it, and a screenshot of the actual result.
+
 ## Summary
 
 - [Media Types](#media-types)
@@ -47,6 +49,11 @@ Used to display an image widget with an upload tool, a media library, and a crop
 - `max_size`: The maximum file size allowed for upload in bytes (e.g., `2 * 1024 * 1024` for 2MB).
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('image', ImageType::class, [
     'label' => 'Profile Picture',
@@ -54,6 +61,21 @@ $builder->add('image', ImageType::class, [
     'crops' => ['avatar' => 'Avatar'],
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.image) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![ImageType: an upload area with a camera placeholder icon](doc/assets/form-imagetype.png)
 
 ### GalleryType (Images)
 
@@ -69,6 +91,11 @@ Manages a collection of images with a library modal and sorting capabilities.
 - `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('gallery', GalleryType::class, [
     'image_class' => ProductImage::class,
@@ -76,6 +103,17 @@ $builder->add('gallery', GalleryType::class, [
     'crops' => ['gallery' => 'Gallery Crop'],
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.gallery) }}
+```
+
+</td>
+</tr>
+</table>
 
 ### FileType
 
@@ -94,12 +132,32 @@ Use this function to generate the public download URL for a file.
 - `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('document', FileType::class, [
     'label' => 'Manual',
     'data_class' => ProductFile::class,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.document) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![FileType: an "Add a file" button](doc/assets/form-filetype.png)
 
 ### GalleryType (Files)
 
@@ -115,12 +173,28 @@ Use this function to generate the public download URL for each file in the galle
 - `max_size`: The maximum file size allowed for upload in bytes.
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('files', GalleryType::class, [
     'label' => 'Documents',
     'entry_type' => GalleryFileType::class,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.files) }}
+```
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -136,12 +210,37 @@ An extension of the standard Symfony `DateTimeType` pre-configured to work with 
 **Twig block:** `aropixel_admin_datetime_widget`
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('publishAt', DateTimeType::class, [
     'label' => 'Publish at',
     'required' => false,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.publishAt) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![DateTimeType: a date field next to a time field](doc/assets/form-datetimetype.png)
+
+> **Field name note:** avoid naming the field `publishAt` on a form that also has a `published`
+> boolean — the base admin layout auto-renders a "Publication" panel for that exact combination,
+> and `form_rest()` would then try to render `publishAt` a second time. Pick another name (or rely
+> on the auto-rendered panel) if both fields exist on the same entity.
 
 ### DateType
 
@@ -152,12 +251,32 @@ An extension of the standard Symfony `DateType` pre-configured to work with the 
 **Twig block:** `aropixel_admin_date_widget`
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('publishedAt', DateType::class, [
     'label' => 'Published at',
     'required' => false,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.publishedAt) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![DateType: a single date field](doc/assets/form-datetype.png)
 
 ### TimeType
 
@@ -167,11 +286,31 @@ An extension of the standard Symfony `TimeType` pre-configured to work with the 
 **Twig block:** `aropixel_admin_time_widget`
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('startAt', TimeType::class, [
     'label' => 'Starts at',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.startAt) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![TimeType: a single time field](doc/assets/form-timetype.png)
 
 ### Select2Type
 
@@ -185,7 +324,23 @@ Provides a Select2 input with AJAX support for entity selection.
 - `choice_label`: The property name to display as label.
 - `multiple`: Whether to allow multiple selection.
 
+The AJAX route just needs to return a `Select2` response — the bundle's `Select2` service (autowired
+by its concrete class, not `Select2Interface`) does the querying and JSON formatting for you:
+
+```php
+#[Route('/ajax/category', name: 'admin_category_ajax_search')]
+public function ajax(Select2 $select2): Response
+{
+    return $select2->withEntity(Category::class)->searchIn(['name'])->render();
+}
+```
+
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('category', Select2Type::class, [
     'class' => Category::class,
@@ -193,6 +348,21 @@ $builder->add('category', Select2Type::class, [
     'choice_label' => 'title',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.category) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:** (renders identically to [FilterableEntityType](#filterableentitytype) below — same widget, different defaults)
+
+![Select2Type: an entity search dropdown](doc/assets/form-select2type.png)
 
 ### FilterableEntityType
 
@@ -206,6 +376,11 @@ An extension of `Select2Type` for single entity selection with AJAX search. It s
 - `choice_label`: The property name to display as label (default: 'label').
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('author', FilterableEntityType::class, [
     'label'      => 'Author',
@@ -213,6 +388,19 @@ $builder->add('author', FilterableEntityType::class, [
     'route'      => 'admin_author_ajax',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.author) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:** same as [Select2Type](#select2type) above.
 
 ### FilterableEntitiesType
 
@@ -226,6 +414,11 @@ An extension of `FilterableEntityType` for multiple entity selection (ManyToMany
 - `choice_label`: The property name to display as label (default: 'label').
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('similarAlbums', FilterableEntitiesType::class, [
     'label'      => 'Similar Albums',
@@ -233,6 +426,21 @@ $builder->add('similarAlbums', FilterableEntitiesType::class, [
     'route'      => 'admin_album_select2',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.similarAlbums) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![FilterableEntitiesType: a multi-select entity search field](doc/assets/form-filterableentitiestype.png)
 
 ### EntityHiddenType
 
@@ -244,11 +452,29 @@ Stores an entity ID in a hidden field. Useful for associating entities via JavaS
 - `class`: The entity class name (required).
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('category', EntityHiddenType::class, [
     'class' => Category::class,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.category) }}
+```
+
+</td>
+</tr>
+</table>
+
+No screenshot here — this renders as a plain `<input type="hidden">`, meant to be read and written by your own JavaScript rather than shown to the user.
 
 ### CollectionHiddenType
 
@@ -261,12 +487,30 @@ Stores a collection of entities in a hidden select field.
 - `multiple`: true.
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('tags', CollectionHiddenType::class, [
     'class' => Tag::class,
     'multiple' => true,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.tags) }}
+```
+
+</td>
+</tr>
+</table>
+
+Same as `EntityHiddenType`: no visible widget by itself, driven by your own JavaScript.
 
 ### CollectionType
 
@@ -291,6 +535,11 @@ Handles a collection of forms with a table view and a centralized Bootstrap offc
 - `toolbar_template`: (string) Path to a custom Twig template rendered next to the add button (useful for adding extra actions like an import button, a link, etc.).
 
 **Basic Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('variants', CollectionType::class, [
     'entry_type' => VariantType::class,
@@ -304,6 +553,21 @@ $builder->add('variants', CollectionType::class, [
     'form_title' => 'Édition de la variante',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.variants) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:** the table (left column of the widget) and the offcanvas opened by clicking "Ajouter un élément" or a row (right side):
+
+![CollectionType: a table with an add button, and the item-editing offcanvas open](doc/assets/form-collectiontype.png)
 
 **Advanced Usage (Nested Fields & Custom Rendering):**
 You can use dot notation to access fields in nested form types and provide custom HTML rendering.
@@ -419,12 +683,32 @@ Handles multi-language fields (Gedmo Personal Translations). Generates one input
 - `widget`: The underlying form type to use (default: `TextType`).
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('title', TranslatableType::class, [
     'personal_translation' => ProductTranslation::class,
     'widget' => TextType::class,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.title) }}
+```
+
+</td>
+</tr>
+</table>
+
+No screenshot here — this one needs Gedmo personal translations configured on the target entity
+(a `ProductTranslation`-style class implementing Gedmo's translation interface) before it renders,
+which is a per-project setup rather than something a generic example can demonstrate.
 
 ### SyliusTranslatableType
 
@@ -441,12 +725,31 @@ Handles multi-language fields for entities implementing Sylius Translatable inte
 - `personal_translation`: Whether the entity uses personal translations (default: `false`).
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('name', SyliusTranslatableType::class, [
     'label' => 'Product Name',
     'widget' => TextType::class,
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.name) }}
+```
+
+</td>
+</tr>
+</table>
+
+No screenshot here either — this one requires `sylius/resource-bundle` and a Sylius-Translatable
+entity, which is out of scope for a standalone example.
 
 ---
 
@@ -468,11 +771,31 @@ The `EditorType` is automatically integrated with the `ImageManager`. When the '
 To ensure this works correctly, the `EditorType` automatically handles the necessary metadata (`data-class` and `data-attach-path`) based on the form context.
 
 **Basic Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('content', EditorType::class, [
     'toolbar' => 'simple',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.content) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![EditorType: a QuillJS rich text editor with a simple toolbar](doc/assets/form-editortype.png)
 
 **Advanced Usage (Custom configuration):**
 
@@ -573,11 +896,31 @@ A simple color picker input.
 - `format`: The color format (hex, rgb, etc. Default: `hex`).
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('mainColor', ColorType::class, [
     'format' => 'hex',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.mainColor) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![ColorType: a color swatch with a picker dropdown](doc/assets/form-colortype.png)
 
 ### ToggleSwitchType
 
@@ -586,11 +929,31 @@ A Bootstrap-style toggle switch (checkbox).
 **Twig block:** `aropixel_admin_toggle_switch_row`
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('enabled', ToggleSwitchType::class, [
     'label' => 'Active',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.enabled) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![ToggleSwitchType: a Bootstrap-style toggle switch](doc/assets/form-toggleswitchtype.png)
 
 ### VideoType
 
@@ -599,8 +962,28 @@ Input for video embed code with a preview.
 **Twig block:** `aropixel_admin_video_row`
 
 **Usage:**
+
+<table>
+<tr>
+<td>
+
 ```php
 $builder->add('videoEmbed', VideoType::class, [
     'label' => 'YouTube Embed Code',
 ]);
 ```
+
+</td>
+<td>
+
+```twig
+{{ form_row(form.videoEmbed) }}
+```
+
+</td>
+</tr>
+</table>
+
+**Rendered:**
+
+![VideoType: a textarea for the embed code, with a preview column next to it](doc/assets/form-videotype.png)
