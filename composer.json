@@ -62,5 +62,10 @@
     "post-update-cmd": [
       "@symfony-scripts"
     ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "3.x-dev"
+    }
   }
 }

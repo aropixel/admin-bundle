@@ -109,7 +109,7 @@
                            consommait jamais, et l'exploitant les recevait tous d'un coup à sa
                            prochaine visite d'une liste, sur un écran qui n'avait rien à voir. #}
                         {% block flash_messages %}
-                            {% for type, style in {'notice': 'success', 'success': 'success', 'warning': 'warning', 'error': 'danger'} %}
+                            {% for type, style in {notice: 'success', success: 'success', warning: 'warning', error: 'danger'} %}
                                 {% for flash_message in app.flashes(type) %}
                                     <div class="alert alert-{{ style }} alert-dismissible" role="alert">
                                         {{ flash_message|raw }}
