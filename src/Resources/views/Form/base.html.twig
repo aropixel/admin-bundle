@@ -230,24 +230,11 @@
 
             {{ form_errors(form) }}
 
-            <div {% if has_tabs %}class="tab-content"{% endif %}>
-
-                {% block mainPanel %}
-
-                    <div class="card card-centered">
-
-                        <div class="card-body">
-
-                            {% block formbody %}{% endblock %}
-
-                        </div>
-
-                    </div>
-
-                {% endblock %}
-
-            </div>
-
+            {# publicationModal renders form.slug/createdAt/publishAt/publishUntil explicitly
+               via form_row()/form_widget() — it must run before mainPanel's form_rest() call
+               below. form_rest() silently skips fields already rendered elsewhere, but a field
+               explicitly form_row()'d a second time throws; putting the modal first (like
+               form.status just above) is what makes the later form_rest() safe. #}
             {% block publicationModal %}
 
                 {% if
@@ -289,7 +276,7 @@
                                                         <a href="#panel-tab-creation" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined %}active{% endif %}" aria-selected="true" role="tab">{% trans %}form.tab.creation{% endtrans %}</a>
                                                     </li>
                                                 {% endif %}
-                                                {% if form.publishAt is defined or form.publishAt is defined %}
+                                                {% if form.publishAt is defined or form.publishUntil is defined %}
                                                     <li class="nav-item" role="presentation">
                                                         <a href="#panel-tab-publish" data-bs-toggle="pill" class="nav-link {% if form.slug is not defined and form.createdAt is not defined %}active{% endif %}" aria-selected="false" tabindex="-1" role="tab">{% trans %}form.tab.publish_dates{% endtrans %}</a>
                                                     </li>
@@ -331,6 +318,24 @@
                 {% endif %}
 
             {% endblock %}
+
+            <div {% if has_tabs %}class="tab-content"{% endif %}>
+
+                {% block mainPanel %}
+
+                    <div class="card card-centered">
+
+                        <div class="card-body">
+
+                            {% block formbody %}{% endblock %}
+
+                        </div>
+
+                    </div>
+
+                {% endblock %}
+
+            </div>
 
         {{ form_end(form) }}
 
