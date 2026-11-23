@@ -235,15 +235,61 @@ function softBreakMatcher() {
 const BULLET_KINDS = ['bullet', 'checked', 'unchecked'];
 
 /**
+ * Quill ne connaît la vidéo que comme un bloc de premier niveau
+ * (<iframe class="ql-video">). Une iframe enveloppée — le
+ * <div class="videodetector"> d'un contenu CKEditor, un <p>… — est
+ * silencieusement supprimée au chargement, et le contenu enregistré la perd.
+ * On la remonte donc au premier niveau, à la place de son conteneur, en
+ * reportant le centrage. Le conteneur n'est conservé que s'il lui reste du
+ * contenu.
+ */
+function hoistIframes(doc) {
+
+    doc.querySelectorAll('iframe').forEach(function (iframe) {
+
+        iframe.classList.add('ql-video');
+
+        let top = iframe;
+        while (top.parentNode && top.parentNode !== doc.body) {
+            top = top.parentNode;
+        }
+
+        if (top === iframe) {
+            return;
+        }
+
+        if (!iframe.className.match(/\bql-align-/)) {
+            let node = iframe.parentNode;
+            while (node && node !== doc.body) {
+                const align = node.style && node.style.textAlign;
+                if (['center', 'right', 'justify'].indexOf(align) !== -1) {
+                    iframe.classList.add('ql-align-' + align);
+                    break;
+                }
+                node = node.parentNode;
+            }
+        }
+
+        top.parentNode.insertBefore(iframe, top);
+
+        if (!top.textContent.trim() && !top.querySelector('img, iframe, video')) {
+            top.remove();
+        }
+    });
+}
+
+/**
  * HTML stocké -> HTML attendu par Quill.
  */
 export function toEditorHtml(html) {
 
-    if (!html || (html.indexOf('<ul') === -1 && html.indexOf('ql-ui') === -1)) {
+    if (!html || (html.indexOf('<ul') === -1 && html.indexOf('ql-ui') === -1 && html.indexOf('<iframe') === -1)) {
         return html || '';
     }
 
     const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    hoistIframes(doc);
 
     // Résidus d'un enregistrement antérieur : Quill les régénère lui-même
     doc.querySelectorAll('.ql-ui').forEach(function (node) {
