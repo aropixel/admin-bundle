@@ -52,11 +52,18 @@
     line-height: var(--aro-leading-base);
 }
 
+/*
+ * The icon box is exactly one line of alert text tall and centres its glyph, so the icon sits
+ * on the middle of the first line whatever the icon size. The former `margin-top: 1px` in a
+ * 20px line box left it ~2.5px low.
+ */
 .aro-alert__icon {
     flex: 0 0 auto;
-    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    height: calc(var(--aro-text-base) * var(--aro-leading-base));
     font-size: var(--aro-text-lg);
-    line-height: var(--aro-leading-tight);
+    line-height: 1;
 }
 
 .aro-alert__content {
@@ -85,8 +92,10 @@
     margin-bottom: var(--aro-space-1);
 }
 
+/* Back to the alert's line height: the global `p` rule (18px) would shift it against the icon. */
 .aro-alert__text {
     margin: 0;
+    line-height: inherit;
 }
 
 .aro-alert__list {
