@@ -1,5 +1,15 @@
 import { onDomReady } from '/bundles/aropixeladmin/js/utils/dom-ready.js';
 
+// Both the Ajax and the basic tables get the search placeholder; 2.x set it on every table.
+const setFilterPlaceholder = (table) => {
+    const input = table.closest('.dataTables_wrapper')?.querySelector('.dataTables_filter input');
+    if (input) {
+        input.setAttribute('placeholder', $.fn.dataTable.defaults.language?.filterPlaceholder || 'Filtrer...');
+    }
+
+    return input;
+};
+
 onDomReady(() => {
     document.querySelectorAll('.datatable-ajax').forEach((table) => {
         const url = table.dataset.src || table.dataset.ajaxUrl || window.location.pathname;
@@ -23,6 +33,7 @@ onDomReady(() => {
         }
 
         $(table).dataTable(params);
+        setFilterPlaceholder(table);
     });
 
 
@@ -37,9 +48,8 @@ onDomReady(() => {
 
         const dt = table.dataTable(params);
 
-        const input = table.closest('.dataTables_wrapper')[0]?.querySelector('.dataTables_filter input');
+        const input = setFilterPlaceholder(el);
         if (input) {
-            input.setAttribute('placeholder', $.fn.dataTable.defaults.language?.filterPlaceholder || 'Filtrer...');
             input.addEventListener('keyup', function () {
                 const regEx = '\b' + this.value;
                 dt.search(regEx, true, false).draw();
