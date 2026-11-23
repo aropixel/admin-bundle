@@ -826,6 +826,34 @@ function formatRepoSelection (repo) {
 }
 
 
+/**
+ * pickadate s'ouvre au focus du champ, donc dès l'appui du bouton de la souris,
+ * et centre son calendrier à l'écran. Si un jour se retrouve sous le curseur,
+ * le relâchement du bouton le sélectionne et referme aussitôt le picker : une
+ * date est saisie sans que l'utilisateur l'ait choisie. Tant que ce premier
+ * clic n'est pas terminé, le calendrier ignore donc la souris.
+ */
+let pointerPressed = false;
+document.addEventListener('mousedown', function () { pointerPressed = true; }, true);
+document.addEventListener('mouseup', function () { pointerPressed = false; }, true);
+
+function ignoreOpeningClick(picker) {
+
+    if (!pointerPressed) {
+        return;
+    }
+
+    const root = picker.$root[0];
+    root.style.pointerEvents = 'none';
+
+    document.addEventListener('mouseup', function () {
+        // Le click suit le mouseup dans la même tâche : on rend la main après lui.
+        setTimeout(function () {
+            root.style.pointerEvents = '';
+        }, 0);
+    }, { once: true, capture: true });
+}
+
 function activateDatePicker($element) {
 
     if (!$element.length) {
@@ -846,6 +874,8 @@ function activateDatePicker($element) {
         format: 'dd/mm/yyyy',
         formatSubmit: 'yyyy-mm-dd',
         onOpen: function() {
+
+            ignoreOpeningClick(this);
 
             moment.locale('fr');
             let selected = $(this)[0].get('select');
