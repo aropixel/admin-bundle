@@ -21,3 +21,14 @@ AdminBundle 3.0 is a complete rewrite. There is no in-place upgrade path from
 * Multilingual content is supported out of the box, see [doc/i18n.md](doc/i18n.md).
 * The companion bundles (BlogBundle, PageBundle, MenuBundle) are released as
   3.0 as well and require `aropixel/admin-bundle ^3.0`.
+
+## Silent breaking changes
+
+These keep working without any error but behave differently, so they are worth
+checking in templates carried over from 1.x/2.x.
+
+* **DataTables `data-order-column` is now 0-based.** 1.x/2.x subtracted 1 from
+  the attribute; 3.0 passes it to DataTables as is, consistent with
+  `DataTable::setOrderColumn()`. A table carried over unchanged sorts on the
+  column to the right of the intended one by default. Decrement every
+  `data-order-column` value (on `.datatable` and `.datatable-ajax` tables).
