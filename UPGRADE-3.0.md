@@ -32,3 +32,8 @@ checking in templates carried over from 1.x/2.x.
   `DataTable::setOrderColumn()`. A table carried over unchanged sorts on the
   column to the right of the intended one by default. Decrement every
   `data-order-column` value (on `.datatable` and `.datatable-ajax` tables).
+* **`.datatable-ajax` without `data-src` now loads the page URL itself.** 1.x/2.x
+  fell back to `<page URL>/dataTable.json`; 3.0 requests `window.location.pathname`.
+  A table relying on the old convention receives the HTML page instead of JSON and
+  stays on its loading indicator. Give such tables an explicit `data-src` (or
+  `data-ajax-url`) pointing to their JSON route.
