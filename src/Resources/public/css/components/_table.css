@@ -180,6 +180,26 @@ table.dataTable thead .sorting_desc_disabled::after {
     right: var(--aro-space-6);
 }
 
+/* Same glyphs, a notch smaller than the body text: at full size they outweighed the header label.
+   Centred on the cell instead of DataTables' `bottom: .9em`, which scales with the glyph and left
+   them sitting below the label once shrunk. */
+table.dataTable thead .sorting::before,
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::before,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::before,
+table.dataTable thead .sorting_desc::after,
+table.dataTable thead .sorting_asc_disabled::before,
+table.dataTable thead .sorting_asc_disabled::after,
+table.dataTable thead .sorting_desc_disabled::before,
+table.dataTable thead .sorting_desc_disabled::after {
+    font-size: var(--aro-text-xs);
+    line-height: 1;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+}
+
 table.dataTable thead .sorting::before,
 table.dataTable thead .sorting_asc::before,
 table.dataTable thead .sorting_desc::before,
