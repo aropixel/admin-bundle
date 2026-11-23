@@ -43,6 +43,7 @@
 
 /* Titles are a role, not a size — see --aro-text-card-title in _tokens.css. */
 .card .card-header h3,
+.card .card-header h4,
 .card .card-header h5,
 .card .card-header .card-title,
 .card .card-body h4,
@@ -51,6 +52,15 @@
     padding-right: var(--aro-space-3);
     font-size: var(--aro-text-card-title);
     line-height: var(--aro-leading-tight);
+}
+
+/* h4 is the card title of the 1.x/2.x templates (and of the bundle's own): left out, it fell
+   back to Bootstrap's 24px / 500. Header titles carry the weight they had in v2. */
+.card .card-header h3,
+.card .card-header h4,
+.card .card-header h5,
+.card .card-header .card-title {
+    font-weight: var(--aro-weight-bold);
 }
 
 .card .card-header > :first-child + .card-header-action,
