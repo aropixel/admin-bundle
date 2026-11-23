@@ -26,4 +26,11 @@
      * token (white) rather than a raw colour, per the button-file conventions.
      */
     box-shadow: inset 1px 0 0 color-mix(in srgb, var(--aro-color-text-inverted) 25%, transparent);
+
+    /*
+     * Bootstrap pads the caret with a fixed `.5625rem`, blind to the button size: next to a
+     * `.btn-small` action (16px) it shrank to a cramped 9px. Following the button's own
+     * padding token keeps both halves on the same rhythm at every size.
+     */
+    padding-inline: var(--bs-btn-padding-x);
 }
