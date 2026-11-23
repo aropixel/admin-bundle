@@ -103,17 +103,20 @@
     clear: right;
 }
 
-.sp-cancel,
-.sp-choose,
-.sp-palette-toggle {
-    border: 0;
+/* Scoped to `.sp-container` (0,2,0) to outrank the plugin's `.sp-container button` (0,1,1), whose
+   stylesheet loads after ours: unscoped, the `<button>` « Choose » kept the plugin's 14px / 5px 4px /
+   line-height 1 and came out shorter than the `<a>` « Cancel » beside it. No `border` here: at this
+   specificity it would override the 1px borders that `.sp-cancel` and `.sp-container button` set below. */
+.sp-container .sp-cancel,
+.sp-container .sp-choose,
+.sp-container .sp-palette-toggle {
     border-radius: var(--aro-radius-sm);
     padding: 8px 6px;
     float: left;
     width: 48%;
     box-sizing: border-box;
     text-align: center;
-    font-size: var(--aro-text-xs);
+    font-size: var(--aro-text-sm);
     line-height: 1.7;
     outline: 0;
 }
