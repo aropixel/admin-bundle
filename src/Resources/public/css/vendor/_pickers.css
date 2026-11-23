@@ -42,18 +42,27 @@
 .picker__footer {
     margin-bottom: .75em;
 }
-.picker__nav--prev:before, .picker__nav--next:before {
-    font-family: 'Ionicons';
-    border: 0 none;
-    width: auto;
-    height: auto;
+/* Chevrons en bordures : l'ancienne police Ionicons n'est plus chargée. */
+.picker__nav--prev, .picker__nav--next {
+    color: var(--aro-color-text-muted);
 }
-
+.picker__nav--prev:before, .picker__nav--next:before {
+    content: "";
+    width: .5em;
+    height: .5em;
+    margin: .25em auto 0;
+    border: 0 none;
+    border-top: 2px solid currentColor;
+    border-left: 2px solid currentColor;
+}
 .picker__nav--prev:before {
-    content: "\f3d2";
+    transform: rotate(-45deg);
 }
 .picker__nav--next:before {
-    content: "\f3d3";
+    transform: rotate(135deg);
+}
+.picker__nav--disabled:before {
+    opacity: .3;
 }
 .picker--focused .picker__day--highlighted {
     background-color: transparent;
