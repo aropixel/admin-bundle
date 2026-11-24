@@ -18,6 +18,28 @@
     padding: 0 var(--aro-space-8);
 }
 
+/*
+ * Footer at the bottom of the window on short pages. Stisla's JS used to set an inline
+ * min-height on .main-content (window height - 95px); with Stisla gone, the shell is a
+ * flex column: the navbar keeps its height, the content takes the rest. Rules stay on
+ * direct children so a project overriding base.html.twig with its own tree is untouched.
+ */
+.main-wrapper-1 {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Auto margins centre these two; in a flex column they would no longer stretch them. */
+.main-wrapper-1 > .fullscreen-navbar,
+.main-wrapper-1 > .main-content-fullscreen {
+    width: 100%;
+}
+
+.main-wrapper-1 > .main-content-fullscreen {
+    flex: 1 0 auto;
+}
+
 .main-footer-fullscreen {
     display: flex;
     align-items: center;
