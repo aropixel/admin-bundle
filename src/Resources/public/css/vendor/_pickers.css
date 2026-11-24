@@ -205,8 +205,15 @@
 .clockpicker-plate {
     margin: 30px auto;
 }
+/*
+ * The plugin marks the active part (hours or minutes) with .text-primary. Bootstrap sits
+ * in a cascade layer, and a layered !important beats any unlayered one, so its primary
+ * colour won — blue on the blue header. Its rule reads --bs-primary-rgb, which a plain
+ * unlayered declaration does override: retarget the variable instead of the colour.
+ */
 .clockpicker-popover .popover-title span.text-primary {
-    color: var(--aro-color-surface)!important;
+    --bs-primary-rgb: 255, 255, 255;
+    --bs-text-opacity: 1;
 }
 .clockpicker-popover .popover-footer {
     display: flex;
