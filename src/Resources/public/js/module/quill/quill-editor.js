@@ -877,8 +877,10 @@ export function activateQuillEditor($elements) {
             watchEditingState(editorContainer);
         }
 
-        // Initialize content
-        quill.root.innerHTML = toEditorHtml($target.val());
+        // Initialize content. The stored HTML may carry line breaks between blocks
+        // (CKEditor saved `<p>…</p>\n\n<p>…</p>`): Quill would turn each of them
+        // into an empty paragraph, which the next save would then persist.
+        quill.root.innerHTML = toEditorHtml(compactHtml($target.val()));
         quill.update();
         $target.val(toStorageHtml(quill.root.innerHTML));
 
