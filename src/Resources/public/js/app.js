@@ -907,8 +907,12 @@ function activateTimePicker($element) {
 
 function activateImManager($elements) {
 
+    // The jQuery ImageManager plugin is gone: the widgets are now built by the
+    // ES module launcher, which base.html.twig exposes as window.initImageManager.
     $elements.each(function() {
-        $(this).ImageManager();
+        if (window.initImageManager && !this.__imLauncher) {
+            window.initImageManager(this);
+        }
     })
 
 }
