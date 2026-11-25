@@ -441,8 +441,40 @@ function prettyHtml(html) {
  * pour la lisibilité (ou tapés à la main dans le mode source), afin qu'ils ne
  * polluent ni le HTML stocké ni le rendu de l'éditeur (white-space: pre-wrap).
  * Les espaces significatifs — entre éléments en ligne — sont préservés.
+ *
+ * Un saut de ligne dans le texte ne vaut qu'une espace en HTML, mais l'éditeur
+ * l'affiche tel quel : CKEditor enregistrait `ligne<br>\nligne`, ce qui doublait
+ * chaque saut de ligne simple. Collé à un <br> ou au bord d'un bloc, il est
+ * retiré ; ailleurs, il redevient l'espace qu'il représente.
  */
 const CONTAINER_TAGS = /^(BODY|UL|OL|TABLE|THEAD|TBODY|TFOOT|TR)$/;
+
+const isLineEdge = function (sibling, parent) {
+    if (sibling) {
+        return sibling.nodeType === Node.ELEMENT_NODE && (sibling.tagName === 'BR' || BLOCK_TAGS.test(sibling.tagName));
+    }
+    return parent.tagName === 'BODY' || BLOCK_TAGS.test(parent.tagName);
+};
+
+const collapseNewlines = function (node, parent) {
+
+    if (node.textContent.indexOf('\n') === -1 || parent.closest('pre, .ql-code-block')) {
+        return;
+    }
+
+    let text = node.textContent;
+
+    text = text.replace(/^[^\S\u00a0]*\n[^\S\u00a0]*/, isLineEdge(node.previousSibling, parent) ? '' : ' ');
+    text = text.replace(/[^\S\u00a0]*\n[^\S\u00a0]*$/, isLineEdge(node.nextSibling, parent) ? '' : ' ');
+    text = text.replace(/[^\S\u00a0]*\n[^\S\u00a0]*/g, ' ');
+
+    if (text) {
+        node.textContent = text;
+    }
+    else {
+        node.remove();
+    }
+};
 
 function compactHtml(html) {
 
@@ -457,7 +489,12 @@ function compactHtml(html) {
                 return;
             }
 
-            if (node.nodeType !== Node.TEXT_NODE || node.textContent.trim()) {
+            if (node.nodeType !== Node.TEXT_NODE) {
+                return;
+            }
+
+            if (node.textContent.trim()) {
+                collapseNewlines(node, parent);
                 return;
             }
 
@@ -469,6 +506,9 @@ function compactHtml(html) {
 
             if (nearBlock) {
                 node.remove();
+            }
+            else {
+                collapseNewlines(node, parent);
             }
         });
     };
