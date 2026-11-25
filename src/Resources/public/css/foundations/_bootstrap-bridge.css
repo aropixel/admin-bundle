@@ -121,4 +121,12 @@
     --bs-pagination-active-bg: var(--aro-color-primary);
     --bs-pagination-active-border-color: var(--aro-color-primary);
     --bs-pagination-active-color: var(--aro-color-primary-contrast);
+    /* Same literal for the focus ring (rgba(13, 110, 253, .25)): it framed a page number in
+       Bootstrap blue as soon as it was clicked. */
+    --bs-pagination-focus-box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
+}
+
+/* `.page-link:focus` draws the ring on a mouse click too: keep it for keyboard focus only. */
+.page-link:focus:not(:focus-visible) {
+    box-shadow: none;
 }
