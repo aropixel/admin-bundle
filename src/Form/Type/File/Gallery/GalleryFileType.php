@@ -42,10 +42,9 @@ class GalleryFileType extends AbstractType
         /** @var AttachedFile $data */
         $data = $form->getData();
 
-        $fileUrl = null;
-        if (null !== $data) {
-            $fileUrl = $this->pathResolver->getFilePath($data->getFile());
-        }
+        // The attachment may outlive its file (deleted from the library, or never set).
+        $file = $data?->getFile();
+        $fileUrl = null !== $file ? $this->pathResolver->getFilePath($file) : null;
 
         // set an "image_url" variable that will be available when rendering this field
         $view->vars['attach_class'] = $form->getConfig()->getDataClass();
