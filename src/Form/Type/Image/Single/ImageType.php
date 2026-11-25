@@ -160,10 +160,10 @@ class ImageType extends AbstractType
             $normalizedData = $this->instanceToData->getFileName($data);
             $view->vars['image_path'] = $normalizedData ? Image::getFileNameWebPath($normalizedData) : '';
         } else {
-            $imageUrl = null;
-            if (null !== $data) {
-                $imageUrl = $this->pathResolver->getImagePath($data->getImage());
-            }
+            // The attachment may outlive its image (deleted from the library, or never set):
+            // render the empty widget rather than a TypeError.
+            $image = $data?->getImage();
+            $imageUrl = null !== $image ? $this->pathResolver->getImagePath($image) : null;
 
             // set an "image_url" variable that will be available when rendering this field
             $view->vars['image_path'] = $imageUrl;
