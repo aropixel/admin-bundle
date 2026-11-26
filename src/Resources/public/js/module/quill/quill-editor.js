@@ -318,11 +318,40 @@ export function toEditorHtml(html) {
 }
 
 /**
- * HTML de Quill -> HTML stocké.
+ * Éléments qui font à eux seuls un contenu, même sans texte.
+ */
+const CONTENT_ELEMENTS = 'img, iframe, video, audio, object, embed, hr, table';
+
+/**
+ * Un éditeur vide n'est pas vide pour Quill : il contient toujours une ligne,
+ * rendue `<p><br></p>` (ou `<h2><br></h2>`, `<p class="ql-align-center"><br></p>`…
+ * selon le format de la ligne). Stockée telle quelle, cette ligne rend « rempli »
+ * un champ que l'utilisateur a laissé vide, et le site affiche un bloc vide.
+ * On considère donc vide un HTML sans texte (espaces insécables compris) ni
+ * élément de contenu.
+ */
+export function isBlankHtml(html) {
+
+    if (!html) {
+        return true;
+    }
+
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    return !doc.body.textContent.replace(/[\s\u00a0\u200b\ufeff]/g, '')
+        && !doc.body.querySelector(CONTENT_ELEMENTS);
+}
+
+/**
+ * HTML de Quill -> HTML stocké. Un éditeur vide donne une chaîne vide.
  */
 export function toStorageHtml(html) {
 
-    if (!html || (html.indexOf('ql-ui') === -1 && html.indexOf('<ol') === -1)) {
+    if (isBlankHtml(html)) {
+        return '';
+    }
+
+    if (html.indexOf('ql-ui') === -1 && html.indexOf('<ol') === -1) {
         return html || '';
     }
 

@@ -764,6 +764,8 @@ A WYSIWYG editor using QuillJS.
 **Options:**
 - `toolbar`: The toolbar configuration. Can be a string (`'full'`, `'simple'`, or a custom type name) or a JSON array of toolbar options. (Default: `'full'`).
 
+An editor left empty is submitted as an empty string — and mapped to `null`, like any textarea — instead of the empty line Quill always keeps (`<p><br></p>`). A content made only of whitespace, non-breaking spaces or empty lines counts as empty; an image, a video or a table alone does not.
+
 ### ImageManager Integration
 
 The `EditorType` is automatically integrated with the `ImageManager`. When the 'image' button is clicked in the Quill toolbar, the media library modal opens, allowing you to select or upload images and insert them directly into the editor.
