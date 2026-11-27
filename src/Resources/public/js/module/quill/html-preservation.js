@@ -1,31 +1,30 @@
 /* ------------------------------------------------------------------------------
 *
-*  # Préservation du HTML que Quill ne sait pas représenter
+*  # Preservation of the HTML Quill cannot represent
 *
-*  Quill 2 ne connaît qu'un petit jeu d'éléments (paragraphes, titres, listes
-*  plates, gras, liens…). Tout le reste — <div>, <section>, <button>, <small>,
-*  <hr>, <pre>, une liste imbriquée, un paragraphe dans une cellule… — est
-*  supprimé au chargement, texte compris, et l'enregistrement suivant le perd.
+*  Quill 2 only knows a small set of elements (paragraphs, headings, flat
+*  lists, bold, links…). Everything else — <div>, <section>, <button>, <small>,
+*  <hr>, <pre>, a nested list, a paragraph in a table cell… — is dropped on
+*  load, text included, and the next save loses it.
 *
-*  Ce module rend ces éléments représentables, sans rien perdre à l'aller-retour
-*  ni après une modification :
+*  This module makes those elements representable, losing nothing on the
+*  round trip nor after an edit:
 *
-*   - conteneur (`aro-html-block`) : un élément de niveau bloc, ou qui contient
-*     des blocs. Il garde sa balise et ses attributs, et ses lignes restent
-*     éditables. Le texte posé directement dedans est porté par une ligne
-*     implicite (<aro-line>), retirée à l'enregistrement ;
-*   - en ligne (`aro-html-inline`) : un élément en ligne inconnu (<button>,
-*     <small>, <span class="…">…). Il garde sa balise et ses attributs, et son
-*     texte reste éditable ;
-*   - atome (<aro-embed>) : ce qui ne s'édite pas comme du texte (<hr>, <pre>,
-*     <svg>, <script>, un commentaire, une icône vide <i class="fa …">…). Il est
-*     conservé tel quel, octet pour octet, et ne se modifie que dans le mode
-*     source.
+*   - container (`aro-html-block`): a block-level element, or one holding
+*     blocks. It keeps its tag and attributes, and its lines stay editable.
+*     Text written straight into it is carried by an implicit line
+*     (<aro-line>), removed on save;
+*   - inline (`aro-html-inline`): an unknown inline element (<button>,
+*     <small>, <span class="…">…). It keeps its tag and attributes, and its
+*     text stays editable;
+*   - atom (<aro-embed>): what is not edited as text (<hr>, <pre>, <svg>,
+*     <script>, a comment, an empty icon <i class="fa …">…). It is kept as is,
+*     byte for byte, and only changed in the source view.
 *
-*  Le marquage est fait par prepareHtml() (HTML stocké -> HTML de l'éditeur) et
-*  retiré par restoreHtml() (l'inverse). Le registre de Parchment cherche un
-*  blot par classe avant de le chercher par balise : la classe-marqueur suffit
-*  à ce que le bon blot prenne l'élément, quelle que soit sa balise.
+*  The marking is done by prepareHtml() (stored HTML -> editor HTML) and
+*  removed by restoreHtml() (the reverse). Parchment's registry looks a blot
+*  up by class before looking it up by tag: the marker class is enough for the
+*  right blot to take the element, whatever its tag.
 *
 * ---------------------------------------------------------------------------- */
 
@@ -37,55 +36,54 @@ const EMBED_ATTR = 'data-aro-html';
 const BLOCK_EMBED_CLASS = 'aro-html-block-embed';
 
 /**
- * Lignes que Quill représente nativement — tant qu'elles ne contiennent que du
- * texte et des éléments en ligne.
+ * Lines Quill represents natively — as long as they only hold text and
+ * inline elements.
  */
 const NATIVE_LINE_TAGS = /^(P|H[1-6]|BLOCKQUOTE|LI)$/;
 
 /**
- * Éléments en ligne que Quill représente nativement (gras, italique, lien…).
+ * Inline elements Quill represents natively (bold, italic, link…).
  */
 const NATIVE_INLINE_TAGS = /^(A|STRONG|B|EM|I|U|S|STRIKE|SUB|SUP|CODE|SPAN)$/;
 
 /**
- * Éléments vides par nature, que Quill représente nativement.
+ * Void elements Quill represents natively.
  */
 const NATIVE_VOID_TAGS = /^(BR|IMG)$/;
 
 /**
- * Attributs de <span> que Quill comprend : au-delà, le <span> serait déballé
- * et ses attributs perdus. Couleurs (style) et classes ql-*.
+ * <span> attributes Quill understands: beyond these, the <span> would be
+ * unwrapped and its attributes lost. Colours (style) and ql-* classes.
  */
 const NATIVE_SPAN_STYLES = /^(color|background-color)$/;
 const NATIVE_SPAN_CLASSES = /^ql-(size|font|align|direction|indent)-/;
 
 /**
- * Éléments de niveau bloc au sens HTML : toujours un conteneur, même s'ils ne
- * contiennent que du texte.
+ * Block-level elements in the HTML sense: always a container, even when they
+ * only hold text.
  */
 const BLOCK_LEVEL_TAGS = /^(DIV|SECTION|ARTICLE|ASIDE|HEADER|FOOTER|NAV|MAIN|ADDRESS|FIGURE|FIGCAPTION|DETAILS|SUMMARY|CENTER|HGROUP|FIELDSET|LEGEND|DL|DT|DD|MENU|TABLE|CAPTION|THEAD|TBODY|TFOOT|TR|TD|TH|UL|OL|LI|BLOCKQUOTE|P|H[1-6])$/;
 
 /**
- * Structure de tableau : Quill n'en gère qu'une version réduite (ni <thead>, ni
- * <th>, une seule ligne par cellule). Un tableau est donc toujours conservé
- * comme une imbrication de conteneurs.
+ * Table structure: Quill only handles a reduced version of it (no <thead>, no
+ * <th>, a single line per cell). A table is therefore always preserved as
+ * nested containers.
  */
 const TABLE_TAGS = /^(TABLE|CAPTION|THEAD|TBODY|TFOOT|TR|TD|TH)$/;
 
 /**
- * Éléments conservés tels quels : leur contenu ne s'édite pas comme du texte.
+ * Elements preserved as is: their content is not edited as text.
  */
 const ATOMIC_TAGS = /^(HR|PRE|SVG|MATH|SCRIPT|STYLE|NOSCRIPT|TEMPLATE|VIDEO|AUDIO|OBJECT|EMBED|CANVAS|PICTURE|FORM|INPUT|SELECT|TEXTAREA|COLGROUP|COL|WBR|MAP|AREA|SOURCE|TRACK|LINK|META)$/;
 
 /**
- * Atomes de niveau bloc : posés directement dans leur conteneur, pas dans une
- * ligne.
+ * Block-level atoms: placed straight in their container, not in a line.
  */
 const BLOCK_ATOMIC_TAGS = /^(HR|PRE|FORM|COLGROUP|VIDEO|AUDIO|OBJECT|EMBED|CANVAS|PICTURE|MATH)$/;
 
 /**
- * Atomes sans rendu dans l'éditeur : on n'en montre qu'une étiquette (un
- * <style> appliquerait ses règles à toute l'administration).
+ * Atoms with no rendering in the editor: only a label is shown (a <style>
+ * would apply its rules to the whole admin).
  */
 const LABELLED_ATOMIC_TAGS = /^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|LINK|META)$/;
 
@@ -98,7 +96,7 @@ const isBlankText = function (node) {
 };
 
 /**
- * Un <span> dont Quill comprend tous les attributs reste un <span> Quill.
+ * A <span> whose attributes Quill all understands stays a Quill <span>.
  */
 const isNativeSpan = function (el) {
 
@@ -123,12 +121,11 @@ const isNativeSpan = function (el) {
 };
 
 /**
- * Rôle d'un nœud pour son parent : 'block' exige un contexte de blocs,
- * 'inline' tient dans une ligne, 'blank' est un espace sans signification.
+ * Role of a node for its parent: 'block' needs a block context, 'inline' fits
+ * in a line, 'blank' is meaningless whitespace.
  *
- * Le marquage se fait en remontant : un élément est classé après ses enfants,
- * puisqu'un élément en ligne qui contient un bloc devient lui-même un
- * conteneur.
+ * Marking goes bottom-up: an element is classified after its children, since
+ * an inline element holding a block becomes a container itself.
  */
 function classify(node, doc, embeds) {
 
@@ -147,13 +144,13 @@ function classify(node, doc, embeds) {
 
     const tag = node.tagName.toUpperCase();
 
-    // Les nœuds d'interface de Quill sont régénérés par Quill lui-même
+    // Quill's interface nodes are regenerated by Quill itself
     if (node.classList.contains('ql-ui')) {
         return 'blank';
     }
 
-    // Vidéo : le blot natif (iframe.ql-video) est un bloc, valable dans
-    // n'importe quel conteneur.
+    // Video: the native blot (iframe.ql-video) is a block, valid in any
+    // container.
     if (tag === 'IFRAME') {
         node.classList.add('ql-video');
         return 'block';
@@ -209,7 +206,7 @@ function classify(node, doc, embeds) {
         return 'block';
     }
 
-    // En ligne, vide : rien à éditer (icône <i class="fa …">, ancre <a name>)
+    // Inline and empty: nothing to edit (icon <i class="fa …">, anchor <a name>)
     if (isEmpty) {
         embeds.push({ node: node, block: false });
         return 'inline';
@@ -223,9 +220,8 @@ function classify(node, doc, embeds) {
 }
 
 /**
- * Remplace un atome par son représentant dans l'éditeur : le HTML d'origine,
- * intact, est porté par un attribut, et l'élément n'est montré qu'à titre
- * d'aperçu.
+ * Replaces an atom with its stand-in in the editor: the original HTML, intact,
+ * is carried by an attribute, and the element is only shown as a preview.
  */
 function toEmbed(doc, node, block) {
 
@@ -263,10 +259,10 @@ function fillPreview(doc, embed, node) {
 }
 
 /**
- * L'aperçu vit dans le formulaire d'administration : un <input name> y serait
- * posté avec la fiche, un bouton la soumettrait. Il est donc inerte, et ses
- * contrôles désactivés (un contrôle désactivé n'est jamais posté). Seul
- * l'aperçu est touché : le HTML enregistré est celui de l'attribut.
+ * The preview lives inside the admin form: an <input name> would be posted
+ * with the record, a button would submit it. The preview is therefore inert,
+ * with its controls disabled (a disabled control is never posted). Only the
+ * preview is changed: the HTML saved is the one in the attribute.
  */
 function neutralize(clone) {
 
@@ -288,8 +284,8 @@ function neutralize(clone) {
 }
 
 /**
- * Un <button> conservé reste éditable (son texte est du texte), mais un clic
- * dessus soumettrait le formulaire d'administration.
+ * A preserved <button> stays editable (its text is text), but a click on it
+ * would submit the admin form.
  */
 export function preventContentActions(root) {
 
@@ -306,10 +302,10 @@ export function preventContentActions(root) {
 }
 
 /**
- * Dans un conteneur, Quill n'accepte que des lignes et des blocs : chaque suite
- * de texte et d'éléments en ligne posée directement dedans est donc portée par
- * une ligne implicite. Une suite faite d'espaces seuls, entre deux blocs, n'a
- * pas de sens et disparaît.
+ * Inside a container, Quill only accepts lines and blocks: every run of text
+ * and inline elements written straight into it is therefore carried by an
+ * implicit line. A run of whitespace only, between two blocks, is meaningless
+ * and goes away.
  */
 function wrapInlineRuns(doc, container) {
 
@@ -349,8 +345,8 @@ function wrapInlineRuns(doc, container) {
 
     flush();
 
-    // Un conteneur vide (<div class="spacer"></div>) doit le rester : sans
-    // ligne, Parchment le supprimerait.
+    // An empty container (<div class="spacer"></div>) must stay: without a
+    // line, Parchment would remove it.
     if (!container.childNodes.length) {
         container.appendChild(doc.createElement(LINE_TAG));
     }
@@ -372,7 +368,7 @@ function isBlockChild(node) {
 }
 
 /**
- * HTML stocké (déjà analysé) -> HTML de l'éditeur, en place.
+ * Stored HTML (already parsed) -> editor HTML, in place.
  */
 export function prepareHtml(doc) {
 
@@ -382,7 +378,7 @@ export function prepareHtml(doc) {
         classify(node, doc, embeds);
     });
 
-    // Les atomes d'abord : ils sortent de l'arbre avant le découpage en lignes
+    // Atoms first: they leave the tree before it is split into lines
     embeds.forEach(function (item) {
         toEmbed(doc, item.node, item.block);
     });
@@ -391,19 +387,19 @@ export function prepareHtml(doc) {
         wrapInlineRuns(doc, container);
     });
 
-    // Le premier niveau aussi : sans ligne implicite, Quill envelopperait le
-    // texte nu dans un <p>, que l'enregistrement ajouterait au contenu.
+    // The top level too: without an implicit line, Quill would wrap bare
+    // text in a <p>, which the save would add to the content.
     if (Array.from(doc.body.childNodes).some(function (node) { return !isBlockChild(node) && !isBlankText(node); })) {
         wrapInlineRuns(doc, doc.body);
     }
 }
 
 /**
- * HTML de l'éditeur (déjà analysé) -> HTML stocké, en place.
+ * Editor HTML (already parsed) -> stored HTML, in place.
  */
 export function restoreHtml(doc) {
 
-    // Atomes : le HTML d'origine, octet pour octet
+    // Atoms: the original HTML, byte for byte
     Array.from(doc.body.querySelectorAll(EMBED_TAG.toLowerCase())).forEach(function (embed) {
 
         const html = embed.getAttribute(EMBED_ATTR) || '';
@@ -413,9 +409,9 @@ export function restoreHtml(doc) {
         embed.parentNode.replaceChild(template.content, embed);
     });
 
-    // Lignes implicites. Seule entre deux blocs, elle redevient le texte nu
-    // d'origine ; plusieurs à la suite, c'est que l'utilisateur a coupé la
-    // ligne (Entrée) : ce sont alors de vrais paragraphes.
+    // Implicit lines. Alone between two blocks, a line becomes the original
+    // bare text again; several in a row mean the user split the line
+    // (Enter): they are then real paragraphs.
     const lines = Array.from(doc.body.querySelectorAll(LINE_TAG.toLowerCase()));
 
     lines.forEach(function (line) {
@@ -471,14 +467,15 @@ export function restoreHtml(doc) {
 }
 
 /**
- * Le contenu d'un atome compte : un champ fait d'un seul <hr> n'est pas vide.
+ * Selector of atoms. An atom is content: a field holding a single <hr> is not
+ * empty.
  */
 export const EMBED_SELECTOR = EMBED_TAG.toLowerCase();
 
 let registered = false;
 
 /**
- * Blots des trois familles. À n'appeler qu'une fois, après Quill.
+ * Blots of the three families. To be called once, after Quill is loaded.
  */
 export function registerHtmlBlots(Quill) {
 
@@ -495,8 +492,8 @@ export function registerHtmlBlots(Quill) {
     const Embed = Quill.import('blots/embed');
 
     /**
-     * Conteneur : balise et attributs d'origine, jamais fusionné avec son
-     * voisin (deux <div> côte à côte restent deux <div>).
+     * Container: original tag and attributes, never merged with its
+     * neighbour (two <div> side by side stay two <div>).
      */
     class HtmlBlock extends Container {
         checkMerge() {
@@ -505,24 +502,23 @@ export function registerHtmlBlots(Quill) {
     }
     HtmlBlock.blotName = 'aro-html-block';
     HtmlBlock.className = BLOCK_CLASS;
-    // Balise propre : une balise réelle (DIV) ferait de ce blot celui de tous
-    // les <div>, marqués ou non. Un conteneur n'est jamais créé par son nom :
-    // il vient du HTML chargé, ou d'un clone (cloneNode, balise conservée).
+    // A tag of its own: a real tag (DIV) would make this blot the one of
+    // every <div>, marked or not. A container is never created by name: it
+    // comes from the loaded HTML, or from a clone (cloneNode, tag kept).
     HtmlBlock.tagName = 'ARO-BLOCK';
 
     /**
-     * Ligne implicite : du texte posé directement dans un conteneur. Une balise
-     * à elle, pour que le delta la distingue d'un paragraphe (annuler une
-     * suppression la recrée à l'identique).
+     * Implicit line: text written straight into a container. A tag of its
+     * own, so that the delta tells it from a paragraph.
      */
     class HtmlLine extends Block {}
     HtmlLine.blotName = 'aro-line';
     HtmlLine.tagName = LINE_TAG;
 
     /**
-     * En ligne : balise et attributs d'origine. Pas de fusion avec un voisin
-     * identique (deux boutons restent deux boutons), pas de déballage, pas de
-     * réordonnancement avec le gras ou l'italique qu'il contient.
+     * Inline: original tag and attributes. No merging with an identical
+     * neighbour (two buttons stay two buttons), no unwrapping, no reordering
+     * against the bold or italic it holds.
      */
     class HtmlInline extends Inline {
 
@@ -564,9 +560,9 @@ export function registerHtmlBlots(Quill) {
     HtmlInline.className = INLINE_CLASS;
     HtmlInline.tagName = 'ARO-INLINE';
 
-    // Inline.compare range gras, italique, lien… dans un ordre d'imbrication
-    // fixe, et Quill réordonne les éléments pour le respecter. Un élément
-    // conservé garde sa place : il n'est comparé à rien.
+    // Inline.compare ranks bold, italic, link… in a fixed nesting order, and
+    // Quill reorders elements to follow it. A preserved element keeps its
+    // place: it compares to nothing.
     const compare = Inline.compare;
     Inline.compare = function (self, other) {
         if (self === HtmlInline.blotName || other === HtmlInline.blotName) {
@@ -591,7 +587,7 @@ export function registerHtmlBlots(Quill) {
     };
 
     /**
-     * Atome en ligne : <i class="fa …"></i>, un commentaire, un <script>…
+     * Inline atom: <i class="fa …"></i>, a comment, a <script>…
      */
     class HtmlEmbed extends Embed {
 
@@ -607,7 +603,7 @@ export function registerHtmlBlots(Quill) {
     HtmlEmbed.tagName = EMBED_TAG;
 
     /**
-     * Atome de niveau bloc : <hr>, <pre>, <form>…
+     * Block-level atom: <hr>, <pre>, <form>…
      */
     class HtmlBlockEmbed extends BlockEmbed {
 
@@ -639,15 +635,15 @@ export function registerHtmlBlots(Quill) {
 }
 
 /**
- * Fusion de deux lignes (Retour arrière en début de ligne, Suppr en fin de
- * ligne, suppression d'une sélection à cheval).
+ * Joining two lines (Backspace at the start of a line, Delete at its end,
+ * deleting a selection across lines).
  *
- * Quill déplace toujours la première ligne dans la seconde, puis supprime la
- * première. Quand la première est la dernière ligne d'un conteneur conservé,
- * le conteneur se retrouve vide et disparaît — Retour arrière au début du
- * paragraphe qui suit un <div class="boutons"> supprimerait le <div>. Dans ce
- * cas seulement, on fait l'inverse : la seconde ligne rejoint la première, dans
- * son conteneur.
+ * Quill always moves the first line into the second one, then removes the
+ * first. When the first is the last line of a preserved container, the
+ * container is left empty and goes away — Backspace at the start of the
+ * paragraph following a <div class="buttons"> would delete the <div>. In that
+ * case only, the reverse is done: the second line joins the first, in its
+ * container.
  */
 function patchLineMerge(Quill, HtmlBlock) {
 
@@ -690,11 +686,11 @@ function patchLineMerge(Quill, HtmlBlock) {
 }
 
 /**
- * Entrée sur une ligne vide, en fin de conteneur conservé : la ligne sort du
- * conteneur, comme on sort d'une liste. Sans cela, rien ne permettrait d'écrire
- * après un <div> placé en fin de contenu.
+ * Enter on an empty line at the end of a preserved container: the line leaves
+ * the container, as one leaves a list. Without this, nothing would allow
+ * writing after a <div> placed at the end of the content.
  *
- * Renvoie true quand la touche doit garder son comportement ordinaire.
+ * Returns true when the key must keep its usual behaviour.
  */
 export function exitHtmlBlock(quill, range) {
 

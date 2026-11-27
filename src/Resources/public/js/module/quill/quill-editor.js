@@ -1,27 +1,27 @@
 /* ------------------------------------------------------------------------------
 *
-*  # Éditeur Quill de l'administration
+*  # Admin Quill editor
 *
-*  Regroupe toute la configuration de l'éditeur WYSIWYG :
-*   - barres d'outils (par défaut + personnalisées via window.aropixelQuillToolbars)
-*   - boutons « image » et « fichier » branchés sur les médiathèques
-*   - saut de ligne simple (<br>) avec Shift + Entrée
-*   - collage nettoyé (on ne garde que les formats structurants)
-*   - édition du code source HTML (le bouton <> remplace le rendu par le code)
-*   - choix de la cible du lien (case « Nouvel onglet » dans la bulle de lien)
-*   - infobulles françaises sur les outils de la barre
-*   - traduction entre le HTML stocké (<ul>, sans nœuds d'interface) et la
-*     représentation interne de Quill 2 (<ol><li data-list="bullet">, .ql-ui)
-*   - préservation du HTML que Quill ne connaît pas (<div>, <button>, <hr>…),
-*     cf. html-preservation.js
+*  Gathers the whole configuration of the WYSIWYG editor:
+*   - toolbars (defaults + custom ones via window.aropixelQuillToolbars)
+*   - "image" and "file" buttons wired to the media libraries
+*   - soft line break (<br>) with Shift + Enter
+*   - clean paste (only the structuring formats are kept)
+*   - HTML source editing (the <> button swaps the rendering for the code)
+*   - link target choice ("New tab" checkbox in the link tooltip)
+*   - translated tooltips on the toolbar controls
+*   - translation between the stored HTML (<ul>, no interface nodes) and
+*     Quill 2's internal representation (<ol><li data-list="bullet">, .ql-ui)
+*   - preservation of the HTML Quill does not know (<div>, <button>, <hr>…),
+*     see html-preservation.js
 *
 * ---------------------------------------------------------------------------- */
 
 import { registerHtmlBlots, prepareHtml, restoreHtml, exitHtmlBlock, preventContentActions, BLOCK_CLASS, EMBED_SELECTOR } from './html-preservation.js';
 
 /**
- * Formats conservés lors d'un copier/coller.
- * Surchargeable via window.aropixelQuillPasteFormats.
+ * Formats kept on paste.
+ * Can be overridden with window.aropixelQuillPasteFormats.
  */
 const DEFAULT_PASTE_FORMATS = [
     'bold', 'italic', 'underline', 'strike',
@@ -51,10 +51,10 @@ const DEFAULT_TOOLBARS = {
 };
 
 /**
- * Libellés anglais de secours des infobulles, indexés par sélecteur CSS.
- * Les libellés dans la langue de l'admin arrivent via window.aroQuillI18n
- * (rendu par base.html.twig avec |trans, comme aroDialogI18n) ; la surcharge
- * intégrateur passe par window.aropixelQuillTooltips et gagne sur tout.
+ * English fallback tooltip labels, keyed by CSS selector.
+ * Labels in the admin locale come through window.aroQuillI18n (rendered by
+ * base.html.twig with |trans, like aroDialogI18n); the integrator override
+ * goes through window.aropixelQuillTooltips and wins over everything.
  */
 const DEFAULT_TOOLTIPS = {
     'button.ql-bold': 'Bold',
@@ -81,7 +81,7 @@ const DEFAULT_TOOLTIPS = {
 };
 
 /**
- * Chaînes traduites de l'éditeur, rendues par base.html.twig.
+ * Translated editor strings, rendered by base.html.twig.
  */
 function quillI18n() {
     return window.aroQuillI18n || {};
@@ -100,17 +100,17 @@ const FILE_ICON = '<svg viewBox="0 0 18 18">'
 const VOID_TAGS = /^(AREA|BASE|BR|COL|EMBED|HR|IMG|INPUT|LINK|META|PARAM|SOURCE|TRACK|WBR)$/;
 
 /**
- * Éléments dont le contenu est rendu tel quel, jamais remis en forme : leurs
- * espaces et sauts de ligne comptent (<pre>, un <script>), ou leur balisage
- * n'est pas du HTML (<svg>, <math>).
+ * Elements whose content is output as is, never reformatted: their spaces and
+ * line breaks matter (<pre>, a <script>), or their markup is not HTML (<svg>,
+ * <math>).
  */
 const RAW_TAGS = /^(PRE|TEXTAREA|SCRIPT|STYLE|TEMPLATE|SVG|MATH|NOSCRIPT)$/i;
 const BLOCK_TAGS = /^(P|DIV|H[1-6]|UL|OL|LI|BLOCKQUOTE|PRE|HR|TABLE|CAPTION|THEAD|TBODY|TFOOT|TR|TD|TH|FIGURE|FIGCAPTION|SECTION|ARTICLE|ASIDE|HEADER|FOOTER|NAV|MAIN|ADDRESS|DETAILS|SUMMARY|CENTER|FIELDSET|FORM|DL|DT|DD|IFRAME|VIDEO|ARO-LINE)$/;
 
 /**
- * Analyse un fragment de HTML stocké. Le <body> explicite garde dans le corps
- * ce qu'un fragment nu enverrait dans le <head> (un <style>, un <meta> placés
- * en tête du contenu), et que l'enregistrement perdrait.
+ * Parses a fragment of stored HTML. The explicit <body> keeps in the body what
+ * a bare fragment would send to the <head> (a <style>, a <meta> at the start
+ * of the content), and that the next save would lose.
  */
 function parseHtml(html) {
     return new DOMParser().parseFromString('<!doctype html><html><head></head><body>' + (html || ''), 'text/html');
@@ -119,7 +119,7 @@ function parseHtml(html) {
 let setupDone = false;
 
 /**
- * Enregistrements globaux à ne faire qu'une seule fois.
+ * Global registrations, done once.
  */
 function setupQuill() {
 
@@ -128,11 +128,11 @@ function setupQuill() {
     }
     setupDone = true;
 
-    // Saut de ligne simple : un vrai <br> plutôt qu'un nouveau bloc.
+    // Soft line break: a real <br> rather than a new block.
     const Embed = Quill.import('blots/embed');
 
     class SoftBreak extends Embed {
-        // Parchment supprimerait le <br> considéré comme vide
+        // Parchment would remove the <br>, seen as empty
         optimize() {}
         length() { return 1; }
     }
@@ -141,7 +141,7 @@ function setupQuill() {
     SoftBreak.tagName = 'BR';
     Quill.register(SoftBreak);
 
-    // Icônes absentes du jeu natif de Quill
+    // Icons missing from Quill's own set
     const icons = Quill.import('ui/icons');
     if (!icons['html']) {
         icons['html'] = HTML_ICON;
@@ -150,9 +150,9 @@ function setupQuill() {
         icons['file'] = FILE_ICON;
     }
 
-    // Quill 2 force target="_blank" (et rel) sur tous les liens. On étend le
-    // format pour que la cible devienne un choix — la case « Nouvel onglet »
-    // de la bulle de lien (cf. enhanceLinkTooltip) — conservé dans le HTML.
+    // Quill 2 forces target="_blank" (and rel) on every link. The format is
+    // extended so that the target becomes a choice — the "New tab" checkbox
+    // of the link tooltip (see enhanceLinkTooltip) — kept in the HTML.
     const Link = Quill.import('formats/link');
 
     class AroLink extends Link {
@@ -208,12 +208,12 @@ function setupQuill() {
 
     registerHtmlBlots(Quill);
 
-    // Historique par instantanés. Celui de Quill rejoue des deltas, qui ne
-    // décrivent ni les conteneurs conservés (<div>, <section>…) ni les
-    // attributs que Quill ne modélise pas (la classe d'un lien) : annuler la
-    // suppression d'un bloc de boutons recréerait des liens nus, hors de leur
-    // <div>. On mémorise donc le HTML de l'éditeur, et l'annulation le recharge
-    // par le même chemin que le chargement initial.
+    // Snapshot-based history. Quill's own replays deltas, which describe
+    // neither preserved containers (<div>, <section>…) nor the attributes
+    // Quill does not model (a link's class): undoing the deletion of a block
+    // of buttons would bring back bare links, outside their <div>. The editor
+    // HTML is recorded instead, and undo reloads it through the same path as
+    // the initial load.
     const History = Quill.import('modules/history');
 
     class AroHistory extends History {
@@ -242,7 +242,7 @@ function setupQuill() {
             this.current = this.snapshot();
             this.stack.redo = [];
 
-            // Les frappes rapprochées forment une seule étape d'annulation
+            // Keystrokes close together make a single undo step
             const timestamp = Date.now();
             if (this.lastRecorded + this.options.delay > timestamp && this.stack.undo.length) {
                 return;
@@ -285,8 +285,8 @@ function setupQuill() {
 }
 
 /**
- * Ne conserve, dans un delta collé, que les formats structurants.
- * C'est ce qui évite les <span style="background-color: white"> & Cie.
+ * Keeps only the structuring formats of a pasted delta.
+ * This is what keeps out <span style="background-color: white"> and friends.
  */
 function cleanPasteMatcher(node, delta) {
 
@@ -315,7 +315,7 @@ function cleanPasteMatcher(node, delta) {
 }
 
 /**
- * Convertit les <br> collés (ou chargés) en saut de ligne simple.
+ * Turns pasted (or loaded) <br> into soft line breaks.
  */
 function softBreakMatcher() {
     const Delta = Quill.import('delta');
@@ -323,16 +323,16 @@ function softBreakMatcher() {
 }
 
 /**
- * Quill 2 représente *toutes* ses listes par un <ol> dont les <li> portent un
- * attribut data-list, et injecte des <span class="ql-ui"> pour dessiner puces
- * et numéros. Les deux fonctions ci-dessous font la traduction avec le HTML
- * réellement stocké en base, qui doit rester du HTML sémantique ordinaire.
+ * Quill 2 represents *every* list as an <ol> whose <li> carry a data-list
+ * attribute, and injects <span class="ql-ui"> nodes to draw bullets and
+ * numbers. The two functions below translate to and from the HTML actually
+ * stored in the database, which must stay plain semantic HTML.
  */
 
 const BULLET_KINDS = ['bullet', 'checked', 'unchecked'];
 
 /**
- * HTML stocké -> HTML attendu par Quill.
+ * Stored HTML -> HTML expected by Quill.
  */
 export function toEditorHtml(html) {
 
@@ -342,7 +342,7 @@ export function toEditorHtml(html) {
 
     const doc = parseHtml(html);
 
-    // Résidus d'un enregistrement antérieur : Quill les régénère lui-même
+    // Leftovers of an earlier save: Quill regenerates them itself
     doc.querySelectorAll('.ql-ui').forEach(function (node) {
         node.remove();
     });
@@ -351,8 +351,8 @@ export function toEditorHtml(html) {
 
     doc.querySelectorAll('ul').forEach(function (ul) {
 
-        // Liste conservée telle quelle (imbriquée, paragraphes dans les
-        // items…), ou contenu d'un élément conservé tel quel
+        // List preserved as is (nested, paragraphs in its items…), or
+        // content of an element preserved as is
         if (ul.classList.contains(BLOCK_CLASS) || ul.closest(EMBED_SELECTOR)) {
             return;
         }
@@ -377,17 +377,17 @@ export function toEditorHtml(html) {
 }
 
 /**
- * Éléments qui font à eux seuls un contenu, même sans texte.
+ * Elements that are content on their own, even without text.
  */
 const CONTENT_ELEMENTS = 'img, iframe, video, audio, object, embed, hr, table, ' + EMBED_SELECTOR;
 
 /**
- * Un éditeur vide n'est pas vide pour Quill : il contient toujours une ligne,
- * rendue `<p><br></p>` (ou `<h2><br></h2>`, `<p class="ql-align-center"><br></p>`…
- * selon le format de la ligne). Stockée telle quelle, cette ligne rend « rempli »
- * un champ que l'utilisateur a laissé vide, et le site affiche un bloc vide.
- * On considère donc vide un HTML sans texte (espaces insécables compris) ni
- * élément de contenu.
+ * An empty editor is not empty to Quill: it always holds one line, rendered
+ * `<p><br></p>` (or `<h2><br></h2>`, `<p class="ql-align-center"><br></p>`…
+ * depending on the line format). Stored as is, that line makes "filled" a
+ * field the user left empty, and the site renders an empty block. HTML with
+ * no text (non-breaking spaces included) and no content element is therefore
+ * considered empty.
  */
 export function isBlankHtml(html) {
 
@@ -402,7 +402,7 @@ export function isBlankHtml(html) {
 }
 
 /**
- * HTML de Quill -> HTML stocké. Un éditeur vide donne une chaîne vide.
+ * Quill HTML -> stored HTML. An empty editor gives an empty string.
  */
 export function toStorageHtml(html) {
 
@@ -412,7 +412,7 @@ export function toStorageHtml(html) {
 
     const doc = parseHtml(html);
 
-    // Nœuds d'interface (puces, numéros, cases à cocher, sélecteur de langage)
+    // Interface nodes (bullets, numbers, checkboxes, language picker)
     doc.querySelectorAll('.ql-ui').forEach(function (node) {
         if (!node.closest(EMBED_SELECTOR)) {
             node.remove();
@@ -425,8 +425,8 @@ export function toStorageHtml(html) {
             return;
         }
 
-        // Quill fusionne les listes adjacentes : un même <ol> peut mélanger
-        // puces et numérotation. On le redécoupe en séries homogènes.
+        // Quill merges adjacent lists: one <ol> may mix bullets and
+        // numbering. It is split back into homogeneous runs.
         const groups = [];
 
         Array.from(ol.children).forEach(function (li) {
@@ -457,7 +457,7 @@ export function toStorageHtml(html) {
             });
 
             group.items.forEach(function (li) {
-                // « bullet » et « ordered » sont désormais portés par la balise
+                // "bullet" and "ordered" are now carried by the tag
                 if (['bullet', 'ordered'].indexOf(li.getAttribute('data-list')) !== -1) {
                     li.removeAttribute('data-list');
                 }
@@ -476,7 +476,7 @@ export function toStorageHtml(html) {
 }
 
 /**
- * Indente le HTML pour le rendre lisible dans la prévisualisation.
+ * Indents the HTML to make it readable in the source view.
  */
 function prettyHtml(html) {
 
@@ -505,8 +505,8 @@ function prettyHtml(html) {
                 if (node.textContent.trim()) {
                     out += escapeText(node.textContent);
                 }
-                // Espace entre deux éléments en ligne : il sépare deux mots,
-                // deux liens… Seul celui qui borde un bloc est de la mise en page.
+                // Space between two inline elements: it separates two words,
+                // two links… Only the one next to a block is layout.
                 else if (node.textContent && !isBlock(node.previousSibling) && !isBlock(node.nextSibling)
                     && node.previousSibling && node.nextSibling) {
                     out += ' ';
@@ -558,15 +558,15 @@ function prettyHtml(html) {
 }
 
 /**
- * Inverse de prettyHtml : retire l'indentation et les sauts de ligne ajoutés
- * pour la lisibilité (ou tapés à la main dans le mode source), afin qu'ils ne
- * polluent ni le HTML stocké ni le rendu de l'éditeur (white-space: pre-wrap).
- * Les espaces significatifs — entre éléments en ligne — sont préservés.
+ * Reverse of prettyHtml: removes the indentation and line breaks added for
+ * readability (or typed by hand in the source view), so that they pollute
+ * neither the stored HTML nor the editor rendering (white-space: pre-wrap).
+ * Meaningful spaces — between inline elements — are preserved.
  *
- * Un saut de ligne dans le texte ne vaut qu'une espace en HTML, mais l'éditeur
- * l'affiche tel quel : CKEditor enregistrait `ligne<br>\nligne`, ce qui doublait
- * chaque saut de ligne simple. Collé à un <br> ou au bord d'un bloc, il est
- * retiré ; ailleurs, il redevient l'espace qu'il représente.
+ * A line break in text is worth a single space in HTML, but the editor shows
+ * it as is: CKEditor saved `line<br>\nline`, which doubled every soft line
+ * break. Next to a <br> or at the edge of a block it is removed; elsewhere it
+ * becomes the space it stands for again.
  */
 const CONTAINER_TAGS = /^(BODY|UL|OL|TABLE|THEAD|TBODY|TFOOT|TR)$/;
 
@@ -642,9 +642,9 @@ function compactHtml(html) {
 }
 
 /**
- * Construit (à la demande) le panneau d'édition du code source HTML.
- * Ouvert, il remplace le texte rendu ; le code y est modifiable, tenu en
- * phase avec le champ soumis, et réappliqué à l'éditeur à la fermeture.
+ * Builds (on demand) the HTML source editing panel.
+ * When open, it replaces the rendered text; the code is editable there, kept
+ * in sync with the submitted field, and applied back to the editor on close.
  */
 function buildHtmlSource(quill, container, $target) {
 
@@ -693,8 +693,8 @@ function buildHtmlSource(quill, container, $target) {
         }
     });
 
-    // Tant que le mode source est ouvert, le textarea est la source de vérité :
-    // soumettre le formulaire sans refermer le panneau ne perd rien.
+    // While the source view is open, its textarea is the source of truth:
+    // submitting the form without closing the panel loses nothing.
     textarea.addEventListener('input', function () {
         $target.val(compactHtml(textarea.value));
     });
@@ -745,17 +745,17 @@ function buildHtmlSource(quill, container, $target) {
 }
 
 /**
- * Bascule `.is-editing` sur le conteneur pendant qu'on travaille dans l'éditeur.
+ * Toggles `.is-editing` on the container while the editor is being worked in.
  *
- * Au repos la zone de contenu est plafonnée (320px, cf. `components/_editor.css`) pour
- * qu'un champ très long ne chasse pas le reste du formulaire hors de l'écran. Entrer dans
- * l'éditeur lève le plafond et rend la barre d'outils collante : le contenu peut alors
- * défiler avec la page sans qu'on perde les contrôles de vue.
+ * At rest the content area is capped (320px, see `components/_editor.css`) so that a very
+ * long field does not push the rest of the form off screen. Entering the editor lifts the
+ * cap and makes the toolbar sticky: the content can then scroll with the page without
+ * losing sight of the controls.
  *
- * On écoute sur le conteneur, pas sur `.ql-editor`. Cliquer sur un bouton de la barre
- * retire brièvement le focus de l'éditeur ; le lire comme une sortie replierait la zone
- * juste au moment où l'utilisateur veut mettre en gras la sélection qu'il vient de faire.
- * `focusout` ne compte donc que si le focus quitte le conteneur tout entier.
+ * The listener is on the container, not on `.ql-editor`. Clicking a toolbar button briefly
+ * blurs the editor; reading that as leaving would collapse the area right when the user
+ * wants to bold the selection they just made. `focusout` therefore only counts when focus
+ * leaves the whole container.
  */
 function watchEditingState(container) {
 
@@ -764,8 +764,8 @@ function watchEditingState(container) {
     });
 
     container.addEventListener('focusout', function (event) {
-        // `relatedTarget` est null quand le focus part vers rien (clic dans le vide, autre
-        // fenêtre) : on replie, comme pour une sortie franche.
+        // `relatedTarget` is null when focus goes nowhere (click on blank space, another
+        // window): collapse, as for a plain exit.
         if (event.relatedTarget && container.contains(event.relatedTarget)) {
             return;
         }
@@ -775,7 +775,7 @@ function watchEditingState(container) {
 }
 
 /**
- * Pose les infobulles (attributs title) sur les contrôles de la barre d'outils.
+ * Sets the tooltips (title attributes) on the toolbar controls.
  */
 function applyTooltips(quill) {
 
@@ -799,10 +799,10 @@ function applyTooltips(quill) {
 }
 
 /**
- * Ajoute à la bulle de lien du thème Snow une case « Nouvel onglet » qui
- * pilote l'attribut target du lien (cf. AroLink dans setupQuill). Un nouveau
- * lien s'ouvre dans un nouvel onglet par défaut — le comportement historique —
- * mais le choix est désormais conservé et rechargé à l'édition du lien.
+ * Adds to the Snow theme link tooltip a "New tab" checkbox driving the link's
+ * target attribute (see AroLink in setupQuill). A new link opens in a new tab
+ * by default — the historical behaviour — but the choice is now kept and
+ * restored when the link is edited again.
  */
 function enhanceLinkTooltip(quill) {
 
@@ -819,7 +819,7 @@ function enhanceLinkTooltip(quill) {
     label.appendChild(document.createTextNode(' ' + (quillI18n().linkNewTab || 'New tab')));
     tooltip.root.insertBefore(label, tooltip.root.querySelector('a.ql-action'));
 
-    // target du lien sous la sélection : '' si lien sans target, null si pas de lien
+    // Target of the link under the selection: '' for a link without target, null when no link
     const editedLinkTarget = function () {
 
         const range = tooltip.linkRange || quill.getSelection();
@@ -845,8 +845,8 @@ function enhanceLinkTooltip(quill) {
         }
     };
 
-    // Réécriture du save de BaseTooltip pour le mode lien : même logique,
-    // mais la valeur du format devient { href, target }.
+    // BaseTooltip's save rewritten for link mode: same logic, but the
+    // format value becomes { href, target }.
     const originalSave = tooltip.save.bind(tooltip);
     tooltip.save = function () {
 
@@ -879,13 +879,13 @@ function enhanceLinkTooltip(quill) {
 }
 
 /**
- * Résout la barre d'outils demandée (nom connu, JSON, ou tableau).
+ * Resolves the requested toolbar (known name, JSON, or array).
  */
 function resolveToolbar(toolbar) {
 
     const toolbars = Object.assign({}, DEFAULT_TOOLBARS, window.aropixelQuillToolbars || {});
 
-    // jQuery.data() désérialise déjà le JSON des data-attributes
+    // jQuery.data() already deserialises the JSON of data attributes
     if (Array.isArray(toolbar)) {
         return toolbar;
     }
@@ -895,7 +895,7 @@ function resolveToolbar(toolbar) {
             return JSON.parse(toolbar);
         }
         catch (e) {
-            console.error('Erreur lors du parsing de la barre d\'outils Quill custom :', e);
+            console.error('Could not parse the custom Quill toolbar:', e);
         }
     }
 
@@ -903,7 +903,7 @@ function resolveToolbar(toolbar) {
 }
 
 /**
- * Ajoute le bouton d'édition du code source HTML à la barre d'outils.
+ * Adds the HTML source editing button to the toolbar.
  */
 function withHtmlButton(container) {
 
@@ -911,7 +911,7 @@ function withHtmlButton(container) {
         return container;
     }
 
-    // Déjà présent dans la barre d'outils : on ne l'ajoute pas une seconde fois
+    // Already in the toolbar: not added a second time
     if (JSON.stringify(container).indexOf('"html"') !== -1) {
         return container;
     }
@@ -920,8 +920,8 @@ function withHtmlButton(container) {
 }
 
 /**
- * Construit la configuration du module « toolbar », que la barre d'outils
- * ait été déclarée comme un simple tableau ou comme un objet Quill complet.
+ * Builds the "toolbar" module configuration, whether the toolbar was declared
+ * as a plain array or as a full Quill object.
  */
 function buildToolbarModule(toolbar, handlers) {
 
@@ -943,7 +943,7 @@ export function activateQuillEditor($elements) {
 
         const $this = $(this);
 
-        // Éviter la double initialisation
+        // Avoid initialising twice
         if ($this.data('quill-initialized')) {
             return;
         }
@@ -963,8 +963,8 @@ export function activateQuillEditor($elements) {
                 },
                 keyboard: {
                     bindings: {
-                        // Entrée sur une ligne vide en fin de <div>, <section>… conservé :
-                        // on sort du conteneur (cf. html-preservation.js)
+                        // Enter on an empty line at the end of a preserved <div>,
+                        // <section>…: leave the container (see html-preservation.js)
                         exitHtmlBlock: {
                             key: 'Enter',
                             collapsed: true,
@@ -973,7 +973,7 @@ export function activateQuillEditor($elements) {
                                 return exitHtmlBlock(this.quill, range);
                             }
                         },
-                        // Shift + Entrée : saut de ligne simple (<br>)
+                        // Shift + Enter: soft line break (<br>)
                         softBreak: {
                             key: 'Enter',
                             shiftKey: true,
@@ -993,10 +993,10 @@ export function activateQuillEditor($elements) {
                     html: function () {
                         buildHtmlSource(this.quill, $this.parent()[0], $target).toggle();
                     },
-                    // « file » n'est pas un format Quill : le handler DOIT être fourni ici.
-                    // Un addHandler('file') posé après `new Quill` arriverait trop tard, le
-                    // bouton n'aurait aucun écouteur. « image », lui, est un format connu :
-                    // son handler peut rester surchargé plus bas.
+                    // "file" is not a Quill format: its handler MUST be given here.
+                    // An addHandler('file') after `new Quill` would come too late, the
+                    // button would get no listener. "image" is a known format: its
+                    // handler can still be overridden below.
                     file: function () {
                         const quill = this.quill;
                         if ($.fn.FileManager) {
@@ -1005,7 +1005,7 @@ export function activateQuillEditor($elements) {
                                 category: $target.attr('data-class')
                             });
                         } else {
-                            // Repli : saisie manuelle d'une URL de fichier
+                            // Fallback: type a file URL by hand
                             const range = quill.getSelection(true);
                             const value = prompt('Veuillez entrer l\'URL du fichier :');
                             if (value) {
@@ -1021,7 +1021,7 @@ export function activateQuillEditor($elements) {
 
         preventContentActions(quill.root);
 
-        // Surcharge du handler image pour utiliser l'ImageManager si possible
+        // Override the image handler to use the ImageManager when available
         if (quill.getModule('toolbar')) {
             quill.getModule('toolbar').addHandler('image', function () {
                 if (window.initImageManager) {
@@ -1045,8 +1045,8 @@ export function activateQuillEditor($elements) {
         applyTooltips(quill);
         enhanceLinkTooltip(quill);
 
-        // La barre d'outils que Quill vient d'insérer est un frère de `.ql-container` : le
-        // conteneur à surveiller est donc leur parent commun.
+        // The toolbar Quill just inserted is a sibling of `.ql-container`: the container
+        // to watch is therefore their common parent.
         const editorContainer = $this[0].closest('.quill-editor-container');
         if (editorContainer) {
             watchEditingState(editorContainer);
@@ -1058,12 +1058,12 @@ export function activateQuillEditor($elements) {
         quill.root.innerHTML = toEditorHtml(compactHtml($target.val()));
         quill.update(Quill.sources.SILENT);
 
-        // Le chargement n'est pas une modification : sans cela, le premier
-        // Ctrl + Z viderait l'éditeur.
+        // Loading is not an edit: without this, the first Ctrl + Z would
+        // empty the editor.
         quill.history.clear();
 
-        // Le champ n'est réécrit qu'à la première modification : un formulaire
-        // enregistré sans y toucher garde le HTML stocké, à l'octet près.
+        // The field is only rewritten on the first edit: a form saved without
+        // touching the editor keeps the stored HTML, byte for byte.
         quill.on('text-change', function () {
             $target.val(toStorageHtml(quill.root.innerHTML));
         });
