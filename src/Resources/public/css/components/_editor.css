@@ -283,6 +283,43 @@
     padding: var(--aro-space-2) var(--aro-space-3);
 }
 
+/* ------------------------------------------------------- Preserved HTML */
+
+/*
+ * HTML Quill has no format for (see js/module/quill/html-preservation.js).
+ *
+ * `aro-line` carries the text written straight into a preserved `<div>`, `<td>`… It is
+ * removed on save, so it must not add spacing of its own: it renders as the bare text did.
+ *
+ * `aro-embed` shows an element kept byte for byte — `<hr>`, `<pre>`, `<svg>`, an icon —
+ * that only the `<>` source view edits. Its outline on hover says so. Elements with no
+ * rendering of their own (`<script>`, `<style>`) show a label instead.
+ */
+
+.ql-snow .ql-editor aro-line {
+    display: block;
+}
+.ql-snow .ql-editor aro-embed[data-block] {
+    display: block;
+}
+.ql-snow .ql-editor aro-embed {
+    border-radius: var(--aro-radius-sm);
+    cursor: default;
+}
+.ql-snow .ql-editor aro-embed:hover {
+    outline: 1px dashed var(--aro-color-border);
+    outline-offset: 2px;
+}
+.ql-snow .ql-editor aro-embed[data-kind="label"]::before {
+    content: attr(data-label);
+    padding: 0 var(--aro-space-1);
+    border: 1px dashed var(--aro-color-border);
+    border-radius: var(--aro-radius-sm);
+    color: var(--aro-color-text-muted);
+    font-family: Monaco, 'Courier New', monospace;
+    font-size: var(--aro-text-xs);
+}
+
 /* ---------------------------------------------------------------- Source HTML */
 
 /*

@@ -12,8 +12,12 @@
 *   - infobulles françaises sur les outils de la barre
 *   - traduction entre le HTML stocké (<ul>, sans nœuds d'interface) et la
 *     représentation interne de Quill 2 (<ol><li data-list="bullet">, .ql-ui)
+*   - préservation du HTML que Quill ne connaît pas (<div>, <button>, <hr>…),
+*     cf. html-preservation.js
 *
 * ---------------------------------------------------------------------------- */
+
+import { registerHtmlBlots, prepareHtml, restoreHtml, exitHtmlBlock, preventContentActions, BLOCK_CLASS, EMBED_SELECTOR } from './html-preservation.js';
 
 /**
  * Formats conservés lors d'un copier/coller.
@@ -93,8 +97,24 @@ const FILE_ICON = '<svg viewBox="0 0 18 18">'
     + '<path class="ql-stroke" fill="none" d="M10,2 V6 H14"></path>'
     + '</svg>';
 
-const VOID_TAGS = /^(BR|HR|IMG|INPUT|SOURCE|WBR)$/;
-const BLOCK_TAGS = /^(P|DIV|H[1-6]|UL|OL|LI|BLOCKQUOTE|PRE|HR|TABLE|THEAD|TBODY|TFOOT|TR|TD|TH|FIGURE|FIGCAPTION|SECTION|ARTICLE|IFRAME|VIDEO)$/;
+const VOID_TAGS = /^(AREA|BASE|BR|COL|EMBED|HR|IMG|INPUT|LINK|META|PARAM|SOURCE|TRACK|WBR)$/;
+
+/**
+ * Éléments dont le contenu est rendu tel quel, jamais remis en forme : leurs
+ * espaces et sauts de ligne comptent (<pre>, un <script>), ou leur balisage
+ * n'est pas du HTML (<svg>, <math>).
+ */
+const RAW_TAGS = /^(PRE|TEXTAREA|SCRIPT|STYLE|TEMPLATE|SVG|MATH|NOSCRIPT)$/i;
+const BLOCK_TAGS = /^(P|DIV|H[1-6]|UL|OL|LI|BLOCKQUOTE|PRE|HR|TABLE|CAPTION|THEAD|TBODY|TFOOT|TR|TD|TH|FIGURE|FIGCAPTION|SECTION|ARTICLE|ASIDE|HEADER|FOOTER|NAV|MAIN|ADDRESS|DETAILS|SUMMARY|CENTER|FIELDSET|FORM|DL|DT|DD|IFRAME|VIDEO|ARO-LINE)$/;
+
+/**
+ * Analyse un fragment de HTML stocké. Le <body> explicite garde dans le corps
+ * ce qu'un fragment nu enverrait dans le <head> (un <style>, un <meta> placés
+ * en tête du contenu), et que l'enregistrement perdrait.
+ */
+function parseHtml(html) {
+    return new DOMParser().parseFromString('<!doctype html><html><head></head><body>' + (html || ''), 'text/html');
+}
 
 let setupDone = false;
 
@@ -185,6 +205,83 @@ function setupQuill() {
     }
 
     Quill.register(AroLink, true);
+
+    registerHtmlBlots(Quill);
+
+    // Historique par instantanés. Celui de Quill rejoue des deltas, qui ne
+    // décrivent ni les conteneurs conservés (<div>, <section>…) ni les
+    // attributs que Quill ne modélise pas (la classe d'un lien) : annuler la
+    // suppression d'un bloc de boutons recréerait des liens nus, hors de leur
+    // <div>. On mémorise donc le HTML de l'éditeur, et l'annulation le recharge
+    // par le même chemin que le chargement initial.
+    const History = Quill.import('modules/history');
+
+    class AroHistory extends History {
+
+        constructor(quill, options) {
+            super(quill, options);
+            this.current = this.snapshot();
+        }
+
+        snapshot() {
+            return this.quill.root.innerHTML;
+        }
+
+        clear() {
+            super.clear();
+            this.current = this.snapshot();
+        }
+
+        record(changeDelta) {
+
+            if (!changeDelta.ops.length) {
+                return;
+            }
+
+            const previous = this.current;
+            this.current = this.snapshot();
+            this.stack.redo = [];
+
+            // Les frappes rapprochées forment une seule étape d'annulation
+            const timestamp = Date.now();
+            if (this.lastRecorded + this.options.delay > timestamp && this.stack.undo.length) {
+                return;
+            }
+            this.lastRecorded = timestamp;
+
+            this.stack.undo.push({ html: previous, range: this.currentRange });
+            if (this.stack.undo.length > this.options.maxStack) {
+                this.stack.undo.shift();
+            }
+        }
+
+        transform() {
+            this.current = this.snapshot();
+        }
+
+        change(source, dest) {
+
+            const item = this.stack[source].pop();
+            if (!item || typeof item.html !== 'string') {
+                return;
+            }
+
+            this.stack[dest].push({ html: this.snapshot(), range: this.quill.getSelection() });
+            this.lastRecorded = 0;
+
+            this.ignoreChange = true;
+            this.quill.root.innerHTML = toEditorHtml(toStorageHtml(item.html));
+            this.quill.update(Quill.sources.USER);
+            this.ignoreChange = false;
+            this.current = this.snapshot();
+
+            if (item.range) {
+                this.quill.setSelection(item.range, Quill.sources.USER);
+            }
+        }
+    }
+
+    Quill.register('modules/history', AroHistory, true);
 }
 
 /**
@@ -235,68 +332,30 @@ function softBreakMatcher() {
 const BULLET_KINDS = ['bullet', 'checked', 'unchecked'];
 
 /**
- * Quill ne connaît la vidéo que comme un bloc de premier niveau
- * (<iframe class="ql-video">). Une iframe enveloppée — le
- * <div class="videodetector"> d'un contenu CKEditor, un <p>… — est
- * silencieusement supprimée au chargement, et le contenu enregistré la perd.
- * On la remonte donc au premier niveau, à la place de son conteneur, en
- * reportant le centrage. Le conteneur n'est conservé que s'il lui reste du
- * contenu.
- */
-function hoistIframes(doc) {
-
-    doc.querySelectorAll('iframe').forEach(function (iframe) {
-
-        iframe.classList.add('ql-video');
-
-        let top = iframe;
-        while (top.parentNode && top.parentNode !== doc.body) {
-            top = top.parentNode;
-        }
-
-        if (top === iframe) {
-            return;
-        }
-
-        if (!iframe.className.match(/\bql-align-/)) {
-            let node = iframe.parentNode;
-            while (node && node !== doc.body) {
-                const align = node.style && node.style.textAlign;
-                if (['center', 'right', 'justify'].indexOf(align) !== -1) {
-                    iframe.classList.add('ql-align-' + align);
-                    break;
-                }
-                node = node.parentNode;
-            }
-        }
-
-        top.parentNode.insertBefore(iframe, top);
-
-        if (!top.textContent.trim() && !top.querySelector('img, iframe, video')) {
-            top.remove();
-        }
-    });
-}
-
-/**
  * HTML stocké -> HTML attendu par Quill.
  */
 export function toEditorHtml(html) {
 
-    if (!html || (html.indexOf('<ul') === -1 && html.indexOf('ql-ui') === -1 && html.indexOf('<iframe') === -1)) {
-        return html || '';
+    if (!html) {
+        return '';
     }
 
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-
-    hoistIframes(doc);
+    const doc = parseHtml(html);
 
     // Résidus d'un enregistrement antérieur : Quill les régénère lui-même
     doc.querySelectorAll('.ql-ui').forEach(function (node) {
         node.remove();
     });
 
+    prepareHtml(doc);
+
     doc.querySelectorAll('ul').forEach(function (ul) {
+
+        // Liste conservée telle quelle (imbriquée, paragraphes dans les
+        // items…), ou contenu d'un élément conservé tel quel
+        if (ul.classList.contains(BLOCK_CLASS) || ul.closest(EMBED_SELECTOR)) {
+            return;
+        }
 
         const ol = doc.createElement('ol');
         Array.from(ul.attributes).forEach(function (attr) {
@@ -320,7 +379,7 @@ export function toEditorHtml(html) {
 /**
  * Éléments qui font à eux seuls un contenu, même sans texte.
  */
-const CONTENT_ELEMENTS = 'img, iframe, video, audio, object, embed, hr, table';
+const CONTENT_ELEMENTS = 'img, iframe, video, audio, object, embed, hr, table, ' + EMBED_SELECTOR;
 
 /**
  * Un éditeur vide n'est pas vide pour Quill : il contient toujours une ligne,
@@ -336,7 +395,7 @@ export function isBlankHtml(html) {
         return true;
     }
 
-    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = parseHtml(html);
 
     return !doc.body.textContent.replace(/[\s\u00a0\u200b\ufeff]/g, '')
         && !doc.body.querySelector(CONTENT_ELEMENTS);
@@ -351,18 +410,20 @@ export function toStorageHtml(html) {
         return '';
     }
 
-    if (html.indexOf('ql-ui') === -1 && html.indexOf('<ol') === -1) {
-        return html || '';
-    }
-
-    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = parseHtml(html);
 
     // Nœuds d'interface (puces, numéros, cases à cocher, sélecteur de langage)
     doc.querySelectorAll('.ql-ui').forEach(function (node) {
-        node.remove();
+        if (!node.closest(EMBED_SELECTOR)) {
+            node.remove();
+        }
     });
 
     doc.querySelectorAll('ol').forEach(function (ol) {
+
+        if (ol.classList.contains(BLOCK_CLASS) || ol.closest(EMBED_SELECTOR)) {
+            return;
+        }
 
         // Quill fusionne les listes adjacentes : un même <ol> peut mélanger
         // puces et numérotation. On le redécoupe en séries homogènes.
@@ -409,6 +470,8 @@ export function toStorageHtml(html) {
         ol.parentNode.replaceChild(fragment, ol);
     });
 
+    restoreHtml(doc);
+
     return doc.body.innerHTML;
 }
 
@@ -417,7 +480,19 @@ export function toStorageHtml(html) {
  */
 function prettyHtml(html) {
 
-    const doc = new DOMParser().parseFromString(html || '', 'text/html');
+    const doc = parseHtml(html);
+
+    const escapeText = function (text) {
+        return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\u00a0/g, '&nbsp;');
+    };
+
+    const escapeAttr = function (value) {
+        return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/\u00a0/g, '&nbsp;');
+    };
+
+    const isBlock = function (node) {
+        return node && node.nodeType === Node.ELEMENT_NODE && BLOCK_TAGS.test(node.tagName);
+    };
 
     const walk = function (parent, depth) {
 
@@ -428,8 +503,19 @@ function prettyHtml(html) {
 
             if (node.nodeType === Node.TEXT_NODE) {
                 if (node.textContent.trim()) {
-                    out += node.textContent;
+                    out += escapeText(node.textContent);
                 }
+                // Espace entre deux éléments en ligne : il sépare deux mots,
+                // deux liens… Seul celui qui borde un bloc est de la mise en page.
+                else if (node.textContent && !isBlock(node.previousSibling) && !isBlock(node.nextSibling)
+                    && node.previousSibling && node.nextSibling) {
+                    out += ' ';
+                }
+                return;
+            }
+
+            if (node.nodeType === Node.COMMENT_NODE) {
+                out += '<!--' + node.data + '-->';
                 return;
             }
 
@@ -439,12 +525,18 @@ function prettyHtml(html) {
 
             const tag = node.tagName.toLowerCase();
             const attrs = Array.from(node.attributes).map(function (attr) {
-                return ' ' + attr.name + '="' + attr.value + '"';
+                return ' ' + attr.name + '="' + escapeAttr(attr.value) + '"';
             }).join('');
             const open = '<' + tag + attrs + '>';
+            const lead = BLOCK_TAGS.test(node.tagName) ? '\n' + pad : '';
 
             if (VOID_TAGS.test(node.tagName)) {
-                out += (BLOCK_TAGS.test(node.tagName) ? '\n' + pad : '') + open;
+                out += lead + open;
+                return;
+            }
+
+            if (RAW_TAGS.test(node.tagName)) {
+                out += lead + node.outerHTML;
                 return;
             }
 
@@ -452,7 +544,7 @@ function prettyHtml(html) {
 
             if (BLOCK_TAGS.test(node.tagName)) {
                 const multiline = inner.indexOf('\n') !== -1;
-                out += '\n' + pad + open + inner + (multiline ? '\n' + pad : '') + '</' + tag + '>';
+                out += lead + open + inner + (multiline ? '\n' + pad : '') + '</' + tag + '>';
             }
             else {
                 out += open + inner + '</' + tag + '>';
@@ -507,14 +599,16 @@ const collapseNewlines = function (node, parent) {
 
 function compactHtml(html) {
 
-    const doc = new DOMParser().parseFromString(html || '', 'text/html');
+    const doc = parseHtml(html);
 
     const strip = function (parent) {
 
         Array.from(parent.childNodes).forEach(function (node) {
 
             if (node.nodeType === Node.ELEMENT_NODE) {
-                strip(node);
+                if (!RAW_TAGS.test(node.tagName) && !node.classList.contains('ql-code-block-container')) {
+                    strip(node);
+                }
                 return;
             }
 
@@ -869,6 +963,16 @@ export function activateQuillEditor($elements) {
                 },
                 keyboard: {
                     bindings: {
+                        // Entrée sur une ligne vide en fin de <div>, <section>… conservé :
+                        // on sort du conteneur (cf. html-preservation.js)
+                        exitHtmlBlock: {
+                            key: 'Enter',
+                            collapsed: true,
+                            empty: true,
+                            handler: function (range) {
+                                return exitHtmlBlock(this.quill, range);
+                            }
+                        },
                         // Shift + Entrée : saut de ligne simple (<br>)
                         softBreak: {
                             key: 'Enter',
@@ -915,6 +1019,8 @@ export function activateQuillEditor($elements) {
 
         $this.data('quill-initialized', true);
 
+        preventContentActions(quill.root);
+
         // Surcharge du handler image pour utiliser l'ImageManager si possible
         if (quill.getModule('toolbar')) {
             quill.getModule('toolbar').addHandler('image', function () {
@@ -950,9 +1056,14 @@ export function activateQuillEditor($elements) {
         // (CKEditor saved `<p>…</p>\n\n<p>…</p>`): Quill would turn each of them
         // into an empty paragraph, which the next save would then persist.
         quill.root.innerHTML = toEditorHtml(compactHtml($target.val()));
-        quill.update();
-        $target.val(toStorageHtml(quill.root.innerHTML));
+        quill.update(Quill.sources.SILENT);
 
+        // Le chargement n'est pas une modification : sans cela, le premier
+        // Ctrl + Z viderait l'éditeur.
+        quill.history.clear();
+
+        // Le champ n'est réécrit qu'à la première modification : un formulaire
+        // enregistré sans y toucher garde le HTML stocké, à l'octet près.
         quill.on('text-change', function () {
             $target.val(toStorageHtml(quill.root.innerHTML));
         });
