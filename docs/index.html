@@ -270,7 +270,7 @@
        (--aro-color-primary), which would make a status marker share the primary-action hue. */
     --aro-status-online: var(--aro-color-success);
     --aro-status-scheduled: var(--aro-color-warning);
-    --aro-status-offline: var(--aro-color-danger);
+    --aro-status-offline: #E7E7E7;
 
     /* ------------------------------------------------------------- Menu accents */
 
@@ -548,6 +548,11 @@
     --bs-pagination-active-bg: var(--aro-color-primary);
     --bs-pagination-active-border-color: var(--aro-color-primary);
     --bs-pagination-active-color: var(--aro-color-primary-contrast);
+    /* Focus (mouse click or keyboard): the page number changes colour, nothing else. Bootstrap
+       would frame it with a ring (a literal Bootstrap-blue rgba) and grey its background. */
+    --bs-pagination-focus-box-shadow: none;
+    --bs-pagination-focus-color: var(--aro-color-primary);
+    --bs-pagination-focus-bg: var(--bs-pagination-bg);
 }
 
 /* ./foundations/_typography.css */
@@ -605,11 +610,15 @@ h2 {
     font-weight: var(--aro-weight-semibold);
 }
 
-/* The margin is load-bearing rhythm: !important so a scoped tweak cannot silently
-   compress the separator back to Bootstrap's default. */
+/* The rhythm this margin gives is the point, so it is set here rather than left to Bootstrap's
+   1rem. It used to carry !important, to stop a scoped tweak silently compressing it — but that
+   also reached content the administration merely hosts rather than draws: a separator placed by
+   the page builder could not set its own spacing, whatever the author asked for. A default that
+   an explicit value cannot beat is not a default. Utility classes (`.mt-5` and friends) already
+   won through their own !important, so they are unaffected. */
 hr {
     border-top-style: dashed;
-    margin: 2.5rem 0 !important;
+    margin: 2.5rem 0;
 }
 
 p {
@@ -682,6 +691,28 @@ p, ul:not(.list-unstyled), ol {
     max-width: var(--aro-content-max-wide);
     margin: 0 auto;
     padding: 0 var(--aro-space-8);
+}
+
+/*
+ * Footer at the bottom of the window on short pages. Stisla's JS used to set an inline
+ * min-height on .main-content (window height - 95px); with Stisla gone, the shell is a
+ * flex column: the navbar keeps its height, the content takes the rest. Rules stay on
+ * direct children so a project overriding base.html.twig with its own tree is untouched.
+ */
+.main-wrapper-1 {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Auto margins centre these two; in a flex column they would no longer stretch them. */
+.main-wrapper-1 > .fullscreen-navbar,
+.main-wrapper-1 > .main-content-fullscreen {
+    width: 100%;
+}
+
+.main-wrapper-1 > .main-content-fullscreen {
+    flex: 1 0 auto;
 }
 
 .main-footer-fullscreen {
@@ -1228,18 +1259,27 @@ textarea.form-control {
 .picker__footer {
     margin-bottom: .75em;
 }
-.picker__nav--prev:before, .picker__nav--next:before {
-    font-family: 'Ionicons';
-    border: 0 none;
-    width: auto;
-    height: auto;
+/* Chevrons en bordures : l'ancienne police Ionicons n'est plus chargée. */
+.picker__nav--prev, .picker__nav--next {
+    color: var(--aro-color-text-muted);
 }
-
+.picker__nav--prev:before, .picker__nav--next:before {
+    content: "";
+    width: .5em;
+    height: .5em;
+    margin: .25em auto 0;
+    border: 0 none;
+    border-top: 2px solid currentColor;
+    border-left: 2px solid currentColor;
+}
 .picker__nav--prev:before {
-    content: "\f3d2";
+    transform: rotate(-45deg);
 }
 .picker__nav--next:before {
-    content: "\f3d3";
+    transform: rotate(135deg);
+}
+.picker__nav--disabled:before {
+    opacity: .3;
 }
 .picker--focused .picker__day--highlighted {
     background-color: transparent;
@@ -1382,8 +1422,15 @@ textarea.form-control {
 .clockpicker-plate {
     margin: 30px auto;
 }
+/*
+ * The plugin marks the active part (hours or minutes) with .text-primary. Bootstrap sits
+ * in a cascade layer, and a layered !important beats any unlayered one, so its primary
+ * colour won — blue on the blue header. Its rule reads --bs-primary-rgb, which a plain
+ * unlayered declaration does override: retarget the variable instead of the colour.
+ */
 .clockpicker-popover .popover-title span.text-primary {
-    color: var(--aro-color-surface)!important;
+    --bs-primary-rgb: 255, 255, 255;
+    --bs-text-opacity: 1;
 }
 .clockpicker-popover .popover-footer {
     display: flex;
@@ -1529,17 +1576,20 @@ button.clockpicker-done {
     clear: right;
 }
 
-.sp-cancel,
-.sp-choose,
-.sp-palette-toggle {
-    border: 0;
+/* Scoped to `.sp-container` (0,2,0) to outrank the plugin's `.sp-container button` (0,1,1), whose
+   stylesheet loads after ours: unscoped, the `<button>` « Choose » kept the plugin's 14px / 5px 4px /
+   line-height 1 and came out shorter than the `<a>` « Cancel » beside it. No `border` here: at this
+   specificity it would override the 1px borders that `.sp-cancel` and `.sp-container button` set below. */
+.sp-container .sp-cancel,
+.sp-container .sp-choose,
+.sp-container .sp-palette-toggle {
     border-radius: var(--aro-radius-sm);
     padding: 8px 6px;
     float: left;
     width: 48%;
     box-sizing: border-box;
     text-align: center;
-    font-size: var(--aro-text-xs);
+    font-size: var(--aro-text-sm);
     line-height: 1.7;
     outline: 0;
 }
@@ -1859,6 +1909,13 @@ button.fa-stack.danger .fa-stack-1x {
      * token (white) rather than a raw colour, per the button-file conventions.
      */
     box-shadow: inset 1px 0 0 color-mix(in srgb, var(--aro-color-text-inverted) 25%, transparent);
+
+    /*
+     * Bootstrap pads the caret with a fixed `.5625rem`, blind to the button size: next to a
+     * `.btn-small` action (16px) it shrank to a cramped 9px. Following the button's own
+     * padding token keeps both halves on the same rhythm at every size.
+     */
+    padding-inline: var(--bs-btn-padding-x);
 }
 
 /* ./components/_card.css */
@@ -1907,6 +1964,7 @@ button.fa-stack.danger .fa-stack-1x {
 
 /* Titles are a role, not a size — see --aro-text-card-title in _tokens.css. */
 .card .card-header h3,
+.card .card-header h4,
 .card .card-header h5,
 .card .card-header .card-title,
 .card .card-body h4,
@@ -1915,6 +1973,15 @@ button.fa-stack.danger .fa-stack-1x {
     padding-right: var(--aro-space-3);
     font-size: var(--aro-text-card-title);
     line-height: var(--aro-leading-tight);
+}
+
+/* h4 is the card title of the 1.x/2.x templates (and of the bundle's own): left out, it fell
+   back to Bootstrap's 24px / 500. Header titles carry the weight they had in v2. */
+.card .card-header h3,
+.card .card-header h4,
+.card .card-header h5,
+.card .card-header .card-title {
+    font-weight: var(--aro-weight-bold);
 }
 
 .card .card-header > :first-child + .card-header-action,
@@ -4023,11 +4090,18 @@ input:not([type=checkbox]):not([type=radio]) {
     line-height: var(--aro-leading-base);
 }
 
+/*
+ * The icon box is exactly one line of alert text tall and centres its glyph, so the icon sits
+ * on the middle of the first line whatever the icon size. The former `margin-top: 1px` in a
+ * 20px line box left it ~2.5px low.
+ */
 .aro-alert__icon {
     flex: 0 0 auto;
-    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    height: calc(var(--aro-text-base) * var(--aro-leading-base));
     font-size: var(--aro-text-lg);
-    line-height: var(--aro-leading-tight);
+    line-height: 1;
 }
 
 .aro-alert__content {
@@ -4056,8 +4130,10 @@ input:not([type=checkbox]):not([type=radio]) {
     margin-bottom: var(--aro-space-1);
 }
 
+/* Back to the alert's line height: the global `p` rule (18px) would shift it against the icon. */
 .aro-alert__text {
     margin: 0;
+    line-height: inherit;
 }
 
 .aro-alert__list {
@@ -5172,6 +5248,26 @@ table.dataTable thead .sorting_desc_disabled::after {
     right: var(--aro-space-6);
 }
 
+/* Same glyphs, a notch smaller than the body text: at full size they outweighed the header label.
+   Centred on the cell instead of DataTables' `bottom: .9em`, which scales with the glyph and left
+   them sitting below the label once shrunk. */
+table.dataTable thead .sorting::before,
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::before,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::before,
+table.dataTable thead .sorting_desc::after,
+table.dataTable thead .sorting_asc_disabled::before,
+table.dataTable thead .sorting_asc_disabled::after,
+table.dataTable thead .sorting_desc_disabled::before,
+table.dataTable thead .sorting_desc_disabled::after {
+    font-size: var(--aro-text-xs);
+    line-height: 1;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+}
+
 table.dataTable thead .sorting::before,
 table.dataTable thead .sorting_asc::before,
 table.dataTable thead .sorting_desc::before,
@@ -5234,9 +5330,57 @@ table.dataTable thead .sorting_desc_disabled::before {
     padding: var(--aro-space-1);
 }
 
-/* Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons. */
+/*
+ * Toolbar ink — the colour of the glyphs and of the dropdown labels, in every state.
+ *
+ * `quill.snow.css` hard-codes two colours that predate our tokens: `#666` at rest, which
+ * reads as disabled against the toolbar's own light surface, and `#06c` on hover / focus /
+ * active — a blue belonging to no palette of ours.
+ *
+ * Colouring each glyph directly would mean out-specifying Quill state by state, for stroke
+ * and for fill, across buttons, picker labels and picker items: its selector lists run to
+ * several lines each. Instead the *control* carries the ink as an inherited custom property,
+ * and one rule per SVG attribute reads it. Custom properties inherit, so the glyph follows
+ * its button without ever having to win a specificity contest about the state.
+ *
+ * The glyph rules land at (0,4,1), a tie with Quill's own hover/active rules — and this file
+ * is imported by style.css, which base.html.twig loads after quill.snow.css. The tie goes to
+ * the later sheet, which is us. Move this file earlier and the glyphs go back to `#06c`.
+ */
+.quill-editor-container .ql-snow.ql-toolbar {
+    --aro-editor-toolbar-ink: var(--aro-color-text);
+}
+.quill-editor-container .ql-snow.ql-toolbar button:hover,
+.quill-editor-container .ql-snow.ql-toolbar button:focus,
+.quill-editor-container .ql-snow.ql-toolbar button.ql-active,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label:hover,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item:hover,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item.ql-selected {
+    --aro-editor-toolbar-ink: var(--aro-color-primary);
+    color: var(--aro-editor-toolbar-ink);
+}
+
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke,
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke-miter,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label .ql-stroke,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item .ql-stroke {
+    stroke: var(--aro-editor-toolbar-ink);
+}
+.quill-editor-container .ql-snow.ql-toolbar button .ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar button .ql-stroke.ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-label .ql-fill,
+.quill-editor-container .ql-snow.ql-toolbar .ql-picker-item .ql-fill {
+    fill: var(--aro-editor-toolbar-ink);
+}
+
+/*
+ * Dropdown labels — "Normal", "Titre 1" — kept in step with the smaller buttons, and on the
+ * same ink as the glyphs beside them.
+ */
 .quill-editor-container .ql-snow .ql-picker {
     font-size: var(--aro-text-sm);
+    color: var(--aro-editor-toolbar-ink);
 }
 
 /*
@@ -5277,6 +5421,41 @@ table.dataTable thead .sorting_desc_disabled::before {
     padding: var(--aro-space-4) var(--aro-space-5);
     line-height: var(--aro-leading-prose);
     color: var(--aro-color-text);
+}
+
+/*
+ * Long content: capped at rest, uncapped while editing.
+ *
+ * A very long field would otherwise push the rest of the form off the page for a reader who
+ * is only passing by. Entering the editor lifts the cap — the content area then grows to
+ * its full height and the *page* scrolls, which is the only arrangement where a sticky
+ * toolbar means anything: select a word at the bottom, the controls are still there.
+ *
+ * `.is-editing` is toggled on the container by quill-editor.js, on focusin/focusout of the
+ * container rather than of `.ql-editor` — clicking a toolbar button momentarily blurs the
+ * editor, and reading that as "left the field" would collapse the box under the cursor.
+ *
+ * Source mode is exempt: the `<>` panel replaces `.ql-container` and its textarea scrolls
+ * on its own.
+ */
+.quill-editor-container:not(.is-editing):not(.quill-source-mode) .ql-editor {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+/*
+ * The toolbar needs no scroll container of its own: it is a sibling of `.ql-container`
+ * inside `.quill-editor-container`, so it travels with the editor and stops at its end.
+ * Nothing on the path up to the page sets `overflow` — the card goes as far as declaring
+ * `overflow-y: visible` — which is what makes this hold at all.
+ *
+ * The toolbar already carries an opaque background, so content passes underneath it rather
+ * than through it; `z-index` puts it above floated images in the prose.
+ */
+.quill-editor-container.is-editing .ql-toolbar.ql-snow {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 /* The editor is not a page: it must not open or close on outer whitespace. */
@@ -5381,6 +5560,43 @@ table.dataTable thead .sorting_desc_disabled::before {
 .ql-snow .ql-editor td {
     border-color: var(--aro-color-border);
     padding: var(--aro-space-2) var(--aro-space-3);
+}
+
+/* ------------------------------------------------------- Preserved HTML */
+
+/*
+ * HTML Quill has no format for (see js/module/quill/html-preservation.js).
+ *
+ * `aro-line` carries the text written straight into a preserved `<div>`, `<td>`… It is
+ * removed on save, so it must not add spacing of its own: it renders as the bare text did.
+ *
+ * `aro-embed` shows an element kept byte for byte — `<hr>`, `<pre>`, `<svg>`, an icon —
+ * that only the `<>` source view edits. Its outline on hover says so. Elements with no
+ * rendering of their own (`<script>`, `<style>`) show a label instead.
+ */
+
+.ql-snow .ql-editor aro-line {
+    display: block;
+}
+.ql-snow .ql-editor aro-embed[data-block] {
+    display: block;
+}
+.ql-snow .ql-editor aro-embed {
+    border-radius: var(--aro-radius-sm);
+    cursor: default;
+}
+.ql-snow .ql-editor aro-embed:hover {
+    outline: 1px dashed var(--aro-color-border);
+    outline-offset: 2px;
+}
+.ql-snow .ql-editor aro-embed[data-kind="label"]::before {
+    content: attr(data-label);
+    padding: 0 var(--aro-space-1);
+    border: 1px dashed var(--aro-color-border);
+    border-radius: var(--aro-radius-sm);
+    color: var(--aro-color-text-muted);
+    font-family: Monaco, 'Courier New', monospace;
+    font-size: var(--aro-text-xs);
 }
 
 /* ---------------------------------------------------------------- Source HTML */

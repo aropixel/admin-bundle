@@ -1,0 +1,13 @@
+{
+    "name": "aropixel-admin-bundle-js-tests",
+    "private": true,
+    "description": "Tests of the admin JavaScript modules, in jsdom (no browser needed).",
+    "type": "module",
+    "scripts": {
+        "test": "node --test"
+    },
+    "devDependencies": {
+        "jquery": "^3.7.1",
+        "jsdom": "^26.1.0"
+    }
+}

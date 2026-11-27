@@ -834,7 +834,7 @@ $builder->add('content', EditorType::class, [
 
 ### Editor behaviours
 
-Beyond the toolbar, the editor ships with six behaviours.
+Beyond the toolbar, the editor ships with seven behaviours.
 
 **Soft line break.** `Shift + Enter` inserts a real `<br>` instead of starting a
 new block. `<br>` found in the stored value is preserved when the editor loads
@@ -856,6 +856,25 @@ plain semantic HTML — `<ul>` for bullet lists, no interface nodes — and a `<
 coming from an import or an older editor is understood when loading. Existing
 values polluted with `ql-ui` spans are cleaned the first time the record is
 saved.
+
+**Preserved HTML.** Quill 2 only knows a small set of elements; on its own it
+drops everything else — `<div>`, `<section>`, `<button>`, `<small>`, `<hr>`,
+`<pre>`, a nested list, a paragraph inside a table cell — *with its text*, and
+the next save loses it. The editor keeps all of it, unchanged:
+
+- block elements (`<div>`, `<section>`, tables, nested lists…) keep their tag,
+  their attributes and their nesting, and their text stays editable;
+- unknown inline elements (`<button>`, `<small>`, `<span class="…">`…) keep
+  their tag and attributes, and their text stays editable;
+- elements whose content is not text (`<hr>`, `<pre>`, `<svg>`, `<script>`,
+  comments, an empty icon `<i class="fa …">`) are kept byte for byte and edited
+  only in the source view. A dashed outline shows them on hover.
+
+Loading never rewrites the field: a form saved without touching the editor
+stores exactly what it was given. Undo restores the HTML as it was, preserved
+elements included. Pressing `Enter` on an empty last line inside a preserved
+block leaves the block, as with a list. The HTML a browser normalises when
+parsing it still is — `uk-grid` becomes `uk-grid=""` once the field is edited.
 
 **HTML source editing.** A `<>` button is appended to every toolbar; it swaps
 the rendered text for an indented, *editable* view of the HTML the editor will
